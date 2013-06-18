@@ -8,7 +8,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-oppia',
-    version='0.1.4',
+    version='0.1.2',
     packages=['oppia','oppia.quiz','oppia.api','oppia.profile','oppia.quiz.api'],
     include_package_data=True,
     license='GNU GPL v3 License',  # example license
@@ -32,6 +32,6 @@ setup(
     install_requires=[
         "Django >= 1.5",
         "south >= 0.8.1",
-	"django-tastypie >= 0.9.15",
+	    "django-tastypie >= 0.9.15",
     ],
 )
