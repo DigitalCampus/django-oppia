@@ -1,0 +1,8 @@
+*.pyc
+*~
+.project
+.pydevproject
+.settings/
+/build
+/dist
+/django_oppia.egg-info

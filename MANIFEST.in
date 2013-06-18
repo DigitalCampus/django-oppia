@@ -1,0 +1,7 @@
+include LICENSE
+include README.rst
+recursive-include oppia/static *
+recursive-include oppia/templates *
+recursive-include oppia/templatetags *
+recursive-include docs *
+recursive-include oppia/locale *

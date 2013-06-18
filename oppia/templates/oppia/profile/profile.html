@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<h2>{% trans 'page_title_profile' %}</h2>
+
+{% include "includes/messages.html" %}	
+
+<form action="{% url 'profile_edit' %}" method="post">{% csrf_token %}
+    <div class="errorWrapper">{{ form.non_field_errors }}</div>
+    <div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.username.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_username">{% trans 'form_field_username' %}</label></div>
+        <div class="fieldInputWrapper">{{ form.username }}</div>
+        <div class="fieldInputMessage">{% trans 'form_msg_username_not_editable' %}</div>
+    </div>
+    <div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.api_key.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_api_key">{% trans 'form_field_api_key' %}</label></div>
+        <div class="fieldInputWrapper">{{ form.api_key }}</div>
+        <div class="fieldInputMessage">{% trans 'form_msg_api_key' %}</div>
+    </div>
+    <div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.email.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_email">{% trans 'form_field_email' %}</label></div>
+        <div class="fieldInputWrapper">{{ form.email }}</div>
+    </div>
+    <div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.first_name.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_first_name">{% trans 'form_field_first_name' %}</label></div>
+        <div class="fieldInputWrapper">{{ form.first_name }}</div>
+    </div>
+    <div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.last_name.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_last_name">{% trans 'form_field_last_name' %}</label></div>
+        <div class="fieldInputWrapper">{{ form.last_name }}</div>
+    </div>
+	<h3 class="formsection">{% trans 'form_section_change_password' %}</h3>
+    <div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.password.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_password">{% trans 'form_field_password' %}</label></div>
+        <div class="fieldInputWrapper">{{ form.password }}</div>
+    </div>
+    <div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.password_again.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_password_again">{% trans 'form_field_password_again' %}</label></div>
+        <div class="fieldInputWrapper">{{ form.password_again }}</div>
+    </div>
+    
+    
+    <div class="fieldWrapper">
+        <div class="fieldLabelWrapper">&nbsp;</div>
+        <div class="fieldInputWrapper"><input type="submit" value="{% trans 'button_profile_save' %}" /></div>
+    </div>
+
+</form>
+{% endblock %}

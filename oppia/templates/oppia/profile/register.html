@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<h2>{% trans 'page_title_register' %}</h2>
+<form action="{% url 'profile_register' %}" method="post">{% csrf_token %}
+    <div class="errorWrapper">{{ form.non_field_errors }}</div>
+    <div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.username.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_username">{% trans 'form_field_username' %}</label></div>
+        <div class="fieldInputWrapper">{{ form.username }}</div>
+    </div>
+    <div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.email.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_email">{% trans 'form_field_email' %}</label></div>
+        <div class="fieldInputWrapper">{{ form.email }}</div>
+    </div>
+    <div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.password.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_password">{% trans 'form_field_password' %}</label></div>
+        <div class="fieldInputWrapper">{{ form.password }}</div>
+    </div>
+    <div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.password_again.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_password_again">{% trans 'form_field_password_again' %}</label></div>
+        <div class="fieldInputWrapper">{{ form.password_again }}</div>
+    </div>
+    <div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.first_name.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_first_name">{% trans 'form_field_first_name' %}</label></div>
+        <div class="fieldInputWrapper">{{ form.first_name }}</div>
+    </div>
+    <div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.last_name.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_last_name">{% trans 'form_field_last_name' %}</label></div>
+        <div class="fieldInputWrapper">{{ form.last_name }}</div>
+    </div>
+    <div class="fieldWrapper">
+        <div class="fieldLabelWrapper">&nbsp;</div>
+        <div class="fieldInputWrapper"><input type="submit" value="{% trans 'button_register' %}" /></div>
+    </div>
+
+</form>
+{% endblock %}

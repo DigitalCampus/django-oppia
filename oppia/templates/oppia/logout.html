@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<h2>{% trans 'page_title_logged_out' %}</h2>
+{% url 'django.contrib.auth.views.login' as url_login %}
+<p>{% blocktrans %}You are now logged out. <a href="{{ url_login }}">Log in again</a>{% endblocktrans %}</p>
+{% endblock %}

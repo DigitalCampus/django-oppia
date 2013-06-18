@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+{% block content %}
+<h2>{% trans 'page_title_points' %}</h2>
+
+{% if page.object_list.count > 0 %}
+
+	{% include "oppia/includes/page_navigator.html" %}
+    
+	<div class="quizlist">
+		<div class='quizcell'>{% trans 'table_header_points_date' %}</a></div>
+		<div class='quizcell'>{% trans 'table_header_points' %}</div>
+		<div class='quiztitle'>{% trans 'table_header_points_description' %}</div>
+		<div style='clear:both'></div>
+	</div>
+	{% for p in page.object_list %}
+		<div class="quizlist">
+			<div class='quizcell'>{{ p.date|date:"d M Y H:i" }}</a></div>
+			<div class='quizcell'>{{ p.points }}</div>
+			<div class='quiztitle'>{{ p.description }}</div>
+			<div style='clear:both'></div>
+		</div>
+	{% endfor %}
+	
+	{% include "oppia/includes/page_navigator.html" %}
+	
+{% else %}
+	<p>You don't have any points yet</p>
+{% endif %}
+{% endblock %}

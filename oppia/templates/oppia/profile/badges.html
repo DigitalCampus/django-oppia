@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<h2>{% trans 'page_title_badges' %}</h2>
+
+{% if awards %}
+	{% for b in awards %}
+		<div class="badge">
+		<img src="{{ MEDIA_URL }}{{ b.badge_icon }}" align="middle" height="50px"/>
+		<div class="badge_data">{{ b.description }}<br/><small>{{ b.award_date }}</small></div>
+		<div style="clear:both"></div>
+		</div>
+	{% endfor %}
+{% else %}
+	{% blocktrans %}<p>You don't have any badges yet</p>{% endblocktrans %}
+{% endif %}
+{% endblock %}

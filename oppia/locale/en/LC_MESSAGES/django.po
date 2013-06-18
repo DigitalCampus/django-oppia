@@ -1,0 +1,707 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-06-14 15:30+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: models.py:24
+msgid "Course"
+msgstr ""
+
+#: models.py:25
+msgid "Courses"
+msgstr ""
+
+#: models.py:74
+msgid "Tag"
+msgstr ""
+
+#: models.py:75
+msgid "Tags"
+msgstr ""
+
+#: models.py:85
+msgid "Course Tag"
+msgstr ""
+
+#: models.py:86
+msgid "Course Tags"
+msgstr ""
+
+#: models.py:97 templates/oppia/schedule-form.html:7
+msgid "Schedule"
+msgstr ""
+
+#: models.py:98
+msgid "Schedules"
+msgstr ""
+
+#: models.py:124
+msgid "ActivitySchedule"
+msgstr ""
+
+#: models.py:125
+msgid "ActivitySchedules"
+msgstr ""
+
+#: models.py:135
+msgid "Section"
+msgstr ""
+
+#: models.py:136
+msgid "Sections"
+msgstr ""
+
+#: models.py:164
+msgid "Activity"
+msgstr ""
+
+#: models.py:165
+msgid "Activities"
+msgstr ""
+
+#: models.py:186 models.py:187
+msgid "Media"
+msgstr ""
+
+#: models.py:206
+msgid "Tracker"
+msgstr ""
+
+#: models.py:207
+msgid "Trackers"
+msgstr ""
+
+#: models.py:299
+msgid "CourseDownload"
+msgstr ""
+
+#: models.py:300
+msgid "CourseDownloads"
+msgstr ""
+
+#: models.py:310
+msgid "Cohort"
+msgstr ""
+
+#: models.py:311
+msgid "Cohorts"
+msgstr ""
+
+#: models.py:356
+msgid "Participant"
+msgstr ""
+
+#: models.py:357
+msgid "Participants"
+msgstr ""
+
+#: models.py:369
+msgid "Message"
+msgstr ""
+
+#: models.py:370
+msgid "Messages"
+msgstr ""
+
+#: models.py:381
+msgid "Badge"
+msgstr ""
+
+#: models.py:382
+msgid "Badges"
+msgstr ""
+
+#: models.py:394
+msgid "Award"
+msgstr ""
+
+#: models.py:395
+msgid "Awards"
+msgstr ""
+
+#: models.py:446 models.py:447
+msgid "Points"
+msgstr ""
+
+#: uploader.py:21
+msgid "You may only upload a zip file"
+msgstr ""
+
+#: uploader.py:33
+msgid "Invalid course zip file"
+msgstr ""
+
+#: uploader.py:38
+msgid "Zip file does not contain a module.xml file"
+msgstr ""
+
+#: uploader.py:64
+msgid "Sorry, only the original owner may update this course"
+msgstr ""
+
+#: uploader.py:69
+msgid "A newer version of this course already exists"
+msgstr ""
+
+#: uploader.py:97
+msgid "There don't appear to be any activities in this upload file."
+msgstr ""
+
+#: api/resources.py:49
+msgid "Username or password missing"
+msgstr ""
+
+#: api/resources.py:57 api/resources.py:60
+msgid "Authentication failure"
+msgstr ""
+
+#: api/resources.py:122
+#, python-format
+msgid "Username \"%s\" already in use, please select another"
+msgstr ""
+
+#: profile/forms.py:9 profile/forms.py:56
+msgid "Please enter a username."
+msgstr ""
+
+#: profile/forms.py:11 profile/forms.py:73
+msgid "Please enter a valid e-mail address."
+msgstr ""
+
+#: profile/forms.py:12
+msgid "Please enter your e-mail address."
+msgstr ""
+
+#: profile/forms.py:15
+msgid "Please enter a password."
+msgstr ""
+
+#: profile/forms.py:16
+msgid "Your password should be at least 6 characters long."
+msgstr ""
+
+#: profile/forms.py:21
+msgid "Please enter your password again."
+msgstr ""
+
+#: profile/forms.py:22
+msgid "Your password again should be at least 6 characters long."
+msgstr ""
+
+#: profile/forms.py:25
+msgid "Please enter your first name."
+msgstr ""
+
+#: profile/forms.py:26
+msgid "Your first name should be at least 2 characters long."
+msgstr ""
+
+#: profile/forms.py:30
+msgid "Please enter your last name."
+msgstr ""
+
+#: profile/forms.py:31
+msgid "Your last name should be at least 2 characters long."
+msgstr ""
+
+#: profile/forms.py:44
+msgid "Email has already been registered"
+msgstr ""
+
+#: profile/forms.py:49 profile/forms.py:106
+msgid "Passwords do not match."
+msgstr ""
+
+#: profile/forms.py:64
+msgid "Username not found"
+msgstr ""
+
+#: profile/forms.py:78
+msgid "Your new password should be at least 6 characters long"
+msgstr ""
+
+#: profile/forms.py:99
+msgid "Email address already in use"
+msgstr ""
+
+#: profile/views.py:73
+msgid "Profile updated"
+msgstr ""
+
+#: profile/views.py:80
+msgid "Password updated"
+msgstr ""
+
+#: quiz/models.py:26
+msgid "Question"
+msgstr ""
+
+#: quiz/models.py:27
+msgid "Questions"
+msgstr ""
+
+#: quiz/models.py:46
+msgid "Response"
+msgstr ""
+
+#: quiz/models.py:47
+msgid "Responses"
+msgstr ""
+
+#: quiz/models.py:63
+msgid "Quiz"
+msgstr ""
+
+#: quiz/models.py:64
+msgid "Quizzes"
+msgstr ""
+
+#: quiz/models.py:91
+msgid "QuizQuestion"
+msgstr ""
+
+#: quiz/models.py:92
+msgid "QuizQuestions"
+msgstr ""
+
+#: quiz/models.py:100
+msgid "QuizProp"
+msgstr ""
+
+#: quiz/models.py:101
+msgid "QuizProps"
+msgstr ""
+
+#: quiz/models.py:112
+msgid "QuestionProp"
+msgstr ""
+
+#: quiz/models.py:113
+msgid "QuestionProps"
+msgstr ""
+
+#: quiz/models.py:124
+msgid "ResponseProp"
+msgstr ""
+
+#: quiz/models.py:125
+msgid "ResponseProps"
+msgstr ""
+
+#: quiz/models.py:142
+msgid "QuizAttempt"
+msgstr ""
+
+#: quiz/models.py:143
+msgid "QuizAttempts"
+msgstr ""
+
+#: quiz/models.py:181
+msgid "QuizAttemptResponse"
+msgstr ""
+
+#: quiz/models.py:182
+msgid "QuizAttemptResponses"
+msgstr ""
+
+#: quiz/api/resources.py:29
+msgid "You are not the owner of this quiz"
+msgstr ""
+
+#: quiz/api/resources.py:39
+msgid "You are not the owner of this question"
+msgstr ""
+
+#: quiz/api/resources.py:49
+msgid "You are not the owner of this response"
+msgstr ""
+
+#: templates/404.html:4
+msgid "page_title_not_found"
+msgstr "Page not found"
+
+#: templates/404.html:5
+msgid ""
+"\n"
+"<p>The page you were looking for was not found.</p>\n"
+msgstr ""
+
+#: templates/base.html:5 templates/includes/header.html:4
+msgid "app_name"
+msgstr "OppiaMobile"
+
+#: templates/includes/footer.html:4
+msgid "footer_about"
+msgstr "About"
+
+#: templates/includes/footer.html:5
+msgid "footer_terms"
+msgstr "Terms and License"
+
+#: templates/includes/header.html:24
+msgid "menu_home"
+msgstr "Home"
+
+#: templates/includes/header.html:25
+msgid "menu_courses"
+msgstr "Courses"
+
+#: templates/includes/header.html:26
+msgid "menu_upload"
+msgstr "Upload"
+
+#: templates/includes/header.html:33
+msgid "Welcome"
+msgstr "Welcome"
+
+#: templates/includes/header.html:34
+msgid "points"
+msgstr "Points"
+
+#: templates/includes/header.html:35
+msgid "badges"
+msgstr "Badges"
+
+#: templates/includes/header.html:39
+#, python-format
+msgid ""
+"Welcome, please <a href=\"%(url_login)s?next=%(rpath)s\">Login</a> or <a "
+"href=\"%(url_register)s\">Register</a>"
+msgstr ""
+
+#: templates/oppia/cohort-form.html:7
+msgid "cohort"
+msgstr "Cohort"
+
+#: templates/oppia/cohort-form.html:15
+msgid "form_field_cohort_title"
+msgstr "Title"
+
+#: templates/oppia/cohort-form.html:21
+msgid "button_cohort_save"
+msgstr "Save"
+
+#: templates/oppia/course-activity-detail.html:12
+msgid "table_header_tracker_date"
+msgstr "Date"
+
+#: templates/oppia/course-activity-detail.html:13
+msgid "table_header_tracker_user"
+msgstr "User"
+
+#: templates/oppia/course-activity-detail.html:14
+msgid "table_header_tracker_type"
+msgstr "Type"
+
+#: templates/oppia/course-activity-detail.html:15
+msgid "table_header_tracker_activity"
+msgstr "Activity"
+
+#: templates/oppia/course-activity-detail.html:16
+msgid "table_header_tracker_description"
+msgstr "Data"
+
+#: templates/oppia/course-activity-detail.html:32
+msgid "No hits yet"
+msgstr ""
+
+#: templates/oppia/course-activity.html:47
+msgid "course_activity_detail"
+msgstr "Activity detail"
+
+#: templates/oppia/course-activity.html:49
+msgid "course_manage_schedules"
+msgstr "Manage schedules"
+
+#: templates/oppia/course-activity.html:51
+msgid "course_manage_cohorts"
+msgstr "Manage cohorts"
+
+#: templates/oppia/course-activity.html:54 templates/oppia/home.html:56
+msgid "graph_generating"
+msgstr ""
+
+#: templates/oppia/course-cohorts.html:7
+msgid "cohorts"
+msgstr ""
+
+#: templates/oppia/course-cohorts.html:18
+msgid "No cohorts"
+msgstr ""
+
+#: templates/oppia/course-cohorts.html:22
+msgid "Add a cohort"
+msgstr ""
+
+#: templates/oppia/course-schedules.html:7
+msgid "schedules"
+msgstr "Schedules"
+
+#: templates/oppia/course-schedules.html:15
+msgid "default"
+msgstr ""
+
+#: templates/oppia/course-schedules.html:22
+msgid "No schedules"
+msgstr ""
+
+#: templates/oppia/course-schedules.html:26
+msgid "Add a schedule"
+msgstr ""
+
+#: templates/oppia/course.html:7 templates/oppia/schedule-saved.html:6
+msgid "courses"
+msgstr "Courses"
+
+#: templates/oppia/home.html:48
+msgid ""
+" \n"
+"<p align=\"center\">OppiaMobile is a mobile learning platform from <a href="
+"\"http://digital-campus.org\">Digital Campus</a> to deliver learning "
+"content, multimedia and quizzes on your smartphone. All the content and "
+"activities can\n"
+"be accessed and used even when you don't have an internet connection "
+"available on your mobile.</p>\n"
+"<p>To get started with our courses, <a href=\"https://play.google.com/store/"
+"apps/details?id=org.digitalcampus.mobile.learning\">download the OppiaMobile "
+"app</a>. \n"
+"Or <a href=\"http://youtu.be/wHo5R_RgkG0\">watch a video</a> of OppiaMobile "
+"in action.</p>\n"
+msgstr ""
+
+#: templates/oppia/home.html:55
+msgid "courses_recent_activity"
+msgstr "Recent Activity"
+
+#: templates/oppia/login.html:4
+msgid "page_title_login"
+msgstr "Login"
+
+#: templates/oppia/login.html:16 templates/oppia/profile/profile.html:14
+#: templates/oppia/profile/register.html:11
+#: templates/oppia/profile/reset.html:11
+msgid "form_field_username"
+msgstr "Username"
+
+#: templates/oppia/login.html:21 templates/oppia/profile/profile.html:42
+#: templates/oppia/profile/register.html:21
+msgid "form_field_password"
+msgstr "Password"
+
+#: templates/oppia/login.html:27
+msgid "button_login"
+msgstr "Login"
+
+#: templates/oppia/login.html:28
+msgid "forgotten_password"
+msgstr "forgot password?"
+
+#: templates/oppia/logout.html:4
+msgid "page_title_logged_out"
+msgstr "Logout"
+
+#: templates/oppia/logout.html:6
+#, python-format
+msgid "You are now logged out. <a href=\"%(url_login)s\">Log in again</a>"
+msgstr ""
+
+#: templates/oppia/schedule-form.html:15
+msgid "form_field_schedule_title"
+msgstr "Title"
+
+#: templates/oppia/schedule-form.html:20
+msgid "form_field_schedule_default"
+msgstr "Default schedule"
+
+#: templates/oppia/schedule-form.html:36
+msgid "form_field_activityschedule_start_date"
+msgstr "Start date"
+
+#: templates/oppia/schedule-form.html:41
+msgid "form_field_activityschedule_end_date"
+msgstr "End date"
+
+#: templates/oppia/schedule-form.html:51
+msgid "button_schedule_save"
+msgstr "Save"
+
+#: templates/oppia/schedule-saved.html:6
+msgid "schedule saved"
+msgstr "Schedule saved"
+
+#: templates/oppia/schedule-saved.html:7
+msgid ""
+"\n"
+"<p>Your schedule has been saved</p>\n"
+msgstr ""
+
+#: templates/oppia/terms.html:4
+msgid "page_title_terms"
+msgstr "Terms and License"
+
+#: templates/oppia/terms.html:6
+#, python-format
+msgid ""
+"\n"
+"<p>OppiaMobile is a work in progress and is provided as-is. Not everything "
+"may work 100%%, so if you find anything wrong, then <a href=\"mailto:"
+"%(email)s\">please let us know</a>.</p>\n"
+"\n"
+"<h3>License</h3>\n"
+"<p>OppiaMobile is free software: you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation, either version 3 of the License, or\n"
+"(at your option) any later version.</p>\n"
+"\n"
+"<p>OppiaMobile is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.</p>\n"
+"\n"
+"<p>You should have received a copy of the GNU General Public License\n"
+"along with OppiaMobile.  If not, see <a href=\"http://www.gnu.org/licenses/"
+"\">http://www.gnu.org/licenses/</a>.</p>\n"
+msgstr ""
+
+#: templates/oppia/thanks.html:4 templates/oppia/profile/register.html:6
+msgid "page_title_register"
+msgstr "Register"
+
+#: templates/oppia/thanks.html:6
+#, python-format
+msgid ""
+"Thanks for registering. You are now logged in. <a href=\"%(url_home)s"
+"\">Return to the homepage</a>"
+msgstr ""
+
+#: templates/oppia/upload-success.html:4 templates/oppia/upload.html:4
+msgid "page_title_upload_course"
+msgstr "Upload course"
+
+#: templates/oppia/upload-success.html:6
+msgid ""
+"\n"
+"<p>Your course was successfully uploaded</p>\n"
+msgstr ""
+
+#: templates/oppia/upload.html:10
+msgid "form_field_course_file"
+msgstr "Course file"
+
+#: templates/oppia/upload.html:15
+msgid "button_course_upload"
+msgstr "Upload"
+
+#: templates/oppia/includes/page_navigator.html:4
+msgid "previous"
+msgstr "previous"
+
+#: templates/oppia/includes/page_navigator.html:8
+#, python-format
+msgid "Page %(i)s of %(x)s"
+msgstr ""
+
+#: templates/oppia/includes/page_navigator.html:12
+msgid "next"
+msgstr "Next"
+
+#: templates/oppia/profile/badges.html:4
+msgid "page_title_badges"
+msgstr "Badges"
+
+#: templates/oppia/profile/badges.html:15
+msgid "<p>You don't have any badges yet</p>"
+msgstr ""
+
+#: templates/oppia/profile/points.html:5
+msgid "page_title_points"
+msgstr "Points"
+
+#: templates/oppia/profile/points.html:12
+msgid "table_header_points_date"
+msgstr "Date"
+
+#: templates/oppia/profile/points.html:13
+msgid "table_header_points"
+msgstr "Points"
+
+#: templates/oppia/profile/points.html:14
+msgid "table_header_points_description"
+msgstr "Description"
+
+#: templates/oppia/profile/profile.html:6
+msgid "page_title_profile"
+msgstr "Profile"
+
+#: templates/oppia/profile/profile.html:16
+msgid "form_msg_username_not_editable"
+msgstr "Sorry, you cannot edit your username"
+
+#: templates/oppia/profile/profile.html:20
+msgid "form_field_api_key"
+msgstr "API key"
+
+#: templates/oppia/profile/profile.html:22
+msgid "form_msg_api_key"
+msgstr "Sorry, you cannot edit your API key"
+
+#: templates/oppia/profile/profile.html:26
+#: templates/oppia/profile/register.html:16
+msgid "form_field_email"
+msgstr "Email address"
+
+#: templates/oppia/profile/profile.html:31
+#: templates/oppia/profile/register.html:31
+msgid "form_field_first_name"
+msgstr "First name"
+
+#: templates/oppia/profile/profile.html:36
+#: templates/oppia/profile/register.html:36
+msgid "form_field_last_name"
+msgstr "Last name"
+
+#: templates/oppia/profile/profile.html:39
+msgid "form_section_change_password"
+msgstr "Change Password"
+
+#: templates/oppia/profile/profile.html:47
+#: templates/oppia/profile/register.html:26
+msgid "form_field_password_again"
+msgstr "Password (again)"
+
+#: templates/oppia/profile/profile.html:54
+msgid "button_profile_save"
+msgstr "Save"
+
+#: templates/oppia/profile/register.html:41
+msgid "button_register"
+msgstr "Register"
+
+#: templates/oppia/profile/reset-sent.html:6
+#: templates/oppia/profile/reset.html:6
+msgid "page_title_reset"
+msgstr "Reset"
+
+#: templates/oppia/profile/reset-sent.html:7
+msgid ""
+"\n"
+"<p>A new password has been emailed to you</p>\n"
+msgstr ""
+
+#: templates/oppia/profile/reset.html:16
+msgid "button_reset_password"
+msgstr "Reset password"

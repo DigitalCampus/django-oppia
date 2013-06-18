@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<h2>{% trans 'page_title_register' %}</h2>
+{% url 'oppia_home' as url_home %}
+<p>{% blocktrans %}Thanks for registering. You are now logged in. <a href="{{ url_home }}">Return to the homepage</a>{% endblocktrans %}</p>
+{% endblock %}

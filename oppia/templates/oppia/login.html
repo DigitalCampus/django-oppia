@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<h2>{% trans 'page_title_login' %}</h2>
+
+{% if form.errors %}
+<p>{% trans login_failed %}</p>
+{% endif %}
+
+
+<form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+{% csrf_token %}
+	<div class="errorWrapper">{{ form.non_field_errors }}</div>
+	<div class="fieldWrapper">
+		<div class="fieldErrorWrapper">{{ form.username.errors }}</div>
+		<div class="fieldLabelWrapper">{% trans 'form_field_username' %}</div>
+		<div class="fieldInputWrapper">{{ form.username }}</div>
+	</div>
+	<div class="fieldWrapper">
+		<div class="fieldErrorWrapper">{{ form.password.errors }}</div>
+		<div class="fieldLabelWrapper">{% trans 'form_field_password' %}</div>
+		<div class="fieldInputWrapper">{{ form.password }}</div>
+	</div>
+	<div class="fieldWrapper">
+		<div class="fieldLabelWrapper">&nbsp;</div>
+		<div class="fieldInputWrapper">
+            <input type="submit" value="{% trans 'button_login' %}" />
+			<a href="{% url 'profile_reset' %}">{% trans 'forgotten_password' %}</a>	
+		</div>
+	</div>
+    <input type="hidden" name="next" value="{{ next }}" />
+</form>
+
+{% endblock %}

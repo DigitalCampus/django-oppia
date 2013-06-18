@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load title_lang %}
+{% block content %}
+
+<h2><a href="{% url 'oppia_home' %}">{% trans 'courses' %}</a> > {{ course.title|title_lang:LANGUAGE_CODE }} > {% trans 'schedule saved' %}</h2>
+{% blocktrans %}
+<p>Your schedule has been saved</p>
+{% endblocktrans %}
+
+
+
+
+{% endblock %}

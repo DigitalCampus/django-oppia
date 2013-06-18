@@ -1,0 +1,8 @@
+{% load i18n %}
+<div id="footer">
+        <ul>
+        <li><a href="http://oppia-mobile.org">{% trans 'footer_about' %}</a></li>
+        <li><a href="{% url 'oppia_terms' %}">{% trans 'footer_terms' %}</a></li>
+        <li>Alex Little &copy; {% now "Y" %}</li>
+        </ul>
+</div>

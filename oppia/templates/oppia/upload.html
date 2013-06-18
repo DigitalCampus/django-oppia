@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<h2>{% trans 'page_title_upload_course' %}</h2>
+{% include "includes/messages.html" %}	
+<form action="{% url 'oppia_upload' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+    <div class="errorWrapper">{{ form.non_field_errors }}</div>
+    <div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.course_file.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_course_file">{% trans 'form_field_course_file' %}</label></div>
+        <div class="fieldInputWrapper">{{ form.course_file }}</div>
+    </div>
+    <div class="fieldWrapper">
+		<div class="fieldErrorWrapper">{{ form.tags.errors }}</div>
+		<div class="fieldLabelWrapper">{% trans 'form_field_tags' %}</div>
+		<div class="fieldInputWrapper">{{ form.tags }}</div>
+	</div>
+    <div class="fieldWrapper">
+        <div class="fieldLabelWrapper">&nbsp;</div>
+        <div class="fieldInputWrapper"><input type="submit" value="{% trans 'button_course_upload' %}" /></div>
+    </div>
+
+</form>
+    
+{% endblock %}

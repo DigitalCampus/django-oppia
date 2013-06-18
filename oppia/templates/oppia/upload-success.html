@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<h2>{% trans 'page_title_upload_course' %}</h2>
+{% include "includes/messages.html" %}	
+{% blocktrans %}
+<p>Your course was successfully uploaded</p>
+{% endblocktrans %}
+    
+{% endblock %}

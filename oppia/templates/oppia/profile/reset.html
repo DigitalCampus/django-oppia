@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<h2>{% trans 'page_title_reset' %}</h2>
+<form action="{% url 'profile_reset' %}" method="post">{% csrf_token %}
+    <div class="errorWrapper">{{ form.non_field_errors }}</div>
+    <div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.username.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_email">{% trans 'form_field_username' %}</label></div>
+        <div class="fieldInputWrapper">{{ form.username }}</div>
+    </div>
+    <div class="fieldWrapper">
+        <div class="fieldLabelWrapper">&nbsp;</div>
+        <div class="fieldInputWrapper"><input type="submit" value="{% trans 'button_reset_password' %}" /></div>
+    </div>
+
+</form>
+{% endblock %}

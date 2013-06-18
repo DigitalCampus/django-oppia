@@ -1,0 +1,18 @@
+{% extends "base.html" %} 
+{% load i18n %} 
+{% load title_lang %} 
+
+{% block content %}
+
+<h2>{% trans 'courses' %}</h2>
+{% if course_list %}
+<ul>
+	{% for course in course_list %}
+	<li><a href="{% url 'oppia_recent_activity' course.id %}">
+		{{ course.title|title_lang:LANGUAGE_CODE }}</a> ({{course.no_downloads}} downloads by {{course.no_distinct_downloads}} users)</li> 
+	{% endfor %}
+</ul>
+{% endif %}
+
+
+{% endblock %}
