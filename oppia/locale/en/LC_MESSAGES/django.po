@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-14 15:30+0200\n"
+"POT-Creation-Date: 2013-06-19 17:34+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,123 +17,123 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: models.py:24
+#: models.py:26
 msgid "Course"
 msgstr ""
 
-#: models.py:25
+#: models.py:27
 msgid "Courses"
 msgstr ""
 
-#: models.py:74
+#: models.py:76
 msgid "Tag"
 msgstr ""
 
-#: models.py:75
+#: models.py:77
 msgid "Tags"
 msgstr ""
 
-#: models.py:85
+#: models.py:87
 msgid "Course Tag"
 msgstr ""
 
-#: models.py:86
+#: models.py:88
 msgid "Course Tags"
 msgstr ""
 
-#: models.py:97 templates/oppia/schedule-form.html:7
+#: models.py:99 templates/oppia/schedule-form.html:7
 msgid "Schedule"
 msgstr ""
 
-#: models.py:98
+#: models.py:100
 msgid "Schedules"
 msgstr ""
 
-#: models.py:124
+#: models.py:126
 msgid "ActivitySchedule"
 msgstr ""
 
-#: models.py:125
+#: models.py:127
 msgid "ActivitySchedules"
 msgstr ""
 
-#: models.py:135
+#: models.py:137
 msgid "Section"
 msgstr ""
 
-#: models.py:136
+#: models.py:138
 msgid "Sections"
 msgstr ""
 
-#: models.py:164
+#: models.py:166
 msgid "Activity"
 msgstr ""
 
-#: models.py:165
+#: models.py:167
 msgid "Activities"
 msgstr ""
 
-#: models.py:186 models.py:187
+#: models.py:188 models.py:189
 msgid "Media"
 msgstr ""
 
-#: models.py:206
+#: models.py:208
 msgid "Tracker"
 msgstr ""
 
-#: models.py:207
+#: models.py:209
 msgid "Trackers"
 msgstr ""
 
-#: models.py:299
+#: models.py:301
 msgid "CourseDownload"
 msgstr ""
 
-#: models.py:300
+#: models.py:302
 msgid "CourseDownloads"
 msgstr ""
 
-#: models.py:310
+#: models.py:312
 msgid "Cohort"
 msgstr ""
 
-#: models.py:311
+#: models.py:313
 msgid "Cohorts"
 msgstr ""
 
-#: models.py:356
+#: models.py:367
 msgid "Participant"
 msgstr ""
 
-#: models.py:357
+#: models.py:368
 msgid "Participants"
 msgstr ""
 
-#: models.py:369
+#: models.py:380
 msgid "Message"
 msgstr ""
 
-#: models.py:370
+#: models.py:381
 msgid "Messages"
 msgstr ""
 
-#: models.py:381
+#: models.py:392
 msgid "Badge"
 msgstr ""
 
-#: models.py:382
+#: models.py:393
 msgid "Badges"
 msgstr ""
 
-#: models.py:394
+#: models.py:405
 msgid "Award"
 msgstr ""
 
-#: models.py:395
+#: models.py:406
 msgid "Awards"
 msgstr ""
 
-#: models.py:446 models.py:447
+#: models.py:457 models.py:458
 msgid "Points"
 msgstr ""
 
@@ -383,15 +383,31 @@ msgid ""
 "href=\"%(url_register)s\">Register</a>"
 msgstr ""
 
-#: templates/oppia/cohort-form.html:7
+#: templates/oppia/cohort-form.html:8
 msgid "cohort"
 msgstr "Cohort"
 
-#: templates/oppia/cohort-form.html:15
-msgid "form_field_cohort_title"
-msgstr "Title"
+#: templates/oppia/cohort-form.html:18
+msgid "form_field_cohort_description"
+msgstr "Description"
 
-#: templates/oppia/cohort-form.html:21
+#: templates/oppia/cohort-form.html:24 templates/oppia/schedule-form.html:36
+msgid "form_field_activityschedule_start_date"
+msgstr "Start date"
+
+#: templates/oppia/cohort-form.html:29 templates/oppia/schedule-form.html:41
+msgid "form_field_activityschedule_end_date"
+msgstr "End date"
+
+#: templates/oppia/cohort-form.html:36
+msgid "form_field_cohort_teachers"
+msgstr "Teachers"
+
+#: templates/oppia/cohort-form.html:44
+msgid "form_field_cohort_students"
+msgstr "Students"
+
+#: templates/oppia/cohort-form.html:52
 msgid "button_cohort_save"
 msgstr "Save"
 
@@ -431,7 +447,7 @@ msgstr "Manage schedules"
 msgid "course_manage_cohorts"
 msgstr "Manage cohorts"
 
-#: templates/oppia/course-activity.html:54 templates/oppia/home.html:56
+#: templates/oppia/course-activity.html:54 templates/oppia/home.html:59
 msgid "graph_generating"
 msgstr ""
 
@@ -439,11 +455,19 @@ msgstr ""
 msgid "cohorts"
 msgstr ""
 
-#: templates/oppia/course-cohorts.html:18
+#: templates/oppia/course-cohorts.html:14
+msgid "teachers"
+msgstr ""
+
+#: templates/oppia/course-cohorts.html:15
+msgid "students"
+msgstr ""
+
+#: templates/oppia/course-cohorts.html:20
 msgid "No cohorts"
 msgstr ""
 
-#: templates/oppia/course-cohorts.html:22
+#: templates/oppia/course-cohorts.html:24
 msgid "Add a cohort"
 msgstr ""
 
@@ -467,9 +491,23 @@ msgstr ""
 msgid "courses"
 msgstr "Courses"
 
+#: templates/oppia/course.html:17
+#, python-format
+msgid ""
+"\n"
+"\t\t<p>You don't yet have any courses uploaded, why not <a href="
+"\"%(url_upload)s\">upload one now</a>?</p>\n"
+"\t"
+msgstr ""
+
 #: templates/oppia/home.html:48
 msgid ""
 " \n"
+"\n"
+"<p align=\"center\"><iframe width=\"400\" height=\"315\" src=\"http://www."
+"youtube.com/embed/wHo5R_RgkG0\" frameborder=\"0\" allowfullscreen></iframe></"
+"p>\n"
+"\n"
 "<p align=\"center\">OppiaMobile is a mobile learning platform from <a href="
 "\"http://digital-campus.org\">Digital Campus</a> to deliver learning "
 "content, multimedia and quizzes on your smartphone. All the content and "
@@ -483,7 +521,7 @@ msgid ""
 "in action.</p>\n"
 msgstr ""
 
-#: templates/oppia/home.html:55
+#: templates/oppia/home.html:58
 msgid "courses_recent_activity"
 msgstr "Recent Activity"
 
@@ -526,14 +564,6 @@ msgstr "Title"
 #: templates/oppia/schedule-form.html:20
 msgid "form_field_schedule_default"
 msgstr "Default schedule"
-
-#: templates/oppia/schedule-form.html:36
-msgid "form_field_activityschedule_start_date"
-msgstr "Start date"
-
-#: templates/oppia/schedule-form.html:41
-msgid "form_field_activityschedule_end_date"
-msgstr "End date"
 
 #: templates/oppia/schedule-form.html:51
 msgid "button_schedule_save"
@@ -603,6 +633,10 @@ msgid "form_field_course_file"
 msgstr "Course file"
 
 #: templates/oppia/upload.html:15
+msgid "form_field_tags"
+msgstr "Tags"
+
+#: templates/oppia/upload.html:20
 msgid "button_course_upload"
 msgstr "Upload"
 

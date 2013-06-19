@@ -12,6 +12,11 @@
 		{{ course.title|title_lang:LANGUAGE_CODE }}</a> ({{course.no_downloads}} downloads by {{course.no_distinct_downloads}} users)</li> 
 	{% endfor %}
 </ul>
+{% else %}
+	{% url 'oppia_upload' as url_upload %}
+	{% blocktrans %}
+		<p>You don't yet have any courses uploaded, why not <a href="{{ url_upload }}">upload one now</a>?</p>
+	{% endblocktrans %}
 {% endif %}
 
 
