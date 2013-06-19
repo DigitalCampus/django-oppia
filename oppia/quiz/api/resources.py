@@ -13,7 +13,7 @@ from oppia.api.resources import UserResource
 from tastypie.validation import Validation
 from django.db import IntegrityError
 from tastypie.models import ApiKey
-from django.conf.urls.defaults import url
+from django.conf.urls import url
 from django.core.paginator import Paginator, InvalidPage
 from django.db.models import Q
 from django.utils.translation import ugettext as _

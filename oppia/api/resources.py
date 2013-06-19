@@ -15,7 +15,7 @@ from oppia.api.serializers import PrettyJSONSerializer, CourseJSONSerializer, Ta
 from tastypie.models import ApiKey
 from tastypie.validation import Validation
 from django.http import HttpRequest
-from django.conf.urls.defaults import url
+from django.conf.urls import url
 from tastypie.utils import trailing_slash
 from django.http import HttpResponse
 from django.core.servers.basehttp import FileWrapper

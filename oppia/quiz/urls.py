@@ -1,5 +1,5 @@
 # mquiz/urls.py
-from django.conf.urls.defaults import patterns, include, url
+from django.conf.urls import patterns, include, url
 
 from tastypie.api import Api
 from oppia.quiz.api.resources import QuizResource, QuizPropsResource, QuestionResource, QuizQuestionResource, ResponseResource, QuizAttemptResource

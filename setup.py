@@ -8,20 +8,20 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-oppia',
-    version='0.1.2',
-    packages=['oppia','oppia.quiz','oppia.api','oppia.profile','oppia.quiz.api'],
+    version='0.1.0',
+    packages=['oppia','oppia.quiz','oppia.api','oppia.profile','oppia.quiz.api', 'oppia.migrations', 'oppia.quiz.migrations'],
     include_package_data=True,
     license='GNU GPL v3 License',  # example license
     description='Server side component of OppiaMobile learning platform',
     long_description=README,
     url='http://oppia-mobile.org/',
-    author='Alex, Digital Campus',
+    author='Alex Little, Digital Campus',
     author_email='alex@digital-campus.org',
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: BSD License', # example license
+        'License :: OSI Approved :: GNU GPL v3 License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.6',
