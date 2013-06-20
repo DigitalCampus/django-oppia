@@ -11,7 +11,6 @@ def modify(settings):
          r'^$',
          r'^about/$',
          r'^terms/$',
-         r'^contact/$',
          r'^api/', # allow any URL under api/*
          r'^quiz/api/', # allow any URL under quiz/api/*
     ) 

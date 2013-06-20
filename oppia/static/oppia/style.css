@@ -109,46 +109,28 @@ p {
 }
 
 /* homepage */
-div.homestart {
+div.homewidget {
 	float:left;
-	width:20%;
 	border: 1px solid #aaa;
 	margin:10px;
 	padding: 5px;
 	border-radius: 0.5em;
 	-moz-border-radius: 0.5em;
 	-webkit-border-radius: 0.5em;
-  	min-height:280px;
-  	width:300px;
-  	text-align:center;
 }
 
-div.homestart h3{
+div.homewidget h3{
 	text-align: center;
 	margin-bottom:10px;
 	min-height:50px;
 }
 
-div.homewidget {
-	float:left;
-	width:20%;
-	border: 1px solid #aaa;
-	margin:10px;
-	padding: 5px;
-	border-radius: 0.5em;
-	-moz-border-radius: 0.5em;
-  	-webkit-border-radius: 0.5em;
-  	min-height:400px;
-  	width:300px;
-}
-
-div.homewidget h3{
-	text-align: center;
-	margin-bottom:5px;
-}
-
 div.homewidget ol li{
 	margin: 10px 0 10px 30px;
+}
+
+ol.leaderboard li {
+	padding:5px 0;
 }
 
 div.fieldWrapper {
@@ -193,117 +175,6 @@ ul.messages {
 	margin-left:20px;
 }
 
-div.responses {
-	padding-left:170px;
-}
-
-div.responsetext {
-	float:left;
-	width:190px;
-	clear:both;
-}
-
-div.responsetext input {
-	width:180px;
-}
-
-div.responsescore {
-	float:left;
-	width:60px;
-}
-
-div.responsescore input {
-	width:50px;
-}
-
-div.responsefeedback {
-	float:left;
-	width:180px;
-}
-div.responsefeedback input{
-	width:300px;
-}
-
-div.quizlist, div.attemptlist {
-    border-bottom: 1px solid #999999;
-    clear: both;
-    padding: 10px;
-}
-div.quizlist:hover {
-	background:yellow;
-}
-div.attemptlist:hover{
-	background:yellow;
-	cursor:pointer;
-}
-
-div.quiztitle {
-	float:left;
-	width:40%;
-}
-
-div.quizattempts, div.quizavg, div.quizopts{
-	float:left;
-	width: 20%;
-	text-align:center;
-}
-
-div.quizopts{
-	font-size:small;
-}
-
-div.quizcell{
-	float:left;
-	width:10%;
-	text-align:center;
-}
-
-div.attemptscore {
-	float:left;
-	width:20%;
-	text-align:center;
-}
-
-div.attemptdate, div.attemptname {
-	float:left;
-	width:40%;
-}
-
-div.attemptdetail{
-	margin:20px;
-}
-
-div.adq {
-	float:left;
-	width:50%;
-}
-
-div.adscore {
-	float:left;
-	width:10%;
-	text-align:center;
-}
-
-div.adrtext {
-	float:left;
-	width:30%;
-	padding-left:20px;
-}
-
-a.quiz-add-question {
-	margin-left:170px;
-	margin-top:10px;
-}
-
-a.quiz-delete-question {
-	margin-left:170px;
-	margin-top:10px;
-}
-
-div.question {
-	margin-bottom:20px;
-}
-
 span.points, span.badges {
 	border: 0px solid #aaa;
 	padding: 5px;
@@ -325,15 +196,8 @@ span.badges img {
 	margin:2px;	
 }
 
-
-
 #login p {
 	margin:0px;
-}
-
-
-ol.leaderboard li {
-	padding:5px 0;
 }
 
 div.leaderboardname {
@@ -394,13 +258,30 @@ div.badge_data {
 	
 }
 
-div.trackercell{
+div.tableheader {
+    border-bottom: 1px solid #999999;
+    clear: both;
+    padding: 10px;
+    font-weight:bold;
+}
+
+div.tablelist {
+    border-bottom: 1px solid #999999;
+    clear: both;
+    padding: 10px;
+}
+
+div.tablelist:hover {
+	background:yellow;
+}
+
+div.tablecell{
 	float:left;
 	width:10%;
 	text-align:center;
 }
 
-div.trackertitle{
+div.tabletitle{
 	float:left;
 	width:35%;
 }

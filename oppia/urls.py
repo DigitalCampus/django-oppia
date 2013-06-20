@@ -19,6 +19,7 @@ v1_api.register(UserResource())
 urlpatterns = patterns('',
 
     url(r'^$', 'oppia.views.home_view', name="oppia_home"),
+    url(r'^leaderboard/$', 'oppia.views.leaderboard_view', name="oppia_leaderboard"),
     url(r'^upload/$', 'oppia.views.upload', name="oppia_upload"),
     url(r'^upload/success/$', TemplateView.as_view(template_name="oppia/upload-success.html"), name="oppia_upload_success"),
     url(r'^course/$', 'oppia.views.course_view', name="oppia_course"),

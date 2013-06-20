@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-19 17:34+0200\n"
+"POT-Creation-Date: 2013-06-20 16:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -356,27 +356,29 @@ msgstr "Terms and License"
 msgid "menu_home"
 msgstr "Home"
 
-#: templates/includes/header.html:25
+#: templates/includes/header.html:26
 msgid "menu_courses"
 msgstr "Courses"
 
-#: templates/includes/header.html:26
+#: templates/includes/header.html:27
 msgid "menu_upload"
 msgstr "Upload"
 
-#: templates/includes/header.html:33
+#: templates/includes/header.html:35
 msgid "Welcome"
 msgstr "Welcome"
 
-#: templates/includes/header.html:34
+#: templates/includes/header.html:36 templates/oppia/leaderboard.html:14
+#: templates/oppia/includes/leaderboard.html:8
 msgid "points"
 msgstr "Points"
 
-#: templates/includes/header.html:35
+#: templates/includes/header.html:37 templates/oppia/leaderboard.html:15
+#: templates/oppia/includes/leaderboard.html:9
 msgid "badges"
 msgstr "Badges"
 
-#: templates/includes/header.html:39
+#: templates/includes/header.html:41
 #, python-format
 msgid ""
 "Welcome, please <a href=\"%(url_login)s?next=%(rpath)s\">Login</a> or <a "
@@ -447,7 +449,7 @@ msgstr "Manage schedules"
 msgid "course_manage_cohorts"
 msgstr "Manage cohorts"
 
-#: templates/oppia/course-activity.html:54 templates/oppia/home.html:59
+#: templates/oppia/course-activity.html:54 templates/oppia/home.html:50
 msgid "graph_generating"
 msgstr ""
 
@@ -500,30 +502,37 @@ msgid ""
 "\t"
 msgstr ""
 
-#: templates/oppia/home.html:48
+#: templates/oppia/home.html:45
+msgid "home_leaderboard"
+msgstr "Leaderboard"
+
+#: templates/oppia/home.html:49
+msgid "courses_recent_activity"
+msgstr "Recent Activity"
+
+#: templates/oppia/home.html:54
 msgid ""
 " \n"
-"\n"
-"<p align=\"center\"><iframe width=\"400\" height=\"315\" src=\"http://www."
+"\t<p align=\"center\"><iframe width=\"400\" height=\"315\" src=\"http://www."
 "youtube.com/embed/wHo5R_RgkG0\" frameborder=\"0\" allowfullscreen></iframe></"
 "p>\n"
-"\n"
-"<p align=\"center\">OppiaMobile is a mobile learning platform from <a href="
+"\t<p align=\"center\">OppiaMobile is a mobile learning platform from <a href="
 "\"http://digital-campus.org\">Digital Campus</a> to deliver learning "
 "content, multimedia and quizzes on your smartphone. All the content and "
 "activities can\n"
-"be accessed and used even when you don't have an internet connection "
+"\tbe accessed and used even when you don't have an internet connection "
 "available on your mobile.</p>\n"
-"<p>To get started with our courses, <a href=\"https://play.google.com/store/"
-"apps/details?id=org.digitalcampus.mobile.learning\">download the OppiaMobile "
-"app</a>. \n"
-"Or <a href=\"http://youtu.be/wHo5R_RgkG0\">watch a video</a> of OppiaMobile "
-"in action.</p>\n"
+"\t<p>To get started with our courses, <a href=\"https://play.google.com/"
+"store/apps/details?id=org.digitalcampus.mobile.learning\">download the "
+"OppiaMobile app</a>. \n"
+"\tOr <a href=\"http://youtu.be/wHo5R_RgkG0\">watch a video</a> of "
+"OppiaMobile in action.</p>\n"
+"\t"
 msgstr ""
 
-#: templates/oppia/home.html:58
-msgid "courses_recent_activity"
-msgstr "Recent Activity"
+#: templates/oppia/leaderboard.html:5
+msgid "page_title_leaderboard"
+msgstr "Leaderboard"
 
 #: templates/oppia/login.html:4
 msgid "page_title_login"
@@ -639,6 +648,10 @@ msgstr "Tags"
 #: templates/oppia/upload.html:20
 msgid "button_course_upload"
 msgstr "Upload"
+
+#: templates/oppia/includes/leaderboard.html:15
+msgid "more..."
+msgstr ""
 
 #: templates/oppia/includes/page_navigator.html:4
 msgid "previous"

@@ -22,8 +22,10 @@
         <div id="menu">
             <ul>
             <li><a href="{% url 'oppia_home' %}">{% trans 'menu_home' %}</a></li>
-            <li><a href="{% url 'oppia_course' %}">{% trans 'menu_courses' %}</a></li>
-            <li><a href="{% url 'oppia_upload' %}">{% trans 'menu_upload' %}</a></li>
+            {% if user.is_authenticated %}
+	            <li><a href="{% url 'oppia_course' %}">{% trans 'menu_courses' %}</a></li>
+	            <li><a href="{% url 'oppia_upload' %}">{% trans 'menu_upload' %}</a></li>
+            {% endif %}
             </ul>
         </div>
         <div id="login">

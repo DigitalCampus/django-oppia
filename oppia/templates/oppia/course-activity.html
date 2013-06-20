@@ -50,7 +50,16 @@
 	 |
 	 <a href="{% url 'oppia_cohorts' course.id %}">{% trans 'course_manage_cohorts'%}</a>
 {% endif %}
-	 
-<div id="attempts_chart_div" class="graph">{% trans 'graph_generating'%}</div>
+	
+<div style="clear:both;"></div> 
+<div class="homewidget" style="width:300px;">
+	<h3>{% trans 'home_leaderboard' %}</h3>
+	{% include "oppia/includes/leaderboard.html" %}
+	</div>
+<div class="homewidget">
+	<h3>{% trans 'courses_recent_activity' %}</h3>
+	<div id="attempts_chart_div" class="graph">{% trans 'graph_generating'%}</div>
+</div>
+<div style="clear:both;"></div>
 
 {% endblock %}

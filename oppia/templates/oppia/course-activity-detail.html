@@ -8,21 +8,21 @@
 {% if page.object_list.count > 0 %}
 	{% include "oppia/includes/page_navigator.html" %}
     
-	<div class="quizlist">
-		<div class='trackercell'>{% trans 'table_header_tracker_date' %}</a></div>
-		<div class='trackercell'>{% trans 'table_header_tracker_user' %}</div>
-		<div class='trackercell'>{% trans 'table_header_tracker_type' %}</div>
-		<div class='trackertitle'>{% trans 'table_header_tracker_activity' %}</div>
-		<div class='trackertitle'>{% trans 'table_header_tracker_description' %}</div>
+	<div class="tableheader">
+		<div class='tablecell'>{% trans 'table_header_tracker_date' %}</a></div>
+		<div class='tablecell'>{% trans 'table_header_tracker_user' %}</div>
+		<div class='tablecell'>{% trans 'table_header_tracker_type' %}</div>
+		<div class='tabletitle'>{% trans 'table_header_tracker_activity' %}</div>
+		<div class='tabletitle'>{% trans 'table_header_tracker_description' %}</div>
 		<div style='clear:both'></div>
 	</div>
 	{% for t in page.object_list %}
-		<div class="quizlist">
-			<div class='trackercell'>{{ t.tracker_date|date:"d M Y H:i" }}</a></div>
-			<div class='trackercell'>{{ t.user.first_name }} {{ t.user.last_name }}</div>
-			<div class='trackercell'>{{ t.type }}</div>
-			<div class='trackertitle'>{{ t.title }}</div>
-			<div class='trackertitle'>{{ t.data }}</div>
+		<div class="tablelist"> 	
+			<div class='tablecell'>{{ t.tracker_date|date:"d M Y H:i" }}</a></div>
+			<div class='tablecell'>{{ t.user.first_name }} {{ t.user.last_name }}</div>
+			<div class='tablecell'>{{ t.type }}</div>
+			<div class='tabletitle'>{{ t.title }}</div>
+			<div class='tabletitle'>{{ t.data }}</div>
 			<div style='clear:both'></div>
 		</div>
 	{% endfor %}

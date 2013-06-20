@@ -1,16 +1,14 @@
 # oppia/models.py
-from django.db import models
-from django.db.models import Max, Sum, Q
-from django.contrib.auth.models import User
-from django.conf import settings
-from django.utils.translation import ugettext_lazy as _
-
-from xml.dom.minidom import *
 import json
 import datetime
 
+from django.conf import settings
+from django.contrib.auth.models import User
+from django.db import models
+from django.db.models import Max, Sum, Q
+from django.utils.translation import ugettext_lazy as _
 
-
+from xml.dom.minidom import *
 
 class Course(models.Model):
     user = models.ForeignKey(User)
@@ -409,9 +407,11 @@ class Award(models.Model):
         return self.description
 
     @staticmethod
-    def get_userawards(user):
-        count = Award.objects.filter(user=user).count()
-        return count
+    def get_userawards(user, course=None):
+        awards = Award.objects.filter(user=user)
+        if course is not None:
+            awards = awards.filter(awardcourse__course=course) 
+        return awards.count()
     
     def _get_badge(self):
         badge_icon = self.badge.default_icon
@@ -461,16 +461,23 @@ class Points(models.Model):
         return self.description
     
     @staticmethod
-    def get_leaderboard(count=0):
+    def get_leaderboard(count=0, course=None, cohort=None):
+        users = User.objects.all()
+        
+        if course is not None:
+            users = users.filter(points__course=course)
+        
+        if cohort is not None:
+            users = users.filter(points__cohort=cohort)
+               
         if count == 0:
-            leaders = User.objects.annotate(total=Sum('points__points')).order_by('-total')
-            for l in leaders:
-                l.badges = Award.get_userawards(l)
+            users = users.annotate(total=Sum('points__points')).order_by('-total')
         else:
-            leaders = User.objects.annotate(total=Sum('points__points')).order_by('-total')[:count]
-            for l in leaders:
-                l.badges = Award.get_userawards(l)
-        return leaders
+            users = users.annotate(total=Sum('points__points')).order_by('-total')[:count]
+            
+        for u in users:
+            u.badges = Award.get_userawards(u,course)
+        return users
     
     @staticmethod
     def get_userscore(user):

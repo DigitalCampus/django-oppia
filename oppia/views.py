@@ -1,43 +1,39 @@
 # oppia/views.py
+import os
+import shutil
+import datetime
+
+from django import forms
 from django.conf import settings
 from django.contrib.auth import (authenticate, logout, views)
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db.models import Q
+from django.forms.formsets import formset_factory
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render,render_to_response
 from django.template import RequestContext
 
-from oppia.models import Course, Tracker, Tag, CourseTag, Schedule, ActivitySchedule, Activity, Cohort, Participant
+from oppia.models import Course, Tracker, Tag, CourseTag, Schedule, ActivitySchedule, Activity, Cohort, Participant, Points
 from oppia.forms import UploadCourseForm, ScheduleForm, ActivityScheduleForm, CohortForm
-from django import forms
-from django.forms.formsets import formset_factory
 from uploader import handle_uploaded_file
 
-import os
-import shutil
-import datetime
+
   
 def home_view(request):
-    course_list = Course.objects.all().order_by('title')
-    course_set = []
-    for c in course_list:
-        c.activity = []
-        course_set.append(c)
     activity = []
-    startdate = datetime.datetime.now()
-    staff = User.objects.filter(is_staff=True)
-    for i in range(31,-1,-1):
-        temp = startdate - datetime.timedelta(days=i)
-        day = temp.strftime("%d")
-        month = temp.strftime("%m")
-        year = temp.strftime("%y")
-        count = Tracker.objects.filter(tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).exclude(user_id__in=staff).count()
-        activity.append([temp.strftime("%d %b %y"),count])
-        for c in course_set:
-            mod_count = Tracker.objects.filter(course=c, tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).exclude(user_id__in=staff).count()
-            c.activity.append([temp.strftime("%d %b %y"),mod_count])
-    return render_to_response('oppia/home.html',{'course_set': course_set, 'recent_activity':activity}, context_instance=RequestContext(request))
+    if request.user.is_authenticated():
+        startdate = datetime.datetime.now()
+        staff = User.objects.filter(is_staff=True)
+        for i in range(31,-1,-1):
+            temp = startdate - datetime.timedelta(days=i)
+            day = temp.strftime("%d")
+            month = temp.strftime("%m")
+            year = temp.strftime("%y")
+            count = Tracker.objects.filter(tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).exclude(user_id__in=staff).count()
+            activity.append([temp.strftime("%d %b %y"),count])
+    leaderboard = Points.get_leaderboard(10)
+    return render_to_response('oppia/home.html',{'recent_activity':activity, 'leaderboard':leaderboard}, context_instance=RequestContext(request))
 
 def course_view(request):
     course_list = Course.objects.all().order_by('title')    
@@ -99,7 +95,8 @@ def recent_activity(request,id):
         count_act_quiz = Tracker.objects.filter(course=course,type='quiz',tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).exclude(user_id__in=staff).count()
         count_media = Tracker.objects.filter(course=course,type='media',tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).exclude(user_id__in=staff).count()
         dates.append([temp.strftime("%d %b %y"),count_act_page,count_act_quiz,count_media])
-    return render_to_response('oppia/course-activity.html',{'course': course,'data':dates}, context_instance=RequestContext(request))
+    leaderboard = Points.get_leaderboard(10, course)
+    return render_to_response('oppia/course-activity.html',{'course': course,'data':dates, 'leaderboard':leaderboard}, context_instance=RequestContext(request))
 
 def recent_activity_detail(request,id):
     course = check_owner(request,id)
@@ -364,3 +361,21 @@ def check_owner(request,id):
     except Course.DoesNotExist:
         raise Http404
     return course
+
+def leaderboard_view(request):
+    lb = Points.get_leaderboard()[:100]
+    paginator = Paginator(lb, 25) # Show 25 contacts per page
+
+    # Make sure page request is an int. If not, deliver first page.
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+
+    # If page request (9999) is out of range, deliver last page of results.
+    try:
+        leaderboard = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        leaderboard = paginator.page(paginator.num_pages)
+
+    return render_to_response('oppia/leaderboard.html',{'page':leaderboard}, context_instance=RequestContext(request))
