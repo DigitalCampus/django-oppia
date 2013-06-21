@@ -1,9 +1,7 @@
-# mquiz/models.py
-from django.db import models
+# quiz/models.py
 from django.contrib.auth.models import User
 from django.core import serializers
-from tastypie.models import create_api_key
-from oppia.signals import  quizattempt_callback, createquiz_callback
+from django.db import models
 from django.utils.translation import ugettext_lazy as _
 import datetime
 
@@ -188,5 +186,3 @@ class QuizAttemptResponse(models.Model):
             percent = 0
         return percent
   
-models.signals.post_save.connect(createquiz_callback, sender=Quiz)
-models.signals.post_save.connect(quizattempt_callback, sender=QuizAttempt)

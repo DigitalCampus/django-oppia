@@ -29,12 +29,13 @@
 		{% endfor %}
 
         var chart = new google.visualization.LineChart(document.getElementById('attempts_chart_div'));
-        chart.draw(data, {	width: 800, 
+        chart.draw(data, {	width: 600, 
                 			height: 400,
                 			vAxis: {title: 'No attempts'},
                 			pointSize:5,
                 			chartArea:{left:50,top:50,width:"80%",height:"75%"},
-                			backgroundColor: 'transparent'
+                			backgroundColor: 'transparent',
+                			legend: {position:'top'}
 							});
       }
 </script>

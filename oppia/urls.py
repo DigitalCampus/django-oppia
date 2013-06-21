@@ -1,7 +1,12 @@
 # oppia/urls.py
-from django.conf.urls.defaults import patterns, include, url
+from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
-from oppia.api.resources import *
+
+from oppia.api.resources import TrackerResource, CourseResource, ScheduleResource, TagResource, ScorecardResource
+from oppia.api.resources import PointsResource, AwardsResource, BadgesResource, RegisterResource, UserResource
+from oppia.quiz.api.resources import QuizResource, QuizPropsResource, QuestionResource
+from oppia.quiz.api.resources import QuizQuestionResource, ResponseResource, QuizAttemptResource
+
 from tastypie.api import Api
 
 v1_api = Api(api_name='v1')
@@ -15,6 +20,13 @@ v1_api.register(AwardsResource())
 v1_api.register(BadgesResource())
 v1_api.register(RegisterResource())
 v1_api.register(UserResource())
+
+v1_api.register(QuizResource())
+v1_api.register(QuizPropsResource())
+v1_api.register(QuestionResource())
+v1_api.register(QuizQuestionResource())
+v1_api.register(ResponseResource())
+v1_api.register(QuizAttemptResource())
 
 urlpatterns = patterns('',
 
@@ -38,8 +50,8 @@ urlpatterns = patterns('',
     url(r'^terms/$', 'oppia.views.terms_view', name="oppia_terms"),
     
     url(r'^api/', include(v1_api.urls)),
-    url(r'^quiz/', include('oppia.quiz.urls')),
     
+    # This is a temporary fix for any old urls being used TODO: remove this after everyone has moved to new mobile app
+    url(r'^modules/', include('oppia.urls_modules')),
     
-
 )

@@ -31,6 +31,18 @@ class CourseJSONSerializer(Serializer):
         data = self.to_simple(data, options)
     
         if 'objects' in data:
+            data['courses'] = data['objects']
+            del data['objects']
+
+        return json.dumps(data,  sort_keys=True)
+
+class ModuleJSONSerializer(Serializer):
+
+    def to_json(self, data, options=None):
+        options = options or {}
+        data = self.to_simple(data, options)
+    
+        if 'objects' in data:
             data['modules'] = data['objects']
             del data['objects']
 
@@ -53,5 +65,5 @@ class TagJSONSerializer(Serializer):
             for m in data['courses']:
                 new_courses.append(m['course'])
             del data['courses']
-            data['modules'] = new_courses
+            data['courses'] = new_courses
         return json.dumps(data, sort_keys=True, ensure_ascii=False)

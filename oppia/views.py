@@ -363,7 +363,7 @@ def check_owner(request,id):
     return course
 
 def leaderboard_view(request):
-    lb = Points.get_leaderboard()[:100]
+    lb = Points.get_leaderboard(100)
     paginator = Paginator(lb, 25) # Show 25 contacts per page
 
     # Make sure page request is an int. If not, deliver first page.

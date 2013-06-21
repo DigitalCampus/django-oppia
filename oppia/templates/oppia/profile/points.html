@@ -8,17 +8,17 @@
 
 	{% include "oppia/includes/page_navigator.html" %}
     
-	<div class="quizlist">
-		<div class='quizcell'>{% trans 'table_header_points_date' %}</a></div>
-		<div class='quizcell'>{% trans 'table_header_points' %}</div>
-		<div class='quiztitle'>{% trans 'table_header_points_description' %}</div>
+	<div class="tableheader">
+		<div class='tablecell'>{% trans 'table_header_points_date' %}</a></div>
+		<div class='tablecell'>{% trans 'table_header_points' %}</div>
+		<div class='tabletitle'>{% trans 'table_header_points_description' %}</div>
 		<div style='clear:both'></div>
 	</div>
 	{% for p in page.object_list %}
-		<div class="quizlist">
-			<div class='quizcell'>{{ p.date|date:"d M Y H:i" }}</a></div>
-			<div class='quizcell'>{{ p.points }}</div>
-			<div class='quiztitle'>{{ p.description }}</div>
+		<div class="tablelist">
+			<div class='tablecell'>{{ p.date|date:"d M Y H:i" }}</a></div>
+			<div class='tablecell'>{{ p.points }}</div>
+			<div class='tabletitle'>{{ p.description }}</div>
 			<div style='clear:both'></div>
 		</div>
 	{% endfor %}
