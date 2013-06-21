@@ -13,11 +13,11 @@
 	function drawChart() {
 
 		var data = new google.visualization.DataTable();
-		data.addColumn('string', 'Date');
-		data.addColumn('number', 'Page Completed');
-		data.addColumn('number', 'Quiz Completed');
-		data.addColumn('number', 'Media viewed');
-		data.addColumn('number', 'Total');
+		data.addColumn('string', "{% trans 'Date' %}");
+		data.addColumn('number', "{% trans 'Page completed' %}");
+		data.addColumn('number', "{% trans 'Quiz completed' %}");
+		data.addColumn('number', "{% trans 'Media viewed' %}");
+		data.addColumn('number', "{% trans 'Total' %}");
 		data.addRows( {{ data|length }} );
 		
 		{% for date,count_ap,count_aq,count_m in data %}
@@ -31,7 +31,7 @@
         var chart = new google.visualization.LineChart(document.getElementById('attempts_chart_div'));
         chart.draw(data, {	width: 600, 
                 			height: 400,
-                			vAxis: {title: 'No attempts'},
+                			vAxis: {title: "{% trans 'No. attempts' %}"},
                 			pointSize:5,
                 			chartArea:{left:50,top:50,width:"80%",height:"75%"},
                 			backgroundColor: 'transparent',

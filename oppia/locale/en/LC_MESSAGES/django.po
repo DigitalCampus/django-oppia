@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-20 16:57+0200\n"
+"POT-Creation-Date: 2013-06-21 15:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,123 +17,123 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: models.py:26
+#: models.py:25
 msgid "Course"
 msgstr ""
 
-#: models.py:27
+#: models.py:26
 msgid "Courses"
 msgstr ""
 
-#: models.py:76
+#: models.py:75
 msgid "Tag"
 msgstr ""
 
-#: models.py:77
+#: models.py:76
 msgid "Tags"
 msgstr ""
 
-#: models.py:87
+#: models.py:86
 msgid "Course Tag"
 msgstr ""
 
-#: models.py:88
+#: models.py:87
 msgid "Course Tags"
 msgstr ""
 
-#: models.py:99 templates/oppia/schedule-form.html:7
+#: models.py:98 templates/oppia/schedule-form.html:7
 msgid "Schedule"
 msgstr ""
 
-#: models.py:100
+#: models.py:99
 msgid "Schedules"
 msgstr ""
 
-#: models.py:126
+#: models.py:125
 msgid "ActivitySchedule"
 msgstr ""
 
-#: models.py:127
+#: models.py:126
 msgid "ActivitySchedules"
 msgstr ""
 
-#: models.py:137
+#: models.py:136
 msgid "Section"
 msgstr ""
 
-#: models.py:138
+#: models.py:137
 msgid "Sections"
 msgstr ""
 
-#: models.py:166
+#: models.py:165
 msgid "Activity"
 msgstr ""
 
-#: models.py:167
+#: models.py:166
 msgid "Activities"
 msgstr ""
 
-#: models.py:188 models.py:189
+#: models.py:187 models.py:188
 msgid "Media"
 msgstr ""
 
-#: models.py:208
+#: models.py:207
 msgid "Tracker"
 msgstr ""
 
-#: models.py:209
+#: models.py:208
 msgid "Trackers"
 msgstr ""
 
-#: models.py:301
+#: models.py:300
 msgid "CourseDownload"
 msgstr ""
 
-#: models.py:302
+#: models.py:301
 msgid "CourseDownloads"
 msgstr ""
 
-#: models.py:312
+#: models.py:311
 msgid "Cohort"
 msgstr ""
 
-#: models.py:313
+#: models.py:312
 msgid "Cohorts"
 msgstr ""
 
-#: models.py:367
+#: models.py:366
 msgid "Participant"
 msgstr ""
 
-#: models.py:368
+#: models.py:367
 msgid "Participants"
 msgstr ""
 
-#: models.py:380
+#: models.py:379
 msgid "Message"
 msgstr ""
 
-#: models.py:381
+#: models.py:380
 msgid "Messages"
 msgstr ""
 
-#: models.py:392
+#: models.py:391
 msgid "Badge"
 msgstr ""
 
-#: models.py:393
+#: models.py:392
 msgid "Badges"
 msgstr ""
 
-#: models.py:405
+#: models.py:404
 msgid "Award"
 msgstr ""
 
-#: models.py:406
+#: models.py:405
 msgid "Awards"
 msgstr ""
 
-#: models.py:457 models.py:458
+#: models.py:458 models.py:459
 msgid "Points"
 msgstr ""
 
@@ -161,15 +161,15 @@ msgstr ""
 msgid "There don't appear to be any activities in this upload file."
 msgstr ""
 
-#: api/resources.py:49
+#: api/resources.py:50
 msgid "Username or password missing"
 msgstr ""
 
-#: api/resources.py:57 api/resources.py:60
+#: api/resources.py:58 api/resources.py:61
 msgid "Authentication failure"
 msgstr ""
 
-#: api/resources.py:122
+#: api/resources.py:123
 #, python-format
 msgid "Username \"%s\" already in use, please select another"
 msgstr ""
@@ -246,75 +246,75 @@ msgstr ""
 msgid "Password updated"
 msgstr ""
 
-#: quiz/models.py:26
+#: quiz/models.py:24
 msgid "Question"
 msgstr ""
 
-#: quiz/models.py:27
+#: quiz/models.py:25
 msgid "Questions"
 msgstr ""
 
-#: quiz/models.py:46
+#: quiz/models.py:44
 msgid "Response"
 msgstr ""
 
-#: quiz/models.py:47
+#: quiz/models.py:45
 msgid "Responses"
 msgstr ""
 
-#: quiz/models.py:63
+#: quiz/models.py:61
 msgid "Quiz"
 msgstr ""
 
-#: quiz/models.py:64
+#: quiz/models.py:62
 msgid "Quizzes"
 msgstr ""
 
-#: quiz/models.py:91
+#: quiz/models.py:89
 msgid "QuizQuestion"
 msgstr ""
 
-#: quiz/models.py:92
+#: quiz/models.py:90
 msgid "QuizQuestions"
 msgstr ""
 
-#: quiz/models.py:100
+#: quiz/models.py:98
 msgid "QuizProp"
 msgstr ""
 
-#: quiz/models.py:101
+#: quiz/models.py:99
 msgid "QuizProps"
 msgstr ""
 
-#: quiz/models.py:112
+#: quiz/models.py:110
 msgid "QuestionProp"
 msgstr ""
 
-#: quiz/models.py:113
+#: quiz/models.py:111
 msgid "QuestionProps"
 msgstr ""
 
-#: quiz/models.py:124
+#: quiz/models.py:122
 msgid "ResponseProp"
 msgstr ""
 
-#: quiz/models.py:125
+#: quiz/models.py:123
 msgid "ResponseProps"
 msgstr ""
 
-#: quiz/models.py:142
+#: quiz/models.py:140
 msgid "QuizAttempt"
 msgstr ""
 
-#: quiz/models.py:143
+#: quiz/models.py:141
 msgid "QuizAttempts"
 msgstr ""
 
-#: quiz/models.py:181
+#: quiz/models.py:179
 msgid "QuizAttemptResponse"
 msgstr ""
 
-#: quiz/models.py:182
+#: quiz/models.py:180
 msgid "QuizAttemptResponses"
 msgstr ""
 
@@ -338,6 +338,17 @@ msgstr "Page not found"
 msgid ""
 "\n"
 "<p>The page you were looking for was not found.</p>\n"
+msgstr ""
+
+#: templates/500.html:4
+msgid "page_title_server_error"
+msgstr "Server error"
+
+#: templates/500.html:5
+msgid ""
+"\n"
+"<p>An error has occurred. A message has been sent to the server "
+"administrator.</p>\n"
 msgstr ""
 
 #: templates/base.html:5 templates/includes/header.html:4
@@ -368,13 +379,13 @@ msgstr "Upload"
 msgid "Welcome"
 msgstr "Welcome"
 
-#: templates/includes/header.html:36 templates/oppia/leaderboard.html:14
-#: templates/oppia/includes/leaderboard.html:8
+#: templates/includes/header.html:36 templates/oppia/leaderboard.html:13
+#: templates/oppia/includes/leaderboard.html:7
 msgid "points"
 msgstr "Points"
 
-#: templates/includes/header.html:37 templates/oppia/leaderboard.html:15
-#: templates/oppia/includes/leaderboard.html:9
+#: templates/includes/header.html:37 templates/oppia/leaderboard.html:14
+#: templates/oppia/includes/leaderboard.html:8
 msgid "badges"
 msgstr "Badges"
 
@@ -437,19 +448,51 @@ msgstr "Data"
 msgid "No hits yet"
 msgstr ""
 
-#: templates/oppia/course-activity.html:47
+#: templates/oppia/course-activity.html:16 templates/oppia/home.html:17
+msgid "Date"
+msgstr ""
+
+#: templates/oppia/course-activity.html:17
+msgid "Page completed"
+msgstr ""
+
+#: templates/oppia/course-activity.html:18
+msgid "Quiz completed"
+msgstr ""
+
+#: templates/oppia/course-activity.html:19
+msgid "Media viewed"
+msgstr ""
+
+#: templates/oppia/course-activity.html:20 templates/oppia/home.html:18
+msgid "Total"
+msgstr ""
+
+#: templates/oppia/course-activity.html:34
+msgid "No. attempts"
+msgstr ""
+
+#: templates/oppia/course-activity.html:48
 msgid "course_activity_detail"
 msgstr "Activity detail"
 
-#: templates/oppia/course-activity.html:49
+#: templates/oppia/course-activity.html:50
 msgid "course_manage_schedules"
 msgstr "Manage schedules"
 
-#: templates/oppia/course-activity.html:51
+#: templates/oppia/course-activity.html:52
 msgid "course_manage_cohorts"
 msgstr "Manage cohorts"
 
-#: templates/oppia/course-activity.html:54 templates/oppia/home.html:50
+#: templates/oppia/course-activity.html:57 templates/oppia/home.html:45
+msgid "home_leaderboard"
+msgstr "Leaderboard"
+
+#: templates/oppia/course-activity.html:61 templates/oppia/home.html:50
+msgid "courses_recent_activity"
+msgstr "Recent Activity"
+
+#: templates/oppia/course-activity.html:62 templates/oppia/home.html:51
 msgid "graph_generating"
 msgstr ""
 
@@ -502,31 +545,28 @@ msgid ""
 "\t"
 msgstr ""
 
-#: templates/oppia/home.html:45
-msgid "home_leaderboard"
-msgstr "Leaderboard"
+#: templates/oppia/home.html:47
+msgid "more..."
+msgstr ""
 
-#: templates/oppia/home.html:49
-msgid "courses_recent_activity"
-msgstr "Recent Activity"
-
-#: templates/oppia/home.html:54
+#: templates/oppia/home.html:55
+#, python-format
 msgid ""
 " \n"
 "\t<p align=\"center\"><iframe width=\"400\" height=\"315\" src=\"http://www."
 "youtube.com/embed/wHo5R_RgkG0\" frameborder=\"0\" allowfullscreen></iframe></"
 "p>\n"
-"\t<p align=\"center\">OppiaMobile is a mobile learning platform from <a href="
-"\"http://digital-campus.org\">Digital Campus</a> to deliver learning "
-"content, multimedia and quizzes on your smartphone. All the content and "
-"activities can\n"
+"\t<div style=\"text-align:center; width:50%%; margin:auto;\">\n"
+"\t<p><a href=\"http://oppia-mobile.org\">OppiaMobile</a> is the mobile "
+"learning platform from <a href=\"http://digital-campus.org\">Digital Campus</"
+"a> to deliver learning content, multimedia and quizzes on your smartphone. "
+"All the content and activities can\n"
 "\tbe accessed and used even when you don't have an internet connection "
 "available on your mobile.</p>\n"
 "\t<p>To get started with our courses, <a href=\"https://play.google.com/"
 "store/apps/details?id=org.digitalcampus.mobile.learning\">download the "
 "OppiaMobile app</a>. \n"
-"\tOr <a href=\"http://youtu.be/wHo5R_RgkG0\">watch a video</a> of "
-"OppiaMobile in action.</p>\n"
+"\t</div>\n"
 "\t"
 msgstr ""
 
@@ -648,10 +688,6 @@ msgstr "Tags"
 #: templates/oppia/upload.html:20
 msgid "button_course_upload"
 msgstr "Upload"
-
-#: templates/oppia/includes/leaderboard.html:15
-msgid "more..."
-msgstr ""
 
 #: templates/oppia/includes/page_navigator.html:4
 msgid "previous"
