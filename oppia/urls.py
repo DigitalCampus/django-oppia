@@ -53,5 +53,6 @@ urlpatterns = patterns('',
     
     # This is a temporary fix for any old urls being used TODO: remove this after everyone has moved to new mobile app
     url(r'^modules/', include('oppia.urls_modules')),
+    url(r'^badges/', include('oppia.urls_badges')),
     
 )

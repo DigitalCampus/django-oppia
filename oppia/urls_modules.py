@@ -1,7 +1,7 @@
 # oppia.urls_modules.py
 ''' This is a temporary fix for any old urls being used 
 TODO: remove this after everyone has moved to new mobile app '''
-from django.conf.urls.defaults import patterns, include, url
+from django.conf.urls import patterns, include, url
 from oppia.api.resources import TrackerResource, ModuleResource, ScheduleResource, TagResource, ScorecardResource
 from django.views.generic import TemplateView
 

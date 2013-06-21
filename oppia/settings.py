@@ -14,6 +14,7 @@ def modify(settings):
          r'^terms/$',
          r'^api/', # allow any URL under api/*
          r'^modules/api/', # allow any URL under modules/api/*
+         r'^badges/api/', # allow any URL under badges/api/*
     ) 
     
     
