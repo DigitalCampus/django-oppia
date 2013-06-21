@@ -478,6 +478,8 @@ class Points(models.Model):
             
         for u in users:
             u.badges = Award.get_userawards(u,course)
+            if u.total is None:
+                u.total = 0
         return users
     
     @staticmethod

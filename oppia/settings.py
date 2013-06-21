@@ -1,3 +1,4 @@
+# oppia.settings.py
 
 def modify(settings):
     
@@ -12,7 +13,7 @@ def modify(settings):
          r'^about/$',
          r'^terms/$',
          r'^api/', # allow any URL under api/*
-         r'^quiz/api/', # allow any URL under quiz/api/*
+         r'^modules/api/', # allow any URL under modules/api/*
     ) 
     
     
