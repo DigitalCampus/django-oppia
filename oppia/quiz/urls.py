@@ -1,4 +1,4 @@
-# mquiz/urls.py
+# oppia/quiz/urls.py
 from django.conf.urls import patterns, include, url
 
 from tastypie.api import Api

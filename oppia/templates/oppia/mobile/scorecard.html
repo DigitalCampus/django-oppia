@@ -1,0 +1,86 @@
+{% load display_functions %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OppiaMobile Scorecard</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+    
+<style>
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    color: #444444;
+    font-family: Verdana,'Lucida Grande',Tahoma,Arial,Sans-Serif;
+    font-size: 100%;
+}
+
+h2 {
+	text-align:center;
+	padding-bottom:20px;
+}
+div.kpiheader {
+    clear: both;
+    font-size: 80%;
+    margin: 5px;
+    padding: 0 5px;
+}
+
+div.kpi {
+    border: 1px solid #CCCCCC;
+    clear: both;
+    margin: 5px;
+    padding: 5px;
+} 
+
+div.kpititle {
+    float: left;
+    font-weight: bold;
+    text-align: center;
+    width: 40%;
+}
+div.kpivalue {
+    float: left;
+    font-weight: bold;
+    text-align: center;
+    width: 20%;
+}
+    
+</style>
+</head>
+<body>
+
+<h2>Your scorecard</h2>
+
+<div class="kpiheader">
+	<div class="kpititle">Indicator</div>
+	<div class="kpivalue">No activities</div>
+	<div class="kpivalue">Mins taken</div>
+	<div class="kpivalue">Points scored</div>
+	<div style="clear:both;"></div>
+</div>
+<div class="kpi">
+	<div class="kpititle">Activities</div>
+	<div class="kpivalue">{{ scorecard.acts.views }}</div>
+	<div class="kpivalue">{{ scorecard.acts.secs|secs_to_duration }}</div>
+	<div class="kpivalue">{{ scorecard.acts.points }}</div>
+	<div style="clear:both;"></div>
+</div>
+<div class="kpi">
+	<div class="kpititle">Quizzes</div>
+	<div class="kpivalue">{{ scorecard.quiz.views }}</div>
+	<div class="kpivalue">{{ scorecard.quiz.secs|secs_to_duration }}</div>
+	<div class="kpivalue">{{ scorecard.quiz.points }}</div>
+	<div style="clear:both;"></div>
+</div>
+<div class="kpi">
+	<div class="kpititle">Video</div>
+	<div class="kpivalue">{{ scorecard.media.views }}</div>
+	<div class="kpivalue">{{ scorecard.media.secs|secs_to_duration }}</div>
+	<div class="kpivalue">{{ scorecard.media.points }}</div>
+	<div style="clear:both;"></div>
+</div>
+
+</html>

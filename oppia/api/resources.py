@@ -1,4 +1,10 @@
 # oppia/api/resources.py
+import datetime
+import json
+import os
+import shutil
+import zipfile
+
 from django.conf.urls import url
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
@@ -24,11 +30,7 @@ from oppia.models import Points, Award, Badge
 from oppia.profile.forms import RegisterForm
 from oppia.signals import course_downloaded
 
-import os
-import json
-import zipfile
-import shutil
-import datetime
+
 
 class UserResource(ModelResource):
     points = fields.IntegerField(readonly=True)
