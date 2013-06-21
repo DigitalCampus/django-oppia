@@ -1,33 +1,34 @@
 # oppia/api/resources.py
+from django.conf.urls import url
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
-from django.core import serializers
 from django.conf import settings
+from django.core import serializers
+from django.core.servers.basehttp import FileWrapper
 from django.db import IntegrityError
-from tastypie import fields, bundle
-from tastypie.resources import ModelResource, convert_post_to_patch, dict_strip_unicode_keys
+from django.http import HttpRequest, HttpResponse
+
+from tastypie import fields, bundle, http
 from tastypie.authentication import Authentication,ApiKeyAuthentication
 from tastypie.authorization import Authorization
-from tastypie import http
 from tastypie.exceptions import NotFound, BadRequest, InvalidFilterError, HydrationError, InvalidSortError, ImmediateHttpResponse
-from oppia.models import Activity, Section, Tracker, Course, CourseDownload, Media, Schedule, ActivitySchedule, Cohort, Tag, CourseTag
-from oppia.api.serializers import PrettyJSONSerializer, CourseJSONSerializer, TagJSONSerializer, UserJSONSerializer
-from oppia.api.serializers import ModuleJSONSerializer
 from tastypie.models import ApiKey
-from tastypie.validation import Validation
-from django.http import HttpRequest
-from django.conf.urls import url
+from tastypie.resources import ModelResource, convert_post_to_patch, dict_strip_unicode_keys
 from tastypie.utils import trailing_slash
-from django.http import HttpResponse
-from django.core.servers.basehttp import FileWrapper
+from tastypie.validation import Validation
+
+from oppia.api.serializers import PrettyJSONSerializer, CourseJSONSerializer, TagJSONSerializer, UserJSONSerializer
+from oppia.api.serializers import ModuleJSONSerializer, ScorecardJSONSerializer
+from oppia.models import Activity, Section, Tracker, Course, CourseDownload, Media, Schedule, ActivitySchedule, Cohort, Tag, CourseTag
+from oppia.models import Points, Award, Badge
+from oppia.profile.forms import RegisterForm
+from oppia.signals import course_downloaded
+
 import os
 import json
 import zipfile
 import shutil
 import datetime
-from oppia.models import Points, Award, Badge
-from oppia.signals import course_downloaded
-from oppia.profile.forms import RegisterForm
 
 class UserResource(ModelResource):
     points = fields.IntegerField(readonly=True)
@@ -478,7 +479,7 @@ class ScorecardResource(ModelResource):
         fields = ['first_name', 'last_name']
         authentication = ApiKeyAuthentication()
         authorization = Authorization() 
-        serializer= PrettyJSONSerializer()
+        serializer= ScorecardJSONSerializer()
         always_return_data = True
         include_resource_uri = False
       

@@ -8,7 +8,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-oppia',
-    version='0.1.4',
+    version='0.1.5',
     packages=['oppia','oppia.quiz','oppia.api','oppia.profile','oppia.quiz.api', 'oppia.migrations', 'oppia.quiz.migrations'],
     include_package_data=True,
     license='GNU GPL v3 License',  # example license

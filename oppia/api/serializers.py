@@ -48,6 +48,18 @@ class ModuleJSONSerializer(Serializer):
 
         return json.dumps(data,  sort_keys=True)
 
+class ScorecardJSONSerializer(Serializer):
+
+    def to_json(self, data, options=None):
+        options = options or {}
+        data = self.to_simple(data, options)
+    
+        if 'objects' in data:
+            data['scorecards'] = data['objects']
+            del data['objects']
+
+        return json.dumps(data,  sort_keys=True)
+
 class TagJSONSerializer(Serializer):
     json_indent = 4
     def to_json(self, data, options=None):
