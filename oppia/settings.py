@@ -1,4 +1,4 @@
-# oppia.settings.py
+# oppia/settings.py
 
 def modify(settings):
     
@@ -9,6 +9,7 @@ def modify(settings):
          r'^profile/register/',
          r'^profile/reset/',
          r'^profile/setlang/$',
+         r'^mobile/scorecard/$',
          r'^$',
          r'^about/$',
          r'^terms/$',

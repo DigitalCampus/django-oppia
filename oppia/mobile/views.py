@@ -23,5 +23,8 @@ def scorecard_view(request):
     acts = {'views':Tracker.activity_views(user=request.user,type='page',start_date=start_date,end_date=end_date),
              'secs':Tracker.activity_secs(user=request.user,type='page',start_date=start_date,end_date=end_date),
              'points':Points.page_points(user=request.user,start_date=start_date,end_date=end_date)}
-    scorecard = {'media':media, 'quiz':quiz, 'acts':acts }
+    total = {'views':acts['views'] + quiz['views'] + media['views'],
+             'secs': acts['secs'] + quiz['secs'] + media['secs'],
+             'points': acts['points'] + quiz['points'] + media['points'],}
+    scorecard = {'media':media, 'quiz':quiz, 'acts':acts, 'total': total}
     return render_to_response('oppia/mobile/scorecard.html',{ 'scorecard':scorecard }, context_instance=RequestContext(request))

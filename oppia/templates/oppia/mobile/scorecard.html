@@ -17,10 +17,10 @@ body {
     font-size: 100%;
 }
 
-h2 {
+h2,p {
 	text-align:center;
-	padding-bottom:20px;
-}
+	padding:10px 0;
+}	
 div.kpiheader {
     clear: both;
     font-size: 80%;
@@ -54,9 +54,11 @@ div.kpivalue {
 
 <h2>Your scorecard</h2>
 
+<p>Your scorecard for the last 2 weeks</p>
+
 <div class="kpiheader">
-	<div class="kpititle">Indicator</div>
-	<div class="kpivalue">No activities</div>
+	<div class="kpititle">&nbsp;</div>
+	<div class="kpivalue">No.</div>
 	<div class="kpivalue">Mins taken</div>
 	<div class="kpivalue">Points scored</div>
 	<div style="clear:both;"></div>
@@ -83,4 +85,13 @@ div.kpivalue {
 	<div style="clear:both;"></div>
 </div>
 
+<div class="kpi">
+	<div class="kpititle">Total</div>
+	<div class="kpivalue">{{ scorecard.total.views }}</div>
+	<div class="kpivalue">{{ scorecard.total.secs|secs_to_duration }}</div>
+	<div class="kpivalue">{{ scorecard.total.points }}</div>
+	<div style="clear:both;"></div>
+</div>
+
+</body>
 </html>
