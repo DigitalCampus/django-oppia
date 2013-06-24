@@ -285,6 +285,8 @@ class CourseResource(ModelResource):
         md.user = request.user
         md.course = course
         md.course_version = course.version
+        md.ip = request.META.get('REMOTE_ADDR','0.0.0.0')
+        md.agent= request.META.get('HTTP_USER_AGENT','unknown')
         md.save()
         
         course_downloaded.send(sender=self, course=course, user=request.user)

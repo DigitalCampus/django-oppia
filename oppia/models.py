@@ -295,6 +295,8 @@ class CourseDownload(models.Model):
     course = models.ForeignKey(Course)
     download_date = models.DateTimeField('date downloaded',default=datetime.datetime.now)
     course_version = models.BigIntegerField(default=0)
+    ip = models.IPAddressField(blank=True,default=None)
+    agent = models.TextField(blank=True,default=None)
     
     class Meta:
         verbose_name = _('CourseDownload')
