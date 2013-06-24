@@ -1,4 +1,5 @@
 # oppia/signals.py
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.dispatch import Signal
@@ -12,7 +13,7 @@ def signup_callback(sender, **kwargs):
     created = kwargs.get('created')
     if created:
         p = Points()
-        p.points = 100
+        p.points = settings.OPPIA_POINTS['REGISTER']
         p.type = 'signup'
         p.description = "Initial registration"
         p.user = user
@@ -27,10 +28,10 @@ def quizattempt_callback(sender, **kwargs):
     if quiz.owner == quiz_attempt.user:
         return
     
-    # give 5 points to quiz owner
+    # give points to quiz owner
     if quiz_attempt.is_first_attempt_today() and not quiz.owner.is_superuser:
         p = Points()
-        p.points = 5
+        p.points = settings.OPPIA_POINTS['QUIZ_ATTEMPT_OWNER']
         p.user = quiz.owner
         p.type = 'userquizattempt'
         p.description = quiz_attempt.user.username + " attempted your quiz: " + quiz.title
@@ -55,9 +56,9 @@ def quizattempt_callback(sender, **kwargs):
         cohort = Cohort.student_member_now(course,quiz_attempt.user)
               
     if quiz_attempt.is_first_attempt():
-        # If it's the first time they've attempted this quiz award 20 points
+        # If it's the first time they've attempted this quiz award points
         p = Points()
-        p.points = 20
+        p.points = settings.OPPIA_POINTS['QUIZ_FIRST_ATTEMPT']
         p.type = 'firstattempt'
         p.user = quiz_attempt.user
         p.description = "Bonus points for your first attempt at: " + quiz.title
@@ -77,9 +78,9 @@ def quizattempt_callback(sender, **kwargs):
             p.save()
         
         # if you get 100% on first attempt get bonus of 50 points
-        if quiz_attempt.get_score_percent() == 100:
+        if quiz_attempt.get_score_percent() >= settings.OPPIA_POINTS['QUIZ_FIRST_ATTEMPT_THRESHOLD']:
             p = Points()
-            p.points = 50
+            p.points = settings.OPPIA_POINTS['QUIZ_FIRST_ATTEMPT_BONUS']
             p.type = 'firstattemptbonus'
             p.description = "Bonus points for getting 100% in first attempt at quiz: " + quiz.title
             p.user = quiz_attempt.user
@@ -90,7 +91,7 @@ def quizattempt_callback(sender, **kwargs):
     elif quiz_attempt.is_first_attempt_today():
         # If it's the first time today they've attempted this quiz award 10 points
         p = Points()
-        p.points = 10
+        p.points = settings.OPPIA_POINTS['QUIZ_ATTEMPT']
         p.type = 'quizattempt'
         p.user = quiz_attempt.user
         p.description = "Quiz attempt at: " + quiz.title
@@ -109,7 +110,7 @@ def createquiz_callback(sender, **kwargs):
     
     if created:
         p = Points()
-        p.points = 200
+        p.points = settings.OPPIA_POINTS['QUIZ_CREATED']
         p.type = 'quizcreated'
         p.description = "Quiz created: " + quiz.title
         p.user = quiz.owner
@@ -133,11 +134,11 @@ def tracker_callback(sender, **kwargs):
         return
     
     type = 'activitycompleted'
-    points = 10
+    points = settings.OPPIA_POINTS['ACTIVITY_COMPLETED']
     if tracker.get_activity_type() == "media":
         description =  "Media played: " + tracker.get_activity_title()
         type = 'mediaplayed'
-        points = 20
+        points = settings.OPPIA_POINTS['MEDIA_PLAYED']
     else:
         description = "Activity completed: " + tracker.get_activity_title()    
        
@@ -166,7 +167,7 @@ def course_download_callback(sender, **kwargs):
         return 
     
     p = Points()
-    p.points = 50
+    p.points = settings.OPPIA_POINTS['COURSE_DOWNLOADED']
     p.type = 'coursedownloaded'
     p.description = "Course downloaded: " + course.get_title()
     p.user = user
