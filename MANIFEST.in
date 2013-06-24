@@ -5,3 +5,4 @@ recursive-include oppia/templates *
 recursive-include oppia/templatetags *
 recursive-include docs *
 recursive-include oppia/locale *
+recursive-include oppia/utils *

@@ -7,10 +7,11 @@ from oppia.models import Tracker, Course, Section, Activity, Media
 
 
 def created_quizzes(num):
+    badge_ref = 'create'+str(num)+'quiz'
     try:
-        badge = Badge.objects.get(ref='create'+str(num)+'quiz')
+        badge = Badge.objects.get(ref=badge_ref)
     except Badge.DoesNotExist:
-        print "Badge not found"
+        print "Badge not found: " + badge_ref
         return
     
     # get all the ppl who've created more than 10 quizzes
@@ -35,7 +36,7 @@ def courses_completed():
     try:
         badge = Badge.objects.get(ref='coursecompleted')
     except Badge.DoesNotExist:
-        print "Badge not found"
+        print "Badge not found: coursecompleted"
         return
     
     users = Tracker.objects.values('user_id').distinct()
