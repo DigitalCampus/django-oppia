@@ -15,9 +15,10 @@ Contents:
    
    install
    upgrade
+   api
 
 
-.. automodule:: awards
+
 
 Indices and tables
 ==================

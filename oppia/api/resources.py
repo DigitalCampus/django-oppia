@@ -33,6 +33,24 @@ from oppia.signals import course_downloaded
 
 
 class UserResource(ModelResource):
+    ''' 
+    For user login
+    
+    Usage:
+    POST request to ``http://localhost/api/v1/user/``
+    
+    Required arguments:
+    
+    * ``username``
+    * ``password``
+    
+    Returns (if authorized):
+    
+    Object with ``first_name``, ``last_name``, ``api_key``, ``last_login``, ``username``, ``points`` and ``badges``
+    
+    If unauthorized returns an HTTP 401 response
+    
+    '''
     points = fields.IntegerField(readonly=True)
     badges = fields.IntegerField(readonly=True)
     
@@ -78,6 +96,9 @@ class UserResource(ModelResource):
         return badges 
 
 class RegisterResource(ModelResource):
+    ''' 
+    For user registration
+    '''
     points = fields.IntegerField(readonly=True)
     badges = fields.IntegerField(readonly=True)
     
@@ -139,6 +160,9 @@ class RegisterResource(ModelResource):
         return badges 
     
 class TrackerResource(ModelResource):
+    ''' 
+    Submitting a Tracker
+    '''
     user = fields.ForeignKey(UserResource, 'user')
     points = fields.IntegerField(readonly=True)
     badges = fields.IntegerField(readonly=True)
