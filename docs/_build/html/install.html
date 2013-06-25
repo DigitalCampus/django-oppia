@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Installation &mdash; OppiaMobile-Server 0.1.10 documentation</title>
+    <title>Installation &mdash; OppiaMobile 0.1.10 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -23,9 +23,9 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="OppiaMobile-Server 0.1.10 documentation" href="index.html" />
+    <link rel="top" title="OppiaMobile 0.1.10 documentation" href="index.html" />
     <link rel="next" title="Upgrading" href="upgrade.html" />
-    <link rel="prev" title="Welcome to OppiaMobile-Server’s documentation" href="index.html" /> 
+    <link rel="prev" title="Welcome to the OppiaMobile documentation" href="index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -41,9 +41,9 @@
           <a href="upgrade.html" title="Upgrading"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="index.html" title="Welcome to OppiaMobile-Server’s documentation"
+          <a href="index.html" title="Welcome to the OppiaMobile documentation"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">OppiaMobile-Server 0.1.10 documentation</a> &raquo;</li> 
+        <li><a href="index.html">OppiaMobile 0.1.10 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -54,7 +54,65 @@
             
   <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<p>To install the OppiaMobile server you will first need to have a running Django server installation</p>
+<ul>
+<li><p class="first">To install the OppiaMobile server you will first need to have a running Django server installation with both the <a class="reference external" href="http://south.aeracode.org/">South</a> and <a class="reference external" href="http://tastypieapi.org/">TastyPie</a> libraries installed. We recommend that you use <a class="reference external" href="https://pypi.python.org/pypi/virtualenv/">virtualenv</a>  to sandbox your python libraries from others on your server.</p>
+</li>
+<li><p class="first">Run <tt class="docutils literal"><span class="pre">python</span> <span class="pre">manage</span> <span class="pre">syncdb</span></tt> to create the tables for South and TastyPie in your database (if you haven&#8217;t already done so during their installations)</p>
+</li>
+<li><p class="first">Apply the following fix for TastyPie: <a class="reference external" href="https://github.com/toastdriven/django-tastypie/commit/520b33f39d8878813d8192c4b1a8fd554bca15fa">https://github.com/toastdriven/django-tastypie/commit/520b33f39d8878813d8192c4b1a8fd554bca15fa</a> (this is for TastyPie 0.9.15 - hopefully more recent versions will already include this fix). A patch file (timezone.patch) is included in the oppia/utils directory to make this fix easy for you</p>
+</li>
+<li><p class="first">Install OppiaMobile, run <tt class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">django-oppia</span></tt></p>
+</li>
+<li><dl class="first docutils">
+<dt>Edit your <tt class="docutils literal"><span class="pre">settings.py</span></tt> file as follows:</dt>
+<dd><ul class="first">
+<li><p class="first">Add <tt class="xref py py-mod docutils literal"><span class="pre">oppia</span></tt> and <tt class="xref py py-mod docutils literal"><span class="pre">oppia.quiz</span></tt> to your <cite>INSTALLED_APPS</cite> like this:</p>
+<div class="highlight-python"><pre>INSTALLED_APPS = (
+    ...
+    'oppia',
+    'oppia.quiz'
+)</pre>
+</div>
+</li>
+<li><p class="first">Add the following code:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">oppia</span> <span class="kn">import</span> <span class="n">local_settings</span>
+<span class="n">local_settings</span><span class="o">.</span><span class="n">modify</span><span class="p">(</span><span class="nb">globals</span><span class="p">())</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Ensure you have the following standard Django settings configured:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://docs.djangoproject.com/en/1.5/ref/settings/#login-redirect-url">LOGIN_REDIRECT_URL</a></li>
+<li><a class="reference external" href="https://docs.djangoproject.com/en/1.5/ref/settings/#login-url">SERVER_EMAIL</a></li>
+<li><a class="reference external" href="https://docs.djangoproject.com/en/1.5/ref/settings/#std:setting-SERVER_EMAIL">LOGIN_URL</a></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Add a new setting <tt class="docutils literal"><span class="pre">COURSE_UPLOAD_DIR</span></tt>, this should a read/writable directory by your webserver user, for example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">COURSE_UPLOAD_DIR</span> <span class="o">=</span> <span class="s">&#39;/home/uploads/&#39;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<blockquote class="last">
+<div><p>This directory will store any uploaded courses, but it should not be web accessible (the server app will control access to the downloads)</p>
+</div></blockquote>
+</dd>
+</dl>
+</li>
+<li><p class="first">Include the oppia URLconf in your project <tt class="docutils literal"><span class="pre">urls.py</span></tt> like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">url</span><span class="p">(</span><span class="s">r&#39;^oppia/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s">&#39;oppia.urls&#39;</span><span class="p">)),</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Run <tt class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">migrate</span> <span class="pre">oppia</span></tt> and <tt class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">migrate</span> <span class="pre">oppia.quiz</span></tt> to create the oppia models.</p>
+</li>
+<li><p class="first">Your OppiaMobile server should now be up and running: <a class="reference external" href="http://localhost:8000/oppia/">http://localhost:8000/oppia/</a></p>
+</li>
+<li><p class="first">TODO: add info about running cron</p>
+</li>
+</ul>
 </div>
 
 
@@ -65,7 +123,7 @@
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
   <p class="topless"><a href="index.html"
-                        title="previous chapter">Welcome to OppiaMobile-Server&#8217;s documentation</a></p>
+                        title="previous chapter">Welcome to the OppiaMobile documentation</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="upgrade.html"
                         title="next chapter">Upgrading</a></p>
@@ -104,9 +162,9 @@
           <a href="upgrade.html" title="Upgrading"
              >next</a> |</li>
         <li class="right" >
-          <a href="index.html" title="Welcome to OppiaMobile-Server’s documentation"
+          <a href="index.html" title="Welcome to the OppiaMobile documentation"
              >previous</a> |</li>
-        <li><a href="index.html">OppiaMobile-Server 0.1.10 documentation</a> &raquo;</li> 
+        <li><a href="index.html">OppiaMobile 0.1.10 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

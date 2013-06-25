@@ -43,7 +43,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'OppiaMobile-Server'
+project = u'OppiaMobile'
 copyright = u'2013, Alex Little, Digital Campus'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -171,7 +171,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'OppiaMobile-Serverdoc'
+htmlhelp_basename = 'OppiaMobile'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -190,7 +190,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'OppiaMobile-Server.tex', u'OppiaMobile-Server Documentation',
+  ('index', 'OppiaMobile.tex', u'OppiaMobile Documentation',
    u'Alex Little, Digital Campus', 'manual'),
 ]
 

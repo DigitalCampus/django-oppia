@@ -1,12 +1,12 @@
-.. OppiaMobile-Server documentation master file, created by
+.. OppiaMobile documentation master file, created by
    sphinx-quickstart on Tue Jun 25 16:03:07 2013.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to OppiaMobile-Server's documentation
+Welcome to the OppiaMobile documentation
 ==============================================
 
-OppiaMobile-Server is the server side component for the OppiaMobile learning application
+OppiaMobile-Server is the server side component for the `OppiaMobile`_ learning application
 
 Contents:
 
@@ -27,3 +27,5 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
+
+.. _`OppiaMobile`: http://oppia-mobile.org/
