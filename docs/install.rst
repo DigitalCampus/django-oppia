@@ -36,6 +36,8 @@ Installation
       
 * Run ``python manage.py migrate oppia`` and ``python manage.py migrate oppia.quiz`` to create the oppia models.
 
+* Run ``python manage.py collectstatic`` this will copy all the required javascript, images, css and other static files are copied to your `STATIC_ROOT`
+
 * Your OppiaMobile server should now be up and running: http://localhost:8000/oppia/
 
 * TODO: add info about running cron

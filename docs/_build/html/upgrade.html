@@ -58,6 +58,7 @@
 install the new version (<tt class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">django-oppia</span></tt>).</p>
 <p>If you try to upgrade (<tt class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">--upgrade</span> <span class="pre">django-oppia</span></tt>) , it may also reinstall TastyPie and you&#8217;ll need to reapply the timezone fix.</p>
 <p>Once you have reinstalled OppiaMobile, run <tt class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">migrate</span> <span class="pre">oppia</span></tt> and <tt class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">migrate</span> <span class="pre">oppia.quiz</span></tt> to apply any database updates</p>
+<p>Run <tt class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">collectstatic</span></tt> this will copy all the required javascript, images, css and other static files are copied to your <cite>STATIC_ROOT</cite></p>
 </div>
 
 
