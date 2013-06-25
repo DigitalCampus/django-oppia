@@ -8,6 +8,7 @@ sys.path.insert(0, os.path.join(os.getcwd(), os.pardir))
 SITE_ID = 303
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+SECRET_KEY = "blah"
 
 DATABASES = {"default": {
     "NAME": ":memory:",
