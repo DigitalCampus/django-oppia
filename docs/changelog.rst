@@ -5,6 +5,7 @@ v0.1.13
 -------
 * Add a max upload file size (https://github.com/DigitalCampus/django-oppia/issues/8) - this prevents users uploading large course files which may make it difficult for end users to download on slow connections
 * Updated mobile scorecard page
+* Added extra info on Django admin pages (https://github.com/DigitalCampus/django-oppia/issues/14)
 
 v0.1.12
 -------
