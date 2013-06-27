@@ -1,12 +1,34 @@
+# oppia/forms.py
+import math
 from django import forms
+from django.conf import settings
 from django.contrib.admin import widgets
+from django.utils.translation import ugettext_lazy as _
 from oppia.models import Schedule
 
 class UploadCourseForm(forms.Form):
-    course_file = forms.FileField()
-    tags = forms.CharField(required=True)
+    course_file = forms.FileField(
+                help_text=_('Max size %(size)d Mb') % {'size':int(math.floor(settings.MAX_UPLOAD_SIZE / 1024 / 1024))},
+                required=True,
+                error_messages={'required': _('Please select a file to upload')},)
+    tags = forms.CharField(
+                help_text=_("A comma separated list of tags to help classify your course"),
+                required=True,
+                error_messages={'required': _('Please enter at least one tag')},)
     
-
+    def clean(self):
+        cleaned_data = super(UploadCourseForm, self).clean()
+        file = cleaned_data.get("course_file")
+        
+        if file is not None and file._size > settings.MAX_UPLOAD_SIZE:  
+            size = int(math.floor(settings.MAX_UPLOAD_SIZE / 1024 / 1024))
+            raise forms.ValidationError(_("Your file is larger than the maximum allowed (%(size)d Mb). You may want to check your course for large includes, such as images etc.") % {'size':size, })
+        
+        if file is not None and file.content_type != 'application/zip':
+            raise forms.ValidationError(_("You may only upload a zip file"))
+        
+        return cleaned_data
+        
 class ScheduleForm(forms.ModelForm):
     class Meta:
         model = Schedule

@@ -7,13 +7,17 @@
     <div class="errorWrapper">{{ form.non_field_errors }}</div>
     <div class="fieldWrapper">
         <div class="fieldErrorWrapper">{{ form.course_file.errors }}</div>
-        <div class="fieldLabelWrapper"><label for="id_course_file">{% trans 'form_field_course_file' %}</label></div>
+        <div class="fieldLabelWrapper">
+        	<label for="id_course_file">{% trans 'form_field_course_file' %}</label>
+        </div>
         <div class="fieldInputWrapper">{{ form.course_file }}</div>
+        <div class="fieldInputMessage">{{ form.course_file.help_text }}</div>
     </div>
     <div class="fieldWrapper">
 		<div class="fieldErrorWrapper">{{ form.tags.errors }}</div>
 		<div class="fieldLabelWrapper">{% trans 'form_field_tags' %}</div>
 		<div class="fieldInputWrapper">{{ form.tags }}</div>
+		<div class="fieldInputMessage">{{ form.tags.help_text }}</div>
 	</div>
     <div class="fieldWrapper">
         <div class="fieldLabelWrapper">&nbsp;</div>

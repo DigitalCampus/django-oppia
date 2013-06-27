@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-21 15:00+0200\n"
+"POT-Creation-Date: 2013-06-27 11:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,34 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: forms.py:11
+#, python-format
+msgid "Max size %(size)d Mb"
+msgstr ""
+
+#: forms.py:13
+msgid "Please select a file to upload"
+msgstr ""
+
+#: forms.py:15
+msgid "A comma separated list of tags to help classify your course"
+msgstr ""
+
+#: forms.py:17
+msgid "Please enter at least one tag"
+msgstr ""
+
+#: forms.py:25
+#, python-format
+msgid ""
+"Your file is larger than the maximum allowed (%(size)s Mb). You may want to "
+"check your course for large includes, such as images etc."
+msgstr ""
+
+#: forms.py:28
+msgid "You may only upload a zip file"
+msgstr ""
 
 #: models.py:25
 msgid "Course"
@@ -85,91 +113,87 @@ msgstr ""
 msgid "Trackers"
 msgstr ""
 
-#: models.py:300
+#: models.py:302
 msgid "CourseDownload"
 msgstr ""
 
-#: models.py:301
+#: models.py:303
 msgid "CourseDownloads"
 msgstr ""
 
-#: models.py:311
+#: models.py:313
 msgid "Cohort"
 msgstr ""
 
-#: models.py:312
+#: models.py:314
 msgid "Cohorts"
 msgstr ""
 
-#: models.py:366
+#: models.py:368
 msgid "Participant"
 msgstr ""
 
-#: models.py:367
+#: models.py:369
 msgid "Participants"
 msgstr ""
 
-#: models.py:379
+#: models.py:381
 msgid "Message"
 msgstr ""
 
-#: models.py:380
+#: models.py:382
 msgid "Messages"
 msgstr ""
 
-#: models.py:391
+#: models.py:393
 msgid "Badge"
 msgstr ""
 
-#: models.py:392
+#: models.py:394
 msgid "Badges"
 msgstr ""
 
-#: models.py:404
+#: models.py:406
 msgid "Award"
 msgstr ""
 
-#: models.py:405
+#: models.py:407
 msgid "Awards"
 msgstr ""
 
-#: models.py:458 models.py:459
+#: models.py:460 models.py:461
 msgid "Points"
 msgstr ""
 
-#: uploader.py:21
-msgid "You may only upload a zip file"
-msgstr ""
-
-#: uploader.py:33
+#: uploader.py:29
 msgid "Invalid course zip file"
 msgstr ""
 
-#: uploader.py:38
+#: uploader.py:34
 msgid "Zip file does not contain a module.xml file"
 msgstr ""
 
-#: uploader.py:64
+#: uploader.py:60
 msgid "Sorry, only the original owner may update this course"
 msgstr ""
 
-#: uploader.py:69
+#: uploader.py:65
 msgid "A newer version of this course already exists"
 msgstr ""
 
-#: uploader.py:97
+#: uploader.py:93
 msgid "There don't appear to be any activities in this upload file."
 msgstr ""
 
-#: api/resources.py:50
+#: api/resources.py:71
 msgid "Username or password missing"
 msgstr ""
 
-#: api/resources.py:58 api/resources.py:61
+#: api/resources.py:79 api/resources.py:82
 msgid "Authentication failure"
 msgstr ""
 
-#: api/resources.py:123
+#: api/resources.py:147
 #, python-format
 msgid "Username \"%s\" already in use, please select another"
 msgstr ""
@@ -238,11 +262,11 @@ msgstr ""
 msgid "Email address already in use"
 msgstr ""
 
-#: profile/views.py:73
+#: profile/views.py:77
 msgid "Profile updated"
 msgstr ""
 
-#: profile/views.py:80
+#: profile/views.py:84
 msgid "Password updated"
 msgstr ""
 
@@ -677,15 +701,15 @@ msgid ""
 "<p>Your course was successfully uploaded</p>\n"
 msgstr ""
 
-#: templates/oppia/upload.html:10
+#: templates/oppia/upload.html:11
 msgid "form_field_course_file"
 msgstr "Course file"
 
-#: templates/oppia/upload.html:15
+#: templates/oppia/upload.html:18
 msgid "form_field_tags"
 msgstr "Tags"
 
-#: templates/oppia/upload.html:20
+#: templates/oppia/upload.html:24
 msgid "button_course_upload"
 msgstr "Upload"
 

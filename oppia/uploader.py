@@ -17,10 +17,6 @@ def handle_uploaded_file(f, extract_path, request):
         for chunk in f.chunks():
             destination.write(chunk)
             
-    if f.content_type != 'application/zip':
-        messages.info(request,_("You may only upload a zip file"))
-        return False
-
     zip = zipfile.ZipFile(zipfilepath)
     zip.extractall(path=extract_path)      
     

@@ -31,7 +31,8 @@ def modify(settings):
         'MEDIA_PLAYED':20, # for playing media
         'COURSE_DOWNLOADED':50, # for downloading a course
         }
-                            
+       
+    settings['MAX_UPLOAD_SIZE'] = 5242880 # max course file upload size - in bytes          
                                 
     
     
