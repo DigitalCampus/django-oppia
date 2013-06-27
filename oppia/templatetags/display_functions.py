@@ -11,6 +11,17 @@ def get_index(start,index):
 
 @register.filter(name='secs_to_duration')
 def secs_to_duration(secs):
-    minutes = int(math.floor(secs/60))
-    seconds = int(secs - (minutes*60))
-    return str(minutes)+'\''+str(seconds)+'"'
+    if secs == 0:
+        return "-"
+    
+    if secs < 60:
+        return "< 1 min"
+    
+    if secs < 120:
+        return "1 min"
+    
+    return str(int(math.floor(secs/60))) + " mins"
+    
+    #minutes = int(math.floor(secs/60))
+    #seconds = int(secs - (minutes*60))
+    #return str(minutes)+'\''+str(seconds)+'"'
