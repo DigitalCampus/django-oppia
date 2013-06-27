@@ -178,7 +178,10 @@ class QuizAttemptResponse(models.Model):
     class Meta:
         verbose_name = _('QuizAttemptResponse')
         verbose_name_plural = _('QuizAttemptResponses')
-        
+       
+    def __unicode__(self):
+        return self.quizattempt
+     
     def get_score_percent(self):
         if self.question.get_maxscore() > 0:
             percent = int(round(float(self.score) * 100 / self.question.get_maxscore()))

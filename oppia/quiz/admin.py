@@ -6,13 +6,37 @@ from oppia.quiz.models import QuizProps, QuizQuestion, QuizAttempt, QuizAttemptR
 
 class QuizAttemptAdmin(admin.ModelAdmin):
     list_display = ('user', 'quiz', 'attempt_date', 'score', 'ip', 'instance_id')
+    
+class QuestionPropsAdmin(admin.ModelAdmin):
+    list_display = ('question', 'name', 'value')
 
-admin.site.register(Quiz)
-admin.site.register(Question)
-admin.site.register(Response)
-admin.site.register(ResponseProps)
-admin.site.register(QuestionProps)
-admin.site.register(QuizProps)
-admin.site.register(QuizQuestion)
+class ResponsePropsAdmin(admin.ModelAdmin):
+    list_display = ('response', 'name', 'value')
+
+class QuizPropsAdmin(admin.ModelAdmin):
+    list_display = ('quiz', 'name', 'value')
+  
+class QuestionAdmin(admin.ModelAdmin):
+    list_display = ('owner', 'title', 'type','created_date','lastupdated_date')     
+ 
+class QuizAttemptResponseAdmin(admin.ModelAdmin):
+    list_display = ('quizattempt', 'question', 'score', 'text')   
+ 
+class QuizAdmin(admin.ModelAdmin):
+    list_display = ('title', 'description', 'owner', 'created_date','lastupdated_date','draft','deleted') 
+ 
+class ResponseAdmin(admin.ModelAdmin):
+    list_display = ('question', 'title', 'owner', 'created_date','lastupdated_date','score','order')
+ 
+class QuizQuestionAdmin(admin.ModelAdmin):
+    list_display = ('quiz', 'question', 'order')
+              
+admin.site.register(Quiz, QuizAdmin)
+admin.site.register(Question,QuestionAdmin)
+admin.site.register(Response,ResponseAdmin)
+admin.site.register(ResponseProps, ResponsePropsAdmin)
+admin.site.register(QuestionProps, QuestionPropsAdmin)
+admin.site.register(QuizProps, QuizPropsAdmin)
+admin.site.register(QuizQuestion, QuizQuestionAdmin)
 admin.site.register(QuizAttempt,QuizAttemptAdmin)
-admin.site.register(QuizAttemptResponse)
+admin.site.register(QuizAttemptResponse, QuizAttemptResponseAdmin)
