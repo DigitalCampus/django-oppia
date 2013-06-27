@@ -6,16 +6,18 @@
 Welcome to the OppiaMobile documentation
 ==============================================
 
-OppiaMobile-Server is the server side component for the `OppiaMobile`_ learning application
+OppiaMobile-Server is the server side component for the `OppiaMobile <http://oppia-mobile.org/>`_ learning application
 
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    
    install
    upgrade
    api
+   
+   changelog
 
 
 
@@ -26,6 +28,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
-
-.. _`OppiaMobile`: http://oppia-mobile.org/

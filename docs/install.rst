@@ -36,7 +36,13 @@ Installation
 
 * Include the oppia URLconf in your project ``urls.py`` like this::
 
+      url(r'^/', include('oppia.urls')),
+      
+  It is expected that you would like the app running from the root of your domain name. If this is not the case, then you can alternatively use::
+      
       url(r'^oppia/', include('oppia.urls')),
+      
+  However, you may need to change some of the ``LOGIN_EXEMPT_URLS`` in the ``local_settings.py`` file
       
 * Run ``python manage.py migrate oppia`` and ``python manage.py migrate oppia.quiz`` to create the oppia models.
 
@@ -44,12 +50,24 @@ Installation
 
 * Your OppiaMobile server should now be up and running: http://localhost:8000/oppia/
 
-* TODO: add info about running cron
+* Finally you should set up a `cron <https://en.wikipedia.org/wiki/Cron>`_ task to run the ``oppia/cron.py`` script regularly. 
+  This script tidies up the course download directory of temporary download files and also checks which course badges should be awarded.
+
+	* Exactly how you call ``cron.py`` will depend on your environment, but as an example on my development server (and using virtualenv) I use a wrapper shell script with the following content::
+	
+		#!/bin/bash
+
+		PYTHONPATH="${PYTHONPATH}:/home/alex/data/development/" # <- path to my Django project root
+
+		export PYTHONPATH
+		export DJANGO_SETTINGS_MODULE=home_alexlittle_net.settings # <- my main Django settings (relative to the Django project path)
+
+		cd /home/alex/data/development/home_alexlittle_net/venv/ # <- path to my virtualenv
+		source bin/activate # <- activate the virtualenv
+
+		python /home/alex/data/development/django-oppia/oppia/cron.py # <- full path to the cron.py file 
+		
+	  This script handles activating the virtualenv correctly and ensuring all the Django modules/apps can be accessed. I then have my cron call this wrapper script every 2 hours.
+
+
    
-
-
-
-
-
-
-
