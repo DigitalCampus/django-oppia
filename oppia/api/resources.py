@@ -13,6 +13,7 @@ from django.core import serializers
 from django.core.servers.basehttp import FileWrapper
 from django.db import IntegrityError
 from django.http import HttpRequest, HttpResponse
+from django.utils.translation import ugettext_lazy as _
 
 from tastypie import fields, bundle, http
 from tastypie.authentication import Authentication,ApiKeyAuthentication
