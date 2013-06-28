@@ -166,7 +166,7 @@ For posting a quiz attempt
 		"score":0,"text":"Orlando"},{"question_id":"410","score":0,"text": 
 		"Jacksonville beaches"},{"question_id":"411","score":10,"text":"Dade  
 		County"}]}'  
-		"http://localhost/python/api/v1/quizattempt/?username=XXXX&api_key=XXXXXXXX"
+		"http://localhost/api/v1/quizattempt/?username=XXXX&api_key=XXXXXXXX"
  
 
 QuizProps
@@ -293,7 +293,7 @@ For adding a possible response to a quiz question
 
 	curl --dump-header - -H "Accept: application/json" -H "Content-Type: 
 		application/json" -X  POST --data 
-		'{"question":"/python/api/v1/question/1829/","title":"my response", 
+		'{"question":"/api/v1/question/1829/","title":"my response", 
 		"order":5, "score":10, "props":[{"name":"feedback","value":"Correct, 
 		well done!"}]}' 
 		"http://localhost/api/v1/response/?username=XXXX&api_key=XXXXXXXX"
@@ -360,9 +360,9 @@ For submitting a track of an activity
 		"data": "", 
 		"digest": "ddeee1c1eec4f842b8b704dbd5889dcc", 
 		"points": 656, 
-		"resource_uri": "/python/modules/api/v1/tracker/3912/", 
+		"resource_uri": "/api/v1/tracker/3912/", 
 		"tracker_date": "2013-06-28T18:44:08.845329", 
-		"user": "/python/api/v1/user/1/"
+		"user": "/api/v1/user/1/"
 	}
 			
 User
@@ -391,6 +391,6 @@ For logging a user in
 		"last_login": "2013-06-28T18:50:35.523539", 
 		"last_name": "user", 
 		"points": 100, 
-		"resource_uri": "/python/api/v1/user/317/", 
+		"resource_uri": "/api/v1/user/317/", 
 		"username": "demo"
 	}
