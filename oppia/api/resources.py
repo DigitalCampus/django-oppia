@@ -144,7 +144,6 @@ class RegisterResource(ModelResource):
             key = ApiKey.objects.get(user = u)
             bundle.data['api_key'] = key.key
         except IntegrityError:
-            # TODO translation
             raise BadRequest(_(u'Username "%s" already in use, please select another' % username))
         del bundle.data['passwordagain']
         del bundle.data['password']
