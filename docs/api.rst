@@ -333,6 +333,64 @@ For getting the tags and number of courses for each tag
 Tracker
 -------
 
+For submitting a track of an activity
+
+* Available methods: POST
+* Parameters:
+
+	* ``username`` - required
+	* ``api_key`` - required
+	* ``digest`` - required 
+	* ``data`` - optional - a JSON object of additional data to store along with
+	  this tracker object
+	* ``completed`` - optional - 0 or 1 (defaults to 0)
+
+* Example CURL POST request::
+
+	curl --dump-header - -H "Accept: application/json" -H "Content-Type: 
+		application/json" -X POST --data '{"digest":
+		"ddeee1c1eec4f842b8b704dbd5889dcc","data":"{}","completed":1}' 
+		"http://localhost/api/v1/tracker/?username=XXXX&api_key=XXXXXXXX"
+
+* POST request will return a JSON object in the following format::
+
+	{
+		"badges": 8, 
+		"completed": false, 
+		"data": "", 
+		"digest": "ddeee1c1eec4f842b8b704dbd5889dcc", 
+		"points": 656, 
+		"resource_uri": "/python/modules/api/v1/tracker/3912/", 
+		"tracker_date": "2013-06-28T18:44:08.845329", 
+		"user": "/python/api/v1/user/1/"
+	}
+			
 User
 ----
 
+For logging a user in
+
+* Available methods: POST
+* Parameters:
+
+	* ``username`` - required
+	* ``password`` - required
+
+* Example CURL POST request::
+
+	curl --dump-header - -H "Accept: application/json" -H "Content-Type: 
+		application/json" -X POST --data '{"username":"myusername","password":
+		"mypassword"}' "http://localhost/api/v1/user/"
+
+* POST request will return a JSON object in the following format::
+
+	{
+		"api_key": "9fa50a5e49cce4d0a5ab89c6c21faec284630e7b", 
+		"badges": 0, 
+		"first_name": "demo", 
+		"last_login": "2013-06-28T18:50:35.523539", 
+		"last_name": "user", 
+		"points": 100, 
+		"resource_uri": "/python/api/v1/user/317/", 
+		"username": "demo"
+	}
