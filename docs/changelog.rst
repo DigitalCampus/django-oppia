@@ -1,6 +1,10 @@
 Change Log
 ============
 
+v0.1.14
+-------
+* Fix: https://github.com/DigitalCampus/django-oppia/issues/19
+
 v0.1.13
 -------
 * Add a max upload file size (https://github.com/DigitalCampus/django-oppia/issues/8) - this prevents users uploading large course files which may make it difficult for end users to download on slow connections
