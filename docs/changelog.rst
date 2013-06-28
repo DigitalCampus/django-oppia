@@ -1,6 +1,10 @@
 Change Log
 ============
 
+v0.1.15
+-------
+* 
+
 v0.1.14
 -------
 * Fix: https://github.com/DigitalCampus/django-oppia/issues/19
