@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.test.client import Client
 
+from tastypie.models import ApiKey
 from tastypie.test import ResourceTestCase
 
 class BasicTest(TestCase):
@@ -190,16 +191,34 @@ class AwardsResourceTest(ResourceTestCase):
     
     def setUp(self):
         super(AwardsResourceTest, self).setUp()
+        user = User.objects.get(username='user')
+        api_key = ApiKey.objects.get(user = user)
+        self.auth_data = {
+            'username': 'user',
+            'api_key': api_key.key,
+        }
         
     # check post not allowed
     def test_post_invalid(self):
         self.assertHttpMethodNotAllowed(self.api_client.post('/api/v1/awards/', format='json', data={}))
         
     # check unauthorized
+    def test_unauthorized(self):
+        data = {
+            'username': 'user',
+            'api_key': '1234',
+        }
+        self.assertHttpUnauthorized(self.api_client.get('/api/v1/awards/', format='json', data=data))
     
-    # check get works when no awards
-    
-    # check get works with awards
+    # check authorized
+    def test_authorized(self):
+        self.assertHttpOK(self.api_client.get('/api/v1/awards/', format='json', data=self.auth_data))
+        
+    # check returning a set of objects - expecting zero
+    def test_no_objects(self):
+        resp = self.api_client.get('/api/v1/awards/', format='json', data=self.auth_data)
+        self.assertEqual(len(self.deserialize(resp)['objects']), 0)
+        
     
 # BadgesResource
 # CourseResource
