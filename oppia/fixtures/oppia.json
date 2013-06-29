@@ -1,0 +1,1319 @@
+[
+{
+    "pk": 20, 
+    "model": "oppia.course", 
+    "fields": {
+        "title": "{\"en\": \"Micro solar power system\"}", 
+        "filename": "solar1-20130629131353.zip", 
+        "version": 20130629131353, 
+        "user": 318, 
+        "created_date": "2013-06-29T13:15:16", 
+        "shortname": "solar1", 
+        "lastupdated_date": "2013-06-29T13:15:16", 
+        "badge_icon": ""
+    }
+},
+{
+    "pk": 21, 
+    "model": "oppia.course", 
+    "fields": {
+        "title": "{\"en\": \"Postnatal Care\"}", 
+        "filename": "pnc-20130629133538.zip", 
+        "version": 20130629133538, 
+        "user": 318, 
+        "created_date": "2013-06-29T13:38:48", 
+        "shortname": "pnc", 
+        "lastupdated_date": "2013-06-29T13:38:48", 
+        "badge_icon": ""
+    }
+},
+{
+    "pk": 8, 
+    "model": "oppia.tag", 
+    "fields": {
+        "name": "Solar", 
+        "created_by": 318, 
+        "created_date": "2013-06-29T13:15:18"
+    }
+},
+{
+    "pk": 9, 
+    "model": "oppia.tag", 
+    "fields": {
+        "name": "Renewable", 
+        "created_by": 318, 
+        "created_date": "2013-06-29T13:15:18"
+    }
+},
+{
+    "pk": 10, 
+    "model": "oppia.tag", 
+    "fields": {
+        "name": "Engineering", 
+        "created_by": 318, 
+        "created_date": "2013-06-29T13:15:18"
+    }
+},
+{
+    "pk": 11, 
+    "model": "oppia.tag", 
+    "fields": {
+        "name": "Healthcare", 
+        "created_by": 318, 
+        "created_date": "2013-06-29T13:38:50"
+    }
+},
+{
+    "pk": 12, 
+    "model": "oppia.tag", 
+    "fields": {
+        "name": "Ethiopia", 
+        "created_by": 318, 
+        "created_date": "2013-06-29T13:38:50"
+    }
+},
+{
+    "pk": 14, 
+    "model": "oppia.coursetag", 
+    "fields": {
+        "course": 20, 
+        "tag": 8
+    }
+},
+{
+    "pk": 15, 
+    "model": "oppia.coursetag", 
+    "fields": {
+        "course": 20, 
+        "tag": 9
+    }
+},
+{
+    "pk": 16, 
+    "model": "oppia.coursetag", 
+    "fields": {
+        "course": 20, 
+        "tag": 10
+    }
+},
+{
+    "pk": 17, 
+    "model": "oppia.coursetag", 
+    "fields": {
+        "course": 21, 
+        "tag": 11
+    }
+},
+{
+    "pk": 18, 
+    "model": "oppia.coursetag", 
+    "fields": {
+        "course": 21, 
+        "tag": 12
+    }
+},
+{
+    "pk": 730, 
+    "model": "oppia.section", 
+    "fields": {
+        "course": 20, 
+        "order": 1, 
+        "title": "{\"en\": \"Introduction and parts needed\"}"
+    }
+},
+{
+    "pk": 731, 
+    "model": "oppia.section", 
+    "fields": {
+        "course": 20, 
+        "order": 2, 
+        "title": "{\"en\": \"Building the enclosure\"}"
+    }
+},
+{
+    "pk": 732, 
+    "model": "oppia.section", 
+    "fields": {
+        "course": 20, 
+        "order": 3, 
+        "title": "{\"en\": \"Add wires to the voltmeter and PV panel socket\"}"
+    }
+},
+{
+    "pk": 733, 
+    "model": "oppia.section", 
+    "fields": {
+        "course": 20, 
+        "order": 4, 
+        "title": "{\"en\": \"Wire the solar PV module\"}"
+    }
+},
+{
+    "pk": 734, 
+    "model": "oppia.section", 
+    "fields": {
+        "course": 20, 
+        "order": 5, 
+        "title": "{\"en\": \"Insert components\"}"
+    }
+},
+{
+    "pk": 735, 
+    "model": "oppia.section", 
+    "fields": {
+        "course": 20, 
+        "order": 6, 
+        "title": "{\"en\": \"Wiring diagram\"}"
+    }
+},
+{
+    "pk": 736, 
+    "model": "oppia.section", 
+    "fields": {
+        "course": 20, 
+        "order": 7, 
+        "title": "{\"en\": \"Test and place in the sun\"}"
+    }
+},
+{
+    "pk": 737, 
+    "model": "oppia.section", 
+    "fields": {
+        "course": 21, 
+        "order": 1, 
+        "title": "{\"en\": \"Postnatal Care at the Health Post and in the Community\", \"sw\": \"Huduma Baada ya Kujifungua katia Kituo cha Afya na katika Jamii\"}"
+    }
+},
+{
+    "pk": 738, 
+    "model": "oppia.section", 
+    "fields": {
+        "course": 21, 
+        "order": 2, 
+        "title": "{\"en\": \"Special Care for Preterm and Low Birth Weight Babies\"}"
+    }
+},
+{
+    "pk": 739, 
+    "model": "oppia.section", 
+    "fields": {
+        "course": 21, 
+        "order": 3, 
+        "title": "{\"en\": \"Routine Postnatal Care for the Mother\"}"
+    }
+},
+{
+    "pk": 740, 
+    "model": "oppia.section", 
+    "fields": {
+        "course": 21, 
+        "order": 4, 
+        "title": "{\"en\": \"Routine Screening of Newborns for Life-Threatening Conditions\"}"
+    }
+},
+{
+    "pk": 741, 
+    "model": "oppia.section", 
+    "fields": {
+        "course": 21, 
+        "order": 5, 
+        "title": "{\"en\": \"The Normal Puerperium\"}"
+    }
+},
+{
+    "pk": 742, 
+    "model": "oppia.section", 
+    "fields": {
+        "course": 21, 
+        "order": 6, 
+        "title": "{\"en\": \"The Abnormal Puerperium\"}"
+    }
+},
+{
+    "pk": 743, 
+    "model": "oppia.section", 
+    "fields": {
+        "course": 21, 
+        "order": 7, 
+        "title": "{\"en\": \"Preparation for Postnatal Care\"}"
+    }
+},
+{
+    "pk": 744, 
+    "model": "oppia.section", 
+    "fields": {
+        "course": 21, 
+        "order": 8, 
+        "title": "{\"en\": \"Breastfeeding, the Warm Chain Principle and Counselling HIV-Positive Mothers\"}"
+    }
+},
+{
+    "pk": 745, 
+    "model": "oppia.section", 
+    "fields": {
+        "course": 21, 
+        "order": 9, 
+        "title": "{\"en\": \"Making a Referral for Postnatal Care\"}"
+    }
+},
+{
+    "pk": 3091, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 730, 
+        "type": "page", 
+        "order": 1, 
+        "digest": "13bf820700c39e822add5bbc94153cd1", 
+        "title": "{\"en\": \"Introduction\"}"
+    }
+},
+{
+    "pk": 3092, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 730, 
+        "type": "page", 
+        "order": 2, 
+        "digest": "3165b417af614af5f0e605b877f10a34", 
+        "title": "{\"en\": \"Parts required\"}"
+    }
+},
+{
+    "pk": 3093, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 730, 
+        "type": "page", 
+        "order": 3, 
+        "digest": "00845854f5ae8a65b65a039acb867789", 
+        "title": "{\"en\": \"Tools required\"}"
+    }
+},
+{
+    "pk": 3094, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 731, 
+        "type": "page", 
+        "order": 1, 
+        "digest": "3c25e975c1865f5a21dd4a92f1f0e9c6", 
+        "title": "{\"en\": \"How to build the enclosure\"}"
+    }
+},
+{
+    "pk": 3095, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 731, 
+        "type": "page", 
+        "order": 2, 
+        "digest": "90835ae4bf5c8109e9069802aca2b7c2", 
+        "title": "{\"en\": \"Enclosure photo 1\"}"
+    }
+},
+{
+    "pk": 3096, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 731, 
+        "type": "page", 
+        "order": 3, 
+        "digest": "bd4d5eda9b85952a71b00e6f95221abf", 
+        "title": "{\"en\": \"Enclosure photo 2\"}"
+    }
+},
+{
+    "pk": 3097, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 731, 
+        "type": "page", 
+        "order": 4, 
+        "digest": "e825034832e80caa76fa8a2c1e9358e0", 
+        "title": "{\"en\": \"Enclosure photo 3\"}"
+    }
+},
+{
+    "pk": 3098, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 731, 
+        "type": "page", 
+        "order": 5, 
+        "digest": "07744647db4c04acb07ee9026cdba32b", 
+        "title": "{\"en\": \"Enclosure photo 4\"}"
+    }
+},
+{
+    "pk": 3099, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 731, 
+        "type": "page", 
+        "order": 6, 
+        "digest": "5cbdb8cfd67f96ea1d12e90cd6874f84", 
+        "title": "{\"en\": \"Enclosure photo 5\"}"
+    }
+},
+{
+    "pk": 3100, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 731, 
+        "type": "page", 
+        "order": 7, 
+        "digest": "f452c86c214d3a18607c389e543623ee", 
+        "title": "{\"en\": \"Enclosure photo 6\"}"
+    }
+},
+{
+    "pk": 3101, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 731, 
+        "type": "page", 
+        "order": 8, 
+        "digest": "16ed4435cc757dd0f362fc2a98af0bc3", 
+        "title": "{\"en\": \"Enclosure photo 7\"}"
+    }
+},
+{
+    "pk": 3102, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 731, 
+        "type": "page", 
+        "order": 9, 
+        "digest": "b365aac93569a198ad441e5fe0966847", 
+        "title": "{\"en\": \"Enclosure photo 8\"}"
+    }
+},
+{
+    "pk": 3103, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 732, 
+        "type": "page", 
+        "order": 1, 
+        "digest": "8c3f56dfd09e7fa9271d6bf88110062e", 
+        "title": "{\"en\": \"Wiring voltmeter and PV panel socket\"}"
+    }
+},
+{
+    "pk": 3104, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 732, 
+        "type": "page", 
+        "order": 2, 
+        "digest": "7fa1affe81f13f93b4d21bbb2a9d1eda", 
+        "title": "{\"en\": \"Wiring photo 1\"}"
+    }
+},
+{
+    "pk": 3105, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 732, 
+        "type": "page", 
+        "order": 3, 
+        "digest": "dc69a6f6d934ee864d70b33dddb30d77", 
+        "title": "{\"en\": \"Wiring photo 2\"}"
+    }
+},
+{
+    "pk": 3106, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 732, 
+        "type": "page", 
+        "order": 4, 
+        "digest": "ebf446e7962fc8501917fda873350a83", 
+        "title": "{\"en\": \"Wiring photo 3\"}"
+    }
+},
+{
+    "pk": 3107, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 732, 
+        "type": "page", 
+        "order": 5, 
+        "digest": "f2bc235c714163f740a7cb64bc56c9e6", 
+        "title": "{\"en\": \"Wiring photo 4\"}"
+    }
+},
+{
+    "pk": 3108, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 732, 
+        "type": "page", 
+        "order": 6, 
+        "digest": "eea7abbf84a6bb581cf3639ab43e80d2", 
+        "title": "{\"en\": \"Wiring photo 5\"}"
+    }
+},
+{
+    "pk": 3109, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 733, 
+        "type": "page", 
+        "order": 1, 
+        "digest": "1ec330e2e5e6eaa2185f94194f65f364", 
+        "title": "{\"en\": \"Wiring the solar PV module\"}"
+    }
+},
+{
+    "pk": 3110, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 733, 
+        "type": "page", 
+        "order": 2, 
+        "digest": "0b7d4d3c84150c2a301f77f81ba7df6f", 
+        "title": "{\"en\": \"Wiring PV photo 1\"}"
+    }
+},
+{
+    "pk": 3111, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 733, 
+        "type": "page", 
+        "order": 3, 
+        "digest": "8a23ba637e38d5cf758bf71b1f9a71d3", 
+        "title": "{\"en\": \"Wiring PV photo 2\"}"
+    }
+},
+{
+    "pk": 3112, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 733, 
+        "type": "page", 
+        "order": 4, 
+        "digest": "21e304e5a190daae7acbd9448cd786f6", 
+        "title": "{\"en\": \"Wiring PV photo 3\"}"
+    }
+},
+{
+    "pk": 3113, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 733, 
+        "type": "page", 
+        "order": 5, 
+        "digest": "6b561a90a47ac594b9a1ee5d52839408", 
+        "title": "{\"en\": \"Wiring PV photo 4\"}"
+    }
+},
+{
+    "pk": 3114, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 733, 
+        "type": "page", 
+        "order": 6, 
+        "digest": "a09cb6fe8e728da1d0c4c9fd08fd9f64", 
+        "title": "{\"en\": \"Wiring PV photo 5\"}"
+    }
+},
+{
+    "pk": 3115, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 733, 
+        "type": "page", 
+        "order": 7, 
+        "digest": "d2c5caf903425eda723a748c814f7d86", 
+        "title": "{\"en\": \"Wiring PV photo 6\"}"
+    }
+},
+{
+    "pk": 3116, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 734, 
+        "type": "page", 
+        "order": 1, 
+        "digest": "1dfd276a9e314cbd5d73226cce6f6679", 
+        "title": "{\"en\": \"Assembling the components\"}"
+    }
+},
+{
+    "pk": 3117, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 734, 
+        "type": "page", 
+        "order": 2, 
+        "digest": "d92aaaca07fbc63349d7b840ef41010f", 
+        "title": "{\"en\": \"Assembly photo 1\"}"
+    }
+},
+{
+    "pk": 3118, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 734, 
+        "type": "page", 
+        "order": 3, 
+        "digest": "5a06a33053453082766b128d01f82971", 
+        "title": "{\"en\": \"Assembly photo 2\"}"
+    }
+},
+{
+    "pk": 3119, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 734, 
+        "type": "page", 
+        "order": 4, 
+        "digest": "5c0364c0b8febed931bb357dcaa589c1", 
+        "title": "{\"en\": \"Assembly photo 3\"}"
+    }
+},
+{
+    "pk": 3120, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 734, 
+        "type": "page", 
+        "order": 5, 
+        "digest": "de976836d753aa09b5abd0dc00d2600d", 
+        "title": "{\"en\": \"Assembly photo 4\"}"
+    }
+},
+{
+    "pk": 3121, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 734, 
+        "type": "page", 
+        "order": 6, 
+        "digest": "1a200e0781bdec9982125d9b3c53ad20", 
+        "title": "{\"en\": \"Assembly photo 5\"}"
+    }
+},
+{
+    "pk": 3122, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 734, 
+        "type": "page", 
+        "order": 7, 
+        "digest": "2bac6a80ecde020c911b500f67dd115a", 
+        "title": "{\"en\": \"Assembly photo 6\"}"
+    }
+},
+{
+    "pk": 3123, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 734, 
+        "type": "page", 
+        "order": 8, 
+        "digest": "a08251245146de09ef1ed2f3c9ac3bfe", 
+        "title": "{\"en\": \"Assembly photo 7\"}"
+    }
+},
+{
+    "pk": 3124, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 734, 
+        "type": "page", 
+        "order": 9, 
+        "digest": "33d7a1558d3613ea64cac4d6a034b255", 
+        "title": "{\"en\": \"Assembly photo 8\"}"
+    }
+},
+{
+    "pk": 3125, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 735, 
+        "type": "page", 
+        "order": 1, 
+        "digest": "883f34d3f29b117520feea2390cb0f9e", 
+        "title": "{\"en\": \"Wiring diagram\"}"
+    }
+},
+{
+    "pk": 3126, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 735, 
+        "type": "page", 
+        "order": 2, 
+        "digest": "3d386e84a14202fb3e062de0b38295db", 
+        "title": "{\"en\": \"Wiring diagram photo 1\"}"
+    }
+},
+{
+    "pk": 3127, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 735, 
+        "type": "page", 
+        "order": 3, 
+        "digest": "771c00702076f4550829753d56819c8d", 
+        "title": "{\"en\": \"Wiring diagram photo 2\"}"
+    }
+},
+{
+    "pk": 3128, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 735, 
+        "type": "page", 
+        "order": 4, 
+        "digest": "2dd84e04d67daa5513816f17d7775907", 
+        "title": "{\"en\": \"Wiring diagram photo 3\"}"
+    }
+},
+{
+    "pk": 3129, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 735, 
+        "type": "page", 
+        "order": 5, 
+        "digest": "8d7b2dc58141f570460b2e4aef4d4292", 
+        "title": "{\"en\": \"Wiring diagram photo 4\"}"
+    }
+},
+{
+    "pk": 3130, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 735, 
+        "type": "page", 
+        "order": 6, 
+        "digest": "b23f80db88899798d9a89bee27099508", 
+        "title": "{\"en\": \"Wiring diagram photo 5\"}"
+    }
+},
+{
+    "pk": 3131, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 736, 
+        "type": "page", 
+        "order": 1, 
+        "digest": "174fbde6d20dddbb5472e03afcdd5482", 
+        "title": "{\"en\": \"Set up in the sun\"}"
+    }
+},
+{
+    "pk": 3132, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 736, 
+        "type": "page", 
+        "order": 2, 
+        "digest": "7633b45706c72519b9a5cf306c9a5847", 
+        "title": "{\"en\": \"Setting up photo 1\"}"
+    }
+},
+{
+    "pk": 3133, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 736, 
+        "type": "page", 
+        "order": 3, 
+        "digest": "e6b22d4b89de4e57b92b7d198defa353", 
+        "title": "{\"en\": \"Setting up photo 2\"}"
+    }
+},
+{
+    "pk": 3134, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 736, 
+        "type": "page", 
+        "order": 4, 
+        "digest": "eee364b608a7caafda0cd3ebebe8c84c", 
+        "title": "{\"en\": \"Setting up photo 3\"}"
+    }
+},
+{
+    "pk": 3135, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 737, 
+        "type": "page", 
+        "order": 1, 
+        "digest": "26464b056413ff104ab4a80832006325", 
+        "title": "{\"en\": \"Intro\", \"sw\": \"Utangulizi\"}"
+    }
+},
+{
+    "pk": 3136, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 737, 
+        "type": "page", 
+        "order": 2, 
+        "digest": "f8194df13e5f58f492e72fd6de7a4fec", 
+        "title": "{\"en\": \"Videos\"}"
+    }
+},
+{
+    "pk": 3137, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 737, 
+        "type": "page", 
+        "order": 3, 
+        "digest": "2c77a267fa7d14213f6f8c42331fbb0f", 
+        "title": "{\"en\": \"Outcomes\", \"sw\": \"Matokeo\"}"
+    }
+},
+{
+    "pk": 3138, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 737, 
+        "type": "page", 
+        "order": 4, 
+        "digest": "61dd17770d65080def1aa477ae245961", 
+        "title": "{\"en\": \"Summary\"}"
+    }
+},
+{
+    "pk": 3139, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 737, 
+        "type": "quiz", 
+        "order": 5, 
+        "digest": "755c2484279c5e16d7dcc9c6b940d0cc", 
+        "title": "{\"en\": \"SAQs\"}"
+    }
+},
+{
+    "pk": 3140, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 738, 
+        "type": "page", 
+        "order": 1, 
+        "digest": "f2eb95796e39baf8662aade980373fb6", 
+        "title": "{\"en\": \"Intro\"}"
+    }
+},
+{
+    "pk": 3141, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 738, 
+        "type": "page", 
+        "order": 2, 
+        "digest": "38941bb51fa1cd5853c01a7041861c8d", 
+        "title": "{\"en\": \"Outcomes\"}"
+    }
+},
+{
+    "pk": 3142, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 738, 
+        "type": "page", 
+        "order": 3, 
+        "digest": "627eae8410d62e254a954475276438c5", 
+        "title": "{\"en\": \"Summary\"}"
+    }
+},
+{
+    "pk": 3143, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 739, 
+        "type": "page", 
+        "order": 1, 
+        "digest": "95e0166b868fe121a831d771dd8fc902", 
+        "title": "{\"en\": \"Intro\"}"
+    }
+},
+{
+    "pk": 3144, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 739, 
+        "type": "page", 
+        "order": 2, 
+        "digest": "5aa86c3206bb7d116bdcba5b5f8f2716", 
+        "title": "{\"en\": \"Outcomes\"}"
+    }
+},
+{
+    "pk": 3145, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 739, 
+        "type": "page", 
+        "order": 3, 
+        "digest": "7fb777601627ba70a6ee7165d19c63fd", 
+        "title": "{\"en\": \"Summary\"}"
+    }
+},
+{
+    "pk": 3146, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 740, 
+        "type": "page", 
+        "order": 1, 
+        "digest": "4e94b3c74c0fcb9e75b5fe7c4626b118", 
+        "title": "{\"en\": \"Intro\"}"
+    }
+},
+{
+    "pk": 3147, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 740, 
+        "type": "page", 
+        "order": 2, 
+        "digest": "defc1ef22cea061fe66dc4d9406503f0", 
+        "title": "{\"en\": \"Videos\"}"
+    }
+},
+{
+    "pk": 3148, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 740, 
+        "type": "page", 
+        "order": 3, 
+        "digest": "267daae079996fabbeffcd1423558401", 
+        "title": "{\"en\": \"Outcomes\"}"
+    }
+},
+{
+    "pk": 3149, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 740, 
+        "type": "page", 
+        "order": 4, 
+        "digest": "f63bc1af93949361496500b419cfddd3", 
+        "title": "{\"en\": \"Summary\"}"
+    }
+},
+{
+    "pk": 3150, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 741, 
+        "type": "page", 
+        "order": 1, 
+        "digest": "457b2a9b24db709a6e7cc1cf36641c5a", 
+        "title": "{\"en\": \"Intro\"}"
+    }
+},
+{
+    "pk": 3151, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 741, 
+        "type": "page", 
+        "order": 2, 
+        "digest": "ad095a02e09ba8cdbf4fa339aa82738b", 
+        "title": "{\"en\": \"Outcomes\"}"
+    }
+},
+{
+    "pk": 3152, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 741, 
+        "type": "page", 
+        "order": 3, 
+        "digest": "d4de6495dbedf27024aa826716949780", 
+        "title": "{\"en\": \"Summary\"}"
+    }
+},
+{
+    "pk": 3153, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 741, 
+        "type": "quiz", 
+        "order": 4, 
+        "digest": "b113b80b55f71b2dd44d028a71f9370e", 
+        "title": "{\"en\": \"SAQs\"}"
+    }
+},
+{
+    "pk": 3154, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 742, 
+        "type": "page", 
+        "order": 1, 
+        "digest": "26c590a5eacfb85a79dd322c1c88911d", 
+        "title": "{\"en\": \"Intro\"}"
+    }
+},
+{
+    "pk": 3155, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 742, 
+        "type": "page", 
+        "order": 2, 
+        "digest": "723c3a309b7ae7ba795293cedf21dc65", 
+        "title": "{\"en\": \"Videos\"}"
+    }
+},
+{
+    "pk": 3156, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 742, 
+        "type": "page", 
+        "order": 3, 
+        "digest": "bdfb3bc135bf24ac5ea99194fed77fc5", 
+        "title": "{\"en\": \"Outcomes\"}"
+    }
+},
+{
+    "pk": 3157, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 742, 
+        "type": "page", 
+        "order": 4, 
+        "digest": "64a2a6b54b66d2b8fa73b9bfc9775d5c", 
+        "title": "{\"en\": \"Summary\"}"
+    }
+},
+{
+    "pk": 3158, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 743, 
+        "type": "page", 
+        "order": 1, 
+        "digest": "c692c495ec38f6f90829d078ec8665c9", 
+        "title": "{\"en\": \"Intro\"}"
+    }
+},
+{
+    "pk": 3159, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 743, 
+        "type": "page", 
+        "order": 2, 
+        "digest": "957f6fbb0c818ce556928a65a979b09b", 
+        "title": "{\"en\": \"Video\"}"
+    }
+},
+{
+    "pk": 3160, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 743, 
+        "type": "page", 
+        "order": 3, 
+        "digest": "e0dec12278348a008c7c4d97cead7e49", 
+        "title": "{\"en\": \"Outcomes\"}"
+    }
+},
+{
+    "pk": 3161, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 743, 
+        "type": "page", 
+        "order": 4, 
+        "digest": "866b305cf0f9515145c0cfc035081c94", 
+        "title": "{\"en\": \"Summary\"}"
+    }
+},
+{
+    "pk": 3162, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 744, 
+        "type": "page", 
+        "order": 1, 
+        "digest": "b893394f2b7da8b16010edf78d6b59eb", 
+        "title": "{\"en\": \"Intro\"}"
+    }
+},
+{
+    "pk": 3163, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 744, 
+        "type": "page", 
+        "order": 2, 
+        "digest": "177a29ebf6bf48cb0b59b2a8fcebefd7", 
+        "title": "{\"en\": \"Videos\"}"
+    }
+},
+{
+    "pk": 3164, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 744, 
+        "type": "page", 
+        "order": 3, 
+        "digest": "4048d64d3d74c83676c3a77f3dd5dd29", 
+        "title": "{\"en\": \"Outcomes\"}"
+    }
+},
+{
+    "pk": 3165, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 744, 
+        "type": "page", 
+        "order": 4, 
+        "digest": "31494a32b91b371a3633c2bbf3a3f0eb", 
+        "title": "{\"en\": \"Summary\"}"
+    }
+},
+{
+    "pk": 3166, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 744, 
+        "type": "quiz", 
+        "order": 5, 
+        "digest": "74ff568f95ddcfeb4ac809012eea7b5e", 
+        "title": "{\"en\": \"SAQs\"}"
+    }
+},
+{
+    "pk": 3167, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 745, 
+        "type": "page", 
+        "order": 1, 
+        "digest": "45cc75275468b0b31749fd9a3eb43037", 
+        "title": "{\"en\": \"Intro\"}"
+    }
+},
+{
+    "pk": 3168, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 745, 
+        "type": "page", 
+        "order": 2, 
+        "digest": "4377d95076eff13f4c857e1b055e57fe", 
+        "title": "{\"en\": \"Videos\"}"
+    }
+},
+{
+    "pk": 3169, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 745, 
+        "type": "page", 
+        "order": 3, 
+        "digest": "415a5c24745c8c3e8319767be5fb2fe9", 
+        "title": "{\"en\": \"Outcomes\"}"
+    }
+},
+{
+    "pk": 3170, 
+    "model": "oppia.activity", 
+    "fields": {
+        "section": 745, 
+        "type": "page", 
+        "order": 4, 
+        "digest": "18ec12e5653a40431f453cce35811fa4", 
+        "title": "{\"en\": \"Summary\"}"
+    }
+},
+{
+    "pk": 333, 
+    "model": "oppia.media", 
+    "fields": {
+        "course": 21, 
+        "download_url": "http://mquiz.org/media/pnc/ghmp-basic-skills-20121001.m4v", 
+        "digest": "3ec4d8ab03c3c6bd66b3805f0b11225b", 
+        "filename": "ghmp-basic-skills-20121001.m4v"
+    }
+},
+{
+    "pk": 334, 
+    "model": "oppia.media", 
+    "fields": {
+        "course": 21, 
+        "download_url": "http://mquiz.org/media/pnc/maf-newborn-care-firsthours-20121001.m4v", 
+        "digest": "f38e0c82d7a0eba13fc82d2d619b2e9b", 
+        "filename": "maf-newborn-care-firsthours-20121001.m4v"
+    }
+},
+{
+    "pk": 335, 
+    "model": "oppia.media", 
+    "fields": {
+        "course": 21, 
+        "download_url": "http://mquiz.org/media/pnc/ghmp-newborn-physical-exam-20121001.m4v", 
+        "digest": "6192c03b6926863b6fd33322d3eef47a", 
+        "filename": "ghmp-newborn-physical-exam-20121001.m4v"
+    }
+},
+{
+    "pk": 336, 
+    "model": "oppia.media", 
+    "fields": {
+        "course": 21, 
+        "download_url": "http://mquiz.org/media/pnc/ghmp-breathing-problems-20121001.m4v", 
+        "digest": "730f51769500f17edef92590aded55f2", 
+        "filename": "ghmp-breathing-problems-20121001.m4v"
+    }
+},
+{
+    "pk": 337, 
+    "model": "oppia.media", 
+    "fields": {
+        "course": 21, 
+        "download_url": "http://mquiz.org/media/pnc/ghmp-umbilical-infections-20121001.m4v", 
+        "digest": "a1c713c974f6af754921f278098e4125", 
+        "filename": "ghmp-umbilical-infections-20121001.m4v"
+    }
+},
+{
+    "pk": 338, 
+    "model": "oppia.media", 
+    "fields": {
+        "course": 21, 
+        "download_url": "http://mquiz.org/media/pnc/maf-neonatal-resus-skilled-20121001.m4v", 
+        "digest": "40392c8f7d0f580b7c4dabd9afe3eeaa", 
+        "filename": "maf-neonatal-resus-skilled-20121001.m4v"
+    }
+},
+{
+    "pk": 339, 
+    "model": "oppia.media", 
+    "fields": {
+        "course": 21, 
+        "download_url": "http://mquiz.org/media/pnc/maf-newborn-care-full-20121001.m4v", 
+        "digest": "c158b3b7a26315a0db32f750a1146b00", 
+        "filename": "maf-newborn-care-full-20121001.m4v"
+    }
+},
+{
+    "pk": 340, 
+    "model": "oppia.media", 
+    "fields": {
+        "course": 21, 
+        "download_url": "http://mquiz.org/media/pnc/maf-pph-skilled-20121001.m4v", 
+        "digest": "37ffaa9db6436bd4f1ee72ab4bda13a3", 
+        "filename": "maf-pph-skilled-20121001.m4v"
+    }
+},
+{
+    "pk": 341, 
+    "model": "oppia.media", 
+    "fields": {
+        "course": 21, 
+        "download_url": "http://mquiz.org/media/pnc/maf-breastfeeding-20121001.m4v", 
+        "digest": "95b4bcecd816039877cdd3fdf4b71c7", 
+        "filename": "maf-breastfeeding-20121001.m4v"
+    }
+},
+{
+    "pk": 342, 
+    "model": "oppia.media", 
+    "fields": {
+        "course": 21, 
+        "download_url": "http://mquiz.org/media/pnc/ghmp-referal-20121001.m4v", 
+        "digest": "ab8c806f6bb1cdbe92010f576f8c2331", 
+        "filename": "ghmp-referal-20121001.m4v"
+    }
+},
+{
+    "pk": 1, 
+    "model": "oppia.badge", 
+    "fields": {
+        "name": "Created 10 quizzes", 
+        "points": 100, 
+        "ref": "create10quiz", 
+        "default_icon": "badges/trophy.png", 
+        "allow_multiple_awards": true, 
+        "description": "Created 10 quizzes"
+    }
+},
+{
+    "pk": 2, 
+    "model": "oppia.badge", 
+    "fields": {
+        "name": "Learning module completed", 
+        "points": 500, 
+        "ref": "modulecompleted", 
+        "default_icon": "badges/trophy_1.png", 
+        "allow_multiple_awards": false, 
+        "description": "Learning module completed"
+    }
+},
+{
+    "pk": 6063, 
+    "model": "oppia.points", 
+    "fields": {
+        "cohort": null, 
+        "description": "Initial registration", 
+        "type": "signup", 
+        "course": null, 
+        "points": 100, 
+        "user": 319, 
+        "date": "2013-06-29T13:04:10", 
+        "data": ""
+    }
+},
+{
+    "pk": 6064, 
+    "model": "oppia.points", 
+    "fields": {
+        "cohort": null, 
+        "description": "Quiz created: PNC 1 SAQs", 
+        "type": "quizcreated", 
+        "course": null, 
+        "points": 200, 
+        "user": 319, 
+        "date": "2013-06-29T13:35:39", 
+        "data": ""
+    }
+},
+{
+    "pk": 6065, 
+    "model": "oppia.points", 
+    "fields": {
+        "cohort": null, 
+        "description": "Quiz created: PNC 5 SAQs", 
+        "type": "quizcreated", 
+        "course": null, 
+        "points": 200, 
+        "user": 319, 
+        "date": "2013-06-29T13:35:51", 
+        "data": ""
+    }
+},
+{
+    "pk": 6066, 
+    "model": "oppia.points", 
+    "fields": {
+        "cohort": null, 
+        "description": "Quiz created: PNC 8 SAQs", 
+        "type": "quizcreated", 
+        "course": null, 
+        "points": 200, 
+        "user": 319, 
+        "date": "2013-06-29T13:36:05", 
+        "data": ""
+    }
+}
+]

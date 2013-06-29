@@ -20,7 +20,7 @@ class QuestionAdmin(admin.ModelAdmin):
     list_display = ('owner', 'title', 'type','created_date','lastupdated_date')     
  
 class QuizAttemptResponseAdmin(admin.ModelAdmin):
-    list_display = ('quizattempt', 'question', 'score', 'text')   
+    list_display = ('question', 'score', 'text')   
  
 class QuizAdmin(admin.ModelAdmin):
     list_display = ('title', 'description', 'owner', 'created_date','lastupdated_date','draft','deleted') 
@@ -38,5 +38,5 @@ admin.site.register(ResponseProps, ResponsePropsAdmin)
 admin.site.register(QuestionProps, QuestionPropsAdmin)
 admin.site.register(QuizProps, QuizPropsAdmin)
 admin.site.register(QuizQuestion, QuizQuestionAdmin)
-admin.site.register(QuizAttempt,QuizAttemptAdmin)
+admin.site.register(QuizAttempt, QuizAttemptAdmin)
 admin.site.register(QuizAttemptResponse, QuizAttemptResponseAdmin)

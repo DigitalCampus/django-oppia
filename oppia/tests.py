@@ -1,7 +1,7 @@
 # oppia/tests.py
+from django.contrib.auth.models import User
 from django.test import TestCase
 from django.test.client import Client
-from django.utils.translation import ugettext_lazy as _
 
 from tastypie.test import ResourceTestCase
 
@@ -160,18 +160,47 @@ class RegisterResourceTest(ResourceTestCase):
         }
         self.assertHttpBadRequest(self.api_client.post('/api/v1/register/', format='json', data=data))
     
+    # test created (all data valid)
+    def test_post_created(self):
+        data = {
+            'username': 'demo2',
+            'password': 'secret',
+            'passwordagain': 'secret',
+            'email': 'demo@demo.com',
+            'firstname': 'demo',
+            'lastname': 'user',
+        }
+        self.assertHttpCreated(self.api_client.post('/api/v1/register/', format='json', data=data))
 
 class ActivityScheduleResourceTest(ResourceTestCase):    
     def setUp(self):
         super(ActivityScheduleResourceTest, self).setUp()
       
-    # check post not allowed
-    def test_not_found(self):
-        self.assertHttpNotFound(self.api_client.post('/api/v1/activityschedule', format='json', data={})) 
+    # check get not allowed
+    def test_get_not_found(self):
+        self.assertHttpNotFound(self.api_client.get('/api/v1/activityschedule', format='json')) 
         
-# TODO add tests for ...
-# ActivityScheduleResource
+    # check post not allowed
+    def test_post_not_found(self):
+        self.assertHttpNotFound(self.api_client.post('/api/v1/activityschedule', format='json', data={}))
+        
 # AwardsResource
+class AwardsResourceTest(ResourceTestCase): 
+    fixtures = ['user.json', 'oppia.json']   
+    
+    def setUp(self):
+        super(AwardsResourceTest, self).setUp()
+        
+    # check post not allowed
+    def test_post_invalid(self):
+        self.assertHttpMethodNotAllowed(self.api_client.post('/api/v1/awards/', format='json', data={}))
+        
+    # check unauthorized
+    
+    # check get works when no awards
+    
+    # check get works with awards
+    
 # BadgesResource
 # CourseResource
 # CourseTagResource
@@ -191,6 +220,10 @@ class ActivityScheduleResourceTest(ResourceTestCase):
 # ResponsePropsResource
 # QuizPropsResource
 # QuizAttemptResource
+
+# signals tests
+
+# cron/badges tests
 
 
 
