@@ -1,6 +1,7 @@
 # oppia/tests.py
 from django.test import TestCase
 from django.test.client import Client
+from django.utils.translation import ugettext_lazy as _
 
 from tastypie.test import ResourceTestCase
 
@@ -28,21 +29,146 @@ class BasicTest(TestCase):
 class RegisterResourceTest(ResourceTestCase):    
     def setUp(self):
         super(RegisterResourceTest, self).setUp()
-        self.post_data = {
-            'username': 'demo2',
-            'password': 'secret',
-            'email': 'second-post',
-        }
-        
+    
+    # check get method not allowed  
     def test_get_list_invalid(self):
-        # check get method not allowed
         self.assertHttpMethodNotAllowed(self.api_client.get('/api/v1/register/', format='json'))
     
-    def test_post_with_invalid_data(self):
-        # check posting with not all fields
-        data = self.post_data
-        self.assertHttpBadRequest(self.api_client.post('/api/v1/register/', format='json', data=self.post_data))
+    # check posting with no username
+    def test_post_no_username(self):
+        data = {
+            'password': 'secret',
+            'email': 'demo@demo.com',
+            'passwordagain': 'secret',
+            'firstname': 'demo',
+            'lastname': 'user',
+        }
+        self.assertHttpBadRequest(self.api_client.post('/api/v1/register/', format='json', data=data))
+    
+    # check posting with no password
+    def test_post_no_password(self):
+        data = {
+            'username': 'demo2',
+            'email': 'demo@demo.com',
+            'passwordagain': 'secret',
+            'firstname': 'demo',
+            'lastname': 'user',
+        }
+        self.assertHttpBadRequest(self.api_client.post('/api/v1/register/', format='json', data=data))
+       
+    # check posting with no email 
+    def test_post_no_email(self):
+        data = {
+            'username': 'demo2',
+            'password': 'secret',
+            'passwordagain': 'secret',
+            'firstname': 'demo',
+            'lastname': 'user',
+        }
+        self.assertHttpBadRequest(self.api_client.post('/api/v1/register/', format='json', data=data))
+     
+    # check posting with invalid email
+    def test_post_invalid_email(self):
+        data = {
+            'username': 'demo2',
+            'password': 'secret',
+            'email': 'thisisnotanemailaddress',
+            'passwordagain': 'secret',
+            'firstname': 'demo',
+            'lastname': 'user',
+        }
+        self.assertHttpBadRequest(self.api_client.post('/api/v1/register/', format='json', data=data))  
+     
+    # check posting with no passwordagain  
+    def test_post_no_passwordagain(self):
+        data = {
+            'username': 'demo2',
+            'password': 'secret',
+            'email': 'demo@demo.com',
+            'firstname': 'demo',
+            'lastname': 'user',
+        }
+        self.assertHttpBadRequest(self.api_client.post('/api/v1/register/', format='json', data=data)) 
+        
+    # test no firstname
+    def test_post_no_firstname(self):
+        data = {
+            'username': 'demo2',
+            'password': 'secret',
+            'passwordagain': 'secret',
+            'email': 'demo@demo.com',
+            'lastname': 'user',
+        }
+        self.assertHttpBadRequest(self.api_client.post('/api/v1/register/', format='json', data=data))
+        
+    # test firstname long enough
+    def test_post_firstname_length(self):
+        data = {
+            'username': 'demo2',
+            'password': 'secret',
+            'passwordagain': 'secret',
+            'email': 'demo@demo.com',
+            'firstname': 'd',
+            'lastname': 'user',
+        }
+        self.assertHttpBadRequest(self.api_client.post('/api/v1/register/', format='json', data=data))
+        
+    # test no lastname
+    def test_post_no_lastname(self):
+        data = {
+            'username': 'demo2',
+            'password': 'secret',
+            'passwordagain': 'secret',
+            'email': 'demo@demo.com',
+            'firstname': 'demo',
+        }
+        self.assertHttpBadRequest(self.api_client.post('/api/v1/register/', format='json', data=data))
+        
+    # test password long enough
+    def test_post_password_length(self):
+        data = {
+            'username': 'demo2',
+            'password': 's',
+            'passwordagain': 's',
+            'email': 'demo@demo.com',
+            'firstname': 'demo',
+            'lastname': 'user',
+        }
+        self.assertHttpBadRequest(self.api_client.post('/api/v1/register/', format='json', data=data))
+    
+    # test password and password again not matching
+    def test_post_password_match(self):
+        data = {
+            'username': 'demo2',
+            'password': 's',
+            'passwordagain': 'secret',
+            'email': 'demo@demo.com',
+            'firstname': 'demo',
+            'lastname': 'user',
+        }
+        self.assertHttpBadRequest(self.api_client.post('/api/v1/register/', format='json', data=data))
+        
+    # test lastname not long enough
+    def test_post_lastname_length(self):
+        data = {
+            'username': 'demo2',
+            'password': 'secret',
+            'passwordagain': 'secret',
+            'email': 'demo@demo.com',
+            'firstname': 'demo',
+            'lastname': 'u',
+        }
+        self.assertHttpBadRequest(self.api_client.post('/api/v1/register/', format='json', data=data))
+    
 
+class ActivityScheduleResourceTest(ResourceTestCase):    
+    def setUp(self):
+        super(ActivityScheduleResourceTest, self).setUp()
+      
+    # check post not allowed
+    def test_not_found(self):
+        self.assertHttpNotFound(self.api_client.post('/api/v1/activityschedule', format='json', data={})) 
+        
 # TODO add tests for ...
 # ActivityScheduleResource
 # AwardsResource
@@ -50,7 +176,6 @@ class RegisterResourceTest(ResourceTestCase):
 # CourseResource
 # CourseTagResource
 # ModuleResource
-# PointsResource
 # PointsResource
 # ScheduleResource
 # ScorecardResource
@@ -64,7 +189,6 @@ class RegisterResourceTest(ResourceTestCase):
 # QuestionPropsResource
 # ResponseResource
 # ResponsePropsResource
-# QuizPropsResource
 # QuizPropsResource
 # QuizAttemptResource
 

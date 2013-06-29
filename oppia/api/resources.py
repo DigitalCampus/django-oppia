@@ -113,7 +113,13 @@ class RegisterResource(ModelResource):
         include_resource_uri = False
          
     def obj_create(self, bundle, **kwargs):
-        data = { 'username': bundle.data['username'],
+        required = ['username','password','passwordagain', 'email', 'firstname', 'lastname']
+        for r in required:
+            try:
+                bundle.data[r]
+            except KeyError:
+                raise BadRequest(_(u'Please enter your %s') % r)
+        data = {'username': bundle.data['username'],
                 'password': bundle.data['password'],
                 'password_again': bundle.data['passwordagain'],
                 'email': bundle.data['email'],
