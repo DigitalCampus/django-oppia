@@ -43,7 +43,7 @@ Installation
 
 * Include the oppia URLconf in your project ``urls.py`` like this::
 
-      url(r'^/', include('oppia.urls')),
+      url(r'^', include('oppia.urls')),
       
   It is expected that you would like the app running from the root of your 
   domain name. If this is not the case, then you can alternatively use::
