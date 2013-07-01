@@ -26,6 +26,8 @@ class BasicTest(TestCase):
         response = self.client.post('/profile/login/', {'username': 'demo', 'password': 'secret'})
         self.assertEqual(response.status_code, 200)
 
+    # TODO test login redirected correctly for all pages
+    # except those with login exempt 
         
 class RegisterResourceTest(ResourceTestCase):    
     fixtures = ['user.json']
@@ -318,11 +320,14 @@ class CourseResourceTest(ResourceTestCase):
         self.assertValidJSON(resp.content)
         response_data = self.deserialize(resp)
         self.assertTrue('courses' in response_data)
-        # should ahve 2 courses with the data set
+        # should have 2 courses with the test data set
         self.assertEquals(len(response_data['courses']),2)
         # check each course had a download url
         for course in response_data['courses']:
             self.assertTrue('url' in course)
+            self.assertTrue('shortname' in course)
+            self.assertTrue('title' in course)
+            self.assertTrue('version' in course)
        
     # test course file found     
     def test_course_download_file_found(self):
@@ -353,7 +358,78 @@ class CourseTagResourceTest(ResourceTestCase):
 # TODO PointsResource
 # TODO ScheduleResource
 # TODO ScorecardResource
+
 # TODO TagResource
+class TagResourceTest(ResourceTestCase): 
+    fixtures = ['user.json', 'oppia.json'] 
+    
+    def setUp(self):
+        super(TagResourceTest, self).setUp()
+        user = User.objects.get(username='user')
+        api_key = ApiKey.objects.get(user = user)
+        self.auth_data = {
+            'username': 'user',
+            'api_key': api_key.key,
+        }
+        self.url = '/api/v1/tag/'
+        
+    # Post invalid
+    def test_post_invalid(self):
+        self.assertHttpMethodNotAllowed(self.api_client.post(self.url, format='json', data={}))
+        
+    # test unauthorized
+    def test_unauthorized(self):
+        data = {
+            'username': 'user',
+            'api_key': '1234',
+        }
+        self.assertHttpUnauthorized(self.api_client.get(self.url, format='json', data=data))
+    
+    # test authorized
+    def test_authorized(self):
+        resp = self.api_client.get(self.url, format='json', data=self.auth_data)
+        self.assertHttpOK(resp)
+    
+    # test valid json response and with 5 tags
+    def test_has_tags(self):
+        resp = self.api_client.get(self.url, format='json', data=self.auth_data)
+        self.assertHttpOK(resp)
+        self.assertValidJSON(resp.content)
+        response_data = self.deserialize(resp)
+        self.assertTrue('tags' in response_data)
+        # should have 5 tags with the test data set
+        self.assertEquals(len(response_data['tags']),5)
+        # check each course had a download url
+        for tag in response_data['tags']:
+            self.assertTrue('count' in tag)
+            self.assertTrue('id' in tag)
+            self.assertTrue('name' in tag)
+            # check count not 0
+            self.assertTrue(tag['count'] > 0 )
+            # check name not null
+            self.assertTrue(len(tag['name']) > 0 )
+            
+    # test getting a listing of courses for one of the tags
+    def test_tag_list(self):
+        resp = self.api_client.get(self.url+"11/", format='json', data=self.auth_data)
+        self.assertHttpOK(resp)
+        self.assertValidJSON(resp.content)
+        response_data = self.deserialize(resp)
+        self.assertTrue('courses' in response_data)
+        self.assertTrue('count' in response_data)
+        self.assertTrue('name' in response_data)
+        self.assertEqual(len(response_data['courses']),response_data['count'])
+        for course in response_data['courses']:
+            self.assertTrue('shortname' in course)
+            self.assertTrue('title' in course)
+            self.assertTrue('url' in course)
+            self.assertTrue('version' in course)
+        
+    # test getting listing of courses for an invalid tag
+    def test_tag_not_found(self):
+        resp = self.api_client.get(self.url+"999/", format='json', data=self.auth_data)
+        self.assertHttpNotFound(resp)
+        
 # TODO TrackerResource
 
 # UserResource
