@@ -28,6 +28,8 @@ class BasicTest(TestCase):
 
         
 class RegisterResourceTest(ResourceTestCase):    
+    fixtures = ['user.json']
+    
     def setUp(self):
         super(RegisterResourceTest, self).setUp()
     
@@ -44,7 +46,9 @@ class RegisterResourceTest(ResourceTestCase):
             'firstname': 'demo',
             'lastname': 'user',
         }
-        self.assertHttpBadRequest(self.api_client.post('/api/v1/register/', format='json', data=data))
+        resp = self.api_client.post('/api/v1/register/', format='json', data=data)
+        self.assertHttpBadRequest(resp)
+        self.assertValidJSON(resp.content)
     
     # check posting with no password
     def test_post_no_password(self):
@@ -55,7 +59,9 @@ class RegisterResourceTest(ResourceTestCase):
             'firstname': 'demo',
             'lastname': 'user',
         }
-        self.assertHttpBadRequest(self.api_client.post('/api/v1/register/', format='json', data=data))
+        resp = self.api_client.post('/api/v1/register/', format='json', data=data)
+        self.assertHttpBadRequest(resp)
+        self.assertValidJSON(resp.content)
        
     # check posting with no email 
     def test_post_no_email(self):
@@ -66,7 +72,9 @@ class RegisterResourceTest(ResourceTestCase):
             'firstname': 'demo',
             'lastname': 'user',
         }
-        self.assertHttpBadRequest(self.api_client.post('/api/v1/register/', format='json', data=data))
+        resp = self.api_client.post('/api/v1/register/', format='json', data=data)
+        self.assertHttpBadRequest(resp)
+        self.assertValidJSON(resp.content)
      
     # check posting with invalid email
     def test_post_invalid_email(self):
@@ -78,7 +86,9 @@ class RegisterResourceTest(ResourceTestCase):
             'firstname': 'demo',
             'lastname': 'user',
         }
-        self.assertHttpBadRequest(self.api_client.post('/api/v1/register/', format='json', data=data))  
+        resp = self.api_client.post('/api/v1/register/', format='json', data=data)
+        self.assertHttpBadRequest(resp)
+        self.assertValidJSON(resp.content) 
      
     # check posting with no passwordagain  
     def test_post_no_passwordagain(self):
@@ -89,7 +99,9 @@ class RegisterResourceTest(ResourceTestCase):
             'firstname': 'demo',
             'lastname': 'user',
         }
-        self.assertHttpBadRequest(self.api_client.post('/api/v1/register/', format='json', data=data)) 
+        resp = self.api_client.post('/api/v1/register/', format='json', data=data)
+        self.assertHttpBadRequest(resp)
+        self.assertValidJSON(resp.content)
         
     # test no firstname
     def test_post_no_firstname(self):
@@ -100,7 +112,9 @@ class RegisterResourceTest(ResourceTestCase):
             'email': 'demo@demo.com',
             'lastname': 'user',
         }
-        self.assertHttpBadRequest(self.api_client.post('/api/v1/register/', format='json', data=data))
+        resp = self.api_client.post('/api/v1/register/', format='json', data=data)
+        self.assertHttpBadRequest(resp)
+        self.assertValidJSON(resp.content)
         
     # test firstname long enough
     def test_post_firstname_length(self):
@@ -112,7 +126,9 @@ class RegisterResourceTest(ResourceTestCase):
             'firstname': 'd',
             'lastname': 'user',
         }
-        self.assertHttpBadRequest(self.api_client.post('/api/v1/register/', format='json', data=data))
+        resp = self.api_client.post('/api/v1/register/', format='json', data=data)
+        self.assertHttpBadRequest(resp)
+        self.assertValidJSON(resp.content)
         
     # test no lastname
     def test_post_no_lastname(self):
@@ -123,7 +139,9 @@ class RegisterResourceTest(ResourceTestCase):
             'email': 'demo@demo.com',
             'firstname': 'demo',
         }
-        self.assertHttpBadRequest(self.api_client.post('/api/v1/register/', format='json', data=data))
+        resp = self.api_client.post('/api/v1/register/', format='json', data=data)
+        self.assertHttpBadRequest(resp)
+        self.assertValidJSON(resp.content)
         
     # test password long enough
     def test_post_password_length(self):
@@ -135,7 +153,9 @@ class RegisterResourceTest(ResourceTestCase):
             'firstname': 'demo',
             'lastname': 'user',
         }
-        self.assertHttpBadRequest(self.api_client.post('/api/v1/register/', format='json', data=data))
+        resp = self.api_client.post('/api/v1/register/', format='json', data=data)
+        self.assertHttpBadRequest(resp)
+        self.assertValidJSON(resp.content)
     
     # test password and password again not matching
     def test_post_password_match(self):
@@ -147,7 +167,9 @@ class RegisterResourceTest(ResourceTestCase):
             'firstname': 'demo',
             'lastname': 'user',
         }
-        self.assertHttpBadRequest(self.api_client.post('/api/v1/register/', format='json', data=data))
+        resp = self.api_client.post('/api/v1/register/', format='json', data=data)
+        self.assertHttpBadRequest(resp)
+        self.assertValidJSON(resp.content)
         
     # test lastname not long enough
     def test_post_lastname_length(self):
@@ -159,7 +181,9 @@ class RegisterResourceTest(ResourceTestCase):
             'firstname': 'demo',
             'lastname': 'u',
         }
-        self.assertHttpBadRequest(self.api_client.post('/api/v1/register/', format='json', data=data))
+        resp = self.api_client.post('/api/v1/register/', format='json', data=data)
+        self.assertHttpBadRequest(resp)
+        self.assertValidJSON(resp.content)
     
     # test created (all data valid)
     def test_post_created(self):
@@ -171,8 +195,38 @@ class RegisterResourceTest(ResourceTestCase):
             'firstname': 'demo',
             'lastname': 'user',
         }
-        self.assertHttpCreated(self.api_client.post('/api/v1/register/', format='json', data=data))
-
+        resp = self.api_client.post('/api/v1/register/', format='json', data=data)
+        self.assertHttpCreated(resp)
+        self.assertValidJSON(resp.content)
+        
+    # test username already in use
+    def test_username_in_use(self):
+        data = {
+            'username': 'user',
+            'password': 'secret',
+            'passwordagain': 'secret',
+            'email': 'demo@demo.com',
+            'firstname': 'demo',
+            'lastname': 'user',
+        }
+        resp = self.api_client.post('/api/v1/register/', format='json', data=data)
+        self.assertHttpBadRequest(resp)
+        self.assertValidJSON(resp.content)
+        
+    # test email address already in use
+    def test_email_in_use(self):
+        data = {
+            'username': 'demo3',
+            'password': 'secret',
+            'passwordagain': 'secret',
+            'email': 'user@demo.com',
+            'firstname': 'demo',
+            'lastname': 'user',
+        }
+        resp = self.api_client.post('/api/v1/register/', format='json', data=data)
+        self.assertHttpBadRequest(resp)
+        self.assertValidJSON(resp.content)
+    
 class ActivityScheduleResourceTest(ResourceTestCase):    
     def setUp(self):
         super(ActivityScheduleResourceTest, self).setUp()
@@ -212,37 +266,125 @@ class AwardsResourceTest(ResourceTestCase):
     
     # check authorized
     def test_authorized(self):
-        self.assertHttpOK(self.api_client.get('/api/v1/awards/', format='json', data=self.auth_data))
+        resp = self.api_client.get('/api/v1/awards/', format='json', data=self.auth_data)
+        self.assertHttpOK(resp)
+        self.assertValidJSON(resp.content)
         
     # check returning a set of objects - expecting zero
     def test_no_objects(self):
         resp = self.api_client.get('/api/v1/awards/', format='json', data=self.auth_data)
+        self.assertValidJSON(resp.content)
         self.assertEqual(len(self.deserialize(resp)['objects']), 0)
-        
     
-# BadgesResource
-# CourseResource
-# CourseTagResource
-# ModuleResource
-# PointsResource
-# ScheduleResource
-# ScorecardResource
-# TagResource
-# TrackerResource
+# TODO BadgesResource
+
+# TODO CourseResource
+class CourseResourceTest(ResourceTestCase): 
+    fixtures = ['user.json', 'oppia.json'] 
+    
+    def setUp(self):
+        super(CourseResourceTest, self).setUp()
+
+    # Post invalid
+    def test_post_invalid(self):
+        self.assertHttpMethodNotAllowed(self.api_client.post('/api/v1/course/', format='json', data={}))
+    
+    #
+    
+# TODO CourseTagResource
+# TODO ModuleResource
+# TODO PointsResource
+# TODO ScheduleResource
+# TODO ScorecardResource
+# TODO TagResource
+# TODO TrackerResource
+
 # UserResource
+class UserResourceTest(ResourceTestCase): 
+    fixtures = ['user.json', 'oppia.json']   
+    
+    def setUp(self):
+        super(UserResourceTest, self).setUp()
+        
+    # check get not allowed
+    def test_get_invalid(self):
+        self.assertHttpMethodNotAllowed(self.api_client.get('/api/v1/user/', format='json'))
+     
+    # check valid login
+    def test_valid_login(self):
+        data = {
+            'username': 'user',
+            'password': 'demo'
+        }
+        resp = self.api_client.post('/api/v1/user/', format='json', data=data)
+        self.assertHttpCreated(resp)
+        self.assertValidJSON(resp.content)
+        
+        # check return data
+        response_data = self.deserialize(resp)
+        self.assertTrue('api_key' in response_data)
+        self.assertTrue('points' in response_data)
+        self.assertTrue('badges' in response_data)            
+        # check it doesn't contain the password
+        self.assertFalse('password' in response_data)
+        
+    # check no username
+    def test_no_username(self):
+        data = {
+            'password': 'demo'
+        }
+        resp = self.api_client.post('/api/v1/user/', format='json', data=data)
+        self.assertHttpBadRequest(resp)
+        self.assertValidJSON(resp.content)
+        response_data = self.deserialize(resp)
+        self.assertTrue('error' in response_data) 
+    
+    # check no password
+    def test_no_password(self):
+        data = {
+            'username': 'user',
+        }
+        resp = self.api_client.post('/api/v1/user/', format='json', data=data)
+        self.assertHttpBadRequest(resp)
+        self.assertValidJSON(resp.content)
+        response_data = self.deserialize(resp)
+        self.assertTrue('error' in response_data) 
+    
+    # check no username or password
+    def test_no_username_password(self):
+        data = {}
+        resp = self.api_client.post('/api/v1/user/', format='json', data=data)
+        self.assertHttpBadRequest(resp)
+        self.assertValidJSON(resp.content)
+        response_data = self.deserialize(resp)
+        self.assertTrue('error' in response_data) 
+    
+    # check invalid password
+    def test_invalid_password(self):
+        data = {
+            'username': 'user',
+            'password': 'demo123'
+        }
+        resp = self.api_client.post('/api/v1/user/', format='json', data=data)
+        self.assertHttpBadRequest(resp)
+        self.assertValidJSON(resp.content)
+        response_data = self.deserialize(resp)
+        self.assertTrue('error' in response_data) 
+    
+    
 
-# QuizResource
-# QuizQuestionResource
-# QuestionResource
-# QuestionPropsResource
-# ResponseResource
-# ResponsePropsResource
-# QuizPropsResource
-# QuizAttemptResource
+# TODO QuizResource
+# TODO QuizQuestionResource
+# TODO QuestionResource
+# TODO QuestionPropsResource
+# TODO ResponseResource
+# TODO ResponsePropsResource
+# TODO QuizPropsResource
+# TODO QuizAttemptResource
 
-# signals tests
+# TODO signals tests
 
-# cron/badges tests
+# TODO cron/badges tests
 
 
 

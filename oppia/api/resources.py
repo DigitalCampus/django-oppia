@@ -18,7 +18,8 @@ from django.utils.translation import ugettext_lazy as _
 from tastypie import fields, bundle, http
 from tastypie.authentication import Authentication,ApiKeyAuthentication
 from tastypie.authorization import Authorization
-from tastypie.exceptions import NotFound, BadRequest, InvalidFilterError, HydrationError, InvalidSortError, ImmediateHttpResponse
+from tastypie.exceptions import NotFound, BadRequest, InvalidFilterError 
+from tastypie.exceptions import Unauthorized, HydrationError, InvalidSortError, ImmediateHttpResponse
 from tastypie.models import ApiKey
 from tastypie.resources import ModelResource, convert_post_to_patch, dict_strip_unicode_keys
 from tastypie.utils import trailing_slash
@@ -58,42 +59,45 @@ class UserResource(ModelResource):
     class Meta:
         queryset = User.objects.all()
         resource_name = 'user'
-        fields = ['first_name', 'last_name', 'last_login','username','points','badges']
+        fields = ['first_name', 'last_name', 'last_login','username', 'points','badges']
         allowed_methods = ['post']
         authentication = Authentication()
-        authorization = Authorization() 
+        authorization = Authorization()
         serializer = UserJSONSerializer()
         always_return_data = True       
     
     def obj_create(self, bundle, **kwargs):
+        
+        if 'username' not in bundle.data:
+            raise BadRequest(_(u'Username missing'))
+        
+        if 'password' not in bundle.data:
+            raise BadRequest(_(u'Password missing'))
+        
         username = bundle.data['username']
         password = bundle.data['password']
-        if not username or not password:
-            raise BadRequest(_(u'Username or password missing'))
         
         u = authenticate(username=username, password=password)
         if u is not None:
             if u.is_active:
                 login(bundle.request,u)
             else:
-                # TODO - should raise 401 error
                 raise BadRequest(_(u'Authentication failure'))
         else:
-            # TODO should raise 401 error
             raise BadRequest(_(u'Authentication failure'))
 
         del bundle.data['password']
         key = ApiKey.objects.get(user = u)
         bundle.data['api_key'] = key.key
-        bundle.obj = u
+        bundle.obj = u 
         return bundle 
     
     def dehydrate_points(self,bundle):
-        points = Points.get_userscore(User.objects.get(username__exact=bundle.data['username']))
+        points = Points.get_userscore(User.objects.get(username=bundle.request.user.username))
         return points
     
     def dehydrate_badges(self,bundle):
-        badges = Award.get_userawards(User.objects.get(username__exact=bundle.data['username']))
+        badges = Award.get_userawards(User.objects.get(username=bundle.request.user.username))
         return badges 
 
 class RegisterResource(ModelResource):
