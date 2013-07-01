@@ -32,10 +32,11 @@ class RegisterResourceTest(ResourceTestCase):
     
     def setUp(self):
         super(RegisterResourceTest, self).setUp()
-    
+        self.url = '/api/v1/register/'
+        
     # check get method not allowed  
     def test_get_list_invalid(self):
-        self.assertHttpMethodNotAllowed(self.api_client.get('/api/v1/register/', format='json'))
+        self.assertHttpMethodNotAllowed(self.api_client.get(self.url, format='json'))
     
     # check posting with no username
     def test_post_no_username(self):
@@ -46,7 +47,7 @@ class RegisterResourceTest(ResourceTestCase):
             'firstname': 'demo',
             'lastname': 'user',
         }
-        resp = self.api_client.post('/api/v1/register/', format='json', data=data)
+        resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpBadRequest(resp)
         self.assertValidJSON(resp.content)
     
@@ -59,7 +60,7 @@ class RegisterResourceTest(ResourceTestCase):
             'firstname': 'demo',
             'lastname': 'user',
         }
-        resp = self.api_client.post('/api/v1/register/', format='json', data=data)
+        resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpBadRequest(resp)
         self.assertValidJSON(resp.content)
        
@@ -72,7 +73,7 @@ class RegisterResourceTest(ResourceTestCase):
             'firstname': 'demo',
             'lastname': 'user',
         }
-        resp = self.api_client.post('/api/v1/register/', format='json', data=data)
+        resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpBadRequest(resp)
         self.assertValidJSON(resp.content)
      
@@ -86,7 +87,7 @@ class RegisterResourceTest(ResourceTestCase):
             'firstname': 'demo',
             'lastname': 'user',
         }
-        resp = self.api_client.post('/api/v1/register/', format='json', data=data)
+        resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpBadRequest(resp)
         self.assertValidJSON(resp.content) 
      
@@ -99,7 +100,7 @@ class RegisterResourceTest(ResourceTestCase):
             'firstname': 'demo',
             'lastname': 'user',
         }
-        resp = self.api_client.post('/api/v1/register/', format='json', data=data)
+        resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpBadRequest(resp)
         self.assertValidJSON(resp.content)
         
@@ -112,7 +113,7 @@ class RegisterResourceTest(ResourceTestCase):
             'email': 'demo@demo.com',
             'lastname': 'user',
         }
-        resp = self.api_client.post('/api/v1/register/', format='json', data=data)
+        resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpBadRequest(resp)
         self.assertValidJSON(resp.content)
         
@@ -126,7 +127,7 @@ class RegisterResourceTest(ResourceTestCase):
             'firstname': 'd',
             'lastname': 'user',
         }
-        resp = self.api_client.post('/api/v1/register/', format='json', data=data)
+        resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpBadRequest(resp)
         self.assertValidJSON(resp.content)
         
@@ -139,7 +140,7 @@ class RegisterResourceTest(ResourceTestCase):
             'email': 'demo@demo.com',
             'firstname': 'demo',
         }
-        resp = self.api_client.post('/api/v1/register/', format='json', data=data)
+        resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpBadRequest(resp)
         self.assertValidJSON(resp.content)
         
@@ -153,7 +154,7 @@ class RegisterResourceTest(ResourceTestCase):
             'firstname': 'demo',
             'lastname': 'user',
         }
-        resp = self.api_client.post('/api/v1/register/', format='json', data=data)
+        resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpBadRequest(resp)
         self.assertValidJSON(resp.content)
     
@@ -167,7 +168,7 @@ class RegisterResourceTest(ResourceTestCase):
             'firstname': 'demo',
             'lastname': 'user',
         }
-        resp = self.api_client.post('/api/v1/register/', format='json', data=data)
+        resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpBadRequest(resp)
         self.assertValidJSON(resp.content)
         
@@ -181,7 +182,7 @@ class RegisterResourceTest(ResourceTestCase):
             'firstname': 'demo',
             'lastname': 'u',
         }
-        resp = self.api_client.post('/api/v1/register/', format='json', data=data)
+        resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpBadRequest(resp)
         self.assertValidJSON(resp.content)
     
@@ -195,7 +196,7 @@ class RegisterResourceTest(ResourceTestCase):
             'firstname': 'demo',
             'lastname': 'user',
         }
-        resp = self.api_client.post('/api/v1/register/', format='json', data=data)
+        resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpCreated(resp)
         self.assertValidJSON(resp.content)
         
@@ -209,7 +210,7 @@ class RegisterResourceTest(ResourceTestCase):
             'firstname': 'demo',
             'lastname': 'user',
         }
-        resp = self.api_client.post('/api/v1/register/', format='json', data=data)
+        resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpBadRequest(resp)
         self.assertValidJSON(resp.content)
         
@@ -223,7 +224,7 @@ class RegisterResourceTest(ResourceTestCase):
             'firstname': 'demo',
             'lastname': 'user',
         }
-        resp = self.api_client.post('/api/v1/register/', format='json', data=data)
+        resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpBadRequest(resp)
         self.assertValidJSON(resp.content)
     
@@ -251,10 +252,11 @@ class AwardsResourceTest(ResourceTestCase):
             'username': 'user',
             'api_key': api_key.key,
         }
+        self.url = '/api/v1/awards/'
         
     # check post not allowed
     def test_post_invalid(self):
-        self.assertHttpMethodNotAllowed(self.api_client.post('/api/v1/awards/', format='json', data={}))
+        self.assertHttpMethodNotAllowed(self.api_client.post(self.url, format='json', data={}))
         
     # check unauthorized
     def test_unauthorized(self):
@@ -262,23 +264,23 @@ class AwardsResourceTest(ResourceTestCase):
             'username': 'user',
             'api_key': '1234',
         }
-        self.assertHttpUnauthorized(self.api_client.get('/api/v1/awards/', format='json', data=data))
+        self.assertHttpUnauthorized(self.api_client.get(self.url, format='json', data=data))
     
     # check authorized
     def test_authorized(self):
-        resp = self.api_client.get('/api/v1/awards/', format='json', data=self.auth_data)
+        resp = self.api_client.get(self.url, format='json', data=self.auth_data)
         self.assertHttpOK(resp)
         self.assertValidJSON(resp.content)
         
     # check returning a set of objects - expecting zero
     def test_no_objects(self):
-        resp = self.api_client.get('/api/v1/awards/', format='json', data=self.auth_data)
+        resp = self.api_client.get(self.url, format='json', data=self.auth_data)
         self.assertValidJSON(resp.content)
         self.assertEqual(len(self.deserialize(resp)['objects']), 0)
     
 # TODO BadgesResource
 
-# TODO CourseResource
+# CourseResource
 class CourseResourceTest(ResourceTestCase): 
     fixtures = ['user.json', 'oppia.json'] 
     
@@ -320,28 +322,32 @@ class CourseResourceTest(ResourceTestCase):
         self.assertEquals(len(response_data['courses']),2)
         # check each course had a download url
         for course in response_data['courses']:
-            self.assertTrue('url' in response_data)
+            self.assertTrue('url' in course)
        
-    # TODO     
+    # test course file found     
     def test_course_download_file_found(self):
-        pass
-    
-    # TODO
+        resp = self.api_client.get(self.url+"20/download/", format='json', data=self.auth_data)
+        self.assertHttpOK(resp)
+        
+    # TODO course file not found
     def test_course_download_file_not_found(self):
+        #resp = self.api_client.get(self.url+"9999/download/", data=self.auth_data)
+        #self.assertHttpNotFound(resp)
         pass
     
 # CourseTagResource
 class CourseTagResourceTest(ResourceTestCase):    
     def setUp(self):
         super(CourseTagResourceTest, self).setUp()
-      
+        self.url = '/api/v1/coursetag/'
+        
     # check get not allowed
     def test_get_not_found(self):
-        self.assertHttpNotFound(self.api_client.get('/api/v1/coursetag/', format='json')) 
+        self.assertHttpNotFound(self.api_client.get(self.url, format='json')) 
         
     # check post not allowed
     def test_post_not_found(self):
-        self.assertHttpNotFound(self.api_client.post('/api/v1/coursetag/', format='json', data={}))
+        self.assertHttpNotFound(self.api_client.post(self.url, format='json', data={}))
         
 # TODO ModuleResource
 # TODO PointsResource
@@ -356,10 +362,11 @@ class UserResourceTest(ResourceTestCase):
     
     def setUp(self):
         super(UserResourceTest, self).setUp()
+        self.url = '/api/v1/user/'
         
     # check get not allowed
     def test_get_invalid(self):
-        self.assertHttpMethodNotAllowed(self.api_client.get('/api/v1/user/', format='json'))
+        self.assertHttpMethodNotAllowed(self.api_client.get(self.url, format='json'))
      
     # check valid login
     def test_valid_login(self):
@@ -367,7 +374,7 @@ class UserResourceTest(ResourceTestCase):
             'username': 'user',
             'password': 'demo'
         }
-        resp = self.api_client.post('/api/v1/user/', format='json', data=data)
+        resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpCreated(resp)
         self.assertValidJSON(resp.content)
         
@@ -384,7 +391,7 @@ class UserResourceTest(ResourceTestCase):
         data = {
             'password': 'demo'
         }
-        resp = self.api_client.post('/api/v1/user/', format='json', data=data)
+        resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpBadRequest(resp)
         self.assertValidJSON(resp.content)
         response_data = self.deserialize(resp)
@@ -395,7 +402,7 @@ class UserResourceTest(ResourceTestCase):
         data = {
             'username': 'user',
         }
-        resp = self.api_client.post('/api/v1/user/', format='json', data=data)
+        resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpBadRequest(resp)
         self.assertValidJSON(resp.content)
         response_data = self.deserialize(resp)
@@ -404,7 +411,7 @@ class UserResourceTest(ResourceTestCase):
     # check no username or password
     def test_no_username_password(self):
         data = {}
-        resp = self.api_client.post('/api/v1/user/', format='json', data=data)
+        resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpBadRequest(resp)
         self.assertValidJSON(resp.content)
         response_data = self.deserialize(resp)
@@ -416,7 +423,7 @@ class UserResourceTest(ResourceTestCase):
             'username': 'user',
             'password': 'demo123'
         }
-        resp = self.api_client.post('/api/v1/user/', format='json', data=data)
+        resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpBadRequest(resp)
         self.assertValidJSON(resp.content)
         response_data = self.deserialize(resp)
