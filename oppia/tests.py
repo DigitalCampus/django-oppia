@@ -284,14 +284,65 @@ class CourseResourceTest(ResourceTestCase):
     
     def setUp(self):
         super(CourseResourceTest, self).setUp()
-
+        user = User.objects.get(username='user')
+        api_key = ApiKey.objects.get(user = user)
+        self.auth_data = {
+            'username': 'user',
+            'api_key': api_key.key,
+        }
+        self.url = '/api/v1/course/'
+        
     # Post invalid
     def test_post_invalid(self):
-        self.assertHttpMethodNotAllowed(self.api_client.post('/api/v1/course/', format='json', data={}))
+        self.assertHttpMethodNotAllowed(self.api_client.post(self.url, format='json', data={}))
     
-    #
+    # test unauthorized
+    def test_unauthorized(self):
+        data = {
+            'username': 'user',
+            'api_key': '1234',
+        }
+        self.assertHttpUnauthorized(self.api_client.get(self.url, format='json', data=data))
     
-# TODO CourseTagResource
+    # test authorized
+    def test_authorized(self):
+        resp = self.api_client.get(self.url, format='json', data=self.auth_data)
+        self.assertHttpOK(resp)
+       
+    # test contains courses (and right no of courses) 
+    def test_has_courses(self):
+        resp = self.api_client.get(self.url, format='json', data=self.auth_data)
+        self.assertHttpOK(resp)
+        self.assertValidJSON(resp.content)
+        response_data = self.deserialize(resp)
+        self.assertTrue('courses' in response_data)
+        # should ahve 2 courses with the data set
+        self.assertEquals(len(response_data['courses']),2)
+        # check each course had a download url
+        for course in response_data['courses']:
+            self.assertTrue('url' in response_data)
+       
+    # TODO     
+    def test_course_download_file_found(self):
+        pass
+    
+    # TODO
+    def test_course_download_file_not_found(self):
+        pass
+    
+# CourseTagResource
+class CourseTagResourceTest(ResourceTestCase):    
+    def setUp(self):
+        super(CourseTagResourceTest, self).setUp()
+      
+    # check get not allowed
+    def test_get_not_found(self):
+        self.assertHttpNotFound(self.api_client.get('/api/v1/coursetag/', format='json')) 
+        
+    # check post not allowed
+    def test_post_not_found(self):
+        self.assertHttpNotFound(self.api_client.post('/api/v1/coursetag/', format='json', data={}))
+        
 # TODO ModuleResource
 # TODO PointsResource
 # TODO ScheduleResource
