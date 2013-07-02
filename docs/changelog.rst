@@ -3,7 +3,8 @@ Change Log
 
 v0.1.15
 -------
-* 
+* Begun to add unit tests
+* More info on courses page about current activity
 
 v0.1.14
 -------
