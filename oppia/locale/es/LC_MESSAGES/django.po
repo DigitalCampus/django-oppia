@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-27 11:45+0200\n"
+"POT-Creation-Date: 2013-07-02 13:41+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,7 +38,7 @@ msgstr ""
 #: forms.py:25
 #, python-format
 msgid ""
-"Your file is larger than the maximum allowed (%(size)s Mb). You may want to "
+"Your file is larger than the maximum allowed (%(size)d Mb). You may want to "
 "check your course for large includes, such as images etc."
 msgstr ""
 
@@ -54,115 +54,115 @@ msgstr ""
 msgid "Courses"
 msgstr ""
 
-#: models.py:75
+#: models.py:87
 msgid "Tag"
 msgstr ""
 
-#: models.py:76
+#: models.py:88
 msgid "Tags"
 msgstr ""
 
-#: models.py:86
+#: models.py:98
 msgid "Course Tag"
 msgstr ""
 
-#: models.py:87
+#: models.py:99
 msgid "Course Tags"
 msgstr ""
 
-#: models.py:98 templates/oppia/schedule-form.html:7
+#: models.py:110 templates/oppia/schedule-form.html:7
 msgid "Schedule"
 msgstr ""
 
-#: models.py:99
+#: models.py:111
 msgid "Schedules"
 msgstr ""
 
-#: models.py:125
+#: models.py:137
 msgid "ActivitySchedule"
 msgstr ""
 
-#: models.py:126
+#: models.py:138
 msgid "ActivitySchedules"
 msgstr ""
 
-#: models.py:136
+#: models.py:148
 msgid "Section"
 msgstr ""
 
-#: models.py:137
+#: models.py:149
 msgid "Sections"
 msgstr ""
 
-#: models.py:165
+#: models.py:177
 msgid "Activity"
 msgstr ""
 
-#: models.py:166
+#: models.py:178
 msgid "Activities"
 msgstr ""
 
-#: models.py:187 models.py:188
+#: models.py:199 models.py:200
 msgid "Media"
 msgstr ""
 
-#: models.py:207
+#: models.py:219
 msgid "Tracker"
 msgstr ""
 
-#: models.py:208
+#: models.py:220
 msgid "Trackers"
 msgstr ""
 
-#: models.py:302
+#: models.py:314
 msgid "CourseDownload"
 msgstr ""
 
-#: models.py:303
+#: models.py:315
 msgid "CourseDownloads"
 msgstr ""
 
-#: models.py:313
+#: models.py:325
 msgid "Cohort"
 msgstr ""
 
-#: models.py:314
+#: models.py:326
 msgid "Cohorts"
 msgstr ""
 
-#: models.py:368
+#: models.py:380
 msgid "Participant"
 msgstr ""
 
-#: models.py:369
+#: models.py:381
 msgid "Participants"
 msgstr ""
 
-#: models.py:381
+#: models.py:393
 msgid "Message"
 msgstr ""
 
-#: models.py:382
+#: models.py:394
 msgid "Messages"
 msgstr ""
 
-#: models.py:393
+#: models.py:405
 msgid "Badge"
 msgstr ""
 
-#: models.py:394
+#: models.py:406
 msgid "Badges"
 msgstr ""
 
-#: models.py:406
+#: models.py:418
 msgid "Award"
 msgstr ""
 
-#: models.py:407
+#: models.py:419
 msgid "Awards"
 msgstr ""
 
-#: models.py:460 models.py:461
+#: models.py:472 models.py:473
 msgid "Points"
 msgstr ""
 
@@ -186,17 +186,34 @@ msgstr ""
 msgid "There don't appear to be any activities in this upload file."
 msgstr ""
 
-#: api/resources.py:71
-msgid "Username or password missing"
+#: api/resources.py:73
+msgid "Username missing"
 msgstr ""
 
-#: api/resources.py:79 api/resources.py:82
+#: api/resources.py:76
+msgid "Password missing"
+msgstr ""
+
+#: api/resources.py:86 api/resources.py:88
 msgid "Authentication failure"
 msgstr ""
 
-#: api/resources.py:147
+#: api/resources.py:126
+#, python-format
+msgid "Please enter your %s"
+msgstr ""
+
+#: api/resources.py:158
 #, python-format
 msgid "Username \"%s\" already in use, please select another"
+msgstr ""
+
+#: api/resources.py:281
+msgid "Course download not found"
+msgstr ""
+
+#: api/validation.py:25
+msgid "Digest not found"
 msgstr ""
 
 #: profile/forms.py:9 profile/forms.py:56
@@ -561,7 +578,23 @@ msgstr ""
 msgid "courses"
 msgstr ""
 
-#: templates/oppia/course.html:17
+#: templates/oppia/course.html:10
+msgid "table_header_course"
+msgstr ""
+
+#: templates/oppia/course.html:11
+msgid "table_header_course_downloads"
+msgstr ""
+
+#: templates/oppia/course.html:12
+msgid "table_header_course_activity_today"
+msgstr ""
+
+#: templates/oppia/course.html:13
+msgid "table_header_course_activity_week"
+msgstr ""
+
+#: templates/oppia/course.html:28
 #, python-format
 msgid ""
 "\n"
