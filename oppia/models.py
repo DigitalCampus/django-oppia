@@ -67,15 +67,15 @@ class Course(models.Model):
     
     def get_activity_today(self):
         return Tracker.objects.filter(course=self,
-                                      submitted_date__day=datetime.datetime.now().day,
-                                      submitted_date__month=datetime.datetime.now().month,
-                                      submitted_date__year=datetime.datetime.now().year).count()
+                                      tracker_date__day=datetime.datetime.now().day,
+                                      tracker_date__month=datetime.datetime.now().month,
+                                      tracker_date__year=datetime.datetime.now().year).count()
        
     def get_activity_week(self):
         now = datetime.datetime.now()
         last_week = datetime.datetime(now.year, now.month, now.day) - datetime.timedelta(days=7)
         return Tracker.objects.filter(course=self,
-                                      submitted_date__gte=last_week).count()
+                                      tracker_date__gte=last_week).count()
     
 class Tag(models.Model):
     name = models.TextField(blank=False)

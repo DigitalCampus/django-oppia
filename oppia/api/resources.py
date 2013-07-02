@@ -180,30 +180,14 @@ class TrackerResource(ModelResource):
     class Meta:
         queryset = Tracker.objects.all()
         resource_name = 'tracker'
-        allowed_methods = ['post','patch','put']
-        detail_allowed_methods = ['post','patch','put']
+        allowed_methods = ['post','patch']
+        detail_allowed_methods = ['post','patch']
         authentication = ApiKeyAuthentication()
         authorization = Authorization() 
         serializer = PrettyJSONSerializer()
         always_return_data =  True
         fields = ['points','digest','data','tracker_date','badges','course','completed']
-        
-    def is_valid(self, bundle, request=None):
-        exists = False
-        try:
-            activity = Activity.objects.get(digest=bundle.obj.digest)
-            exists = True
-        except Activity.DoesNotExist:
-            pass
-        
-        try:
-            media = Media.objects.get(digest=bundle.obj.digest)
-            exists = True
-        except Media.DoesNotExist:
-            pass
-        if not exists:
-            raise NotFound
-            
+              
     def hydrate(self, bundle, request=None):
         # remove any id if this is submitted - otherwise it may overwrite existing tracker item
         if 'id' in bundle.data:
@@ -233,7 +217,7 @@ class TrackerResource(ModelResource):
             if json_data['activity'] == "completed":
                 bundle.obj.completed = True
         except:
-            pass
+            bundle.obj.completed = False
         
         try:
             json_data = json.loads(bundle.data['data'])
@@ -289,8 +273,11 @@ class CourseResource(ModelResource):
         self.throttle_check(request)
         
         pk = kwargs.pop('pk', None)
-        course = self._meta.queryset.get(pk = pk)
-        
+        try:
+            course = self._meta.queryset.get(pk = pk)
+        except Course.DoesNotExist:
+            raise NotFound(_(u'Course download not found'))
+         
         file_to_download = course.getAbsPath();
         schedule = course.get_default_schedule()
         has_completed_trackers = Tracker.has_completed_trackers(course,request.user)
