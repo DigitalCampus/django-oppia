@@ -72,13 +72,13 @@ Installation
 	
 		#!/bin/bash
 
+		cd /home/alex/data/development/home_alexlittle_net/venv/ # <- path to my virtualenv
+		source bin/activate # <- activate the virtualenv
+		
 		PYTHONPATH="${PYTHONPATH}:/home/alex/data/development/" # <- path to my Django project root
 
 		export PYTHONPATH
 		export DJANGO_SETTINGS_MODULE=home_alexlittle_net.settings # <- my main Django settings (relative to the Django project path)
-
-		cd /home/alex/data/development/home_alexlittle_net/venv/ # <- path to my virtualenv
-		source bin/activate # <- activate the virtualenv
 
 		python /home/alex/data/development/django-oppia/oppia/cron.py # <- full path to the cron.py file 
 		
