@@ -48,7 +48,7 @@ def courses_completed():
             # check if the user has already been awarded for this course
             already_completed = AwardCourse.objects.filter(award__user=user,course=c) 
             if already_completed.count() == 0:
-                if media_complete(user,m) and activities_complete(user,m) and quiz_complete(user,c):
+                if media_complete(user,c) and activities_complete(user,c) and quiz_complete(user,c):
                     print "%s badge awarded to %s" % (badge, user.username)
                     award = Award()
                     award.badge = badge

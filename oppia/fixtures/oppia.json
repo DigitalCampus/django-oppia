@@ -1237,30 +1237,6 @@
     }
 },
 {
-    "pk": 1, 
-    "model": "oppia.badge", 
-    "fields": {
-        "name": "Created 10 quizzes", 
-        "points": 100, 
-        "ref": "create10quiz", 
-        "default_icon": "badges/trophy.png", 
-        "allow_multiple_awards": true, 
-        "description": "Created 10 quizzes"
-    }
-},
-{
-    "pk": 2, 
-    "model": "oppia.badge", 
-    "fields": {
-        "name": "Learning module completed", 
-        "points": 500, 
-        "ref": "modulecompleted", 
-        "default_icon": "badges/trophy_1.png", 
-        "allow_multiple_awards": false, 
-        "description": "Learning module completed"
-    }
-},
-{
     "pk": 6063, 
     "model": "oppia.points", 
     "fields": {
