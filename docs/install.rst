@@ -62,7 +62,9 @@ Installation
 * Run ``python manage.py loaddata default_badges.json`` this will create the 
   default badges in your database.
 
-* Your OppiaMobile server should now be up and running: http://localhost:8000/oppia/
+* Your OppiaMobile server should now be up and running: http://localhost:8000/
+  (or at http://localhost:8000/oppia depending on how you configured your 
+  ``urls.py`` file)
 
 * Finally you should set up a `cron <https://en.wikipedia.org/wiki/Cron>`_ 
   task to run the ``oppia/cron.py`` script regularly. 
