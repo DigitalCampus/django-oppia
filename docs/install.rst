@@ -58,6 +58,9 @@ Installation
 
 * Run ``python manage.py collectstatic`` this will copy all the required 
   javascript, images, css and other static files are copied to your `STATIC_ROOT`
+  
+* Run ``python manage.py loaddata default_badges.json`` this will create the 
+  default badges in your database.
 
 * Your OppiaMobile server should now be up and running: http://localhost:8000/oppia/
 

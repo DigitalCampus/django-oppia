@@ -1,6 +1,11 @@
 Change Log
 ============
 
+v0.1.16
+-------
+* Add default badges data
+* Fix error in running cron script and awarding badges
+
 v0.1.15
 -------
 * Begun to add unit tests

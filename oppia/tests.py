@@ -668,17 +668,50 @@ class UserResourceTest(ResourceTestCase):
     
     
 
-# TODO QuizResource
+
+# TODO QuizAttemptResource   
+    # check post allowed only
+    # check data submited
+    # submitting to invalid quiz id
+    # submitting with invalid question_ids
+class QuizAttemptResourceTest(ResourceTestCase): 
+    fixtures = ['user.json', 'oppia.json'] 
+    
+    def setUp(self):
+        super(QuizAttemptResourceTest, self).setUp()
+        user = User.objects.get(username='user')
+        api_key = ApiKey.objects.get(user = user)
+        self.auth_data = {
+            'username': 'user',
+            'api_key': api_key.key,
+        }
+        self.url = '/api/v1/quizattempt/'
+    
+    def get_credentials(self):
+        return self.create_apikey(username=self.username, api_key=self.api_key)
+
 # TODO QuizQuestionResource
 # TODO QuestionResource
 # TODO QuestionPropsResource
 # TODO ResponseResource
 # TODO ResponsePropsResource
 # TODO QuizPropsResource
-# TODO QuizAttemptResource
+    # getting a quiz via digest
+    
+# TODO QuizResource
+    # TODO check get and post valid
+    # getting a quiz via id no
+    
+    # getting an invalid digest
+    # creating a quiz (and data required etc)
+
 
 # TODO signals tests
-
+    # TODO test points awarded for one day but not twice on same day for page
+    # TODO test points awarded for one day but not twice on same day for quiz
+    # TODO test points awarded for one day but not twice on same day for media
+    
+    
 # TODO cron/badges tests
 
 
