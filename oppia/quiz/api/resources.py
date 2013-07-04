@@ -1,53 +1,26 @@
 # oppia/quiz/api/resources.py
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
-from tastypie import fields, bundle
-from tastypie.resources import ModelResource
-from tastypie.authentication import Authentication, ApiKeyAuthentication
-from tastypie.authorization import Authorization
-from tastypie import http
-from tastypie.exceptions import NotFound, BadRequest, InvalidFilterError, HydrationError, InvalidSortError, ImmediateHttpResponse
-from oppia.quiz.models import Quiz, Question, QuizQuestion, Response, QuestionProps, QuizProps, ResponseProps, QuizAttempt, QuizAttemptResponse
-from oppia.quiz.api.serializers import PrettyJSONSerializer, QuizJSONSerializer
-from oppia.api.resources import UserResource
-from tastypie.validation import Validation
-from django.db import IntegrityError
-from tastypie.models import ApiKey
 from django.conf.urls import url
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
 from django.core.paginator import Paginator, InvalidPage
+from django.db import IntegrityError
 from django.db.models import Q
 from django.utils.translation import ugettext as _
-from oppia.models import Points, Award
 
-class QuizOwnerValidation(Validation):
-    def is_valid(self, bundle, request=None):
-        if not bundle.data:
-            return {'__all__': 'no data.'}
-        errors = {}
-        quiz = bundle.obj.quiz
-        if quiz.owner.id != bundle.request.user.id:
-            errors['error_message'] = _(u"You are not the owner of this quiz")
-        return errors
-    
-class QuestionOwnerValidation(Validation):
-    def is_valid(self, bundle, request=None):
-        if not bundle.data:
-            return {'__all__': 'no data.'}
-        errors = {}
-        question = bundle.obj.question
-        if question.owner.id != bundle.request.user.id:
-            errors['error_message'] = _(u"You are not the owner of this question")
-        return errors
-    
-class ResponseOwnerValidation(Validation):
-    def is_valid(self, bundle, request=None):
-        if not bundle.data:
-            return {'__all__': 'no data.'}
-        errors = {}
-        response = bundle.obj.response
-        if response.owner.id != bundle.request.user.id:
-            errors['error_message'] = _(u"You are not the owner of this response")
-        return errors
+from tastypie import fields, bundle, http
+from tastypie.authentication import Authentication, ApiKeyAuthentication
+from tastypie.authorization import Authorization
+from tastypie.exceptions import NotFound, BadRequest, InvalidFilterError, HydrationError, InvalidSortError, ImmediateHttpResponse
+from tastypie.models import ApiKey
+from tastypie.resources import ModelResource
+
+from oppia.models import Points, Award
+from oppia.api.resources import UserResource
+from oppia.quiz.api.serializers import PrettyJSONSerializer, QuizJSONSerializer
+from oppia.quiz.api.validation import QuizOwnerValidation, QuestionOwnerValidation
+from oppia.quiz.api.validation import ResponseOwnerValidation, QuizAttemptValidation
+from oppia.quiz.models import Quiz, Question, QuizQuestion, Response, QuestionProps
+from oppia.quiz.models import QuizProps, ResponseProps, QuizAttempt, QuizAttemptResponse
    
           
 class QuizResource(ModelResource):
@@ -261,19 +234,32 @@ class QuizAttemptResource(ModelResource):
         authentication = ApiKeyAuthentication()
         authorization = Authorization() 
         always_return_data = True 
+        #validation = QuizAttemptValidation()
         
     def hydrate(self, bundle, request=None):
-        # TODO - as extra check - check if the 'sent' param is false
         bundle.obj.user = User.objects.get(pk = bundle.request.user.id)
-        bundle.data['quiz'] = Quiz.objects.get(pk = bundle.data['quiz_id'])
         bundle.obj.ip = bundle.request.META.get('REMOTE_ADDR','0.0.0.0')
         bundle.obj.agent = bundle.request.META.get('HTTP_USER_AGENT','unknown')
         
-        # get the question resource uri from the question id
+        # check the quiz exists
+        try:
+            bundle.obj.quiz = Quiz.objects.get(pk = bundle.data['quiz_id'])
+        except Quiz.DoesNotExist:
+            raise BadRequest(_(u'Quiz does not exist'))    
+        
+        #check that all the questions exist and are part of this quiz
         for response in bundle.data['responses']:
-            # TODO should check that the question is actually in this quiz first
-            # TODO what happens when the question has been deleted
-            response['question'] = Question.objects.get(pk = response['question_id'])
+            #existence
+            try:
+                response['question'] = Question.objects.get(pk = response['question_id'])
+            except Question.DoesNotExist:
+                raise BadRequest(_(u'Question does not exist'))
+            #check part of this quiz
+            try:
+                QuizQuestion.objects.get(quiz=bundle.obj.quiz,question=response['question'])
+            except QuizQuestion.DoesNotExist:
+                raise BadRequest(_(u'This question is not part of this quiz'))
+            
         return bundle
      
     def dehydrate_points(self,bundle):
