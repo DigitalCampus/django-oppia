@@ -42,15 +42,10 @@ class QuizAttemptValidation(Validation):
         if not bundle.data:
             return {'__all__': 'no data.'}
         errors = {}
-        # check quiz exists and is not deleted/draft etc
-        try:
-            quiz = Quiz.objects.get(pk=bundle.obj.quiz_id, deleted=0, draft=0)
-        except Quiz.DoesNotExist:
-            errors['error_message'] = _(u"Quiz does not exist")
         # check all questions actually belong to this quiz
         
         # check there is a response for every quiz question
         
-        # check 
+        # check marks awarded are consistent with the results stored here
 
         return errors

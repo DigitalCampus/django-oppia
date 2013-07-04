@@ -3,7 +3,6 @@ from django.utils.translation import ugettext_lazy as _
 
 from oppia.models import Activity, Media
 
-from tastypie.exceptions import NotFound
 from tastypie.validation import Validation
 
 class TrackerValidation(Validation):

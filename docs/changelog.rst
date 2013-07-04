@@ -1,6 +1,13 @@
 Change Log
 ============
 
+
+v0.1.17
+-------
+* Fix: https://github.com/DigitalCampus/django-oppia/issues/18
+* Added unit tests for QuizAttempt
+* Fix: https://github.com/DigitalCampus/django-oppia/issues/42
+
 v0.1.16
 -------
 * Add default badges data
