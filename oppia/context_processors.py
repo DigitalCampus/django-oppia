@@ -15,5 +15,5 @@ def get_points(request):
     return {'points': points, 'badges':badges }
 
 def get_version(request):
-    version = str(oppia.VERSION[0]) + "." + str(oppia.VERSION[1]) + "." + str(oppia.VERSION[2])
+    version = "v" + str(oppia.VERSION[0]) + "." + str(oppia.VERSION[1]) + "." + str(oppia.VERSION[2])
     return {'version': version }

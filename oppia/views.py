@@ -40,7 +40,7 @@ def home_view(request):
 
 def course_view(request):
     course_list = Course.objects.all().order_by('title')    
-    return render_to_response('oppia/course.html',{'course_list': course_list,}, context_instance=RequestContext(request))
+    return render_to_response('oppia/course/course.html',{'course_list': course_list,}, context_instance=RequestContext(request))
 
        
 def terms_view(request):
@@ -99,7 +99,7 @@ def recent_activity(request,id):
         count_media = Tracker.objects.filter(course=course,type='media',tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).exclude(user_id__in=staff).count()
         dates.append([temp.strftime("%d %b %y"),count_act_page,count_act_quiz,count_media])
     leaderboard = Points.get_leaderboard(10, course)
-    return render_to_response('oppia/course-activity.html',{'course': course,'data':dates, 'leaderboard':leaderboard}, context_instance=RequestContext(request))
+    return render_to_response('oppia/course/activity.html',{'course': course,'data':dates, 'leaderboard':leaderboard}, context_instance=RequestContext(request))
 
 def recent_activity_detail(request,id):
     course = check_owner(request,id)
@@ -120,13 +120,13 @@ def recent_activity_detail(request,id):
             t.title = t.get_activity_title()                
     except (EmptyPage, InvalidPage):
         tracks = paginator.page(paginator.num_pages)
-    return render_to_response('oppia/course-activity-detail.html',{'course': course,'page':tracks,}, context_instance=RequestContext(request))
+    return render_to_response('oppia/course/activity-detail.html',{'course': course,'page':tracks,}, context_instance=RequestContext(request))
 
 
 def schedule(request,course_id):
     course = check_owner(request,course_id)    
     schedules = Schedule.objects.filter(course=course)
-    return render_to_response('oppia/course-schedules.html',{'course': course,'schedules':schedules,}, context_instance=RequestContext(request))
+    return render_to_response('oppia/course/schedules.html',{'course': course,'schedules':schedules,}, context_instance=RequestContext(request))
     
 def schedule_add(request,course_id):
     course = check_owner(request,course_id)
@@ -255,7 +255,7 @@ def schedule_saved(request, course_id, schedule_id=None):
 def cohort(request,course_id):
     course = check_owner(request,course_id)    
     cohorts = Cohort.objects.filter(course=course)
-    return render_to_response('oppia/course-cohorts.html',{'course': course,'cohorts':cohorts,}, context_instance=RequestContext(request))
+    return render_to_response('oppia/course/cohorts.html',{'course': course,'cohorts':cohorts,}, context_instance=RequestContext(request))
   
 def cohort_add(request,course_id):
     course = check_owner(request,course_id)

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-04 21:07+0200\n"
+"POT-Creation-Date: 2013-07-04 23:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -474,150 +474,28 @@ msgstr ""
 msgid "button_cohort_save"
 msgstr ""
 
-#: templates/oppia/course-activity-detail.html:12
-msgid "table_header_tracker_date"
-msgstr ""
-
-#: templates/oppia/course-activity-detail.html:13
-msgid "table_header_tracker_user"
-msgstr ""
-
-#: templates/oppia/course-activity-detail.html:14
-msgid "table_header_tracker_type"
-msgstr ""
-
-#: templates/oppia/course-activity-detail.html:15
-msgid "table_header_tracker_activity"
-msgstr ""
-
-#: templates/oppia/course-activity-detail.html:16
-#: templates/oppia/course-activity-detail.html:17
-msgid "table_header_tracker_timetaken"
-msgstr ""
-
-#: templates/oppia/course-activity-detail.html:34
-msgid "No hits yet"
-msgstr ""
-
-#: templates/oppia/course-activity.html:16 templates/oppia/home.html:17
+#: templates/oppia/home.html:17 templates/oppia/course/activity.html:16
 msgid "Date"
 msgstr ""
 
-#: templates/oppia/course-activity.html:17
-msgid "Page completed"
-msgstr ""
-
-#: templates/oppia/course-activity.html:18
-msgid "Quiz completed"
-msgstr ""
-
-#: templates/oppia/course-activity.html:19
-msgid "Media viewed"
-msgstr ""
-
-#: templates/oppia/course-activity.html:20 templates/oppia/home.html:18
+#: templates/oppia/home.html:18 templates/oppia/course/activity.html:20
 msgid "Total"
 msgstr ""
 
-#: templates/oppia/course-activity.html:34
-msgid "No. attempts"
-msgstr ""
-
-#: templates/oppia/course-activity.html:48
-msgid "course_activity_detail"
-msgstr ""
-
-#: templates/oppia/course-activity.html:50
-msgid "course_manage_schedules"
-msgstr ""
-
-#: templates/oppia/course-activity.html:52
-msgid "course_manage_cohorts"
-msgstr ""
-
-#: templates/oppia/course-activity.html:55
-msgid "course_quizzes"
-msgstr ""
-
-#: templates/oppia/course-activity.html:61 templates/oppia/home.html:45
+#: templates/oppia/home.html:45 templates/oppia/course/activity.html:61
 msgid "home_leaderboard"
-msgstr ""
-
-#: templates/oppia/course-activity.html:65 templates/oppia/home.html:50
-msgid "courses_recent_activity"
-msgstr ""
-
-#: templates/oppia/course-activity.html:66 templates/oppia/home.html:51
-msgid "graph_generating"
-msgstr ""
-
-#: templates/oppia/course-cohorts.html:7
-msgid "cohorts"
-msgstr ""
-
-#: templates/oppia/course-cohorts.html:14
-msgid "teachers"
-msgstr ""
-
-#: templates/oppia/course-cohorts.html:15
-msgid "students"
-msgstr ""
-
-#: templates/oppia/course-cohorts.html:20
-msgid "No cohorts"
-msgstr ""
-
-#: templates/oppia/course-cohorts.html:24
-msgid "Add a cohort"
-msgstr ""
-
-#: templates/oppia/course-schedules.html:7
-msgid "schedules"
-msgstr ""
-
-#: templates/oppia/course-schedules.html:15
-msgid "default"
-msgstr ""
-
-#: templates/oppia/course-schedules.html:22
-msgid "No schedules"
-msgstr ""
-
-#: templates/oppia/course-schedules.html:26
-msgid "Add a schedule"
-msgstr ""
-
-#: templates/oppia/course.html:7 templates/oppia/schedule-saved.html:6
-msgid "courses"
-msgstr ""
-
-#: templates/oppia/course.html:10
-msgid "table_header_course"
-msgstr ""
-
-#: templates/oppia/course.html:11
-msgid "table_header_course_downloads"
-msgstr ""
-
-#: templates/oppia/course.html:12
-msgid "table_header_course_activity_today"
-msgstr ""
-
-#: templates/oppia/course.html:13
-msgid "table_header_course_activity_week"
-msgstr ""
-
-#: templates/oppia/course.html:28
-#, python-format
-msgid ""
-"\n"
-"\t\t<p>You don't yet have any courses uploaded, why not <a href="
-"\"%(url_upload)s\">upload one now</a>?</p>\n"
-"\t"
 msgstr ""
 
 #: templates/oppia/home.html:47
 msgid "more..."
+msgstr ""
+
+#: templates/oppia/home.html:50 templates/oppia/course/activity.html:65
+msgid "courses_recent_activity"
+msgstr ""
+
+#: templates/oppia/home.html:51 templates/oppia/course/activity.html:66
+msgid "graph_generating"
 msgstr ""
 
 #: templates/oppia/home.html:55
@@ -687,6 +565,10 @@ msgstr ""
 
 #: templates/oppia/schedule-form.html:51
 msgid "button_schedule_save"
+msgstr ""
+
+#: templates/oppia/schedule-saved.html:6 templates/oppia/course/course.html:7
+msgid "courses"
 msgstr ""
 
 #: templates/oppia/schedule-saved.html:6
@@ -760,23 +642,125 @@ msgstr ""
 msgid "button_course_upload"
 msgstr ""
 
+#: templates/oppia/course/activity-detail.html:12
+msgid "table_header_tracker_date"
+msgstr ""
+
+#: templates/oppia/course/activity-detail.html:13
+msgid "table_header_tracker_user"
+msgstr ""
+
+#: templates/oppia/course/activity-detail.html:14
+msgid "table_header_tracker_type"
+msgstr ""
+
+#: templates/oppia/course/activity-detail.html:15
+msgid "table_header_tracker_activity"
+msgstr ""
+
+#: templates/oppia/course/activity-detail.html:16
+#: templates/oppia/course/activity-detail.html:17
+msgid "table_header_tracker_timetaken"
+msgstr ""
+
+#: templates/oppia/course/activity-detail.html:34
+msgid "No hits yet"
+msgstr ""
+
+#: templates/oppia/course/activity.html:17
+msgid "Page completed"
+msgstr ""
+
+#: templates/oppia/course/activity.html:18
+msgid "Quiz completed"
+msgstr ""
+
+#: templates/oppia/course/activity.html:19
+msgid "Media viewed"
+msgstr ""
+
+#: templates/oppia/course/activity.html:34
+msgid "No. attempts"
+msgstr ""
+
+#: templates/oppia/course/activity.html:48
+msgid "course_activity_detail"
+msgstr ""
+
+#: templates/oppia/course/activity.html:50
+msgid "course_manage_schedules"
+msgstr ""
+
+#: templates/oppia/course/activity.html:52
+msgid "course_manage_cohorts"
+msgstr ""
+
+#: templates/oppia/course/activity.html:55
+msgid "course_quizzes"
+msgstr ""
+
+#: templates/oppia/course/cohorts.html:7
+msgid "cohorts"
+msgstr ""
+
+#: templates/oppia/course/cohorts.html:14
+msgid "teachers"
+msgstr ""
+
+#: templates/oppia/course/cohorts.html:15
+msgid "students"
+msgstr ""
+
+#: templates/oppia/course/cohorts.html:20
+msgid "No cohorts"
+msgstr ""
+
+#: templates/oppia/course/cohorts.html:24
+msgid "Add a cohort"
+msgstr ""
+
+#: templates/oppia/course/course.html:10
+msgid "table_header_course"
+msgstr ""
+
+#: templates/oppia/course/course.html:11
+msgid "table_header_course_downloads"
+msgstr ""
+
+#: templates/oppia/course/course.html:12
+msgid "table_header_course_activity_today"
+msgstr ""
+
+#: templates/oppia/course/course.html:13
+msgid "table_header_course_activity_week"
+msgstr ""
+
+#: templates/oppia/course/course.html:28
+#, python-format
+msgid ""
+"\n"
+"\t\t<p>You don't yet have any courses uploaded, why not <a href="
+"\"%(url_upload)s\">upload one now</a>?</p>\n"
+"\t"
+msgstr ""
+
 #: templates/oppia/course/quiz-attempts.html:25
 msgid "title_quizzes"
 msgstr ""
 
-#: templates/oppia/course/quiz-attempts.html:30
+#: templates/oppia/course/quiz-attempts.html:31
 msgid "table_header_attempt_date"
 msgstr ""
 
-#: templates/oppia/course/quiz-attempts.html:31
+#: templates/oppia/course/quiz-attempts.html:32
 msgid "table_header_attempt_name"
 msgstr ""
 
-#: templates/oppia/course/quiz-attempts.html:32
+#: templates/oppia/course/quiz-attempts.html:33
 msgid "table_header_attempt_score"
 msgstr ""
 
-#: templates/oppia/course/quiz-attempts.html:55
+#: templates/oppia/course/quiz-attempts.html:57
 msgid "No attempts yet"
 msgstr ""
 
@@ -786,6 +770,22 @@ msgstr ""
 
 #: templates/oppia/course/quizzes.html:10
 msgid "table_header_quiz_no_attempts"
+msgstr ""
+
+#: templates/oppia/course/schedules.html:7
+msgid "schedules"
+msgstr ""
+
+#: templates/oppia/course/schedules.html:15
+msgid "default"
+msgstr ""
+
+#: templates/oppia/course/schedules.html:22
+msgid "No schedules"
+msgstr ""
+
+#: templates/oppia/course/schedules.html:26
+msgid "Add a schedule"
 msgstr ""
 
 #: templates/oppia/includes/page_navigator.html:4
