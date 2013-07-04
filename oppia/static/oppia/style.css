@@ -87,6 +87,10 @@ li {
     margin:5px;
 }
 
+.version {
+	font-size: 70%;
+}
+
 .content {
     width:80%;
     margin: 0 auto;
@@ -240,8 +244,7 @@ div.page_navigator {
 
 div.homelink {
 	text-align:center;
-	width:100%;
-	
+	width:100%;	
 }
 
 div.badge {
@@ -260,7 +263,6 @@ div.badge img {
 
 div.badge_data {
 	float:left;
-	
 }
 
 div.tableheader {
@@ -290,4 +292,5 @@ div.tabletitle{
 	float:left;
 	width:35%;
 }
+
 

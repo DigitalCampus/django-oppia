@@ -1,9 +1,10 @@
-# oppia/settings.py
+# oppia/local_settings.py
 
 def modify(settings):
     
     settings['MIDDLEWARE_CLASSES'] += ('oppia.middleware.LoginRequiredMiddleware',)
     settings['TEMPLATE_CONTEXT_PROCESSORS'] += ('oppia.context_processors.get_points',)
+    settings['TEMPLATE_CONTEXT_PROCESSORS'] += ('oppia.context_processors.get_version',)
     settings['LOGIN_EXEMPT_URLS'] = (
          r'^profile/login/$',
          r'^profile/register/',

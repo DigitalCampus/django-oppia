@@ -1,4 +1,5 @@
 # oppia/context_processors.py
+import oppia
 from oppia.models import Points, Award
 
 def get_points(request):
@@ -12,3 +13,7 @@ def get_points(request):
         if badges is None:
             badges = 0
     return {'points': points, 'badges':badges }
+
+def get_version(request):
+    version = str(oppia.VERSION[0]) + "." + str(oppia.VERSION[1]) + "." + str(oppia.VERSION[2])
+    return {'version': version }
