@@ -1,15 +1,19 @@
 # oppia/models.py
 import json
 import datetime
+
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Max, Sum, Q
 from django.utils.translation import ugettext_lazy as _
+
 from tastypie.models import create_api_key
+
 from xml.dom.minidom import *
 
 models.signals.post_save.connect(create_api_key, sender=User)
+
 
 class Course(models.Model):
     user = models.ForeignKey(User)

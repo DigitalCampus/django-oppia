@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.dispatch import Signal
+
 from oppia.models import Points, Award, Tracker, Activity, Section, Course, Cohort
 from oppia.quiz.models import Quiz, QuizAttempt
 
@@ -192,7 +193,6 @@ def badgeaward_callback(sender, **kwargs):
     return
 
 course_downloaded.connect(course_download_callback)
-models.signals.post_save.connect(badgeaward_callback, sender=Award)
 models.signals.post_save.connect(tracker_callback, sender=Tracker)
 models.signals.post_save.connect(signup_callback, sender=User)
 models.signals.post_save.connect(createquiz_callback, sender=Quiz)

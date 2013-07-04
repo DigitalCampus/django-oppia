@@ -1,10 +1,14 @@
 # oppia/awards.py
+from django.db import models
 from django.db.models import Count, F
 from django.contrib.auth.models import User
-from oppia.models import Badge, Award, AwardCourse
-from oppia.quiz.models import Quiz, QuizAttempt, QuizProps
-from oppia.models import Tracker, Course, Section, Activity, Media
 
+from oppia.models import Badge, Award, AwardCourse
+from oppia.models import Tracker, Course, Section, Activity, Media
+from oppia.quiz.models import Quiz, QuizAttempt, QuizProps
+from oppia.signals import badgeaward_callback
+
+models.signals.post_save.connect(badgeaward_callback, sender=Award)
 
 def created_quizzes(num):
     badge_ref = 'create'+str(num)+'quiz'
