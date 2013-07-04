@@ -5,7 +5,7 @@ Change Log
 v0.1.17
 -------
 * Fix: https://github.com/DigitalCampus/django-oppia/issues/18
-* Added unit tests for QuizAttempt
+* Added unit tests for QuizAttempt https://github.com/DigitalCampus/django-oppia/issues/39
 * Fix: https://github.com/DigitalCampus/django-oppia/issues/42
 
 v0.1.16
