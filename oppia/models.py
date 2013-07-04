@@ -313,14 +313,14 @@ class Tracker(models.Model):
             return 0
         return time['total']
     
-    def get_quiz_attempt_data(self):
+    def get_lang(self):
         try:
             json_data = json.loads(self.data)
         except ValueError:
             return None
         
-        if 'instance_id' in json_data:
-            return json_data['instance_id']
+        if 'lang' in json_data:
+            return json_data['lang']
         
          
 class CourseDownload(models.Model):

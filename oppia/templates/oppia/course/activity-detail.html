@@ -14,7 +14,7 @@
 		<div class='tablecell'>{% trans 'table_header_tracker_type' %}</div>
 		<div class='tabletitle'>{% trans 'table_header_tracker_activity' %}</div>
 		<div class='tablecell'>{% trans 'table_header_tracker_timetaken' %}</div>
-		<div class='tablecell'>{% trans 'table_header_tracker_timetaken' %}</div>
+		<div class='tablecell'>{% trans 'table_header_tracker_lang' %}</div>
 		<div style='clear:both'></div>
 	</div>
 	{% for t in page.object_list %}
@@ -24,7 +24,7 @@
 			<div class='tablecell'>{{ t.type }}</div>
 			<div class='tabletitle'>{{ t.title }}</div>
 			<div class='tablecell'>{{ t.time_taken }}</div>
-			<div class='tablecell'>{{ t.get_quiz_attempt_data}}</div>
+			<div class='tablecell'>{% if t.get_lang %}{{ t.get_lang}}{% else %}--{% endif %}</div>
 			<div style='clear:both'></div>
 		</div>
 	{% endfor %}

@@ -1,6 +1,12 @@
 Change Log
 ============
 
+v0.1.18
+-------
+* Fix awarding points with badges: https://github.com/DigitalCampus/django-oppia/issues/41
+* Fix: https://github.com/DigitalCampus/django-oppia/issues/13
+* Add version number to footer
+* Add views for quiz results
 
 v0.1.17
 -------
