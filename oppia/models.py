@@ -80,6 +80,13 @@ class Course(models.Model):
         last_week = datetime.datetime(now.year, now.month, now.day) - datetime.timedelta(days=7)
         return Tracker.objects.filter(course=self,
                                       tracker_date__gte=last_week).count()
+                                      
+    def has_quizzes(self):
+        quiz_count = Activity.objects.filter(section__course=self,type='quiz').count()
+        if quiz_count > 0:
+            return True
+        else:
+            return False
     
 class Tag(models.Model):
     name = models.TextField(blank=False)
@@ -305,6 +312,16 @@ class Tracker(models.Model):
         if time['total'] is None:
             return 0
         return time['total']
+    
+    def get_quiz_attempt_data(self):
+        try:
+            json_data = json.loads(self.data)
+        except ValueError:
+            return None
+        
+        if 'instance_id' in json_data:
+            return json_data['instance_id']
+        
          
 class CourseDownload(models.Model):
     user = models.ForeignKey(User)

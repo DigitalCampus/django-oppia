@@ -14,12 +14,15 @@ from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render,render_to_response
 from django.template import RequestContext
 
-from oppia.models import Course, Tracker, Tag, CourseTag, Schedule, ActivitySchedule, Activity, Cohort, Participant, Points
-from oppia.forms import UploadCourseForm, ScheduleForm, ActivityScheduleForm, CohortForm
+from oppia.forms import UploadCourseForm, ScheduleForm
+from oppia.forms import ActivityScheduleForm, CohortForm
+from oppia.models import Course, Tracker, Tag, CourseTag, Schedule
+from oppia.models import ActivitySchedule, Activity, Cohort, Participant, Points
+from oppia.quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
+
 from uploader import handle_uploaded_file
 
 
-  
 def home_view(request):
     activity = []
     if request.user.is_authenticated():
@@ -114,7 +117,7 @@ def recent_activity_detail(request,id):
     try:
         tracks = paginator.page(page)
         for t in tracks:
-            t.title = t.get_activity_title()
+            t.title = t.get_activity_title()                
     except (EmptyPage, InvalidPage):
         tracks = paginator.page(paginator.num_pages)
     return render_to_response('oppia/course-activity-detail.html',{'course': course,'page':tracks,}, context_instance=RequestContext(request))
@@ -379,3 +382,34 @@ def leaderboard_view(request):
         leaderboard = paginator.page(paginator.num_pages)
 
     return render_to_response('oppia/leaderboard.html',{'page':leaderboard}, context_instance=RequestContext(request))
+
+def course_quiz(request,course_id):
+    course = check_owner(request,course_id)
+    digests = Activity.objects.filter(section__course=course,type='quiz').values('digest').distinct()
+    quizzes = Quiz.objects.filter(quizprops__name='digest',quizprops__value__in=digests)
+    
+    return render_to_response('oppia/course/quizzes.html',{'course': course,'quizzes':quizzes}, context_instance=RequestContext(request))
+
+def course_quiz_attempts(request,course_id,quiz_id):
+    #get the quiz digests for this course
+    course = check_owner(request,course_id)
+    quiz = Quiz.objects.get(pk=quiz_id)
+    attempts = QuizAttempt.objects.filter(quiz=quiz).order_by('-attempt_date')
+    
+    paginator = Paginator(attempts, 25)
+    # Make sure page request is an int. If not, deliver first page.
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+
+    # If page request (9999) is out of range, deliver last page of results.
+    try:
+        attempts = paginator.page(page)
+        for a in attempts:
+            a.responses = QuizAttemptResponse.objects.filter(quizattempt=a)                
+    except (EmptyPage, InvalidPage):
+        tracks = paginator.page(paginator.num_pages)
+    
+     
+    return render_to_response('oppia/course/quiz-attempts.html',{'course': course,'quiz':quiz, 'page':attempts}, context_instance=RequestContext(request))

@@ -50,6 +50,10 @@
 	 <a href="{% url 'oppia_schedules' course.id %}">{% trans 'course_manage_schedules'%}</a>
 	 |
 	 <a href="{% url 'oppia_cohorts' course.id %}">{% trans 'course_manage_cohorts'%}</a>
+	 {% if course.has_quizzes %}
+		 |
+		 <a href="{% url 'oppia_course_quiz' course.id %}">{% trans 'course_quizzes'%}</a>
+	 {% endif %}
 {% endif %}
 	
 <div style="clear:both;"></div> 

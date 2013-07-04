@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %} 
+{% block content %}
+
+<h2><a href="{% url 'oppia_recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a></h2>
+
+<div class="tableheader">
+		<div class='tabletitle'>{% trans 'table_header_quiz_title' %}</a></div>
+		<div class='tablecell'>{% trans 'table_header_quiz_no_attempts' %}</div>
+		<div style='clear:both'></div>
+	</div>
+	
+{% for q in quizzes %}
+	<div class="tablelist"> 	
+		<div class='tabletitle'><a href="{% url 'oppia_course_quiz_attempts' course.id q.id%}">{{ q.title }}</a></div>
+		<div class='tablecell'>{{ q.no_attempts }}</div>
+		<div style='clear:both'></div>
+	</div>
+{% endfor %}
+
+{% endblock content %}

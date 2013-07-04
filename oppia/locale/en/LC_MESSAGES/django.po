@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-02 13:41+0200\n"
+"POT-Creation-Date: 2013-07-04 21:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,123 +45,123 @@ msgstr ""
 msgid "You may only upload a zip file"
 msgstr ""
 
-#: models.py:25
+#: models.py:29
 msgid "Course"
 msgstr ""
 
-#: models.py:26
+#: models.py:30
 msgid "Courses"
 msgstr ""
 
-#: models.py:87
+#: models.py:98
 msgid "Tag"
 msgstr ""
 
-#: models.py:88
+#: models.py:99
 msgid "Tags"
 msgstr ""
 
-#: models.py:98
+#: models.py:109
 msgid "Course Tag"
 msgstr ""
 
-#: models.py:99
+#: models.py:110
 msgid "Course Tags"
 msgstr ""
 
-#: models.py:110 templates/oppia/schedule-form.html:7
+#: models.py:121 templates/oppia/schedule-form.html:7
 msgid "Schedule"
 msgstr ""
 
-#: models.py:111
+#: models.py:122
 msgid "Schedules"
 msgstr ""
 
-#: models.py:137
+#: models.py:148
 msgid "ActivitySchedule"
 msgstr ""
 
-#: models.py:138
+#: models.py:149
 msgid "ActivitySchedules"
 msgstr ""
 
-#: models.py:148
+#: models.py:159
 msgid "Section"
 msgstr ""
 
-#: models.py:149
+#: models.py:160
 msgid "Sections"
 msgstr ""
 
-#: models.py:177
+#: models.py:188
 msgid "Activity"
 msgstr ""
 
-#: models.py:178
+#: models.py:189
 msgid "Activities"
 msgstr ""
 
-#: models.py:199 models.py:200
+#: models.py:210 models.py:211
 msgid "Media"
 msgstr ""
 
-#: models.py:219
+#: models.py:230
 msgid "Tracker"
 msgstr ""
 
-#: models.py:220
+#: models.py:231
 msgid "Trackers"
 msgstr ""
 
-#: models.py:314
+#: models.py:335
 msgid "CourseDownload"
 msgstr ""
 
-#: models.py:315
+#: models.py:336
 msgid "CourseDownloads"
 msgstr ""
 
-#: models.py:325
+#: models.py:346
 msgid "Cohort"
 msgstr ""
 
-#: models.py:326
+#: models.py:347
 msgid "Cohorts"
 msgstr ""
 
-#: models.py:380
+#: models.py:401
 msgid "Participant"
 msgstr ""
 
-#: models.py:381
+#: models.py:402
 msgid "Participants"
 msgstr ""
 
-#: models.py:393
+#: models.py:414
 msgid "Message"
 msgstr ""
 
-#: models.py:394
+#: models.py:415
 msgid "Messages"
 msgstr ""
 
-#: models.py:405
+#: models.py:426
 msgid "Badge"
 msgstr ""
 
-#: models.py:406
+#: models.py:427
 msgid "Badges"
 msgstr ""
 
-#: models.py:418
+#: models.py:439
 msgid "Award"
 msgstr ""
 
-#: models.py:419
+#: models.py:440
 msgid "Awards"
 msgstr ""
 
-#: models.py:472 models.py:473
+#: models.py:493 models.py:494
 msgid "Points"
 msgstr ""
 
@@ -185,36 +185,31 @@ msgstr ""
 msgid "There don't appear to be any activities in this upload file."
 msgstr ""
 
-#: api/resources.py:73
+#: api/resources.py:72
 msgid "Username missing"
 msgstr ""
 
-#: api/resources.py:76
+#: api/resources.py:75
 msgid "Password missing"
 msgstr ""
 
-#: api/resources.py:86 api/resources.py:88
+#: api/resources.py:85 api/resources.py:87
 msgid "Authentication failure"
 msgstr ""
 
-#: api/resources.py:126
+#: api/resources.py:125
 #, python-format
 msgid "Please enter your %s"
 msgstr ""
 
-#: api/resources.py:158
+#: api/resources.py:157
 #, python-format
 msgid "Username \"%s\" already in use, please select another"
 msgstr ""
 
-#: api/resources.py:281
+#: api/resources.py:279
 msgid "Course download not found"
 msgstr ""
-
-#: api/validation.py:25
-#, fuzzy
-msgid "Digest not found"
-msgstr "Page not found"
 
 #: profile/forms.py:9 profile/forms.py:56
 msgid "Please enter a username."
@@ -360,15 +355,27 @@ msgstr ""
 msgid "QuizAttemptResponses"
 msgstr ""
 
-#: quiz/api/resources.py:29
+#: quiz/api/resources.py:248
+msgid "Quiz does not exist"
+msgstr ""
+
+#: quiz/api/resources.py:256
+msgid "Question does not exist"
+msgstr ""
+
+#: quiz/api/resources.py:261
+msgid "This question is not part of this quiz"
+msgstr ""
+
+#: quiz/api/validation.py:16
 msgid "You are not the owner of this quiz"
 msgstr ""
 
-#: quiz/api/resources.py:39
+#: quiz/api/validation.py:26
 msgid "You are not the owner of this question"
 msgstr ""
 
-#: quiz/api/resources.py:49
+#: quiz/api/validation.py:36
 msgid "You are not the owner of this response"
 msgstr ""
 
@@ -483,10 +490,11 @@ msgid "table_header_tracker_activity"
 msgstr "Activity"
 
 #: templates/oppia/course-activity-detail.html:16
-msgid "table_header_tracker_description"
-msgstr "Data"
+#: templates/oppia/course-activity-detail.html:17
+msgid "table_header_tracker_timetaken"
+msgstr "Time Taken"
 
-#: templates/oppia/course-activity-detail.html:32
+#: templates/oppia/course-activity-detail.html:34
 msgid "No hits yet"
 msgstr ""
 
@@ -526,15 +534,19 @@ msgstr "Manage schedules"
 msgid "course_manage_cohorts"
 msgstr "Manage cohorts"
 
-#: templates/oppia/course-activity.html:57 templates/oppia/home.html:45
+#: templates/oppia/course-activity.html:55
+msgid "course_quizzes"
+msgstr "Quizzes"
+
+#: templates/oppia/course-activity.html:61 templates/oppia/home.html:45
 msgid "home_leaderboard"
 msgstr "Leaderboard"
 
-#: templates/oppia/course-activity.html:61 templates/oppia/home.html:50
+#: templates/oppia/course-activity.html:65 templates/oppia/home.html:50
 msgid "courses_recent_activity"
 msgstr "Recent Activity"
 
-#: templates/oppia/course-activity.html:62 templates/oppia/home.html:51
+#: templates/oppia/course-activity.html:66 templates/oppia/home.html:51
 msgid "graph_generating"
 msgstr ""
 
@@ -747,6 +759,34 @@ msgstr "Tags"
 msgid "button_course_upload"
 msgstr "Upload"
 
+#: templates/oppia/course/quiz-attempts.html:25
+msgid "title_quizzes"
+msgstr "Quizzes"
+
+#: templates/oppia/course/quiz-attempts.html:30
+msgid "table_header_attempt_date"
+msgstr "Date"
+
+#: templates/oppia/course/quiz-attempts.html:31
+msgid "table_header_attempt_name"
+msgstr "Name"
+
+#: templates/oppia/course/quiz-attempts.html:32
+msgid "table_header_attempt_score"
+msgstr "Score"
+
+#: templates/oppia/course/quiz-attempts.html:55
+msgid "No attempts yet"
+msgstr ""
+
+#: templates/oppia/course/quizzes.html:9
+msgid "table_header_quiz_title"
+msgstr "Quiz Title"
+
+#: templates/oppia/course/quizzes.html:10
+msgid "table_header_quiz_no_attempts"
+msgstr "No attempts"
+
 #: templates/oppia/includes/page_navigator.html:4
 msgid "previous"
 msgstr "previous"
@@ -846,3 +886,4 @@ msgstr ""
 #: templates/oppia/profile/reset.html:16
 msgid "button_reset_password"
 msgstr "Reset password"
+

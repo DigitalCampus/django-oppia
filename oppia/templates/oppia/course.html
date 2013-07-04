@@ -16,7 +16,7 @@
 	{% for course in course_list %}
 		<div class="tablelist"> 	
 			<div class='tabletitle'><a href="{% url 'oppia_recent_activity' course.id %}">
-				{{ course.title|title_lang:LANGUAGE_CODE }}</a></a></div>
+				{{ course.title|title_lang:LANGUAGE_CODE }}</a></div>
 			<div class='tabletitle'>{{course.no_downloads}} downloads by {{course.no_distinct_downloads}} users</div>
 			<div class='tablecell'>{{course.get_activity_today}}</div>
 			<div class='tablecell'>{{course.get_activity_week}}</div>
