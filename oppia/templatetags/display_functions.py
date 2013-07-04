@@ -2,6 +2,7 @@
 import json
 import math
 from django import template
+from django.template.defaultfilters import stringfilter
 
 register = template.Library()
 
@@ -25,3 +26,17 @@ def secs_to_duration(secs):
     #minutes = int(math.floor(secs/60))
     #seconds = int(secs - (minutes*60))
     #return str(minutes)+'\''+str(seconds)+'"'
+
+@register.filter(name='title_lang')
+@stringfilter
+def title_lang(title,lang):
+    try:
+        titles = json.loads(title)
+        if lang in titles:
+            return titles[lang]
+        else:
+            for l in titles:
+                return titles[l]
+    except:
+        pass
+    return title
