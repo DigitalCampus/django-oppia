@@ -72,8 +72,8 @@ Installation
   files and also checks which course badges should be awarded.
 
 	* Exactly how you call ``cron.py`` will depend on your environment, but as 
-	   an example on my development server (and using virtualenv) I use a 
-	   wrapper shell script with the following content::
+	  an example on my development server (and using virtualenv) I use a 
+	  wrapper shell script with the following content::
 	
 		#!/bin/bash
 
