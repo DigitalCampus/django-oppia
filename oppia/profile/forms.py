@@ -37,7 +37,13 @@ class RegisterForm(forms.Form):
         email = cleaned_data.get("email")
         password = cleaned_data.get("password")
         password_again = cleaned_data.get("password_again")
+        username = cleaned_data.get("username")
 
+        # check the username not already used
+        num_rows = User.objects.filter(username=username).count()
+        if num_rows != 0:
+            raise forms.ValidationError( _(u"Username has already been registered, please select another."))
+        
         # check the email address not already used
         num_rows = User.objects.filter(email=email).count()
         if num_rows != 0:

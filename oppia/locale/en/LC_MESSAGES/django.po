@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-04 23:51+0200\n"
+"POT-Creation-Date: 2013-08-20 14:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -211,11 +211,11 @@ msgstr ""
 msgid "Course download not found"
 msgstr ""
 
-#: profile/forms.py:9 profile/forms.py:56
+#: profile/forms.py:9 profile/forms.py:62
 msgid "Please enter a username."
 msgstr ""
 
-#: profile/forms.py:11 profile/forms.py:73
+#: profile/forms.py:11 profile/forms.py:79
 msgid "Please enter a valid e-mail address."
 msgstr ""
 
@@ -255,23 +255,27 @@ msgstr ""
 msgid "Your last name should be at least 2 characters long."
 msgstr ""
 
-#: profile/forms.py:44
+#: profile/forms.py:45
+msgid "Username has already been registered, please select another."
+msgstr ""
+
+#: profile/forms.py:50
 msgid "Email has already been registered"
 msgstr ""
 
-#: profile/forms.py:49 profile/forms.py:106
+#: profile/forms.py:55 profile/forms.py:112
 msgid "Passwords do not match."
 msgstr ""
 
-#: profile/forms.py:64
+#: profile/forms.py:70
 msgid "Username not found"
 msgstr ""
 
-#: profile/forms.py:78
+#: profile/forms.py:84
 msgid "Your new password should be at least 6 characters long"
 msgstr ""
 
-#: profile/forms.py:99
+#: profile/forms.py:105
 msgid "Email address already in use"
 msgstr ""
 

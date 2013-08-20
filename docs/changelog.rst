@@ -1,6 +1,10 @@
 Change Log
 ============
 
+v0.1.20
+-------
+* Fix: https://github.com/DigitalCampus/django-oppia/issues/46
+
 v0.1.19
 -------
 * Added script for scanning dir of video files to create the tags: https://github.com/DigitalCampus/django-oppia/issues/44
