@@ -1,18 +1,23 @@
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
+# oppia/profile/views.py
+
+from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth import (authenticate, login, views)
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
-from django.conf import settings
-from django.contrib import messages
-from django.utils.translation import ugettext as _
-from tastypie.models import ApiKey
-from oppia.models import Points,Award, AwardCourse, Course
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.http import HttpResponseRedirect, Http404
+from django.shortcuts import render
+from django.utils.translation import ugettext as _
 
-from forms import RegisterForm, ResetForm, ProfileForm
+from oppia.models import Points,Award, AwardCourse, Course
+from oppia.profile.forms import RegisterForm, ResetForm, ProfileForm
+from tastypie.models import ApiKey
 
 def register(request):
+    if not settings.OPPIA_ALLOW_SELF_REGISTRATION:
+        raise Http404
+    
     if request.method == 'POST': # if form submitted...
         form = RegisterForm(request.POST)
         if form.is_valid(): # All validation rules pass

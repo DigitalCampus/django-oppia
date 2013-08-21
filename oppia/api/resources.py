@@ -117,6 +117,8 @@ class RegisterResource(ModelResource):
         include_resource_uri = False
          
     def obj_create(self, bundle, **kwargs):
+        if not settings.OPPIA_ALLOW_SELF_REGISTRATION:
+            raise BadRequest(_(u'Registration is disabled on this server.'))
         required = ['username','password','passwordagain', 'email', 'firstname', 'lastname']
         for r in required:
             try:

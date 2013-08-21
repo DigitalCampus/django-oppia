@@ -1,4 +1,5 @@
 # oppia/urls.py
+from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
 
@@ -18,8 +19,8 @@ v1_api.register(ScorecardResource())
 v1_api.register(PointsResource())
 v1_api.register(AwardsResource())
 v1_api.register(BadgesResource())
-v1_api.register(RegisterResource())
 v1_api.register(UserResource())
+v1_api.register(RegisterResource())
 
 v1_api.register(QuizResource())
 v1_api.register(QuizPropsResource())

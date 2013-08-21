@@ -33,7 +33,9 @@ def modify(settings):
         'COURSE_DOWNLOADED':50, # for downloading a course
         }
        
-    settings['MAX_UPLOAD_SIZE'] = 5242880 # max course file upload size - in bytes          
+    settings['OPPIA_MAX_UPLOAD_SIZE'] = 5242880 # max course file upload size - in bytes          
                                 
+    settings['OPPIA_ALLOW_SELF_REGISTRATION'] = True # turns on/off ability for users to self register
+    
     
     

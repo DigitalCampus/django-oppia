@@ -565,3 +565,7 @@ class Points(models.Model):
         if score['total'] is None:
             return 0
         return score['total']
+    
+
+    
+    
