@@ -14,6 +14,7 @@ Contents:
    :maxdepth: 1
    
    install
+   settings
    upgrade
    api
    

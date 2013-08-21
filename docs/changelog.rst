@@ -1,6 +1,11 @@
 Change Log
 ============
 
+v0.1.21
+-------
+* Add option to turn self registration on or off: https://github.com/DigitalCampus/django-oppia/issues/2
+* Add option for added Google Analytics: https://github.com/DigitalCampus/django-oppia/issues/1
+
 v0.1.20
 -------
 * Fix: https://github.com/DigitalCampus/django-oppia/issues/46
