@@ -20,4 +20,7 @@ def get_version(request):
     return {'version': version }
 
 def get_settings(request):
-    return { 'OPPIA_ALLOW_SELF_REGISTRATION': settings.OPPIA_ALLOW_SELF_REGISTRATION }
+    return { 'OPPIA_ALLOW_SELF_REGISTRATION': settings.OPPIA_ALLOW_SELF_REGISTRATION,
+             'OPPIA_GOOGLE_ANALYTICS_ENABLED': settings.OPPIA_GOOGLE_ANALYTICS_ENABLED,
+             'OPPIA_GOOGLE_ANALYTICS_CODE': settings.OPPIA_GOOGLE_ANALYTICS_CODE,
+             'OPPIA_GOOGLE_ANALYTICS_DOMAIN': settings.OPPIA_GOOGLE_ANALYTICS_DOMAIN,}

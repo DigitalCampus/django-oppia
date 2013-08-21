@@ -5,6 +5,7 @@ def modify(settings):
     settings['MIDDLEWARE_CLASSES'] += ('oppia.middleware.LoginRequiredMiddleware',)
     settings['TEMPLATE_CONTEXT_PROCESSORS'] += ('oppia.context_processors.get_points',)
     settings['TEMPLATE_CONTEXT_PROCESSORS'] += ('oppia.context_processors.get_version',)
+    settings['TEMPLATE_CONTEXT_PROCESSORS'] += ('oppia.context_processors.get_settings',)
     settings['LOGIN_EXEMPT_URLS'] = (
          r'^profile/login/$',
          r'^profile/register/',
@@ -33,9 +34,12 @@ def modify(settings):
         'COURSE_DOWNLOADED':50, # for downloading a course
         }
        
-    settings['OPPIA_MAX_UPLOAD_SIZE'] = 5242880 # max course file upload size - in bytes          
-                                
+                                          
     settings['OPPIA_ALLOW_SELF_REGISTRATION'] = True # turns on/off ability for users to self register
     
+    settings['OPPIA_GOOGLE_ANALYTICS_ENABLED'] = True
+    settings['OPPIA_GOOGLE_ANALYTICS_CODE'] = 'UA-3609005-11'
+    settings['OPPIA_GOOGLE_ANALYTICS_DOMAIN'] = 'oppia-mobile.org'
     
+    settings['OPPIA_MAX_UPLOAD_SIZE'] = 5242880 # max course file upload size - in bytes
     

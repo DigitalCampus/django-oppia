@@ -1,4 +1,5 @@
 {% load i18n %}
+{% block content %}
 <div id="header"> 
     <div class="content">  
         <div id="logo"><h1><a href="{% url 'oppia_home' %}">{% trans 'app_name' %}</a></h1></div>
@@ -49,3 +50,4 @@
     </div>
     <div style="clear:both;"></div>
 </div>
+{% endblock content %}
