@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-20 14:43+0200\n"
+"POT-Creation-Date: 2013-10-16 16:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -198,17 +198,21 @@ msgstr ""
 msgid "Authentication failure"
 msgstr ""
 
-#: api/resources.py:125
+#: api/resources.py:121
+msgid "Registration is disabled on this server."
+msgstr ""
+
+#: api/resources.py:127
 #, python-format
 msgid "Please enter your %s"
 msgstr ""
 
-#: api/resources.py:157
+#: api/resources.py:159
 #, python-format
 msgid "Username \"%s\" already in use, please select another"
 msgstr ""
 
-#: api/resources.py:279
+#: api/resources.py:281
 msgid "Course download not found"
 msgstr ""
 
@@ -280,11 +284,11 @@ msgstr ""
 msgid "Email address already in use"
 msgstr ""
 
-#: profile/views.py:77
+#: profile/views.py:82
 msgid "Profile updated"
 msgstr ""
 
-#: profile/views.py:84
+#: profile/views.py:89
 msgid "Password updated"
 msgstr ""
 
@@ -405,7 +409,8 @@ msgid ""
 "administrator.</p>\n"
 msgstr ""
 
-#: templates/base.html:5 templates/includes/header.html:4
+#: templates/base-mobile.html:5 templates/base.html:5
+#: templates/includes/header.html:5
 msgid "app_name"
 msgstr ""
 
@@ -417,37 +422,40 @@ msgstr ""
 msgid "footer_terms"
 msgstr ""
 
-#: templates/includes/header.html:24
+#: templates/includes/header.html:25
 msgid "menu_home"
 msgstr ""
 
-#: templates/includes/header.html:26
+#: templates/includes/header.html:27
 msgid "menu_courses"
 msgstr ""
 
-#: templates/includes/header.html:27
+#: templates/includes/header.html:28
 msgid "menu_upload"
 msgstr ""
 
-#: templates/includes/header.html:35
+#: templates/includes/header.html:36
 msgid "Welcome"
 msgstr ""
 
-#: templates/includes/header.html:36 templates/oppia/leaderboard.html:13
+#: templates/includes/header.html:37 templates/oppia/leaderboard.html:13
 #: templates/oppia/includes/leaderboard.html:7
 msgid "points"
 msgstr ""
 
-#: templates/includes/header.html:37 templates/oppia/leaderboard.html:14
+#: templates/includes/header.html:38 templates/oppia/leaderboard.html:14
 #: templates/oppia/includes/leaderboard.html:8
 msgid "badges"
 msgstr ""
 
-#: templates/includes/header.html:41
+#: templates/includes/header.html:42
 #, python-format
-msgid ""
-"Welcome, please <a href=\"%(url_login)s?next=%(rpath)s\">Login</a> or <a "
-"href=\"%(url_register)s\">Register</a>"
+msgid "Welcome, please <a href=\"%(url_login)s?next=%(rpath)s\">Login</a>"
+msgstr ""
+
+#: templates/includes/header.html:44
+#, python-format
+msgid " or <a href=\"%(url_register)s\">Register</a>"
 msgstr ""
 
 #: templates/oppia/cohort-form.html:8
@@ -806,6 +814,14 @@ msgstr ""
 
 #: templates/oppia/includes/page_navigator.html:12
 msgid "next"
+msgstr ""
+
+#: templates/oppia/mobile/monitor/home.html:6
+msgid "monitor"
+msgstr ""
+
+#: templates/oppia/mobile/monitor/home.html:10
+msgid "<p>You are not currently teaching on any courses.</p>"
 msgstr ""
 
 #: templates/oppia/profile/badges.html:4

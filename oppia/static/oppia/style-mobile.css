@@ -1,0 +1,101 @@
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    color: #444444;
+    font-family: Verdana,'Lucida Grande',Tahoma,Arial,Sans-Serif;
+    font-size: 100%;
+    padding: 5px 0;
+}
+
+h2,p {
+	text-align:center;
+	padding:10px 0;
+}	
+div.kpiheader {
+    clear: both;
+    font-size: 80%;
+    margin: 5px;
+    padding: 0 5px;
+}
+
+div.kpi {
+    border: 1px solid #CCCCCC;
+    clear: both;
+    margin: 5px;
+    padding: 5px;
+} 
+
+div.kpititle {
+    float: left;
+    font-weight: bold;
+    text-align: center;
+    width: 40%;
+}
+div.kpivalue {
+    float: left;
+    font-weight: bold;
+    text-align: center;
+    width: 20%;
+}
+
+div.list {
+    border-bottom: 1px solid #999999;
+    clear: both;
+    padding: 10px;
+}
+
+div.list:hover {
+	background:yellow;
+	cursor:pointer;
+}
+
+div.listheader {
+    border-bottom: 1px solid #999999;
+    clear: both;
+    padding: 10px;
+    font-weight:bold;
+}
+
+div.listname{
+    float:left;
+    width: 40%;
+}
+
+div.listcell{
+    float:left;
+    width: 20%;
+    text-align: center;
+}
+
+div.listprogress{
+    float:left;
+    width: 60%;
+    text-align: center;
+}
+
+#monitormenu {
+	width:100%;
+	margin: auto;
+	text-align: center;
+}
+#monitormenu ul li {
+	display: inline;
+	list-style-type: none;
+	margin: 10px;
+	text-align: center;
+	border: 0px solid #aaa;
+	padding: 5px 10px;
+	border-radius: 0.3em;
+	-moz-border-radius: 0.3em;
+	-webkit-border-radius: 0.3em;
+	background:#495525;
+	color:white;
+}
+
+#monitormenu ul li:hover {
+	cursor:pointer;
+}

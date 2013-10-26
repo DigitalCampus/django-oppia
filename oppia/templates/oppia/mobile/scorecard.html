@@ -1,57 +1,7 @@
-{% load display_functions %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>OppiaMobile Scorecard</title>
-    <meta name="viewport" content="width=device-width, user-scalable=no" />
-    
-<style>
-* {
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    color: #444444;
-    font-family: Verdana,'Lucida Grande',Tahoma,Arial,Sans-Serif;
-    font-size: 100%;
-}
-
-h2,p {
-	text-align:center;
-	padding:10px 0;
-}	
-div.kpiheader {
-    clear: both;
-    font-size: 80%;
-    margin: 5px;
-    padding: 0 5px;
-}
-
-div.kpi {
-    border: 1px solid #CCCCCC;
-    clear: both;
-    margin: 5px;
-    padding: 5px;
-} 
-
-div.kpititle {
-    float: left;
-    font-weight: bold;
-    text-align: center;
-    width: 40%;
-}
-div.kpivalue {
-    float: left;
-    font-weight: bold;
-    text-align: center;
-    width: 20%;
-}
-    
-</style>
-</head>
-<body>
-
+{% extends "base-mobile.html" %} 
+{% load i18n %} 
+{% load display_functions %} 
+{% block content %}
 <h2>Your scorecard</h2>
 
 <p>Your activity for the last 2 weeks</p>
@@ -93,5 +43,4 @@ div.kpivalue {
 	<div style="clear:both;"></div>
 </div>
 
-</body>
-</html>
+{% endblock %}

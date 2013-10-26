@@ -1,0 +1,34 @@
+{% extends "base-mobile.html" %} 
+{% load i18n %} 
+{% load display_functions %} 
+{% block extra_scripts %}
+	<script type="text/javascript" src="{{ STATIC_URL }}oppia/js/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }}oppia/js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript">
+		function load(url){
+			window.location.href = url + "?username={{ user.username }}&api_key={{ user.key }}";
+		}
+	</script>
+{% endblock extra_scripts %}
+{% block extra_styles %}
+ <link href="{{ STATIC_URL }}oppia/ui-lightness/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" type="text/css"/>
+{% endblock extra_styles %} 
+{% block content %}
+<h2>{{ cohort.course.title|title_lang:LANGUAGE_CODE }}<br/>{{ cohort.description }}</h2>
+
+{% if quizzes %}
+<div id="monitormenu">
+	<ul>
+		<li><a onclick="load('{% url 'oppia_monitor_cohort_recent' cohort.id %}');"> {% trans 'Recent' %}</a></li>
+		<li><a onclick="load('{% url 'oppia_monitor_cohort_overall' cohort.id %}');">{% trans 'Overall' %}</a></li>
+		<li><a onclick="load('{% url 'oppia_monitor_cohort_quizzes' cohort.id %}');">{% trans 'Quizzes' %}</a></li>
+	</ul>
+</div>
+
+{% blocktrans %}<p>Quizzes</p>{% endblocktrans %}
+	
+{% else %}
+	{% blocktrans %}<p>There are no quizzes in this course.</p>{% endblocktrans %}
+{% endif %}
+
+{% endblock %} 
