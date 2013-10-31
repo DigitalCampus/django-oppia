@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-16 16:53+0200\n"
+"POT-Creation-Date: 2013-10-31 15:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -98,11 +98,11 @@ msgstr ""
 msgid "Activity"
 msgstr ""
 
-#: models.py:189
+#: models.py:189 templates/oppia/mobile/monitor/recent.html:31
 msgid "Activities"
 msgstr ""
 
-#: models.py:210 models.py:211
+#: models.py:210 models.py:211 templates/oppia/mobile/monitor/recent.html:29
 msgid "Media"
 msgstr ""
 
@@ -308,11 +308,13 @@ msgstr ""
 msgid "Responses"
 msgstr ""
 
-#: quiz/models.py:61
+#: quiz/models.py:61 templates/oppia/mobile/monitor/recent.html:30
 msgid "Quiz"
 msgstr ""
 
-#: quiz/models.py:62
+#: quiz/models.py:62 templates/oppia/mobile/monitor/overall.html:32
+#: templates/oppia/mobile/monitor/quizzes.html:24
+#: templates/oppia/mobile/monitor/recent.html:22
 msgid "Quizzes"
 msgstr ""
 
@@ -487,10 +489,12 @@ msgid "button_cohort_save"
 msgstr ""
 
 #: templates/oppia/home.html:17 templates/oppia/course/activity.html:16
+#: templates/oppia/course/course.html:18
 msgid "Date"
 msgstr ""
 
 #: templates/oppia/home.html:18 templates/oppia/course/activity.html:20
+#: templates/oppia/course/course.html:19
 msgid "Total"
 msgstr ""
 
@@ -507,6 +511,7 @@ msgid "courses_recent_activity"
 msgstr ""
 
 #: templates/oppia/home.html:51 templates/oppia/course/activity.html:66
+#: templates/oppia/course/course.html:58
 msgid "graph_generating"
 msgstr ""
 
@@ -579,7 +584,7 @@ msgstr ""
 msgid "button_schedule_save"
 msgstr ""
 
-#: templates/oppia/schedule-saved.html:6 templates/oppia/course/course.html:7
+#: templates/oppia/schedule-saved.html:6 templates/oppia/course/course.html:45
 msgid "courses"
 msgstr ""
 
@@ -734,23 +739,19 @@ msgstr ""
 msgid "Add a cohort"
 msgstr ""
 
-#: templates/oppia/course/course.html:10
+#: templates/oppia/course/course.html:48
 msgid "table_header_course"
 msgstr ""
 
-#: templates/oppia/course/course.html:11
+#: templates/oppia/course/course.html:49
 msgid "table_header_course_downloads"
 msgstr ""
 
-#: templates/oppia/course/course.html:12
-msgid "table_header_course_activity_today"
+#: templates/oppia/course/course.html:50
+msgid "table_header_activity_graph"
 msgstr ""
 
-#: templates/oppia/course/course.html:13
-msgid "table_header_course_activity_week"
-msgstr ""
-
-#: templates/oppia/course/course.html:28
+#: templates/oppia/course/course.html:64
 #, python-format
 msgid ""
 "\n"
@@ -816,12 +817,54 @@ msgstr ""
 msgid "next"
 msgstr ""
 
-#: templates/oppia/mobile/monitor/home.html:6
-msgid "monitor"
+#: templates/oppia/mobile/monitor/home.html:15
+msgid "Monitor"
 msgstr ""
 
-#: templates/oppia/mobile/monitor/home.html:10
+#: templates/oppia/mobile/monitor/home.html:21
 msgid "<p>You are not currently teaching on any courses.</p>"
+msgstr ""
+
+#: templates/oppia/mobile/monitor/overall.html:30
+#: templates/oppia/mobile/monitor/quizzes.html:22
+#: templates/oppia/mobile/monitor/recent.html:20
+msgid "Recent"
+msgstr ""
+
+#: templates/oppia/mobile/monitor/overall.html:31
+#: templates/oppia/mobile/monitor/quizzes.html:23
+#: templates/oppia/mobile/monitor/recent.html:21
+msgid "Overall"
+msgstr ""
+
+#: templates/oppia/mobile/monitor/overall.html:36
+msgid "<p>Overall progress</p>"
+msgstr ""
+
+#: templates/oppia/mobile/monitor/overall.html:38
+#: templates/oppia/mobile/monitor/recent.html:28
+msgid "Student"
+msgstr ""
+
+#: templates/oppia/mobile/monitor/overall.html:39
+msgid "Progress"
+msgstr ""
+
+#: templates/oppia/mobile/monitor/overall.html:50
+#: templates/oppia/mobile/monitor/recent.html:44
+msgid "<p>There are no students in this cohort.</p>"
+msgstr ""
+
+#: templates/oppia/mobile/monitor/quizzes.html:28
+msgid "<p>Quizzes</p>"
+msgstr ""
+
+#: templates/oppia/mobile/monitor/quizzes.html:31
+msgid "<p>There are no quizzes in this course.</p>"
+msgstr ""
+
+#: templates/oppia/mobile/monitor/recent.html:26
+msgid "<p>Activity in the last 14 days:</p>"
 msgstr ""
 
 #: templates/oppia/profile/badges.html:4

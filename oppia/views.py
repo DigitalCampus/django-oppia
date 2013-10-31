@@ -39,7 +39,18 @@ def home_view(request):
     return render_to_response('oppia/home.html',{'recent_activity':activity, 'leaderboard':leaderboard}, context_instance=RequestContext(request))
 
 def course_view(request):
-    course_list = Course.objects.all().order_by('title')    
+    course_list = Course.objects.all().order_by('title')   
+    startdate = datetime.datetime.now()
+    staff = User.objects.filter(is_staff=True)
+    for course in course_list:
+        course.activity = []
+        for i in range(7,-1,-1):
+            temp = startdate - datetime.timedelta(days=i)
+            day = temp.strftime("%d")
+            month = temp.strftime("%m")
+            year = temp.strftime("%y")
+            count = Tracker.objects.filter(course = course, tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).exclude(user_id__in=staff).count()
+            course.activity.append([temp.strftime("%d %b %y"),count])   
     return render_to_response('oppia/course/course.html',{'course_list': course_list,}, context_instance=RequestContext(request))
 
        

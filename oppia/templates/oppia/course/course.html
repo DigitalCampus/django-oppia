@@ -1,7 +1,45 @@
 {% extends "base.html" %} 
 {% load i18n %} 
 {% load display_functions %} 
-
+{% if course_list %}
+	{% block extra_scripts %}
+	<script type='text/javascript' src='https://www.google.com/jsapi'></script>
+	<script type="text/javascript">
+	
+		// Load the Visualization API and the piechart package.
+		google.load('visualization', '1.0', {'packages':['corechart']});
+	
+		// Set a callback to run when the Google Visualization API is loaded.
+		google.setOnLoadCallback(drawChart);
+		function drawChart() {
+	
+			{% for course in course_list %}
+				var data = new google.visualization.DataTable();
+				data.addColumn('string', "{% trans 'Date' %}");
+				data.addColumn('number', "{% trans 'Total' %}");
+				
+				data.addRows( {{ course.activity|length }} );
+				
+				{% for date,count in course.activity %}
+					data.setValue({{ forloop.counter0 }},0,'{{ date }}');
+					data.setValue({{ forloop.counter0 }},1,{{ count }});
+				{% endfor %}
+		
+		        var chart = new google.visualization.AreaChart(document.getElementById('activity_chart_div_{{course.id}}'));
+		        chart.draw(data, {	width: 100, 
+		                			height: 50,
+		                			vAxis: {minValue:0},
+		                			pointSize:0,
+		                			chartArea: {left:0,top:0,width:"100%",height:"100%"},
+		                			backgroundColor: 'transparent',
+		                			legend: 'none',
+		                			series: [{areaOpacity:0.2}]
+		                			});
+	        {% endfor %}
+	      }
+	</script>
+	{% endblock extra_scripts %}
+{% endif %} 
 {% block content %}
 
 <h2>{% trans 'courses' %}</h2>
@@ -9,8 +47,7 @@
 	<div class="tableheader">
 		<div class='tabletitle'>{% trans 'table_header_course' %}</a></div>
 		<div class='tabletitle'>{% trans 'table_header_course_downloads' %}</div>
-		<div class='tablecell'>{% trans 'table_header_course_activity_today' %}</div>
-		<div class='tablecell'>{% trans 'table_header_course_activity_week' %}</div>
+		<div class='tablecell'>{% trans 'table_header_activity_graph' %}</div>
 		<div style='clear:both'></div>
 	</div>
 	{% for course in course_list %}
@@ -18,8 +55,7 @@
 			<div class='tabletitle'><a href="{% url 'oppia_recent_activity' course.id %}">
 				{{ course.title|title_lang:LANGUAGE_CODE }}</a></div>
 			<div class='tabletitle'>{{course.no_downloads}} downloads by {{course.no_distinct_downloads}} users</div>
-			<div class='tablecell'>{{course.get_activity_today}}</div>
-			<div class='tablecell'>{{course.get_activity_week}}</div>
+			<div class='tablecell'><div id="activity_chart_div_{{course.id}}" class="graph">{% trans 'graph_generating'%}</div></div>
 			<div style='clear:both'></div>
 		</div>
 	{% endfor %}
