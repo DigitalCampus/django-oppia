@@ -95,9 +95,18 @@ def monitor_cohort_quizzes_view(request,cohort_id):
     cohort = get_object_or_404(Cohort, pk=cohort_id, participant__user=request.user, participant__role=Participant.TEACHER, start_date__lte=now,end_date__gte=now)
     digests = Activity.objects.filter(section__course=cohort.course,type='quiz').values('digest').distinct()
     quizzes = Quiz.objects.filter(quizprops__name='digest',quizprops__value__in=digests)
+    cohort_users = Participant.objects.filter(cohort=cohort,role=Participant.STUDENT).values('user__id').distinct()
     for q in quizzes:
-        q.attempts = q.no_attempts_by_cohort(cohort)
-        q.average_score = q.avg_score_by_cohort(cohort)
+        attempts = QuizAttempt.objects.filter(quiz=q, user__id__in=cohort_users)
+        total = 0
+        for a in attempts:
+            total = total + a.get_score_percent()
+        if attempts.count() > 0:
+            avg_score = int(total/attempts.count())
+        else:
+            avg_score = 0
+        q.attempts = attempts.count()
+        q.average_score = avg_score
     return render_to_response('oppia/mobile/monitor/quizzes.html',{ 'cohort':cohort, 'quizzes': quizzes, 'user': request.user }, context_instance=RequestContext(request))
 
 def monitor_cohort_student_view(request,cohort_id, student_id):
