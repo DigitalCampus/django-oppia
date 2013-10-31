@@ -324,26 +324,24 @@ def cohort_edit(request,course_id,cohort_id):
             
             Participant.objects.filter(cohort=cohort).delete()
             
-            students = form.cleaned_data.get("students").strip().split(",")
+            students = form.cleaned_data.get("students").split(",")
             if len(students) > 0:
                 for s in students:
                     try:
-                        student = User.objects.get(username=s.strip())
                         participant = Participant()
                         participant.cohort = cohort
-                        participant.user = student
+                        participant.user = User.objects.get(username=s.strip())
                         participant.role = Participant.STUDENT
                         participant.save()
                     except User.DoesNotExist:
                         pass
-            teachers = form.cleaned_data.get("teachers").strip().split(",")
+            teachers = form.cleaned_data.get("teachers").split(",")
             if len(teachers) > 0:
                 for t in teachers:
                     try:
-                        teacher = User.objects.get(username=s.strip())
                         participant = Participant()
                         participant.cohort = cohort
-                        participant.user = teacher
+                        participant.user = User.objects.get(username=t.strip())
                         participant.role = Participant.TEACHER
                         participant.save()
                     except User.DoesNotExist:
@@ -356,12 +354,13 @@ def cohort_edit(request,course_id,cohort_id):
         for pt in participant_teachers:
             teacher_list.append(pt.user.username)
         teachers = ", ".join(teacher_list)
+        
         participant_students = Participant.objects.filter(cohort=cohort,role=Participant.STUDENT)
         student_list = []
-        for st in participant_students:
-            student_list.append(st.user.username)
+        for ps in participant_students:
+            student_list.append(ps.user.username)
         students = ", ".join(student_list)
-        form = CohortForm(initial={'description':cohort.description,'teachers':teachers,'students':students,}) 
+        form = CohortForm(initial={'description':cohort.description,'teachers':teachers,'students':students,'start_date': cohort.start_date,'end_date': cohort.end_date}) 
 
     return render(request, 'oppia/cohort-form.html',{'course': course,'form': form,}) 
          

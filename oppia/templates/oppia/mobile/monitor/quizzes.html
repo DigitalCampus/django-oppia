@@ -26,7 +26,20 @@
 </div>
 
 {% blocktrans %}<p>Quizzes</p>{% endblocktrans %}
-	
+	<div class="listheader">
+		<div class="listname">{% trans 'Quiz' %}</div>
+		<div class="listcell">{% trans 'No Attempts' %}</div>
+		<div class="listcell">{% trans 'Average Score' %}</div>
+		<div style='clear:both'></div>
+	</div>
+	{% for q in quizzes %}
+		<div class="list">
+			<div class="listname">{{ q.title }}</div>
+			<div class="listcell">{{ q.attempts }}</div>
+			<div class="listcell">{{ q.average_score }}</div>
+			<div style='clear:both'></div>
+		</div>
+	{% endfor %}
 {% else %}
 	{% blocktrans %}<p>There are no quizzes in this course.</p>{% endblocktrans %}
 {% endif %}

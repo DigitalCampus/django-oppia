@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 from django.core import serializers
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+
+from oppia.models import Participant, Cohort
+
 import datetime
 
 class Question(models.Model):
@@ -68,6 +71,11 @@ class Quiz(models.Model):
         no_attempts = QuizAttempt.objects.filter(quiz=self).count()
         return no_attempts
     
+    def no_attempts_by_cohort(self, cohort):
+        cohort_users = Participant.objects.filter(cohort=cohort,role=Participant.STUDENT).values('user__id').distinct()
+        no_attempts = QuizAttempt.objects.filter(quiz=self, user__id__in=cohort_users).count()
+        return no_attempts
+    
     def avg_score(self):
         # TODO - sure this could be tidied up
         attempts = QuizAttempt.objects.filter(quiz=self)
@@ -76,6 +84,19 @@ class Quiz(models.Model):
             total = total + a.get_score_percent()
         if self.no_attempts > 0:
             avg_score = int(total/self.no_attempts())
+        else:
+            avg_score = 0
+        return avg_score
+    
+    def avg_score_by_cohort(self, cohort):
+        # TODO - sure this could be tidied up
+        cohort_users = Participant.objects.filter(cohort=cohort,role=Participant.STUDENT).values('user__id').distinct()
+        attempts = QuizAttempt.objects.filter(quiz=self, user__id__in=cohort_users)
+        total = 0
+        for a in attempts:
+            total = total + a.get_score_percent()
+        if self.no_attempts_by_cohort(cohort) > 0:
+            avg_score = int(total/self.no_attempts_by_cohort(cohort))
         else:
             avg_score = 0
         return avg_score

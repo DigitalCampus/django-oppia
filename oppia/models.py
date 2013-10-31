@@ -400,7 +400,7 @@ class Participant(models.Model):
     class Meta:
         verbose_name = _('Participant')
         verbose_name_plural = _('Participants')
-        
+         
 class Message(models.Model):
     course = models.ForeignKey(Course) 
     author = models.ForeignKey(User)

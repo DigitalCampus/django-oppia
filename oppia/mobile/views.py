@@ -6,6 +6,8 @@ from django.shortcuts import render,render_to_response, get_object_or_404
 from django.template import RequestContext
 
 from oppia.models import Tracker, Points, Course, Cohort, Participant, Activity, Section
+from oppia.quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
+
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie.models import ApiKey
 
@@ -48,7 +50,7 @@ def monitor_cohort_recent_view(request,cohort_id):
         return HttpResponse('Unauthorized', status=401)
     now = datetime.datetime.now()
     cohort = get_object_or_404(Cohort, pk=cohort_id, participant__user=request.user, participant__role=Participant.TEACHER, start_date__lte=now,end_date__gte=now)
-    participants = Participant.objects.filter(cohort_id=cohort.id, role=Participant.STUDENT) 
+    participants = Participant.objects.filter(cohort_id=cohort.id, role=Participant.STUDENT).order_by('user__first_name')
     start_date = datetime.datetime.now() - datetime.timedelta(days=14)
     end_date = datetime.datetime.now() 
     for p in participants:
@@ -76,7 +78,7 @@ def monitor_cohort_overall_view(request,cohort_id):
     request.user.key = key.key
     cohort = get_object_or_404(Cohort, pk=cohort_id, participant__user=request.user, participant__role=Participant.TEACHER, start_date__lte=now,end_date__gte=now)
     digests = Activity.objects.filter(section__course=cohort.course).values('digest').distinct()
-    participants = Participant.objects.filter(cohort_id=cohort.id, role=Participant.STUDENT) 
+    participants = Participant.objects.filter(cohort_id=cohort.id, role=Participant.STUDENT).order_by('user__first_name')
     for p in participants:
         user_completed = Tracker.objects.filter(user=p.user,completed=True,digest__in=digests).values('digest').distinct()
         p.completed = user_completed.count()*100/digests.count()
@@ -91,7 +93,11 @@ def monitor_cohort_quizzes_view(request,cohort_id):
     key = ApiKey.objects.get(user = request.user)
     request.user.key = key.key
     cohort = get_object_or_404(Cohort, pk=cohort_id, participant__user=request.user, participant__role=Participant.TEACHER, start_date__lte=now,end_date__gte=now)
-    quizzes = None
+    digests = Activity.objects.filter(section__course=cohort.course,type='quiz').values('digest').distinct()
+    quizzes = Quiz.objects.filter(quizprops__name='digest',quizprops__value__in=digests)
+    for q in quizzes:
+        q.attempts = q.no_attempts_by_cohort(cohort)
+        q.average_score = q.avg_score_by_cohort(cohort)
     return render_to_response('oppia/mobile/monitor/quizzes.html',{ 'cohort':cohort, 'quizzes': quizzes, 'user': request.user }, context_instance=RequestContext(request))
 
 def monitor_cohort_student_view(request,cohort_id, student_id):

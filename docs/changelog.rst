@@ -1,6 +1,11 @@
 Change Log
 ============
 
+v0.1.23
+-------
+* Fix cohort editing form: https://github.com/DigitalCampus/django-oppia/issues/54
+* In cohort admin page show participants in inline tabular form
+
 v0.1.22
 -------
 * Show recent activity as a graph rather than just numbers for today and last week

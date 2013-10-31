@@ -13,8 +13,14 @@ class CourseAdmin(admin.ModelAdmin):
 class ParticipantAdmin(admin.ModelAdmin):
     list_display = ('cohort', 'user', 'role')
    
+class ParticipantInline(admin.TabularInline):
+    model = Participant
+    
 class CohortAdmin(admin.ModelAdmin):
     list_display = ('course', 'description', 'start_date', 'end_date','schedule')
+    inlines = [
+        ParticipantInline,
+    ]
     
 class BadgeAdmin(admin.ModelAdmin):
     list_display = ('description','points')
