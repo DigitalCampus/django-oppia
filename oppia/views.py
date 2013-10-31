@@ -33,7 +33,7 @@ def home_view(request):
             day = temp.strftime("%d")
             month = temp.strftime("%m")
             year = temp.strftime("%y")
-            count = Tracker.objects.filter(tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).exclude(user_id__in=staff).count()
+            count = Tracker.objects.filter(course__isnull=False, tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).exclude(user_id__in=staff).count()
             activity.append([temp.strftime("%d %b %y"),count])
     leaderboard = Points.get_leaderboard(10)
     return render_to_response('oppia/home.html',{'recent_activity':activity, 'leaderboard':leaderboard}, context_instance=RequestContext(request))
