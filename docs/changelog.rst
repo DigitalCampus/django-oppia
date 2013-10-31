@@ -1,6 +1,11 @@
 Change Log
 ============
 
+v0.1.22
+-------
+* Show recent activity as a graph rather than just numbers for today and last week
+* Begin to add teacher monitoring pages
+
 v0.1.21
 -------
 * Add option to turn self registration on or off: https://github.com/DigitalCampus/django-oppia/issues/2
