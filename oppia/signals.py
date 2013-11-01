@@ -139,7 +139,7 @@ def tracker_callback(sender, **kwargs):
     if tracker.get_activity_type() == "media":
         description =  "Media played: " + tracker.get_activity_title()
         type = 'mediaplayed'
-        points = settings.OPPIA_POINTS['MEDIA_PLAYED']
+        points = settings.OPPIA_POINTS['MEDIA_STARTED']
     else:
         description = "Activity completed: " + tracker.get_activity_title()    
        

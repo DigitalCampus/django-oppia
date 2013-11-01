@@ -60,6 +60,9 @@ def terms_view(request):
                                   context_instance=RequestContext(request))
         
 def upload(request):
+    if settings.OPPIA_STAFF_ONLY_UPLOAD is True and not request.user.is_staff:
+         return render(request, 'oppia/upload-staff-only.html')
+    
     if request.method == 'POST':
         form = UploadCourseForm(request.POST,request.FILES)
         if form.is_valid(): # All validation rules pass

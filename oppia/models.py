@@ -147,9 +147,7 @@ class ActivitySchedule(models.Model):
     class Meta:
         verbose_name = _('ActivitySchedule')
         verbose_name_plural = _('ActivitySchedules')
-    
-    
-          
+           
 class Section(models.Model):
     course = models.ForeignKey(Course)
     order = models.IntegerField()

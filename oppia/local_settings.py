@@ -31,12 +31,17 @@ def modify(settings):
         'QUIZ_FIRST_ATTEMPT_BONUS':50, # Bonus points for getting over the threshold on first attempt at quiz 
         'QUIZ_CREATED':200, # for creating a quiz
         'ACTIVITY_COMPLETED':10, # for completing an activity
-        'MEDIA_PLAYED':20, # for playing media
+        'MEDIA_STARTED':20, # for starting media
+        'MEDIA_PLAYING_INTERVAL':10, # interval in seconds for which points are given
+        'MEDIA_PLAYING_POINTS_PER_INTERVAL':5, # no points per interval media is playing
         'COURSE_DOWNLOADED':50, # for downloading a course
         }
        
                                           
-    settings['OPPIA_ALLOW_SELF_REGISTRATION'] = True # turns on/off ability for users to self register
+    settings['OPPIA_ALLOW_SELF_REGISTRATION'] = True    # turns on/off ability for users to self register
+    
+    settings['OPPIA_STAFF_ONLY_UPLOAD'] = True          # prevents anyone without is_staff status being able to upload courses,
+                                                        # setting to False allows any registered user to upload a course
     
     settings['OPPIA_GOOGLE_ANALYTICS_ENABLED'] = True
     settings['OPPIA_GOOGLE_ANALYTICS_CODE'] = 'UA-3609005-11'
