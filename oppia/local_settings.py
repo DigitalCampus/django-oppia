@@ -32,8 +32,9 @@ def modify(settings):
         'QUIZ_CREATED':200, # for creating a quiz
         'ACTIVITY_COMPLETED':10, # for completing an activity
         'MEDIA_STARTED':20, # for starting media
-        'MEDIA_PLAYING_INTERVAL':10, # interval in seconds for which points are given
+        'MEDIA_PLAYING_INTERVAL':30, # interval in seconds for which points are given
         'MEDIA_PLAYING_POINTS_PER_INTERVAL':5, # no points per interval media is playing
+        'MEDIA_MAX_POINTS':200, # the maximum number of poitns available for any single media play
         'COURSE_DOWNLOADED':50, # for downloading a course
         }
        

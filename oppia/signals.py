@@ -7,6 +7,8 @@ from django.dispatch import Signal
 from oppia.models import Points, Award, Tracker, Activity, Section, Course, Cohort
 from oppia.quiz.models import Quiz, QuizAttempt
 
+import math
+
 course_downloaded = Signal(providing_args=["course", "user"])
 
 def signup_callback(sender, **kwargs):
@@ -125,21 +127,27 @@ def tracker_callback(sender, **kwargs):
     if tracker.user.is_superuser:
         return 
     
-    if not tracker.is_first_tracker_today():
-        return
-    
     if not tracker.activity_exists():
         return
     
-    if not tracker.completed:
-        return
+    if tracker.get_activity_type() is not "media":
+        if not tracker.is_first_tracker_today():
+            return
+        if not tracker.completed:
+            return
     
     type = 'activitycompleted'
     points = settings.OPPIA_POINTS['ACTIVITY_COMPLETED']
     if tracker.get_activity_type() == "media":
         description =  "Media played: " + tracker.get_activity_title()
         type = 'mediaplayed'
-        points = settings.OPPIA_POINTS['MEDIA_STARTED']
+        if tracker.is_first_tracker_today():
+            points = settings.OPPIA_POINTS['MEDIA_STARTED']
+        else:
+            points = 0
+        points =  (settings.OPPIA_POINTS['MEDIA_PLAYING_POINTS_PER_INTERVAL'] * math.floor(tracker.time_taken/settings.OPPIA_POINTS['MEDIA_PLAYING_INTERVAL']))
+        if points > settings.OPPIA_POINTS['MEDIA_MAX_POINTS']:
+            points = settings.OPPIA_POINTS['MEDIA_MAX_POINTS']
     else:
         description = "Activity completed: " + tracker.get_activity_title()    
        
