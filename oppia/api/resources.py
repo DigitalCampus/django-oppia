@@ -48,13 +48,14 @@ class UserResource(ModelResource):
     
     Returns (if authorized):
     
-    Object with ``first_name``, ``last_name``, ``api_key``, ``last_login``, ``username``, ``points`` and ``badges``
+    Object with ``first_name``, ``last_name``, ``api_key``, ``last_login``, ``username``, ``points``, ``badges``, and ``scoring``
     
     If unauthorized returns an HTTP 401 response
     
     '''
     points = fields.IntegerField(readonly=True)
     badges = fields.IntegerField(readonly=True)
+    scoring = fields.BooleanField(readonly=True)
     
     class Meta:
         queryset = User.objects.all()
@@ -99,6 +100,9 @@ class UserResource(ModelResource):
     def dehydrate_badges(self,bundle):
         badges = Award.get_userawards(User.objects.get(username=bundle.request.user.username))
         return badges 
+    
+    def dehydrate_scoring(self,bundle):
+        return settings.OPPIA_POINTS_ENABLED
 
 class RegisterResource(ModelResource):
     ''' 
@@ -106,6 +110,7 @@ class RegisterResource(ModelResource):
     '''
     points = fields.IntegerField(readonly=True)
     badges = fields.IntegerField(readonly=True)
+    scoring = fields.BooleanField(readonly=True)
     
     class Meta:
         queryset = User.objects.all()
@@ -171,6 +176,9 @@ class RegisterResource(ModelResource):
         badges = Award.get_userawards(User.objects.get(username__exact=bundle.data['username']))
         return badges 
     
+    def dehydrate_scoring(self,bundle):
+        return settings.OPPIA_POINTS_ENABLED
+    
 class TrackerResource(ModelResource):
     ''' 
     Submitting a Tracker
@@ -178,6 +186,7 @@ class TrackerResource(ModelResource):
     user = fields.ForeignKey(UserResource, 'user')
     points = fields.IntegerField(readonly=True)
     badges = fields.IntegerField(readonly=True)
+    scoring = fields.BooleanField(readonly=True)
     
     class Meta:
         queryset = Tracker.objects.all()
@@ -188,7 +197,7 @@ class TrackerResource(ModelResource):
         authorization = Authorization() 
         serializer = PrettyJSONSerializer()
         always_return_data =  True
-        fields = ['points','digest','data','tracker_date','badges','course','completed']
+        fields = ['points','digest','data','tracker_date','badges','course','completed','scoring']
               
     def hydrate(self, bundle, request=None):
         # remove any id if this is submitted - otherwise it may overwrite existing tracker item
@@ -238,6 +247,9 @@ class TrackerResource(ModelResource):
         badges = Award.get_userawards(bundle.request.user)
         return badges
     
+    def dehydrate_scoring(self,bundle):
+        return settings.OPPIA_POINTS_ENABLED
+    
     def patch_list(self,request,**kwargs):
         request = convert_post_to_patch(request)
         deserialized = self.deserialize(request, request.raw_post_data, format=request.META.get('CONTENT_TYPE', 'application/json'))
@@ -248,7 +260,7 @@ class TrackerResource(ModelResource):
             bundle.request.META['REMOTE_ADDR'] = request.META.get('REMOTE_ADDR','0.0.0.0')
             bundle.request.META['HTTP_USER_AGENT'] = request.META.get('HTTP_USER_AGENT','unknown')
             self.obj_create(bundle, request=request)
-        response_data = {'points': self.dehydrate_points(bundle),'badges':self.dehydrate_badges(bundle)}
+        response_data = {'points': self.dehydrate_points(bundle),'badges':self.dehydrate_badges(bundle),'scoring':self.dehydrate_scoring(bundle)}
         response = HttpResponse(content=json.dumps(response_data),content_type="application/json; charset=utf-8")
         return response
     

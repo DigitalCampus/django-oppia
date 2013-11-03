@@ -50,3 +50,5 @@ def modify(settings):
     
     settings['OPPIA_MAX_UPLOAD_SIZE'] = 5242880 # max course file upload size - in bytes
     
+    settings['OPPIA_POINTS_ENABLED'] = False # determines if the points system is enabled
+    
