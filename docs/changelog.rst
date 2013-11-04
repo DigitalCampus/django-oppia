@@ -1,5 +1,10 @@
 Change Log
 ============
+
+v0.1.29
+-------
+* Handle adding baseline quizzes/activities: https://github.com/DigitalCampus/django-oppia/issues/56
+
 v0.1.28
 -------
 * Bug fix returning metadata in Tracker API
