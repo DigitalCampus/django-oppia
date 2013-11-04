@@ -34,10 +34,19 @@ def modify(settings):
         'MEDIA_STARTED':20, # for starting media
         'MEDIA_PLAYING_INTERVAL':30, # interval in seconds for which points are given
         'MEDIA_PLAYING_POINTS_PER_INTERVAL':5, # no points per interval media is playing
-        'MEDIA_MAX_POINTS':200, # the maximum number of poitns available for any single media play
+        'MEDIA_MAX_POINTS':200, # the maximum number of points available for any single media play
         'COURSE_DOWNLOADED':50, # for downloading a course
-        }
-       
+    }
+      
+    settings['OPPIA_METADATA'] = {
+        'NETWORK':True, #
+        'DEVICE_ID': True,
+        'SIM_SERIAL': True,
+        'WIFI_ON': True,
+        'NETWORK_CONNECTED': True,
+        'BATTERY_LEVEL': True,
+        'GPS':False,
+    } 
                                           
     settings['OPPIA_ALLOW_SELF_REGISTRATION'] = True    # turns on/off ability for users to self register
     

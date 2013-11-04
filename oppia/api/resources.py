@@ -56,6 +56,7 @@ class UserResource(ModelResource):
     points = fields.IntegerField(readonly=True)
     badges = fields.IntegerField(readonly=True)
     scoring = fields.BooleanField(readonly=True)
+    metadata = fields.CharField(readonly=True)
     
     class Meta:
         queryset = User.objects.all()
@@ -103,6 +104,9 @@ class UserResource(ModelResource):
     
     def dehydrate_scoring(self,bundle):
         return settings.OPPIA_POINTS_ENABLED
+    
+    def dehydrate_metadata(self,bundle):
+        return settings.OPPIA_METADATA
 
 class RegisterResource(ModelResource):
     ''' 
@@ -111,6 +115,7 @@ class RegisterResource(ModelResource):
     points = fields.IntegerField(readonly=True)
     badges = fields.IntegerField(readonly=True)
     scoring = fields.BooleanField(readonly=True)
+    metadata = fields.CharField(readonly=True)
     
     class Meta:
         queryset = User.objects.all()
@@ -179,6 +184,9 @@ class RegisterResource(ModelResource):
     def dehydrate_scoring(self,bundle):
         return settings.OPPIA_POINTS_ENABLED
     
+    def dehydrate_metadata(self,bundle):
+        return settings.OPPIA_METADATA
+    
 class TrackerResource(ModelResource):
     ''' 
     Submitting a Tracker
@@ -187,6 +195,7 @@ class TrackerResource(ModelResource):
     points = fields.IntegerField(readonly=True)
     badges = fields.IntegerField(readonly=True)
     scoring = fields.BooleanField(readonly=True)
+    metadata = fields.CharField(readonly=True)
     
     class Meta:
         queryset = Tracker.objects.all()
@@ -249,6 +258,9 @@ class TrackerResource(ModelResource):
     
     def dehydrate_scoring(self,bundle):
         return settings.OPPIA_POINTS_ENABLED
+    
+    def dehydrate_metadata(self,bundle):
+        return settings.OPPIA_METADATA
     
     def patch_list(self,request,**kwargs):
         request = convert_post_to_patch(request)

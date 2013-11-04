@@ -1,6 +1,14 @@
 Change Log
 ============
 
+
+v0.1.26
+-------
+* New local setting to allow only staff status to upload courses: https://github.com/DigitalCampus/django-oppia/issues/40
+* Points for watching media now determined by how many mins of the video has been watched: https://github.com/DigitalCampus/django-oppia/issues/6
+* New local setting to allow only points to be turned on/off on the server: https://github.com/DigitalCampus/django-oppia/issues/50
+* New local settings to determine which metadata should be collected from the phone: https://github.com/DigitalCampus/django-oppia/issues/55
+
 v0.1.23
 -------
 * Fix cohort editing form: https://github.com/DigitalCampus/django-oppia/issues/54
