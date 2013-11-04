@@ -206,7 +206,7 @@ class TrackerResource(ModelResource):
         authorization = Authorization() 
         serializer = PrettyJSONSerializer()
         always_return_data =  True
-        fields = ['points','digest','data','tracker_date','badges','course','completed','scoring']
+        fields = ['points','digest','data','tracker_date','badges','course','completed','scoring','metadata']
               
     def hydrate(self, bundle, request=None):
         # remove any id if this is submitted - otherwise it may overwrite existing tracker item
@@ -272,7 +272,10 @@ class TrackerResource(ModelResource):
             bundle.request.META['REMOTE_ADDR'] = request.META.get('REMOTE_ADDR','0.0.0.0')
             bundle.request.META['HTTP_USER_AGENT'] = request.META.get('HTTP_USER_AGENT','unknown')
             self.obj_create(bundle, request=request)
-        response_data = {'points': self.dehydrate_points(bundle),'badges':self.dehydrate_badges(bundle),'scoring':self.dehydrate_scoring(bundle)}
+        response_data = {'points': self.dehydrate_points(bundle),
+                         'badges':self.dehydrate_badges(bundle),
+                         'scoring':self.dehydrate_scoring(bundle),
+                         'metadata':self.dehydrate_metadata(bundle)}
         response = HttpResponse(content=json.dumps(response_data),content_type="application/json; charset=utf-8")
         return response
     

@@ -1,6 +1,8 @@
 Change Log
 ============
-
+v0.1.28
+-------
+* Bug fix returning metadata in Tracker API
 
 v0.1.26
 -------
