@@ -178,6 +178,7 @@ class Activity(models.Model):
     title = models.TextField(blank=False)
     type = models.CharField(max_length=10)
     digest = models.CharField(max_length=100)
+    baseline = models.BooleanField(default=False)
     
     def __unicode__(self):
         return self.get_title()

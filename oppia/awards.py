@@ -88,7 +88,7 @@ def media_complete(user,course):
         return False 
     
 def quiz_complete(user,course):
-    digests = Activity.objects.filter(section__course=course, type='quiz').values('digest').distinct()
+    digests = Activity.objects.filter(section__course=course, type='quiz',baseline=False).values('digest').distinct()
     if digests.count() == 0:
         return True
     quizzes = QuizProps.objects.filter(name='digest', value__in=digests).values('quiz_id').distinct()

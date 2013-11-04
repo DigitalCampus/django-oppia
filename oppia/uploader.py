@@ -85,7 +85,32 @@ def handle_uploaded_file(f, extract_path, request):
         course.user = request.user
         course.filename = f.name
         course.save()
-        
+    
+    
+            
+    # add in any baseline activities
+    for meta in doc.getElementsByTagName("meta")[:1]:
+        if meta.getElementsByTagName("activity").length > 0:
+            section = Section()
+            section.course = course
+            section.title = '{"en": "Baseline"}'
+            section.order = 0
+            section.save()
+            for a in meta.getElementsByTagName("activity"):
+                temp_title = {}
+                for t in a.getElementsByTagName("title"):
+                    temp_title[t.getAttribute('lang')] = t.firstChild.nodeValue
+                title = json.dumps(temp_title)
+                activity = Activity()
+                activity.section = section
+                activity.order = a.getAttribute("order")
+                activity.title = title
+                activity.type = a.getAttribute("type")
+                activity.digest = a.getAttribute("digest")
+                activity.baseline = True
+                activity.save()
+            
+       
     # add all the sections
     for structure in doc.getElementsByTagName("structure")[:1]:
         
@@ -119,6 +144,7 @@ def handle_uploaded_file(f, extract_path, request):
                     activity.title = title
                     activity.type = a.getAttribute("type")
                     activity.digest = a.getAttribute("digest")
+                    activity.baseline = False
                     activity.save()
                     
     # add all the media
