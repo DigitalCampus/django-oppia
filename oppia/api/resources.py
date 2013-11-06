@@ -17,7 +17,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from tastypie import fields, bundle, http
 from tastypie.authentication import Authentication,ApiKeyAuthentication
-from tastypie.authorization import Authorization
+from tastypie.authorization import Authorization, ReadOnlyAuthorization
 from tastypie.exceptions import NotFound, BadRequest, InvalidFilterError 
 from tastypie.exceptions import Unauthorized, HydrationError, InvalidSortError, ImmediateHttpResponse
 from tastypie.models import ApiKey
@@ -287,16 +287,16 @@ class CourseResource(ModelResource):
         allowed_methods = ['get']
         fields = ['id', 'title', 'version', 'shortname']
         authentication = ApiKeyAuthentication()
-        authorization = Authorization() 
+        authorization = ReadOnlyAuthorization() 
         serializer = CourseJSONSerializer()
         always_return_data = True
         include_resource_uri = True
-        
+   
     def prepend_urls(self):
         return [
             url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/download%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('download_detail'), name="api_download_detail"),
             ]
-    
+
     def download_detail(self, request, **kwargs):
         self.is_authenticated(request)
         self.throttle_check(request)
@@ -384,14 +384,13 @@ class CourseTagResource(ModelResource):
     course = fields.ToOneField('oppia.api.resources.CourseResource', 'course', full=True)
     class Meta:
         queryset = CourseTag.objects.all()
-        allowed_methods = ['get','post']
+        allowed_methods = ['get']
         fields = ['id','course','tag']
         include_resource_uri = False
         authentication = ApiKeyAuthentication()
-        authorization = Authorization()
-        always_return_data = True
-      
-      
+        authorization = ReadOnlyAuthorization()
+        always_return_data = True  
+         
 class ScheduleResource(ModelResource):
     activityschedule = fields.ToManyField('oppia.api.resources.ActivityScheduleResource', 'activityschedule_set', related_name='schedule', full=True, null=True)
     class Meta:
@@ -411,37 +410,25 @@ class ScheduleResource(ModelResource):
 class TagResource(ModelResource):
     count = fields.IntegerField(readonly=True)
     courses = fields.ToManyField('oppia.api.resources.CourseTagResource', 'coursetag_set', related_name='tag', full=True)
-
+  
     class Meta:
         queryset = Tag.objects.filter(courses__isnull=False).distinct().order_by("name")
         resource_name = 'tag'
         allowed_methods = ['get']
         fields = ['id','name']
         authentication = ApiKeyAuthentication()
-        authorization = Authorization() 
+        authorization = ReadOnlyAuthorization() 
         always_return_data = True
         include_resource_uri = False
         serializer = TagJSONSerializer()
     
-    def dehydrate(self,bundle):
-        return bundle
-    
     def dehydrate_count(self,bundle):
+        #if bundle.request.user.is_staff:
         count = Course.objects.filter(tag__id=bundle.obj.id).count()
+        #else:
+        #    count = Course.objects.filter(tag__id=bundle.obj.id, staff_only=False).count()
         return count
     
-    def tag_detail(self, request, **kwargs):
-        self.is_authenticated(request)
-        self.throttle_check(request)
-        
-        name = kwargs.pop('name', None)
-        courses = Course.objects.filter(tag__name=name)
-        
-        for c in courses:
-            obj = CourseResource().build_bundle(obj=c, request=request)
-            
-        response = HttpResponse(name+str(courses), content_type='')
-        return response
              
 class ActivityScheduleResource(ModelResource):
     schedule = fields.ToOneField('oppia.api.resources.ScheduleResource', 'schedule', related_name='activityschedule')
