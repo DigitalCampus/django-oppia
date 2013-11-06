@@ -7,6 +7,7 @@ def modify(settings):
     settings['TEMPLATE_CONTEXT_PROCESSORS'] += ('oppia.context_processors.get_version',)
     settings['TEMPLATE_CONTEXT_PROCESSORS'] += ('oppia.context_processors.get_settings',)
     settings['LOGIN_EXEMPT_URLS'] = (
+         r'^server/$',
          r'^profile/login/$',
          r'^profile/register/',
          r'^profile/reset/',

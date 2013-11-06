@@ -357,7 +357,6 @@ class CourseTagResourceTest(ResourceTestCase):
     def test_post_not_found(self):
         self.assertHttpNotFound(self.api_client.post(self.url, format='json', data={}))
         
-# TODO ModuleResource
 # TODO PointsResource
 # TODO ScheduleResource
 # TODO ScorecardResource

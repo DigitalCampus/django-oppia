@@ -21,7 +21,7 @@ from tastypie.authorization import Authorization, ReadOnlyAuthorization
 from tastypie.exceptions import NotFound, BadRequest, InvalidFilterError 
 from tastypie.exceptions import Unauthorized, HydrationError, InvalidSortError, ImmediateHttpResponse
 from tastypie.models import ApiKey
-from tastypie.resources import ModelResource, convert_post_to_patch, dict_strip_unicode_keys
+from tastypie.resources import ModelResource, Resource, convert_post_to_patch, dict_strip_unicode_keys
 from tastypie.utils import trailing_slash
 from tastypie.validation import Validation
 
@@ -31,8 +31,6 @@ from oppia.models import Activity, Section, Tracker, Course, CourseDownload, Med
 from oppia.models import Points, Award, Badge
 from oppia.profile.forms import RegisterForm
 from oppia.signals import course_downloaded
-
-
 
 class UserResource(ModelResource):
     ''' 
@@ -557,3 +555,7 @@ class ScorecardResource(ModelResource):
         start_date = datetime.datetime.now() - datetime.timedelta(days=14)
         end_date = datetime.datetime.now()
         return Tracker.activity_secs(user=bundle.obj,type='quiz',start_date=start_date,end_date=end_date)
+    
+
+    
+    

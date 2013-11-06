@@ -32,6 +32,7 @@ v1_api.register(QuizAttemptResource())
 urlpatterns = patterns('',
 
     url(r'^$', 'oppia.views.home_view', name="oppia_home"),
+    url(r'^server/$', 'oppia.views.server_view', name="oppia_server"),
     url(r'^leaderboard/$', 'oppia.views.leaderboard_view', name="oppia_leaderboard"),
     url(r'^upload/$', 'oppia.views.upload', name="oppia_upload"),
     url(r'^upload/success/$', TemplateView.as_view(template_name="oppia/upload-success.html"), name="oppia_upload_success"),
@@ -55,9 +56,5 @@ urlpatterns = patterns('',
     url(r'^api/', include(v1_api.urls)),
     
     url(r'^mobile/', include('oppia.mobile.urls')),
-    
-    # This is a temporary fix for any old urls being used TODO: remove this after everyone has moved to new mobile app
-    url(r'^modules/', include('oppia.urls_modules')),
-    url(r'^badges/', include('oppia.urls_badges')),
     
 )

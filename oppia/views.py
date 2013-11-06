@@ -1,7 +1,9 @@
 # oppia/views.py
-import os
-import shutil
 import datetime
+import json
+import shutil
+import os
+import oppia
 
 from django import forms
 from django.conf import settings
@@ -10,9 +12,10 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db.models import Q
 from django.forms.formsets import formset_factory
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.shortcuts import render,render_to_response
 from django.template import RequestContext
+from django.utils.translation import ugettext_lazy as _
 
 from oppia.forms import UploadCourseForm, ScheduleForm
 from oppia.forms import ActivityScheduleForm, CohortForm
@@ -22,6 +25,8 @@ from oppia.quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
 
 from uploader import handle_uploaded_file
 
+def server_view(request):
+    return render_to_response('oppia/server.html',  {'settings': settings}, content_type="application/json", context_instance=RequestContext(request))
 
 def home_view(request):
     activity = []
@@ -55,13 +60,12 @@ def course_view(request):
 
        
 def terms_view(request):
-        return render_to_response('oppia/terms.html', 
-                                  {'settings': settings},
-                                  context_instance=RequestContext(request))
+    return render_to_response('oppia/terms.html', {'settings': settings}, context_instance=RequestContext(request))
         
 def upload(request):
     if settings.OPPIA_STAFF_ONLY_UPLOAD is True and not request.user.is_staff:
-         return render(request, 'oppia/upload-staff-only.html')
+        return render_to_response('oppia/upload-staff-only.html', {'settings': settings}, context_instance=RequestContext(request))
+        
     
     if request.method == 'POST':
         form = UploadCourseForm(request.POST,request.FILES)
