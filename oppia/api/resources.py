@@ -365,20 +365,6 @@ class CourseResource(ModelResource):
             bundle.data['schedule_uri'] = sr.get_resource_uri(schedule)
         
         return bundle
-
-''' This is a temporary fix for any old urls being used 
-TODO: remove this after everyone has moved to new mobile app '''
-class ModuleResource(CourseResource): 
-     class Meta:
-        queryset = Course.objects.all()
-        resource_name = 'module'
-        allowed_methods = ['get']
-        fields = ['id', 'title', 'version', 'shortname']
-        authentication = ApiKeyAuthentication()
-        authorization = Authorization() 
-        serializer = ModuleJSONSerializer()
-        always_return_data = True
-        include_resource_uri = True
     
 class CourseTagResource(ModelResource):
     course = fields.ToOneField('oppia.api.resources.CourseResource', 'course', full=True)
