@@ -63,7 +63,7 @@ OPPIA_STAFF_ONLY_UPLOAD
 
 Default: ``True``
 
-This setting determines whether only users with the Django is_staff status. When
-this setting is ``True``, only users with the is_staff status are able to upload
-courses. If this setting is set to ``False``, any registered user on the server 
-is able to upload courses.
+This setting determines whether only users with the Django is_staff status are 
+allowed to upload new courses. When this setting is ``True``, only users with 
+the is_staff status are able to upload courses. If this setting is set to 
+``False``, any registered user on the server is able to upload courses.
