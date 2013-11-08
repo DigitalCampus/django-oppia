@@ -1,6 +1,11 @@
 Change Log
 ============
 
+v0.1.30
+-------
+* Fix: https://github.com/DigitalCampus/django-oppia/issues/49
+* Fix: https://github.com/DigitalCampus/django-oppia/issues/63
+
 v0.1.29
 -------
 * Handle adding baseline quizzes/activities: https://github.com/DigitalCampus/django-oppia/issues/56
