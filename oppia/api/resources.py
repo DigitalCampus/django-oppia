@@ -216,9 +216,14 @@ class TrackerResource(ModelResource):
             
         # find out the course & activity type from the digest
         try:
-            activity = Activity.objects.get(digest=bundle.data['digest'])
-            bundle.obj.course = activity.section.course
-            bundle.obj.type = activity.type
+            if 'course' in bundle.data:
+                activities = Activity.objects.filter(digest=bundle.data['digest'],section__course__shortname=bundle.data['course'])[:1]
+            else:
+                activities = Activity.objects.filter(digest=bundle.data['digest'])[:1]
+            if activities.count() > 0:
+                activity = activities[0]
+                bundle.obj.course = activity.section.course
+                bundle.obj.type = activity.type
         except Activity.DoesNotExist:
             pass
         
