@@ -118,5 +118,10 @@ def monitor_cohort_student_view(request,cohort_id, student_id):
     request.user.key = key.key
     cohort = get_object_or_404(Cohort, pk=cohort_id, participant__user=request.user, participant__role=Participant.TEACHER, start_date__lte=now,end_date__gte=now)
     raise Http404
+
+def preview_course_home(request,course_id):
+    
+    return render_to_response('oppia/mobile/preview/home.html',{ 'user': request.user }, context_instance=RequestContext(request))
+    
     
     

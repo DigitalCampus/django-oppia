@@ -10,4 +10,6 @@ urlpatterns = patterns('',
     url(r'^monitor/cohort/(?P<cohort_id>\d+)/overall/$', 'oppia.mobile.views.monitor_cohort_overall_view', name="oppia_monitor_cohort_overall"),
     url(r'^monitor/cohort/(?P<cohort_id>\d+)/quizzes/$', 'oppia.mobile.views.monitor_cohort_quizzes_view', name="oppia_monitor_cohort_quizzes"),
     url(r'^monitor/cohort/(?P<cohort_id>\d+)/student/(?P<student_id>\d+)$', 'oppia.mobile.views.monitor_cohort_student_view', name="oppia_monitor_cohort_student"),
+    
+    url(r'^course/(?P<course_id>\d+)/$', 'oppia.mobile.views.preview_course_home', name="oppia_preview_course_home"),
 )

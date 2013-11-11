@@ -1,0 +1,46 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    color: #444444;
+    font-family: Verdana,'Lucida Grande',Tahoma,Arial,Sans-Serif;
+    font-size: 100%;
+    padding: 5px 0;
+}
+
+.header {
+	width:430px;
+	margin: 0 auto;
+	background: #9aca3c;
+	padding:10px;
+	font-weight:bold;
+	min-height: 25px;
+	vertical-align: middle;
+}
+
+.content {
+	width:450px;
+	margin: 0 auto;
+	height: 650px;
+	background: #333;
+	color: #fff;
+	text-size: 80%;
+}
+
+.section-title {
+	font-weight:bold;
+	padding: 5px;
+}
+
+.section {
+	white-space: nowrap;
+	overflow: scroll;
+}
+
+.activity {
+	float: left;
+	width: 150px;
+	min-height: 150px;
+}
