@@ -270,7 +270,7 @@ class Tracker(models.Model):
  
     @staticmethod
     def has_completed_trackers(course,user):
-        count = Tracker.objects.filter(user=user, course=course,completed=True).count()
+        count = Tracker.objects.filter(user=user, course=course,completed=True).count()        
         if count > 0:
             return True
         return False

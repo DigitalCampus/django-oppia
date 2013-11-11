@@ -1,6 +1,11 @@
 Change Log
 ============
 
+v0.1.31
+-------
+* Upgrade to use most recent version of TastyPie (0.9.16)
+* Fix: https://github.com/DigitalCampus/django-oppia/issues/67
+
 v0.1.30
 -------
 * Fix: https://github.com/DigitalCampus/django-oppia/issues/49
