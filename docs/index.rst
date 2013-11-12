@@ -17,7 +17,7 @@ Contents:
    settings
    upgrade
    api
-   
+   utilities
    changelog
 
 
