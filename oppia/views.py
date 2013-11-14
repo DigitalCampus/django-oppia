@@ -135,7 +135,12 @@ def recent_activity_detail(request,id):
     try:
         tracks = paginator.page(page)
         for t in tracks:
-            t.title = t.get_activity_title()                
+            t.title = t.get_activity_title()   
+            t.data_obj = []
+            data_dict = json.loads(t.data)
+            for key, value in data_dict.items():
+                t.data_obj.append([key,value])
+                       
     except (EmptyPage, InvalidPage):
         tracks = paginator.page(paginator.num_pages)
     return render_to_response('oppia/course/activity-detail.html',{'course': course,'page':tracks,}, context_instance=RequestContext(request))

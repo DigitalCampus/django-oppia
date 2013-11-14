@@ -1,9 +1,15 @@
 Change Log
 ============
 
+
+v0.1.32
+-------
+* Fix: https://github.com/DigitalCampus/django-oppia/issues/71 - adding tracker data
+* Fix: https://github.com/DigitalCampus/django-oppia/issues/68 - add fixtures to PyPi package
+
 v0.1.31
 -------
-* Upgrade to use most recent version of TastyPie (0.9.16)
+* Upgrade to use more recent version of TastyPie (0.9.16)
 * Fix: https://github.com/DigitalCampus/django-oppia/issues/67
 
 v0.1.30
