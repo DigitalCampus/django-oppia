@@ -5,7 +5,7 @@ from oppia.models import Participant,Message,Schedule,ActivitySchedule,Tag,Cours
 from oppia.models import Badge,Award,Points,AwardCourse,CourseDownload
 
 class TrackerAdmin(admin.ModelAdmin):
-    list_display = ('user', 'submitted_date', 'agent', 'course','completed')
+    list_display = ('user', 'submitted_date', 'tracker_date', 'time_taken', 'agent', 'course','completed')
     
 class CourseAdmin(admin.ModelAdmin):
     list_display = ('title', 'version', 'lastupdated_date', 'user', 'filename')

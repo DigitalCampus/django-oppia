@@ -228,9 +228,14 @@ class TrackerResource(ModelResource):
             pass
         
         try:
-            media = Media.objects.get(digest=bundle.data['digest'])
-            bundle.obj.course = media.course
-            bundle.obj.type = 'media'
+            if 'course' in bundle.data:
+                media_objs = Media.objects.filter(digest=bundle.data['digest'],course__shortname=bundle.data['course'])[:1]
+            else:
+                media_objs = Media.objects.filter(digest=bundle.data['digest'])[:1]
+            if media_objs.count() > 0:
+                media = media_objs[0]
+                bundle.obj.course = media.course
+                bundle.obj.type = 'media'
         except Media.DoesNotExist:
             pass
         

@@ -1,6 +1,10 @@
 Change Log
 ============
 
+v0.1.34
+-------
+* Fix: https://github.com/DigitalCampus/django-oppia/issues/72 - Tracker API error when more than one media with same digest
+
 v0.1.33
 -------
 * Really fix: https://github.com/DigitalCampus/django-oppia/issues/68 - add fixtures to PyPi package
