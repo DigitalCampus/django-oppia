@@ -1,6 +1,9 @@
 Change Log
 ============
 
+v0.1.33
+-------
+* Really fix: https://github.com/DigitalCampus/django-oppia/issues/68 - add fixtures to PyPi package
 
 v0.1.32
 -------
