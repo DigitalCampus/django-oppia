@@ -24,7 +24,8 @@ class Course(models.Model):
     shortname = models.CharField(max_length=20)
     filename = models.CharField(max_length=200)
     badge_icon = models.FileField(upload_to="badges",blank=True, default=None)
-    staff_only = models.BooleanField(default=False)
+    is_draft = models.BooleanField(default=False)
+    is_archived = models.BooleanField(default=False)
    
     class Meta:
         verbose_name = _('Course')
