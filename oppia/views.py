@@ -38,13 +38,16 @@ def home_view(request):
             day = temp.strftime("%d")
             month = temp.strftime("%m")
             year = temp.strftime("%y")
-            count = Tracker.objects.filter(course__isnull=False, tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).exclude(user_id__in=staff).count()
+            count = Tracker.objects.filter(course__isnull=False, course__is_draft=False, course__is_archived=False,tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).exclude(user_id__in=staff).count()
             activity.append([temp.strftime("%d %b %y"),count])
     leaderboard = Points.get_leaderboard(10)
     return render_to_response('oppia/home.html',{'recent_activity':activity, 'leaderboard':leaderboard}, context_instance=RequestContext(request))
 
 def course_view(request):
-    course_list = Course.objects.all().order_by('title')   
+    if request.user.is_staff:
+        course_list = Course.objects.all().order_by('title')
+    else:
+        course_list = Course.objects.filter(is_draft=False,is_archived=False).order_by('title')   
     startdate = datetime.datetime.now()
     staff = User.objects.filter(is_staff=True)
     for course in course_list:
@@ -54,6 +57,7 @@ def course_view(request):
             day = temp.strftime("%d")
             month = temp.strftime("%m")
             year = temp.strftime("%y")
+            
             count = Tracker.objects.filter(course = course, tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).exclude(user_id__in=staff).count()
             course.activity.append([temp.strftime("%d %b %y"),count])   
     return render_to_response('oppia/course/course.html',{'course_list': course_list,}, context_instance=RequestContext(request))
@@ -103,7 +107,7 @@ def upload(request):
     return render(request, 'oppia/upload.html', {'form': form,})
 
 def recent_activity(request,id):
-    course = Course.objects.get(pk=id)
+    course = check_can_view(request, id)
     dates = []
     startdate = datetime.datetime.now()
     staff = User.objects.filter(is_staff=True)
@@ -383,6 +387,17 @@ def check_owner(request,id):
             course = Course.objects.get(pk=id)
         else:
             course = Course.objects.get(pk=id,user=request.user)
+    except Course.DoesNotExist:
+        raise Http404
+    return course
+
+def check_can_view(request,id):
+    try:
+        # check only the owner can view 
+        if request.user.is_staff:
+            course = Course.objects.get(pk=id)
+        else:
+            course = Course.objects.get(pk=id,is_draft=False,is_archived=False)
     except Course.DoesNotExist:
         raise Http404
     return course

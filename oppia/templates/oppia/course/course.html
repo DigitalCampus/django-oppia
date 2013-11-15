@@ -53,7 +53,14 @@
 	{% for course in course_list %}
 		<div class="tablelist"> 	
 			<div class='tabletitle'><a href="{% url 'oppia_recent_activity' course.id %}">
-				{{ course.title|title_lang:LANGUAGE_CODE }}</a></div>
+				{{ course.title|title_lang:LANGUAGE_CODE }}</a>
+				{% if course.is_draft %}
+					- <i>{% trans 'draft' %}</i>
+				{% endif %}	
+				{% if course.is_archived %}
+					- <i>{% trans 'archived' %}</i>
+				{% endif %}
+			</div>
 			<div class='tabletitle'>{{course.no_downloads}} downloads by {{course.no_distinct_downloads}} users</div>
 			<div class='tablecell'><div id="activity_chart_div_{{course.id}}" class="graph">{% trans 'graph_generating'%}</div></div>
 			<div style='clear:both'></div>
