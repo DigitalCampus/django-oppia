@@ -12,7 +12,7 @@ from django.conf import settings
 from django.core import serializers
 from django.core.servers.basehttp import FileWrapper
 from django.db import IntegrityError
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse ,Http404
 from django.utils.translation import ugettext_lazy as _
 
 from tastypie import fields, bundle, http
@@ -437,7 +437,7 @@ class TagResource(ModelResource):
         try:
             tag = self._meta.queryset.get(pk = pk)
         except Tag.DoesNotExist:
-            raise NotFound(_(u'Tag not found'))
+            raise Http404()
         
         if request.user.is_staff:
             courses = Course.objects.filter(tag=tag, is_archived=False).order_by("title")
