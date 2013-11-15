@@ -89,6 +89,13 @@ class Course(models.Model):
             return True
         else:
             return False
+        
+    def get_tags(self):
+        tags = Tag.objects.filter(coursetag__course=self)
+        str = ""
+        for t in tags:
+            str = str + t.name + ", "
+        return str[:-2]
     
 class Tag(models.Model):
     name = models.TextField(blank=False)

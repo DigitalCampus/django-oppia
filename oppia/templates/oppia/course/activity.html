@@ -43,6 +43,7 @@
 {% block content %}
 
 <h2>{{ course.title|title_lang:LANGUAGE_CODE }}</h2>
+<p><i>{% trans 'Tags:' %} {{ course.get_tags}}</i></p>
 
 {% if user.is_staff or user == course.owner %}
 	 <a href="{% url 'oppia_recent_activity_detail' course.id %}">{% trans 'course_activity_detail'%}</a>

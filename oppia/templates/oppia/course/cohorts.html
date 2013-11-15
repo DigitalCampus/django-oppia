@@ -5,6 +5,7 @@
 {% block content %}
 
 <h2><a href="{% url 'oppia_recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a> > {% trans 'cohorts' %}</h2>
+<p><i>{% trans 'Tags:' %} {{ course.get_tags}}</i></p>
 
 {% if cohorts %}
 	<ul>
