@@ -8,7 +8,7 @@ class TrackerAdmin(admin.ModelAdmin):
     list_display = ('user', 'submitted_date', 'tracker_date', 'time_taken', 'agent', 'course','completed')
     
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ('title', 'version', 'lastupdated_date', 'user', 'filename')
+    list_display = ('title', 'version', 'lastupdated_date', 'user', 'filename','is_draft','is_archived')
 
 class ParticipantAdmin(admin.ModelAdmin):
     list_display = ('cohort', 'user', 'role')

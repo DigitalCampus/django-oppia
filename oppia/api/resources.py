@@ -22,6 +22,7 @@ from tastypie.exceptions import NotFound, BadRequest, InvalidFilterError
 from tastypie.exceptions import Unauthorized, HydrationError, InvalidSortError, ImmediateHttpResponse
 from tastypie.models import ApiKey
 from tastypie.resources import ModelResource, Resource, convert_post_to_patch, dict_strip_unicode_keys
+from tastypie.serializers import Serializer
 from tastypie.utils import trailing_slash
 from tastypie.validation import Validation
 
@@ -293,7 +294,7 @@ class CourseResource(ModelResource):
         queryset = Course.objects.all()
         resource_name = 'course'
         allowed_methods = ['get']
-        fields = ['id', 'title', 'version', 'shortname']
+        fields = ['id', 'title', 'version', 'shortname','is_draft']
         authentication = ApiKeyAuthentication()
         authorization = ReadOnlyAuthorization() 
         serializer = CourseJSONSerializer()
@@ -403,10 +404,11 @@ class ScheduleResource(ModelResource):
    
 class TagResource(ModelResource):
     count = fields.IntegerField(readonly=True)
-    courses = fields.ToManyField('oppia.api.resources.CourseTagResource', 'coursetag_set', related_name='tag', full=True)
-  
+    #courses = fields.ToManyField('oppia.api.resources.CourseTagResource', 'coursetag_set', related_name='tag',full=True)
+    #courses = fields.ToManyField('oppia.api.resources.CourseTagResource','coursetag_set',related_name='tag',full=True)
+    
     class Meta:
-        queryset = Tag.objects.filter(courses__isnull=False).distinct().order_by("name")
+        queryset = Tag.objects.all()
         resource_name = 'tag'
         allowed_methods = ['get']
         fields = ['id','name']
@@ -416,14 +418,57 @@ class TagResource(ModelResource):
         include_resource_uri = False
         serializer = TagJSONSerializer()
     
+    def get_object_list(self,request):
+        if request.user.is_staff:
+            return Tag.objects.filter(courses__isnull=False, coursetag__course__is_archived=False).distinct().order_by("name")
+        else:
+            return Tag.objects.filter(courses__isnull=False, coursetag__course__is_archived=False,coursetag__course__is_draft=False).distinct().order_by("name")
+        
+    def prepend_urls(self):
+        return [
+            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('tag_detail'), name="api_tag_detail"),
+            ]
+        
+    def tag_detail(self, request, **kwargs): 
+        self.is_authenticated(request)
+        self.throttle_check(request)
+        
+        pk = kwargs.pop('pk', None)
+        try:
+            tag = self._meta.queryset.get(pk = pk)
+        except Tag.DoesNotExist:
+            raise NotFound(_(u'Tag not found'))
+        
+        if request.user.is_staff:
+            courses = Course.objects.filter(tag=tag, is_archived=False).order_by("title")
+        else:
+            courses = Course.objects.filter(tag=tag, is_archived=False,is_draft=False).order_by("title")
+        
+        course_data = []
+        cr = CourseResource()
+        for c in courses:
+            bundle = cr.build_bundle(obj=c,request=request)
+            d = cr.full_dehydrate(bundle)
+            course_data.append(bundle.data)
+        
+        response = HttpResponse(content=json.dumps({'id':pk,'count':courses.count(),'courses':course_data,'name':tag.name}),content_type="application/json; charset=utf-8")
+        return response
+
     def dehydrate_count(self,bundle):
-        #if bundle.request.user.is_staff:
-        count = Course.objects.filter(tag__id=bundle.obj.id).count()
-        #else:
-        #    count = Course.objects.filter(tag__id=bundle.obj.id, staff_only=False).count()
+        tmp = Course.objects.filter(tag__id=bundle.obj.id, is_archived=False)
+        if bundle.request.user.is_staff:
+            count = tmp.count()
+        else:
+            count = tmp.filter(is_draft=False).count()
         return count
-    
-             
+        
+    def alter_list_data_to_serialize(self, request, data):
+        if isinstance(data, dict):
+            if 'objects' in data:
+                data['tags'] = data['objects']
+                del data['objects']  
+        return data 
+          
 class ActivityScheduleResource(ModelResource):
     schedule = fields.ToOneField('oppia.api.resources.ScheduleResource', 'schedule', related_name='activityschedule')
     class Meta:
@@ -432,7 +477,7 @@ class ActivityScheduleResource(ModelResource):
         allowed_methods = ['get']
         fields = ['digest', 'start_date', 'end_date']
         authentication = ApiKeyAuthentication()
-        authorization = Authorization() 
+        authorization = ReadOnlyAuthorization() 
         always_return_data = True
         include_resource_uri = False
         
@@ -449,7 +494,7 @@ class PointsResource(ModelResource):
         resource_name = 'points'
         include_resource_uri = False
         authentication = ApiKeyAuthentication()
-        authorization = Authorization()
+        authorization = ReadOnlyAuthorization()
         always_return_data = True
         
     def get_object_list(self, request):
@@ -467,7 +512,7 @@ class BadgesResource(ModelResource):
         include_resource_uri = False
         serializer = PrettyJSONSerializer()
         authentication = ApiKeyAuthentication()
-        authorization = Authorization()
+        authorization = ReadOnlyAuthorization()
         always_return_data = True
         
 class AwardsResource(ModelResource):
@@ -480,7 +525,7 @@ class AwardsResource(ModelResource):
         include_resource_uri = False
         serializer = PrettyJSONSerializer()
         authentication = ApiKeyAuthentication()
-        authorization = Authorization()
+        authorization = ReadOnlyAuthorization()
         always_return_data = True
         
     def get_object_list(self, request):
@@ -513,7 +558,7 @@ class ScorecardResource(ModelResource):
         allowed_methods = ['get']
         fields = ['first_name', 'last_name']
         authentication = ApiKeyAuthentication()
-        authorization = Authorization() 
+        authorization = ReadOnlyAuthorization() 
         serializer= ScorecardJSONSerializer()
         always_return_data = True
         include_resource_uri = False

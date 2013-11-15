@@ -1,6 +1,11 @@
 Change Log
 ============
 
+v0.1.35
+-------
+* Fix: https://github.com/DigitalCampus/django-oppia/issues/77 - return is_draft with course resources
+* Fix: https://github.com/DigitalCampus/django-oppia/issues/60 - fix Tag API so only returns course relevant for user
+
 v0.1.34
 -------
 * Fix: https://github.com/DigitalCampus/django-oppia/issues/72 - Tracker API error when more than one media with same digest
