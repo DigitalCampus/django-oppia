@@ -314,7 +314,7 @@ class CourseResource(ModelResource):
         try:
             course = self._meta.queryset.get(pk = pk)
         except Course.DoesNotExist:
-            raise NotFound(_(u'Course download not found'))
+            raise Http404()
          
         file_to_download = course.getAbsPath();
         schedule = course.get_default_schedule()
