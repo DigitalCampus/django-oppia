@@ -113,9 +113,6 @@ def recent_activity(request,id):
         day = temp.strftime("%d")
         month = temp.strftime("%m")
         year = temp.strftime("%y")
-        #count_act_page = Tracker.objects.filter(course=course,type='page',tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
-        #count_act_quiz = Tracker.objects.filter(course=course,type='quiz',tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
-        #count_media = Tracker.objects.filter(course=course,type='media',tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
         count_objs = Tracker.objects.filter(course=course,tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).values('type').annotate(total=Count('type'))
         count_activity = {'page':0, 'quiz':0, 'media':0, 'resource':0, 'total':0}
         for co in count_objs:
