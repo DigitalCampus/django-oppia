@@ -10,7 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 from oppia.models import Course, Section, Activity, Media
 from xml.dom.minidom import Node
 
-def handle_uploaded_file(f, extract_path, request):
+def handle_uploaded_file(f, extract_path, request, is_draft):
     zipfilepath = settings.COURSE_UPLOAD_DIR + f.name
     
     with open(zipfilepath, 'wb+') as destination:
@@ -76,6 +76,7 @@ def handle_uploaded_file(f, extract_path, request):
         course.user = request.user
         course.filename = f.name
         course.lastupdated_date = datetime.datetime.now()
+        course.is_draft = is_draft
         course.save()
     except Course.DoesNotExist:
         course = Course()
@@ -84,6 +85,7 @@ def handle_uploaded_file(f, extract_path, request):
         course.version = versionid
         course.user = request.user
         course.filename = f.name
+        course.is_draft = is_draft
         course.save()
     
     

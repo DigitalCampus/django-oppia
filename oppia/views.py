@@ -73,7 +73,8 @@ def upload(request):
         form = UploadCourseForm(request.POST,request.FILES)
         if form.is_valid(): # All validation rules pass
             extract_path = settings.COURSE_UPLOAD_DIR + 'temp/' + str(request.user.id) + '/' 
-            course = handle_uploaded_file(request.FILES['course_file'], extract_path, request)
+            is_draft = form.cleaned_data.get("is_draft")
+            course = handle_uploaded_file(request.FILES['course_file'], extract_path, request, is_draft)
             if course:
                 shutil.rmtree(extract_path)
                 #add the tags

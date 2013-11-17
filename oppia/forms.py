@@ -15,6 +15,9 @@ class UploadCourseForm(forms.Form):
                 help_text=_("A comma separated list of tags to help classify your course"),
                 required=True,
                 error_messages={'required': _('Please enter at least one tag')},)
+    is_draft = forms.BooleanField(
+                help_text=_("Whether this course is only a draft"),
+                required=False,)
     
     def clean(self):
         cleaned_data = super(UploadCourseForm, self).clean()
