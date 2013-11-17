@@ -14,18 +14,20 @@
 
 		var data = new google.visualization.DataTable();
 		data.addColumn('string', "{% trans 'Date' %}");
+		data.addColumn('number', "{% trans 'Total' %}");
 		data.addColumn('number', "{% trans 'Page completed' %}");
 		data.addColumn('number', "{% trans 'Quiz completed' %}");
 		data.addColumn('number', "{% trans 'Media viewed' %}");
-		data.addColumn('number', "{% trans 'Total' %}");
+		data.addColumn('number', "{% trans 'Resources viewed' %}");
 		data.addRows( {{ data|length }} );
 		
-		{% for date,count_ap,count_aq,count_m in data %}
+		{% for date,activity in data %}
 			data.setValue({{ forloop.counter0 }},0,'{{ date }}');
-			data.setValue({{ forloop.counter0 }},1,{{ count_ap }});
-			data.setValue({{ forloop.counter0 }},2,{{ count_aq }});
-			data.setValue({{ forloop.counter0 }},3,{{ count_m }});
-			data.setValue({{ forloop.counter0 }},4,{{ count_ap|add:count_aq|add:count_m }});
+			data.setValue({{ forloop.counter0 }},1,{{ activity.total }});
+			data.setValue({{ forloop.counter0 }},2,{{ activity.page }});
+			data.setValue({{ forloop.counter0 }},3,{{ activity.quiz }});
+			data.setValue({{ forloop.counter0 }},4,{{ activity.media }});
+			data.setValue({{ forloop.counter0 }},5,{{ activity.resource }});
 		{% endfor %}
 
         var chart = new google.visualization.LineChart(document.getElementById('attempts_chart_div'));
@@ -33,9 +35,9 @@
                 			height: 400,
                 			vAxis: {title: "{% trans 'No. attempts' %}"},
                 			pointSize:5,
-                			chartArea:{left:50,top:50,width:"80%",height:"75%"},
+                			chartArea:{left:50,top:50,width:"70%",height:"80%"},
                 			backgroundColor: 'transparent',
-                			legend: {position:'top'}
+                			legend: {position:'right'}
 							});
       }
 </script>

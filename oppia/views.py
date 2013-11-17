@@ -10,7 +10,7 @@ from django.conf import settings
 from django.contrib.auth import (authenticate, logout, views)
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.forms.formsets import formset_factory
 from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.shortcuts import render,render_to_response
@@ -113,10 +113,16 @@ def recent_activity(request,id):
         day = temp.strftime("%d")
         month = temp.strftime("%m")
         year = temp.strftime("%y")
-        count_act_page = Tracker.objects.filter(course=course,type='page',tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
-        count_act_quiz = Tracker.objects.filter(course=course,type='quiz',tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
-        count_media = Tracker.objects.filter(course=course,type='media',tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
-        dates.append([temp.strftime("%d %b %y"),count_act_page,count_act_quiz,count_media])
+        #count_act_page = Tracker.objects.filter(course=course,type='page',tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
+        #count_act_quiz = Tracker.objects.filter(course=course,type='quiz',tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
+        #count_media = Tracker.objects.filter(course=course,type='media',tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
+        count_objs = Tracker.objects.filter(course=course,tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).values('type').annotate(total=Count('type'))
+        count_activity = {'page':0, 'quiz':0, 'media':0, 'resource':0, 'total':0}
+        for co in count_objs:
+            count_activity[co['type']] = count_activity[co['type']] + co['total']
+            count_activity['total'] = count_activity['total'] + co['total']
+        
+        dates.append([temp.strftime("%d %b %y"),count_activity])
     leaderboard = Points.get_leaderboard(10, course)
     return render_to_response('oppia/course/activity.html',{'course': course,'data':dates, 'leaderboard':leaderboard}, context_instance=RequestContext(request))
 
