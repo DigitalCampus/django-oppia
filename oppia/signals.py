@@ -11,9 +11,21 @@ import math
 
 course_downloaded = Signal(providing_args=["course", "user"])
 
+# rules for applying points (or not)
+def apply_points(user):
+    if not settings.OPPIA_POINTS_ENABLED:
+        return False
+    if user.is_staff and not settings.OPPIA_STAFF_EARN_POINTS:
+        return False
+    return True
+    
+        
 def signup_callback(sender, **kwargs):
     user = kwargs.get('instance')
     created = kwargs.get('created')
+    if not apply_points(user):
+        return
+
     if created:
         p = Points()
         p.points = settings.OPPIA_POINTS['REGISTER']
@@ -31,18 +43,17 @@ def quizattempt_callback(sender, **kwargs):
     if quiz.owner == quiz_attempt.user:
         return
     
+    if not apply_points(quiz_attempt.user):
+        return
+    
     # give points to quiz owner
-    if quiz_attempt.is_first_attempt_today() and not quiz.owner.is_superuser:
+    if quiz_attempt.is_first_attempt_today():
         p = Points()
         p.points = settings.OPPIA_POINTS['QUIZ_ATTEMPT_OWNER']
         p.user = quiz.owner
         p.type = 'userquizattempt'
         p.description = quiz_attempt.user.username + " attempted your quiz: " + quiz.title
-        p.save() 
-     
-    # check not superuser
-    if quiz_attempt.user.is_superuser:
-        return 
+        p.save()  
     
     # find out if this quiz is part of a course
     course = None
@@ -56,6 +67,11 @@ def quizattempt_callback(sender, **kwargs):
     # find out is user is part of the cohort for this course
     cohort = None
     if course is not None:
+        if course.user == quiz_attempt.user and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
+            return
+        cohort_teacher = Cohort.teacher_member_now(course, quiz_attempt.user)
+        if cohort_teacher is not None and settings.OPPIA_TEACHERS_EARN_POINTS is False:
+            return
         cohort = Cohort.student_member_now(course,quiz_attempt.user)
               
     if quiz_attempt.is_first_attempt():
@@ -107,9 +123,9 @@ def quizattempt_callback(sender, **kwargs):
 def createquiz_callback(sender, **kwargs):
     quiz = kwargs.get('instance')
     created = kwargs.get('created')
-    # check not superuser
-    if quiz.owner.is_superuser:
-        return 
+    
+    if not apply_points(quiz.owner):
+        return
     
     if created:
         p = Points()
@@ -122,12 +138,16 @@ def createquiz_callback(sender, **kwargs):
 
 def tracker_callback(sender, **kwargs):
     tracker = kwargs.get('instance')
-    
-    # check not superuser
-    if tracker.user.is_superuser:
-        return 
+    if not apply_points(tracker.user):
+        return
     
     if not tracker.activity_exists():
+        return
+    
+    if tracker.course.user == tracker.user and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
+        return
+    cohort_teacher = Cohort.teacher_member_now(tracker.course, tracker.user)
+    if cohort_teacher is not None and settings.OPPIA_TEACHERS_EARN_POINTS is False:
         return
     
     if tracker.get_activity_type() is not "media":
@@ -160,17 +180,21 @@ def tracker_callback(sender, **kwargs):
     p.cohort = Cohort.student_member_now(tracker.course,tracker.user)
     p.save()
     
-    # test if tracker submitted on time
+    # @TODO test if tracker submitted on time
     
     return
 
 def course_download_callback(sender, **kwargs):
     user = kwargs.get('user')
     course = kwargs.get('course')
+    if not apply_points(user):
+        return
     
-    # check not superuser
-    if user.is_superuser:
-        return 
+    if course.user == user and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
+        return
+    cohort_teacher = Cohort.teacher_member_now(course, user)
+    if cohort_teacher is not None and settings.OPPIA_TEACHERS_EARN_POINTS is False:
+        return
     
     if not course.is_first_download(user):
         return 
@@ -187,11 +211,9 @@ def course_download_callback(sender, **kwargs):
 
 def badgeaward_callback(sender, **kwargs):
     award = kwargs.get('instance')
-    
-    # check not superuser
-    if award.user.is_superuser:
-        return 
-    
+    if not apply_points(award.user):
+        return
+
     p = Points()
     p.points = award.badge.points
     p.type = 'badgeawarded'
