@@ -18,6 +18,16 @@ can create an account) on the server. Set this to ``False`` to prevent just
 anyone registering on your server - you will need to create their accounts 
 yourself instead using the standard Django user management.
 
+OPPIA_COURSE_OWNERS_EARN_POINTS
+--------------------------------
+
+Default: ``False``
+
+Determines if the user who uploaded the course will earn points or not for 
+activity within this course. This setting is ignored if ``OPPIA_POINTS_ENABLED``
+is ``False``.
+
+
 OPPIA_GOOGLE_ANALYTICS_ENABLED
 ------------------------------
 
@@ -57,6 +67,22 @@ Default: ``True``
 
 This setting determines whether the points system is enabled for this server. It 
 currently just hides the points from display on the mobile app.
+
+OPPIA_TEACHERS_EARN_POINTS
+--------------------------------
+
+Default: ``False``
+
+Determines if teachers on the course will earn points or not for activity within
+this course. This setting is ignored if ``OPPIA_POINTS_ENABLED`` is ``False``.
+
+OPPIA_STAFF_EARN_POINTS
+-----------------------
+
+Default: ``False``
+
+Determines if users with the is_staff permission will earn points or not. This 
+setting is ignored if ``OPPIA_POINTS_ENABLED`` is ``False``.
 
 OPPIA_STAFF_ONLY_UPLOAD
 -----------------------
