@@ -32,13 +32,12 @@ def home_view(request):
     activity = []
     if request.user.is_authenticated():
         startdate = datetime.datetime.now()
-        staff = User.objects.filter(is_staff=True)
         for i in range(31,-1,-1):
             temp = startdate - datetime.timedelta(days=i)
             day = temp.strftime("%d")
             month = temp.strftime("%m")
             year = temp.strftime("%y")
-            count = Tracker.objects.filter(course__isnull=False, course__is_draft=False, course__is_archived=False,tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).exclude(user_id__in=staff).count()
+            count = Tracker.objects.filter(course__isnull=False, course__is_draft=False, course__is_archived=False,tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
             activity.append([temp.strftime("%d %b %y"),count])
     leaderboard = Points.get_leaderboard(10)
     return render_to_response('oppia/home.html',{'recent_activity':activity, 'leaderboard':leaderboard}, context_instance=RequestContext(request))
@@ -49,7 +48,6 @@ def course_view(request):
     else:
         course_list = Course.objects.filter(is_draft=False,is_archived=False).order_by('title')   
     startdate = datetime.datetime.now()
-    staff = User.objects.filter(is_staff=True)
     for course in course_list:
         course.activity = []
         for i in range(7,-1,-1):
@@ -58,7 +56,7 @@ def course_view(request):
             month = temp.strftime("%m")
             year = temp.strftime("%y")
             
-            count = Tracker.objects.filter(course = course, tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).exclude(user_id__in=staff).count()
+            count = Tracker.objects.filter(course = course, tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
             course.activity.append([temp.strftime("%d %b %y"),count])   
     return render_to_response('oppia/course/course.html',{'course_list': course_list,}, context_instance=RequestContext(request))
 
@@ -110,15 +108,14 @@ def recent_activity(request,id):
     course = check_can_view(request, id)
     dates = []
     startdate = datetime.datetime.now()
-    staff = User.objects.filter(is_staff=True)
     for i in range(31,-1,-1):
         temp = startdate - datetime.timedelta(days=i)
         day = temp.strftime("%d")
         month = temp.strftime("%m")
         year = temp.strftime("%y")
-        count_act_page = Tracker.objects.filter(course=course,type='page',tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).exclude(user_id__in=staff).count()
-        count_act_quiz = Tracker.objects.filter(course=course,type='quiz',tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).exclude(user_id__in=staff).count()
-        count_media = Tracker.objects.filter(course=course,type='media',tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).exclude(user_id__in=staff).count()
+        count_act_page = Tracker.objects.filter(course=course,type='page',tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
+        count_act_quiz = Tracker.objects.filter(course=course,type='quiz',tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
+        count_media = Tracker.objects.filter(course=course,type='media',tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
         dates.append([temp.strftime("%d %b %y"),count_act_page,count_act_quiz,count_media])
     leaderboard = Points.get_leaderboard(10, course)
     return render_to_response('oppia/course/activity.html',{'course': course,'data':dates, 'leaderboard':leaderboard}, context_instance=RequestContext(request))
@@ -126,8 +123,7 @@ def recent_activity(request,id):
 def recent_activity_detail(request,id):
     course = check_owner(request,id)
         
-    staff = User.objects.filter(is_staff=True)
-    trackers = Tracker.objects.filter(course=course).exclude(user_id__in=staff).order_by('-tracker_date')
+    trackers = Tracker.objects.filter(course=course).order_by('-tracker_date')
     paginator = Paginator(trackers, 25)
     # Make sure page request is an int. If not, deliver first page.
     try:
