@@ -1,6 +1,12 @@
 Change Log
 ============
 
+v0.1.37
+--------
+* Fix: https://github.com/DigitalCampus/django-oppia/issues/76 - fix mismatch between graphs/leaderboard/activity detail
+* Fix: https://github.com/DigitalCampus/django-oppia/issues/84 - new local settings
+* Fix: https://github.com/DigitalCampus/django-oppia/issues/85 - add resources to activity graph
+
 v0.1.35
 -------
 * Fix: https://github.com/DigitalCampus/django-oppia/issues/77 - return is_draft with course resources
