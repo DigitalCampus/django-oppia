@@ -27,7 +27,6 @@ from tastypie.utils import trailing_slash
 from tastypie.validation import Validation
 
 from oppia.api.serializers import PrettyJSONSerializer, CourseJSONSerializer, TagJSONSerializer, UserJSONSerializer
-from oppia.api.serializers import ModuleJSONSerializer, ScorecardJSONSerializer
 from oppia.models import Activity, Section, Tracker, Course, CourseDownload, Media, Schedule, ActivitySchedule, Cohort, Tag, CourseTag
 from oppia.models import Points, Award, Badge
 from oppia.profile.forms import RegisterForm
@@ -545,78 +544,6 @@ class AwardsResource(ModelResource):
             prefix = 'http://'
         url = prefix + bundle.request.META['SERVER_NAME'] + settings.MEDIA_URL + bundle.data['badge_icon']
         return url
-    
-class ScorecardResource(ModelResource):
-    media_views = fields.IntegerField(readonly=True)
-    media_points = fields.IntegerField(readonly=True)
-    media_secs = fields.IntegerField(readonly=True)
-   
-    page_views = fields.IntegerField(readonly=True)
-    page_points = fields.IntegerField(readonly=True)
-    page_secs = fields.IntegerField(readonly=True)
-    
-    quiz_views = fields.IntegerField(readonly=True)
-    quiz_points = fields.IntegerField(readonly=True)
-    quiz_secs = fields.IntegerField(readonly=True)
-    
-    class Meta:
-        queryset = User.objects.all()
-        resource_name = 'scorecard'
-        allowed_methods = ['get']
-        fields = ['first_name', 'last_name']
-        authentication = ApiKeyAuthentication()
-        authorization = ReadOnlyAuthorization() 
-        serializer= ScorecardJSONSerializer()
-        always_return_data = True
-        include_resource_uri = False
-      
-    def get_object_list(self, request):
-        return super(ScorecardResource, self).get_object_list(request).filter(username = request.user.username)
-      
-    def dehydrate_media_views(self,bundle):
-        start_date = datetime.datetime.now() - datetime.timedelta(days=14)
-        end_date = datetime.datetime.now()
-        return Tracker.activity_views(user=bundle.obj,type='media',start_date=start_date,end_date=end_date)
-    
-    def dehydrate_media_points(self,bundle):
-        start_date = datetime.datetime.now() - datetime.timedelta(days=14)
-        end_date = datetime.datetime.now()
-        return Points.media_points(user=bundle.obj,start_date=start_date,end_date=end_date)
-    
-    def dehydrate_media_secs(self,bundle):
-        start_date = datetime.datetime.now() - datetime.timedelta(days=14)
-        end_date = datetime.datetime.now()
-        return Tracker.activity_secs(user=bundle.obj,type='media',start_date=start_date,end_date=end_date)
-    
-    def dehydrate_page_views(self,bundle):
-        start_date = datetime.datetime.now() - datetime.timedelta(days=14)
-        end_date = datetime.datetime.now()
-        return Tracker.activity_views(user=bundle.obj,type='page',start_date=start_date,end_date=end_date)
-    
-    def dehydrate_page_points(self,bundle):
-        start_date = datetime.datetime.now() - datetime.timedelta(days=14)
-        end_date = datetime.datetime.now()
-        return Points.page_points(user=bundle.obj,start_date=start_date,end_date=end_date)
-    
-    def dehydrate_page_secs(self,bundle):
-        start_date = datetime.datetime.now() - datetime.timedelta(days=14)
-        end_date = datetime.datetime.now()
-        return Tracker.activity_secs(user=bundle.obj,type='page',start_date=start_date,end_date=end_date)
-    
-    def dehydrate_quiz_views(self,bundle):
-        start_date = datetime.datetime.now() - datetime.timedelta(days=14)
-        end_date = datetime.datetime.now()
-        return Tracker.activity_views(user=bundle.obj,type='quiz',start_date=start_date,end_date=end_date)
-    
-    def dehydrate_quiz_points(self,bundle):
-        start_date = datetime.datetime.now() - datetime.timedelta(days=14)
-        end_date = datetime.datetime.now()
-        return Points.quiz_points(user=bundle.obj,start_date=start_date,end_date=end_date)
-    
-    def dehydrate_quiz_secs(self,bundle):
-        start_date = datetime.datetime.now() - datetime.timedelta(days=14)
-        end_date = datetime.datetime.now()
-        return Tracker.activity_secs(user=bundle.obj,type='quiz',start_date=start_date,end_date=end_date)
     
 
     

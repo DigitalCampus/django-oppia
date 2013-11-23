@@ -16,7 +16,8 @@ from tastypie.resources import ModelResource
 
 from oppia.models import Points, Award
 from oppia.api.resources import UserResource
-from oppia.quiz.api.serializers import PrettyJSONSerializer, QuizJSONSerializer
+from oppia.api.serializers import PrettyJSONSerializer
+from oppia.quiz.api.serializers import QuizJSONSerializer, QuizAttemptJSONSerializer
 from oppia.quiz.api.validation import QuizOwnerValidation, QuestionOwnerValidation
 from oppia.quiz.api.validation import ResponseOwnerValidation, QuizAttemptValidation
 from oppia.quiz.models import Quiz, Question, QuizQuestion, Response, QuestionProps
@@ -234,7 +235,7 @@ class QuizAttemptResource(ModelResource):
         authentication = ApiKeyAuthentication()
         authorization = Authorization() 
         always_return_data = True 
-        #validation = QuizAttemptValidation()
+        serializer = QuizAttemptJSONSerializer()
         
     def hydrate(self, bundle, request=None):
         bundle.obj.user = User.objects.get(pk = bundle.request.user.id)
@@ -261,7 +262,7 @@ class QuizAttemptResource(ModelResource):
                 raise BadRequest(_(u'This question is not part of this quiz'))
             
         return bundle
-     
+    
     def dehydrate_points(self,bundle):
         points = Points.get_userscore(bundle.request.user)
         return points
