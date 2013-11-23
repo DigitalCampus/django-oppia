@@ -19,9 +19,9 @@
 {% if quizzes %}
 <div id="monitormenu">
 	<ul>
-		<li><a onclick="load('{% url 'oppia_monitor_cohort_recent' cohort.id %}');"> {% trans 'Recent' %}</a></li>
-		<li><a onclick="load('{% url 'oppia_monitor_cohort_overall' cohort.id %}');">{% trans 'Overall' %}</a></li>
+		<li><a onclick="load('{% url 'oppia_monitor_cohort_progress' cohort.id %}');"> {% trans 'Progress' %}</a></li>
 		<li><a onclick="load('{% url 'oppia_monitor_cohort_quizzes' cohort.id %}');">{% trans 'Quizzes' %}</a></li>
+		<li><a onclick="load('{% url 'oppia_monitor_cohort_media' cohort.id %}');">{% trans 'Media' %}</a></li>
 	</ul>
 </div>
 

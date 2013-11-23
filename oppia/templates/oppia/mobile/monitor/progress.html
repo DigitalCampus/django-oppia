@@ -27,9 +27,9 @@
 {% if participants %}
 <div id="monitormenu">
 	<ul>
-		<li><a onclick="load('{% url 'oppia_monitor_cohort_recent' cohort.id %}');"> {% trans 'Recent' %}</a></li>
-		<li><a onclick="load('{% url 'oppia_monitor_cohort_overall' cohort.id %}');">{% trans 'Overall' %}</a></li>
+		<li><a onclick="load('{% url 'oppia_monitor_cohort_progress' cohort.id %}');"> {% trans 'Progress' %}</a></li>
 		<li><a onclick="load('{% url 'oppia_monitor_cohort_quizzes' cohort.id %}');">{% trans 'Quizzes' %}</a></li>
+		<li><a onclick="load('{% url 'oppia_monitor_cohort_media' cohort.id %}');">{% trans 'Media' %}</a></li>
 	</ul>
 </div>
 
@@ -42,7 +42,20 @@
 	{% for p in participants %}
 		<div class="list">
 			<div class="listname">{{ p.user.first_name }} {{ p.user.last_name }}</div>
-			<div class="listprogress"><div id="progressbar-{{ p.user.id }}"></div></div>
+			<!-- div class="listprogress"><div id="progressbar-{{ p.user.id }}"></div></div -->
+			<div class="listprogress">
+				{% for s in p.sections %}
+					{% if s.completed = 100 %}
+						<div style="float:left; margin-right:1px; margin-bottom:1px; width:20px; height:20px; background:green" title="{{ s.section.title|title_lang:LANGUAGE_CODE }}"></div>
+					{% elif s.completed > 0 %}
+						<div style="float:left;  margin-right:1px; margin-bottom:1px; width:20px; height:20px; background:yellow" title="{{ s.section.title|title_lang:LANGUAGE_CODE }}"></div>
+					{% elif s.started > 0 %}
+						<div style="float:left;  margin-right:1px;margin-bottom:1px; width:20px; height:20px; background:yellow" title="{{ s.section.title|title_lang:LANGUAGE_CODE }}"></div>
+					{% else %}
+						<div style="float:left;  margin-right:1px; margin-bottom:1px; width:20px; height:20px; background:lightgrey" title="{{ s.section.title|title_lang:LANGUAGE_CODE }}"></div>
+					{% endif %}
+				{% endfor %}
+			</div>
 			<div style='clear:both'></div>
 		</div>
 	{% endfor %}
