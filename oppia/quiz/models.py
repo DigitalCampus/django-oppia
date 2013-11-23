@@ -13,7 +13,7 @@ class Question(models.Model):
         ('matching', 'Matching'),
         ('numerical', 'Numerical'),
         ('multiselect', 'Multiple select'),
-        ('info', 'Information only'),
+        ('description', 'Information only'),
     )
     owner = models.ForeignKey(User)
     created_date = models.DateTimeField('date created',default=datetime.datetime.now)
