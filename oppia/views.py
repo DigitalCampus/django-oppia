@@ -422,9 +422,11 @@ def leaderboard_view(request):
 
 def course_quiz(request,course_id):
     course = check_owner(request,course_id)
-    digests = Activity.objects.filter(section__course=course,type='quiz').values('digest').distinct()
-    quizzes = Quiz.objects.filter(quizprops__name='digest',quizprops__value__in=digests)
-    
+    digests = Activity.objects.filter(section__course=course,type='quiz').order_by('section__order').values('digest').distinct()
+    quizzes = []
+    for d in digests:
+        q = Quiz.objects.get(quizprops__name='digest',quizprops__value=d['digest'])
+        quizzes.append(q)
     return render_to_response('oppia/course/quizzes.html',{'course': course,'quizzes':quizzes}, context_instance=RequestContext(request))
 
 def course_quiz_attempts(request,course_id,quiz_id):
