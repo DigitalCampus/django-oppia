@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render,render_to_response, get_object_or_404
 from django.template import RequestContext
 
-from oppia.models import Tracker, Points, Course, Cohort, Participant, Activity, Section
+from oppia.models import Tracker, Points, Course, Cohort, Participant, Activity, Section, Media
 from oppia.quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
 
 from tastypie.authentication import ApiKeyAuthentication
@@ -82,7 +82,7 @@ def monitor_cohort_progress_view(request,cohort_id):
     section_list = {}
     for s in sections:
         section_list[s.id] = Activity.objects.filter(section=s).values('digest').distinct()
-    participants = Participant.objects.filter(cohort_id=cohort.id, role=Participant.STUDENT).order_by('user__first_name')
+    participants = Participant.objects.filter(cohort=cohort, role=Participant.STUDENT).order_by('user__first_name')
     for p in participants:
         p.sections = []
         for s in sections:
@@ -103,21 +103,22 @@ def monitor_cohort_quizzes_view(request,cohort_id):
     key = ApiKey.objects.get(user = request.user)
     request.user.key = key.key
     cohort = get_object_or_404(Cohort, pk=cohort_id, participant__user=request.user, participant__role=Participant.TEACHER, start_date__lte=now,end_date__gte=now)
-    digests = Activity.objects.filter(section__course=cohort.course,type='quiz').values('digest').distinct()
-    quizzes = Quiz.objects.filter(quizprops__name='digest',quizprops__value__in=digests)
-    cohort_users = Participant.objects.filter(cohort=cohort,role=Participant.STUDENT).values('user__id').distinct()
-    for q in quizzes:
-        attempts = QuizAttempt.objects.filter(quiz=q, user__id__in=cohort_users)
-        total = 0
-        for a in attempts:
-            total = total + a.get_score_percent()
-        if attempts.count() > 0:
-            avg_score = int(total/attempts.count())
-        else:
-            avg_score = 0
-        q.attempts = attempts.count()
-        q.average_score = avg_score
-    return render_to_response('oppia/mobile/monitor/quizzes.html',{ 'cohort':cohort, 'quizzes': quizzes, 'user': request.user }, context_instance=RequestContext(request))
+    quizzes = Activity.objects.filter(section__course=cohort.course,type='quiz').order_by('section__order')
+    participants = Participant.objects.filter(cohort=cohort,role=Participant.STUDENT).order_by('user__first_name')
+    for p in participants:
+        p.quizzes = []
+        for quiz in quizzes:
+            completed = False
+            if Tracker.objects.filter(user=p.user, digest=quiz.digest,completed=True).count() > 0:
+                completed = True
+            started = False
+            if Tracker.objects.filter(user=p.user, digest=quiz.digest,completed=False).count() > 0:
+                started = True
+            temp = { 'quiz': quiz,
+                    'completed': completed,
+                    'started': started}
+            p.quizzes.append(temp)
+    return render_to_response('oppia/mobile/monitor/quizzes.html',{ 'cohort':cohort, 'participants': participants, 'user': request.user }, context_instance=RequestContext(request))
 
 def monitor_cohort_media_view(request,cohort_id):
     auth = ApiKeyAuthentication()
@@ -127,7 +128,23 @@ def monitor_cohort_media_view(request,cohort_id):
     key = ApiKey.objects.get(user = request.user)
     request.user.key = key.key
     cohort = get_object_or_404(Cohort, pk=cohort_id, participant__user=request.user, participant__role=Participant.TEACHER, start_date__lte=now,end_date__gte=now)
-    raise Http404
+    media = Media.objects.filter(course=cohort.course)
+    participants = Participant.objects.filter(cohort=cohort,role=Participant.STUDENT).order_by('user__first_name')
+    for p in participants:
+        p.media = []
+        for m in media:
+            completed = False
+            if Tracker.objects.filter(user=p.user, digest=m.digest,completed=True).count() > 0:
+                completed = True
+            started = False
+            if Tracker.objects.filter(user=p.user, digest=m.digest,completed=False).count() > 0:
+                started = True
+            temp = { 'media': m,
+                    'completed': completed,
+                    'started': started}
+            p.media.append(temp)
+    return render_to_response('oppia/mobile/monitor/media.html',{ 'cohort':cohort, 'participants': participants, 'user': request.user }, context_instance=RequestContext(request))
+
 
 def monitor_cohort_student_view(request,cohort_id, student_id):
     auth = ApiKeyAuthentication()

@@ -1,3 +1,10 @@
+/*
+#31849b - steel blue
+#f79646 - mustard orange
+#495525 - DC dark green r73,g85,b37
+#77A240 - DC mid green r119,g162, b64
+#a5c727 - DC light green r165,g199,b39
+*/
 
 * {
     margin: 0;
@@ -48,11 +55,6 @@ div.list {
     padding: 10px;
 }
 
-div.list:hover {
-	background:yellow;
-	cursor:pointer;
-}
-
 div.listheader {
     border-bottom: 1px solid #999999;
     clear: both;
@@ -98,4 +100,37 @@ div.listprogress{
 
 #monitormenu ul li:hover {
 	cursor:pointer;
+}
+
+div.progress-box {
+	float:left;  
+	margin-right:1px; 
+	margin-bottom:1px; 
+	min-width:10px; 
+	min-height:10px; 
+	padding:5px;
+}
+
+div.p-box-completed {
+	background: #495525;
+	color:#fff;
+}
+
+div.p-box-part-completed {
+	background: #77A240;
+}
+
+div.p-box-started {
+	background: #a5c727;
+}
+
+div.p-box-not-started {
+	background: #ddd;
+}
+
+div.legend {
+	margin:10px;
+}
+
+div.legend-title {
 }

@@ -27,23 +27,23 @@
 
 	<div class="listheader">
 		<div class="listname">{% trans 'Student' %}</div>
-		<div class="listcell">{% trans 'Quizzes' %}</div>
+		<div class="listcell">{% trans 'Media watched' %}</div>
 		<div style='clear:both'></div>
 	</div>
 	{% for p in participants %}
 		<div class="list">
 			<div class="listname">{{ p.user.first_name }} {{ p.user.last_name }}</div>
 			<div class="listprogress">
-				{% for q in p.quizzes %}
+				{% for m in p.media %}
 					<div class="progress-box  
-					{% if q.completed %}
+					{% if m.completed %}
 						p-box-completed
-					{% elif q.started > 0 %}
+					{% elif m.started > 0 %}
 						p-box-started
 					{% else %}
 						p-box-not-started
 					{% endif %}
-						" title="{{ q.quiz.section.title|title_lang:LANGUAGE_CODE }} - {{ q.quiz.title|title_lang:LANGUAGE_CODE }}"></div>
+						" title="{{ m.media.filename }}"></div>
 				{% endfor %}
 			</div>
 			<div style='clear:both'></div>
@@ -52,9 +52,9 @@
 	
 	<div class="legend">
 		<div class="legend-title">{% trans 'Legend' %}</div>
-		<div class="progress-box p-box-completed">{% trans 'Completed'%}</div> 
-		<div class="progress-box p-box-started">{% trans 'Attempted'%}</div> 
-		<div class="progress-box p-box-not-started">{% trans 'Not attempted'%}</div> 
+		<div class="progress-box p-box-completed">{% trans 'Watched all'%}</div> 
+		<div class="progress-box p-box-started">{% trans 'Watched part'%}</div> 
+		<div class="progress-box p-box-not-started">{% trans 'Not watched'%}</div> 
 	</div>
 	
 {% else %}
