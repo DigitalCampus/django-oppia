@@ -6,7 +6,9 @@
 Welcome to the OppiaMobile documentation
 ==============================================
 
-OppiaMobile-Server is the server side component for the `OppiaMobile <http://oppia-mobile.org/>`_ learning application
+`OppiaMobile <http://oppia-mobile.org/>`_ is the mobile learning platform from
+`Digital Campus <http://digitalp-campus.org/>`_. This documentation details how 
+to set up your own server and how you may make basic customisations.
 
 Contents:
 
