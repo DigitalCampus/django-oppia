@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 0.1.22\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-18 13:58+0100\n"
-"PO-Revision-Date: 2013-11-18 13:58+0100\n"
+"PO-Revision-Date: 2013-11-28 13:23+0100\n"
 "Last-Translator: Alex Little <alex@alexlittle.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -856,7 +856,7 @@ msgstr ""
 
 #: templates/oppia/includes/page_navigator.html:4
 msgid "previous"
-msgstr "previous"
+msgstr "Previous"
 
 #: templates/oppia/includes/page_navigator.html:8
 #, python-format

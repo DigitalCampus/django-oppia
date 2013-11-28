@@ -1,6 +1,7 @@
 # oppia/mobile/views.py
 import datetime
 
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render,render_to_response, get_object_or_404
 from django.template import RequestContext
@@ -44,31 +45,6 @@ def monitor_home_view(request):
     request.user.key = key.key
     return render_to_response('oppia/mobile/monitor/home.html',{ 'cohorts_list':cohorts, 'user': request.user }, context_instance=RequestContext(request))
 
-'''
-def monitor_cohort_recent_view(request,cohort_id):
-    auth = ApiKeyAuthentication()
-    if auth.is_authenticated(request) is not True:
-        return HttpResponse('Unauthorized', status=401)
-    now = datetime.datetime.now()
-    cohort = get_object_or_404(Cohort, pk=cohort_id, participant__user=request.user, participant__role=Participant.TEACHER, start_date__lte=now,end_date__gte=now)
-    participants = Participant.objects.filter(cohort_id=cohort.id, role=Participant.STUDENT).order_by('user__first_name')
-    start_date = datetime.datetime.now() - datetime.timedelta(days=14)
-    end_date = datetime.datetime.now() 
-    for p in participants:
-        p.media = {'views':Tracker.activity_views(user=p.user,type='media',start_date=start_date,end_date=end_date, course=cohort.course),
-                 'secs':Tracker.activity_secs(user=p.user,type='media',start_date=start_date,end_date=end_date, course=cohort.course),
-                 'points':Points.media_points(user=p.user,start_date=start_date,end_date=end_date, course=cohort.course)}
-        p.quiz = {'views':Tracker.activity_views(user=p.user,type='quiz',start_date=start_date,end_date=end_date, course=cohort.course),
-                 'secs':Tracker.activity_secs(user=p.user,type='quiz',start_date=start_date,end_date=end_date, course=cohort.course),
-                 'points':Points.quiz_points(user=p.user,start_date=start_date,end_date=end_date, course=cohort.course)}
-        p.acts = {'views':Tracker.activity_views(user=p.user,type='page',start_date=start_date,end_date=end_date, course=cohort.course),
-                 'secs':Tracker.activity_secs(user=p.user,type='page',start_date=start_date,end_date=end_date, course=cohort.course),
-                 'points':Points.page_points(user=p.user,start_date=start_date,end_date=end_date, course=cohort.course)}  
-    key = ApiKey.objects.get(user = request.user)
-    request.user.key = key.key
-    
-    return render_to_response('oppia/mobile/monitor/recent.html',{ 'cohort':cohort, 'participants': participants, 'user': request.user }, context_instance=RequestContext(request))
-'''  
 
 def monitor_cohort_progress_view(request,cohort_id):
     auth = ApiKeyAuthentication()
@@ -83,16 +59,29 @@ def monitor_cohort_progress_view(request,cohort_id):
     for s in sections:
         section_list[s.id] = Activity.objects.filter(section=s).values('digest').distinct()
     participants = Participant.objects.filter(cohort=cohort, role=Participant.STUDENT).order_by('user__first_name')
-    for p in participants:
-        p.sections = []
-        for s in sections:
-            user_completed = Tracker.objects.filter(user=p.user,completed=True,digest__in=section_list[s.id]).values('digest').distinct()
-            user_started = Tracker.objects.filter(user=p.user,completed=False,digest__in=section_list[s.id]).values('digest').distinct()
-            temp = {'completed': user_completed.count()*100/section_list[s.id].count(), 
-                    'started':user_started.count()*100/section_list[s.id].count(),
-                    'section': s}
-            p.sections.append(temp)
-    return render_to_response('oppia/mobile/monitor/progress.html',{ 'cohort':cohort, 'participants': participants, 'user': request.user }, context_instance=RequestContext(request))
+    
+    paginator = Paginator(participants, 25)
+    # Make sure page request is an int. If not, deliver first page.
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+    
+    try:
+        students = paginator.page(page)
+        for p in students:
+            p.sections = []
+            for s in sections:
+                user_completed = Tracker.objects.filter(user=p.user,completed=True,digest__in=section_list[s.id]).values('digest').distinct()
+                user_started = Tracker.objects.filter(user=p.user,completed=False,digest__in=section_list[s.id]).values('digest').distinct()
+                temp = {'completed': user_completed.count()*100/section_list[s.id].count(), 
+                        'started':user_started.count()*100/section_list[s.id].count(),
+                        'section': s}
+                p.sections.append(temp)
+    except (EmptyPage, InvalidPage):
+        tracks = paginator.page(paginator.num_pages)
+        
+    return render_to_response('oppia/mobile/monitor/progress.html',{ 'cohort':cohort, 'participants': students, 'user': request.user }, context_instance=RequestContext(request))
 
 
 def monitor_cohort_quizzes_view(request,cohort_id):
@@ -105,20 +94,33 @@ def monitor_cohort_quizzes_view(request,cohort_id):
     cohort = get_object_or_404(Cohort, pk=cohort_id, participant__user=request.user, participant__role=Participant.TEACHER, start_date__lte=now,end_date__gte=now)
     quizzes = Activity.objects.filter(section__course=cohort.course,type='quiz').order_by('section__order')
     participants = Participant.objects.filter(cohort=cohort,role=Participant.STUDENT).order_by('user__first_name')
-    for p in participants:
-        p.quizzes = []
-        for quiz in quizzes:
-            completed = False
-            if Tracker.objects.filter(user=p.user, digest=quiz.digest,completed=True).count() > 0:
-                completed = True
-            started = False
-            if Tracker.objects.filter(user=p.user, digest=quiz.digest,completed=False).count() > 0:
-                started = True
-            temp = { 'quiz': quiz,
-                    'completed': completed,
-                    'started': started}
-            p.quizzes.append(temp)
-    return render_to_response('oppia/mobile/monitor/quizzes.html',{ 'cohort':cohort, 'participants': participants, 'user': request.user }, context_instance=RequestContext(request))
+    
+    paginator = Paginator(participants, 25)
+    # Make sure page request is an int. If not, deliver first page.
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+      
+    try:
+        students = paginator.page(page)  
+        for p in students:
+            p.quizzes = []
+            for quiz in quizzes:
+                completed = False
+                if Tracker.objects.filter(user=p.user, digest=quiz.digest,completed=True).count() > 0:
+                    completed = True
+                started = False
+                if Tracker.objects.filter(user=p.user, digest=quiz.digest,completed=False).count() > 0:
+                    started = True
+                temp = { 'quiz': quiz,
+                        'completed': completed,
+                        'started': started}
+                p.quizzes.append(temp)
+    except (EmptyPage, InvalidPage):
+        tracks = paginator.page(paginator.num_pages)
+        
+    return render_to_response('oppia/mobile/monitor/quizzes.html',{ 'cohort':cohort, 'participants': students, 'user': request.user }, context_instance=RequestContext(request))
 
 def monitor_cohort_media_view(request,cohort_id):
     auth = ApiKeyAuthentication()
@@ -130,20 +132,33 @@ def monitor_cohort_media_view(request,cohort_id):
     cohort = get_object_or_404(Cohort, pk=cohort_id, participant__user=request.user, participant__role=Participant.TEACHER, start_date__lte=now,end_date__gte=now)
     media = Media.objects.filter(course=cohort.course)
     participants = Participant.objects.filter(cohort=cohort,role=Participant.STUDENT).order_by('user__first_name')
-    for p in participants:
-        p.media = []
-        for m in media:
-            completed = False
-            if Tracker.objects.filter(user=p.user, digest=m.digest,completed=True).count() > 0:
-                completed = True
-            started = False
-            if Tracker.objects.filter(user=p.user, digest=m.digest,completed=False).count() > 0:
-                started = True
-            temp = { 'media': m,
-                    'completed': completed,
-                    'started': started}
-            p.media.append(temp)
-    return render_to_response('oppia/mobile/monitor/media.html',{ 'cohort':cohort, 'participants': participants, 'user': request.user }, context_instance=RequestContext(request))
+    
+    paginator = Paginator(participants, 25)
+    # Make sure page request is an int. If not, deliver first page.
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+      
+    try:
+        students = paginator.page(page)
+        for p in students:
+            p.media = []
+            for m in media:
+                completed = False
+                if Tracker.objects.filter(user=p.user, digest=m.digest,completed=True).count() > 0:
+                    completed = True
+                started = False
+                if Tracker.objects.filter(user=p.user, digest=m.digest,completed=False).count() > 0:
+                    started = True
+                temp = { 'media': m,
+                        'completed': completed,
+                        'started': started}
+                p.media.append(temp)
+    except (EmptyPage, InvalidPage):
+        tracks = paginator.page(paginator.num_pages)
+        
+    return render_to_response('oppia/mobile/monitor/media.html',{ 'cohort':cohort, 'participants': students, 'user': request.user }, context_instance=RequestContext(request))
 
 
 def monitor_cohort_student_view(request,cohort_id, student_id):

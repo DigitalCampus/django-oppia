@@ -64,7 +64,7 @@ div.listheader {
 
 div.listname{
     float:left;
-    width: 40%;
+    width: 30%;
 }
 
 div.listcell{
@@ -81,25 +81,27 @@ div.listprogress{
 
 #monitormenu {
 	width:100%;
-	margin: auto;
 	text-align: center;
+	border-top: 1px solid #77A240;
+	border-bottom: 1px solid #77A240;
+	padding: 5px 0;
+	background: #E8E8E8;
 }
+
 #monitormenu ul li {
 	display: inline;
 	list-style-type: none;
-	margin: 10px;
 	text-align: center;
-	border: 0px solid #aaa;
 	padding: 5px 10px;
-	border-radius: 0.3em;
-	-moz-border-radius: 0.3em;
-	-webkit-border-radius: 0.3em;
-	background:#495525;
-	color:white;
+	border-right: 1px solid #DCDCDC;
+	border-left: 1px solid #DCDCDC;
 }
+
 
 #monitormenu ul li:hover {
 	cursor:pointer;
+	background: #77A240;
+	color: white;
 }
 
 div.progress-box {
@@ -133,4 +135,20 @@ div.legend {
 }
 
 div.legend-title {
+}
+
+div.clickable:hover {
+	cursor:pointer;
+	background: yellow;
+}
+
+div.page-nav {
+	width:100%;
+	text-align: center;
+	padding: 10px 0;
+}
+
+div.page-nav a {
+	color: #495525;
+	text-decoration: none;
 }

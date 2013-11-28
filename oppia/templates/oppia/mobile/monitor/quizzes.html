@@ -27,10 +27,10 @@
 
 	<div class="listheader">
 		<div class="listname">{% trans 'Student' %}</div>
-		<div class="listcell">{% trans 'Quizzes' %}</div>
+		<div class="listprogress">{% trans 'Quizzes' %}</div>
 		<div style='clear:both'></div>
 	</div>
-	{% for p in participants %}
+	{% for p in participants.object_list %}
 		<div class="list">
 			<div class="listname">{{ p.user.first_name }} {{ p.user.last_name }}</div>
 			<div class="listprogress">
@@ -49,6 +49,8 @@
 			<div style='clear:both'></div>
 		</div>
 	{% endfor %}
+	
+	{% include "oppia/mobile/includes/page-nav.html" %}
 	
 	<div class="legend">
 		<div class="legend-title">{% trans 'Legend' %}</div>
