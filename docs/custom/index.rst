@@ -18,3 +18,4 @@ about the platform, then please post on our `OppiaMobile Google Groups forum
    server/index
    moodle-block/index
    client/index
+   manage

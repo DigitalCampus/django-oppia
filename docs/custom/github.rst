@@ -20,8 +20,10 @@ the code, since a fork will allow you to easily merge in future developments,
 updates and bug fixes as well as submitting fixes and new features back into the 
 core version for anyone else to take advantage of.
 
-Updating from the core version
-------------------------------
 
-Submitting features and fixes into the core version
-----------------------------------------------------
+A couple of links to help get you started:
+
+* setting up Git - https://help.github.com/articles/set-up-git
+* forking a repository (and keeping it up to date with the original): 
+  https://help.github.com/articles/fork-a-repo
+

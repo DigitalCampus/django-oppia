@@ -102,6 +102,10 @@ Registration Form
 Other Activity Types
 --------------------
 
+.. _clientappdist:
+
+Application distribution and auto-updating
+------------------------------------------
 
 
 
