@@ -67,15 +67,9 @@ div.listname{
     width: 30%;
 }
 
-div.listcell{
-    float:left;
-    width: 20%;
-    text-align: center;
-}
-
 div.listprogress{
     float:left;
-    width: 60%;
+    width: 70%;
     text-align: center;
 }
 

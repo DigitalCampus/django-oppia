@@ -2,8 +2,6 @@
 {% load i18n %} 
 {% load display_functions %} 
 {% block extra_scripts %}
-	<script type="text/javascript" src="{{ STATIC_URL }}oppia/js/jquery-1.10.2.min.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }}oppia/js/jquery-ui-1.10.3.custom.min.js"></script>
 	<script type="text/javascript">
 		function load(url){
 			window.location.href = url + "?username={{ user.username }}&api_key={{ user.key }}";
@@ -53,7 +51,6 @@
 	{% include "oppia/mobile/includes/page-nav.html" %}
 	
 	<div class="legend">
-		<div class="legend-title">{% trans 'Legend' %}</div>
 		<div class="progress-box p-box-completed">{% trans 'Completed'%}</div> 
 		<div class="progress-box p-box-started">{% trans 'Attempted'%}</div> 
 		<div class="progress-box p-box-not-started">{% trans 'Not attempted'%}</div> 

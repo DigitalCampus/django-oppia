@@ -2,8 +2,6 @@
 {% load i18n %} 
 {% load display_functions %} 
 {% block extra_scripts %}
-	<script type="text/javascript" src="{{ STATIC_URL }}oppia/js/jquery-1.10.2.min.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }}oppia/js/jquery-ui-1.10.3.custom.min.js"></script>
 		<script type="text/javascript">
 		function load(url){
 			window.location.href = url + "?username={{ user.username }}&api_key={{ user.key }}";

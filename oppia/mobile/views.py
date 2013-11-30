@@ -172,8 +172,7 @@ def monitor_cohort_student_view(request,cohort_id, student_id):
     raise Http404
 
 def preview_course_home(request,course_id):
-    
-    return render_to_response('oppia/mobile/preview/home.html',{ 'user': request.user }, context_instance=RequestContext(request))
+    raise Http404
     
     
     
