@@ -36,9 +36,9 @@ def home_view(request):
             temp = startdate - datetime.timedelta(days=i)
             day = temp.strftime("%d")
             month = temp.strftime("%m")
-            year = temp.strftime("%y")
+            year = temp.strftime("%Y")
             count = Tracker.objects.filter(course__isnull=False, course__is_draft=False, course__is_archived=False,tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
-            activity.append([temp.strftime("%d %b %y"),count])
+            activity.append([temp.strftime("%d %b %Y"),count])
     leaderboard = Points.get_leaderboard(10)
     return render_to_response('oppia/home.html',{'recent_activity':activity, 'leaderboard':leaderboard}, context_instance=RequestContext(request))
 
@@ -54,10 +54,10 @@ def course_view(request):
             temp = startdate - datetime.timedelta(days=i)
             day = temp.strftime("%d")
             month = temp.strftime("%m")
-            year = temp.strftime("%y")
+            year = temp.strftime("%Y")
             
             count = Tracker.objects.filter(course = course, tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
-            course.activity.append([temp.strftime("%d %b %y"),count])   
+            course.activity.append([temp.strftime("%d %b %Y"),count])   
     return render_to_response('oppia/course/course.html',{'course_list': course_list,}, context_instance=RequestContext(request))
 
        
@@ -113,7 +113,7 @@ def recent_activity(request,id):
         temp = startdate - datetime.timedelta(days=i)
         day = temp.strftime("%d")
         month = temp.strftime("%m")
-        year = temp.strftime("%y")
+        year = temp.strftime("%Y")
         count_objs = Tracker.objects.filter(course=course,tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).values('type').annotate(total=Count('type'))
         count_activity = {'page':0, 'quiz':0, 'media':0, 'resource':0, 'total':0}
         for co in count_objs:
