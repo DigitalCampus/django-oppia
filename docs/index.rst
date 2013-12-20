@@ -22,4 +22,5 @@ Contents:
    utilities
    custom/index
    changelog
+   author
    
