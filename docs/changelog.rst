@@ -2,17 +2,17 @@ Change Log
 ============
 
 
-v0.1.39dev
---------
+v0.1.39
+-------
+* Fix: https://github.com/DigitalCampus/django-oppia/issues/103
 * Fix: https://github.com/DigitalCampus/django-oppia/issues/103
 
 v0.1.38
 -------
-
 * Fix: https://github.com/DigitalCampus/django-oppia/issues/98 - use XSD for validating uploaded packages
 * Fix: https://github.com/DigitalCampus/django-oppia/issues/91 - don't return full quiz object
 * Fix: https://github.com/DigitalCampus/django-oppia/issues/89 - exclude description questions from display
-* Fix: https://github.com/DigitalCampus/django-oppia/issues/57 - order quizzes by scetion/activity
+* Fix: https://github.com/DigitalCampus/django-oppia/issues/57 - order quizzes by section/activity
 
 v0.1.37
 --------

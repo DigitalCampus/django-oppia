@@ -10,8 +10,6 @@ Installation
 * Run ``python manage syncdb`` to create the tables for South and TastyPie in 
   your database (if you haven't already done so during their installations)
 
-* Apply the following fix for TastyPie: https://github.com/toastdriven/django-tastypie/commit/520b33f39d8878813d8192c4b1a8fd554bca15fa (this is for TastyPie 0.9.16 - hopefully more recent versions will already include this fix). A patch file (timezone.patch) is included in the oppia/utils directory to make this fix easy for you
-
 * Install OppiaMobile, run ``pip install django-oppia``
 
 * Edit your ``settings.py`` file as follows:
