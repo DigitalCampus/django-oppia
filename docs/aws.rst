@@ -17,7 +17,7 @@ Once you have created your account on AWS:
 * Search for 'oppia' and you should see the most recent version of the 
   OppiaMobile AMI listed
 * Launch your new instance - you can alter the instance configuration (security 
-  groups etc) during the rest of the lanuch instance process.
+  groups etc) during the rest of the launch instance process.
 
 Once your instance is up and running you will be able to assign a static IP, 
 access via your web browser and log into the server using SSH. It is beyond the 
