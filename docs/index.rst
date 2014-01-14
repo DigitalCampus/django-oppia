@@ -24,4 +24,5 @@ Contents:
    custom/index
    changelog
    author
+   acknowledgements
    
