@@ -5,7 +5,7 @@ Change Log
 v0.1.39
 -------
 * Fix: https://github.com/DigitalCampus/django-oppia/issues/103
-* Fix: https://github.com/DigitalCampus/django-oppia/issues/103
+* Use updated versions of Django, TastyPie and South
 
 v0.1.38
 -------
