@@ -18,6 +18,9 @@ Once you have created your account on AWS:
   OppiaMobile AMI listed
 * Launch your new instance - you can alter the instance configuration (security 
   groups etc) during the rest of the launch instance process.
+  
+.. note::
+	For some reason when you search the AMI will only appear in the search results if you have selected the 'EU (Ireland)' zone
 
 Once your instance is up and running you will be able to assign a static IP, 
 access via your web browser and log into the server using SSH. It is beyond the 
