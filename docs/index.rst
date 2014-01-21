@@ -17,6 +17,7 @@ Contents:
    
    install
    aws
+   virtualbox
    settings
    upgrade
    api
