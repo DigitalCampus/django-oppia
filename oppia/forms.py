@@ -27,7 +27,7 @@ class UploadCourseForm(forms.Form):
             size = int(math.floor(settings.OPPIA_MAX_UPLOAD_SIZE / 1024 / 1024))
             raise forms.ValidationError(_("Your file is larger than the maximum allowed (%(size)d Mb). You may want to check your course for large includes, such as images etc.") % {'size':size, })
         
-        if file is not None and file.content_type != 'application/zip':
+        if file is not None and file.content_type != 'application/zip' and file.content_type != 'application/x-zip-compressed':
             raise forms.ValidationError(_("You may only upload a zip file"))
         
         return cleaned_data

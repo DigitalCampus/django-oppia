@@ -1,6 +1,10 @@
 Change Log
 ============
 
+v0.1.40
+-------
+* Fix: https://github.com/DigitalCampus/django-oppia/issues/109 - error uploading courses
+* Update documentation for AWS machine image
 
 v0.1.39
 -------

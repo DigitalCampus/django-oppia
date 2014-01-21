@@ -20,7 +20,8 @@ Once you have created your account on AWS:
   groups etc) during the rest of the launch instance process.
   
 .. note::
-	For some reason when you search the AMI will only appear in the search results if you have selected the 'EU (Ireland)' zone
+	When you search the OppiaMobile server AMI will only appear in the search 
+	results if you have selected the 'EU (Ireland)' zone
 
 Once your instance is up and running you will be able to assign a static IP, 
 access via your web browser and log into the server using SSH. It is beyond the 
@@ -40,7 +41,9 @@ usernames/passwords:
   database password.
 * Django super user: username 'admin' and password 'default'
 	
-.. warning:: You are very strongly advised to change these passwords
+.. warning:: 
+	You are very strongly advised to change these passwords as soon as 
+	you have set up your instance
 
 Directories and location of files
 ---------------------------------
@@ -73,7 +76,7 @@ Fortunately it's straightforward to update to the latest version:
 * Run ``git pull``
 
 This will update your server to the latest version of the django-oppia server. 
-If any new updates were made, after you have run the following commands (when 
+If any new updates were made, run the following commands (when 
 the virtualenv is active):
 
 * ``python manage.py migrate oppia``
@@ -93,7 +96,7 @@ Environment information
 -----------------------
 The current version of the instance (OppiaMobile Server 0.1.39) is running:
 
-* Ubuntu 12.04 LTS
+* Ubuntu 12.04 LTS Server
 * Apache 2
 * Mysql 5.5
 * Django 1.6.1
