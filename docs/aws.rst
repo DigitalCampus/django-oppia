@@ -1,3 +1,5 @@
+.. _aws:
+
 Installing on Amazon Web Services
 =================================
 
