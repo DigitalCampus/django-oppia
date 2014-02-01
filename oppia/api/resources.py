@@ -224,6 +224,8 @@ class TrackerResource(ModelResource):
                 activity = activities[0]
                 bundle.obj.course = activity.section.course
                 bundle.obj.type = activity.type
+                bundle.obj.activity_title = activity.title
+                bundle.obj.section_title = activity.section.title
         except Activity.DoesNotExist:
             pass
         

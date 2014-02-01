@@ -1,6 +1,10 @@
 Change Log
 ============
 
+v0.1.41
+-------
+* Fix: https://github.com/DigitalCampus/django-oppia/issues/110 - quizprops post api
+
 v0.1.40
 -------
 * Fix: https://github.com/DigitalCampus/django-oppia/issues/109 - error uploading courses

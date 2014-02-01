@@ -233,6 +233,8 @@ class Tracker(models.Model):
     type = models.CharField(max_length=10,null=True, blank=True, default=None)
     completed = models.BooleanField(default=False)
     time_taken = models.IntegerField(default=0)
+    activity_title = models.TextField(blank=True, null=True, default=None)
+    section_title = models.TextField(blank=True, null=True, default=None)
     
     class Meta:
         verbose_name = _('Tracker')
@@ -259,13 +261,10 @@ class Tracker(models.Model):
         return None
         
     def get_activity_title(self):
-        activities = Activity.objects.filter(digest=self.digest)
-        for a in activities:
-            return a.get_title() + " (" + a.section.get_title() +")"
         media = Media.objects.filter(digest=self.digest)
         for m in media:
             return m.filename
-        return "Not found"
+        return None
     
     def activity_exists(self):
         activities = Activity.objects.filter(digest=self.digest).count()

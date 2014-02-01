@@ -41,7 +41,13 @@ onload="init();"
 			<div class='tablecell'>{{ t.tracker_date|date:"d M Y H:i" }}</a></div>
 			<div class='tablecell'>{{ t.user.first_name }} {{ t.user.last_name }}</div>
 			<div class='tablecell'>{{ t.type }}</div>
-			<div class='tabletitle'>{{ t.title }}</div>
+			<div class='tabletitle'>
+				{% if t.title %}
+					{{ t.title }}
+				{% else %}
+					{{ t.activity_title|title_lang:LANGUAGE_CODE }} ({{ t.section_title|title_lang:LANGUAGE_CODE }})
+				{% endif %}
+			</div>
 			<div class='tablecell'>{{ t.time_taken }}</div>
 			<div class='tablecell'>{% if t.get_lang %}{{ t.get_lang}}{% else %}--{% endif %}</div>
 			<div style='clear:both'></div>
