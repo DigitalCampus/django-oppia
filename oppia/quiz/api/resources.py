@@ -170,6 +170,15 @@ class QuizPropsResource(ModelResource):
         validation = QuizOwnerValidation()
         always_return_data = True
     
+    def hydrate(self, bundle, request=None):        
+        # check the quiz exists
+        if 'quiz_id' in bundle.data:
+            try:
+                bundle.obj.quiz = Quiz.objects.get(pk = bundle.data['quiz_id'])
+            except Quiz.DoesNotExist:
+                raise BadRequest(_(u'Quiz does not exist'))
+        return bundle
+        
     # add the quiz_id into the bundle
     def dehydrate(self, bundle, request=None):
         bundle.data['quiz_id'] = QuizResource().get_via_uri(bundle.data['quiz']).id 
@@ -177,9 +186,10 @@ class QuizPropsResource(ModelResource):
     
     # use this for filtering on the digest prop of a quiz to determine if it already exists
     # to avoid recreating the same quiz over and over
+    
     def prepend_urls(self):
         return [
-            url(r"^(?P<resource_name>%s)/(?P<digest>[\w\d_.-]+)/$" % self._meta.resource_name, self.wrap_view('digest_detail'), name="api_digest_detail"),
+            url(r"^(?P<resource_name>%s)/digest/(?P<digest>[\w\d_.-]+)/$" % self._meta.resource_name, self.wrap_view('digest_detail'), name="api_digest_detail"),
         ]
         
     def digest_detail(self, request, **kwargs):
