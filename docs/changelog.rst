@@ -1,6 +1,10 @@
 Change Log
 ============
 
+v0.2.1
+-------
+* 
+
 v0.2.0
 -------
 * Fix: https://github.com/DigitalCampus/django-oppia/issues/110 - quizprops post api
