@@ -1,9 +1,10 @@
 Change Log
 ============
 
-v0.1.41
+v0.2.0
 -------
 * Fix: https://github.com/DigitalCampus/django-oppia/issues/110 - quizprops post api
+* Fix: https://github.com/DigitalCampus/django-oppia/issues/106 - cache activity/seciton title in tracker table
 
 v0.1.40
 -------
