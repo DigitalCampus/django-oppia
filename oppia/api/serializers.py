@@ -42,15 +42,4 @@ class TagJSONSerializer(Serializer):
         options = options or {}
         data = self.to_simple(data, options)
     
-        #if 'tags' in data:
-        #    for t in data['tags']:
-         #       del t['courses'] 
-        
-        # strip out intermediate relationship
-        #if 'courses' in data:
-        #    new_courses = []
-        #    for m in data['courses']:
-        #        new_courses.append(m['course'])
-        #    del data['courses']
-        #    data['courses'] = new_courses
-        return json.dumps(data, sort_keys=True, ensure_ascii=False, indent=self.json_indent)
+        return json.dumps(data, sort_keys=True, ensure_ascii=False)

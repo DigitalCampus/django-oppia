@@ -31,7 +31,7 @@ from oppia.models import Activity, Section, Tracker, Course, CourseDownload, Med
 from oppia.models import Points, Award, Badge
 from oppia.profile.forms import RegisterForm
 from oppia.signals import course_downloaded
-
+ 
 class UserResource(ModelResource):
     ''' 
     For user login
@@ -425,7 +425,7 @@ class TagResource(ModelResource):
         always_return_data = True
         include_resource_uri = False
         serializer = TagJSONSerializer()
-    
+       
     def get_object_list(self,request):
         if request.user.is_staff:
             return Tag.objects.filter(courses__isnull=False, coursetag__course__is_archived=False).distinct().order_by("name")

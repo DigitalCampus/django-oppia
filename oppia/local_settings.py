@@ -66,4 +66,5 @@ def modify(settings):
     
     settings['OPPIA_MAX_UPLOAD_SIZE'] = 5242880         # max course file upload size - in bytes
     
+    settings['API_LIMIT_PER_PAGE'] = 0
     
