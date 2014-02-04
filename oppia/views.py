@@ -115,7 +115,7 @@ def recent_activity(request,id):
         month = temp.strftime("%m")
         year = temp.strftime("%Y")
         count_objs = Tracker.objects.filter(course=course,tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).values('type').annotate(total=Count('type'))
-        count_activity = {'page':0, 'quiz':0, 'media':0, 'resource':0, 'total':0}
+        count_activity = {'page':0, 'quiz':0, 'media':0, 'resource':0, 'monitor': 0, 'total':0}
         for co in count_objs:
             count_activity[co['type']] = count_activity[co['type']] + co['total']
             count_activity['total'] = count_activity['total'] + co['total']
@@ -141,13 +141,17 @@ def recent_activity_detail(request,id):
         for t in tracks:
             t.title = t.get_activity_title()   
             t.data_obj = []
-            data_dict = json.loads(t.data)
-            for key, value in data_dict.items():
-                t.data_obj.append([key,value])
+            try:
+                data_dict = json.loads(t.data)
+                for key, value in data_dict.items():
+                    t.data_obj.append([key,value])
+            except ValueError:
+                pass
             t.data_obj.append(['agent',t.agent])
             t.data_obj.append(['ip',t.ip])
     except (EmptyPage, InvalidPage):
         tracks = paginator.page(paginator.num_pages)
+        
     return render_to_response('oppia/course/activity-detail.html',{'course': course,'page':tracks,}, context_instance=RequestContext(request))
 
 
@@ -426,8 +430,11 @@ def course_quiz(request,course_id):
     digests = Activity.objects.filter(section__course=course,type='quiz').order_by('section__order').values('digest').distinct()
     quizzes = []
     for d in digests:
-        q = Quiz.objects.get(quizprops__name='digest',quizprops__value=d['digest'])
-        quizzes.append(q)
+        try:
+            q = Quiz.objects.get(quizprops__name='digest',quizprops__value=d['digest'])
+            quizzes.append(q)
+        except Quiz.DoesNotExist:
+            pass
     return render_to_response('oppia/course/quizzes.html',{'course': course,'quizzes':quizzes}, context_instance=RequestContext(request))
 
 def course_quiz_attempts(request,course_id,quiz_id):

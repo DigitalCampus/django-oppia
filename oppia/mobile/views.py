@@ -16,6 +16,9 @@ def scorecard_view(request):
     auth = ApiKeyAuthentication()
     if auth.is_authenticated(request) is not True:
         return HttpResponse('Unauthorized', status=401)
+    
+    record_mobile_tracker(request,None,'scorecard','{"en":"homepage"}')
+    
     start_date = datetime.datetime.now() - datetime.timedelta(days=14)
     end_date = datetime.datetime.now()
     media = {'views':Tracker.activity_views(user=request.user,type='media',start_date=start_date,end_date=end_date),
@@ -37,6 +40,9 @@ def monitor_home_view(request):
     auth = ApiKeyAuthentication()
     if auth.is_authenticated(request) is not True:
         return HttpResponse('Unauthorized', status=401)
+    
+    record_mobile_tracker(request,None,'monitor','{"en":"homepage"}')
+    
     # find courses this user is a teacher on
     now = datetime.datetime.now()
     cohorts = Cohort.objects.filter(participant__user=request.user, participant__role=Participant.TEACHER, start_date__lte=now,end_date__gte=now)
@@ -54,6 +60,9 @@ def monitor_cohort_progress_view(request,cohort_id):
     key = ApiKey.objects.get(user = request.user)
     request.user.key = key.key
     cohort = get_object_or_404(Cohort, pk=cohort_id, participant__user=request.user, participant__role=Participant.TEACHER, start_date__lte=now,end_date__gte=now)
+    
+    record_mobile_tracker(request,cohort.course,'monitor','{"en": "progress"}')
+    
     sections = Section.objects.filter(course=cohort.course,order__gt=0).order_by('order')
     section_list = {}
     for s in sections:
@@ -92,6 +101,9 @@ def monitor_cohort_quizzes_view(request,cohort_id):
     key = ApiKey.objects.get(user = request.user)
     request.user.key = key.key
     cohort = get_object_or_404(Cohort, pk=cohort_id, participant__user=request.user, participant__role=Participant.TEACHER, start_date__lte=now,end_date__gte=now)
+    
+    record_mobile_tracker(request,cohort.course,'monitor','{"en": "quizzes"}')
+    
     quizzes = Activity.objects.filter(section__course=cohort.course,type='quiz').order_by('section__order')
     participants = Participant.objects.filter(cohort=cohort,role=Participant.STUDENT).order_by('user__first_name')
     
@@ -130,6 +142,9 @@ def monitor_cohort_media_view(request,cohort_id):
     key = ApiKey.objects.get(user = request.user)
     request.user.key = key.key
     cohort = get_object_or_404(Cohort, pk=cohort_id, participant__user=request.user, participant__role=Participant.TEACHER, start_date__lte=now,end_date__gte=now)
+    
+    record_mobile_tracker(request,cohort.course,'monitor','{"en": "media"}')
+    
     media = Media.objects.filter(course=cohort.course)
     participants = Participant.objects.filter(cohort=cohort,role=Participant.STUDENT).order_by('user__first_name')
     
@@ -173,6 +188,20 @@ def monitor_cohort_student_view(request,cohort_id, student_id):
 
 def preview_course_home(request,course_id):
     raise Http404
+
+def record_mobile_tracker(request, course_id, type, page):
+    t = Tracker()
+    t.user = request.user
+    t.ip = request.META.get('REMOTE_ADDR','0.0.0.0')
+    t.agent = request.META.get('HTTP_USER_AGENT','unknown')
+    t.digest = ""
+    t.data = ""
+    t.course = course_id
+    t.type = type
+    t.completed = True
+    t.activity_title = page
+    t.save()
+    return
     
     
     
