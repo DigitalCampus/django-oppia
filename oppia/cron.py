@@ -18,8 +18,8 @@ def run():
             if os.path.isfile(f):
                 os.remove(f)
     
-    print 'Awarding badges...'
-    created_quizzes(10)
+    #print 'Awarding badges...'
+    #created_quizzes(10)
     courses_completed()           
     print 'cron completed'
     #send_mail('OppiaMobile: cron complete', 'cron completed', 

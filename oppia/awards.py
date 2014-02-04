@@ -10,7 +10,7 @@ from oppia.signals import badgeaward_callback
 
 models.signals.post_save.connect(badgeaward_callback, sender=Award)
 
-def created_quizzes(num):
+def created_quizzes(num):    
     badge_ref = 'create'+str(num)+'quiz'
     try:
         badge = Badge.objects.get(ref=badge_ref)
