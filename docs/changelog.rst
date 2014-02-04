@@ -3,7 +3,8 @@ Change Log
 
 v0.2.1
 -------
-* 
+* Fix: https://github.com/DigitalCampus/django-oppia/issues/100 - ensure full list of tags/courses returned
+* Fix: https://github.com/DigitalCampus/django-oppia/issues/111 - don't assign badges for creating quizzes
 
 v0.2.0
 -------
