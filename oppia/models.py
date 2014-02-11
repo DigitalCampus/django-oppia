@@ -235,6 +235,7 @@ class Tracker(models.Model):
     time_taken = models.IntegerField(default=0)
     activity_title = models.TextField(blank=True, null=True, default=None)
     section_title = models.TextField(blank=True, null=True, default=None)
+    uuid = models.TextField(blank=True, null=True, default=None)
     
     class Meta:
         verbose_name = _('Tracker')
