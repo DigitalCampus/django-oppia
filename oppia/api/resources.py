@@ -256,6 +256,13 @@ class TrackerResource(ModelResource):
         except:
             pass
         
+        try:
+            json_data = json.loads(bundle.data['data'])
+            if json_data['uuid']:
+                bundle.obj.time_taken = json_data['uuid']
+        except:
+            pass
+        
         return bundle 
     
     def dehydrate_points(self,bundle):
