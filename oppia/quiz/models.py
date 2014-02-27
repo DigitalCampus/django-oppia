@@ -14,6 +14,7 @@ class Question(models.Model):
         ('numerical', 'Numerical'),
         ('multiselect', 'Multiple select'),
         ('description', 'Information only'),
+        ('essay', 'Essay question'),
     )
     owner = models.ForeignKey(User)
     created_date = models.DateTimeField('date created',default=datetime.datetime.now)
