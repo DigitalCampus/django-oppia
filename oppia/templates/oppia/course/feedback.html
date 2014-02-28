@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %} 
+{% block content %}
+
+<h2><a href="{% url 'oppia_recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a></h2>
+<p><i>{% trans 'Tags:' %} {{ course.get_tags}}</i></p>
+
+<div class="tableheader">
+		<div class='tabletitle'>{% trans 'table_header_feedback_title' %}</a></div>
+		<div class='tablecell'>{% trans 'table_header_feedback_no_attempts' %}</div>
+		<div style='clear:both'></div>
+	</div>
+	
+{% for f in feedback %}
+	<div class="tablelist"> 	
+		<div class='tabletitle'><a href="{% url 'oppia_course_feedback_responses' course.id f.id%}">{{ f.title }}</a></div>
+		<div class='tablecell'>{{ f.no_attempts }}</div>
+		<div style='clear:both'></div>
+	</div>
+{% endfor %}
+
+{% endblock content %}

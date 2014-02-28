@@ -89,7 +89,14 @@ class Course(models.Model):
             return True
         else:
             return False
-        
+    
+    def has_feedback(self):
+        fb_count = Activity.objects.filter(section__course=self,type='feedback').count()
+        if fb_count > 0:
+            return True
+        else:
+            return False
+            
     def get_tags(self):
         tags = Tag.objects.filter(coursetag__course=self)
         str = ""

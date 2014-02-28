@@ -57,6 +57,10 @@
 		 |
 		 <a href="{% url 'oppia_course_quiz' course.id %}">{% trans 'course_quizzes'%}</a>
 	 {% endif %}
+	 {% if course.has_feedback %}
+		 |
+		 <a href="{% url 'oppia_course_feedback' course.id %}">{% trans 'course_feedback'%}</a>
+	 {% endif %}
 {% endif %}
 	
 <div style="clear:both;"></div> 

@@ -49,6 +49,8 @@ urlpatterns = patterns('',
     #url(r'^course/(?P<course_id>\d+)/cohort/(?P<cohort_id>\d+)/delete/$', 'oppia.views.cohort_delete', name="oppia_cohort_delete"),
     url(r'^course/(?P<course_id>\d+)/quiz/$', 'oppia.views.course_quiz', name="oppia_course_quiz"),
     url(r'^course/(?P<course_id>\d+)/quiz/(?P<quiz_id>\d+)/attempts/$', 'oppia.views.course_quiz_attempts', name="oppia_course_quiz_attempts"),
+    url(r'^course/(?P<course_id>\d+)/feedback/$', 'oppia.views.course_feedback', name="oppia_course_feedback"),
+    url(r'^course/(?P<course_id>\d+)/feedback/(?P<quiz_id>\d+)/responses/$', 'oppia.views.course_feedback_responses', name="oppia_course_feedback_responses"),
     url(r'^profile/', include('oppia.profile.urls')),
     url(r'^terms/$', 'oppia.views.terms_view', name="oppia_terms"),
     

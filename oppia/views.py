@@ -117,8 +117,13 @@ def recent_activity(request,id):
         count_objs = Tracker.objects.filter(course=course,tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).values('type').annotate(total=Count('type'))
         count_activity = {'page':0, 'quiz':0, 'media':0, 'resource':0, 'monitor': 0, 'total':0}
         for co in count_objs:
-            count_activity[co['type']] = count_activity[co['type']] + co['total']
-            count_activity['total'] = count_activity['total'] + co['total']
+            if co['type'] in count_activity:
+                count_activity[co['type']] = count_activity[co['type']] + co['total']
+                count_activity['total'] = count_activity['total'] + co['total']
+            else:
+                count_activity[co['type']] = 0
+                count_activity[co['type']] = count_activity[co['type']] + co['total']
+                count_activity['total'] = count_activity['total'] + co['total']
         
         dates.append([temp.strftime("%d %b %y"),count_activity])
     leaderboard = Points.get_leaderboard(10, course)
@@ -460,3 +465,38 @@ def course_quiz_attempts(request,course_id,quiz_id):
     
      
     return render_to_response('oppia/course/quiz-attempts.html',{'course': course,'quiz':quiz, 'page':attempts}, context_instance=RequestContext(request))
+
+def course_feedback(request,course_id):
+    course = check_owner(request,course_id)
+    digests = Activity.objects.filter(section__course=course,type='feedback').order_by('section__order').values('digest').distinct()
+    feedback = []
+    for d in digests:
+        try:
+            q = Quiz.objects.get(quizprops__name='digest',quizprops__value=d['digest'])
+            feedback.append(q)
+        except Quiz.DoesNotExist:
+            pass
+    return render_to_response('oppia/course/feedback.html',{'course': course,'feedback':feedback}, context_instance=RequestContext(request))
+
+def course_feedback_responses(request,course_id,quiz_id):
+    #get the quiz digests for this course
+    course = check_owner(request,course_id)
+    quiz = Quiz.objects.get(pk=quiz_id)
+    attempts = QuizAttempt.objects.filter(quiz=quiz).order_by('-attempt_date')
+    
+    paginator = Paginator(attempts, 25)
+    # Make sure page request is an int. If not, deliver first page.
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+
+    # If page request (9999) is out of range, deliver last page of results.
+    try:
+        attempts = paginator.page(page)
+        for a in attempts:
+            a.responses = QuizAttemptResponse.objects.filter(quizattempt=a)                
+    except (EmptyPage, InvalidPage):
+        tracks = paginator.page(paginator.num_pages)
+        
+    return render_to_response('oppia/course/feedback-responses.html',{'course': course,'quiz':quiz, 'page':attempts}, context_instance=RequestContext(request))
