@@ -260,16 +260,16 @@ class QuizAttemptResource(ModelResource):
         
         #check that all the questions exist and are part of this quiz
         for response in bundle.data['responses']:
-            #existence
-            try:
-                response['question'] = Question.objects.get(pk = response['question_id'])
-            except Question.DoesNotExist:
-                raise BadRequest(_(u'Question does not exist'))
-            #check part of this quiz
-            try:
-                QuizQuestion.objects.get(quiz=bundle.obj.quiz,question=response['question'])
-            except QuizQuestion.DoesNotExist:
-                raise BadRequest(_(u'This question is not part of this quiz'))
+            if 'question_id' in response:
+                try:
+                    response['question'] = Question.objects.get(pk = response['question_id'])
+                except Question.DoesNotExist:
+                    raise BadRequest(_(u'Question does not exist'))
+                #check part of this quiz
+                try:
+                    QuizQuestion.objects.get(quiz=bundle.obj.quiz,question=response['question'])
+                except QuizQuestion.DoesNotExist:
+                    raise BadRequest(_(u'This question is not part of this quiz'))
             
         return bundle
     
