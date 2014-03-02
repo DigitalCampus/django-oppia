@@ -259,7 +259,7 @@ class TrackerResource(ModelResource):
         try:
             json_data = json.loads(bundle.data['data'])
             if json_data['uuid']:
-                bundle.obj.time_taken = json_data['uuid']
+                bundle.obj.uuid = json_data['uuid']
         except:
             pass
         
