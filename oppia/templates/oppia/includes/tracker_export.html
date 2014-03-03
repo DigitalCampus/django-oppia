@@ -1,0 +1,6 @@
+{% load i18n %}
+<div class="export">
+	{% trans 'Export to:' %}
+    <a href="{% url 'oppia_export_tracker_detail' course.id %}">{% trans 'Excel' %}</a>
+   
+</div>

@@ -4,6 +4,7 @@ import json
 import shutil
 import os
 import oppia
+import tablib
 
 from django import forms
 from django.conf import settings
@@ -160,6 +161,20 @@ def recent_activity_detail(request,id):
     return render_to_response('oppia/course/activity-detail.html',{'course': course,'page':tracks,}, context_instance=RequestContext(request))
 
 
+def export_tracker_detail(request,id):
+    course = check_owner(request,id)
+    
+    headers = ('Date', 'UserId', 'Type','Activity', 'Time Taken', 'IP Address', 'User Agent')
+    data = []
+    data = tablib.Dataset(*data, headers=headers)
+    trackers = Tracker.objects.filter(course=course).order_by('-tracker_date')
+    for t in trackers:
+        data.append((t.tracker_date.strftime('%Y-%m-%d %H:%M:%S'), t.user.id, t.type, t.activity_title, t.time_taken, t.ip, t.agent))
+    response = HttpResponse(data.xls, content_type='application/vnd.ms-excel;charset=utf-8')
+    response['Content-Disposition'] = "attachment; filename=export.xls"
+
+    return response
+    
 def schedule(request,course_id):
     course = check_owner(request,course_id)    
     schedules = Schedule.objects.filter(course=course)

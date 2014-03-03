@@ -64,6 +64,9 @@ onload="init();"
 	{% endfor %}
 	
 	{% include "oppia/includes/page_navigator.html" %}
+	
+	{% include "oppia/includes/tracker_export.html" %}
+	
 {% else %}
 	<p>{% trans 'No hits yet' %}</p>
 {% endif %}

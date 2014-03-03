@@ -42,5 +42,6 @@ setup(
         "Django >= 1.6.0",
         "south >= 0.8.4",
 	    "django-tastypie >= 0.11.0",
+        "django-tablib >= 0.9.11",
     ],
 )
