@@ -144,8 +144,7 @@ def recent_activity_detail(request,id):
     # If page request (9999) is out of range, deliver last page of results.
     try:
         tracks = paginator.page(page)
-        for t in tracks:
-            t.title = t.get_activity_title()   
+        for t in tracks:  
             t.data_obj = []
             try:
                 data_dict = json.loads(t.data)
@@ -164,12 +163,17 @@ def recent_activity_detail(request,id):
 def export_tracker_detail(request,id):
     course = check_owner(request,id)
     
-    headers = ('Date', 'UserId', 'Type','Activity', 'Time Taken', 'IP Address', 'User Agent')
+    headers = ('Date', 'UserId', 'Type', 'Activity Title', 'Section Title', 'Time Taken', 'IP Address', 'User Agent', 'Language')
     data = []
     data = tablib.Dataset(*data, headers=headers)
     trackers = Tracker.objects.filter(course=course).order_by('-tracker_date')
     for t in trackers:
-        data.append((t.tracker_date.strftime('%Y-%m-%d %H:%M:%S'), t.user.id, t.type, t.activity_title, t.time_taken, t.ip, t.agent))
+        data_dict = json.loads(t.data)
+        if 'lang' in data_dict:
+            lang = data_dict['lang']
+        else:
+            lang = ""
+        data.append((t.tracker_date.strftime('%Y-%m-%d %H:%M:%S'), t.user.id, t.type, t.get_activity_title(), t.get_section_title(), t.time_taken, t.ip, t.agent, lang))
     response = HttpResponse(data.xls, content_type='application/vnd.ms-excel;charset=utf-8')
     response['Content-Disposition'] = "attachment; filename=export.xls"
 

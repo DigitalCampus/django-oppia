@@ -42,8 +42,8 @@ onload="init();"
 			<div class='tablecell'>{{ t.user|gravatar:24 }} {{ t.user.first_name }} {{ t.user.last_name }}</div>
 			<div class='tablecell'>{{ t.type }}</div>
 			<div class='tabletitle'>
-				{% if t.title %}
-					{{ t.title }}
+				{% if t.get_media_title %}
+					{{ t.get_media_title }}
 				{% else %}
 					{{ t.activity_title|title_lang:LANGUAGE_CODE }} ({{ t.section_title|title_lang:LANGUAGE_CODE }})
 				{% endif %}

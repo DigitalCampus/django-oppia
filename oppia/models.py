@@ -273,12 +273,39 @@ class Tracker(models.Model):
         for m in media:
             return "media"
         return None
-        
-    def get_activity_title(self):
+     
+    def get_media_title(self):
         media = Media.objects.filter(digest=self.digest)
         for m in media:
             return m.filename
         return None
+           
+    def get_activity_title(self, lang='en'):
+        media = Media.objects.filter(digest=self.digest)
+        for m in media:
+            return m.filename
+        try:
+            titles = json.loads(self.activity_title)
+            if lang in titles:
+                return titles[lang]
+            else:
+                for l in titles:
+                    return titles[l]
+        except:
+            pass
+        return self.activity_title
+    
+    def get_section_title(self, lang='en'):
+        try:
+            titles = json.loads(self.section_title)
+            if lang in titles:
+                return titles[lang]
+            else:
+                for l in titles:
+                    return titles[l]
+        except:
+            pass
+        return self.section_title
     
     def activity_exists(self):
         activities = Activity.objects.filter(digest=self.digest).count()

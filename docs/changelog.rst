@@ -6,6 +6,7 @@ v0.2.5
 * New required library - django-taglib
 * Added ip2location.py utility script
 * Fix https://github.com/DigitalCampus/django-oppia/issues/83 - adding profile gravatar
+* Fix https://github.com/DigitalCampus/django-oppia/issues/105 - option to export activity logs to csv/xls
 
 v0.2.1
 -------
