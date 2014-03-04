@@ -53,5 +53,5 @@ def gravatar(user,size):
         'size':str(size)
     })
     return mark_safe(
-        '<img src="{0}" alt="gravatar for {1}" class="gravatar"/>'.format(gravatar_url, user)
+        '<img src="{0}" alt="gravatar for {1}" class="gravatar" width="{2}" height="{2}"/>'.format(gravatar_url, user, size)
         )
