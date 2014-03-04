@@ -45,6 +45,9 @@ class CourseTagAdmin(admin.ModelAdmin):
  
 class CourseDownloadAdmin(admin.ModelAdmin):
     list_display = ('user', 'course','download_date','course_version','ip','agent')
+    
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'about', 'job_title', 'organisation')
  
 class MediaAdmin(admin.ModelAdmin):
     list_display = ('course', 'digest','filename','download_url')   
@@ -57,24 +60,22 @@ class SectionAdmin(admin.ModelAdmin):
   
 class TagAdmin(admin.ModelAdmin):
     list_display = ('name','created_date','created_by')
-                            
-admin.site.register(Course,CourseAdmin)
-admin.site.register(Section,SectionAdmin)
-admin.site.register(UserProfile)
-admin.site.register(Activity, ActivityAdmin)
-admin.site.register(Tracker, TrackerAdmin)
-admin.site.register(Media, MediaAdmin)
-admin.site.register(Cohort, CohortAdmin)
-admin.site.register(Participant, ParticipantAdmin)
-admin.site.register(Message)
-admin.site.register(Schedule, ScheduleAdmin)
+     
+admin.site.register(Activity, ActivityAdmin)   
 admin.site.register(ActivitySchedule,ActivityScheduleAdmin)
-admin.site.register(Tag,TagAdmin)
-admin.site.register(CourseTag,CourseTagAdmin)
-admin.site.register(Badge,BadgeAdmin)
 admin.site.register(Award, AwardAdmin)
-admin.site.register(Points,PointsAdmin)
+admin.site.register(Badge,BadgeAdmin)
 admin.site.register(AwardCourse,AwardCourseAdmin)
+admin.site.register(Cohort, CohortAdmin)                    
+admin.site.register(Course,CourseAdmin)
 admin.site.register(CourseDownload, CourseDownloadAdmin)
-
-
+admin.site.register(CourseTag,CourseTagAdmin)
+admin.site.register(Media, MediaAdmin)
+admin.site.register(Message)
+admin.site.register(Participant, ParticipantAdmin)
+admin.site.register(Points,PointsAdmin)
+admin.site.register(Schedule, ScheduleAdmin)
+admin.site.register(Section,SectionAdmin)
+admin.site.register(Tag,TagAdmin)
+admin.site.register(Tracker, TrackerAdmin)
+admin.site.register(UserProfile, UserProfileAdmin)
