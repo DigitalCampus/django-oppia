@@ -1,16 +1,21 @@
 {% extends "base.html" %}
 {% load i18n %}
-
+{% load display_functions %}
 {% block content %}
 
 <h2>{% trans 'page_title_profile' %}</h2>
 
 {% include "includes/messages.html" %}	
 
-{{ user.userprofile.image }}
+
 
 <form action="{% url 'profile_edit' %}" method="post">{% csrf_token %}
     <div class="errorWrapper">{{ form.non_field_errors }}</div>
+    <div class="fieldWrapper">
+        <div class="fieldLabelWrapper"><label for="id_username">{% trans 'Photo' %}</label></div>
+        <div class="fieldInputWrapper">{{ user|gravatar:64 }}</div>
+    </div>
+    
     <div class="fieldWrapper">
         <div class="fieldErrorWrapper">{{ form.username.errors }}</div>
         <div class="fieldLabelWrapper"><label for="id_username">{% trans 'form_field_username' %}</label></div>

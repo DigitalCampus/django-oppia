@@ -1,14 +1,12 @@
 # oppia/models.py
 import datetime
-import hashlib
 import json
-import urllib
 
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Max, Sum, Q
-from django.utils.safestring import mark_safe
+
 from django.utils.translation import ugettext_lazy as _
 
 from tastypie.models import create_api_key
@@ -22,18 +20,6 @@ class UserProfile (models.Model):
     about = models.TextField(blank=True, null=True, default=None)
     job_title = models.TextField(blank=True, null=True, default=None)
     organisation = models.TextField(blank=True, null=True, default=None)
-    
-    @property
-    def image(self, size="64"):
-        gravatar_url = "https://www.gravatar.com/avatar.php?"
-        gravatar_url += urllib.urlencode({
-            'gravatar_id':hashlib.md5(self.user.email).hexdigest(),
-            'size':str(size)
-        })
-        return mark_safe(
-            '<a href="{0}" target="_blank" class="with-tooltip" title="Update your gravatar"><img src="{0}" alt="gravatar for {1}" class="user-icon"/></a>'.format(gravatar_url, self.user)
-            )
-
 
 class Course(models.Model):
     user = models.ForeignKey(User)

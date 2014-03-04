@@ -28,7 +28,7 @@ from tastypie.validation import Validation
 
 from oppia.api.serializers import PrettyJSONSerializer, CourseJSONSerializer, TagJSONSerializer, UserJSONSerializer
 from oppia.models import Activity, Section, Tracker, Course, CourseDownload, Media, Schedule, ActivitySchedule, Cohort, Tag, CourseTag
-from oppia.models import Points, Award, Badge
+from oppia.models import Points, Award, Badge, UserProfile
 from oppia.profile.forms import RegisterForm
 from oppia.signals import course_downloaded
  
@@ -157,6 +157,11 @@ class RegisterResource(ModelResource):
             bundle.obj.first_name = first_name
             bundle.obj.last_name = last_name
             bundle.obj.save()
+            
+            user_profile = UserProfile()
+            user_profile.user = bundle.obj
+            user_profile.save()
+            
             u = authenticate(username=username, password=password)
             if u is not None:
                 if u.is_active:

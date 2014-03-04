@@ -1,8 +1,12 @@
 # oppia/templatetags/display_functions.py
+import hashlib
 import json
 import math
+import urllib
+
 from django import template
 from django.template.defaultfilters import stringfilter
+from django.utils.safestring import mark_safe
 
 register = template.Library()
 
@@ -40,3 +44,14 @@ def title_lang(title,lang):
     except:
         pass
     return title
+
+@register.filter(name='gravatar')
+def gravatar(user,size):
+    gravatar_url = "https://www.gravatar.com/avatar.php?"
+    gravatar_url += urllib.urlencode({
+        'gravatar_id':hashlib.md5(user.email).hexdigest(),
+        'size':str(size)
+    })
+    return mark_safe(
+        '<img src="{0}" alt="gravatar for {1}" class="gravatar"/>'.format(gravatar_url, user)
+        )

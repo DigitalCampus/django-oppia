@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load display_functions %}
 {% block content %}
 <div id="header"> 
     <div class="content">  
@@ -34,6 +35,7 @@
             {% url 'django.contrib.auth.views.logout' as url_logout %}
             {% url 'profile_edit' as url_edit %}
             <p>{% trans 'Welcome' %}, <a href="{{ url_edit }}">{{ user.first_name }}</a> 
+            {{ user|gravatar:32 }}
             <span class="points" title="{{ points }} {% trans "points" %}"><a href="{% url 'profile_points' %}">{{ points }}</a></span>
             <span class="badges" title="{{ badges }} {% trans "badges" %}"><a href="{% url 'profile_badges' %}"><img src="{{ STATIC_URL }}oppia/images/badge.png" alt="{{ badges }} {% trans "badges" %}"/>{{ badges }}</a></span> <a href="{{ url_logout }}">Logout</a></p>
         {% else %}

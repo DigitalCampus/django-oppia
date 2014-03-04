@@ -1,6 +1,12 @@
 Change Log
 ============
 
+v0.2.5
+-------
+* New required library - django-taglib
+* Added ip2location.py utility script
+* Fix https://github.com/DigitalCampus/django-oppia/issues/83 - adding profile gravatar
+
 v0.2.1
 -------
 * Fix: https://github.com/DigitalCampus/django-oppia/issues/100 - ensure full list of tags/courses returned

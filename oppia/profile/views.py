@@ -10,7 +10,7 @@ from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.utils.translation import ugettext as _
 
-from oppia.models import Points,Award, AwardCourse, Course
+from oppia.models import Points,Award, AwardCourse, Course, UserProfile
 from oppia.profile.forms import RegisterForm, ResetForm, ProfileForm
 from tastypie.models import ApiKey
 
@@ -31,6 +31,9 @@ def register(request):
             user.first_name = first_name
             user.last_name = last_name
             user.save()
+            user_profile = UserProfile()
+            user_profile.user = user
+            user_profile.save()
             u = authenticate(username=username, password=password)
             if u is not None:
                 if u.is_active:
