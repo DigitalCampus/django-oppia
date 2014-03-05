@@ -53,13 +53,13 @@ def modify(settings):
     settings['OPPIA_STAFF_ONLY_UPLOAD'] = True          # prevents anyone without is_staff status being able to upload courses,
                                                         # setting to False allows any registered user to upload a course
     
-    settings['OPPIA_POINTS_ENABLED'] = True             # determines if the points system is enabled
+    settings['OPPIA_POINTS_ENABLED'] = True            # determines if the points system is enabled
     # if OPPIA POINTS_ENABLED is false, then the next 3 settings are ignored
     settings['OPPIA_STAFF_EARN_POINTS'] = False         # prevent staff from earning points
     settings['OPPIA_COURSE_OWNERS_EARN_POINTS'] = False # stops owners of courses earning points
     settings['OPPIA_TEACHERS_EARN_POINTS'] = False      # stops teachers of courses earning points
     
-    settings['OPPIA_BADGES_ENABLED'] = True             # determines if the badges system is enabled
+    settings['OPPIA_BADGES_ENABLED'] = True            # determines if the badges system is enabled
     
     settings['OPPIA_GOOGLE_ANALYTICS_ENABLED'] = True
     settings['OPPIA_GOOGLE_ANALYTICS_CODE'] = 'UA-3609005-11'
