@@ -1,6 +1,10 @@
 Change Log
 ============
 
+v0.2.6
+-------
+* Fix https://github.com/DigitalCampus/django-oppia/issues/90 - split points/badges
+
 v0.2.5
 -------
 * New required library - django-taglib
