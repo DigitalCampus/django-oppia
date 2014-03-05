@@ -59,6 +59,7 @@ def modify(settings):
     settings['OPPIA_COURSE_OWNERS_EARN_POINTS'] = False # stops owners of courses earning points
     settings['OPPIA_TEACHERS_EARN_POINTS'] = False      # stops teachers of courses earning points
     
+    settings['OPPIA_BADGES_ENABLED'] = True             # determines if the badges system is enabled
     
     settings['OPPIA_GOOGLE_ANALYTICS_ENABLED'] = True
     settings['OPPIA_GOOGLE_ANALYTICS_CODE'] = 'UA-3609005-11'

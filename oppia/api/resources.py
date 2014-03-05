@@ -54,6 +54,7 @@ class UserResource(ModelResource):
     points = fields.IntegerField(readonly=True)
     badges = fields.IntegerField(readonly=True)
     scoring = fields.BooleanField(readonly=True)
+    badging = fields.BooleanField(readonly=True)
     metadata = fields.CharField(readonly=True)
     
     class Meta:
@@ -103,6 +104,9 @@ class UserResource(ModelResource):
     def dehydrate_scoring(self,bundle):
         return settings.OPPIA_POINTS_ENABLED
     
+    def dehydrate_badging(self,bundle):
+        return settings.OPPIA_BADGES_ENABLED
+    
     def dehydrate_metadata(self,bundle):
         return settings.OPPIA_METADATA
 
@@ -113,6 +117,7 @@ class RegisterResource(ModelResource):
     points = fields.IntegerField(readonly=True)
     badges = fields.IntegerField(readonly=True)
     scoring = fields.BooleanField(readonly=True)
+    badging = fields.BooleanField(readonly=True)
     metadata = fields.CharField(readonly=True)
     
     class Meta:
@@ -187,6 +192,9 @@ class RegisterResource(ModelResource):
     def dehydrate_scoring(self,bundle):
         return settings.OPPIA_POINTS_ENABLED
     
+    def dehydrate_badging(self,bundle):
+        return settings.OPPIA_BADGES_ENABLED
+    
     def dehydrate_metadata(self,bundle):
         return settings.OPPIA_METADATA
     
@@ -198,6 +206,7 @@ class TrackerResource(ModelResource):
     points = fields.IntegerField(readonly=True)
     badges = fields.IntegerField(readonly=True)
     scoring = fields.BooleanField(readonly=True)
+    badging = fields.BooleanField(readonly=True)
     metadata = fields.CharField(readonly=True)
     
     class Meta:
@@ -280,6 +289,9 @@ class TrackerResource(ModelResource):
     
     def dehydrate_scoring(self,bundle):
         return settings.OPPIA_POINTS_ENABLED
+    
+    def dehydrate_badging(self,bundle):
+        return settings.OPPIA_BADGES_ENABLED
     
     def dehydrate_metadata(self,bundle):
         return settings.OPPIA_METADATA
