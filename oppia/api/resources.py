@@ -531,7 +531,7 @@ class PointsResource(ModelResource):
         always_return_data = True
         
     def get_object_list(self, request):
-        return super(PointsResource, self).get_object_list(request).filter(user = request.user)
+        return super(PointsResource, self).get_object_list(request).filter(user = request.user)[:100]
     
     def dehydrate(self, bundle):
         bundle.data['date'] = bundle.data['date'].strftime("%Y-%m-%d %H:%M:%S")

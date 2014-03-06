@@ -4,6 +4,8 @@ Change Log
 v0.2.6
 -------
 * Fix https://github.com/DigitalCampus/django-oppia/issues/90 - split points/badges
+* Fix issue with badges API
+* Limit number of records returned with points API
 
 v0.2.5
 -------
