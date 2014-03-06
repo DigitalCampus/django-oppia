@@ -551,6 +551,7 @@ class BadgesResource(ModelResource):
 class AwardsResource(ModelResource):
     badge = fields.ForeignKey(BadgesResource, 'badge', full=True, null=True)
     badge_icon = fields.CharField(attribute='_get_badge', readonly=True)
+    
     class Meta:
         queryset = Award.objects.all().order_by('-award_date')
         allowed_methods = ['get']
@@ -572,6 +573,6 @@ class AwardsResource(ModelResource):
         url = prefix + bundle.request.META['SERVER_NAME'] + settings.MEDIA_URL + bundle.data['badge_icon']
         return url
     
-
-    
-    
+    def dehydrate(self, bundle):
+        bundle.data['award_date'] = bundle.data['award_date'].strftime("%Y-%m-%d %H:%M:%S")
+        return bundle
