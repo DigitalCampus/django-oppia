@@ -27,6 +27,7 @@ class Course(models.Model):
     lastupdated_date = models.DateTimeField('date updated',default=datetime.datetime.now)
     version = models.BigIntegerField()
     title = models.TextField(blank=False)
+    description = models.TextField(blank=True, null=True, default=None)
     shortname = models.CharField(max_length=20)
     filename = models.CharField(max_length=200)
     badge_icon = models.FileField(upload_to="badges",blank=True, default=None)

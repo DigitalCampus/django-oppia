@@ -320,7 +320,7 @@ class CourseResource(ModelResource):
         queryset = Course.objects.all()
         resource_name = 'course'
         allowed_methods = ['get']
-        fields = ['id', 'title', 'version', 'shortname','is_draft']
+        fields = ['id', 'title', 'version', 'shortname','is_draft','description']
         authentication = ApiKeyAuthentication()
         authorization = ReadOnlyAuthorization() 
         serializer = CourseJSONSerializer()
