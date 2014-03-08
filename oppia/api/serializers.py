@@ -25,7 +25,8 @@ class UserJSONSerializer(Serializer):
                 sort_keys=True, ensure_ascii=False, indent=self.json_indent)
           
 class CourseJSONSerializer(Serializer):
-
+    json_indent = 4
+    
     def to_json(self, data, options=None):
         options = options or {}
         data = self.to_simple(data, options)
@@ -34,7 +35,8 @@ class CourseJSONSerializer(Serializer):
             data['courses'] = data['objects']
             del data['objects']
 
-        return json.dumps(data,  sort_keys=True)
+        return json.dumps(data,
+                sort_keys=True, ensure_ascii=False, indent=self.json_indent)
 
 class TagJSONSerializer(Serializer):
     json_indent = 4

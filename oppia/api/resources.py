@@ -397,6 +397,11 @@ class CourseResource(ModelResource):
         # make sure title is shown as json object (not string representation of one)
         bundle.data['title'] = json.loads(bundle.data['title'])
         
+        try:
+            bundle.data['description'] = json.loads(bundle.data['description'])
+        except TypeError: 
+            pass
+        
         course = Course.objects.get(pk=bundle.obj.pk)
         schedule = course.get_default_schedule()
         cohort = Cohort.member_now(course,bundle.request.user)

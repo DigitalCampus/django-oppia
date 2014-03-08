@@ -45,6 +45,16 @@ def handle_uploaded_file(f, extract_path, request, is_draft):
             if t.nodeName == "title":
                 temp_title[t.getAttribute('lang')] = t.firstChild.nodeValue
         title = json.dumps(temp_title)
+        
+        temp_description = {}
+        for t in meta.childNodes:
+            if t.nodeName == "description":
+                if t.firstChild is not None:
+                    temp_description[t.getAttribute('lang')] = t.firstChild.nodeValue
+                else:
+                    temp_description[t.getAttribute('lang')] = None
+        description = json.dumps(temp_description)
+        
         shortname = ''
         for sn in meta.getElementsByTagName("shortname")[:1]:
             shortname = sn.firstChild.nodeValue
@@ -72,6 +82,7 @@ def handle_uploaded_file(f, extract_path, request, is_draft):
         
         course.shortname = shortname
         course.title = title
+        course.description = description
         course.version = versionid
         course.user = request.user
         course.filename = f.name
@@ -82,6 +93,7 @@ def handle_uploaded_file(f, extract_path, request, is_draft):
         course = Course()
         course.shortname = shortname
         course.title = title
+        course.description = description
         course.version = versionid
         course.user = request.user
         course.filename = f.name
