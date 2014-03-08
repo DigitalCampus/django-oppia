@@ -1,6 +1,10 @@
 Change Log
 ============
 
+v0.2.7
+-------
+* 
+
 v0.2.6
 -------
 * Fix https://github.com/DigitalCampus/django-oppia/issues/90 - split points/badges
