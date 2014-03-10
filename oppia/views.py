@@ -168,12 +168,16 @@ def export_tracker_detail(request,id):
     data = tablib.Dataset(*data, headers=headers)
     trackers = Tracker.objects.filter(course=course).order_by('-tracker_date')
     for t in trackers:
-        data_dict = json.loads(t.data)
-        if 'lang' in data_dict:
-            lang = data_dict['lang']
-        else:
-            lang = ""
-        data.append((t.tracker_date.strftime('%Y-%m-%d %H:%M:%S'), t.user.id, t.type, t.get_activity_title(), t.get_section_title(), t.time_taken, t.ip, t.agent, lang))
+        try:
+            data_dict = json.loads(t.data)
+            if 'lang' in data_dict:
+                lang = data_dict['lang']
+            else:
+                lang = ""
+            data.append((t.tracker_date.strftime('%Y-%m-%d %H:%M:%S'), t.user.id, t.type, t.get_activity_title(), t.get_section_title(), t.time_taken, t.ip, t.agent, lang))
+        except ValueError:
+            data.append((t.tracker_date.strftime('%Y-%m-%d %H:%M:%S'), t.user.id, t.type, "", "", t.time_taken, t.ip, t.agent, ""))
+            
     response = HttpResponse(data.xls, content_type='application/vnd.ms-excel;charset=utf-8')
     response['Content-Disposition'] = "attachment; filename=export.xls"
 
