@@ -26,7 +26,7 @@ from tastypie.serializers import Serializer
 from tastypie.utils import trailing_slash
 from tastypie.validation import Validation
 
-from oppia.api.serializers import PrettyJSONSerializer, CourseJSONSerializer, TagJSONSerializer, UserJSONSerializer
+from oppia.api.serializers import PrettyJSONSerializer, CourseJSONSerializer, UserJSONSerializer
 from oppia.models import Activity, Section, Tracker, Course, CourseDownload, Media, Schedule, ActivitySchedule, Cohort, Tag, CourseTag
 from oppia.models import Points, Award, Badge, UserProfile
 from oppia.profile.forms import RegisterForm
@@ -449,18 +449,17 @@ class TagResource(ModelResource):
         queryset = Tag.objects.all()
         resource_name = 'tag'
         allowed_methods = ['get']
-        fields = ['id','name']
+        fields = ['id','name', 'description', 'highlight', 'icon', 'order_priority']
         authentication = ApiKeyAuthentication()
         authorization = ReadOnlyAuthorization() 
         always_return_data = True
         include_resource_uri = False
-        serializer = TagJSONSerializer()
        
     def get_object_list(self,request):
         if request.user.is_staff:
-            return Tag.objects.filter(courses__isnull=False, coursetag__course__is_archived=False).distinct().order_by("name")
+            return Tag.objects.filter(courses__isnull=False, coursetag__course__is_archived=False).distinct().order_by('-order_priority', 'name')
         else:
-            return Tag.objects.filter(courses__isnull=False, coursetag__course__is_archived=False,coursetag__course__is_draft=False).distinct().order_by("name")
+            return Tag.objects.filter(courses__isnull=False, coursetag__course__is_archived=False,coursetag__course__is_draft=False).distinct().order_by('-order_priority', 'name')
         
     def prepend_urls(self):
         return [
