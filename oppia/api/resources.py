@@ -498,7 +498,17 @@ class TagResource(ModelResource):
         else:
             count = tmp.filter(is_draft=False).count()
         return count
-        
+     
+    def dehydrate_icon(self,bundle):
+        if bundle.request.is_secure():
+            prefix = 'https://'
+        else:
+            prefix = 'http://'
+        if bundle.data['icon'] is not None:
+            return prefix + bundle.request.META['SERVER_NAME'] + bundle.data['icon'] 
+        else:
+            return None
+    
     def alter_list_data_to_serialize(self, request, data):
         if isinstance(data, dict):
             if 'objects' in data:
