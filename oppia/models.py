@@ -116,6 +116,10 @@ class Tag(models.Model):
     created_date = models.DateTimeField('date created',default=datetime.datetime.now)
     created_by = models.ForeignKey(User)
     courses = models.ManyToManyField(Course, through='CourseTag')
+    description = models.TextField(blank=True, null=True, default=None)
+    order_priority = models.IntegerField(default=0)
+    highlight = models.BooleanField(default=False)
+    icon = models.FileField(upload_to="tags", null=True, default=None) 
     
     class Meta:
         verbose_name = _('Tag')

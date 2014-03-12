@@ -3,7 +3,8 @@ Change Log
 
 v0.2.7
 -------
-* 
+* Fix https://github.com/DigitalCampus/django-oppia/issues/121 - error in Excel export 
+* Add https://github.com/DigitalCampus/django-oppia/issues/123 - updates to tag model
 
 v0.2.6
 -------
