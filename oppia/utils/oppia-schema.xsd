@@ -3,8 +3,8 @@
 		<xs:documentation>
 			Schema for OppiaMobile course XML files
 			Digital Campus
-			Version: 2
-			Date: 8 Mar 2014
+			Version: 3
+			Date: 13 Mar 2014
 		</xs:documentation>
 	</xs:annotation>
 	
@@ -25,7 +25,8 @@
 		<xs:sequence>
 			<xs:element name="versionid" minOccurs="1" maxOccurs="1"
 				type="xs:positiveInteger" />
-
+			<xs:element name="priority" minOccurs="0" maxOccurs="1"
+				type="xs:integer" />
 			<xs:element name="title" minOccurs="1" maxOccurs="unbounded"
 				type="LangType" />
 			<xs:element name="shortname" minOccurs="1" maxOccurs="1" />
