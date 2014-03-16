@@ -47,8 +47,7 @@ def run(cartodb_account, cartodb_key):
                 data = u.read() 
                 dataJSON = json.loads(data)
                 print dataJSON
-                # pause for few seconds
-                time.sleep(3)
+               
             else:
                 print "row already up to date"
         else:
@@ -60,11 +59,9 @@ def run(cartodb_account, cartodb_key):
             data = u.read() 
             dataJSON = json.loads(data)
             print dataJSON
-            # pause for few seconds
-            time.sleep(3)
-        
-    ipdbcur.close()
-    ipdb.close()
+            
+         # pause for a bit
+        time.sleep(1)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
