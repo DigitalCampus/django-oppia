@@ -33,7 +33,6 @@ def run(db_user, db_password, db_name, ip_key, geonames_user):
              # if not cached then call to Geonames db
             # and insert into cache
             url = 'http://api.ipaddresslabs.com/iplocation/v1.7/locateip?key='+ip_key+'&ip='+row[0]+'&format=json'
-            #url = 'http://api.geonames.org/searchJSON?username=alexlittle&maxRows=1&q='+urllib.quote_plus(ipdbver[2])+'&country='+urllib.quote_plus(ipdbver[0])
             print row[0] + " : "+ url
             u = urllib.urlopen(url)
             data = u.read()  
