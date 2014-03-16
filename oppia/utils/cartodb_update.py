@@ -1,4 +1,4 @@
-# /usr/bin/env python
+
 
 import time
 import MySQLdb 
@@ -6,29 +6,27 @@ import urllib
 import json 
 import argparse, hashlib, subprocess
 
+from django.db.models import Sum
 
-def run(db_user, db_password, database, cartodb_account, cartodb_key): 
+from oppia.viz.models import UserLocationVisualization
+
+
+def run(cartodb_account, cartodb_key): 
     
-    cartodb_table = "dbip_cache_live"
-    
-    ipdb = MySQLdb.connect(host="localhost", # your host, usually localhost
-                         user=db_user, # your username
-                          passwd=db_password, # your password
-                          db=database) # name of the data base
-    ipdbcur = ipdb.cursor() 
+    cartodb_table = "oppiamobile_users" 
     
     # check can connect to cartodb API
-    url = "http://"+ cartodb_account+".cartodb.com/api/v2/sql?q=SELECT count(*) FROM " + cartodb_table
+    sql = "SELECT count(*) FROM %s" % (cartodb_table)
+    url = "http://%s.cartodb.com/api/v2/sql?q=%s" % (cartodb_account,sql)
     u = urllib.urlopen(url)
     data = u.read() 
     dataJSON = json.loads(data)
-    #print dataJSON
 
-    ipdbcur.execute("SELECT lat, lng, sum(hits) as total_hits FROM dbip_cache GROUP BY lat,lng")
-    for row in ipdbcur.fetchall() :
+    locations = UserLocationVisualization.objects.values('lat','lng').annotate(total_hits=Sum('hits'))
+    for l in locations :
         
         # find if already in cartodb
-        sql = "SELECT * FROM %s WHERE lat=%f AND lng=%f" % (cartodb_table,row[0],row[1])
+        sql = "SELECT * FROM %s WHERE lat=%f AND lng=%f" % (cartodb_table,l['lat'],l['lng'])
         url = "http://%s.cartodb.com/api/v2/sql?q=%s" % (cartodb_account,sql)
         u = urllib.urlopen(url)
         data = u.read() 
@@ -39,11 +37,11 @@ def run(db_user, db_password, database, cartodb_account, cartodb_key):
         if dataJSON['total_rows'] == 1:
             # only need to update if the no total_hits is different to before
             no_hits = dataJSON['rows'][0]['total_hits']
-            if row[2] != no_hits:
+            if l['total_hits'] != no_hits:
                 print "found - will update"
                 cartodb_id = dataJSON['rows'][0]['cartodb_id']
                 print cartodb_id
-                sql = "UPDATE %s SET total_hits=%d WHERE cartodb_id=%d" % (cartodb_table,row[2], cartodb_id)
+                sql = "UPDATE %s SET total_hits=%d WHERE cartodb_id=%d" % (cartodb_table,l['total_hits'], cartodb_id)
                 url = "http://%s.cartodb.com/api/v2/sql?q=%s&api_key=%s" % (cartodb_account,sql,cartodb_key)
                 u = urllib.urlopen(url)
                 data = u.read() 
@@ -56,7 +54,7 @@ def run(db_user, db_password, database, cartodb_account, cartodb_key):
         else:
         # if not found then insert
             print "not found - will insert"
-            sql = "INSERT INTO %s (lat,lng,total_hits) VALUES (%f,%f,%d)" % (cartodb_table,row[0],row[1],row[2])
+            sql = "INSERT INTO %s (lat,lng,total_hits) VALUES (%f,%f,%d)" % (cartodb_table,l['lat'],l['lng'],l['total_hits'])
             url = "http://%s.cartodb.com/api/v2/sql?q=%s&api_key=%s" % (cartodb_account,sql,cartodb_key)
             u = urllib.urlopen(url)
             data = u.read() 
@@ -70,13 +68,10 @@ def run(db_user, db_password, database, cartodb_account, cartodb_key):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("username", help="database username")
-    parser.add_argument("password", help="database password")
-    parser.add_argument("database", help="database name")
     parser.add_argument("cartodb_account", help="CartoDB Account Name")
     parser.add_argument("cartodb_key", help="CartoDB API Key")
     args = parser.parse_args()
-    run(args.username, args.password, args.database, args.cartodb_account, args.cartodb_key)  
+    run(args.cartodb_account, args.cartodb_key)  
     
     
     
