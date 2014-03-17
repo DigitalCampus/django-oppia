@@ -1,1 +1,1 @@
-VERSION = (0, 2, 10, 'alpha', 0)
+VERSION = (0, 2, 11, 'alpha', 0)

@@ -2,7 +2,7 @@
 
 import time
 import MySQLdb 
-import urllib2
+import urllib
 import json 
 import argparse, hashlib, subprocess
 
@@ -18,7 +18,7 @@ def run(cartodb_account, cartodb_key):
     # check can connect to cartodb API
     sql = "SELECT count(*) FROM %s" % (cartodb_table)
     url = "http://%s.cartodb.com/api/v2/sql?q=%s" % (cartodb_account,sql)
-    u = urllib2.urlopen(url)
+    u = urllib.urlopen(url)
     data = u.read() 
     dataJSON = json.loads(data)
 
@@ -28,7 +28,7 @@ def run(cartodb_account, cartodb_key):
         # find if already in cartodb
         sql = "SELECT * FROM %s WHERE lat=%f AND lng=%f" % (cartodb_table,l['lat'],l['lng'])
         url = "http://%s.cartodb.com/api/v2/sql?q=%s" % (cartodb_account,sql)
-        u = urllib2.urlopen(url)
+        u = urllib.urlopen(url)
         data = u.read() 
         dataJSON = json.loads(data)
         #print dataJSON
@@ -43,7 +43,7 @@ def run(cartodb_account, cartodb_key):
                 print cartodb_id
                 sql = "UPDATE %s SET total_hits=%d WHERE cartodb_id=%d" % (cartodb_table,l['total_hits'], cartodb_id)
                 url = "http://%s.cartodb.com/api/v2/sql?q=%s&api_key=%s" % (cartodb_account,sql,cartodb_key)
-                u = urllib2.urlopen(url)
+                u = urllib.urlopen(url)
                 data = u.read() 
                 dataJSON = json.loads(data)
                 print dataJSON
@@ -55,7 +55,7 @@ def run(cartodb_account, cartodb_key):
             print "not found - will insert"
             sql = "INSERT INTO %s (the_geom, lat, lng, total_hits) VALUES (ST_SetSRID(ST_Point(%f, %f),4326),%f,%f,%d)" % (cartodb_table,l['lng'],l['lat'],l['lat'],l['lng'],l['total_hits'])
             url = "http://%s.cartodb.com/api/v2/sql?q=%s&api_key=%s" % (cartodb_account,sql,cartodb_key)
-            u = urllib2.urlopen(url)
+            u = urllib.urlopen(url)
             data = u.read() 
             dataJSON = json.loads(data)
             print dataJSON

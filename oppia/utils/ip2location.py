@@ -23,14 +23,14 @@ def run(ip_key, geonames_user):
         except UserLocationVisualization.DoesNotExist:
             url = 'http://api.ipaddresslabs.com/iplocation/v1.7/locateip?key=%s&ip=%s&format=json' % (ip_key, t['ip'])
             print t['ip'] + " : "+ url
-            u = urllib2.urlopen(url)
+            u = urllib2.urlopen(urllib2.Request(url))
             data = u.read()  
             dataJSON = json.loads(data)
             print dataJSON
             if 'geolocation_data' in dataJSON:
                 print dataJSON['geolocation_data']
-                url = 'http://api.geonames.org/searchJSON?username=%s&maxRows=1&q=%s&country=%s' % (geonames_user,urllib.quote_plus(dataJSON['geolocation_data']['region_name']),urllib.quote_plus(dataJSON['geolocation_data']['country_code_iso3166alpha2']))
-                u = urllib2.urlopen(url)
+                url = 'http://api.geonames.org/searchJSON?username=%s&maxRows=1&q=%s&country=%s' % (geonames_user,dataJSON['geolocation_data']['region_name'],dataJSON['geolocation_data']['country_code_iso3166alpha2'])
+                u = urllib2.urlopen(urllib2.Request(url))
                 geo = u.read()  
                 geoJSON = json.loads(geo)
                 print geoJSON
