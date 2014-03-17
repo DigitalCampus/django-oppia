@@ -1,8 +1,12 @@
 Change Log
 ============
 
-v0.2.9
+v0.2.10
 -------
+* Fix for urllib/urllib2
+
+v0.2.8/9
+--------
 * Fix https://github.com/DigitalCampus/django-oppia/issues/127 - add IP location cache table 
 * Fix https://github.com/DigitalCampus/django-oppia/issues/125 - add optional data to media model
 * Fix https://github.com/DigitalCampus/django-oppia/issues/113 - not removing old course versions
