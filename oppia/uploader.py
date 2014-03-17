@@ -64,6 +64,7 @@ def handle_uploaded_file(f, extract_path, request, is_draft):
     try: 
         course = Course.objects.get(shortname = shortname)
         old_course_filename = course.filename
+        old_course_version = course.version
          
         # check that the current user is allowed to wipe out the other course
         if course.user != request.user:
@@ -179,7 +180,8 @@ def handle_uploaded_file(f, extract_path, request, is_draft):
 
             media.save()
     
-    if old_course_filename is not None and course.version != versionid:
+    if old_course_filename is not None and old_course_filename != course.filename:
         os.remove(settings.COURSE_UPLOAD_DIR + old_course_filename)
+        
     return course       
               

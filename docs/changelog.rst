@@ -4,6 +4,10 @@ Change Log
 v0.2.8
 -------
 * Fix https://github.com/DigitalCampus/django-oppia/issues/127 - add IP location cache table 
+* Fix https://github.com/DigitalCampus/django-oppia/issues/125 - add optional data to media model
+* Fix https://github.com/DigitalCampus/django-oppia/issues/113 - not removing old course versions
+* added util to update the carto db map
+* added util to tidy up course upload dir
 
 v0.2.7
 -------
