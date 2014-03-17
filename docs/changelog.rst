@@ -1,7 +1,7 @@
 Change Log
 ============
 
-v0.2.8
+v0.2.9
 -------
 * Fix https://github.com/DigitalCampus/django-oppia/issues/127 - add IP location cache table 
 * Fix https://github.com/DigitalCampus/django-oppia/issues/125 - add optional data to media model
