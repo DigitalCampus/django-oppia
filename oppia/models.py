@@ -231,6 +231,8 @@ class Media(models.Model):
     digest = models.CharField(max_length=100)
     filename = models.CharField(max_length=200)
     download_url = models.URLField()
+    filesize = models.BigIntegerField(default=None,blank=True,null=True)
+    media_length = models.IntegerField(default=None,blank=True,null=True)
     
     class Meta:
         verbose_name = _('Media')

@@ -162,13 +162,21 @@ def handle_uploaded_file(f, extract_path, request, is_draft):
                     activity.save()
                     
     # add all the media
-    for files in doc.lastChild.lastChild.childNodes:
-        if files.nodeName == 'file':
+    for file in doc.lastChild.lastChild.childNodes:
+        if file.nodeName == 'file':
             media = Media()
             media.course = course
-            media.filename = files.getAttribute("filename")
-            media.download_url = files.getAttribute("download_url")
-            media.digest = files.getAttribute("digest")
+            media.filename = file.getAttribute("filename")
+            media.download_url = file.getAttribute("download_url")
+            media.digest = file.getAttribute("digest")
+            
+            # get any optional attributes
+            for attrName, attrValue in file.attributes.items():
+                if attrName == "length":
+                    media.media_length = attrValue
+                if attrName == "filesize":
+                    media.filesize = attrValue
+
             media.save()
     
     if old_course_filename is not None and course.version != versionid:
