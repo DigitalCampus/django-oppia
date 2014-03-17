@@ -2,7 +2,7 @@
 
 import time
 import MySQLdb 
-import urllib 
+import urllib2 
 import json 
 import argparse, hashlib, subprocess
 from django.db.models import Count
