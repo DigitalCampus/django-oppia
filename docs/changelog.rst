@@ -1,6 +1,10 @@
 Change Log
 ============
 
+v0.2.8
+-------
+* Fix https://github.com/DigitalCampus/django-oppia/issues/127 - add IP location cache table 
+
 v0.2.7
 -------
 * Fix https://github.com/DigitalCampus/django-oppia/issues/121 - error in Excel export 

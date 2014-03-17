@@ -53,7 +53,7 @@ def run(cartodb_account, cartodb_key):
         else:
         # if not found then insert
             print "not found - will insert"
-            sql = "INSERT INTO %s (lat,lng,total_hits) VALUES (%f,%f,%d)" % (cartodb_table,l['lat'],l['lng'],l['total_hits'])
+            sql = "INSERT INTO %s (the_geom, lat, lng, total_hits) VALUES (ST_SetSRID(ST_Point(%f, %f),4326),%f,%f,%d)" % (cartodb_table,l['lng'],l['lat'],l['lat'],l['lng'],l['total_hits'])
             url = "http://%s.cartodb.com/api/v2/sql?q=%s&api_key=%s" % (cartodb_account,sql,cartodb_key)
             u = urllib.urlopen(url)
             data = u.read() 
