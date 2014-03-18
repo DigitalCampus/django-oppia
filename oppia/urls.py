@@ -59,4 +59,6 @@ urlpatterns = patterns('',
     
     url(r'^mobile/', include('oppia.mobile.urls')),
     
+    url(r'^viz/', include('oppia.viz.urls')),
+    
 )

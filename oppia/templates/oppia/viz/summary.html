@@ -1,0 +1,95 @@
+{% extends "base.html" %} 
+{% load i18n %} 
+{% load display_functions %} 
+{% if user.is_authenticated %}
+	{% block extra_scripts %}
+	<script type='text/javascript' src='https://www.google.com/jsapi'></script>
+	<script type="text/javascript">
+	
+		// Load the Visualization API and the piechart package.
+		google.load('visualization', '1.0', {'packages':['corechart']});
+	
+		// Set a callback to run when the Google Visualization API is loaded.
+		google.setOnLoadCallback(drawChart);
+		function drawChart() {
+	
+			var data = new google.visualization.DataTable();
+			data.addColumn('string', "{% trans 'Month/Year' %}");
+			data.addColumn('number', "{% trans 'Total' %}");
+			
+			data.addRows( {{ user_registrations|length }} );
+			
+			{% for u in user_registrations %}
+				data.setValue({{ forloop.counter0 }},0,'{{ u.month }}-{{ u.year }}');
+				data.setValue({{ forloop.counter0 }},1,{{ u.count }});
+			{% endfor %}
+	
+	        var chart = new google.visualization.AreaChart(document.getElementById('user_registrations_chart_div'));
+	        chart.draw(data, {	width: '100%', 
+	                			height: 400,
+	                			vAxis: {minValue:0},
+	                			pointSize:3,
+	                			chartArea: {left:45,top:10,width:"90%",height:"75%"},
+	                			backgroundColor: 'transparent',
+	                			legend: 'none',
+	                			series: [{areaOpacity:0.2}]
+	                			});
+	        
+	        var data2 = new google.visualization.DataTable();
+			data2.addColumn('string', "{% trans 'Month/Year' %}");
+			data2.addColumn('number', "{% trans 'Total' %}");
+			
+			data2.addRows( {{ user_registrations|length }} );
+			
+			count = 0;
+			{% for u in user_registrations %}
+				count += {{ u.count }};
+				data2.setValue({{ forloop.counter0 }},0,'{{ u.month }}-{{ u.year }}');
+				data2.setValue({{ forloop.counter0 }},1,count);
+			{% endfor %}
+	
+	        var chart2 = new google.visualization.AreaChart(document.getElementById('user_registrations_cumulative_chart_div'));
+	        chart2.draw(data2, {	width: '100%', 
+	                			height: 400,
+	                			vAxis: {minValue:0},
+	                			pointSize:3,
+	                			chartArea: {left:45,top:10,width:"90%",height:"75%"},
+	                			backgroundColor: 'transparent',
+	                			legend: 'none',
+	                			series: [{areaOpacity:0.2}]
+	                			});
+	      }
+	</script>
+	{% endblock extra_scripts %}
+{% endif %} 
+{% block content %}
+
+<h2>{% trans 'Summary Overview' %}</h2>
+
+<h3>{% trans 'User Registrations' %}</h3>
+{% trans 'By Month:' %}
+<div id="user_registrations_chart_div" class="graph">{% trans 'graph_generating'%}</div>
+
+{% trans 'Cumulative:' %}
+<div id="user_registrations_cumulative_chart_div" class="graph">{% trans 'graph_generating'%}</div>
+<h3>{% trans 'User Countries' %}</h3>
+
+<p>{% trans 'Total countries:' %} {{ country_activity|length }}</p>
+
+<p> {% trans 'Activity by Country:' %}</p>
+<ul>
+{% for a in country_activity %}
+	<li>{{ a.country }}: {{ a.total_hits }}</li>
+{% endfor %}
+</ul>
+
+<h3>{% trans 'Course Downloads' %}</h3>
+
+Top courses in last XXX 
+
+
+<h3>{% trans 'Course Activity' %}</h3>
+
+Top courses in last XXX 
+{% endblock %}
+	
