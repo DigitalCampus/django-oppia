@@ -11,7 +11,7 @@ from oppia.viz.models import UserLocationVisualization
 
 def run(ip_key, geonames_user):
   
-    tracker_ip_hits = Tracker.objects.values('ip').annotate(count_hits=Count('ip'))
+    tracker_ip_hits = Tracker.objects.filter(user__is_staff=False).values('ip').annotate(count_hits=Count('ip'))
     
     for t in tracker_ip_hits:
         # lookup whether already cached in db
@@ -41,7 +41,9 @@ def run(ip_key, geonames_user):
                     viz.lng = geoJSON['geonames'][0]['lng']
                     viz.hits = t['count_hits']
                     viz.region = geoJSON['geonames'][0]['name']
-                    viz.country = geoJSON['geonames'][0]['countryCode']
+                    viz.country_code = geoJSON['geonames'][0]['countryCode']
+                    viz.country_name = geoJSON['geonames'][0]['countryName']
+                    viz.geonames_data = geoJSON['geonames'][0]
                     viz.save()
                 except UnicodeEncodeError:
                     pass
