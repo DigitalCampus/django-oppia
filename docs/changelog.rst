@@ -1,6 +1,11 @@
 Change Log
 ============
 
+v0.2.12
+----------
+* Fix https://github.com/DigitalCampus/django-oppia/issues/134 - add country full name
+* Fix https://github.com/DigitalCampus/django-oppia/issues/135 - exclude staff hits
+
 v0.2.10/11
 ----------
 * Fix for urllib/urllib2
