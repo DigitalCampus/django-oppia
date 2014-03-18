@@ -24,7 +24,7 @@ def summary_view(request):
                         annotate(count=Count('id')).order_by('year','month')
     
     # Countries
-    country_activity =  UserLocationVisualization.objects.all().values('country').annotate(total_hits=Sum('hits')).order_by('-total_hits')
+    country_activity =  UserLocationVisualization.objects.all().values('country_code','country_name').annotate(total_hits=Sum('hits')).order_by('-total_hits')
     
     
     return render_to_response('oppia/viz/summary.html',

@@ -49,6 +49,8 @@ def run(ip_key, geonames_user):
                     pass
                 except IndexError:
                     pass
+                except KeyError:
+                    pass
                 time.sleep(1)
 
 

@@ -79,7 +79,7 @@
 <p> {% trans 'Activity by Country:' %}</p>
 <ul>
 {% for a in country_activity %}
-	<li>{{ a.country }}: {{ a.total_hits }}</li>
+	<li>{{ a.country_name }} ({{ a.country_code }}): {{ a.total_hits }}</li>
 {% endfor %}
 </ul>
 
