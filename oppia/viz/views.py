@@ -44,6 +44,8 @@ def summary_view(request):
         hits_percent = float(other_country_activity * 100.0/total_hits['total_hits'])
         country_activity.append({'country_code':None,'country_name':_('Other'),'hits_percent':hits_percent })
     
+    
+        
     # Course Downloads
     course_downloads = CourseDownload.objects.filter(user__is_staff=False).\
                         extra(select={'month':'extract( month from download_date )',
@@ -84,4 +86,8 @@ def summary_view(request):
                                'course_downloads': course_downloads,
                                'course_activity': course_activity, 
                                'hot_courses': hot_courses, }, 
+                              context_instance=RequestContext(request))
+
+def map_view(request):
+    return render_to_response('oppia/viz/map.html', 
                               context_instance=RequestContext(request))

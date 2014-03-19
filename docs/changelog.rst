@@ -3,6 +3,7 @@ Change Log
 
 v0.2.14
 -------
+* Fix https://github.com/DigitalCampus/django-oppia/issues/133 - add visualizations page
 
 v0.2.12/13
 ----------

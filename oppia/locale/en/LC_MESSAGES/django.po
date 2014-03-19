@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 0.1.22\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-03-19 19:36+0100\n"
-"PO-Revision-Date: 2014-03-19 19:37+0100\n"
+"PO-Revision-Date: 2014-03-19 23:08+0100\n"
 "Last-Translator: Alex Little <alex@alexlittle.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -450,7 +450,7 @@ msgstr "Upload"
 
 #: templates/includes/header.html:32
 msgid "menu_visualisations"
-msgstr "Vizualisations"
+msgstr "Visualizations"
 
 #: templates/includes/header.html:40
 msgid "Welcome"
