@@ -5,6 +5,7 @@ v0.2.14
 -------
 * Fix https://github.com/DigitalCampus/django-oppia/issues/133 - add visualizations page
 * Fix https://github.com/DigitalCampus/django-oppia/issues/137 - add lang to tracker model
+* Fix https://github.com/DigitalCampus/django-oppia/issues/136 - update visualization to include langs
 
 v0.2.12/13
 ----------
