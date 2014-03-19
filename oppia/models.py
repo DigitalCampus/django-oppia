@@ -256,6 +256,7 @@ class Tracker(models.Model):
     activity_title = models.TextField(blank=True, null=True, default=None)
     section_title = models.TextField(blank=True, null=True, default=None)
     uuid = models.TextField(blank=True, null=True, default=None)
+    lang = models.CharField(max_length=10,null=True, blank=True, default=None)
     
     class Meta:
         verbose_name = _('Tracker')

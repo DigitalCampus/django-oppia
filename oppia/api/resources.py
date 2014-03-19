@@ -277,6 +277,13 @@ class TrackerResource(ModelResource):
         except:
             pass
         
+        try:
+            json_data = json.loads(bundle.data['data'])
+            if json_data['lang']:
+                bundle.obj.lang = json_data['lang']
+        except:
+            pass
+        
         return bundle 
     
     def dehydrate_points(self,bundle):
