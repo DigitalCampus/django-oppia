@@ -1,7 +1,10 @@
 Change Log
 ============
 
-v0.2.12
+v0.2.14
+-------
+
+v0.2.12/13
 ----------
 * Fix https://github.com/DigitalCampus/django-oppia/issues/134 - add country full name
 * Fix https://github.com/DigitalCampus/django-oppia/issues/135 - exclude staff hits

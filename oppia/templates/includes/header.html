@@ -28,6 +28,9 @@
 	            <li><a href="{% url 'oppia_course' %}">{% trans 'menu_courses' %}</a></li>
 	            <li><a href="{% url 'oppia_upload' %}">{% trans 'menu_upload' %}</a></li>
             {% endif %}
+            {% if user.is_staff %}
+	            <li><a href="{% url 'oppia_viz_summary' %}">{% trans 'menu_visualisations' %}</a></li>
+            {% endif %}
             </ul>
         </div>
         <div id="login">
