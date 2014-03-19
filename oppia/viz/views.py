@@ -43,8 +43,24 @@ def summary_view(request):
     if i >= 20:
         hits_percent = float(other_country_activity * 100.0/total_hits['total_hits'])
         country_activity.append({'country_code':None,'country_name':_('Other'),'hits_percent':hits_percent })
+        
+    # Language
+    hit_by_language = Tracker.objects.filter(user__is_staff=False).values('lang').annotate(total_hits=Count('id')).order_by('-total_hits')
+    total_hits = Tracker.objects.filter(user__is_staff=False).aggregate(total_hits=Count('id'))
     
-    
+    i = 0
+    languages = []
+    other_languages = 0
+    for hbl in hit_by_language:
+        if i < 10:
+            hits_percent = float(hbl['total_hits'] * 100.0/total_hits['total_hits'])
+            languages.append({'lang':hbl['lang'],'hits_percent':hits_percent })
+        else:
+            other_languages += hbc['total_hits']
+        i += 1
+    if i >= 10:
+        hits_percent = float(other_languages * 100.0/total_hits['total_hits'])
+        languages.append({'lang':_('Other'),'hits_percent':hits_percent })
         
     # Course Downloads
     course_downloads = CourseDownload.objects.filter(user__is_staff=False).\
