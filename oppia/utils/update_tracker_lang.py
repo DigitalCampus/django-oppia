@@ -12,7 +12,7 @@ def run():
             json_data = json.loads(t.data)
             if json_data['lang']:
                 t.lang = json_data['lang']
-                t.save
+                t.save()
                 print "saved: " + t.lang
         except:
             pass

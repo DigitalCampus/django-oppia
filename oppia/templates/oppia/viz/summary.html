@@ -78,11 +78,35 @@
 			          width: '50%',
 			          height: 400,
 			          chartArea: {left:45,top:40,width:"90%",height:"75%"},
+			          backgroundColor: 'transparent',
 			        };
 
 			var chart3 = new google.visualization.PieChart(document.getElementById('activity_by_country_chart_div'));
 			chart3.draw(data3, options3);
 
+			var dataLang = new google.visualization.DataTable();
+			dataLang.addColumn('string', "{% trans 'Language' %}");
+			dataLang.addColumn('number', "{% trans 'Total' %}");
+			
+			dataLang.addRows( {{ languages|length }} );
+			
+			count = 0;
+			{% for l in languages %}
+				dataLang.setValue({{ forloop.counter0 }},0,'{{ l.lang }}');
+				dataLang.setValue({{ forloop.counter0 }},1,{{ l.hits_percent|floatformat:1 }});
+			{% endfor %}
+	
+			var optionsLang = {
+			          title: '{% trans 'Activity by Language (top 10 + others)' %}',
+			          width: '50%',
+			          height: 400,
+			          chartArea: {left:45,top:40,width:"90%",height:"75%"},
+			          backgroundColor: 'transparent',
+			        };
+
+			var chartLang = new google.visualization.PieChart(document.getElementById('activity_by_language_chart_div'));
+			chartLang.draw(dataLang, optionsLang);
+			
 			var data4 = new google.visualization.DataTable();
 			data4.addColumn('string', "{% trans 'Month/Year' %}");
 			data4.addColumn('number', "{% trans 'Total' %}");
@@ -196,6 +220,7 @@
 			          width: '50%',
 			          height: 400,
 			          chartArea: {left:45,top:40,width:"90%",height:"75%"},
+			          backgroundColor: 'transparent',
 			        };
 
 			var chart8 = new google.visualization.PieChart(document.getElementById('activity_by_course_chart_div'));
@@ -215,6 +240,7 @@
 <h3>{% trans 'Activity by Country' %}</h3>
 <p>{% trans 'Total countries:' %} {{ total_countries }}</p>
 <div id="activity_by_country_chart_div" class="graph">{% trans 'graph_generating'%}</div>
+<div id="activity_by_language_chart_div" class="graph">{% trans 'graph_generating'%}</div>
 
 <h3>{% trans 'Course Downloads' %}</h3>
 <div id="course_downloads_chart_div" class="graph">{% trans 'graph_generating'%}</div>
