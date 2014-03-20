@@ -82,6 +82,13 @@ class UserResource(ModelResource):
         if u is not None:
             if u.is_active:
                 login(bundle.request,u)
+                # Add to tracker
+                tracker = Tracker()
+                tracker.user = u
+                tracker.type = 'login'
+                tracker.ip = bundle.request.META.get('REMOTE_ADDR','0.0.0.0')
+                tracker.agent =bundle.request.META.get('HTTP_USER_AGENT','unknown')
+                tracker.save()
             else:
                 raise BadRequest(_(u'Authentication failure'))
         else:
@@ -171,6 +178,13 @@ class RegisterResource(ModelResource):
             if u is not None:
                 if u.is_active:
                     login(bundle.request, u)
+                    # Add to tracker
+                    tracker = Tracker()
+                    tracker.user = u
+                    tracker.type = 'register'
+                    tracker.ip = bundle.request.META.get('REMOTE_ADDR','0.0.0.0')
+                    tracker.agent =bundle.request.META.get('HTTP_USER_AGENT','unknown')
+                    tracker.save()
             key = ApiKey.objects.get(user = u)
             bundle.data['api_key'] = key.key
         except IntegrityError:
@@ -382,14 +396,23 @@ class CourseResource(ModelResource):
         response['Content-Length'] = os.path.getsize(file_to_download)
         response['Content-Disposition'] = 'attachment; filename="%s"' %(course.filename)
         
-        md = CourseDownload()
-        md.user = request.user
-        md.course = course
-        md.course_version = course.version
-        md.ip = request.META.get('REMOTE_ADDR','0.0.0.0')
-        md.agent= request.META.get('HTTP_USER_AGENT','unknown')
-        md.save()
+        cd = CourseDownload()
+        cd.user = request.user
+        cd.course = course
+        cd.course_version = course.version
+        cd.ip = request.META.get('REMOTE_ADDR','0.0.0.0')
+        cd.agent= request.META.get('HTTP_USER_AGENT','unknown')
+        cd.save()
         
+        # Add to tracker
+        tracker = Tracker()
+        tracker.user = request.user
+        tracker.course = course
+        tracker.type = 'download'
+        tracker.ip = request.META.get('REMOTE_ADDR','0.0.0.0')
+        tracker.agent = request.META.get('HTTP_USER_AGENT','unknown')
+        tracker.save()
+                
         course_downloaded.send(sender=self, course=course, user=request.user)
         
         return response
