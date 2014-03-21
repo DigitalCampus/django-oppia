@@ -1,6 +1,10 @@
 Change Log
 ============
 
+v0.2.15
+-------
+* Fix https://github.com/DigitalCampus/django-oppia/issues/138 - add login/register/download to tracker
+
 v0.2.14
 -------
 * Fix https://github.com/DigitalCampus/django-oppia/issues/133 - add visualizations page
