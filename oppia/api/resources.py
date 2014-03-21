@@ -409,6 +409,7 @@ class CourseResource(ModelResource):
         tracker.user = request.user
         tracker.course = course
         tracker.type = 'download'
+        tracker.data = json.dumps({'version':course.version })
         tracker.ip = request.META.get('REMOTE_ADDR','0.0.0.0')
         tracker.agent = request.META.get('HTTP_USER_AGENT','unknown')
         tracker.save()
