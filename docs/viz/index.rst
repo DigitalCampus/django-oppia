@@ -17,9 +17,16 @@ gives graphical representations of:
 * Course Downloads
 * Course Activity
 
+.. note::
+	All the statistics in the summary overview and map will exclude any 
+	activity made by users who have the is_staff status.
+
 User Map
 --------
 This shows a map of the locations of the users and activity on your OppiaMobile 
-server. Please note that by default this map shows the users from the 
-http://demo.oppia-mobile.org server. To see a map of the users on your server, 
-you will need to configure this, see the :ref:`user map setup instructions<usermap>`. 
+server. 
+
+.. note::
+	By default this map shows the users from the http://demo.oppia-mobile.org 
+	server. To see a map of the users on your server, you will need to configure
+	this, see the :ref:`user map setup instructions<usermap>`. 

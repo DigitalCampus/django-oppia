@@ -83,6 +83,7 @@ the virtualenv is active):
 
 * ``python manage.py migrate oppia``
 * ``python manage.py migrate oppia.quiz``
+* ``python manage.py migrate oppia.viz``
 * ``python manage.py collectstatic``
 
 Creating your own version of django-oppia

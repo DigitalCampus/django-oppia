@@ -69,6 +69,8 @@ Installation
   (or at http://localhost:8000/oppia depending on how you configured your 
   ``urls.py`` file)
 
+.. _installcron:
+
 * Finally you should set up a `cron <https://en.wikipedia.org/wiki/Cron>`_ 
   task to run the ``oppia/cron.py`` script regularly. 
   This script tidies up the course download directory of temporary download 

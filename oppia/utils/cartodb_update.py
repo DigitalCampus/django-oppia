@@ -72,6 +72,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("cartodb_account", help="CartoDB Account Name")
     parser.add_argument("cartodb_key", help="CartoDB API Key")
+    #parser.add_argument("cartodb_table", help="CartoDB table name")
     args = parser.parse_args()
     run(args.cartodb_account, args.cartodb_key)  
     
