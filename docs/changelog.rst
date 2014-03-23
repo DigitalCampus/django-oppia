@@ -1,6 +1,11 @@
 Change Log
 ============
 
+v0.3.0 - released: XXXXX
+----------------------------
+* Moved to beta development status
+* Updated oppia-schema.xsd 
+
 v0.2.15
 -------
 * Fix https://github.com/DigitalCampus/django-oppia/issues/138 - add login/register/download to tracker

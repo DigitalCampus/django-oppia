@@ -15,12 +15,14 @@ Installation
 * Install OppiaMobile, run ``pip install django-oppia``
 
 * Edit your ``settings.py`` file as follows:
-	* Add :mod:`oppia` and :mod:`oppia.quiz` to your `INSTALLED_APPS` like this::
+	* Add :mod:`oppia`, :mod:`oppia.quiz` and :mod:`oppia.viz` to your 
+	  `INSTALLED_APPS` like this::
 	
 	      INSTALLED_APPS = (
 	          ...
 	          'oppia',
-	          'oppia.quiz'
+	          'oppia.quiz',
+	          'oppia.viz'
 	      )
 	* Add the following code::
 	
@@ -53,8 +55,9 @@ Installation
   However, you may need to change some of the ``LOGIN_EXEMPT_URLS`` in the 
   ``local_settings.py`` file
       
-* Run ``python manage.py migrate oppia`` and ``python manage.py migrate 
-  oppia.quiz`` to create the oppia models.
+* Run ``python manage.py migrate oppia``, 
+  ``python manage.py migrate oppia.quiz`` and 
+  ``python manage.py migrate oppia.viz`` to create the oppia models.
 
 * Run ``python manage.py collectstatic`` this will copy all the required 
   javascript, images, css and other static files are copied to your `STATIC_ROOT`
@@ -87,7 +90,9 @@ Installation
 
 		python /home/alex/data/development/django-oppia/oppia/cron.py # <- full path to the cron.py file 
 		
-	  This script handles activating the virtualenv correctly and ensuring all the Django modules/apps can be accessed. I then have my cron call this wrapper script every 2 hours.
+	* This script handles activating the virtualenv correctly and ensuring all 
+	  the Django modules/apps can be accessed. I then have my cron call this 
+	  wrapper script every 2 hours.
 
 
    

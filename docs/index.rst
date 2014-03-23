@@ -23,6 +23,7 @@ Contents:
    api
    utilities
    custom/index
+   viz/index
    changelog
    author
    acknowledgements
