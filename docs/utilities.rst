@@ -53,6 +53,12 @@ The following optional parameters are also available:
 
 media_url_check.py
 -------------------
+This script checks the urls of all the media activities in uploaded courses. 
+This helps to prevent your users getting file not found errors when downloading
+the videos included in your courses.
+
+Usage:
+
 
 oppia-schema.xsd
 -------------------
