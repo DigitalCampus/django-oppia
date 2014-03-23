@@ -95,6 +95,3 @@ Installation
 	* This script handles activating the virtualenv correctly and ensuring all 
 	  the Django modules/apps can be accessed. I then have my cron call this 
 	  wrapper script every 2 hours.
-
-
-   
