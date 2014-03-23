@@ -3,6 +3,11 @@ Utilities
 
 Any utility scripts can be found in the ``django-oppia/oppia/utils`` directory.
 
+cartodb_update.py
+-----------------
+
+ip2location.py
+-----------------
 
 media-scan.py
 -------------
@@ -46,4 +51,11 @@ The following optional parameters are also available:
   
   The default is 250.
 
+media_url_check.py
+-------------------
 
+oppia-schema.xsd
+-------------------
+
+tidy_upload_dir.py
+-------------------

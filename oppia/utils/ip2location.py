@@ -1,4 +1,9 @@
-
+'''
+ Script to get user locations based on their IP address in the Tracker model
+ 
+ For full instructions, see the documentation at 
+ https://oppiamobile.readthedocs.org/en/latest/
+'''
 
 import time
 import MySQLdb 

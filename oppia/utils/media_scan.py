@@ -1,10 +1,15 @@
 # /usr/bin/env python
 '''
-Script to process all the videos in a directory and create the tags for embedding into the course.
+Script to process all the videos in a directory and create the tags for 
+embedding into the course.
+
+For full instructions, see the documentation at 
+https://oppiamobile.readthedocs.org/en/latest/
 
 Requires "ffprobe": http://ffmpeg.org/ffprobe.html
 
 '''
+
 import os, time, sys, math, gst
 import argparse, hashlib, subprocess
 import Image

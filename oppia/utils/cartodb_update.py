@@ -1,4 +1,9 @@
-
+'''
+ Script to update user map on CartoDB
+ 
+ For full instructions, see the documentation at 
+ https://oppiamobile.readthedocs.org/en/latest/
+'''
 
 import time
 import MySQLdb 

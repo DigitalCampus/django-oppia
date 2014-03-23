@@ -1,3 +1,9 @@
+'''
+ Cleans up any old files in the oppia uploads directory
+
+ For full instructions, see the documentation at 
+ https://oppiamobile.readthedocs.org/en/latest/
+'''
 
 import os
 import time 

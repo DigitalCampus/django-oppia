@@ -1,3 +1,10 @@
+'''
+ Checks the media download urls to ensure they are valid links
+ 
+ For full instructions, see the documentation at 
+ https://oppiamobile.readthedocs.org/en/latest/
+'''
+
 import urllib2
 import time 
 import django.db.models
