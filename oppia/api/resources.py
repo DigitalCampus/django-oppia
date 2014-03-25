@@ -593,6 +593,14 @@ class BadgesResource(ModelResource):
         authorization = ReadOnlyAuthorization()
         always_return_data = True
         
+    def dehydrate(self, bundle):
+        if bundle.request.is_secure():
+            prefix = 'https://'
+        else:
+            prefix = 'http://'
+        bundle.data['default_icon'] = prefix + bundle.request.META['SERVER_NAME'] + bundle.data['default_icon']
+        return bundle
+    
 class AwardsResource(ModelResource):
     badge = fields.ForeignKey(BadgesResource, 'badge', full=True, null=True)
     badge_icon = fields.CharField(attribute='_get_badge', readonly=True)
