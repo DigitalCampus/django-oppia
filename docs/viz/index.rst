@@ -3,6 +3,11 @@
 Visualizations
 ===============
 
+.. toctree::
+   :maxdepth: 1
+   
+   user_map
+
 Creating visualisations of the data in OppiaMobile is a work-in-progress, 
 currently there are 2 main visualisations available:
 
