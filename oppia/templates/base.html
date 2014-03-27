@@ -6,7 +6,13 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <META name="description" content="OppiaMobile learning"/> 
 	<META name="keywords" content="oppia, oppiamobile, oppia-mobile, quiz, assessment, mobile, android, learning, video, media"/> 
-    <link href="{{ STATIC_URL }}oppia/style.css" rel="stylesheet" type="text/css"/>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap 101 Template</title>
+
+    <!-- Bootstrap -->
+    <link href="{{ STATIC_URL }}oppia/bootstrap-3.1.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="{{ STATIC_URL }}oppia/images/favicon.ico"/>	
     {% block extra_styles %}
     {% endblock extra_styles %}
@@ -26,6 +32,10 @@
 </div>
 
 {% include "includes/footer.html" %}
+
+<script src="{{ STATIC_URL }}oppia/js/jquery-1.11.0.min.js"></script>
+<script src="{{ STATIC_URL }}oppia/bootstrap-3.1.1/js/bootstrap.min.js"></script>
+<script src="../../assets/js/docs.min.js"></script>
 {% if OPPIA_GOOGLE_ANALYTICS_ENABLED %}
 	<script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
