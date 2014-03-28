@@ -138,3 +138,13 @@ a:hover, a:focus {
   display: inline-block;
   border-radius: 50%;
 }
+
+/*
+ * Forms
+ */
+ 
+.form-control:focus {
+	border-color: #a5c727;
+	box-shadow: 0 1px 1px rgba(0,0,0,0.075) inset, 0 0 8px rgba(165,199,39,0.6);
+	outline: 0 none;
+}

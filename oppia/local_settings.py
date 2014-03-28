@@ -23,6 +23,8 @@ def modify(settings):
          r'^badges/api/',                # allow any URL under badges/api/* - auth handled by api_key
     ) 
     
+    settings['CRISPY_TEMPLATE_PACK'] = 'bootstrap3'
+    
     settings['OPPIA_POINTS'] = {
         'REGISTER':100,                             # given when user first registers
         'QUIZ_ATTEMPT_OWNER':5,                     # given to the quiz owner when another user attempts their quiz 

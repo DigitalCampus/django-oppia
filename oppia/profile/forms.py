@@ -1,7 +1,14 @@
+# oppia/profile/forms.py
+
 from django import forms
+from django.core.urlresolvers import reverse
 from django.core.validators import validate_email
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
+
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit, Layout
+from crispy_forms.bootstrap import StrictButton
 
 class RegisterForm(forms.Form):
     username = forms.CharField(max_length=30, 
@@ -32,6 +39,23 @@ class RegisterForm(forms.Form):
                                 min_length=2,
                                 required=True)
 
+    def __init__(self, *args, **kwargs):
+        super(RegisterForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_action = reverse('profile_register')
+        self.helper.form_class = 'form-horizontal'
+        self.helper.label_class = 'col-lg-2'
+        self.helper.field_class = 'col-lg-4'
+        self.helper.layout = Layout(
+            'username',
+            'email',
+            'password',
+            'password_again',
+            'first_name',
+            'last_name',
+            StrictButton(_(u'Register'), css_class='btn-default'),
+        )
+        
     def clean(self):
         cleaned_data = self.cleaned_data
         email = cleaned_data.get("email")
