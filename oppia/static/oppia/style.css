@@ -11,6 +11,16 @@ body {
 }
 
 
+a {
+    color: #495525;
+    text-decoration: none;
+}
+
+a:hover, a:focus {
+    color: #495525;
+    text-decoration: underline;
+}
+
 /*
  * Global add-ons
  */
@@ -73,9 +83,14 @@ body {
   padding-left: 20px;
   color: #495525;
 }
+.nav-sidebar > .text {
+  color: #495525;
+  padding: 10px 20px;
+}
+
 .nav-sidebar > .active > a {
   color: #fff;
-  background-color: #428bca;
+  background-color: #77A240;
 }
 
 .nav > li > a:hover {

@@ -45,5 +45,6 @@ setup(
         "south >= 0.8.4",
 	    "django-tastypie >= 0.11.0",
         "django-tablib >= 0.9.11",
+        "django-crispy-forms >= 1.4.0",
     ],
 )

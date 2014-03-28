@@ -21,8 +21,6 @@ Installation
 	      INSTALLED_APPS = (
 	          ...
 	          'oppia',
-	          'oppia.quiz',
-	          'oppia.viz'
 	      )
 	* Add the following code::
 	

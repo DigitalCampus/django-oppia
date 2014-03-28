@@ -8,14 +8,18 @@
 {% endif %}
 
 
-<form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+<form class="form-horizontal" role="form" method="post" action="{% url 'django.contrib.auth.views.login' %}">
 {% csrf_token %}
 	<div class="errorWrapper">{{ form.non_field_errors }}</div>
-	<div class="fieldWrapper">
+	<div class="form-group">
 		<div class="fieldErrorWrapper">{{ form.username.errors }}</div>
-		<div class="fieldLabelWrapper">{% trans 'form_field_username' %}</div>
-		<div class="fieldInputWrapper">{{ form.username }}</div>
+		<label for="inputEmail3" class="col-sm-2 control-label">{% trans 'form_field_username' %}</label>
+		<div class="col-sm-10">
+			{{ form.username }}
+			<!-- input type="email" class="form-control" id="inputEmail3"/ -->
+		</div>
 	</div>
+
 	<div class="fieldWrapper">
 		<div class="fieldErrorWrapper">{{ form.password.errors }}</div>
 		<div class="fieldLabelWrapper">{% trans 'form_field_password' %}</div>
