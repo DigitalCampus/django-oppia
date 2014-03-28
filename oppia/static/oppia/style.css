@@ -1,5 +1,8 @@
 /*
  * Base structure
+ #495525 - DC dark green r73,g85,b37
+ #77A240 - DC mid green r119,g162, b64
+ #a5c727 - DC light green r165,g199,b39
  */
 
 /* Move down content because we have a fixed navbar that is 50px tall */
@@ -68,12 +71,21 @@ body {
 .nav-sidebar > li > a {
   padding-right: 20px;
   padding-left: 20px;
+  color: #495525;
 }
 .nav-sidebar > .active > a {
   color: #fff;
   background-color: #428bca;
 }
 
+.nav > li > a:hover {
+  background-color: #77A240;
+  color: #fff;
+}
+.nav > li > a:focus {
+  background-color: #77A240;
+  color: #fff;
+}
 
 /*
  * Main content

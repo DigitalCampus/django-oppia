@@ -31,11 +31,11 @@
 <div class="container-fluid">
      <div class="row">
 	        <div class="col-sm-3 col-md-2 sidebar">
+	          {% if user.is_authenticated %}
 	          <ul class="nav nav-sidebar">
-	            <li class="active"><a href="#">Overview</a></li>
-	            <li><a href="#">Reports</a></li>
-	            <li><a href="#">Analytics</a></li>
-	            <li><a href="#">Export</a></li>
+	            <li class="active"><a href="{% url 'oppia_home' %}">{% trans 'Dashboard' %}</a></li>
+	            <li><a href="{% url 'oppia_course' %}">{% trans 'Courses' %}</a></li>
+	            <li><a href="{% url 'oppia_upload' %}">{% trans 'Upload' %}</a></li>
 	          </ul>
 	          <ul class="nav nav-sidebar">
 	            <li><a href="">Nav item</a></li>
@@ -44,6 +44,7 @@
 	            <li><a href="">Another nav item</a></li>
 	            <li><a href="">More navigation</a></li>
 	          </ul>
+	          {% endif %}
 	          <ul class="nav nav-sidebar">
 		        <li><a href="http://oppia-mobile.org">{% trans 'footer_about' %}</a></li>
 		        <li><a href="{% url 'oppia_terms' %}">{% trans 'footer_terms' %}</a></li>

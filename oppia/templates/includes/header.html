@@ -13,7 +13,6 @@
 	  </div>
 	  <div class="navbar-collapse collapse">
 		    <ul class="nav navbar-nav navbar-right">
-		      <li><a href="{% url 'oppia_home' %}">{% trans 'menu_home' %}</a></li>
 		      {% if user.is_authenticated %}
 		        <li><a href="{% url 'oppia_course' %}">{% trans 'menu_courses' %}</a></li>
 		        <li><a href="{% url 'oppia_upload' %}">{% trans 'menu_upload' %}</a></li>
@@ -21,38 +20,16 @@
 		       {% if user.is_staff %}
 		        <li><a href="{% url 'oppia_viz_summary' %}">{% trans 'menu_visualisations' %}</a></li>
 		       {% endif %}
-		       <!-- li>
 		       {% if user.is_authenticated %}
-		            {% url 'django.contrib.auth.views.logout' as url_logout %}
-		            {% url 'profile_edit' as url_edit %}
-		            {% trans 'Welcome' %}, <a href="{{ url_edit }}">{{ user.first_name }}</a> 
-		            {{ user|gravatar:32 }}
-		            <span class="points" title="{{ points }} {% trans "points" %}"><a href="{% url 'profile_points' %}">{{ points }}</a></span>
-		            <span class="badges" title="{{ badges }} {% trans "badges" %}"><a href="{% url 'profile_badges' %}"><img src="{{ STATIC_URL }}oppia/images/badge.png" alt="{{ badges }} {% trans "badges" %}"/>{{ badges }}</a></span> <a href="{{ url_logout }}">Logout</a>
+		            <li><a href="{% url 'profile_edit' %}">{% trans 'Profile' %}</a></li>
+		            <li><a href="{% url 'django.contrib.auth.views.logout' %}">{% trans 'Logout' %}</a></li>
 		        {% else %}
-		            {% url 'django.contrib.auth.views.login' as url_login %}
-		            {% url 'profile_register' as url_register %}
-		            {% blocktrans with request.path as rpath %}Welcome, please <a href="{{ url_login }}?next={{ rpath }}">Login</a>{% endblocktrans %}
+		            <li><a href="{% url 'django.contrib.auth.views.login' %}?next={{ request.path }}">{% trans 'Login' %}</a></li>
 		           	{% if OPPIA_ALLOW_SELF_REGISTRATION %}
-		           		{% blocktrans %} or <a href="{{ url_register }}">Register</a>{% endblocktrans %}
+		           		<li><a href="{% url 'profile_register' %}">{% trans 'Register' %}</a></li>
 		           	{% endif %}     
 		        {% endif %}
-		        </li -->
 		    </ul>
-		    <form class="navbar-form navbar-right" action="{% url 'profile_set_language' %}" method="post">
-		       {% csrf_token %}
-		       <select name="language">
-		           {% get_language_info_list for LANGUAGES as languages %}
-		           {% for language in languages %}
-		               {% if language.code == LANGUAGE_CODE %}
-		                   <option value="{{ language.code }}" selected="selected">{{ language.name_local }}</option>
-		               {% else %}
-		                   <option value="{{ language.code }}">{{ language.name_local }}</option>
-		               {% endif %}
-		           {% endfor %}
-		       </select>
-		       <input type="submit" value="Go" />
-		    </form>
 	  </div>
 </div>
 {% endblock content %}
