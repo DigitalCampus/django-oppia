@@ -53,6 +53,8 @@ def modify(settings):
                                           
     settings['OPPIA_ALLOW_SELF_REGISTRATION'] = True    # turns on/off ability for users to self register
     
+    settings['OPPIA_SHOW_GRAVATARS'] = True
+    
     settings['OPPIA_STAFF_ONLY_UPLOAD'] = True          # prevents anyone without is_staff status being able to upload courses,
                                                         # setting to False allows any registered user to upload a course
     

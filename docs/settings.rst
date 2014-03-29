@@ -76,6 +76,14 @@ Default: ``False``
 Determines if teachers on the course will earn points or not for activity within
 this course. This setting is ignored if ``OPPIA_POINTS_ENABLED`` is ``False``.
 
+OPPIA_SHOW_GRAVATARS
+--------------------------------
+
+Default: ``True``
+
+Determines if a users gravatar will appear next to their name (in the 
+leaderboard/activity reports etc)
+
 OPPIA_STAFF_EARN_POINTS
 -----------------------
 

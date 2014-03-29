@@ -29,14 +29,16 @@
 </div>
 
 <div class="container-fluid">
+     {% if user.is_authenticated %}
      <div class="row">
 	        <div class="col-sm-3 col-md-2 sidebar">
-	          {% if user.is_authenticated %}
+	          
 	          <ul class="nav nav-sidebar">
-	            <li class="active"><a href="{% url 'oppia_home' %}">{% trans 'Dashboard' %}</a></li>
+	            <li><a href="{% url 'oppia_home' %}">{% trans 'Dashboard' %}</a></li>
 	            <li><a href="{% url 'oppia_course' %}">{% trans 'Courses' %}</a></li>
 	            <li><a href="{% url 'oppia_upload' %}">{% trans 'Upload' %}</a></li>
 	          </ul>
+	          {% if nav %}
 	          <ul class="nav nav-sidebar">
 	            <li><a href="">Nav item</a></li>
 	            <li><a href="">Nav item again</a></li>
@@ -53,6 +55,7 @@
 	          </ul>
 	        </div>
     </div> <!--  end row -->
+    {% endif %}
 	<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           
 {% block content %}

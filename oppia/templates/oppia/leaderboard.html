@@ -12,7 +12,13 @@
        		<div class="lbrank">{{ forloop.counter0|get_index:page.start_index }}</div>
        		<div class="lbpoints"><span class="points" title="{{ user.total  }} {% trans 'points' %}">{{ user.total }}</span>
        		<span class="badges" title="{{ user.badges }} {% trans 'badges' %}"><img src="{{ STATIC_URL }}oppia/images/badge.png" alt="{{ user.badges }} {% trans 'badges' %}"/>{{ user.badges }}</span></div>  
-       		<div class="lbname">{{ user|gravatar:24 }} {{ user.first_name }} {{ user.last_name }}</div>
+       		<div class="lbname">
+       			{% if OPPIA_SHOW_GRAVATARS %}
+       				{{ user|gravatar:24 }}
+       			{% endif %} 
+       			{{ user.first_name }} 
+       			{{ user.last_name }}
+       		</div>
        		<div style="clear:both"></div>  	
        	</div>
     {% endfor %}
