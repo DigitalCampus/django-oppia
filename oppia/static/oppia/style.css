@@ -148,3 +148,16 @@ a:hover, a:focus {
 	box-shadow: 0 1px 1px rgba(0,0,0,0.075) inset, 0 0 8px rgba(165,199,39,0.6);
 	outline: 0 none;
 }
+
+.btn-primary {
+    background-color: #77A240;
+    border-color: #495525;
+    color: #FFFFFF;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active,
+	.btn-primary.active, .open .dropdown-toggle.btn-primary {
+    background-color: #77A240;
+    border-color: #495525;
+    color: #FFFFFF;
+}

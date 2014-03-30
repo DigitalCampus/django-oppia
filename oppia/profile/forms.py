@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Layout
+from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Div
 from crispy_forms.bootstrap import StrictButton
 
 class RegisterForm(forms.Form):
@@ -47,14 +47,18 @@ class RegisterForm(forms.Form):
         self.helper.label_class = 'col-lg-2'
         self.helper.field_class = 'col-lg-4'
         self.helper.layout = Layout(
-            'username',
-            'email',
-            'password',
-            'password_again',
-            'first_name',
-            'last_name',
-            StrictButton(_(u'Register'), css_class='btn-default'),
+                                    'username',
+                                    'email',
+                                    'password',
+                                    'password_again',
+                                    'first_name',
+                                    'last_name',
+                                Div(
+                                   Submit('submit', _(u'Register'), css_class='btn btn-default'),
+                                   css_class='col-lg-offset-2 col-lg-4',
+                                ),
         )
+
         
     def clean(self):
         cleaned_data = self.cleaned_data
