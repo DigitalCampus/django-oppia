@@ -1,8 +1,8 @@
 Change Log
 ============
 
-v0.3.0 - released: XXXXX
-----------------------------
+v0.3.0 - released: 30 Mar 2014
+-------------------------------
 * Moved to beta development status
 * Updated oppia-schema.xsd 
 * https://github.com/DigitalCampus/django-oppia/issues/131 - update for for visualizations
