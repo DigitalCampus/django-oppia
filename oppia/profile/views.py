@@ -84,7 +84,7 @@ def reset(request):
     else:
         form = ResetForm() # An unbound form
 
-    return render(request, 'oppia/profile/reset.html', {'form': form,})
+    return render(request, 'oppia/profile/form.html', {'form': form,'title': _(u'Reset password')})
 
 def edit(request):
     key = ApiKey.objects.get(user = request.user)
