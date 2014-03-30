@@ -24,7 +24,7 @@
 		            <li><a href="{% url 'profile_edit' %}">{% trans 'Profile' %}</a></li>
 		            <li><a href="{% url 'django.contrib.auth.views.logout' %}">{% trans 'Logout' %}</a></li>
 		        {% else %}
-		            <li><a href="{% url 'django.contrib.auth.views.login' %}?next={{ request.path }}">{% trans 'Login' %}</a></li>
+		            <li><a href="{% url 'profile_login' %}?next={{ request.path }}">{% trans 'Login' %}</a></li>
 		           	{% if OPPIA_ALLOW_SELF_REGISTRATION %}
 		           		<li><a href="{% url 'profile_register' %}">{% trans 'Register' %}</a></li>
 		           	{% endif %}     

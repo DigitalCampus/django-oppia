@@ -6,13 +6,30 @@ from django.contrib.auth import (authenticate, login, views)
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.utils.translation import ugettext as _
 
 from oppia.models import Points,Award, AwardCourse, Course, UserProfile
-from oppia.profile.forms import RegisterForm, ResetForm, ProfileForm
+from oppia.profile.forms import LoginForm, RegisterForm, ResetForm, ProfileForm
 from tastypie.models import ApiKey
+
+
+def login_view(request):
+    username = password = ''
+    if request.POST:
+        form = LoginForm(request.POST)
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user is not None and user.is_active:
+            login(request,user)
+            return HttpResponseRedirect(reverse('oppia_home'))
+    else:
+        form = LoginForm()
+        
+    return render(request, 'oppia/profile/login.html',{'username': username, 'form': form })
 
 def register(request):
     if not settings.OPPIA_ALLOW_SELF_REGISTRATION:
