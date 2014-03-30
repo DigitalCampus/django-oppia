@@ -29,7 +29,7 @@ def login_view(request):
     else:
         form = LoginForm()
         
-    return render(request, 'oppia/profile/login.html',{'username': username, 'form': form })
+    return render(request, 'oppia/profile/form.html',{'username': username, 'form': form, 'title': _(u'Login')})
 
 def register(request):
     if not settings.OPPIA_ALLOW_SELF_REGISTRATION:
@@ -60,7 +60,7 @@ def register(request):
     else:
         form = RegisterForm() # An unbound form
 
-    return render(request, 'oppia/profile/register.html', {'form': form,})
+    return render(request, 'oppia/profile/form.html', {'form': form, 'title': _(u'Register')})
 
 def reset(request):
     if request.method == 'POST': # if form submitted...

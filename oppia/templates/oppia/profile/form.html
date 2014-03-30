@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load crispy_forms_tags %}
-{% crispy register_form register_form.helper %}
 
 {% block content %}
 
-<h2>{% trans 'page_title_register' %}</h2>
+<h2>{{ title }}</h2>
 
 {% crispy form %}
 
