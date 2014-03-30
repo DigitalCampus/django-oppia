@@ -1,6 +1,12 @@
 Change Log
 ============
 
+v0.4.0 - released: XXXXX
+----------------------------
+* Moved to using BootStrap for design
+* https://github.com/DigitalCampus/django-oppia/issues/119 - using gravatars now optional
+
+
 v0.3.0 - released: XXXXX
 ----------------------------
 * Moved to beta development status

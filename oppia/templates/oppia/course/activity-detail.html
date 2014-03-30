@@ -39,7 +39,12 @@ onload="init();"
 	{% for t in page.object_list %}
 		<div id='{{ t.id }}' class='tablelist' name='trackerlist'> 	
 			<div class='tablecell'>{{ t.tracker_date|date:"d M Y H:i" }}</a></div>
-			<div class='tablecell'>{{ t.user|gravatar:24 }} {{ t.user.first_name }} {{ t.user.last_name }}</div>
+			<div class='tablecell'>
+				{% if OPPIA_SHOW_GRAVATARS %}
+       				{{ t.user|gravatar:24 }}
+       			{% endif %} 
+       			{{ t.user.first_name }} 
+       			{{ t.user.last_name }}</div>
 			<div class='tablecell'>{{ t.type }}</div>
 			<div class='tabletitle'>
 				{% if t.get_media_title %}
