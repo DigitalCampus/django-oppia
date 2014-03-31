@@ -174,3 +174,8 @@ a:hover, a:focus {
 	margin-top:50px;
 	padding-top: 20px;
 }
+
+tr.hover:hover {
+    background-color: yellow;
+    cursor: pointer;
+}

@@ -15,6 +15,7 @@
     
     <link href="{{ STATIC_URL }}oppia/style.css" rel="stylesheet"/>
     <link rel="shortcut icon" href="{{ STATIC_URL }}oppia/images/favicon.ico"/>	
+    <script src="{{ STATIC_URL }}oppia/js/jquery-1.11.0.min.js"></script>
     {% block extra_styles %}
     {% endblock extra_styles %}
 	
@@ -65,7 +66,6 @@
   </div>
 </div>
     
-<script src="{{ STATIC_URL }}oppia/js/jquery-1.11.0.min.js"></script>
 <script src="{{ STATIC_URL }}oppia/bootstrap-3.1.1/js/bootstrap.min.js"></script>
 {% if OPPIA_GOOGLE_ANALYTICS_ENABLED %}
 	<script>

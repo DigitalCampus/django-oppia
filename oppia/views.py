@@ -443,9 +443,9 @@ def get_nav(course, user):
     nav.append({'url':reverse('oppia_recent_activity',args=(course.id,)), 'title':course.get_title(), 'class':'bold'})
     if user.is_staff or user == course.owner:
         nav.append({'url':reverse('oppia_recent_activity_detail',args=(course.id,)), 'title':_(u'Activity Detail')})
-        if course.has_quizzes:
+        if course.has_quizzes():
             nav.append({'url':reverse('oppia_course_quiz',args=(course.id,)), 'title':_(u'Course Quizzes')})
-        if course.has_feedback:
+        if course.has_feedback():
             nav.append({'url':reverse('oppia_course_feedback',args=(course.id,)), 'title':_(u'Course Feedback')})
     return nav
     
