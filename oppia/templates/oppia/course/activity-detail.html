@@ -23,7 +23,7 @@ onload="init();"
 <h2><a href="{% url 'oppia_recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a></h2>
 <p><i>{% trans 'Tags:' %} {{ course.get_tags}}</i></p>
 
-{% if page.object_list.count > 0 %}
+{% if page.object_list %}
 	{% include "oppia/includes/page_navigator.html" %}
     
     <div class="table-responsive">
@@ -75,7 +75,6 @@ onload="init();"
 			{% endfor %}
 			</tbody>
  		</table>
-	</div> 
 			</td>
 		</tr>
 	{% endfor %}
