@@ -6,18 +6,24 @@
 <h2><a href="{% url 'oppia_recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a></h2>
 <p><i>{% trans 'Tags:' %} {{ course.get_tags}}</i></p>
 
-<div class="tableheader">
-		<div class='tabletitle'>{% trans 'table_header_quiz_title' %}</a></div>
-		<div class='tablecell'>{% trans 'table_header_quiz_no_attempts' %}</div>
-		<div style='clear:both'></div>
-	</div>
+
+<div class="table-responsive">
+    <table class="table">
+    	 <thead>
+           <tr>
+             <th>{% trans 'table_header_quiz_title' %}</th>
+             <th>{% trans 'table_header_quiz_no_attempts' %}</th>
+           </tr>
+         </thead>
+         <tbody>
 	
 {% for q in quizzes %}
-	<div class="tablelist"> 	
-		<div class='tabletitle'><a href="{% url 'oppia_course_quiz_attempts' course.id q.id%}">{{ q.title }}</a></div>
-		<div class='tablecell'>{{ q.no_attempts }}</div>
-		<div style='clear:both'></div>
-	</div>
+	<tr id='{{ t.id }}' name="trackerlist" class="hover">
+		<td><a href="{% url 'oppia_course_quiz_attempts' course.id q.id%}">{{ q.title }}</a></td>
+		<td>{{ q.no_attempts }}</td>		
+	</tr>
 {% endfor %}
-
+		</tbody>
+	</table>
+</div> 
 {% endblock content %}
