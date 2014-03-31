@@ -13,7 +13,6 @@ from django.utils.translation import ugettext as _
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Button, Layout, Fieldset, ButtonHolder, Submit, Div, HTML
-from crispy_forms.bootstrap import StrictButton
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=30, 

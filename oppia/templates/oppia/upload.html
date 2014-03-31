@@ -1,35 +1,13 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% block content %}
-<h2>{% trans 'page_title_upload_course' %}</h2>
-{% include "includes/messages.html" %}	
-<form action="{% url 'oppia_upload' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
-    <div class="errorWrapper">{{ form.non_field_errors }}</div>
-    <div class="fieldWrapper">
-        <div class="fieldErrorWrapper">{{ form.course_file.errors }}</div>
-        <div class="fieldLabelWrapper">
-        	<label for="id_course_file">{% trans 'form_field_course_file' %}</label>
-        </div>
-        <div class="fieldInputWrapper">{{ form.course_file }}</div>
-        <div class="fieldInputMessage">{{ form.course_file.help_text }}</div>
-    </div>
-    <div class="fieldWrapper">
-		<div class="fieldErrorWrapper">{{ form.tags.errors }}</div>
-		<div class="fieldLabelWrapper">{% trans 'form_field_tags' %}</div>
-		<div class="fieldInputWrapper">{{ form.tags }}</div>
-		<div class="fieldInputMessage">{{ form.tags.help_text }}</div>
-	</div>
-	<div class="fieldWrapper">
-		<div class="fieldErrorWrapper">{{ form.is_draft.errors }}</div>
-		<div class="fieldLabelWrapper">{% trans 'form_field_is_draft' %}</div>
-		<div class="fieldInputWrapper">{{ form.is_draft }}</div>
-		<div class="fieldInputMessage">{{ form.is_draft.help_text }}</div>
-	</div>
-    <div class="fieldWrapper">
-        <div class="fieldLabelWrapper">&nbsp;</div>
-        <div class="fieldInputWrapper"><input type="submit" value="{% trans 'button_course_upload' %}" /></div>
-    </div>
 
-</form>
-    
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<h2>{{ title }}</h2>
+{% include "includes/messages.html" %}	
+
+{% crispy form %}
+
 {% endblock %}

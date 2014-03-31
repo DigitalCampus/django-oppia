@@ -104,7 +104,7 @@ def upload(request):
     else:
         form = UploadCourseForm() # An unbound form
 
-    return render(request, 'oppia/upload.html', {'form': form,})
+    return render(request, 'oppia/upload.html', {'form': form,'title':_(u'Upload Course')})
 
 def recent_activity(request,id):
     course = check_can_view(request, id)
