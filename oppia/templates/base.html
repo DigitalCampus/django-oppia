@@ -48,8 +48,11 @@
 	          {% endif %}
 	        </div>
     </div> <!--  end row -->
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    {% else %}
+    	<div class="main">
     {% endif %}
-	<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+	
           
 {% block content %}
 {% endblock content %}
@@ -57,13 +60,11 @@
 </div> <!--  end container -->
 
 <div id="footer">
-  <div class="container">
     <p class="text-muted">
     	<a href="http://oppia-mobile.org">{% trans 'footer_about' %}</a> |
     	<a href="{% url 'oppia_terms' %}">{% trans 'footer_terms' %}</a> |
     	{{ version }} &copy; {% now "Y" %} <a href="http://digital-campus.org">Digital Campus</a>
     </p>
-  </div>
 </div>
     
 <script src="{{ STATIC_URL }}oppia/bootstrap-3.1.1/js/bootstrap.min.js"></script>
