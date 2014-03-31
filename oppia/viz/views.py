@@ -52,8 +52,6 @@ def summary_view(request):
     languages = []
     other_languages = 0
     for hbl in hit_by_language:
-        print hbl['lang']
-        print hbl['total_hits']
         if i < 10:
             hits_percent = float(hbl['total_hits'] * 100.0/total_hits['total_hits'])
             languages.append({'lang':hbl['lang'],'hits_percent':hits_percent })
