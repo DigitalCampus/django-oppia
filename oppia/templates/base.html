@@ -47,12 +47,6 @@
 	            <li><a href="">More navigation</a></li>
 	          </ul>
 	          {% endif %}
-	          <ul class="nav nav-sidebar">
-		        <li><a href="http://oppia-mobile.org">{% trans 'footer_about' %}</a></li>
-		        <li><a href="{% url 'oppia_terms' %}">{% trans 'footer_terms' %}</a></li>
-		        <li><a href="http://digital-campus.org">Digital Campus</a></li>
-		        <li class="text">{{ version }} &copy; {% now "Y" %}</li>
-	          </ul>
 	        </div>
     </div> <!--  end row -->
     {% endif %}
@@ -63,6 +57,17 @@
 	</div> <!--  end main -->
 </div> <!--  end container -->
 
+<div id="footer">
+  <div class="container">
+    <p class="text-muted">
+    	<a href="http://oppia-mobile.org">{% trans 'footer_about' %}</a> |
+    	<a href="{% url 'oppia_terms' %}">{% trans 'footer_terms' %}</a> |
+    	<a href="http://digital-campus.org">Digital Campus</a> | 
+    	{{ version }} &copy; {% now "Y" %}
+    </p>
+  </div>
+</div>
+    
 <script src="{{ STATIC_URL }}oppia/js/jquery-1.11.0.min.js"></script>
 <script src="{{ STATIC_URL }}oppia/bootstrap-3.1.1/js/bootstrap.min.js"></script>
 {% if OPPIA_GOOGLE_ANALYTICS_ENABLED %}
