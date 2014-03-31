@@ -42,6 +42,9 @@ a:hover, a:focus {
     color: #fff;
 }
 
+.navbar-header > a > img {
+	margin-right: 5px;
+}
 .navbar-inverse .navbar-nav > li > a {
     color: #fff;
 }
