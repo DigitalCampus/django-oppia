@@ -11,6 +11,7 @@ from django.conf import settings
 from django.contrib.auth import (authenticate, logout, views)
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.core.urlresolvers import reverse
 from django.db.models import Q, Count
 from django.forms.formsets import formset_factory
 from django.http import HttpResponseRedirect, Http404, HttpResponse
@@ -58,8 +59,8 @@ def course_view(request):
             year = temp.strftime("%Y")
             
             count = Tracker.objects.filter(course = course, tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
-            course.activity.append([temp.strftime("%d %b %Y"),count])   
-    return render_to_response('oppia/course/course.html',{'course_list': course_list,}, context_instance=RequestContext(request))
+            course.activity.append([temp.strftime("%d %b %Y"),count])  
+    return render_to_response('oppia/course/course.html',{'course_list': course_list}, context_instance=RequestContext(request))
 
        
 def terms_view(request):
@@ -128,7 +129,8 @@ def recent_activity(request,id):
         
         dates.append([temp.strftime("%d %b %y"),count_activity])
     leaderboard = Points.get_leaderboard(10, course)
-    return render_to_response('oppia/course/activity.html',{'course': course,'data':dates, 'leaderboard':leaderboard}, context_instance=RequestContext(request))
+    nav = get_nav(course,request.user)
+    return render_to_response('oppia/course/activity.html',{'course': course,'nav': nav, 'data':dates, 'leaderboard':leaderboard}, context_instance=RequestContext(request))
 
 def recent_activity_detail(request,id):
     course = check_owner(request,id)
@@ -156,8 +158,9 @@ def recent_activity_detail(request,id):
             t.data_obj.append(['ip',t.ip])
     except (EmptyPage, InvalidPage):
         tracks = paginator.page(paginator.num_pages)
-        
-    return render_to_response('oppia/course/activity-detail.html',{'course': course,'page':tracks,}, context_instance=RequestContext(request))
+    
+    nav = get_nav(course, request.user) 
+    return render_to_response('oppia/course/activity-detail.html',{'course': course,'nav': nav, 'page':tracks,}, context_instance=RequestContext(request))
 
 
 def export_tracker_detail(request,id):
@@ -435,6 +438,17 @@ def check_can_view(request,id):
         raise Http404
     return course
 
+def get_nav(course, user):
+    nav = []
+    nav.append({'url':reverse('oppia_recent_activity',args=(course.id,)), 'title':course.get_title(), 'class':'bold'})
+    if user.is_staff or user == course.owner:
+        nav.append({'url':reverse('oppia_recent_activity_detail',args=(course.id,)), 'title':_(u'Activity Detail')})
+        if course.has_quizzes:
+            nav.append({'url':reverse('oppia_course_quiz',args=(course.id,)), 'title':_(u'Course Quizzes')})
+        if course.has_feedback:
+            nav.append({'url':reverse('oppia_course_feedback',args=(course.id,)), 'title':_(u'Course Feedback')})
+    return nav
+    
 def leaderboard_view(request):
     lb = Points.get_leaderboard(100)
     paginator = Paginator(lb, 25) # Show 25 contacts per page
@@ -463,7 +477,8 @@ def course_quiz(request,course_id):
             quizzes.append(q)
         except Quiz.DoesNotExist:
             pass
-    return render_to_response('oppia/course/quizzes.html',{'course': course,'quizzes':quizzes}, context_instance=RequestContext(request))
+    nav = get_nav(course,request.user)
+    return render_to_response('oppia/course/quizzes.html',{'course': course, 'nav': nav, 'quizzes':quizzes}, context_instance=RequestContext(request))
 
 def course_quiz_attempts(request,course_id,quiz_id):
     #get the quiz digests for this course
@@ -486,8 +501,8 @@ def course_quiz_attempts(request,course_id,quiz_id):
     except (EmptyPage, InvalidPage):
         tracks = paginator.page(paginator.num_pages)
     
-     
-    return render_to_response('oppia/course/quiz-attempts.html',{'course': course,'quiz':quiz, 'page':attempts}, context_instance=RequestContext(request))
+    nav = get_nav(course,request.user)
+    return render_to_response('oppia/course/quiz-attempts.html',{'course': course,'nav': nav, 'quiz':quiz, 'page':attempts}, context_instance=RequestContext(request))
 
 def course_feedback(request,course_id):
     course = check_owner(request,course_id)
@@ -499,7 +514,8 @@ def course_feedback(request,course_id):
             feedback.append(q)
         except Quiz.DoesNotExist:
             pass
-    return render_to_response('oppia/course/feedback.html',{'course': course,'feedback':feedback}, context_instance=RequestContext(request))
+    nav = get_nav(course,request.user)
+    return render_to_response('oppia/course/feedback.html',{'course': course,'nav': nav, 'feedback':feedback}, context_instance=RequestContext(request))
 
 def course_feedback_responses(request,course_id,quiz_id):
     #get the quiz digests for this course
@@ -521,5 +537,5 @@ def course_feedback_responses(request,course_id,quiz_id):
             a.responses = QuizAttemptResponse.objects.filter(quizattempt=a)                
     except (EmptyPage, InvalidPage):
         tracks = paginator.page(paginator.num_pages)
-        
-    return render_to_response('oppia/course/feedback-responses.html',{'course': course,'quiz':quiz, 'page':attempts}, context_instance=RequestContext(request))
+    nav = get_nav(course,request.user)  
+    return render_to_response('oppia/course/feedback-responses.html',{'course': course,'nav': nav, 'quiz':quiz, 'page':attempts}, context_instance=RequestContext(request))

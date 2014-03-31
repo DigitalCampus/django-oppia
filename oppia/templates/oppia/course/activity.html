@@ -31,11 +31,11 @@
 		{% endfor %}
 
         var chart = new google.visualization.LineChart(document.getElementById('attempts_chart_div'));
-        chart.draw(data, {	width: 600, 
+        chart.draw(data, {	width: "100%", 
                 			height: 400,
                 			vAxis: {title: "{% trans 'No. attempts' %}"},
                 			pointSize:5,
-                			chartArea:{left:50,top:50,width:"70%",height:"80%"},
+                			chartArea:{left:50,top:50,width:"70%",height:"70%"},
                 			backgroundColor: 'transparent',
                 			legend: {position:'right'}
 							});
@@ -46,32 +46,12 @@
 
 <h2>{{ course.title|title_lang:LANGUAGE_CODE }}</h2>
 <p><i>{% trans 'Tags:' %} {{ course.get_tags}}</i></p>
-
-{% if user.is_staff or user == course.owner %}
-	 <a href="{% url 'oppia_recent_activity_detail' course.id %}">{% trans 'course_activity_detail'%}</a>
-	 |
-	 <a href="{% url 'oppia_schedules' course.id %}">{% trans 'course_manage_schedules'%}</a>
-	 |
-	 <a href="{% url 'oppia_cohorts' course.id %}">{% trans 'course_manage_cohorts'%}</a>
-	 {% if course.has_quizzes %}
-		 |
-		 <a href="{% url 'oppia_course_quiz' course.id %}">{% trans 'course_quizzes'%}</a>
-	 {% endif %}
-	 {% if course.has_feedback %}
-		 |
-		 <a href="{% url 'oppia_course_feedback' course.id %}">{% trans 'course_feedback'%}</a>
-	 {% endif %}
-{% endif %}
 	
-<div style="clear:both;"></div> 
-<div class="homewidget" style="width:300px;">
-	<h3>{% trans 'home_leaderboard' %}</h3>
-	{% include "oppia/includes/leaderboard.html" %}
-	</div>
-<div class="homewidget">
-	<h3>{% trans 'courses_recent_activity' %}</h3>
-	<div id="attempts_chart_div" class="graph">{% trans 'graph_generating'%}</div>
-</div>
-<div style="clear:both;"></div>
+<h3>{% trans 'courses_recent_activity' %}</h3>
+<div id="attempts_chart_div" class="graph">{% trans 'graph_generating'%}</div>
 
+{% if leaderboard %}
+<h3>{% trans 'home_leaderboard' %}</h3>
+{% include "oppia/includes/leaderboard.html" %}
+{% endif %}
 {% endblock %}
