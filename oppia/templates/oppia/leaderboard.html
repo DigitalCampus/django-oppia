@@ -6,23 +6,37 @@
 
 {% if page.object_list.count > 0  %}
 	{% include "oppia/includes/page_navigator.html" %}
-       
+    <div class="table-responsive">
+         <table class="table table-striped">
+         	 <thead>
+                <tr>
+                  <th>#</th>
+                  <th>{% trans 'User' %}</th>
+                  <th>{% trans 'Points' %}</th>
+                  <th>{% trans 'Badges' %}</th>
+                </tr>
+              </thead>
+              <tbody>
+              
 	{% for user in page.object_list %}
-       	<div class="leaderboard">
-       		<div class="lbrank">{{ forloop.counter0|get_index:page.start_index }}</div>
-       		<div class="lbpoints"><span class="points" title="{{ user.total  }} {% trans 'points' %}">{{ user.total }}</span>
-       		<span class="badges" title="{{ user.badges }} {% trans 'badges' %}"><img src="{{ STATIC_URL }}oppia/images/badge.png" alt="{{ user.badges }} {% trans 'badges' %}"/>{{ user.badges }}</span></div>  
-       		<div class="lbname">
-       			{% if OPPIA_SHOW_GRAVATARS %}
-       				{{ user|gravatar:24 }}
-       			{% endif %} 
-       			{{ user.first_name }} 
-       			{{ user.last_name }}
-       		</div>
-       		<div style="clear:both"></div>  	
-       	</div>
+		<tr>
+                  <td>{{ forloop.counter0|get_index:page.start_index }}</td>
+                  <td>{% if OPPIA_SHOW_GRAVATARS %}
+       						{{ user|gravatar:24 }}
+	       				{% endif %} 
+	    				{{ user.first_name }} 
+	    				{{ user.last_name }}</td>
+                  <td><span title="{{ user.total  }} {% trans 'points' %}">{{ user.total }}</span></td>
+                  <td>
+                  	{% if user.badges > 0 %}
+                  		<span class="badges" title="{{ user.badges }} {% trans 'badges' %}"><img src="{{ STATIC_URL }}oppia/images/badge.png" alt="{{ user.badges }} {% trans 'badges' %}"/> x {{ user.badges }}</span>
+                  	{% endif %}
+                  </td>
+                </tr>
     {% endfor %}
-	    
+	    	</tbody>
+ 		</table>
+	</div>
 	{% include "oppia/includes/page_navigator.html" %}
 {% endif %}
 
