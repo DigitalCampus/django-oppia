@@ -29,7 +29,7 @@ def login_view(request):
     else:
         form = LoginForm()
         
-    return render(request, 'oppia/profile/form.html',{'username': username, 'form': form, 'title': _(u'Login')})
+    return render(request, 'oppia/form.html',{'username': username, 'form': form, 'title': _(u'Login')})
 
 def register(request):
     if not settings.OPPIA_ALLOW_SELF_REGISTRATION:
@@ -60,7 +60,7 @@ def register(request):
     else:
         form = RegisterForm() # An unbound form
 
-    return render(request, 'oppia/profile/form.html', {'form': form, 'title': _(u'Register')})
+    return render(request, 'oppia/form.html', {'form': form, 'title': _(u'Register')})
 
 def reset(request):
     if request.method == 'POST': # if form submitted...
@@ -84,12 +84,12 @@ def reset(request):
     else:
         form = ResetForm() # An unbound form
 
-    return render(request, 'oppia/profile/form.html', {'form': form,'title': _(u'Reset password')})
+    return render(request, 'oppia/form.html', {'form': form,'title': _(u'Reset password')})
 
 def edit(request):
     key = ApiKey.objects.get(user = request.user)
     if request.method == 'POST':
-        form = ProfileForm(request.POST,request=request)
+        form = ProfileForm(request.POST)
         if form.is_valid():
             # update basic data
             email = form.cleaned_data.get("email")
@@ -113,7 +113,7 @@ def edit(request):
                                     'email':request.user.email,
                                     'first_name':request.user.first_name,
                                     'last_name':request.user.last_name,
-                                    'api_key': key.key},request=request)
+                                    'api_key': key.key})
         
     return render(request, 'oppia/profile/profile.html', {'form': form,})
 

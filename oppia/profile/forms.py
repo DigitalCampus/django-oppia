@@ -1,10 +1,14 @@
 # oppia/profile/forms.py
+import hashlib
+import urllib
 
 from django import forms
+from django.conf import settings
 from django.contrib.auth import (authenticate, login, views)
 from django.core.urlresolvers import reverse
 from django.core.validators import validate_email
 from django.contrib.auth.models import User
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
 from crispy_forms.helper import FormHelper
@@ -94,7 +98,6 @@ class RegisterForm(forms.Form):
                                 ),
         )
 
-        
     def clean(self):
         cleaned_data = self.cleaned_data
         email = cleaned_data.get("email")
@@ -171,14 +174,76 @@ class ProfileForm(forms.Form):
                                 required=True)
     
     def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop("request")
         super(ProfileForm, self).__init__(*args, **kwargs)
+        if len(args) == 1:
+            email = args[0]['email']
+            username = args[0]['username']
+        else:
+            kw = kwargs.pop('initial')
+            email = kw['email'] 
+            username = kw['username'] 
+        self.helper = FormHelper()
+        self.helper.form_action = reverse('profile_edit')
+        self.helper.form_class = 'form-horizontal'
+        self.helper.label_class = 'col-lg-2'
+        self.helper.field_class = 'col-lg-4'
+        if settings.OPPIA_SHOW_GRAVATARS:
+            gravatar_url = "https://www.gravatar.com/avatar.php?"
+            gravatar_url += urllib.urlencode({
+                'gravatar_id':hashlib.md5(email).hexdigest(),
+                'size':64
+            })
+            self.helper.layout = Layout(
+                    Div(
+                        HTML("""<label class="control-label col-lg-2">"""+_(u'Photo') + """</label>"""),
+                        Div(
+                            HTML(mark_safe('<img src="{0}" alt="gravatar for {1}" class="gravatar" width="{2}" height="{2}"/>'.format(gravatar_url, username, 64))),
+                            HTML("""<br/>"""),
+                            HTML("""<a href="https://www.gravatar.com">"""+_(u'Update your gravatar')+"""</a>"""),
+                            css_class="col-lg-4",
+                        ),
+                        css_class="form-group",
+                        ),
+                    'api_key',
+                    'username',
+                    'email',
+                    'first_name',
+                    'last_name',
+                    Div(
+                        HTML("""<h3>"""+_(u'Change password') + """</h3>"""),
+                        ),
+                    'password',
+                    'password_again',
+                    Div(
+                       Submit('submit', _(u'Save'), css_class='btn btn-default'),
+                       css_class='col-lg-offset-2 col-lg-4',
+                    ),
+                )
+        else:
+            self.helper.layout = Layout(
+                    'api_key',
+                    'username',
+                    'email',
+                    'first_name',
+                    'last_name',
+                    Div(
+                        HTML("""<h3>"""+_(u'Change password') + """</h3>"""),
+                        ),
+                    'password',
+                    'password_again',
+                    Div(
+                       Submit('submit', _(u'Save'), css_class='btn btn-default'),
+                       css_class='col-lg-offset-2 col-lg-4',
+                    ),
+                )      
+
         
     def clean(self):
         cleaned_data = self.cleaned_data
         # check email not used by anyone else
         email = cleaned_data.get("email")
-        num_rows = User.objects.exclude(username__exact=self.request.user.username).filter(email=email).count()
+        username = cleaned_data.get("username")
+        num_rows = User.objects.exclude(username__exact=username).filter(email=email).count()
         if num_rows != 0:
             raise forms.ValidationError( _(u"Email address already in use"))
         
