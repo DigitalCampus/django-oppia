@@ -51,7 +51,12 @@ onload="init();"
 			<td>{% if t.get_media_title %}
 					{{ t.get_media_title }}
 				{% else %}
-					{{ t.activity_title|title_lang:LANGUAGE_CODE }} ({{ t.section_title|title_lang:LANGUAGE_CODE }})
+					{% if t.activity_title %}
+						{{ t.activity_title|title_lang:LANGUAGE_CODE }} 
+					{% endif %}
+					{% if t.section_title %}
+						({{ t.section_title|title_lang:LANGUAGE_CODE }})
+					{% endif %}
 				{% endif %}</td>
 			<td>{{ t.time_taken }}</td>
 			<td>{% if t.get_lang %}{{ t.get_lang}}{% else %}--{% endif %}</td>
