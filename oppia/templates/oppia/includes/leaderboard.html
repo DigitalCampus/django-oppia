@@ -1,21 +1,35 @@
 {% load i18n %}
 {% load display_functions %}
 {% if leaderboard %}
-	<ol class="leaderboard">
+	<div class="table-responsive">
+         <table class="table table-striped">
+         	 <thead>
+                <tr>
+                  <th>#</th>
+                  <th>{% trans 'User' %}</th>
+                  <th>{% trans 'Points' %}</th>
+                  <th>{% trans 'Badges' %}</th>
+                </tr>
+              </thead>
+              <tbody>
  	{% for user in leaderboard %}
-    		<li>
-    		<div class="leaderboardname">
-    			{% if OPPIA_SHOW_GRAVATARS %}
-       				{{ user|gravatar:24 }}
-       			{% endif %} 
-    			{{ user.first_name }} 
-    			{{ user.last_name }}
-    		</div>
-    		<div class="leaderboardpoints"><span class="points" title="{{ user.total  }} {% trans 'points' %}">{{ user.total }}</span>
-    		<span class="badges" title="{{ user.badges }} {% trans 'badges' %}"><img src="{{ STATIC_URL }}oppia/images/badge.png" alt="{{ user.badges }} {% trans 'badges' %}"/>{{ user.badges }}</span></div>       
-    		<div style="clear:both"></div>
-    		</li>	
+ 			 <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{% if OPPIA_SHOW_GRAVATARS %}
+       						{{ user|gravatar:24 }}
+	       				{% endif %} 
+	    				{{ user.first_name }} 
+	    				{{ user.last_name }}</td>
+                  <td><span title="{{ user.total  }} {% trans 'points' %}">{{ user.total }}</span></td>
+                  <td>
+                  	{% if user.badges > 0 %}
+                  		<span class="badges" title="{{ user.badges }} {% trans 'badges' %}"><img src="{{ STATIC_URL }}oppia/images/badge.png" alt="{{ user.badges }} {% trans 'badges' %}"/> x {{ user.badges }}</span>
+                  	{% endif %}
+                  </td>
+                </tr>
  	{% endfor %}
-	</ol>
+ 			</tbody>
+ 		</table>
+	</div>
 {% endif %}
 
