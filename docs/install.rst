@@ -15,7 +15,7 @@ Installation
 * Install OppiaMobile, run ``pip install django-oppia``
 
 * Edit your ``settings.py`` file as follows:
-	* Add :mod:`oppia`, :mod:`oppia.quiz` and :mod:`oppia.viz` to your 
+	* Add :mod:`oppia` to your 
 	  `INSTALLED_APPS` like this::
 	
 	      INSTALLED_APPS = (
