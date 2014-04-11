@@ -215,7 +215,85 @@ class RegisterResource(ModelResource):
     
     def dehydrate_metadata(self,bundle):
         return settings.OPPIA_METADATA
+
+class ResetPasswordResource(ModelResource):
+    ''' 
+    For resetting user password
+    '''
     
+    class Meta:
+        queryset = User.objects.all()
+        resource_name = 'reset'
+        allowed_methods = ['post']
+        fields = ['username']
+        authorization = Authorization() 
+        always_return_data = True 
+        include_resource_uri = False   
+    
+    def obj_create(self, bundle, **kwargs):
+        required = ['username',]
+        for r in required:
+            try:
+                bundle.data[r]
+            except KeyError:
+                raise BadRequest(_(u'Please enter your %s') % r)
+            
+        '''    
+        data = {'username': bundle.data['username'],
+                'password': bundle.data['password'],
+                'password_again': bundle.data['passwordagain'],
+                'email': bundle.data['email'],
+                'first_name': bundle.data['firstname'],
+                'last_name': bundle.data['lastname'],}
+        rf = RegisterForm(data)
+        if not rf.is_valid():
+            str = ""
+            for key, value in rf.errors.items():
+                for error in value:
+                    str += error + "\n"
+            raise BadRequest(str)
+        else:
+            username = bundle.data['username']
+            password = bundle.data['password']
+            email = bundle.data['email']
+            first_name = bundle.data['firstname']
+            last_name = bundle.data['lastname']
+        try:
+            bundle.obj = User.objects.create_user(username, email, password)
+            bundle.obj.first_name = first_name
+            bundle.obj.last_name = last_name
+            bundle.obj.save()
+            
+            user_profile = UserProfile()
+            user_profile.user = bundle.obj
+            if 'jobtitle' in bundle.data:
+                user_profile.job_title = bundle.data['jobtitle']
+            if 'organisation' in bundle.data:
+                user_profile.organisation = bundle.data['organisation']
+            user_profile.save()
+            
+            u = authenticate(username=username, password=password)
+            if u is not None:
+                if u.is_active:
+                    login(bundle.request, u)
+                    # Add to tracker
+                    tracker = Tracker()
+                    tracker.user = u
+                    tracker.type = 'register'
+                    tracker.ip = bundle.request.META.get('REMOTE_ADDR','0.0.0.0')
+                    tracker.agent =bundle.request.META.get('HTTP_USER_AGENT','unknown')
+                    tracker.save()
+            key = ApiKey.objects.get(user = u)
+            bundle.data['api_key'] = key.key
+        except IntegrityError:
+            raise BadRequest(_(u'Username "%s" already in use, please select another' % username))
+        del bundle.data['passwordagain']
+        del bundle.data['password']
+        del bundle.data['firstname']
+        del bundle.data['lastname']
+        '''
+        return bundle       
+        
 class TrackerResource(ModelResource):
     ''' 
     Submitting a Tracker
