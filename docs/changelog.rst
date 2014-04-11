@@ -1,8 +1,12 @@
 Change Log
 ============
 
-v0.4.0 - released: XXXXX
+v0.4.1 - released: XXXXX
 ----------------------------
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/283 - add optional job title and organisation to profile
+
+v0.4.0 - released: 1-Apr-2014
+------------------------------
 * Moved to using BootStrap for design
 * https://github.com/DigitalCampus/django-oppia/issues/119 - using gravatars now optional
 

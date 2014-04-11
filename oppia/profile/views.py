@@ -50,6 +50,8 @@ def register(request):
             user.save()
             user_profile = UserProfile()
             user_profile.user = user
+            user_profile.job_title = form.cleaned_data.get("job_title")
+            user_profile.organisation = form.cleaned_data.get("organisation")
             user_profile.save()
             u = authenticate(username=username, password=password)
             if u is not None:
@@ -99,6 +101,18 @@ def edit(request):
             request.user.first_name = first_name
             request.user.last_name = last_name
             request.user.save()
+            
+            try:
+                user_profile = UserProfile.objects.get(user=request.user)
+                user_profile.job_title = form.cleaned_data.get("job_title")
+                user_profile.organisation = form.cleaned_data.get("organisation")
+                user_profile.save()
+            except UserProfile.DoesNotExist:
+                user_profile = UserProfile()
+                user_profile.user = request.user
+                user_profile.job_title = form.cleaned_data.get("job_title")
+                user_profile.organisation = form.cleaned_data.get("organisation")
+                user_profile.save()
             messages.success(request, _(u"Profile updated"))
             
             # if password should be changed
@@ -108,12 +122,17 @@ def edit(request):
                 request.user.save()
                 messages.success(request, _(u"Password updated"))
     else:
-        
+        try:
+            user_profile = UserProfile.objects.get(user=request.user)
+        except UserProfile.DoesNotExist:
+            user_profile = UserProfile()
         form = ProfileForm(initial={'username':request.user.username,
                                     'email':request.user.email,
                                     'first_name':request.user.first_name,
                                     'last_name':request.user.last_name,
-                                    'api_key': key.key})
+                                    'api_key': key.key,
+                                    'job_title': user_profile.job_title,
+                                    'organisation': user_profile.organisation,})
         
     return render(request, 'oppia/profile/profile.html', {'form': form,})
 

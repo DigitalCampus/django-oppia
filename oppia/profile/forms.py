@@ -76,6 +76,8 @@ class RegisterForm(forms.Form):
                                                 'min_length': _(u'Your last name should be at least 2 characters long.')},
                                 min_length=2,
                                 required=True)
+    job_title = forms.CharField(max_length=100,required=False)
+    organisation = forms.CharField(max_length=100,required=False)
 
     def __init__(self, *args, **kwargs):
         super(RegisterForm, self).__init__(*args, **kwargs)
@@ -91,6 +93,8 @@ class RegisterForm(forms.Form):
                                     'password_again',
                                     'first_name',
                                     'last_name',
+                                    'job_title',
+                                    'organisation',
                                 Div(
                                    Submit('submit', _(u'Register'), css_class='btn btn-default'),
                                    css_class='col-lg-offset-2 col-lg-4',
@@ -171,6 +175,8 @@ class ProfileForm(forms.Form):
     last_name = forms.CharField(max_length=100,
                                 min_length=2,
                                 required=True)
+    job_title = forms.CharField(max_length=100,required=False)
+    organisation = forms.CharField(max_length=100,required=False)
     
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)
@@ -208,6 +214,8 @@ class ProfileForm(forms.Form):
                     'email',
                     'first_name',
                     'last_name',
+                    'job_title',
+                    'organisation',
                     Div(
                         HTML("""<h3>"""+_(u'Change password') + """</h3>"""),
                         ),
