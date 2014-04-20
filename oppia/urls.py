@@ -4,7 +4,7 @@ from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
 
 from oppia.api.resources import TrackerResource, CourseResource, ScheduleResource, TagResource
-from oppia.api.resources import PointsResource, AwardsResource, BadgesResource, RegisterResource, UserResource
+from oppia.api.resources import PointsResource, AwardsResource, BadgesResource, RegisterResource, UserResource, ResetPasswordResource
 from oppia.quiz.api.resources import QuizResource, QuizPropsResource, QuestionResource
 from oppia.quiz.api.resources import QuizQuestionResource, ResponseResource, QuizAttemptResource
 
@@ -20,6 +20,7 @@ v1_api.register(AwardsResource())
 v1_api.register(BadgesResource())
 v1_api.register(UserResource())
 v1_api.register(RegisterResource())
+v1_api.register(ResetPasswordResource())
 
 v1_api.register(QuizResource())
 v1_api.register(QuizPropsResource())
