@@ -59,7 +59,7 @@ class SectionAdmin(admin.ModelAdmin):
     list_display = ('course','title','order')
   
 class TagAdmin(admin.ModelAdmin):
-    list_display = ('name','created_date','created_by')
+    list_display = ('name','created_date','created_by','description','order_priority','highlight')
      
 admin.site.register(Activity, ActivityAdmin)   
 admin.site.register(ActivitySchedule,ActivityScheduleAdmin)
