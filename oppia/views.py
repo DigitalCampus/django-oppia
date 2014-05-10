@@ -261,7 +261,7 @@ def schedule_edit(request,course_id, schedule_id):
             schedule.default = form.cleaned_data.get("default")
             schedule.lastupdated_date = datetime.datetime.now()
             
-            # remvoe any existing default for this schedule
+            # remove any existing default for this schedule
             if schedule.default:
                 Schedule.objects.filter(course=course).update(default=False)
                 
@@ -481,7 +481,7 @@ def course_quiz(request,course_id):
     return render_to_response('oppia/course/quizzes.html',{'course': course, 'nav': nav, 'quizzes':quizzes}, context_instance=RequestContext(request))
 
 def course_quiz_attempts(request,course_id,quiz_id):
-    #get the quiz digests for this course
+    # get the quiz digests for this course
     course = check_owner(request,course_id)
     quiz = Quiz.objects.get(pk=quiz_id)
     attempts = QuizAttempt.objects.filter(quiz=quiz).order_by('-attempt_date')

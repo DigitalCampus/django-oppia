@@ -60,7 +60,8 @@ class SectionAdmin(admin.ModelAdmin):
   
 class TagAdmin(admin.ModelAdmin):
     list_display = ('name','created_date','created_by','description','order_priority','highlight')
-     
+    ordering = ['-order_priority','name'] 
+    
 admin.site.register(Activity, ActivityAdmin)   
 admin.site.register(ActivitySchedule,ActivityScheduleAdmin)
 admin.site.register(Award, AwardAdmin)
