@@ -39,7 +39,7 @@ def home_view(request):
             day = temp.strftime("%d")
             month = temp.strftime("%m")
             year = temp.strftime("%Y")
-            count = Tracker.objects.filter(course__isnull=False, course__is_draft=False, course__is_archived=False,tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
+            count = Tracker.objects.filter(course__isnull=False, course__is_draft=False, user__is_staff=False, course__is_archived=False,tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
             activity.append([temp.strftime("%d %b %Y"),count])
     leaderboard = Points.get_leaderboard(10)
     return render_to_response('oppia/home.html',{'recent_activity':activity, 'leaderboard':leaderboard}, context_instance=RequestContext(request))
@@ -58,7 +58,7 @@ def course_view(request):
             month = temp.strftime("%m")
             year = temp.strftime("%Y")
             
-            count = Tracker.objects.filter(course = course, tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
+            count = Tracker.objects.filter(course = course, user__is_staff=False, tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
             course.activity.append([temp.strftime("%d %b %Y"),count])  
     return render_to_response('oppia/course/course.html',{'course_list': course_list}, context_instance=RequestContext(request))
 
