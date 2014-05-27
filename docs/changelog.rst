@@ -3,9 +3,10 @@ Change Log
 
 v0.4.1 - released: XXXXX
 ----------------------------
-* Fix https://github.com/DigitalCampus/oppia-mobile-android/issues/283 - add optional job title and organisation to profile
-* Reset password facility https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/292
+* Fix https://github.com/DigitalCampus/django-oppia/issues/150 - add optional job title and organisation to profile
+* Reset password facility https://github.com/DigitalCampus/django-oppia/issues/168
 * Fix https://github.com/DigitalCampus/django-oppia/issues/173
+* Fix https://github.com/DigitalCampus/django-oppia/issues/171
 
 v0.4.0 - released: 1-Apr-2014
 ------------------------------
