@@ -46,7 +46,7 @@ def home_view(request):
 
 def course_view(request):
     if request.user.is_staff:
-        course_list = Course.objects.all().order_by('title')
+        course_list = Course.objects.filter(is_archived=False).order_by('title')
     else:
         course_list = Course.objects.filter(is_draft=False,is_archived=False).order_by('title')   
     startdate = datetime.datetime.now()
