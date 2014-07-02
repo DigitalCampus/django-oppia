@@ -1,7 +1,11 @@
 Change Log
 ============
 
-v0.4.1 - released: XXXXX
+v0.4.2 - released: 2-Jul-2014
+----------------------------
+* Fix https://github.com/DigitalCampus/django-oppia/issues/174 - Error in course API call
+
+v0.4.1 - released: 27-May-2014
 ----------------------------
 * Fix https://github.com/DigitalCampus/django-oppia/issues/150 - add optional job title and organisation to profile
 * Reset password facility https://github.com/DigitalCampus/django-oppia/issues/168
