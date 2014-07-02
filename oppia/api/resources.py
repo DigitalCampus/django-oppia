@@ -482,7 +482,7 @@ class CourseResource(ModelResource):
         
         try:
             bundle.data['description'] = json.loads(bundle.data['description'])
-        except TypeError: 
+        except: 
             pass
         
         course = Course.objects.get(pk=bundle.obj.pk)

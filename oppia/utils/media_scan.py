@@ -32,6 +32,7 @@ def run(input_dir,output_dir,no_frames,image_max_width):
                 out_file.write("------------------------------------------\n")
                 file_size = os.path.getsize(os.path.join(input_dir,filename ))
                 md5sum = md5_checksum(os.path.join(input_dir,filename ))
+                print os.path.join(input_dir,filename )
                 file_length = get_length(os.path.join(input_dir,filename ))
                 tag_string = "[[media object='{\"filename\":\"%s\",\"download_url\":\"<INSERT_FULL_URL_HERE>/%s\",\"digest\":\"%s\", \"filesize\":%d, \"length\":%d}']]IMAGE/TEXT HERE[[/media]]"
                 out_file.write(tag_string % (filename, filename, md5sum, file_size, file_length))
@@ -40,6 +41,7 @@ def run(input_dir,output_dir,no_frames,image_max_width):
                 
                 # create some image files for video
                 frame_filename = "%s-frame-%02d.png"
+                '''
                 split = int(file_length/(no_frames+1))
                 for i in range(1,(no_frames+1)):
                     buf = get_frame_image(os.path.join(input_dir,filename),i*split)
@@ -54,7 +56,7 @@ def run(input_dir,output_dir,no_frames,image_max_width):
                     img = img.resize((image_max_width, hsize), Image.ANTIALIAS)
                     img.save(image_filename)  
                     print "Created frame image %02d at %d secs" % (i, i*split)
-                
+                ''' 
     out_file.close()
     
     print 'finished'
@@ -70,7 +72,7 @@ def md5_checksum(filePath):
         return m.hexdigest()
 
 def get_length(filename):
-    result = subprocess.Popen(["ffprobe", filename], stdout = subprocess.PIPE, stderr = subprocess.STDOUT)
+    result = subprocess.Popen(["avprobe", filename], stdout = subprocess.PIPE, stderr = subprocess.STDOUT)
     duration_list = [x for x in result.stdout.readlines() if "Duration" in x]
     time_components = duration_list[0].split(',')[0].split(':')
     hours = int(time_components[1])
