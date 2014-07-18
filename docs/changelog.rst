@@ -1,6 +1,10 @@
 Change Log
 ============
 
+v0.4.3 - released: 18-Jul-2014
+------------------------------
+* Fix https://github.com/DigitalCampus/django-oppia/issues/175 - Error in signals.py
+
 v0.4.2 - released: 2-Jul-2014
 ------------------------------
 * Fix https://github.com/DigitalCampus/django-oppia/issues/174 - Error in course API call
