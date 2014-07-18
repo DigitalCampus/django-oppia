@@ -144,8 +144,9 @@ def tracker_callback(sender, **kwargs):
     if not tracker.activity_exists():
         return
     
-    if tracker.course.user == tracker.user and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
+    if tracker.course is not None and tracker.course.user == tracker.user and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
         return
+    
     cohort_teacher = Cohort.teacher_member_now(tracker.course, tracker.user)
     if cohort_teacher is not None and settings.OPPIA_TEACHERS_EARN_POINTS is False:
         return

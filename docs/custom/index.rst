@@ -19,5 +19,7 @@ about the platform, then please post on our `OppiaMobile Google Groups forum
    github
    server/index
    moodle-block/index
+   style/index
    client/index
    manage
+   

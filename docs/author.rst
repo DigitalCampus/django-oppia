@@ -36,6 +36,10 @@ to our server (http://demo.oppia-mobile.org - same username/password that you
 use for the OppiaMobile client app) and it'll be available for anyone to 
 download. 
 
+.. note::
+	Information on :ref:`how to include stylesheets and javascript<styles>` 
+	in your course
+
 If you have any queries, comments or suggestions on how to improve these
 instructions, the course authoring process or any other aspect of OppiaMobile, 
 please post them on the `OppiaMobile Google Forum 
