@@ -97,7 +97,7 @@ your fork instead.
 
 Environment information
 -----------------------
-The current version of the instance (OppiaMobile Server 0.4.0) is running:
+The current version of the instance (OppiaMobile Server 0.4.3) is running:
 
 * Ubuntu 12.04 LTS Server
 * Apache 2
@@ -105,7 +105,7 @@ The current version of the instance (OppiaMobile Server 0.4.0) is running:
 * Django 1.6.1
 * TastyPie 0.11.0
 * South 0.8.4
-* OppiaServer 0.4.0
+* OppiaServer 0.4.3
 
 
 Email configuration

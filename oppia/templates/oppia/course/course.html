@@ -37,12 +37,34 @@
 		                			});
 	        {% endfor %}
 	      }
+		
+		function OnTagChange(dropdown) {
+		    var myindex  = dropdown.selectedIndex;
+		    var selValue = dropdown.options[myindex].value;
+		    top.location.href = selValue;
+		    return true;
+		}
 	</script>
 	{% endblock extra_scripts %}
 {% endif %} 
 {% block content %}
 
 <h2>{% trans 'courses' %}</h2>
+
+{% if tag_list %}
+	<form method="post">
+	{% trans 'Filter by tag: ' %}
+	<select name="tag" onchange="OnTagChange(this.form.tag);">
+		<option value="{% url 'oppia_course' %}">{% trans 'All courses' %}</option>
+		{% for tag in tag_list %}
+		 		<option value="{% url 'oppia_tag_courses' tag.id %}" {% if current_tag == tag.id %}selected="selected"{% endif %}>
+		 			{{ tag.name }}
+		 		</option>
+		{% endfor %}
+	</select>
+	</form>
+{% endif %}
+
 {% if course_list %}
 
 	 <div class="table-responsive">

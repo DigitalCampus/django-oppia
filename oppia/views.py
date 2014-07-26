@@ -60,7 +60,27 @@ def course_view(request):
             
             count = Tracker.objects.filter(course = course, user__is_staff=False, tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
             course.activity.append([temp.strftime("%d %b %Y"),count])  
-    return render_to_response('oppia/course/course.html',{'course_list': course_list}, context_instance=RequestContext(request))
+    tag_list = Tag.objects.all().order_by('name')
+    return render_to_response('oppia/course/course.html',{'course_list': course_list, 'tag_list': tag_list}, context_instance=RequestContext(request))
+
+def tag_courses_view(request, id):
+    if request.user.is_staff:
+        course_list = Course.objects.filter(is_archived=False, coursetag__tag_id=id).order_by('title')
+    else:
+        course_list = Course.objects.filter(is_draft=False,is_archived=False, coursetag__tag_id=id).order_by('title')   
+    startdate = datetime.datetime.now()
+    for course in course_list:
+        course.activity = []
+        for i in range(7,-1,-1):
+            temp = startdate - datetime.timedelta(days=i)
+            day = temp.strftime("%d")
+            month = temp.strftime("%m")
+            year = temp.strftime("%Y")
+            
+            count = Tracker.objects.filter(course = course, user__is_staff=False, tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
+            course.activity.append([temp.strftime("%d %b %Y"),count])  
+    tag_list = Tag.objects.all().order_by('name')
+    return render_to_response('oppia/course/course.html',{'course_list': course_list, 'tag_list': tag_list, 'current_tag': id}, context_instance=RequestContext(request))
 
        
 def terms_view(request):
