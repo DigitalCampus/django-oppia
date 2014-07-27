@@ -136,8 +136,14 @@ class DateRangeForm(forms.Form):
         cleaned_data = super(DateRangeForm, self).clean()
         start_date = cleaned_data.get("start_date")
         end_date = cleaned_data.get("end_date")
-        start_date = datetime.datetime.strptime(start_date,"%Y-%m-%d")
-        end_date = datetime.datetime.strptime(end_date,"%Y-%m-%d")
+        try:
+            start_date = datetime.datetime.strptime(start_date,"%Y-%m-%d")
+        except TypeError:
+            raise forms.ValidationError("Please enter a valid start date.")
+        try:
+            end_date = datetime.datetime.strptime(end_date,"%Y-%m-%d")
+        except TypeError:
+            raise forms.ValidationError("Please enter a valid end date.")
         
         # check end date on or before today
         if end_date > datetime.datetime.now():

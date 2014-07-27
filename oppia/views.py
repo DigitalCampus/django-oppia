@@ -154,10 +154,26 @@ def upload(request):
 
 def recent_activity(request,id):
     course = check_can_view(request, id)
+    
+    start_date = datetime.datetime.now() - datetime.timedelta(days=31)
+    end_date = datetime.datetime.now()
+    if request.method == 'POST':
+        form = DateRangeForm(request.POST)
+        if form.is_valid():
+            start_date = form.cleaned_data.get("start_date")  
+            start_date = datetime.datetime.strptime(start_date,"%Y-%m-%d")
+            end_date = form.cleaned_data.get("end_date")
+            end_date = datetime.datetime.strptime(end_date,"%Y-%m-%d")              
+    else:
+        data = {}
+        data['start_date'] = start_date
+        data['end_date'] = end_date
+        form = DateRangeForm(initial=data)
+    
+    no_days = (end_date-start_date).days + 1
     dates = []
-    startdate = datetime.datetime.now()
-    for i in range(31,-1,-1):
-        temp = startdate - datetime.timedelta(days=i)
+    for i in range(0,no_days,+1):
+        temp = start_date + datetime.timedelta(days=i)
         day = temp.strftime("%d")
         month = temp.strftime("%m")
         year = temp.strftime("%Y")
@@ -175,7 +191,13 @@ def recent_activity(request,id):
         dates.append([temp.strftime("%d %b %y"),count_activity])
     leaderboard = Points.get_leaderboard(10, course)
     nav = get_nav(course,request.user)
-    return render_to_response('oppia/course/activity.html',{'course': course,'nav': nav, 'data':dates, 'leaderboard':leaderboard}, context_instance=RequestContext(request))
+    return render_to_response('oppia/course/activity.html',
+                              {'course': course,
+                               'form': form,
+                                'nav': nav, 
+                                'data':dates, 
+                                'leaderboard':leaderboard}, 
+                              context_instance=RequestContext(request))
 
 def recent_activity_detail(request,id):
     course = check_owner(request,id)
