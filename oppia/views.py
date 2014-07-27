@@ -202,7 +202,25 @@ def recent_activity(request,id):
 def recent_activity_detail(request,id):
     course = check_owner(request,id)
         
-    trackers = Tracker.objects.filter(course=course).order_by('-tracker_date')
+    start_date = datetime.datetime.now() - datetime.timedelta(days=31)
+    end_date = datetime.datetime.now()
+    if request.method == 'POST':
+        form = DateRangeForm(request.POST)
+        if form.is_valid():
+            start_date = form.cleaned_data.get("start_date")  
+            start_date = datetime.datetime.strptime(start_date,"%Y-%m-%d")
+            end_date = form.cleaned_data.get("end_date")
+            end_date = datetime.datetime.strptime(end_date,"%Y-%m-%d") 
+            trackers = Tracker.objects.filter(course=course,tracker_date__gte=start_date, tracker_date__lte=end_date).order_by('-tracker_date')
+        else:
+            trackers = Tracker.objects.filter(course=course).order_by('-tracker_date')             
+    else:
+        data = {}
+        data['start_date'] = start_date
+        data['end_date'] = end_date
+        form = DateRangeForm(initial=data)
+        trackers = Tracker.objects.filter(course=course).order_by('-tracker_date')
+        
     paginator = Paginator(trackers, 25)
     # Make sure page request is an int. If not, deliver first page.
     try:
@@ -227,7 +245,12 @@ def recent_activity_detail(request,id):
         tracks = paginator.page(paginator.num_pages)
     
     nav = get_nav(course, request.user) 
-    return render_to_response('oppia/course/activity-detail.html',{'course': course,'nav': nav, 'page':tracks,}, context_instance=RequestContext(request))
+    return render_to_response('oppia/course/activity-detail.html',
+                              {'course': course,
+                               'form': form,
+                               'nav': nav, 
+                               'page':tracks,}, 
+                              context_instance=RequestContext(request))
 
 
 def export_tracker_detail(request,id):

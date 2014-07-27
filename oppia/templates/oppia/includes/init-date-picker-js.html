@@ -1,0 +1,9 @@
+function setUpDatePicker(){
+	$( "#id_start_date" ).datepicker();
+	$( "#id_start_date" ).datepicker( "option", "defaultDate", "-1m" );
+	$( "#id_start_date" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+	
+	$( "#id_end_date" ).datepicker();
+	$( "#id_end_date" ).datepicker( "option", "defaultDate", "-1d" );
+	$( "#id_end_date" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+}

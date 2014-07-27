@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load display_functions %}
+{% load crispy_forms_tags %}
+
 {% block extra_scripts %}
 	<script type="text/javascript">
 		function init(){
@@ -12,10 +14,11 @@
 				}
 			);
 		}
+		{% include "oppia/includes/init-date-picker-js.html" %}
 	</script>
 {% endblock extra_scripts %}
 {% block extra_body %}
-onload="init();"
+onload="init();setUpDatePicker();"
 {% endblock extra_body %}
 {% block content %}
 
@@ -23,6 +26,10 @@ onload="init();"
 <p><i>{% trans 'Tags:' %} {{ course.get_tags}}</i></p>
 
 {% if page.object_list %}
+
+	{% include "includes/messages.html" %}	
+	{% crispy form %}
+	
 	{% include "oppia/includes/page_navigator.html" %}
     
     <div class="table-responsive">

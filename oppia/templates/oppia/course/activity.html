@@ -11,15 +11,7 @@
 	<script type='text/javascript' src='https://www.google.com/jsapi'></script>
 	<script type="text/javascript">
 
-	function setUpDatePicker(){
- 		$( "#id_start_date" ).datepicker();
- 		$( "#id_start_date" ).datepicker( "option", "defaultDate", "-1m" );
- 		$( "#id_start_date" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
- 		
- 		$( "#id_end_date" ).datepicker();
- 		$( "#id_end_date" ).datepicker( "option", "defaultDate", "-1d" );
- 		$( "#id_end_date" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
- 	}
+	{% include "oppia/includes/init-date-picker-js.html" %}
 	
 	// Load the Visualization API and the piechart package.
 	google.load('visualization', '1.0', {'packages':['corechart']});
