@@ -128,14 +128,25 @@ class DateRangeForm(forms.Form):
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
         self.helper.label_class = 'col-lg-2'
-        self.helper.field_class = 'col-lg-4'
+        self.helper.field_class = 'col-lg-3'
         self.helper.layout = Layout(
-                'date_start',
-                'date_end',
+                'start_date',
+                'end_date',
                 Submit('submit', _(u'Go'), css_class='btn btn-default'),
             )  
     def clean(self):
         cleaned_data = super(DateRangeForm, self).clean()
         start_date = cleaned_data.get("start_date")
-
+        end_date = cleaned_data.get("end_date")
+        start_date = datetime.datetime.strptime(start_date,"%Y-%m-%d")
+        end_date = datetime.datetime.strptime(end_date,"%Y-%m-%d")
+        
+        # check end date on or before today
+        if end_date > datetime.datetime.now():
+            raise forms.ValidationError("End date can't be in the future.")
+        
+        # check start date before end date
+        if start_date > end_date:
+            raise forms.ValidationError("Start date must be before the end date.")
+        
         return cleaned_data

@@ -19,7 +19,7 @@ from django.shortcuts import render,render_to_response
 from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
 
-from oppia.forms import UploadCourseForm, ScheduleForm
+from oppia.forms import UploadCourseForm, ScheduleForm, DateRangeForm
 from oppia.forms import ActivityScheduleForm, CohortForm
 from oppia.models import Course, Tracker, Tag, CourseTag, Schedule
 from oppia.models import ActivitySchedule, Activity, Cohort, Participant, Points
@@ -28,21 +28,46 @@ from oppia.quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
 from uploader import handle_uploaded_file
 
 def server_view(request):
-    return render_to_response('oppia/server.html',  {'settings': settings}, content_type="application/json", context_instance=RequestContext(request))
+    return render_to_response('oppia/server.html',  
+                              {'settings': settings}, 
+                              content_type="application/json", 
+                              context_instance=RequestContext(request))
 
 def home_view(request):
     activity = []
     if request.user.is_authenticated():
-        startdate = datetime.datetime.now()
-        for i in range(31,-1,-1):
-            temp = startdate - datetime.timedelta(days=i)
+        start_date = datetime.datetime.now()
+        end_date = datetime.datetime.now()
+        if request.method == 'POST':
+            form = DateRangeForm(request.POST)
+            if form.is_valid():
+                start_date = form.cleaned_data.get("start_date")  
+                start_date = datetime.datetime.strptime(start_date,"%Y-%m-%d")
+                end_date = form.cleaned_data.get("end_date")
+                end_date = datetime.datetime.strptime(end_date,"%Y-%m-%d")              
+        else:
+            data = {}
+            data['start_date'] = start_date
+            data['end_date'] = end_date
+            form = DateRangeForm(initial=data)
+        
+        no_days = (end_date-start_date).days + 1
+        
+        for i in range(0,no_days,+1):
+            temp = start_date + datetime.timedelta(days=i)
             day = temp.strftime("%d")
             month = temp.strftime("%m")
             year = temp.strftime("%Y")
             count = Tracker.objects.filter(course__isnull=False, course__is_draft=False, user__is_staff=False, course__is_archived=False,tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
             activity.append([temp.strftime("%d %b %Y"),count])
+    else:
+        form = None
     leaderboard = Points.get_leaderboard(10)
-    return render_to_response('oppia/home.html',{'recent_activity':activity, 'leaderboard':leaderboard}, context_instance=RequestContext(request))
+    return render_to_response('oppia/home.html',
+                              {'form': form,
+                               'recent_activity':activity, 
+                               'leaderboard':leaderboard}, 
+                              context_instance=RequestContext(request))
 
 def course_view(request):
     if request.user.is_staff:

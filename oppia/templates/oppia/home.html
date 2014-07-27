@@ -1,11 +1,27 @@
 {% extends "base.html" %} 
 {% load i18n %} 
 {% load display_functions %} 
+{% load crispy_forms_tags %}
+
+
 {% if user.is_authenticated %}
+	{% block extra_body %}
+		onload="setUpDatePicker();"
+	{% endblock extra_body %}
+
 	{% block extra_scripts %}
 	<script type='text/javascript' src='https://www.google.com/jsapi'></script>
 	<script type="text/javascript">
 	
+		function setUpDatePicker(){
+	 		$( "#id_start_date" ).datepicker();
+	 		$( "#id_start_date" ).datepicker( "option", "defaultDate", "-1m" );
+	 		$( "#id_start_date" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+	 		
+	 		$( "#id_end_date" ).datepicker();
+	 		$( "#id_end_date" ).datepicker( "option", "defaultDate", "-1d" );
+	 		$( "#id_end_date" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+	 	}
 		// Load the Visualization API and the piechart package.
 		google.load('visualization', '1.0', {'packages':['corechart']});
 	
@@ -45,6 +61,8 @@
 		<h3>{% trans 'courses_recent_activity' %}</h3>
 		<div id="activity_chart_div" class="graph">{% trans 'graph_generating'%}</div>
 	</div>
+	{% include "includes/messages.html" %}	
+	{% crispy form %}
 	
 	<h3>{% trans 'home_leaderboard' %}</h3>
 	{% include "oppia/includes/leaderboard.html" %}
