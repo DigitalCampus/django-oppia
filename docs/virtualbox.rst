@@ -2,7 +2,7 @@ Installing VirtualBox Image
 =================================
 
 As well as the Amazon Web Services Machine Image, we also have a VirtualBox 
-image of an new installation of the OppiaMobile Server.
+image of a new/clean installation of the OppiaMobile Server.
 
 The latest version is available to download from: 
 http://downloads.digital-campus.org/OppiaMobile/virtualbox-images/
@@ -17,6 +17,14 @@ The only additional information you should need is the user login account:
 
 Obviously as soon as you have installed the machine you should change this to 
 something much more secure.
+
+Downloading the Virtual Machine Images
+--------------------------------------
+The VirtualBox images are large files (2Gb+) so may take a long time to 
+download. To help those of you on slow connections, we have made the latest 
+Virtual Machine Image available to download by using BitTorrent Sync 
+(http://www.bittorrent.com/sync), using the read-only key 
+``BI2VPY62BTBZ6K7C764KZCOAVDA2IJEET``. 
 
 Environment information
 -----------------------
