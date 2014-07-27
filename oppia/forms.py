@@ -10,7 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.bootstrap import FieldWithButtons
-from crispy_forms.layout import Button, Layout, Fieldset, ButtonHolder, Submit, Div, HTML
+from crispy_forms.layout import Button, Layout, Fieldset, ButtonHolder, Submit, Div, HTML, Row
 
 from oppia.models import Schedule
 
@@ -126,13 +126,11 @@ class DateRangeForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(DateRangeForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
-        self.helper.form_class = 'form-horizontal'
-        self.helper.label_class = 'col-lg-2'
-        self.helper.field_class = 'col-lg-3'
         self.helper.layout = Layout(
-                'start_date',
-                'end_date',
-                Submit('submit', _(u'Go'), css_class='btn btn-default'),
+                Row(
+                    Div('start_date',css_class='date-picker-row-fluid'),
+                    FieldWithButtons('end_date',Submit('submit', _(u'Go'), css_class='btn btn-default'),css_class='date-picker-row-fluid'),
+                )
             )  
     def clean(self):
         cleaned_data = super(DateRangeForm, self).clean()

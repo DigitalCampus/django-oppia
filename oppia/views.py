@@ -36,7 +36,7 @@ def server_view(request):
 def home_view(request):
     activity = []
     if request.user.is_authenticated():
-        start_date = datetime.datetime.now()
+        start_date = datetime.datetime.now() - datetime.timedelta(days=31)
         end_date = datetime.datetime.now()
         if request.method == 'POST':
             form = DateRangeForm(request.POST)
