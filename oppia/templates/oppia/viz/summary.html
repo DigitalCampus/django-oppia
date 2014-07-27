@@ -42,7 +42,7 @@
 			
 			data2.addRows( {{ user_registrations|length }} );
 			
-			count = 0;
+			count = {{ previous_user_registrations }};
 			{% for u in user_registrations %}
 				count += {{ u.count }};
 				data2.setValue({{ forloop.counter0 }},0,'{{ u.month }}-{{ u.year }}');
@@ -134,9 +134,9 @@
 			data5.addColumn('string', "{% trans 'Month/Year' %}");
 			data5.addColumn('number', "{% trans 'Total' %}");
 			
-			data5.addRows( {{ user_registrations|length }} );
+			data5.addRows( {{ course_downloads|length }} );
 			
-			count = 0;
+			count = {{ previous_course_downloads }};
 			{% for cd in course_downloads %}
 				count += {{ cd.count }};
 				data5.setValue({{ forloop.counter0 }},0,'{{ cd.month }}-{{ cd.year }}');
@@ -184,7 +184,7 @@
 			
 			data7.addRows( {{ course_activity|length }} );
 			
-			count = 0;
+			count = {{ previous_course_activity }};
 			{% for ca in course_activity %}
 				count += {{ ca.count }};
 				data7.setValue({{ forloop.counter0 }},0,'{{ ca.month }}-{{ ca.year }}');

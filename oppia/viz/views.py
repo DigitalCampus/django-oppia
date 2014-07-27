@@ -18,13 +18,18 @@ from oppia.viz.models import UserLocationVisualization
 def summary_view(request):
     if not request.user.is_staff:
          raise Http404
+     
+    date_diff = datetime.datetime.now() - datetime.timedelta(days=365)
+    
     # User registrations
-    user_registrations = User.objects.\
+    user_registrations = User.objects.filter(date_joined__gte=date_diff).\
                         extra(select={'month':'extract( month from date_joined )',
                                       'year':'extract( year from date_joined )'}).\
                         values('month','year').\
                         annotate(count=Count('id')).order_by('year','month')
     
+    previous_user_registrations = User.objects.filter(date_joined__lt=date_diff).count()
+
     # Countries
     hits_by_country =  UserLocationVisualization.objects.all().values('country_code','country_name').annotate(country_total_hits=Sum('hits')).order_by('-country_total_hits')
     total_hits = UserLocationVisualization.objects.all().aggregate(total_hits=Sum('hits'))
@@ -63,18 +68,22 @@ def summary_view(request):
         languages.append({'lang':_('Other'),'hits_percent':hits_percent })
         
     # Course Downloads
-    course_downloads = CourseDownload.objects.filter(user__is_staff=False).\
+    course_downloads = CourseDownload.objects.filter(user__is_staff=False, download_date__gte=date_diff ).\
                         extra(select={'month':'extract( month from download_date )',
                                       'year':'extract( year from download_date )'}).\
                         values('month','year').\
                         annotate(count=Count('id')).order_by('year','month')
+                        
+    previous_course_downloads = CourseDownload.objects.filter(user__is_staff=False, download_date__lt=date_diff).count()
     
     # Course Activity
-    course_activity = Tracker.objects.filter(user__is_staff=False).\
+    course_activity = Tracker.objects.filter(user__is_staff=False, submitted_date__gte=date_diff).\
                         extra(select={'month':'extract( month from submitted_date )',
                                       'year':'extract( year from submitted_date )'}).\
                         values('month','year').\
                         annotate(count=Count('id')).order_by('year','month')
+    
+    previous_course_activity = Tracker.objects.filter(user__is_staff=False, submitted_date__lt=date_diff).count()
                         
     last_month = datetime.datetime.now() - datetime.timedelta(days=31)
     hit_by_course = Tracker.objects.filter(user__is_staff=False, submitted_date__gte=last_month).exclude(course_id=None).values('course_id').annotate(total_hits=Count('id')).order_by('-total_hits')
@@ -97,11 +106,14 @@ def summary_view(request):
                        
     return render_to_response('oppia/viz/summary.html',
                               {'user_registrations': user_registrations,
+                               'previous_user_registrations': previous_user_registrations, 
                                'total_countries': total_countries,
                                'country_activity': country_activity,
                                'languages': languages,
                                'course_downloads': course_downloads,
+                               'previous_course_downloads': previous_course_downloads,
                                'course_activity': course_activity, 
+                               'previous_course_activity': previous_course_activity,
                                'hot_courses': hot_courses, }, 
                               context_instance=RequestContext(request))
 

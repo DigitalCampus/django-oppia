@@ -3,6 +3,8 @@ Change Log
 
 v0.4.4 - released: XXX
 ------------------------------
+* Fix https://github.com/DigitalCampus/django-oppia/issues/179 - Filter courses by tag
+* Fix https://github.com/DigitalCampus/django-oppia/issues/178 - Visualisations to cover last year only
 
 v0.4.3 - released: 18-Jul-2014
 ------------------------------
