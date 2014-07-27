@@ -1,6 +1,8 @@
 {% extends "base.html" %} 
 {% load i18n %} 
 {% load display_functions %} 
+{% load crispy_forms_tags %}
+
 {% if user.is_authenticated %}
 	{% block extra_scripts %}
 	<script type='text/javascript' src='https://www.google.com/jsapi'></script>
@@ -232,6 +234,8 @@
 {% block content %}
 
 <h2>{% trans 'Summary Overview' %}</h2>
+
+{% crispy form %}
 
 <h3>{% trans 'User Registrations' %}</h3>
 <div id="user_registrations_chart_div" class="graph">{% trans 'graph_generating'%}</div>

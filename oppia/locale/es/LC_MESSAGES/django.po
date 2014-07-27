@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-19 19:36+0100\n"
+"POT-Creation-Date: 2014-07-27 13:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,43 +18,55 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: forms.py:11
+#: forms.py:16
 #, python-format
 msgid "Max size %(size)d Mb"
 msgstr ""
 
-#: forms.py:13
+#: forms.py:18
 msgid "Please select a file to upload"
 msgstr ""
 
-#: forms.py:15
+#: forms.py:20 forms.py:118 forms.py:122
 msgid "A comma separated list of tags to help classify your course"
 msgstr ""
 
-#: forms.py:17
+#: forms.py:22 forms.py:120 forms.py:124
 msgid "Please enter at least one tag"
 msgstr ""
 
-#: forms.py:19
+#: forms.py:24
 msgid "Whether this course is only a draft"
 msgstr ""
 
-#: forms.py:28
+#: forms.py:39 templates/base.html:40
+msgid "Upload"
+msgstr ""
+
+#: forms.py:50
 #, python-format
 msgid ""
 "Your file is larger than the maximum allowed (%(size)d Mb). You may want to "
 "check your course for large includes, such as images etc."
 msgstr ""
 
-#: forms.py:31
+#: forms.py:53
 msgid "You may only upload a zip file"
 msgstr ""
 
-#: models.py:38 templates/oppia/viz/summary.html:183
+#: forms.py:98
+msgid "Please enter a valid date"
+msgstr ""
+
+#: forms.py:108
+msgid "Go"
+msgstr ""
+
+#: models.py:38 templates/oppia/viz/summary.html:209
 msgid "Course"
 msgstr ""
 
-#: models.py:39
+#: models.py:39 templates/base.html:39
 msgid "Courses"
 msgstr ""
 
@@ -112,63 +124,65 @@ msgstr ""
 msgid "Media"
 msgstr ""
 
-#: models.py:261
+#: models.py:262
 msgid "Tracker"
 msgstr ""
 
-#: models.py:262
+#: models.py:263
 msgid "Trackers"
 msgstr ""
 
-#: models.py:390
+#: models.py:391
 msgid "CourseDownload"
 msgstr ""
 
-#: models.py:391
+#: models.py:392
 msgid "CourseDownloads"
 msgstr ""
 
-#: models.py:401
+#: models.py:402
 msgid "Cohort"
 msgstr ""
 
-#: models.py:402
+#: models.py:403
 msgid "Cohorts"
 msgstr ""
 
-#: models.py:456
+#: models.py:457
 msgid "Participant"
 msgstr ""
 
-#: models.py:457
+#: models.py:458
 msgid "Participants"
 msgstr ""
 
-#: models.py:469
+#: models.py:470
 msgid "Message"
 msgstr ""
 
-#: models.py:470
+#: models.py:471
 msgid "Messages"
 msgstr ""
 
-#: models.py:481
+#: models.py:482
 msgid "Badge"
 msgstr ""
 
-#: models.py:482
+#: models.py:483 templates/oppia/leaderboard.html:16
+#: templates/oppia/includes/leaderboard.html:11
 msgid "Badges"
 msgstr ""
 
-#: models.py:494
+#: models.py:495
 msgid "Award"
 msgstr ""
 
-#: models.py:495
+#: models.py:496
 msgid "Awards"
 msgstr ""
 
-#: models.py:548 models.py:549
+#: models.py:549 models.py:550 templates/oppia/leaderboard.html:15
+#: templates/oppia/includes/leaderboard.html:10
 msgid "Points"
 msgstr ""
 
@@ -192,109 +206,176 @@ msgstr ""
 msgid "There don't appear to be any activities in this upload file."
 msgstr ""
 
-#: api/resources.py:73
+#: views.py:128
+msgid "Upload Course"
+msgstr ""
+
+#: views.py:465
+msgid "Activity Detail"
+msgstr ""
+
+#: views.py:467
+msgid "Course Quizzes"
+msgstr ""
+
+#: views.py:469
+msgid "Course Feedback"
+msgstr ""
+
+#: api/resources.py:74
 msgid "Username missing"
 msgstr ""
 
-#: api/resources.py:76
+#: api/resources.py:77
 msgid "Password missing"
 msgstr ""
 
-#: api/resources.py:86 api/resources.py:88
+#: api/resources.py:94 api/resources.py:96
 msgid "Authentication failure"
 msgstr ""
 
-#: api/resources.py:134
+#: api/resources.py:142
 msgid "Registration is disabled on this server."
 msgstr ""
 
-#: api/resources.py:140
+#: api/resources.py:148 api/resources.py:241
 #, python-format
 msgid "Please enter your %s"
 msgstr ""
 
-#: api/resources.py:177
+#: api/resources.py:196
 #, python-format
 msgid "Username \"%s\" already in use, please select another"
 msgstr ""
 
-#: profile/forms.py:9 profile/forms.py:62
+#: api/resources.py:264
+msgid ""
+"An email has been sent to your registered email address with your new "
+"password"
+msgstr ""
+
+#: profile/forms.py:19 profile/forms.py:54 profile/forms.py:131
 msgid "Please enter a username."
 msgstr ""
 
-#: profile/forms.py:11 profile/forms.py:79
-msgid "Please enter a valid e-mail address."
-msgstr ""
-
-#: profile/forms.py:12
-msgid "Please enter your e-mail address."
-msgstr ""
-
-#: profile/forms.py:15
+#: profile/forms.py:21 profile/forms.py:60
 msgid "Please enter a password."
 msgstr ""
 
-#: profile/forms.py:16
+#: profile/forms.py:35 profile/views.py:32 templates/includes/header.html:27
+msgid "Login"
+msgstr ""
+
+#: profile/forms.py:36
+msgid "Forgotten password?"
+msgstr ""
+
+#: profile/forms.py:48
+msgid "Invalid username or password. Please try again."
+msgstr ""
+
+#: profile/forms.py:56 profile/forms.py:163
+msgid "Please enter a valid e-mail address."
+msgstr ""
+
+#: profile/forms.py:57
+msgid "Please enter your e-mail address."
+msgstr ""
+
+#: profile/forms.py:61
 msgid "Your password should be at least 6 characters long."
 msgstr ""
 
-#: profile/forms.py:21
+#: profile/forms.py:66
 msgid "Please enter your password again."
 msgstr ""
 
-#: profile/forms.py:22
+#: profile/forms.py:67
 msgid "Your password again should be at least 6 characters long."
 msgstr ""
 
-#: profile/forms.py:25
+#: profile/forms.py:70
 msgid "Please enter your first name."
 msgstr ""
 
-#: profile/forms.py:26
+#: profile/forms.py:71
 msgid "Your first name should be at least 2 characters long."
 msgstr ""
 
-#: profile/forms.py:30
+#: profile/forms.py:75
 msgid "Please enter your last name."
 msgstr ""
 
-#: profile/forms.py:31
+#: profile/forms.py:76
 msgid "Your last name should be at least 2 characters long."
 msgstr ""
 
-#: profile/forms.py:45
+#: profile/forms.py:99 profile/views.py:65 templates/includes/header.html:29
+msgid "Register"
+msgstr ""
+
+#: profile/forms.py:114
 msgid "Username has already been registered, please select another."
 msgstr ""
 
-#: profile/forms.py:50
+#: profile/forms.py:119
 msgid "Email has already been registered"
 msgstr ""
 
-#: profile/forms.py:55 profile/forms.py:112
+#: profile/forms.py:124 profile/forms.py:262
 msgid "Passwords do not match."
 msgstr ""
 
-#: profile/forms.py:70
+#: profile/forms.py:144 profile/views.py:89
+msgid "Reset password"
+msgstr ""
+
+#: profile/forms.py:154
 msgid "Username not found"
 msgstr ""
 
-#: profile/forms.py:84
+#: profile/forms.py:159
+msgid "You cannot edit your API Key."
+msgstr ""
+
+#: profile/forms.py:161
+msgid "You cannot edit your username."
+msgstr ""
+
+#: profile/forms.py:168
 msgid "Your new password should be at least 6 characters long"
 msgstr ""
 
-#: profile/forms.py:105
+#: profile/forms.py:203
+msgid "Photo"
+msgstr ""
+
+#: profile/forms.py:207
+msgid "Update your gravatar"
+msgstr ""
+
+#: profile/forms.py:220 profile/forms.py:237
+msgid "Change password"
+msgstr ""
+
+#: profile/forms.py:225 profile/forms.py:242
+msgid "Save"
+msgstr ""
+
+#: profile/forms.py:255
 msgid "Email address already in use"
 msgstr ""
 
-#: profile/views.py:85
+#: profile/views.py:116
 msgid "Profile updated"
 msgstr ""
 
-#: profile/views.py:92
+#: profile/views.py:123
 msgid "Password updated"
 msgstr ""
 
-#: quiz/models.py:26
+#: quiz/models.py:26 templates/oppia/course/feedback-responses.html:56
+#: templates/oppia/course/quiz-attempts.html:57
 msgid "Question"
 msgstr ""
 
@@ -302,7 +383,8 @@ msgstr ""
 msgid "Questions"
 msgstr ""
 
-#: quiz/models.py:46
+#: quiz/models.py:46 templates/oppia/course/feedback-responses.html:57
+#: templates/oppia/course/quiz-attempts.html:58
 msgid "Response"
 msgstr ""
 
@@ -415,57 +497,41 @@ msgid ""
 msgstr ""
 
 #: templates/base-mobile.html:5 templates/base-preview.html:5
-#: templates/base.html:5 templates/includes/header.html:6
+#: templates/base.html:5 templates/includes/header.html:12
 #: templates/oppia/server.html:1
 msgid "app_name"
 msgstr ""
 
-#: templates/includes/footer.html:4
+#: templates/base.html:38
+msgid "Dashboard"
+msgstr ""
+
+#: templates/base.html:64
 msgid "footer_about"
 msgstr ""
 
-#: templates/includes/footer.html:5
+#: templates/base.html:65
 msgid "footer_terms"
 msgstr ""
 
-#: templates/includes/header.html:26
-msgid "menu_home"
-msgstr ""
-
-#: templates/includes/header.html:28
+#: templates/includes/header.html:17
 msgid "menu_courses"
 msgstr ""
 
-#: templates/includes/header.html:29
+#: templates/includes/header.html:18
 msgid "menu_upload"
 msgstr ""
 
-#: templates/includes/header.html:32
+#: templates/includes/header.html:21
 msgid "menu_visualisations"
 msgstr ""
 
-#: templates/includes/header.html:40
-msgid "Welcome"
+#: templates/includes/header.html:24
+msgid "Profile"
 msgstr ""
 
-#: templates/includes/header.html:42 templates/oppia/leaderboard.html:13
-#: templates/oppia/includes/leaderboard.html:8
-msgid "points"
-msgstr ""
-
-#: templates/includes/header.html:43 templates/oppia/leaderboard.html:14
-#: templates/oppia/includes/leaderboard.html:9
-msgid "badges"
-msgstr ""
-
-#: templates/includes/header.html:47
-#, python-format
-msgid "Welcome, please <a href=\"%(url_login)s?next=%(rpath)s\">Login</a>"
-msgstr ""
-
-#: templates/includes/header.html:49
-#, python-format
-msgid " or <a href=\"%(url_register)s\">Register</a>"
+#: templates/includes/header.html:25
+msgid "Logout"
 msgstr ""
 
 #: templates/oppia/cohort-form.html:8
@@ -502,36 +568,36 @@ msgid "Date"
 msgstr ""
 
 #: templates/oppia/home.html:18 templates/oppia/course/activity.html:17
-#: templates/oppia/course/course.html:19 templates/oppia/viz/summary.html:18
-#: templates/oppia/viz/summary.html:41 templates/oppia/viz/summary.html:66
-#: templates/oppia/viz/summary.html:88 templates/oppia/viz/summary.html:111
-#: templates/oppia/viz/summary.html:136 templates/oppia/viz/summary.html:159
-#: templates/oppia/viz/summary.html:184
+#: templates/oppia/course/course.html:19 templates/oppia/viz/summary.html:20
+#: templates/oppia/viz/summary.html:43 templates/oppia/viz/summary.html:68
+#: templates/oppia/viz/summary.html:91 templates/oppia/viz/summary.html:114
+#: templates/oppia/viz/summary.html:137 templates/oppia/viz/summary.html:162
+#: templates/oppia/viz/summary.html:185 templates/oppia/viz/summary.html:210
 msgid "Total"
 msgstr ""
 
-#: templates/oppia/home.html:45 templates/oppia/course/activity.html:68
-msgid "home_leaderboard"
-msgstr ""
-
-#: templates/oppia/home.html:47
-msgid "more..."
-msgstr ""
-
-#: templates/oppia/home.html:50 templates/oppia/course/activity.html:72
+#: templates/oppia/home.html:45 templates/oppia/course/activity.html:50
 msgid "courses_recent_activity"
 msgstr ""
 
-#: templates/oppia/home.html:51 templates/oppia/course/activity.html:73
-#: templates/oppia/course/course.html:66 templates/oppia/viz/summary.html:212
-#: templates/oppia/viz/summary.html:213 templates/oppia/viz/summary.html:217
-#: templates/oppia/viz/summary.html:220 templates/oppia/viz/summary.html:221
-#: templates/oppia/viz/summary.html:224 templates/oppia/viz/summary.html:225
-#: templates/oppia/viz/summary.html:226
+#: templates/oppia/home.html:46 templates/oppia/course/activity.html:51
+#: templates/oppia/course/course.html:92 templates/oppia/viz/summary.html:241
+#: templates/oppia/viz/summary.html:242 templates/oppia/viz/summary.html:246
+#: templates/oppia/viz/summary.html:247 templates/oppia/viz/summary.html:250
+#: templates/oppia/viz/summary.html:251 templates/oppia/viz/summary.html:254
+#: templates/oppia/viz/summary.html:255 templates/oppia/viz/summary.html:256
 msgid "graph_generating"
 msgstr ""
 
-#: templates/oppia/home.html:55
+#: templates/oppia/home.html:49 templates/oppia/course/activity.html:54
+msgid "home_leaderboard"
+msgstr ""
+
+#: templates/oppia/home.html:51
+msgid "more..."
+msgstr ""
+
+#: templates/oppia/home.html:53
 #, python-format
 msgid ""
 " \n"
@@ -556,27 +622,19 @@ msgstr ""
 msgid "page_title_leaderboard"
 msgstr ""
 
-#: templates/oppia/login.html:4
-msgid "page_title_login"
+#: templates/oppia/leaderboard.html:14
+#: templates/oppia/includes/leaderboard.html:9
+msgid "User"
 msgstr ""
 
-#: templates/oppia/login.html:16 templates/oppia/profile/profile.html:22
-#: templates/oppia/profile/register.html:11
-#: templates/oppia/profile/reset.html:11
-msgid "form_field_username"
+#: templates/oppia/leaderboard.html:26
+#: templates/oppia/includes/leaderboard.html:23
+msgid "points"
 msgstr ""
 
-#: templates/oppia/login.html:21 templates/oppia/profile/profile.html:50
-#: templates/oppia/profile/register.html:21
-msgid "form_field_password"
-msgstr ""
-
-#: templates/oppia/login.html:27
-msgid "button_login"
-msgstr ""
-
-#: templates/oppia/login.html:28
-msgid "forgotten_password"
+#: templates/oppia/leaderboard.html:29 templates/oppia/leaderboard.html:31
+#: templates/oppia/includes/leaderboard.html:26
+msgid "badges"
 msgstr ""
 
 #: templates/oppia/logout.html:4
@@ -600,7 +658,7 @@ msgstr ""
 msgid "button_schedule_save"
 msgstr ""
 
-#: templates/oppia/schedule-saved.html:6 templates/oppia/course/course.html:45
+#: templates/oppia/schedule-saved.html:6 templates/oppia/course/course.html:52
 msgid "courses"
 msgstr ""
 
@@ -645,9 +703,13 @@ msgid ""
 "<p>You should have received a copy of the GNU General Public License\n"
 "along with OppiaMobile.  If not, see <a href=\"http://www.gnu.org/licenses/"
 "\">http://www.gnu.org/licenses/</a>.</p>\n"
+"\n"
+"<p>OppiaMobile server uses <a href=\"http://getbootstrap.com/\">Bootstrap "
+"v3</a> which is released under the <a href=\"http://getbootstrap.com/getting-"
+"started/#license-faqs\">MIT license and is copyright 2014 Twitter</a>.</p>\n"
 msgstr ""
 
-#: templates/oppia/thanks.html:4 templates/oppia/profile/register.html:6
+#: templates/oppia/thanks.html:4
 msgid "page_title_register"
 msgstr ""
 
@@ -659,7 +721,7 @@ msgid ""
 msgstr ""
 
 #: templates/oppia/upload-staff-only.html:4
-#: templates/oppia/upload-success.html:4 templates/oppia/upload.html:4
+#: templates/oppia/upload-success.html:4
 msgid "page_title_upload_course"
 msgstr ""
 
@@ -679,25 +741,9 @@ msgid ""
 "<p>Your course was successfully uploaded</p>\n"
 msgstr ""
 
-#: templates/oppia/upload.html:11
-msgid "form_field_course_file"
-msgstr ""
-
-#: templates/oppia/upload.html:18
-msgid "form_field_tags"
-msgstr ""
-
-#: templates/oppia/upload.html:24
-msgid "form_field_is_draft"
-msgstr ""
-
-#: templates/oppia/upload.html:30
-msgid "button_course_upload"
-msgstr ""
-
-#: templates/oppia/course/activity-detail.html:25
+#: templates/oppia/course/activity-detail.html:24
 #: templates/oppia/course/activity.html:48
-#: templates/oppia/course/cohorts.html:8 templates/oppia/course/course.html:63
+#: templates/oppia/course/cohorts.html:8 templates/oppia/course/course.html:90
 #: templates/oppia/course/feedback-responses.html:27
 #: templates/oppia/course/feedback.html:7
 #: templates/oppia/course/quiz-attempts.html:27
@@ -706,31 +752,39 @@ msgstr ""
 msgid "Tags:"
 msgstr ""
 
-#: templates/oppia/course/activity-detail.html:31
+#: templates/oppia/course/activity-detail.html:33
 msgid "table_header_tracker_date"
 msgstr ""
 
-#: templates/oppia/course/activity-detail.html:32
+#: templates/oppia/course/activity-detail.html:34
 msgid "table_header_tracker_user"
 msgstr ""
 
-#: templates/oppia/course/activity-detail.html:33
+#: templates/oppia/course/activity-detail.html:35
 msgid "table_header_tracker_type"
 msgstr ""
 
-#: templates/oppia/course/activity-detail.html:34
+#: templates/oppia/course/activity-detail.html:36
 msgid "table_header_tracker_activity"
 msgstr ""
 
-#: templates/oppia/course/activity-detail.html:35
+#: templates/oppia/course/activity-detail.html:37
 msgid "table_header_tracker_timetaken"
 msgstr ""
 
-#: templates/oppia/course/activity-detail.html:36
+#: templates/oppia/course/activity-detail.html:38
 msgid "table_header_tracker_lang"
 msgstr ""
 
+#: templates/oppia/course/activity-detail.html:70
+msgid "Name"
+msgstr ""
+
 #: templates/oppia/course/activity-detail.html:71
+msgid "Value"
+msgstr ""
+
+#: templates/oppia/course/activity-detail.html:94
 msgid "No hits yet"
 msgstr ""
 
@@ -754,26 +808,6 @@ msgstr ""
 msgid "No. attempts"
 msgstr ""
 
-#: templates/oppia/course/activity.html:51
-msgid "course_activity_detail"
-msgstr ""
-
-#: templates/oppia/course/activity.html:53
-msgid "course_manage_schedules"
-msgstr ""
-
-#: templates/oppia/course/activity.html:55
-msgid "course_manage_cohorts"
-msgstr ""
-
-#: templates/oppia/course/activity.html:58
-msgid "course_quizzes"
-msgstr ""
-
-#: templates/oppia/course/activity.html:62
-msgid "course_feedback"
-msgstr ""
-
 #: templates/oppia/course/cohorts.html:7
 msgid "cohorts"
 msgstr ""
@@ -794,27 +828,35 @@ msgstr ""
 msgid "Add a cohort"
 msgstr ""
 
-#: templates/oppia/course/course.html:48
-msgid "table_header_course"
-msgstr ""
-
-#: templates/oppia/course/course.html:49
-msgid "table_header_course_downloads"
-msgstr ""
-
-#: templates/oppia/course/course.html:50
-msgid "table_header_activity_graph"
+#: templates/oppia/course/course.html:56
+msgid "Filter by tag: "
 msgstr ""
 
 #: templates/oppia/course/course.html:58
+msgid "All courses"
+msgstr ""
+
+#: templates/oppia/course/course.html:74
+msgid "table_header_course"
+msgstr ""
+
+#: templates/oppia/course/course.html:75
+msgid "table_header_course_downloads"
+msgstr ""
+
+#: templates/oppia/course/course.html:76
+msgid "table_header_activity_graph"
+msgstr ""
+
+#: templates/oppia/course/course.html:85
 msgid "draft"
 msgstr ""
 
-#: templates/oppia/course/course.html:61
+#: templates/oppia/course/course.html:88
 msgid "archived"
 msgstr ""
 
-#: templates/oppia/course/course.html:72
+#: templates/oppia/course/course.html:101
 #, python-format
 msgid ""
 "\n"
@@ -827,26 +869,26 @@ msgstr ""
 msgid "title_feedback"
 msgstr ""
 
-#: templates/oppia/course/feedback-responses.html:32
-#: templates/oppia/course/quiz-attempts.html:32
+#: templates/oppia/course/feedback-responses.html:36
+#: templates/oppia/course/quiz-attempts.html:35
 msgid "table_header_attempt_date"
 msgstr ""
 
-#: templates/oppia/course/feedback-responses.html:33
-#: templates/oppia/course/quiz-attempts.html:33
+#: templates/oppia/course/feedback-responses.html:37
+#: templates/oppia/course/quiz-attempts.html:36
 msgid "table_header_attempt_name"
 msgstr ""
 
-#: templates/oppia/course/feedback-responses.html:55
-#: templates/oppia/course/quiz-attempts.html:58
+#: templates/oppia/course/feedback-responses.html:78
+#: templates/oppia/course/quiz-attempts.html:80
 msgid "No attempts yet"
 msgstr ""
 
-#: templates/oppia/course/feedback.html:10
+#: templates/oppia/course/feedback.html:13
 msgid "table_header_feedback_title"
 msgstr ""
 
-#: templates/oppia/course/feedback.html:11
+#: templates/oppia/course/feedback.html:14
 msgid "table_header_feedback_no_attempts"
 msgstr ""
 
@@ -854,15 +896,19 @@ msgstr ""
 msgid "title_quizzes"
 msgstr ""
 
-#: templates/oppia/course/quiz-attempts.html:34
+#: templates/oppia/course/quiz-attempts.html:37
 msgid "table_header_attempt_score"
 msgstr ""
 
-#: templates/oppia/course/quizzes.html:10
+#: templates/oppia/course/quiz-attempts.html:59
+msgid "Score"
+msgstr ""
+
+#: templates/oppia/course/quizzes.html:14
 msgid "table_header_quiz_title"
 msgstr ""
 
-#: templates/oppia/course/quizzes.html:11
+#: templates/oppia/course/quizzes.html:15
 msgid "table_header_quiz_no_attempts"
 msgstr ""
 
@@ -882,18 +928,18 @@ msgstr ""
 msgid "Add a schedule"
 msgstr ""
 
-#: templates/oppia/includes/page_navigator.html:4
+#: templates/oppia/includes/page_navigator.html:5
 #: templates/oppia/mobile/includes/page-nav.html:5
 msgid "previous"
 msgstr ""
 
-#: templates/oppia/includes/page_navigator.html:8
+#: templates/oppia/includes/page_navigator.html:9
 #: templates/oppia/mobile/includes/page-nav.html:10
 #, python-format
 msgid "Page %(i)s of %(x)s"
 msgstr ""
 
-#: templates/oppia/includes/page_navigator.html:12
+#: templates/oppia/includes/page_navigator.html:13
 #: templates/oppia/mobile/includes/page-nav.html:14
 msgid "next"
 msgstr ""
@@ -981,7 +1027,15 @@ msgstr ""
 msgid "page_title_badges"
 msgstr ""
 
-#: templates/oppia/profile/badges.html:15
+#: templates/oppia/profile/badges.html:11
+msgid "Award Date"
+msgstr ""
+
+#: templates/oppia/profile/badges.html:12
+msgid "Description"
+msgstr ""
+
+#: templates/oppia/profile/badges.html:26
 msgid "<p>You don't have any badges yet</p>"
 msgstr ""
 
@@ -989,76 +1043,23 @@ msgstr ""
 msgid "page_title_points"
 msgstr ""
 
-#: templates/oppia/profile/points.html:12
+#: templates/oppia/profile/points.html:15
 msgid "table_header_points_date"
 msgstr ""
 
-#: templates/oppia/profile/points.html:13
+#: templates/oppia/profile/points.html:16
 msgid "table_header_points"
 msgstr ""
 
-#: templates/oppia/profile/points.html:14
+#: templates/oppia/profile/points.html:17
 msgid "table_header_points_description"
 msgstr ""
 
-#: templates/oppia/profile/profile.html:6
+#: templates/oppia/profile/profile.html:8
 msgid "page_title_profile"
 msgstr ""
 
-#: templates/oppia/profile/profile.html:15
-msgid "Photo"
-msgstr ""
-
-#: templates/oppia/profile/profile.html:17
-msgid "<a href=\"https://www.gravatar.com\">Update your gravatar</a>"
-msgstr ""
-
-#: templates/oppia/profile/profile.html:24
-msgid "form_msg_username_not_editable"
-msgstr ""
-
-#: templates/oppia/profile/profile.html:28
-msgid "form_field_api_key"
-msgstr ""
-
-#: templates/oppia/profile/profile.html:30
-msgid "form_msg_api_key"
-msgstr ""
-
-#: templates/oppia/profile/profile.html:34
-#: templates/oppia/profile/register.html:16
-msgid "form_field_email"
-msgstr ""
-
-#: templates/oppia/profile/profile.html:39
-#: templates/oppia/profile/register.html:31
-msgid "form_field_first_name"
-msgstr ""
-
-#: templates/oppia/profile/profile.html:44
-#: templates/oppia/profile/register.html:36
-msgid "form_field_last_name"
-msgstr ""
-
-#: templates/oppia/profile/profile.html:47
-msgid "form_section_change_password"
-msgstr ""
-
-#: templates/oppia/profile/profile.html:55
-#: templates/oppia/profile/register.html:26
-msgid "form_field_password_again"
-msgstr ""
-
-#: templates/oppia/profile/profile.html:62
-msgid "button_profile_save"
-msgstr ""
-
-#: templates/oppia/profile/register.html:41
-msgid "button_register"
-msgstr ""
-
 #: templates/oppia/profile/reset-sent.html:6
-#: templates/oppia/profile/reset.html:6
 msgid "page_title_reset"
 msgstr ""
 
@@ -1068,72 +1069,84 @@ msgid ""
 "<p>A new password has been emailed to you</p>\n"
 msgstr ""
 
-#: templates/oppia/profile/reset.html:16
-msgid "button_reset_password"
+#: templates/oppia/viz/map.html:5
+msgid "Activity Map"
 msgstr ""
 
-#: templates/oppia/viz/summary.html:17 templates/oppia/viz/summary.html:40
-#: templates/oppia/viz/summary.html:87 templates/oppia/viz/summary.html:110
-#: templates/oppia/viz/summary.html:135 templates/oppia/viz/summary.html:158
+#: templates/oppia/viz/summary.html:19 templates/oppia/viz/summary.html:42
+#: templates/oppia/viz/summary.html:113 templates/oppia/viz/summary.html:136
+#: templates/oppia/viz/summary.html:161 templates/oppia/viz/summary.html:184
 msgid "Month/Year"
 msgstr ""
 
-#: templates/oppia/viz/summary.html:36
+#: templates/oppia/viz/summary.html:38
 msgid "User Registrations (by month)"
 msgstr ""
 
-#: templates/oppia/viz/summary.html:61
+#: templates/oppia/viz/summary.html:63
 msgid "User Registrations (cumulative)"
 msgstr ""
 
-#: templates/oppia/viz/summary.html:65
+#: templates/oppia/viz/summary.html:67
 msgid "Country"
 msgstr ""
 
-#: templates/oppia/viz/summary.html:77 templates/oppia/viz/summary.html:215
-msgid "Activity by Country"
+#: templates/oppia/viz/summary.html:79
+msgid "Activity by Country (top 20 + others)"
 msgstr ""
 
-#: templates/oppia/viz/summary.html:106
+#: templates/oppia/viz/summary.html:90
+msgid "Language"
+msgstr ""
+
+#: templates/oppia/viz/summary.html:102
+msgid "Activity by Language (top 10 + others)"
+msgstr ""
+
+#: templates/oppia/viz/summary.html:132
 msgid "Course Downloads (by month)"
 msgstr ""
 
-#: templates/oppia/viz/summary.html:131
+#: templates/oppia/viz/summary.html:157
 msgid "Course Downloads (cumulative)"
 msgstr ""
 
-#: templates/oppia/viz/summary.html:154
+#: templates/oppia/viz/summary.html:180
 msgid "Course Activity (by month)"
 msgstr ""
 
-#: templates/oppia/viz/summary.html:179
+#: templates/oppia/viz/summary.html:205
 msgid "Course Activity (cumulative)"
 msgstr ""
 
-#: templates/oppia/viz/summary.html:195
+#: templates/oppia/viz/summary.html:221
 msgid "Most Active Courses (in last month)"
 msgstr ""
 
-#: templates/oppia/viz/summary.html:209
+#: templates/oppia/viz/summary.html:236
 msgid "Summary Overview"
 msgstr ""
 
-#: templates/oppia/viz/summary.html:211
+#: templates/oppia/viz/summary.html:240
 msgid "User Registrations"
 msgstr ""
 
-#: templates/oppia/viz/summary.html:216
+#: templates/oppia/viz/summary.html:244
+msgid "Activity by Country"
+msgstr ""
+
+#: templates/oppia/viz/summary.html:245
 msgid "Total countries:"
 msgstr ""
 
-#: templates/oppia/viz/summary.html:219
+#: templates/oppia/viz/summary.html:249
 msgid "Course Downloads"
 msgstr ""
 
-#: templates/oppia/viz/summary.html:223
+#: templates/oppia/viz/summary.html:253
 msgid "Course Activity"
 msgstr ""
 
-#: viz/views.py:44 viz/views.py:77
+#: viz/views.py:59 viz/views.py:77 viz/views.py:114
 msgid "Other"
 msgstr ""

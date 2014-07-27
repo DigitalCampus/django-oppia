@@ -92,3 +92,48 @@ class CohortForm(forms.Form):
     start_date = forms.DateTimeField(required=True)
     end_date = forms.DateTimeField(required=True)
     
+class DateDiffForm(forms.Form):
+    start_date = forms.CharField(
+        required=True,
+        error_messages={'required': _('Please enter a valid date')},)
+    
+    def __init__(self, *args, **kwargs):
+        super(DateDiffForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = 'form-horizontal'
+        self.helper.label_class = 'col-lg-2'
+        self.helper.field_class = 'col-lg-4'
+        self.helper.layout = Layout(
+                'start_date',
+                Submit('submit', _(u'Go'), css_class='btn btn-default'),
+            )  
+    def clean(self):
+        cleaned_data = super(DateDiffForm, self).clean()
+        start_date = cleaned_data.get("start_date")
+
+        return cleaned_data
+    
+class DateRangeForm(forms.Form):
+    date_start = forms.CharField(
+        required=True,
+        error_messages={'required': _('Please enter a start date')},)  
+    date_end = forms.CharField(
+        required=True,
+        error_messages={'required': _('Please enter an end date')},) 
+    
+    def __init__(self, *args, **kwargs):
+        super(DateRangeForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = 'form-horizontal'
+        self.helper.label_class = 'col-lg-2'
+        self.helper.field_class = 'col-lg-4'
+        self.helper.layout = Layout(
+                'date_start',
+                'date_end',
+                Submit('submit', _(u'Go'), css_class='btn btn-default'),
+            )  
+    def clean(self):
+        cleaned_data = super(DateRangeForm, self).clean()
+        date_diff = cleaned_data.get("date_diff")
+
+        return cleaned_data
