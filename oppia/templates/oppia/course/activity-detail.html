@@ -27,9 +27,10 @@ onload="init();setUpDatePicker();"
 
 {% if page.object_list %}
 
+	<div style="margin-left:15px">
 	{% include "includes/messages.html" %}	
 	{% crispy form %}
-	
+	</div>
 	{% include "oppia/includes/page_navigator.html" %}
     
     <div class="table-responsive">
