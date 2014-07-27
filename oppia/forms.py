@@ -1,12 +1,15 @@
 # oppia/forms.py
+import datetime
 import math
 from django import forms
 from django.conf import settings
 from django.contrib.admin import widgets
 from django.core.urlresolvers import reverse
+from django.forms.extras.widgets import SelectDateWidget
 from django.utils.translation import ugettext_lazy as _
 
 from crispy_forms.helper import FormHelper
+from crispy_forms.bootstrap import FieldWithButtons
 from crispy_forms.layout import Button, Layout, Fieldset, ButtonHolder, Submit, Div, HTML
 
 from oppia.models import Schedule
@@ -95,7 +98,7 @@ class CohortForm(forms.Form):
 class DateDiffForm(forms.Form):
     start_date = forms.CharField(
         required=True,
-        error_messages={'required': _('Please enter a valid date')},)
+        error_messages={'required': _('Please enter a valid date')})
     
     def __init__(self, *args, **kwargs):
         super(DateDiffForm, self).__init__(*args, **kwargs)
@@ -104,13 +107,12 @@ class DateDiffForm(forms.Form):
         self.helper.label_class = 'col-lg-2'
         self.helper.field_class = 'col-lg-4'
         self.helper.layout = Layout(
-                'start_date',
-                Submit('submit', _(u'Go'), css_class='btn btn-default'),
+                FieldWithButtons('start_date',Submit('submit', _(u'Go'), css_class='btn btn-default')),
             )  
     def clean(self):
         cleaned_data = super(DateDiffForm, self).clean()
         start_date = cleaned_data.get("start_date")
-
+        
         return cleaned_data
     
 class DateRangeForm(forms.Form):

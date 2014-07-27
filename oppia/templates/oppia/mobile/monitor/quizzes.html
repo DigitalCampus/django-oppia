@@ -8,9 +8,6 @@
 		}
 	</script>
 {% endblock extra_scripts %}
-{% block extra_styles %}
- <link href="{{ STATIC_URL }}oppia/ui-lightness/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" type="text/css"/>
-{% endblock extra_styles %} 
 {% block content %}
 <h2>{{ cohort.course.title|title_lang:LANGUAGE_CODE }}<br/>{{ cohort.description }}</h2>
 
