@@ -58,7 +58,7 @@
 {% if user.is_authenticated %}
 	<div>
 		<h3>{% trans 'courses_recent_activity' %}</h3>
-		<div id="activity_chart_div" class="graph">{% trans 'graph_generating'%}</div>
+		<div id="activity_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
 	</div>
 	{% include "includes/messages.html" %}	
 	{% crispy form %}

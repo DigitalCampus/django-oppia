@@ -8,6 +8,7 @@ v0.4.4 - released: XXX
 * Fix https://github.com/DigitalCampus/django-oppia/issues/180 - Visualisations - allow selection of start date
 * Fix https://github.com/DigitalCampus/django-oppia/issues/96 - Course activity - allow selection of start/end dates
 * Fix https://github.com/DigitalCampus/django-oppia/issues/147 - Update docs for Virtual Machine
+* Fix https://github.com/DigitalCampus/django-oppia/issues/183 - Graph loading image
 
 v0.4.3 - released: 18-Jul-2014
 ------------------------------
