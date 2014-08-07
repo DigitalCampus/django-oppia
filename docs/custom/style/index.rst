@@ -3,10 +3,13 @@
 Using stylesheets and javascript in your course
 ================================================
 
-The Moodle oppia export block comes by default with a single style that will be 
-applied to any courses you export - so the stylesheet and related resources 
-(images etc) will get exported to the course package too.
+The Moodle oppia export block comes by default with a stylesheet and javascript 
+file that will be applied to any courses you export - so the stylesheet, 
+javascript and related resources (images etc) will get exported to the course 
+package too.
 
+You can see an example of the standard stylesheet and javascript in use on our 
+Moodle server at: http://moodle.digital-campus.org/mod/page/view.php?id=20628 
 
 Creating your own style
 ------------------------
