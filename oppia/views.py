@@ -6,6 +6,8 @@ import os
 import oppia
 import tablib
 
+from dateutil.relativedelta import relativedelta
+
 from django import forms
 from django.conf import settings
 from django.contrib.auth import (authenticate, logout, views)
@@ -19,7 +21,7 @@ from django.shortcuts import render,render_to_response
 from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
 
-from oppia.forms import UploadCourseForm, ScheduleForm, DateRangeForm
+from oppia.forms import UploadCourseForm, ScheduleForm, DateRangeForm, DateRangeIntervalForm
 from oppia.forms import ActivityScheduleForm, CohortForm
 from oppia.models import Course, Tracker, Tag, CourseTag, Schedule
 from oppia.models import ActivitySchedule, Activity, Cohort, Participant, Points
@@ -38,28 +40,48 @@ def home_view(request):
     if request.user.is_authenticated():
         start_date = datetime.datetime.now() - datetime.timedelta(days=31)
         end_date = datetime.datetime.now()
+        interval = 'days'
         if request.method == 'POST':
-            form = DateRangeForm(request.POST)
+            form = DateRangeIntervalForm(request.POST)
             if form.is_valid():
                 start_date = form.cleaned_data.get("start_date")  
                 start_date = datetime.datetime.strptime(start_date,"%Y-%m-%d")
                 end_date = form.cleaned_data.get("end_date")
-                end_date = datetime.datetime.strptime(end_date,"%Y-%m-%d")              
+                end_date = datetime.datetime.strptime(end_date,"%Y-%m-%d")   
+                interval =  form.cleaned_data.get("interval")          
         else:
             data = {}
             data['start_date'] = start_date
             data['end_date'] = end_date
-            form = DateRangeForm(initial=data)
+            data['interval'] = interval
+            form = DateRangeIntervalForm(initial=data)
         
-        no_days = (end_date-start_date).days + 1
-        
-        for i in range(0,no_days,+1):
-            temp = start_date + datetime.timedelta(days=i)
-            day = temp.strftime("%d")
-            month = temp.strftime("%m")
-            year = temp.strftime("%Y")
-            count = Tracker.objects.filter(course__isnull=False, course__is_draft=False, user__is_staff=False, course__is_archived=False,tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
-            activity.append([temp.strftime("%d %b %Y"),count])
+        if interval == 'days':
+            no_days = (end_date-start_date).days + 1
+            
+            for i in range(0,no_days,+1):
+                temp = start_date + datetime.timedelta(days=i)
+                day = temp.strftime("%d")
+                month = temp.strftime("%m")
+                year = temp.strftime("%Y")
+                count = Tracker.objects.filter(course__isnull=False, course__is_draft=False, user__is_staff=False, course__is_archived=False,tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
+                activity.append([temp.strftime("%d %b %Y"),count])
+        else:
+            delta = relativedelta(months=+1)
+            
+            no_months = 0
+            tmp_date = start_date
+            while tmp_date <= end_date:
+                print tmp_date
+                tmp_date += delta
+                no_months += 1
+                
+            for i in range(0,no_months,+1):
+                temp = start_date + relativedelta(months=+i)
+                month = temp.strftime("%m")
+                year = temp.strftime("%Y")
+                count = Tracker.objects.filter(course__isnull=False, course__is_draft=False, user__is_staff=False, course__is_archived=False,tracker_date__month=month,tracker_date__year=year).count()
+                activity.append([temp.strftime("%b %Y"),count])
     else:
         form = None
     leaderboard = Points.get_leaderboard(10)
@@ -157,38 +179,71 @@ def recent_activity(request,id):
     
     start_date = datetime.datetime.now() - datetime.timedelta(days=31)
     end_date = datetime.datetime.now()
+    interval = 'days'
+    
     if request.method == 'POST':
-        form = DateRangeForm(request.POST)
+        form = DateRangeIntervalForm(request.POST)
         if form.is_valid():
             start_date = form.cleaned_data.get("start_date")  
             start_date = datetime.datetime.strptime(start_date,"%Y-%m-%d")
             end_date = form.cleaned_data.get("end_date")
-            end_date = datetime.datetime.strptime(end_date,"%Y-%m-%d")              
+            end_date = datetime.datetime.strptime(end_date,"%Y-%m-%d") 
+            interval =  form.cleaned_data.get("interval")               
     else:
         data = {}
         data['start_date'] = start_date
         data['end_date'] = end_date
-        form = DateRangeForm(initial=data)
+        data['interval'] = interval
+        form = DateRangeIntervalForm(initial=data)
     
-    no_days = (end_date-start_date).days + 1
     dates = []
-    for i in range(0,no_days,+1):
-        temp = start_date + datetime.timedelta(days=i)
-        day = temp.strftime("%d")
-        month = temp.strftime("%m")
-        year = temp.strftime("%Y")
-        count_objs = Tracker.objects.filter(course=course,tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).values('type').annotate(total=Count('type'))
-        count_activity = {'page':0, 'quiz':0, 'media':0, 'resource':0, 'monitor': 0, 'total':0}
-        for co in count_objs:
-            if co['type'] in count_activity:
-                count_activity[co['type']] = count_activity[co['type']] + co['total']
-                count_activity['total'] = count_activity['total'] + co['total']
-            else:
-                count_activity[co['type']] = 0
-                count_activity[co['type']] = count_activity[co['type']] + co['total']
-                count_activity['total'] = count_activity['total'] + co['total']
+    if interval == 'days':
+        no_days = (end_date-start_date).days + 1
         
-        dates.append([temp.strftime("%d %b %y"),count_activity])
+        for i in range(0,no_days,+1):
+            temp = start_date + datetime.timedelta(days=i)
+            day = temp.strftime("%d")
+            month = temp.strftime("%m")
+            year = temp.strftime("%Y")
+            count_objs = Tracker.objects.filter(course=course,tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).values('type').annotate(total=Count('type'))
+            count_activity = {'page':0, 'quiz':0, 'media':0, 'resource':0, 'monitor': 0, 'total':0}
+            for co in count_objs:
+                if co['type'] in count_activity:
+                    count_activity[co['type']] = count_activity[co['type']] + co['total']
+                    count_activity['total'] = count_activity['total'] + co['total']
+                else:
+                    count_activity[co['type']] = 0
+                    count_activity[co['type']] = count_activity[co['type']] + co['total']
+                    count_activity['total'] = count_activity['total'] + co['total']
+            
+            dates.append([temp.strftime("%d %b %y"),count_activity])
+    else:
+        delta = relativedelta(months=+1)  
+        no_months = 0
+        tmp_date = start_date
+        while tmp_date <= end_date:
+            print tmp_date
+            tmp_date += delta
+            no_months += 1
+            
+        for i in range(0,no_months,+1):
+            temp = start_date + relativedelta(months=+i)
+            month = temp.strftime("%m")
+            year = temp.strftime("%Y")
+            count_objs = Tracker.objects.filter(course=course,tracker_date__month=month,tracker_date__year=year).values('type').annotate(total=Count('type'))
+            count_activity = {'page':0, 'quiz':0, 'media':0, 'resource':0, 'monitor': 0, 'total':0}
+            for co in count_objs:
+                if co['type'] in count_activity:
+                    count_activity[co['type']] = count_activity[co['type']] + co['total']
+                    count_activity['total'] = count_activity['total'] + co['total']
+                else:
+                    count_activity[co['type']] = 0
+                    count_activity[co['type']] = count_activity[co['type']] + co['total']
+                    count_activity['total'] = count_activity['total'] + co['total']
+            
+            dates.append([temp.strftime("%b %y"),count_activity])
+        
+        
     leaderboard = Points.get_leaderboard(10, course)
     nav = get_nav(course,request.user)
     return render_to_response('oppia/course/activity.html',
