@@ -1,7 +1,7 @@
 Change Log
 ============
 
-v0.4.4 - released: XXX
+v0.4.4 - released: 18-Aug-2014
 ------------------------------
 * Fix https://github.com/DigitalCampus/django-oppia/issues/179 - Filter courses by tag
 * Fix https://github.com/DigitalCampus/django-oppia/issues/178 - Visualisations to cover last year only
@@ -9,6 +9,7 @@ v0.4.4 - released: XXX
 * Fix https://github.com/DigitalCampus/django-oppia/issues/96 - Course activity - allow selection of start/end dates
 * Fix https://github.com/DigitalCampus/django-oppia/issues/147 - Update docs for Virtual Machine
 * Fix https://github.com/DigitalCampus/django-oppia/issues/183 - Graph loading image
+* Fix https://github.com/DigitalCampus/django-oppia/issues/182 - Allow selection of date range and interval on graphs
 
 v0.4.3 - released: 18-Jul-2014
 ------------------------------
