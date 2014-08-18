@@ -99,8 +99,8 @@ Environment information
 -----------------------
 The current version of the instance (OppiaMobile Server 0.4.3) is running:
 
-* Ubuntu 12.04 LTS Server
-* Apache 2
+* Ubuntu 14.04.1 LTS Server
+* Apache 2.4
 * Mysql 5.5
 * Django 1.6.1
 * TastyPie 0.11.0
