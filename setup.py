@@ -41,7 +41,7 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
     install_requires=[
-        "Django >= 1.6.0",
+        "Django >= 1.6.6",
         "south >= 0.8.4",
 	    "django-tastypie >= 0.11.0",
         "django-tablib >= 0.9.11",

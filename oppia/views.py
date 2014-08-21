@@ -20,6 +20,7 @@ from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.shortcuts import render,render_to_response
 from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 
 from oppia.forms import UploadCourseForm, ScheduleForm, DateRangeForm, DateRangeIntervalForm
 from oppia.forms import ActivityScheduleForm, CohortForm
@@ -38,8 +39,8 @@ def server_view(request):
 def home_view(request):
     activity = []
     if request.user.is_authenticated():
-        start_date = datetime.datetime.now() - datetime.timedelta(days=31)
-        end_date = datetime.datetime.now()
+        start_date = timezone.now() - datetime.timedelta(days=31)
+        end_date = timezone.now()
         interval = 'days'
         if request.method == 'POST':
             form = DateRangeIntervalForm(request.POST)

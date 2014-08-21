@@ -1,6 +1,10 @@
 Change Log
 ============
 
+v0.4.5 - released: XXX
+------------------------------
+
+
 v0.4.4 - released: 18-Aug-2014
 ------------------------------
 * Fix https://github.com/DigitalCampus/django-oppia/issues/179 - Filter courses by tag

@@ -6,8 +6,8 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Max, Sum, Q
-
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 
 from tastypie.models import create_api_key
 
@@ -23,8 +23,8 @@ class UserProfile (models.Model):
 
 class Course(models.Model):
     user = models.ForeignKey(User)
-    created_date = models.DateTimeField('date created',default=datetime.datetime.now)
-    lastupdated_date = models.DateTimeField('date updated',default=datetime.datetime.now)
+    created_date = models.DateTimeField('date created',default=timezone.now)
+    lastupdated_date = models.DateTimeField('date updated',default=timezone.now)
     version = models.BigIntegerField()
     title = models.TextField(blank=False)
     description = models.TextField(blank=True, null=True, default=None)
@@ -80,9 +80,9 @@ class Course(models.Model):
     
     def get_activity_today(self):
         return Tracker.objects.filter(course=self,
-                                      tracker_date__day=datetime.datetime.now().day,
-                                      tracker_date__month=datetime.datetime.now().month,
-                                      tracker_date__year=datetime.datetime.now().year).count()
+                                      tracker_date__day=timezone.now().day,
+                                      tracker_date__month=timezone.now().month,
+                                      tracker_date__year=timezone.now().year).count()
        
     def get_activity_week(self):
         now = datetime.datetime.now()
@@ -113,7 +113,7 @@ class Course(models.Model):
     
 class Tag(models.Model):
     name = models.TextField(blank=False)
-    created_date = models.DateTimeField('date created',default=datetime.datetime.now)
+    created_date = models.DateTimeField('date created',default=timezone.now)
     created_by = models.ForeignKey(User)
     courses = models.ManyToManyField(Course, through='CourseTag')
     description = models.TextField(blank=True, null=True, default=None)
@@ -140,8 +140,8 @@ class Schedule(models.Model):
     title = models.TextField(blank=False)
     course = models.ForeignKey(Course)
     default = models.BooleanField(default=False)
-    created_date = models.DateTimeField('date created',default=datetime.datetime.now)
-    lastupdated_date = models.DateTimeField('date updated',default=datetime.datetime.now)
+    created_date = models.DateTimeField('date created',default=timezone.now)
+    lastupdated_date = models.DateTimeField('date updated',default=timezone.now)
     created_by = models.ForeignKey(User)
     
     class Meta:
@@ -168,8 +168,8 @@ class Schedule(models.Model):
 class ActivitySchedule(models.Model):
     schedule = models.ForeignKey(Schedule)
     digest = models.CharField(max_length=100)
-    start_date = models.DateTimeField(default=datetime.datetime.now)
-    end_date = models.DateTimeField(default=datetime.datetime.now)
+    start_date = models.DateTimeField(default=timezone.now)
+    end_date = models.DateTimeField(default=timezone.now)
     
     class Meta:
         verbose_name = _('ActivitySchedule')
@@ -243,8 +243,8 @@ class Media(models.Model):
     
 class Tracker(models.Model):
     user = models.ForeignKey(User)
-    submitted_date = models.DateTimeField('date submitted',default=datetime.datetime.now)
-    tracker_date = models.DateTimeField('date tracked',default=datetime.datetime.now)
+    submitted_date = models.DateTimeField('date submitted',default=timezone.now)
+    tracker_date = models.DateTimeField('date tracked',default=timezone.now)
     ip = models.IPAddressField()
     agent = models.TextField(blank=True)
     digest = models.CharField(max_length=100)
@@ -266,7 +266,7 @@ class Tracker(models.Model):
         return self.agent
     
     def is_first_tracker_today(self):
-        olddate = datetime.datetime.now() + datetime.timedelta(hours=-24)
+        olddate = timezone.now() + datetime.timedelta(hours=-24)
         no_attempts_today = Tracker.objects.filter(user=self.user,digest=self.digest,completed=True,submitted_date__gte=olddate).count()
         if no_attempts_today == 1:
             return True
@@ -382,7 +382,7 @@ class Tracker(models.Model):
 class CourseDownload(models.Model):
     user = models.ForeignKey(User)
     course = models.ForeignKey(Course)
-    download_date = models.DateTimeField('date downloaded',default=datetime.datetime.now)
+    download_date = models.DateTimeField('date downloaded',default=timezone.now)
     course_version = models.BigIntegerField(default=0)
     ip = models.IPAddressField(blank=True,default=None)
     agent = models.TextField(blank=True,default=None)
@@ -394,8 +394,8 @@ class CourseDownload(models.Model):
 class Cohort(models.Model):
     course = models.ForeignKey(Course)  
     description = models.CharField(max_length=100)
-    start_date = models.DateTimeField(default=datetime.datetime.now)
-    end_date = models.DateTimeField(default=datetime.datetime.now)
+    start_date = models.DateTimeField(default=timezone.now)
+    end_date = models.DateTimeField(default=timezone.now)
     schedule = models.ForeignKey(Schedule,null=True, blank=True, default=None)
     
     class Meta:
@@ -460,8 +460,8 @@ class Participant(models.Model):
 class Message(models.Model):
     course = models.ForeignKey(Course) 
     author = models.ForeignKey(User)
-    date_created = models.DateTimeField(default=datetime.datetime.now)
-    publish_date = models.DateTimeField(default=datetime.datetime.now)
+    date_created = models.DateTimeField(default=timezone.now)
+    publish_date = models.DateTimeField(default=timezone.now)
     message = models.CharField(max_length=200)
     link = models.URLField(max_length=255)  
     icon = models.CharField(max_length=200)
@@ -489,7 +489,7 @@ class Award(models.Model):
     badge = models.ForeignKey(Badge)
     user = models.ForeignKey(User)
     description = models.TextField(blank=False)
-    award_date = models.DateTimeField('date awarded',default=datetime.datetime.now)
+    award_date = models.DateTimeField('date awarded',default=timezone.now)
     
     class Meta:
         verbose_name = _('Award')
@@ -540,7 +540,7 @@ class Points(models.Model):
     course = models.ForeignKey(Course,null=True)
     cohort = models.ForeignKey(Cohort,null=True)
     points = models.IntegerField()
-    date = models.DateTimeField('date created',default=datetime.datetime.now)
+    date = models.DateTimeField('date created',default=timezone.now)
     description = models.TextField(blank=False)
     data = models.TextField(blank=True)
     type = models.CharField(max_length=20,choices=POINT_TYPES)
