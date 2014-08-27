@@ -25,7 +25,9 @@ def run(input_dir,output_dir,no_frames,image_max_width):
         return
     
     out_file = open(os.path.join(output_dir,'output.txt' ), 'w')
-    for filename in os.listdir(input_dir):
+    directory_list = os.listdir(input_dir)
+    directory_list.sort()
+    for filename in directory_list:
         for media_type in MEDIA_TYPES:
             if filename.endswith(media_type):
                 out_file.write(filename +":\n")
@@ -49,6 +51,7 @@ def run(input_dir,output_dir,no_frames,image_max_width):
                     with file(image_filename, 'w') as fh:
                         fh.write(str(buf))
                       
+                    print image_filename
                     # now resize the image
                     img = Image.open(image_filename)
                     wpercent = (image_max_width / float(img.size[0]))
@@ -56,7 +59,7 @@ def run(input_dir,output_dir,no_frames,image_max_width):
                     img = img.resize((image_max_width, hsize), Image.ANTIALIAS)
                     img.save(image_filename)  
                     print "Created frame image %02d at %d secs" % (i, i*split)
-                ''' 
+                '''
     out_file.close()
     
     print 'finished'
