@@ -14,7 +14,7 @@ import os, time, sys, math, gst
 import argparse, hashlib, subprocess
 import Image
 
-def run(input_dir,output_dir,no_frames,image_max_width):
+def run(input_dir, output_dir, image_width, image_height):
     MEDIA_TYPES = ['.avi','.m4v','.mp4']
     print 'Starting scanning: ' + input_dir
     
@@ -41,25 +41,13 @@ def run(input_dir,output_dir,no_frames,image_max_width):
                 out_file.write("\n\n")
                 print "Processed: "+filename
                 
-                # create some image files for video
-                frame_filename = "%s-frame-%02d.png"
-                '''
-                split = int(file_length/(no_frames+1))
-                for i in range(1,(no_frames+1)):
-                    buf = get_frame_image(os.path.join(input_dir,filename),i*split)
-                    image_filename = os.path.join(output_dir,frame_filename % (filename,i))
-                    with file(image_filename, 'w') as fh:
-                        fh.write(str(buf))
-                      
-                    print image_filename
-                    # now resize the image
-                    img = Image.open(image_filename)
-                    wpercent = (image_max_width / float(img.size[0]))
-                    hsize = int((float(img.size[1]) * float(wpercent)))
-                    img = img.resize((image_max_width, hsize), Image.ANTIALIAS)
-                    img.save(image_filename)  
-                    print "Created frame image %02d at %d secs" % (i, i*split)
-                '''
+                # create directory for the frame images from video
+                print os.path.join(output_dir, filename + ".images")
+                if not os.path.exists(os.path.join(output_dir, filename + ".images")):
+                    os.makedirs(os.path.join(output_dir, filename + ".images"))
+                    
+                image_generator_command = "ffmpeg -i %s -r 0.1 -s %dx%d -f image2 %s/frame-%%03d.png" % (os.path.join(output_dir, filename), image_width, image_height, os.path.join(output_dir, filename + ".images")) 
+                subprocess.call(image_generator_command, shell=True)  
     out_file.close()
     
     print 'finished'
@@ -83,28 +71,13 @@ def get_length(filename):
     secs = math.floor(float(time_components[3]))
     video_length = (hours*60*60) + (mins*60) + secs
     return int(video_length)
-  
-def get_frame_image(path, offset=5, caps=gst.Caps('image/png')):
-    pipeline = gst.parse_launch('playbin2')
-    pipeline.props.uri = 'file://' + os.path.abspath(path)
-    pipeline.props.audio_sink = gst.element_factory_make('fakesink')
-    pipeline.props.video_sink = gst.element_factory_make('fakesink')
-    pipeline.set_state(gst.STATE_PAUSED)
-    # Wait for state change to finish.
-    pipeline.get_state()
-    assert pipeline.seek_simple(
-        gst.FORMAT_TIME, gst.SEEK_FLAG_FLUSH, offset * gst.SECOND)
-    # Wait for seek to finish.
-    pipeline.get_state()
-    buffer = pipeline.emit('convert-frame', caps)
-    pipeline.set_state(gst.STATE_NULL)
-    return buffer
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("input_directory", help="Input directory")
     parser.add_argument("output_directory", help="Output directory")
-    parser.add_argument("-f","--frames", help="number of frames to create", type=int,default=5)
-    parser.add_argument("-w","--image_max_width", help="max width of image file to create",type=int,default=250)
+    parser.add_argument("-W","--image_width", help="width of image file to create",type=int,default=260)
+    parser.add_argument("-H","--image_height", help="height of image file to create",type=int,default=195)
     args = parser.parse_args()
-    run(args.input_directory,args.output_directory,args.frames,args.image_max_width)
+    run(args.input_directory,args.output_directory,args.image_width,args.image_height)
