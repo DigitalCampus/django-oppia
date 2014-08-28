@@ -306,8 +306,16 @@ class TrackerResource(ModelResource):
                 bundle.obj.type = activity.type
                 bundle.obj.activity_title = activity.title
                 bundle.obj.section_title = activity.section.title
+            else:
+                bundle.obj.course = ''
+                bundle.obj.type = ''
+                bundle.obj.activity_title = ''
+                bundle.obj.section_title = ''
         except Activity.DoesNotExist:
-            pass
+            bundle.obj.course = ''
+            bundle.obj.type = ''
+            bundle.obj.activity_title = ''
+            bundle.obj.section_title = ''
         
         try:
             if 'course' in bundle.data:
