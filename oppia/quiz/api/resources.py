@@ -118,7 +118,7 @@ class QuestionPropsResource(ModelResource):
         queryset = QuestionProps.objects.all()
         allowed_methods = ['get','post']
         resource_name = 'questionprops'
-        include_resource_uri = False
+        include_resource_uri = True
         authentication = ApiKeyAuthentication()  
         authorization = Authorization()
         validation = QuestionOwnerValidation()

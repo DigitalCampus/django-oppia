@@ -21,10 +21,31 @@ class QuizJSONSerializer(Serializer):
     def format_quiz(self, data):
         
         qmaxscore = 0.0
+        try:
+            data['description'] = json.loads(data['description'])
+        except ValueError:
+            # ignore this since the title doesn't supply lang info, so just continue as plain string
+            pass
+        try:
+            data['title'] = json.loads(data['title'])
+        except ValueError:
+            # ignore this since the title doesn't supply lang info, so just continue as plain string
+            pass
+        
         # remove intermediate quizquestion data
         for question in data['questions']:
             del question['question']['owner']
             del question['question']['resource_uri']
+            
+            # serialise question title as json
+            try:
+                question['question']['title'] = json.loads(question['question']['title'])
+            except ValueError:
+                # ignore this since the title doesn't supply lang info, so just continue as plain string
+                pass
+            
+    
+            
             if 'props' in question['question']:
                 question['question']['p'] = {}
                 for p in question['question']['props']:
@@ -44,6 +65,11 @@ class QuizJSONSerializer(Serializer):
             for r in question['question']['responses']:
                 del r['question']
                 del r['resource_uri']
+                try:
+                    r['title'] = json.loads(r['title'])
+                except ValueError:
+                    # ignore this since the title doesn't supply lang info, so just continue as plain string
+                    pass
                 r['p'] = {}
                 for p in r['props']:
                     r['p'][p['name']] = p['value']
