@@ -53,6 +53,14 @@ class QuizJSONSerializer(Serializer):
                         question['question']['p'][p['name']] = float(p['value'])
                     except:
                         question['question']['p'][p['name']] = p['value']
+                        
+                    # for matching questions
+                    if p['name'] == 'incorrectfeedback' or p['name'] == 'partiallycorrectfeedback' or p['name'] == 'correctfeedback':
+                        try:
+                            question['question']['p'][p['name']] = json.loads(p['value'])
+                        except ValueError:
+                            # ignore this since the title doesn't supply lang info, so just continue as plain string
+                            pass
                 question['question']['props'] = question['question']['p']
                 del question['question']['p']
                 try:
@@ -72,9 +80,22 @@ class QuizJSONSerializer(Serializer):
                     pass
                 r['p'] = {}
                 for p in r['props']:
-                    r['p'][p['name']] = p['value']
+                    if p['name'] == 'feedback':
+                        r['p'][p['name']] = json.loads(p['value'])
+                    else:
+                        r['p'][p['name']] = p['value']
                 r['props'] = r['p']
                 del r['p']
+                
+                # for feedback
+                '''
+                for f in r['feedback']:
+                    try:
+                        f['title'] = json.loads(f['title'])
+                    except ValueError:
+                        # ignore this since the title doesn't supply lang info, so just continue as plain string
+                        pass
+                '''
         # calc maxscore for quiz
         data['p'] = {}
         data['p']['maxscore'] = qmaxscore
