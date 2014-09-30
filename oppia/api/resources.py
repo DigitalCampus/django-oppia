@@ -307,12 +307,12 @@ class TrackerResource(ModelResource):
                 bundle.obj.activity_title = activity.title
                 bundle.obj.section_title = activity.section.title
             else:
-                bundle.obj.course = ''
+                bundle.obj.course = None
                 bundle.obj.type = ''
                 bundle.obj.activity_title = ''
                 bundle.obj.section_title = ''
         except Activity.DoesNotExist:
-            bundle.obj.course = ''
+            bundle.obj.course = None
             bundle.obj.type = ''
             bundle.obj.activity_title = ''
             bundle.obj.section_title = ''

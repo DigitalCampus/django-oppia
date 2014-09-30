@@ -1,12 +1,10 @@
 Change Log
 ============
 
-v0.5.0 - released: 30 Sept 2014
+v0.5.1 - released: 30 Sept 2014
 -------------------------------
 
 * Enable multi-lang feeback and quiz activities
-
-
 
 
 Previous Versions
