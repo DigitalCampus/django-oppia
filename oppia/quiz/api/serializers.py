@@ -81,7 +81,10 @@ class QuizJSONSerializer(Serializer):
                 r['p'] = {}
                 for p in r['props']:
                     if p['name'] == 'feedback':
-                        r['p'][p['name']] = json.loads(p['value'])
+                        try:
+                            r['p'][p['name']] = json.loads(p['value'])
+                        except ValueError:
+                            r['p'][p['name']] = p['value']
                     else:
                         r['p'][p['name']] = p['value']
                 r['props'] = r['p']
