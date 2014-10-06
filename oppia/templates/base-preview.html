@@ -4,18 +4,34 @@
 <head>
     <title>{% trans 'app_name' %}</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-    <link href="{{ STATIC_URL }}oppia/style-preview.css" rel="stylesheet" type="text/css"/>
+    <META name="description" content="OppiaMobile learning"/> 
+	<META name="keywords" content="oppia, oppiamobile, oppia-mobile, quiz, assessment, mobile, android, learning, video, media"/> 
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap -->
+    <link href="{{ STATIC_URL }}oppia/bootstrap-3.1.1/css/bootstrap.min.css" rel="stylesheet"/>
+    
+    <link href="{{ STATIC_URL }}oppia/style.css" rel="stylesheet"/>
+    <link href="{{ STATIC_URL }}oppia/ui-lightness/jquery-ui.min.css" rel="stylesheet"/>
+    <link href="{{ STATIC_URL }}oppia/ui-lightness/jquery-ui.structure.min.css" rel="stylesheet"/>
+    <link href="{{ STATIC_URL }}oppia/ui-lightness/jquery-ui.theme.min.css" rel="stylesheet"/>
     <link rel="shortcut icon" href="{{ STATIC_URL }}oppia/images/favicon.ico"/>	
+    <script src="{{ STATIC_URL }}oppia/js/jquery-1.11.0.min.js"></script>
+    <script src="{{ STATIC_URL }}oppia/ui-lightness/jquery-ui.min.js"></script>
     {% block extra_styles %}{% endblock extra_styles %}
 	{% block extra_scripts %}{% endblock extra_scripts %}  
 </head>
 <body {% block extra_body %}{% endblock extra_body %}>
-<div id="main">
-	<div class="header">
-		{% block header %}
-		{% endblock header %}
-	</div>
-	<div class="content">
+
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	{% include "includes/header.html" %}
+</div>
+
+<div class="container-fluid">
+	<div class="main">
 		{% block content %}
 		{% endblock content %}
 	</div>

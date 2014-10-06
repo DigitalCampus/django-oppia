@@ -1,0 +1,24 @@
+{% extends "base-preview.html" %} 
+{% load i18n %} 
+{% load display_functions %} 
+{% block content %}
+<h3>{{ course.title|title_lang:LANGUAGE_CODE }}</h3>
+
+{% if course_structure %}
+
+	{% for section in course_structure.sections %}
+		<h4>{{ section.title|title_lang:LANGUAGE_CODE }}</h4>
+		<ol>
+		{% for activity in section.activities %}
+			{% if activity.type = "page" %}
+				<li><a href="{{ MEDIA_URL }}courses/{{ course.shortname }}/{{ activity.location|title_lang:LANGUAGE_CODE }}">{{ activity.title|title_lang:LANGUAGE_CODE }}</a></li>
+			{%  else %}
+				<li>{{ activity.title|title_lang:LANGUAGE_CODE }}</li>
+			{% endif %}
+		{% endfor %}
+		</ol>
+	{% endfor %}
+
+{% endif %}
+
+{% endblock %}

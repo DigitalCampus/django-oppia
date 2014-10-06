@@ -186,9 +186,6 @@ def monitor_cohort_student_view(request,cohort_id, student_id):
     cohort = get_object_or_404(Cohort, pk=cohort_id, participant__user=request.user, participant__role=Participant.TEACHER, start_date__lte=now,end_date__gte=now)
     raise Http404
 
-def preview_course_home(request,course_id):
-    raise Http404
-
 def record_mobile_tracker(request, course_id, type, page):
     t = Tracker()
     t.user = request.user

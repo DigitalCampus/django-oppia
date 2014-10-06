@@ -414,7 +414,7 @@ class Cohort(models.Model):
     
     @staticmethod
     def student_member_now(course,user):
-        now = datetime.datetime.now()
+        now = timezone.now()
         cohorts = Cohort.objects.filter(course=course,start_date__lte=now,end_date__gte=now)
         for c in cohorts:
             participants = c.participant_set.filter(user=user,role=Participant.STUDENT)
@@ -424,7 +424,7 @@ class Cohort(models.Model):
     
     @staticmethod
     def teacher_member_now(course,user):
-        now = datetime.datetime.now()
+        now = timezone.now()
         cohorts = Cohort.objects.filter(course=course,start_date__lte=now,end_date__gte=now)
         for c in cohorts:
             participants = c.participant_set.filter(user=user,role=Participant.TEACHER)
@@ -434,7 +434,7 @@ class Cohort(models.Model):
     
     @staticmethod
     def member_now(course,user):
-        now = datetime.datetime.now()
+        now = timezone.now()
         cohorts = Cohort.objects.filter(course=course,start_date__lte=now,end_date__gte=now)
         for c in cohorts:
             participants = c.participant_set.filter(user=user)
