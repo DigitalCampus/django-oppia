@@ -111,6 +111,10 @@ class Course(models.Model):
             str = str + t.name + ", "
         return str[:-2]
     
+    def sections(self):
+        sections = Section.objects.filter(course=self).order_by('order')
+        return sections
+        
 class Tag(models.Model):
     name = models.TextField(blank=False)
     created_date = models.DateTimeField('date created',default=timezone.now)
@@ -199,6 +203,10 @@ class Section(models.Model):
             pass
         return self.title
     
+    def activities(self):
+        activities = Activity.objects.filter(section=self).order_by('order')
+        return activities
+    
 class Activity(models.Model):
     section = models.ForeignKey(Section)
     order = models.IntegerField()
@@ -228,6 +236,18 @@ class Activity(models.Model):
         except:
             pass
         return self.title
+    
+    def get_content(self,lang='en'):
+        try:
+            contents = json.loads(self.content)
+            if lang in contents:
+                return contents[lang]
+            else:
+                for l in contents:
+                    return contents[l]
+        except:
+            pass
+        return self.content 
     
 class Media(models.Model):
     course = models.ForeignKey(Course)

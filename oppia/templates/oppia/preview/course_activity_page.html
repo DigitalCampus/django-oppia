@@ -1,0 +1,16 @@
+{% extends "base-preview.html" %} 
+{% load i18n %} 
+{% load display_functions %} 
+{% block content %}
+{% if course %}
+	<h3>{{ course.title|title_lang:LANGUAGE_CODE }}</h3>
+{% endif %}
+
+{% if activity %}
+	<h3>{{ activity.title|title_lang:LANGUAGE_CODE }}</h3>
+	
+	{{ content | safe }}
+	
+{% endif %}
+
+{% endblock %}

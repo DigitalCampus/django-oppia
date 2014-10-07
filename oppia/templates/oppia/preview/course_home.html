@@ -2,16 +2,15 @@
 {% load i18n %} 
 {% load display_functions %} 
 {% block content %}
+{% if course %}
 <h3>{{ course.title|title_lang:LANGUAGE_CODE }}</h3>
 
-{% if course_structure %}
-
-	{% for section in course_structure.sections %}
+	{% for section in course.sections %}
 		<h4>{{ section.title|title_lang:LANGUAGE_CODE }}</h4>
 		<ol>
 		{% for activity in section.activities %}
 			{% if activity.type = "page" %}
-				<li><a href="{{ MEDIA_URL }}courses/{{ course.shortname }}/{{ activity.location|title_lang:LANGUAGE_CODE }}">{{ activity.title|title_lang:LANGUAGE_CODE }}</a></li>
+				<li><a href="{% url 'oppia_preview_course_activity' course.id activity.id %}">{{ activity.title|title_lang:LANGUAGE_CODE }}</a></li>
 			{%  else %}
 				<li>{{ activity.title|title_lang:LANGUAGE_CODE }}</li>
 			{% endif %}
