@@ -112,18 +112,7 @@ def handle_uploaded_file(f, extract_path, request, is_draft):
             section.order = 0
             section.save()
             for a in meta.getElementsByTagName("activity"):
-                temp_title = {}
-                for t in a.getElementsByTagName("title"):
-                    temp_title[t.getAttribute('lang')] = t.firstChild.nodeValue
-                title = json.dumps(temp_title)
-                activity = Activity()
-                activity.section = section
-                activity.order = a.getAttribute("order")
-                activity.title = title
-                activity.type = a.getAttribute("type")
-                activity.digest = a.getAttribute("digest")
-                activity.baseline = True
-                activity.save()
+                activity_create(section, a,True)
             
        
     # add all the sections
@@ -149,18 +138,7 @@ def handle_uploaded_file(f, extract_path, request, is_draft):
             # add all the activities
             for activities in s.getElementsByTagName("activities")[:1]:
                 for a in activities.getElementsByTagName("activity"):
-                    temp_title = {}
-                    for t in a.getElementsByTagName("title"):
-                        temp_title[t.getAttribute('lang')] = t.firstChild.nodeValue
-                    title = json.dumps(temp_title)
-                    activity = Activity()
-                    activity.section = section
-                    activity.order = a.getAttribute("order")
-                    activity.title = title
-                    activity.type = a.getAttribute("type")
-                    activity.digest = a.getAttribute("digest")
-                    activity.baseline = False
-                    activity.save()
+                    activity_create(section, a,False)
                     
     # add all the media
     for file in doc.lastChild.lastChild.childNodes:
@@ -182,6 +160,66 @@ def handle_uploaded_file(f, extract_path, request, is_draft):
     
     if old_course_filename is not None and old_course_filename != course.filename:
         os.remove(settings.COURSE_UPLOAD_DIR + old_course_filename)
+    
+    #Extract the final file into the courses area for preview
+    zipfilepath = settings.COURSE_UPLOAD_DIR + f.name
+    
+    with open(zipfilepath, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+            
+    zip = zipfile.ZipFile(zipfilepath)
+    course_preview_path = settings.MEDIA_ROOT + "courses/"
+    zip.extractall(path=course_preview_path)      
+    
         
     return course       
-              
+  
+def activity_create(section, act, baseline=False):
+    temp_title = {}
+    for t in act.getElementsByTagName("title"):
+        temp_title[t.getAttribute('lang')] = t.firstChild.nodeValue
+    title = json.dumps(temp_title)
+    
+    if act.getAttribute("type") == "page":
+        temp_content = {}
+        for t in act.getElementsByTagName("location"):
+            temp_content[t.getAttribute('lang')] = t.firstChild.nodeValue
+        content = json.dumps(temp_content)
+    elif act.getAttribute("type") == "quiz":
+        for c in act.getElementsByTagName("content"):
+            content = c.firstChild.nodeValue
+    elif act.getAttribute("type") == "feedback":
+        for c in act.getElementsByTagName("content"):
+            content = c.firstChild.nodeValue
+    elif act.getAttribute("type") == "resource":
+        for c in act.getElementsByTagName("location"):
+            content = c.firstChild.nodeValue
+    else:
+        content = None
+    
+    image = None
+    if act.getElementsByTagName("image"):
+        for i in act.getElementsByTagName("image"):
+            image = i.getAttribute('filename') 
+        
+    
+    if act.getElementsByTagName("description"):
+        description = {}
+        for d in act.getElementsByTagName("description"):
+            description[t.getAttribute('lang')] = d.firstChild.nodeValue
+        description = json.dumps(description)
+    else:
+        description = None
+          
+    activity = Activity()
+    activity.section = section
+    activity.order = act.getAttribute("order")
+    activity.title = title
+    activity.type = act.getAttribute("type")
+    activity.digest = act.getAttribute("digest")
+    activity.baseline = baseline
+    activity.image = image
+    activity.content = content
+    activity.description = description
+    activity.save()           
