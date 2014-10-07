@@ -38,8 +38,9 @@ def course_activity_view(request, course_id, activity_id):
         with file(settings.MEDIA_ROOT + "courses/" + course.shortname + "/" + activity_content_file) as f:
             s = f.read()
         
-        template = re.compile('\<body onload=\"init\(\)\;\"\>(?P<content>.*)\<\/body\>')
-        activity_content = template.search(s).group('content')
+        template = re.compile('\<body onload=\"init\(\)\;\"\>(?P<word>.*)\<\/body\>', re.DOTALL)
+        
+        activity_content = template.search(s).group()
         
         
     return render_to_response('oppia/preview/course_activity_page.html',
