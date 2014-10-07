@@ -206,9 +206,9 @@ class Activity(models.Model):
     type = models.CharField(max_length=10)
     digest = models.CharField(max_length=100)
     baseline = models.BooleanField(default=False)
-    image = models.TextField(blank=True,default=None)
-    content = models.TextField(blank=True,default=None)
-    description = models.TextField(blank=True,default=None)
+    image = models.TextField(blank=True, null=True, default=None)
+    content = models.TextField(blank=True, null=True, default=None)
+    description = models.TextField(blank=True, null=True, default=None)
     
     def __unicode__(self):
         return self.get_title()
