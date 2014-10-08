@@ -19,6 +19,8 @@ def home_view(request):
     else:
         course_list = Course.objects.filter(is_draft=False,is_archived=False).order_by('title') 
         
+    # only get courses that are already published for preview
+    
     return render_to_response('oppia/preview/home.html',
                               {'course_list': course_list}, 
                               context_instance=RequestContext(request))
