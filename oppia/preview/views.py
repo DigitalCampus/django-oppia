@@ -1,4 +1,5 @@
 # oppia/preview/views.py
+import codecs
 import re
 
 from django.conf import settings
@@ -35,10 +36,10 @@ def course_activity_view(request, course_id, activity_id):
     if activity.type == "page":
         activity_content_file = activity.get_content()
         
-        with file(settings.MEDIA_ROOT + "courses/" + course.shortname + "/" + activity_content_file) as f:
+        with codecs.open(settings.MEDIA_ROOT + "courses/" + course.shortname + "/" + activity_content_file, "r", "utf-8") as f:
             s = f.read()
         
-        template = re.compile('\<body onload=\"init\(\)\;\"\>(?P<word>.*)\<\/body\>', re.DOTALL)
+        template = re.compile('\<body.*>(?P<word>.*)\<\/body\>', re.DOTALL)
         
         activity_content = template.search(s).group()
         activity_content =  activity_content.replace("images/",settings.MEDIA_URL + "courses/" + course.shortname + "/images/")
