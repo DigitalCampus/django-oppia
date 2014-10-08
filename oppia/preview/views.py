@@ -39,9 +39,9 @@ def course_activity_view(request, course_id, activity_id):
         with codecs.open(settings.MEDIA_ROOT + "courses/" + course.shortname + "/" + activity_content_file, "r", "utf-8") as f:
             s = f.read()
         
-        template = re.compile('\<body.*>(?P<word>.*)\<\/body\>', re.DOTALL)
+        template = re.compile('\<body(?P<body>.*?)>(?P<content>.*)\<\/body\>', re.DOTALL)
         
-        activity_content = template.search(s).group()
+        activity_content = template.search(s).group('content')
         activity_content =  activity_content.replace("images/",settings.MEDIA_URL + "courses/" + course.shortname + "/images/")
         
     return render_to_response('oppia/preview/course_activity_page.html',

@@ -113,18 +113,21 @@ a:hover, a:focus {
  */
 
 .main {
-  padding: 20px;
+  padding: 0;
 }
 @media (min-width: 768px) {
   .main {
-    padding-right: 40px;
-    padding-left: 40px;
+    padding-right: 0;
+    padding-left: 0;
   }
 }
 .main .page-header {
   margin-top: 0;
 }
 
+.row {
+	margin: 0;
+}
 
 /*
  * Placeholder dashboard ideas
