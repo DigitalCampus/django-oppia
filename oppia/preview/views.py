@@ -1,5 +1,6 @@
 # oppia/preview/views.py
 import codecs
+import os
 import re
 
 from django.conf import settings
@@ -14,13 +15,19 @@ from oppia.course_xml_reader import CourseXML
 
 def home_view(request):
     
-    if request.user.is_staff:
-        course_list = Course.objects.filter(is_archived=False).order_by('title')
-    else:
-        course_list = Course.objects.filter(is_draft=False,is_archived=False).order_by('title') 
-        
+    course_list = [] 
     # only get courses that are already published for preview
-    
+    for dir in os.listdir(settings.MEDIA_ROOT + "courses/"):
+        try:
+            if request.user.is_staff:
+                course = Course.objects.get(is_archived=False, shortname=dir)
+            else:
+                course = Course.objects.filter(is_draft=False,is_archived=False, shortname=dir)
+                
+            course_list.append(course)
+        except Course.NotFound:
+            pass
+        
     return render_to_response('oppia/preview/home.html',
                               {'course_list': course_list}, 
                               context_instance=RequestContext(request))
