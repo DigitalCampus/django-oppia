@@ -53,6 +53,6 @@ def course_activity_view(request, course_id, activity_id):
         activity_content = template.search(s).group('content')
         activity_content =  activity_content.replace("images/",settings.MEDIA_URL + "courses/" + course.shortname + "/images/")
         
-    return render_to_response('oppia/preview/course_activity_page.html',
-                              {'course': course, 'activity': activity , 'content' : activity_content }, 
-                              context_instance=RequestContext(request))
+        return render_to_response('oppia/preview/course_activity_page.html',
+                                  {'course': course, 'activity': activity , 'content' : activity_content }, 
+                                  context_instance=RequestContext(request))
