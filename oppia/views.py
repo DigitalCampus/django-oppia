@@ -587,7 +587,7 @@ def check_can_view(request,id):
 def get_nav(course, user):
     nav = []
     nav.append({'url':reverse('oppia_recent_activity',args=(course.id,)), 'title':course.get_title(), 'class':'bold'})
-    if user.is_staff or user == course.owner:
+    if user.is_staff or user == course.user:
         nav.append({'url':reverse('oppia_recent_activity_detail',args=(course.id,)), 'title':_(u'Activity Detail')})
         if course.has_quizzes():
             nav.append({'url':reverse('oppia_course_quiz',args=(course.id,)), 'title':_(u'Course Quizzes')})
