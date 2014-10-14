@@ -26,7 +26,7 @@
 		        {% else %}
 		            <li><a href="{% url 'profile_login' %}?next={{ request.path }}">{% trans 'Login' %}</a></li>
 		           	{% if OPPIA_ALLOW_SELF_REGISTRATION %}
-		           		<li><a href="{% url 'profile_register' %}">{% trans 'Register' %}</a></li>
+		           		<li><a href="{% url 'profile_register' %}?next={{ request.path }}">{% trans 'Register' %}</a></li>
 		           	{% endif %}     
 		        {% endif %}
 		    </ul>

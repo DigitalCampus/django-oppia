@@ -5,7 +5,7 @@ import json
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Max, Sum, Q
+from django.db.models import Max, Sum, Q, F
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
@@ -248,6 +248,27 @@ class Activity(models.Model):
         except:
             pass
         return self.content 
+    
+    def get_next_activity(self):
+        try:
+            next_activity = Activity.objects.get(section__course=self.section.course,order=self.order+1,section=self.section)
+        except Activity.DoesNotExist:
+            try:
+                next_activity = Activity.objects.get(section__course=self.section.course,order=1,section=self.section+1)
+            except Activity.DoesNotExist:
+                next_activity = None
+        return next_activity
+        
+    def get_previous_activity(self):
+        try:
+            prev_activity = Activity.objects.get(section__course=self.section.course,order=self.order-1,section=self.section)
+        except Activity.DoesNotExist:
+            try:
+                max_order = Activity.objects.filter(section__course=self.section.course,section__order=self.section.order-1).aggregate(max_order=Max('order'))
+                prev_activity = Activity.objects.get(section__course=self.section.course,section__order=self.section.order-1,order=max_order['max_order'])
+            except:
+                prev_activity = None        
+        return prev_activity
     
 class Media(models.Model):
     course = models.ForeignKey(Course)

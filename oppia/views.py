@@ -25,7 +25,7 @@ from django.utils import timezone
 from oppia.forms import UploadCourseForm, ScheduleForm, DateRangeForm, DateRangeIntervalForm
 from oppia.forms import ActivityScheduleForm, CohortForm
 from oppia.models import Course, Tracker, Tag, CourseTag, Schedule
-from oppia.models import ActivitySchedule, Activity, Cohort, Participant, Points
+from oppia.models import ActivitySchedule, Activity, Cohort, Participant, Points 
 from oppia.quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
 
 from uploader import handle_uploaded_file

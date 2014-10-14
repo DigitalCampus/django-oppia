@@ -20,6 +20,7 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput,
                                 error_messages={'required': _(u'Please enter a password.'),},      
                                 required=True)
+    next = forms.CharField(widget=forms.HiddenInput())
     
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)
@@ -31,6 +32,7 @@ class LoginForm(forms.Form):
         self.helper.layout = Layout(
                                     'username',
                                     'password',
+                                    'next',
                                 Div(
                                    Submit('submit', _(u'Login'), css_class='btn btn-default'),
                                    HTML("""<a class="btn btn-default" href="{% url 'profile_reset' %}">"""+_(u'Forgotten password?') + """</a>"""),

@@ -9,7 +9,7 @@ from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
-from oppia.models import Course, Activity
+from oppia.models import Course, Activity, Tracker
 from oppia.views import check_can_view
 from oppia.course_xml_reader import CourseXML
 
@@ -22,10 +22,9 @@ def home_view(request):
             if request.user.is_staff:
                 course = Course.objects.get(is_archived=False, shortname=dir)
             else:
-                course = Course.objects.filter(is_draft=False,is_archived=False, shortname=dir)
-                
+                course = Course.objects.get(is_draft=False,is_archived=False, shortname=dir)
             course_list.append(course)
-        except Course.NotFound:
+        except Course.DoesNotExist:
             pass
         
     return render_to_response('oppia/preview/home.html',
@@ -41,6 +40,18 @@ def course_home_view(request, id):
 def course_activity_view(request, course_id, activity_id):
     course = check_can_view(request, course_id)
     activity = Activity.objects.get(pk=activity_id)
+    
+    # log the activity in the tracker
+    tracker = Tracker()
+    tracker.user = request.user
+    tracker.course = course
+    tracker.type = activity.type 
+    tracker.data = ""
+    tracker.ip = request.META.get('REMOTE_ADDR','0.0.0.0')
+    tracker.agent = request.META.get('HTTP_USER_AGENT','unknown')
+    tracker.activity_title = activity.title
+    tracker.section_title = activity.section.title
+    tracker.save()
     
     if activity.type == "page":
         activity_content_file = activity.get_content()

@@ -18,16 +18,26 @@ from tastypie.models import ApiKey
 
 def login_view(request):
     username = password = ''
+    
+    # if already logged in
+    if request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('oppia_home'))
+    
     if request.POST:
         form = LoginForm(request.POST)
         username = request.POST.get('username')
         password = request.POST.get('password')
+        next = request.POST.get('next')
+        print next
         user = authenticate(username=username, password=password)
         if user is not None and user.is_active:
             login(request,user)
-            return HttpResponseRedirect(reverse('oppia_home'))
+            if next is not None:
+                return HttpResponseRedirect(next)
+            else:
+                return HttpResponseRedirect(reverse('oppia_home'))
     else:
-        form = LoginForm()
+        form = LoginForm(initial={'next':request.GET.get('next'),})
         
     return render(request, 'oppia/form.html',{'username': username, 'form': form, 'title': _(u'Login')})
 
@@ -57,10 +67,10 @@ def register(request):
             if u is not None:
                 if u.is_active:
                     login(request, u)
-                    return HttpResponseRedirect('thanks/') # Redirect after POST
+                    return HttpResponseRedirect('thanks/')
             return HttpResponseRedirect('thanks/') # Redirect after POST
     else:
-        form = RegisterForm() # An unbound form
+        form = RegisterForm(initial={'next':request.GET.get('next'),})
 
     return render(request, 'oppia/form.html', {'form': form, 'title': _(u'Register')})
 
