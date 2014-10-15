@@ -171,6 +171,16 @@ a:hover, a:focus {
     color: #FFFFFF;
 }
 
+.btn a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.btn a:hover, .btn a:focus {
+    color: #fff;
+    text-decoration: none;
+}
+
 /*
  * Footer
  */

@@ -1,0 +1,27 @@
+{% load i18n %}
+{% load display_functions %}
+{% block content %}
+<div class="container-fluid">
+	  <div class="navbar-header">
+	    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	      <span class="sr-only">Toggle navigation</span>
+	      <span class="icon-bar"></span>
+	      <span class="icon-bar"></span>
+	      <span class="icon-bar"></span>
+	    </button>
+	    <a class="navbar-brand" href="{% url 'oppia_preview_home' %}"><img src="{{ STATIC_URL }}oppia/images/dc_logo.png" height="24"/>{% trans 'app_name' %}</a>
+	  </div>
+	  <div class="navbar-collapse collapse">
+		    <ul class="nav navbar-nav navbar-right">
+		       {% if user.is_authenticated %}
+		            <li><a href="{% url 'django.contrib.auth.views.logout' %}">{% trans 'Logout' %}</a></li>
+		        {% else %}
+		            <li><a href="{% url 'profile_login' %}?next={{ request.path }}">{% trans 'Login' %}</a></li>
+		           	{% if OPPIA_ALLOW_SELF_REGISTRATION %}
+		           		<li><a href="{% url 'profile_register' %}?next={{ request.path }}">{% trans 'Register' %}</a></li>
+		           	{% endif %}     
+		        {% endif %}
+		    </ul>
+	  </div>
+</div>
+{% endblock content %}

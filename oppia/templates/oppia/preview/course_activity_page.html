@@ -39,13 +39,12 @@ $( document ).ready(function() {
 	<div id="oppia-content">
 		{{ content | safe }}
 	</div>
-	
-		<div class="row">
+	<div class="row" style="margin-top:50px">
 		{% if activity.get_previous_activity %}	
-			<div class="pull-left"><a href="{% url 'oppia_preview_course_activity' course.id activity.get_previous_activity.id %}">&lt;&lt; Previous</a></div>
+			<div class="pull-left btn-primary btn btn-default"><a href="{% url 'oppia_preview_course_activity' course.id activity.get_previous_activity.id %}">&lt;&lt; Previous</a></div>
 		{% endif %}
 		{% if activity.get_next_activity %}	
-			<div class="pull-right"><a href="{% url 'oppia_preview_course_activity' course.id activity.get_next_activity.id %}">Next &gt;&gt;</a></div>
+			<div class="pull-right btn-primary btn btn-default"><a href="{% url 'oppia_preview_course_activity' course.id activity.get_next_activity.id %}">Next &gt;&gt;</a></div>
 		{% endif %}
 	</div>
 	
