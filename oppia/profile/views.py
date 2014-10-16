@@ -1,4 +1,6 @@
 # oppia/profile/views.py
+import datetime
+import json
 
 from django.conf import settings
 from django.contrib import messages
@@ -8,10 +10,12 @@ from django.core.mail import send_mail
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
+from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
-from oppia.models import Points,Award, AwardCourse, Course, UserProfile
+from oppia.forms import DateRangeForm, DateRangeIntervalForm
+from oppia.models import Points, Award, AwardCourse, Course, UserProfile, Tracker
 from oppia.profile.forms import LoginForm, RegisterForm, ResetForm, ProfileForm
 from tastypie.models import ApiKey
 
@@ -166,3 +170,58 @@ def points(request):
 def badges(request):
     awards = Award.objects.filter(user=request.user).order_by('-award_date')
     return render(request, 'oppia/profile/badges.html', {'awards': awards,})
+
+
+def user_activity(request, user_id):
+    if not request.user.is_staff:
+        raise Http404
+    
+    user = User.objects.get(pk=user_id)
+        
+    start_date = datetime.datetime.now() - datetime.timedelta(days=31)
+    end_date = datetime.datetime.now()
+    if request.method == 'POST':
+        form = DateRangeForm(request.POST)
+        if form.is_valid():
+            start_date = form.cleaned_data.get("start_date")  
+            start_date = datetime.datetime.strptime(start_date,"%Y-%m-%d")
+            end_date = form.cleaned_data.get("end_date")
+            end_date = datetime.datetime.strptime(end_date,"%Y-%m-%d") 
+            trackers = Tracker.objects.filter(user=user,tracker_date__gte=start_date, tracker_date__lte=end_date).order_by('-tracker_date')
+        else:
+            trackers = Tracker.objects.filter(user=user).order_by('-tracker_date')             
+    else:
+        data = {}
+        data['start_date'] = start_date
+        data['end_date'] = end_date
+        form = DateRangeForm(initial=data)
+        trackers = Tracker.objects.filter(user=user).order_by('-tracker_date')
+        
+    paginator = Paginator(trackers, 25)
+    # Make sure page request is an int. If not, deliver first page.
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+
+    # If page request (9999) is out of range, deliver last page of results.
+    try:
+        tracks = paginator.page(page)
+        for t in tracks:  
+            t.data_obj = []
+            try:
+                data_dict = json.loads(t.data)
+                for key, value in data_dict.items():
+                    t.data_obj.append([key,value])
+            except ValueError:
+                pass
+            t.data_obj.append(['agent',t.agent])
+            t.data_obj.append(['ip',t.ip])
+    except (EmptyPage, InvalidPage):
+        tracks = paginator.page(paginator.num_pages)
+    
+    return render_to_response('oppia/profile/user-activity.html',
+                              {'user': user,
+                               'form': form, 
+                               'page':tracks,}, 
+                              context_instance=RequestContext(request))

@@ -14,4 +14,5 @@ urlpatterns = patterns('',
     url(r'^edit/$', 'oppia.profile.views.edit', name="profile_edit"),
     url(r'^points/$', 'oppia.profile.views.points', name="profile_points"),
     url(r'^badges/$', 'oppia.profile.views.badges', name="profile_badges"),
+    url(r'^(?P<user_id>\d+)/activity/$', 'oppia.profile.views.user_activity', name="profile_user_activity"),
 )

@@ -22,8 +22,7 @@ onload="init();setUpDatePicker();"
 {% endblock extra_body %}
 {% block content %}
 
-<h2><a href="{% url 'oppia_recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a></h2>
-<p><i>{% trans 'Tags:' %} {{ course.get_tags}}</i></p>
+<h2>{{ user.first_name }} {{ user.last_name }}</h2>
 
 {% if page.object_list %}
 
@@ -38,7 +37,7 @@ onload="init();setUpDatePicker();"
          	 <thead>
                 <tr>
                   <th>{% trans 'table_header_tracker_date' %}</th>
-                  <th>{% trans 'table_header_tracker_user' %}</th>
+                  <th>{% trans 'table_header_tracker_course' %}</th>
                   <th>{% trans 'table_header_tracker_type' %}</th>
                   <th>{% trans 'table_header_tracker_activity' %}</th>
                   <th>{% trans 'table_header_tracker_timetaken' %}</th>
@@ -49,14 +48,7 @@ onload="init();setUpDatePicker();"
 	{% for t in page.object_list %}
 		<tr id='{{ t.id }}' name="trackerlist" class="hover">
 			<td>{{ t.tracker_date|date:"d M Y H:i" }}</td>
-			<td>{% if OPPIA_SHOW_GRAVATARS %}
-       				{{ t.user|gravatar:24 }}
-       			{% endif %} 
-       			{% if request.user.is_staff %}
-					<a href="{% url 'profile_user_activity' t.user.id %}">{{ t.user.first_name }} {{ t.user.last_name }}</a>
-				{% else %}
-					{{ t.user.first_name }} {{ t.user.last_name }}
-				{% endif %}</td>
+			<td>{{ t.course.title|title_lang:LANGUAGE_CODE }} </td>
 			<td>{{ t.type }}</td>
 			<td>{% if t.get_media_title %}
 					{{ t.get_media_title }}
@@ -97,8 +89,7 @@ onload="init();setUpDatePicker();"
  		</table>
 	</div> 
 	{% include "oppia/includes/page_navigator.html" %}
-	
-	{% include "oppia/includes/tracker_export.html" %}
+
 	
 {% else %}
 	<p>{% trans 'No hits yet' %}</p>

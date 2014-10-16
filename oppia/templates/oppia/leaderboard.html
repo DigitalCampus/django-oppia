@@ -22,7 +22,13 @@
 			<tr>
 				<td>{{ forloop.counter0|get_index:page.start_index }}</td>
 				<td>{% if OPPIA_SHOW_GRAVATARS %} {{ user|gravatar:24 }} 
-				{% endif %} {{ user.first_name }} {{ user.last_name }}</td>
+				{% endif %} 
+				{% if request.user.is_staff %}
+					<a href="{% url 'profile_user_activity' user.id %}">{{ user.first_name }} {{ user.last_name }}</a>
+				{% else %}
+					{{ user.first_name }} {{ user.last_name }}
+				{% endif %}
+				</td>
 				<td><span title="{{ user.total  }} {% trans 'points' %}">
 					{{ user.total }}</span></td>
 				<td>{% if user.badges > 0 %} <span class="badges"

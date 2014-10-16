@@ -42,8 +42,11 @@ onload="init();"
 			<td>{% if OPPIA_SHOW_GRAVATARS %}
        				{{ a.user|gravatar:24 }}
        			{% endif %} 
-       			{{ a.user.first_name }} 
-       			{{ a.user.last_name }}</td>
+       			{% if request.user.is_staff %}
+					<a href="{% url 'profile_user_activity' a.user.id %}">{{ a.user.first_name }} {{ a.user.last_name }}</a>
+				{% else %}
+					{{ a.user.first_name }} {{ a.user.last_name }}
+				{% endif %}</td>
 			<td>{{ a.get_score_percent }}%</td>
 		</tr>
 		<tr id='detail{{ a.id }}'>
