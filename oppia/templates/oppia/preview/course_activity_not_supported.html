@@ -6,19 +6,6 @@
 	<link href="{{ STATIC_URL }}oppia/preview/default.css" rel="stylesheet"/>
 {% endblock extra_styles %}
 
-{% block extra_scripts %}
-<script>
-$( document ).ready(function() {
-	$('[name=reveal]').each(function(i){
-		$(this).click(function() {
-			$('#answer'+$(this).attr('id')).toggle("blind", 1000 );
-			$(this).hide();
-		});
-		}
-	);
-});
-</script>
-{% endblock extra_scripts %} 
 
 {% block content %}
 {% if course %}
@@ -37,7 +24,7 @@ $( document ).ready(function() {
 	</div>
 	<h3>{{ activity.section.title|title_lang:LANGUAGE_CODE }} &gt; {{ activity.title|title_lang:LANGUAGE_CODE }}</h3>
 	<div id="oppia-content">
-		{{ content | safe }}
+		{%  trans "Activity not yet supported" %}
 	</div>
 	<div class="row" style="margin-top:50px">
 		{% if activity.get_previous_activity %}	

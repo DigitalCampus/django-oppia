@@ -67,3 +67,8 @@ def course_activity_view(request, course_id, activity_id):
         return render_to_response('oppia/preview/course_activity_page.html',
                                   {'course': course, 'activity': activity , 'content' : activity_content }, 
                                   context_instance=RequestContext(request))
+    else:
+        activity_content= None
+        return render_to_response('oppia/preview/course_activity_not_supported.html',
+                                  {'course': course, 'activity': activity , 'content' : activity_content }, 
+                                  context_instance=RequestContext(request)) 

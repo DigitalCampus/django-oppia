@@ -254,7 +254,7 @@ class Activity(models.Model):
             next_activity = Activity.objects.get(section__course=self.section.course,order=self.order+1,section=self.section)
         except Activity.DoesNotExist:
             try:
-                next_activity = Activity.objects.get(section__course=self.section.course,order=1,section=self.section+1)
+                next_activity = Activity.objects.get(section__course=self.section.course, section__order=self.section.order+1,order=1)
             except Activity.DoesNotExist:
                 next_activity = None
         return next_activity
