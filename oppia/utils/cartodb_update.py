@@ -27,7 +27,7 @@ def run(cartodb_account, cartodb_key):
     data = u.read() 
     dataJSON = json.loads(data)
 
-    locations = UserLocationVisualization.objects.values('lat','lng').annotate(total_hits=Sum('hits'))
+    locations = UserLocationVisualization.objects.values('lat','lng', 'country_code').annotate(total_hits=Sum('hits'))
     for l in locations :
         
         # find if already in cartodb
@@ -58,7 +58,7 @@ def run(cartodb_account, cartodb_key):
         else:
         # if not found then insert
             print "not found - will insert"
-            sql = "INSERT INTO %s (the_geom, lat, lng, total_hits) VALUES (ST_SetSRID(ST_Point(%f, %f),4326),%f,%f,%d)" % (cartodb_table,l['lng'],l['lat'],l['lat'],l['lng'],l['total_hits'])
+            sql = "INSERT INTO %s (the_geom, lat, lng, total_hits, country_code) VALUES (ST_SetSRID(ST_Point(%f, %f),4326),%f,%f,%d ,'%s')" % (cartodb_table,l['lng'],l['lat'],l['lat'],l['lng'],l['total_hits'],l['country_code'])
             url = "http://%s.cartodb.com/api/v2/sql?q=%s&api_key=%s" % (cartodb_account,sql,cartodb_key)
             u = urllib.urlopen(url)
             data = u.read() 

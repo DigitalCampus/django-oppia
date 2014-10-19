@@ -51,36 +51,7 @@ def update_via_freegeoip(geonames_user, t):
     except:
         pass
     time.sleep(1) 
-    '''
-    if 'geolocation_data' in dataJSON:
-        print dataJSON['geolocation_data']
-        url = 'http://api.geonames.org/searchJSON?username=%s&maxRows=1&q=%s&country=%s' % (geonames_user,dataJSON['geolocation_data']['region_name'],dataJSON['geolocation_data']['country_code_iso3166alpha2'])
-        u = urllib2.urlopen(urllib2.Request(url))
-        geo = u.read()  
-        geoJSON = json.loads(geo)
-        print geoJSON
-        
-        try:
-            
-            viz = UserLocationVisualization()
-            viz.ip = t['ip']
-            viz.lat = geoJSON['geonames'][0]['lat']
-            viz.lng = geoJSON['geonames'][0]['lng']
-            viz.hits = t['count_hits']
-            viz.region = geoJSON['geonames'][0]['name']
-            viz.country_code = geoJSON['geonames'][0]['countryCode']
-            viz.country_name = geoJSON['geonames'][0]['countryName']
-            viz.geonames_data = geoJSON['geonames'][0]
-            viz.save()
-        except UnicodeEncodeError:
-            pass
-        except IndexError:
-            pass
-        except KeyError:
-            pass
-        except:
-            pass
-        '''
+    
         
             
 def update_via_ipaddresslabs(ip_key, geonames_user, t):
