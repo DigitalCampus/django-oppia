@@ -19,9 +19,9 @@ videos essentially you'll need to just to create "page resources". There are
 some guidelines/info etc about creating courses here (esp about adding 
 videos/images and translations): http://oppia-mobile.org/course-authors/.
 
-If you'd like to see an example of how we structured and set up the Postnatal 
+If you'd like to see an example of how we structured and set up the Antenatal 
 Care course you can see this at: 
-http://moodle.digital-campus.org/course/view.php?id=84  
+http://moodle.digital-campus.org/course/view.php?id=166 
 
 Once you have some content etc that you'd like to test on your phone, press the 
 'Export to Oppia Package' button in the right hand column. At the end of the 
