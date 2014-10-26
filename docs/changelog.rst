@@ -1,7 +1,7 @@
 Change Log
 ============
 
-v0.5.2 - released: XXX
+v0.5.2 - released: 26 Oct 2014
 --------------------------------------
 
 * Start https://github.com/DigitalCampus/django-oppia/issues/112 - Show preview of courses via mobile web enabled pages
