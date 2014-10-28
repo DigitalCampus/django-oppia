@@ -46,7 +46,8 @@ def run(input_dir, output_dir, image_width, image_height):
                 if not os.path.exists(os.path.join(output_dir, filename + ".images")):
                     os.makedirs(os.path.join(output_dir, filename + ".images"))
                     
-                image_generator_command = "ffmpeg -i %s -r 0.1 -s %dx%d -f image2 %s/frame-%%03d.png" % (os.path.join(output_dir, filename), image_width, image_height, os.path.join(output_dir, filename + ".images")) 
+                image_generator_command = "ffmpeg -i %s -r 0.1 -s %dx%d -f image2 %s/frame-%%03d.png" % (os.path.join(input_dir, filename), image_width, image_height, os.path.join(output_dir, filename + ".images")) 
+                print image_generator_command
                 subprocess.call(image_generator_command, shell=True)  
     out_file.close()
     
