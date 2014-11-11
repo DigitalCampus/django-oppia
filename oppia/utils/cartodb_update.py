@@ -16,7 +16,7 @@ from django.db.models import Sum
 from oppia.viz.models import UserLocationVisualization
 
 
-def run(cartodb_account, cartodb_key): 
+def run(cartodb_account, cartodb_key, source): 
     
     cartodb_table = "oppiamobile_users" 
     
@@ -31,7 +31,7 @@ def run(cartodb_account, cartodb_key):
     for l in locations :
         
         # find if already in cartodb
-        sql = "SELECT * FROM %s WHERE lat=%f AND lng=%f" % (cartodb_table,l['lat'],l['lng'])
+        sql = "SELECT * FROM %s WHERE lat=%f AND lng=%f AND source='%s'" % (cartodb_table,l['lat'],l['lng'], source)
         url = "http://%s.cartodb.com/api/v2/sql?q=%s" % (cartodb_account,sql)
         u = urllib.urlopen(url)
         data = u.read() 
@@ -46,7 +46,7 @@ def run(cartodb_account, cartodb_key):
                 print "found - will update"
                 cartodb_id = dataJSON['rows'][0]['cartodb_id']
                 print cartodb_id
-                sql = "UPDATE %s SET total_hits=%d WHERE cartodb_id=%d" % (cartodb_table,l['total_hits'], cartodb_id)
+                sql = "UPDATE %s SET total_hits=%d WHERE cartodb_id=%d AND source='%s'" % (cartodb_table,l['total_hits'], cartodb_id, source)
                 url = "http://%s.cartodb.com/api/v2/sql?q=%s&api_key=%s" % (cartodb_account,sql,cartodb_key)
                 u = urllib.urlopen(url)
                 data = u.read() 
@@ -58,7 +58,7 @@ def run(cartodb_account, cartodb_key):
         else:
         # if not found then insert
             print "not found - will insert"
-            sql = "INSERT INTO %s (the_geom, lat, lng, total_hits, country_code) VALUES (ST_SetSRID(ST_Point(%f, %f),4326),%f,%f,%d ,'%s')" % (cartodb_table,l['lng'],l['lat'],l['lat'],l['lng'],l['total_hits'],l['country_code'])
+            sql = "INSERT INTO %s (the_geom, lat, lng, total_hits, country_code, source) VALUES (ST_SetSRID(ST_Point(%f, %f),4326),%f,%f,%d ,'%s','%s')" % (cartodb_table,l['lng'],l['lat'],l['lat'],l['lng'],l['total_hits'],l['country_code'], source)
             url = "http://%s.cartodb.com/api/v2/sql?q=%s&api_key=%s" % (cartodb_account,sql,cartodb_key)
             u = urllib.urlopen(url)
             data = u.read() 
@@ -72,9 +72,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("cartodb_account", help="CartoDB Account Name")
     parser.add_argument("cartodb_key", help="CartoDB API Key")
+    parser.add_argument("source", help="Source database")
     #parser.add_argument("cartodb_table", help="CartoDB table name")
     args = parser.parse_args()
-    run(args.cartodb_account, args.cartodb_key)  
+    run(args.cartodb_account, args.cartodb_key, args.source)  
     
     
     
