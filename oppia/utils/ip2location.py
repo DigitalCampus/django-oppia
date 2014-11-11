@@ -33,7 +33,7 @@ def update_via_freegeoip(geonames_user, t):
     url = 'https://freegeoip.net/json/%s' % (t['ip'])
     print t['ip'] + " : "+ url
     try:
-        u = urllib2.urlopen(urllib2.Request(url))
+        u = urllib2.urlopen(urllib2.Request(url), 10)
         data = u.read()  
         dataJSON = json.loads(data,"utf-8")
         print dataJSON
