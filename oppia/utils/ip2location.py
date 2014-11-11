@@ -32,10 +32,13 @@ def run(ip_key, geonames_user):
 def update_via_freegeoip(geonames_user, t):
     url = 'https://freegeoip.net/json/%s' % (t['ip'])
     print t['ip'] + " : "+ url
-    u = urllib2.urlopen(urllib2.Request(url))
-    data = u.read()  
-    dataJSON = json.loads(data,"utf-8")
-    print dataJSON
+    try:
+        u = urllib2.urlopen(urllib2.Request(url))
+        data = u.read()  
+        dataJSON = json.loads(data,"utf-8")
+        print dataJSON
+    except:
+        return
     
     try:
         viz = UserLocationVisualization()

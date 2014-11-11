@@ -5,6 +5,10 @@ v49 (4.1.3) - not yet released
 --------------------------------------
 * Fix https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/355 - 
   preventing media being visible to other apps
+* Fix https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/371 - 
+  use custom media player
+* Fix https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/352 - 
+  more reliable recording of media activity
 
 v48 (4.1.2) - released: 1 Oct 2014
 --------------------------------------
