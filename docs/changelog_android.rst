@@ -1,7 +1,7 @@
 OppiaMobile Android App Change Log
 ====================================
 
-v49 (4.1.3) - not yet released
+v49 (5.0.0) - not yet released
 --------------------------------------
 * Fix https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/355 - 
   preventing media being visible to other apps
@@ -9,6 +9,8 @@ v49 (4.1.3) - not yet released
   use custom media player
 * Fix https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/352 - 
   more reliable recording of media activity
+* Fix https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/337 - 
+  move file storage to new location
 
 v48 (4.1.2) - released: 1 Oct 2014
 --------------------------------------
