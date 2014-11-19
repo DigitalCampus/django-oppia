@@ -27,9 +27,9 @@ def run(ip_key, geonames_user):
             print "hits updated"
         except UserLocationVisualization.DoesNotExist:
             #update_via_ipaddresslabs(ip_key, geonames_user, t)
-            update_via_freegeoip(geonames_user, t)
+            update_via_freegeoip(t)
 
-def update_via_freegeoip(geonames_user, t):
+def update_via_freegeoip(t):
     url = 'https://freegeoip.net/json/%s' % (t['ip'])
     print t['ip'] + " : "+ url
     try:
@@ -41,16 +41,17 @@ def update_via_freegeoip(geonames_user, t):
         return
     
     try:
-        viz = UserLocationVisualization()
-        viz.ip = t['ip']
-        viz.lat = dataJSON['latitude']
-        viz.lng = dataJSON['longitude']
-        viz.hits = t['count_hits']
-        viz.region = dataJSON['city'] + " " + dataJSON['region_name'] 
-        viz.country_code = dataJSON['country_code']
-        viz.country_name = dataJSON['country_name']
-        viz.geonames_data = dataJSON
-        viz.save()
+        if dataJSON['latitude'] != 0 and dataJSON['longitude'] != 0:
+            viz = UserLocationVisualization()
+            viz.ip = t['ip']
+            viz.lat = dataJSON['latitude']
+            viz.lng = dataJSON['longitude']
+            viz.hits = t['count_hits']
+            viz.region = dataJSON['city'] + " " + dataJSON['region_name'] 
+            viz.country_code = dataJSON['country_code']
+            viz.country_name = dataJSON['country_name']
+            viz.geonames_data = dataJSON
+            viz.save()
     except:
         pass
     time.sleep(1) 
@@ -94,8 +95,8 @@ def update_via_ipaddresslabs(ip_key, geonames_user, t):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("ip_key", help="IP Address Labs API Key")
-    parser.add_argument("geonames_user", help="Geonames username")
+    parser.add_argument("geonames_user", help="Geonames username", default="")
+    parser.add_argument("ip_key", help="IP Address Labs API Key", default="")
     args = parser.parse_args()
     run(args.ip_key, args.geonames_user)  
     

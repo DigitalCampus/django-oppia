@@ -11,7 +11,7 @@ import urllib
 import json 
 import argparse, hashlib, subprocess
 
-from django.db.models import Sum
+from django.db.models import Sum, Q
 
 from oppia.viz.models import UserLocationVisualization
 
@@ -27,7 +27,7 @@ def run(cartodb_account, cartodb_key, source_site):
     data = u.read() 
     dataJSON = json.loads(data)
 
-    locations = UserLocationVisualization.objects.values('lat','lng', 'country_code').annotate(total_hits=Sum('hits'))
+    locations = UserLocationVisualization.objects.filter(~Q(lat=0), ~Q(lng=0)).values('lat','lng', 'country_code').annotate(total_hits=Sum('hits'))
     for l in locations :
         
         # find if already in cartodb
