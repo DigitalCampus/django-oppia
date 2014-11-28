@@ -14,21 +14,14 @@ from crispy_forms.layout import Button, Layout, Fieldset, ButtonHolder, Submit, 
 
 from oppia.models import Schedule
 
-class UploadCourseForm(forms.Form):
+class UploadCourseStep1Form(forms.Form):
     course_file = forms.FileField(
                 help_text=_('Max size %(size)d Mb') % {'size':int(math.floor(settings.OPPIA_MAX_UPLOAD_SIZE / 1024 / 1024))},
                 required=True,
                 error_messages={'required': _('Please select a file to upload')},)
-    tags = forms.CharField(
-                help_text=_("A comma separated list of tags to help classify your course"),
-                required=True,
-                error_messages={'required': _('Please enter at least one tag')},)
-    is_draft = forms.BooleanField(
-                help_text=_("Whether this course is only a draft"),
-                required=False,)
     
     def __init__(self, *args, **kwargs):
-        super(UploadCourseForm, self).__init__(*args, **kwargs)
+        super(UploadCourseStep1Form, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_action = reverse('oppia_upload')
         self.helper.form_class = 'form-horizontal'
@@ -36,8 +29,6 @@ class UploadCourseForm(forms.Form):
         self.helper.field_class = 'col-lg-4'
         self.helper.layout = Layout(
                 'course_file',
-                'tags',
-                'is_draft',
                 Div(
                    Submit('submit', _(u'Upload'), css_class='btn btn-default'),
                    css_class='col-lg-offset-2 col-lg-4',
@@ -45,7 +36,7 @@ class UploadCourseForm(forms.Form):
             )  
     
     def clean(self):
-        cleaned_data = super(UploadCourseForm, self).clean()
+        cleaned_data = super(UploadCourseStep1Form, self).clean()
         file = cleaned_data.get("course_file")
         
         if file is not None and file._size > settings.OPPIA_MAX_UPLOAD_SIZE:  
@@ -56,6 +47,30 @@ class UploadCourseForm(forms.Form):
             raise forms.ValidationError(_("You may only upload a zip file"))
         
         return cleaned_data
+
+class UploadCourseStep2Form(forms.Form):
+    tags = forms.CharField(
+                help_text=_("A comma separated list of tags to help classify your course"),
+                required=True,
+                error_messages={'required': _('Please enter at least one tag')},)
+    is_draft = forms.BooleanField(
+                help_text=_("Whether this course is only a draft"),
+                required=False,)
+    
+    def __init__(self, *args, **kwargs):
+        super(UploadCourseStep2Form, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = 'form-horizontal'
+        self.helper.label_class = 'col-lg-2'
+        self.helper.field_class = 'col-lg-4'
+        self.helper.layout = Layout(
+                'tags',
+                'is_draft',
+                Div(
+                   Submit('submit', _(u'Save'), css_class='btn btn-default'),
+                   css_class='col-lg-offset-2 col-lg-4',
+                ),
+            )  
         
 class ScheduleForm(forms.ModelForm):
     class Meta:

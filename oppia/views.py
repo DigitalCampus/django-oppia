@@ -22,7 +22,7 @@ from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
-from oppia.forms import UploadCourseForm, ScheduleForm, DateRangeForm, DateRangeIntervalForm
+from oppia.forms import UploadCourseStep1Form, UploadCourseStep2Form, ScheduleForm, DateRangeForm, DateRangeIntervalForm
 from oppia.forms import ActivityScheduleForm, CohortForm
 from oppia.models import Course, Tracker, Tag, CourseTag, Schedule
 from oppia.models import ActivitySchedule, Activity, Cohort, Participant, Points 
@@ -134,22 +134,44 @@ def tag_courses_view(request, id):
 def terms_view(request):
     return render_to_response('oppia/terms.html', {'settings': settings}, context_instance=RequestContext(request))
         
-def upload(request):
+def upload_step1(request):
     if settings.OPPIA_STAFF_ONLY_UPLOAD is True and not request.user.is_staff:
         return render_to_response('oppia/upload-staff-only.html', {'settings': settings}, context_instance=RequestContext(request))
         
     
     if request.method == 'POST':
-        form = UploadCourseForm(request.POST,request.FILES)
+        form = UploadCourseStep1Form(request.POST,request.FILES)
         if form.is_valid(): # All validation rules pass
             extract_path = settings.COURSE_UPLOAD_DIR + 'temp/' + str(request.user.id) + '/' 
-            is_draft = form.cleaned_data.get("is_draft")
-            course = handle_uploaded_file(request.FILES['course_file'], extract_path, request, is_draft)
+            course = handle_uploaded_file(request.FILES['course_file'], extract_path, request)
             if course:
                 shutil.rmtree(extract_path)
+                return HttpResponseRedirect(reverse('oppia_upload2', args=[course.id])) # Redirect after POST
+            else:
+                shutil.rmtree(extract_path,ignore_errors=True)
+                os.remove(settings.COURSE_UPLOAD_DIR + request.FILES['course_file'].name)
+    else:
+        form = UploadCourseStep1Form() # An unbound form
+
+    return render(request, 'oppia/upload.html', {'form': form,'title':_(u'Upload Course - step 1')})
+
+def upload_step2(request, course_id):
+    if settings.OPPIA_STAFF_ONLY_UPLOAD is True and not request.user.is_staff:
+        return render_to_response('oppia/upload-staff-only.html', {'settings': settings}, context_instance=RequestContext(request))
+        
+    course = Course.objects.get(pk=course_id)
+    
+    if request.method == 'POST':
+        form = UploadCourseStep2Form(request.POST,request.FILES)
+        if form.is_valid(): # All validation rules pass
+            is_draft = form.cleaned_data.get("is_draft")
+            if course:
                 #add the tags
                 tags = form.cleaned_data.get("tags").strip().split(",")
+                is_draft = form.cleaned_data.get("is_draft")
                 if len(tags) > 0:
+                    course.is_draft = is_draft
+                    course.save()
                     for t in tags:
                         try: 
                             tag = Tag.objects.get(name__iexact=t.strip())
@@ -167,13 +189,12 @@ def upload(request):
                             ct.tag = tag
                             ct.save()
                 return HttpResponseRedirect('success/') # Redirect after POST
-            else:
-                shutil.rmtree(extract_path,ignore_errors=True)
-                os.remove(settings.COURSE_UPLOAD_DIR + request.FILES['course_file'].name)
     else:
-        form = UploadCourseForm() # An unbound form
+        form = UploadCourseStep2Form(initial={'tags':course.get_tags(),
+                                    'is_draft':course.is_draft,}) # An unbound form
 
-    return render(request, 'oppia/upload.html', {'form': form,'title':_(u'Upload Course')})
+    return render(request, 'oppia/upload.html', {'form': form,'title':_(u'Upload Course - step 2')})
+
 
 def recent_activity(request,id):
     course = check_can_view(request, id)

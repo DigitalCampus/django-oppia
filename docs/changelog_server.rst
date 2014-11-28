@@ -4,7 +4,8 @@ OppiaMobile Server Change Log
 v0.5.3 - not yet released
 --------------------------------------
 * Fix https://github.com/DigitalCampus/django-oppia/issues/206 - Don't show lat/lng of 0/0
-
+* Fix https://github.com/DigitalCampus/django-oppia/issues/142 - update efficiency of updating cartodb
+* Fix https://github.com/DigitalCampus/django-oppia/issues/87 - change upload course process
 
 
 v0.5.2 - released: 26 Oct 2014
