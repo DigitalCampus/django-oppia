@@ -3,7 +3,7 @@ OppiaMobile Server Change Log
 
 v0.5.3 - not yet released
 --------------------------------------
-
+* Fix https://github.com/DigitalCampus/django-oppia/issues/206 - Don't show lat/lng of 0/0
 
 
 
