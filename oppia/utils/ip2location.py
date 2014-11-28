@@ -14,7 +14,7 @@ from django.db.models import Count
 from oppia.models import Tracker
 from oppia.viz.models import UserLocationVisualization
 
-def run(geonames_user):
+def run():
   
     tracker_ip_hits = Tracker.objects.filter(user__is_staff=False).values('ip').annotate(count_hits=Count('ip'))
     
@@ -26,7 +26,6 @@ def run(geonames_user):
             cached.save()
             print "hits updated"
         except UserLocationVisualization.DoesNotExist:
-            #update_via_ipaddresslabs(ip_key, geonames_user, t)
             update_via_freegeoip(t)
 
 def update_via_freegeoip(t):
@@ -58,10 +57,7 @@ def update_via_freegeoip(t):
                                          
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("geonames_user", help="Geonames username", default="")
-    args = parser.parse_args()
-    run(args.geonames_user)  
+    run()  
     
     
      
