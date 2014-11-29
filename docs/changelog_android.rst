@@ -4,7 +4,8 @@ OppiaMobile Android App Change Log
 
 v50 (5.0.1) - not yet released
 ---------------------------------------------------
-
+* Fix https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/372 - 
+  static prefs
 
 v49 (5.0.0) - released beta version: 18 Nov 2014
 ---------------------------------------------------
