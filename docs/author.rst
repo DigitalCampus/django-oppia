@@ -17,7 +17,7 @@ When you're on the course homepage press the 'turn editing on' button in the top
 right then you get the options to add/edit activities/resources etc - for the 
 videos essentially you'll need to just to create "page resources". There are 
 some guidelines/info etc about creating courses here (esp about adding 
-videos/images and translations): http://oppia-mobile.org/course-authors/.
+videos/images and translations): https://digital-campus.org/oppiamobile/course-authors/.
 
 If you'd like to see an example of how we structured and set up the Antenatal 
 Care course you can see this at: 
