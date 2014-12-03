@@ -10,6 +10,8 @@ v50 (5.0.1) - not yet released
   setting to disable logout menu option
 * https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/380 - 
   setting to disable course delete
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/377 - 
+  setting to alow media download via cellular network
 
 v49 (5.0.0) - released beta version: 18 Nov 2014
 ---------------------------------------------------
