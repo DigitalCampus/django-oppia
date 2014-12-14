@@ -14,6 +14,8 @@ v50 (5.0.1) - not yet released
   setting to allow media download via cellular network
 * https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/367 - 
   collapse keyboard between quiz questions
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/378 - 
+  Apply ViewHolder pattern in ArrayAdapters
 
 v49 (5.0.0) - released beta version: 18 Nov 2014
 ---------------------------------------------------
