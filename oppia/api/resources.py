@@ -13,6 +13,7 @@ from django.core import serializers
 from django.core.mail import send_mail
 from django.core.servers.basehttp import FileWrapper
 from django.db import IntegrityError
+from django.db.models import Sum
 from django.http import HttpRequest, HttpResponse ,Http404
 from django.utils.translation import ugettext_lazy as _
 
@@ -57,6 +58,7 @@ class UserResource(ModelResource):
     scoring = fields.BooleanField(readonly=True)
     badging = fields.BooleanField(readonly=True)
     metadata = fields.CharField(readonly=True)
+    course_points = fields.CharField(readonly=True)
     
     class Meta:
         queryset = User.objects.all()
@@ -117,6 +119,10 @@ class UserResource(ModelResource):
     
     def dehydrate_metadata(self,bundle):
         return settings.OPPIA_METADATA
+    
+    def dehydrate_course_points(self,bundle):
+        course_points = list(Points.objects.exclude(course=None).filter(user=bundle.request.user).values('course__shortname').annotate(total_points=Sum('points')))
+        return course_points
 
 class RegisterResource(ModelResource):
     ''' 
@@ -274,6 +280,7 @@ class TrackerResource(ModelResource):
     scoring = fields.BooleanField(readonly=True)
     badging = fields.BooleanField(readonly=True)
     metadata = fields.CharField(readonly=True)
+    course_points = fields.CharField(readonly=True)
     
     class Meta:
         queryset = Tracker.objects.all()
@@ -377,6 +384,10 @@ class TrackerResource(ModelResource):
     def dehydrate_metadata(self,bundle):
         return settings.OPPIA_METADATA
     
+    def dehydrate_course_points(self,bundle):
+        course_points = list(Points.objects.exclude(course=None).filter(user=bundle.request.user).values('course__shortname').annotate(total_points=Sum('points')))
+        return course_points
+    
     def patch_list(self,request,**kwargs):
         request = convert_post_to_patch(request)
         deserialized = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
@@ -391,7 +402,10 @@ class TrackerResource(ModelResource):
                          'badges':self.dehydrate_badges(bundle),
                          'scoring':self.dehydrate_scoring(bundle),
                          'badging':self.dehydrate_badging(bundle),
-                         'metadata':self.dehydrate_metadata(bundle)}
+                         'metadata':self.dehydrate_metadata(bundle),
+                         'course_points': self.dehydrate_course_points(bundle),
+                         }
+        print response_data
         response = HttpResponse(content=json.dumps(response_data),content_type="application/json; charset=utf-8")
         return response
     
