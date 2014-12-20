@@ -405,7 +405,6 @@ class TrackerResource(ModelResource):
                          'metadata':self.dehydrate_metadata(bundle),
                          'course_points': self.dehydrate_course_points(bundle),
                          }
-        print response_data
         response = HttpResponse(content=json.dumps(response_data),content_type="application/json; charset=utf-8")
         return response
     
