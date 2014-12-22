@@ -183,6 +183,8 @@ class RegisterResource(ModelResource):
                 user_profile.job_title = bundle.data['jobtitle']
             if 'organisation' in bundle.data:
                 user_profile.organisation = bundle.data['organisation']
+            if 'phoneno' in bundle.data:
+                user_profile.phone_number= bundle.data['phoneno']
             user_profile.save()
             
             u = authenticate(username=username, password=password)

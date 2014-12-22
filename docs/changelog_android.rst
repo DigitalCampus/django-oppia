@@ -16,6 +16,8 @@ v50 (5.0.1) - not yet released
   collapse keyboard between quiz questions
 * https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/378 - 
   Apply ViewHolder pattern in ArrayAdapters
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/388 - 
+  Require phone no on registration
 
 v49 (5.0.0) - released beta version: 18 Nov 2014
 ---------------------------------------------------

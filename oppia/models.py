@@ -20,7 +20,8 @@ class UserProfile (models.Model):
     about = models.TextField(blank=True, null=True, default=None)
     job_title = models.TextField(blank=True, null=True, default=None)
     organisation = models.TextField(blank=True, null=True, default=None)
-
+    phone_number = models.TextField(blank=True, null=True, default=None)
+    
 class Course(models.Model):
     user = models.ForeignKey(User)
     created_date = models.DateTimeField('date created',default=timezone.now)
