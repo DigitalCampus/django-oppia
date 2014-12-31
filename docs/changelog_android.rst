@@ -4,7 +4,8 @@ OppiaMobile Android App Change Log
 
 v51 (5.x) - not yet released
 ---------------------------------------------------
-
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/391 - 
+  allow password reset using email
 
 v50 (5.0.1) - released: 30 Dec 2014
 ---------------------------------------------------
