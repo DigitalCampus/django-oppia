@@ -130,11 +130,12 @@ class RegisterForm(forms.Form):
 
 class ResetForm(forms.Form):
     username = forms.CharField(max_length=30,
-        error_messages={'invalid': _(u'Please enter a username.')},
+        error_messages={'invalid': _(u'Please enter a username or email address.')},
         required=True)
     
     def __init__(self, *args, **kwargs):
         super(ResetForm, self).__init__(*args, **kwargs)
+        self.fields['username'].label = "Username or email"
         self.helper = FormHelper()
         self.helper.form_action = reverse('profile_reset')
         self.helper.form_class = 'form-horizontal'
@@ -151,9 +152,13 @@ class ResetForm(forms.Form):
     def clean(self):
         cleaned_data = self.cleaned_data
         username = cleaned_data.get("username")
-        num_rows = User.objects.filter(username__exact=username).count()
-        if num_rows != 1:
-            raise forms.ValidationError( _(u"Username not found"))
+        try:
+            user = User.objects.get(username__exact=username)
+        except User.DoesNotExist:
+            try:
+                user = User.objects.get(email__exact=username)
+            except User.DoesNotExist:
+                raise forms.ValidationError( _(u"Username/email not found"))
         return cleaned_data
 
 class ProfileForm(forms.Form):

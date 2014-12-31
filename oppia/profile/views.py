@@ -83,7 +83,10 @@ def reset(request):
         form = ResetForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data.get("username")
-            user = User.objects.get(username__exact=username)
+            try:
+                user = User.objects.get(username__exact=username)
+            except User.DoesNotExist:
+                user = User.objects.get(email__exact=username)
             newpass = User.objects.make_random_password(length=8)
             user.set_password(newpass)
             user.save()

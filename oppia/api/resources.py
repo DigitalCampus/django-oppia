@@ -235,7 +235,7 @@ class ResetPasswordResource(ModelResource):
         queryset = User.objects.all()
         resource_name = 'reset'
         allowed_methods = ['post']
-        fields = ['username','message']
+        fields = ['username', 'message']
         authorization = Authorization() 
         always_return_data = True 
         include_resource_uri = False   
@@ -246,25 +246,29 @@ class ResetPasswordResource(ModelResource):
             try:
                 bundle.data[r]
             except KeyError:
-                raise BadRequest(_(u'Please enter your %s') % r)
+                raise BadRequest(_(u'Please enter your username or email address'))
          
         bundle.obj.username = bundle.data['username']
         try:
             user = User.objects.get(username__exact=bundle.obj.username)
-            newpass = User.objects.make_random_password(length=8)
-            user.set_password(newpass)
-            user.save()
-            if bundle.request.is_secure():
-                prefix = 'https://'
-            else:
-                prefix = 'http://'
-            # TODO - better way to manage email message content
-            send_mail('OppiaMobile: Password reset', 'Here is your new password for OppiaMobile: '+newpass 
-                      + '\n\nWhen you next log in you can update your password to something more memorable.' 
-                      + '\n\n' + prefix + bundle.request.META['SERVER_NAME'] , 
-                      settings.SERVER_EMAIL, [user.email], fail_silently=False) 
         except User.DoesNotExist:
-            pass
+            try:
+                user = User.objects.get(email__exact=bundle.obj.username)
+            except User.DoesNotExist:
+                raise BadRequest(_(u'Username/email not found'))
+            
+        newpass = User.objects.make_random_password(length=8)
+        user.set_password(newpass)
+        user.save()
+        if bundle.request.is_secure():
+            prefix = 'https://'
+        else:
+            prefix = 'http://'
+        # TODO - better way to manage email message content
+        send_mail('OppiaMobile: Password reset', 'Here is your new password for OppiaMobile: '+newpass 
+                  + '\n\nWhen you next log in you can update your password to something more memorable.' 
+                  + '\n\n' + prefix + bundle.request.META['SERVER_NAME'] , 
+                  settings.SERVER_EMAIL, [user.email], fail_silently=False) 
         
         return bundle       
         
