@@ -158,7 +158,10 @@ def handle_uploaded_file(f, extract_path, request):
             media.save()
     
     if old_course_filename is not None and old_course_filename != course.filename:
-        os.remove(settings.COURSE_UPLOAD_DIR + old_course_filename)
+        try:
+            os.remove(settings.COURSE_UPLOAD_DIR + old_course_filename)
+        except OSError:
+            pass
     
     #Extract the final file into the courses area for preview
     zipfilepath = settings.COURSE_UPLOAD_DIR + f.name
