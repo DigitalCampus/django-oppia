@@ -6,6 +6,7 @@ import xml.dom.minidom
 import zipfile
 from django.conf import settings
 from django.contrib import messages
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from oppia.models import Course, Section, Activity, Media
 from xml.dom.minidom import Node
@@ -87,7 +88,7 @@ def handle_uploaded_file(f, extract_path, request):
         course.version = versionid
         course.user = request.user
         course.filename = f.name
-        course.lastupdated_date = datetime.datetime.now()
+        course.lastupdated_date = timezone.now()
         course.save()
     except Course.DoesNotExist:
         course = Course()
