@@ -6,10 +6,14 @@ v51 (5.x) - not yet released
 ---------------------------------------------------
 * https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/391 - 
   allow password reset using email
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/383 - 
+  quizzes getting recorded twice in tracker
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/393 - 
+  implement URl activity
 
 v50 (5.0.1) - released: 30 Dec 2014
 ---------------------------------------------------
-* Fix https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/372 - 
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/372 - 
   static prefs
 * https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/379 - 
   setting to disable logout menu option

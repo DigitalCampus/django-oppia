@@ -28,7 +28,7 @@ Virtual Machine Image available to download by using BitTorrent Sync
 
 Environment information
 -----------------------
-The current version of the instance (OppiaMobile Server 0.4.3) is running:
+The current version of the instance (OppiaMobile Server 0.6.0) is running:
 
 * Ubuntu 14.04.1 LTS Desktop
 * Apache 2.4
