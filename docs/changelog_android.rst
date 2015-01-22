@@ -10,6 +10,13 @@ v51 (5.x) - not yet released
   quizzes getting recorded twice in tracker
 * https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/393 - 
   implement URl activity
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/370 - 
+  Enable rotating of the course and media download activities
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/375 - 
+  Check there is sufficient space on device storage for downloading/moving files
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/376 - 
+  Give option in preferences to move the storage location
+    
 
 v50 (5.0.1) - released: 30 Dec 2014
 ---------------------------------------------------
