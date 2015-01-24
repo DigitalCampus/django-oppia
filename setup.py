@@ -24,7 +24,7 @@ setup(
     license='GNU GPL v3 License',  # example license
     description='Server side component of OppiaMobile learning platform',
     long_description=README,
-    url='http://oppia-mobile.org/',
+    url='https://digital-campus.org/',
     author='Alex Little, Digital Campus',
     author_email='alex@digital-campus.org',
     classifiers=[
