@@ -16,6 +16,10 @@ v51 (5.x) - not yet released
   Check there is sufficient space on device storage for downloading/moving files
 * https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/376 - 
   Give option in preferences to move the storage location
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/334 - 
+  Fix action bar theme colours
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/203 - 
+  Allow screen rotation for tag select
     
 
 v50 (5.0.1) - released: 30 Dec 2014
