@@ -20,7 +20,8 @@ v51 (5.x) - not yet released
   Fix action bar theme colours
 * https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/203 - 
   Allow screen rotation for tag select
-    
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/349 - 
+  Reloading quiz/feedback after language change  
 
 v50 (5.0.1) - released: 30 Dec 2014
 ---------------------------------------------------
