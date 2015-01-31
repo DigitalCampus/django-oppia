@@ -18,7 +18,12 @@
 		        <li><a href="{% url 'oppia_upload' %}">{% trans 'menu_upload' %}</a></li>
 		       {% endif %}
 		       {% if user.is_staff %}
-		        <li><a href="{% url 'oppia_viz_summary' %}">{% trans 'menu_visualisations' %}</a></li>
+		       		<li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">{% trans 'menu_visualisations' %}<b class="caret"></b></a>
+		       		<ul class="dropdown-menu">
+		       			<li><a href="{% url 'oppia_viz_summary' %}">{% trans 'Summary Overview' %}</a></li>
+		        		<li><a href="{% url 'oppia_viz_map' %}">{% trans 'Activity Map' %}</a></li>
+		       		</ul>
+					</li>
 		       {% endif %}
 		       {% if user.is_authenticated %}
 		            <li><a href="{% url 'profile_edit' %}">{% trans 'Profile' %}</a></li>
