@@ -2,11 +2,12 @@
 # /usr/bin/env python
 
 import os, time, sys
-from django.conf import settings
-from awards import created_quizzes, courses_completed
-from django.core.mail import send_mail
+import argparse, hashlib, subprocess
 
-def run():
+from django.conf import settings
+from awards import courses_completed
+
+def run(hours):
     print 'Starting OppiaMobile cron...'
     now = time.time()
     path = settings.COURSE_UPLOAD_DIR + "temp"
@@ -18,12 +19,13 @@ def run():
             if os.path.isfile(f):
                 os.remove(f)
     
-    #print 'Awarding badges...'
-    #created_quizzes(10)
-    courses_completed()           
+
+    courses_completed(hours)           
     print 'cron completed'
-    #send_mail('OppiaMobile: cron complete', 'cron completed', 
-    #    settings.SERVER_EMAIL, [settings.SERVER_EMAIL], fail_silently=False)
+
 
 if __name__ == "__main__":
-    run()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("hours", help="", default=0, nargs="?")
+    args = parser.parse_args()
+    run(args.hours) 

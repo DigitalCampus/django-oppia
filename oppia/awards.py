@@ -10,38 +10,30 @@ from oppia.signals import badgeaward_callback
 
 models.signals.post_save.connect(badgeaward_callback, sender=Award)
 
-def created_quizzes(num):    
-    badge_ref = 'create'+str(num)+'quiz'
-    try:
-        badge = Badge.objects.get(ref=badge_ref)
-    except Badge.DoesNotExist:
-        print "Badge not found: " + badge_ref
-        return
-    
-    # get all the ppl who've created more than 10 quizzes
-    users = User.objects.annotate(total=Count('quiz')).filter(total__gt=num)
-    for u in users:
-        # find out how many awards this user already has
-        no_awards = Award.objects.filter(badge=badge,user=u).count()
-        if (no_awards*num)+num <= u.total:
-            # how many awards to make?
-            make_awards = int((u.total - (no_awards*num))/num)
-            for i in range(0,make_awards):
-                a = Award()
-                a.user = u
-                a.badge = badge
-                a.description = badge.description
-                a.save()
-                print a.description + " award made to " + u.username
-    return
-
-
-def courses_completed():
+def courses_completed(hours):
     try:
         badge = Badge.objects.get(ref='coursecompleted')
     except Badge.DoesNotExist:
         print "Badge not found: coursecompleted"
         return
+    
+    print hours
+    # create batch of course with all the digests for each course
+    courses = Course.objects.filter(is_draft=False, is_archived=False)
+    for c in courses:
+        digests = Activity.objects.filter(section__course=c).values('digest').distinct()
+        print c.title
+        print "-----------------------------"
+        print digests.count()
+        print "\n\n"
+    
+    # create set of users to     
+    exit()
+    
+    
+    
+    
+    
     
     users = Tracker.objects.values('user_id').distinct()
     courses = Course.objects.all()
