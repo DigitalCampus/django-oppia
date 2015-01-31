@@ -29,7 +29,7 @@ from tastypie.utils import trailing_slash
 from tastypie.validation import Validation
 
 from oppia.api.serializers import PrettyJSONSerializer, CourseJSONSerializer, UserJSONSerializer
-from oppia.models import Activity, Section, Tracker, Course, CourseDownload, Media, Schedule, ActivitySchedule, Cohort, Tag, CourseTag
+from oppia.models import Activity, Section, Tracker, Course, Media, Schedule, ActivitySchedule, Cohort, Tag, CourseTag
 from oppia.models import Points, Award, Badge, UserProfile
 from oppia.profile.forms import RegisterForm
 from oppia.signals import course_downloaded
@@ -474,14 +474,6 @@ class CourseResource(ModelResource):
         response = HttpResponse(wrapper, content_type='application/zip')
         response['Content-Length'] = os.path.getsize(file_to_download)
         response['Content-Disposition'] = 'attachment; filename="%s"' %(course.filename)
-        
-        cd = CourseDownload()
-        cd.user = request.user
-        cd.course = course
-        cd.course_version = course.version
-        cd.ip = request.META.get('REMOTE_ADDR','0.0.0.0')
-        cd.agent= request.META.get('HTTP_USER_AGENT','unknown')
-        cd.save()
         
         # Add to tracker
         tracker = Tracker()

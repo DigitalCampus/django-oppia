@@ -58,18 +58,18 @@ class Course(models.Model):
         return self.title 
      
     def is_first_download(self,user):
-        no_attempts = CourseDownload.objects.filter(user=user,course=self).count()
+        no_attempts = Tracker.objects.filter(user=user,course=self, type='download').count()
         is_first_download = False
         if no_attempts == 1:
             is_first_download = True
         return is_first_download
     
     def no_downloads(self):
-        no_downloads = CourseDownload.objects.filter(course=self).count()
+        no_downloads = Tracker.objects.filter(course=self, type='download').count()
         return no_downloads
     
     def no_distinct_downloads(self):
-        no_distinct_downloads = CourseDownload.objects.filter(course=self).values('user_id').distinct().count()
+        no_distinct_downloads = Tracker.objects.filter(course=self, type='download').values('user_id').distinct().count()
         return no_distinct_downloads
     
     def get_default_schedule(self):
@@ -423,18 +423,6 @@ class Tracker(models.Model):
         if 'lang' in json_data:
             return json_data['lang']
         
-         
-class CourseDownload(models.Model):
-    user = models.ForeignKey(User)
-    course = models.ForeignKey(Course)
-    download_date = models.DateTimeField('date downloaded',default=timezone.now)
-    course_version = models.BigIntegerField(default=0)
-    ip = models.IPAddressField(blank=True,default=None)
-    agent = models.TextField(blank=True,default=None)
-    
-    class Meta:
-        verbose_name = _('CourseDownload')
-        verbose_name_plural = _('CourseDownloads')
  
 class Cohort(models.Model):
     course = models.ForeignKey(Course)  

@@ -12,7 +12,7 @@ from django.contrib.auth import (authenticate, logout, views)
 from django.contrib.auth.models import User
 
 from oppia.forms import DateDiffForm
-from oppia.models import CourseDownload, Tracker, Course
+from oppia.models import Tracker, Course
 from oppia.viz.models import UserLocationVisualization
 
 
@@ -77,13 +77,13 @@ def summary_view(request):
         languages.append({'lang':_('Other'),'hits_percent':hits_percent })
         
     # Course Downloads
-    course_downloads = CourseDownload.objects.filter(user__is_staff=False, download_date__gte=start_date ).\
-                        extra(select={'month':'extract( month from download_date )',
-                                      'year':'extract( year from download_date )'}).\
+    course_downloads = Tracker.objects.filter(user__is_staff=False, submitted_date__gte=start_date, type='download' ).\
+                        extra(select={'month':'extract( month from submitted_date )',
+                                      'year':'extract( year from submitted_date )'}).\
                         values('month','year').\
                         annotate(count=Count('id')).order_by('year','month')
                         
-    previous_course_downloads = CourseDownload.objects.filter(user__is_staff=False, download_date__lt=start_date).count()
+    previous_course_downloads = Tracker.objects.filter(user__is_staff=False, submitted_date__lt=start_date, type='download' ).count()
     
     # Course Activity
     course_activity = Tracker.objects.filter(user__is_staff=False, submitted_date__gte=start_date).\
