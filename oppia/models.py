@@ -18,6 +18,7 @@ models.signals.post_save.connect(create_api_key, sender=User)
 class UserProfile (models.Model):
     user = models.OneToOneField(User)
     about = models.TextField(blank=True, null=True, default=None)
+    can_upload = models.BooleanField(default=False)
     job_title = models.TextField(blank=True, null=True, default=None)
     organisation = models.TextField(blank=True, null=True, default=None)
     phone_number = models.TextField(blank=True, null=True, default=None)
@@ -115,7 +116,15 @@ class Course(models.Model):
     def sections(self):
         sections = Section.objects.filter(course=self).order_by('order')
         return sections
-        
+ 
+class CourseManager(models.Model):
+    course = models.ForeignKey(Course)
+    user = models.ForeignKey(User)
+    
+    class Meta:
+        verbose_name = _('Course Manager')
+        verbose_name_plural = _('Course Managers')
+               
 class Tag(models.Model):
     name = models.TextField(blank=False)
     created_date = models.DateTimeField('date created',default=timezone.now)
