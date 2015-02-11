@@ -63,7 +63,7 @@ onload="init();"
 			              <tbody>
 				{% for r in a.responses %}
 					<tr>
-						<td>{{ r.question.title }}</td>
+						<td>{{ r.question.title|title_lang:LANGUAGE_CODE }}</td>
 						<td>{{ r.text }}</td>
 						<td>{{ r.get_score_percent }}%</td>
 					</tr>
