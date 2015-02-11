@@ -1,6 +1,6 @@
 # oppia/admin.py
 from django.contrib import admin
-from oppia.models import Course,Section,Activity,Tracker,Media,Cohort
+from oppia.models import Course,Section,Activity,Tracker,Media,Cohort, CourseManager
 from oppia.models import Participant,Message,Schedule,ActivitySchedule,Tag,CourseTag
 from oppia.models import Badge, Award, Points, AwardCourse, UserProfile
 
@@ -45,7 +45,11 @@ class CourseTagAdmin(admin.ModelAdmin):
  
     
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'about', 'job_title', 'organisation')
+    list_display = ('user', 'can_upload', 'about', 'job_title', 'organisation')
+    
+    
+class CourseManagerAdmin(admin.ModelAdmin):
+    list_display = ('user', 'course')
  
 class MediaAdmin(admin.ModelAdmin):
     list_display = ('course', 'digest','filename','download_url')   
@@ -77,3 +81,4 @@ admin.site.register(Section,SectionAdmin)
 admin.site.register(Tag,TagAdmin)
 admin.site.register(Tracker, TrackerAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
+admin.site.register(CourseManager, CourseManagerAdmin)
