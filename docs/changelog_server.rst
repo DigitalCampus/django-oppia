@@ -1,7 +1,11 @@
 OppiaMobile Server Change Log
 ================================
 
-v0.7.0 - not yet released
+v0.7.1 - not yet released
+------------------------------
+*
+
+v0.7.0 - released 11 Feb 2015
 ------------------------------
 * https://github.com/DigitalCampus/django-oppia/issues/issue/213 - reset password using email address
 * https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/117 - add support for Moodle url activities
