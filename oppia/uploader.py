@@ -11,7 +11,7 @@ from django.utils.translation import ugettext_lazy as _
 from oppia.models import Course, Section, Activity, Media
 from xml.dom.minidom import Node
 
-def handle_uploaded_file(f, extract_path, request):
+def handle_uploaded_file(f, extract_path, request, user):
     zipfilepath = settings.COURSE_UPLOAD_DIR + f.name
     
     with open(zipfilepath, 'wb+') as destination:
@@ -31,12 +31,12 @@ def handle_uploaded_file(f, extract_path, request):
         return False
     
     # check that the 
-    if not os.path.isfile(extract_path + mod_name + "/module.xml"):
+    if not os.path.isfile(os.path.join(extract_path, mod_name, "module.xml")):
         messages.info(request,_("Zip file does not contain a module.xml file"))
         return False
       
     # parse the module.xml file
-    doc = xml.dom.minidom.parse(extract_path + mod_name + "/module.xml") 
+    doc = xml.dom.minidom.parse(os.path.join(extract_path, mod_name, "module.xml")) 
     for meta in doc.getElementsByTagName("meta")[:1]:
         versionid = 0
         for v in meta.getElementsByTagName("versionid")[:1]:
@@ -68,7 +68,7 @@ def handle_uploaded_file(f, extract_path, request):
         old_course_version = course.version
          
         # check that the current user is allowed to wipe out the other course
-        if course.user != request.user:
+        if course.user != user:
             messages.info(request,_("Sorry, only the original owner may update this course"))
             return False
         
@@ -86,7 +86,7 @@ def handle_uploaded_file(f, extract_path, request):
         course.title = title
         course.description = description
         course.version = versionid
-        course.user = request.user
+        course.user = user
         course.filename = f.name
         course.lastupdated_date = timezone.now()
         course.save()
@@ -96,7 +96,7 @@ def handle_uploaded_file(f, extract_path, request):
         course.title = title
         course.description = description
         course.version = versionid
-        course.user = request.user
+        course.user = user
         course.filename = f.name
         course.is_draft = True
         course.save()

@@ -142,8 +142,8 @@ def upload_step1(request):
     if request.method == 'POST':
         form = UploadCourseStep1Form(request.POST,request.FILES)
         if form.is_valid(): # All validation rules pass
-            extract_path = settings.COURSE_UPLOAD_DIR + 'temp/' + str(request.user.id) + '/' 
-            course = handle_uploaded_file(request.FILES['course_file'], extract_path, request)
+            extract_path = os.join.path(settings.COURSE_UPLOAD_DIR, 'temp', str(request.user.id))
+            course = handle_uploaded_file(request.FILES['course_file'], extract_path, request, request.user)
             if course:
                 shutil.rmtree(extract_path)
                 return HttpResponseRedirect(reverse('oppia_upload2', args=[course.id])) # Redirect after POST
