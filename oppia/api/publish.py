@@ -41,12 +41,17 @@ def publish_view(request):
     if course is False:
         return HttpResponse(status=500)
     else:
-        print bool(request.POST['is_draft'])
-        course.is_draft = request.POST['is_draft']
+        if request.POST['is_draft'] == "False":
+            course.is_draft = False
+        else:
+            course.is_draft = True
         course.save()
         
-        tags = request.POST['tags'].strip().split(",")
+        # remove any existing tags
+        CourseTag.objects.filter(course=course).delete()
+        
         # add tags
+        tags = request.POST['tags'].strip().split(",")
         for t in tags:
             try: 
                 tag = Tag.objects.get(name__iexact=t.strip())
