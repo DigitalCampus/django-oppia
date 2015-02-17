@@ -22,10 +22,12 @@ def publish_view(request):
    
     for r in required:
         if r not in request.POST:
+            print r + " not found"
             return HttpResponse(status=400)
    
     
     if 'course_file' not in request.FILES:
+        print "Course file not found"
         return HttpResponse(status=400)
         
     # authenticate user

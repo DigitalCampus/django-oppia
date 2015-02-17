@@ -3,7 +3,8 @@ OppiaMobile Moodle Block Change Log
 
 vX - not yet released
 --------------------------------------
-
+* https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/122 - save course tags
+* https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/121 - make course download link clearer
 
 v2015011900 - released: 19 Jan 2015
 --------------------------------------
