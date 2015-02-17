@@ -2,6 +2,7 @@
 from django.contrib.auth.models import User
 from django.core import serializers
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 import datetime
@@ -17,8 +18,8 @@ class Question(models.Model):
         ('essay', 'Essay question'),
     )
     owner = models.ForeignKey(User)
-    created_date = models.DateTimeField('date created',default=datetime.datetime.now)
-    lastupdated_date = models.DateTimeField('date updated',default=datetime.datetime.now)
+    created_date = models.DateTimeField('date created',default=timezone.now)
+    lastupdated_date = models.DateTimeField('date updated',default=timezone.now)
     title = models.TextField(blank=False)  
     type = models.CharField(max_length=15,choices=QUESTION_TYPES, default='multichoice') 
     
@@ -36,8 +37,8 @@ class Question(models.Model):
 class Response(models.Model):
     owner = models.ForeignKey(User)
     question = models.ForeignKey(Question)
-    created_date = models.DateTimeField('date created',default=datetime.datetime.now)
-    lastupdated_date = models.DateTimeField('date updated',default=datetime.datetime.now)
+    created_date = models.DateTimeField('date created',default=timezone.now)
+    lastupdated_date = models.DateTimeField('date updated',default=timezone.now)
     score = models.DecimalField(default=0,decimal_places=2, max_digits=6)
     title = models.TextField(blank=False)
     order = models.IntegerField(default=1)
@@ -51,8 +52,8 @@ class Response(models.Model):
     
 class Quiz(models.Model):
     owner = models.ForeignKey(User)
-    created_date = models.DateTimeField('date created',default=datetime.datetime.now)
-    lastupdated_date = models.DateTimeField('date updated',default=datetime.datetime.now)
+    created_date = models.DateTimeField('date created',default=timezone.now)
+    lastupdated_date = models.DateTimeField('date updated',default=timezone.now)
     draft = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)
     title = models.TextField(blank=False)
@@ -130,8 +131,8 @@ class ResponseProps(models.Model):
 class QuizAttempt(models.Model):
     user = models.ForeignKey(User)
     quiz = models.ForeignKey(Quiz)
-    attempt_date = models.DateTimeField('date attempted',default=datetime.datetime.now)
-    submitted_date = models.DateTimeField('date submitted',default=datetime.datetime.now)
+    attempt_date = models.DateTimeField('date attempted',default=timezone.now)
+    submitted_date = models.DateTimeField('date submitted',default=timezone.now)
     score = models.DecimalField(decimal_places=2, max_digits=6)
     maxscore = models.DecimalField(decimal_places=2, max_digits=6)
     ip = models.IPAddressField()
