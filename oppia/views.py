@@ -1,7 +1,6 @@
 # oppia/views.py
 import datetime
 import json
-import shutil
 import os
 import oppia
 import tablib
@@ -145,10 +144,8 @@ def upload_step1(request):
             extract_path = os.join.path(settings.COURSE_UPLOAD_DIR, 'temp', str(request.user.id))
             course = handle_uploaded_file(request.FILES['course_file'], extract_path, request, request.user)
             if course:
-                shutil.rmtree(extract_path)
                 return HttpResponseRedirect(reverse('oppia_upload2', args=[course.id])) # Redirect after POST
             else:
-                shutil.rmtree(extract_path,ignore_errors=True)
                 os.remove(settings.COURSE_UPLOAD_DIR + request.FILES['course_file'].name)
     else:
         form = UploadCourseStep1Form() # An unbound form

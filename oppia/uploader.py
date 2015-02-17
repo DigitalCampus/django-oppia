@@ -2,8 +2,10 @@
 import datetime
 import json
 import os
+import shutil
 import xml.dom.minidom
 import zipfile
+
 from django.conf import settings
 from django.contrib import messages
 from django.utils import timezone
@@ -13,6 +15,8 @@ from xml.dom.minidom import Node
 
 def handle_uploaded_file(f, extract_path, request, user):
     zipfilepath = settings.COURSE_UPLOAD_DIR + f.name
+    
+    print zipfilepath
     
     with open(zipfilepath, 'wb+') as destination:
         for chunk in f.chunks():
@@ -36,6 +40,9 @@ def handle_uploaded_file(f, extract_path, request, user):
         return False
       
     # parse the module.xml file
+    print extract_path
+    print mod_name
+    
     doc = xml.dom.minidom.parse(os.path.join(extract_path, mod_name, "module.xml")) 
     for meta in doc.getElementsByTagName("meta")[:1]:
         versionid = 0
@@ -63,6 +70,9 @@ def handle_uploaded_file(f, extract_path, request, user):
     old_course_filename = None
     # Find if course already exists
     try: 
+        
+        print shortname
+        
         course = Course.objects.get(shortname = shortname)
         old_course_filename = course.filename
         old_course_version = course.version
@@ -172,6 +182,8 @@ def handle_uploaded_file(f, extract_path, request, user):
     course_preview_path = settings.MEDIA_ROOT + "courses/"
     zip.extractall(path=course_preview_path)      
     
+    # remove the temp upload files
+    shutil.rmtree(extract_path,ignore_errors=True)
         
     return course       
   
