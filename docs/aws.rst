@@ -100,7 +100,7 @@ your fork instead.
 
 Environment information
 -----------------------
-The current version of the instance (OppiaMobile Server 0.4.3) is running:
+The current version of the instance is running:
 
 * Ubuntu 14.04.1 LTS Server
 * Apache 2.4

@@ -36,6 +36,10 @@ def publish_view(request):
     user = authenticate(username=username, password=password)
     if user is None or not user.is_active:
         return HttpResponse(status=401)
+     
+    # check user has permissions to publish course
+    if settings.OPPIA_STAFF_ONLY_UPLOAD is True and not user.is_staff and user.userprofile.can_upload is False:
+        return HttpResponse(status=401)
             
     extract_path = os.path.join(settings.COURSE_UPLOAD_DIR,'temp',str(user.id))
     course = handle_uploaded_file(request.FILES['course_file'], extract_path, request, user)

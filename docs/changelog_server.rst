@@ -1,9 +1,14 @@
 OppiaMobile Server Change Log
 ================================
 
-v0.7.1 - not yet released
+v0.7.2 - not yet released 
+------------------------------
+* 
+
+v0.7.1 - released 18 Feb 2015
 ------------------------------
 * https://github.com/DigitalCampus/django-oppia/issues/issue/170 - publishing directly via API
+
 
 v0.7.0 - released 11 Feb 2015
 ------------------------------
