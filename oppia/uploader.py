@@ -16,8 +16,6 @@ from xml.dom.minidom import Node
 def handle_uploaded_file(f, extract_path, request, user):
     zipfilepath = settings.COURSE_UPLOAD_DIR + f.name
     
-    print zipfilepath
-    
     with open(zipfilepath, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
