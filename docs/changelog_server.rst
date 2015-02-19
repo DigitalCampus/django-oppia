@@ -3,7 +3,7 @@ OppiaMobile Server Change Log
 
 v0.7.2 - not yet released 
 ------------------------------
-* 
+* https://github.com/DigitalCampus/django-oppia/issues/issue/220 - update course list display
 
 v0.7.1 - released 18 Feb 2015
 ------------------------------

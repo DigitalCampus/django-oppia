@@ -72,6 +72,7 @@
          	 <thead>
                 <tr>
                   <th>{% trans 'table_header_course' %}</th>
+                  <th>{% trans 'Last updated' %}</th>
                   <th>{% trans 'table_header_course_downloads' %}</th>
                   <th>{% trans 'table_header_activity_graph' %}</th>
                 </tr>
@@ -88,6 +89,7 @@
 					- <i>{% trans 'archived' %}</i>
 				{% endif %}<br/>
 				<small>{% trans 'Tags:' %} {{ course.get_tags }}</small></td>
+				<td>{{course.lastupdated_date}} </td>
 				<td>{{course.no_downloads}} downloads by {{course.no_distinct_downloads}} users</td>
 				<td><div id="activity_chart_div_{{course.id}}" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div></td>
 
