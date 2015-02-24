@@ -43,5 +43,4 @@ You may wish to add other connections (e.g. on a user by user basis, or to other
 * enter the url, username and API key (as described in the info above)
 * when you export your course using the block, you can select which connection you'd like to use.
 
-To add other connections
 
