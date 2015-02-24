@@ -16,9 +16,9 @@ Contents:
    :maxdepth: 1
    
    install
-   block_install
    aws
    virtualbox
+   block_install
    settings
    upgrade
    api
