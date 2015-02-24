@@ -16,6 +16,7 @@ Contents:
    :maxdepth: 1
    
    install
+   block_install
    aws
    virtualbox
    settings
