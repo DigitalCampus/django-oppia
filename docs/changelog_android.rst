@@ -1,8 +1,11 @@
 OppiaMobile Android App Change Log
 ====================================
 
+v52 - not yet released
+---------------------------------------------------
 
-v51 (5.x) - not yet released
+
+v51 (5.1.0) - released: 27 Feb 2015
 ---------------------------------------------------
 * https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/391 - 
   allow password reset using email
@@ -21,7 +24,23 @@ v51 (5.x) - not yet released
 * https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/203 - 
   Allow screen rotation for tag select
 * https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/349 - 
+  Reloading quiz/feedback after language change 
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/409 - 
+  Updated scorecard
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/376 - 
+  preferences for storage option
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/349 - 
   Reloading quiz/feedback after language change  
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/368 - 
+  embed videos into quiz and feedback activities
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/349 - 
+  Reloading quiz/feedback after language change 
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/366 - 
+  load images into gallery
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/349 - 
+  Reloading quiz/feedback after language change 
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/229 - 
+  deprecated method for preferences  
 
 v50 (5.0.1) - released: 30 Dec 2014
 ---------------------------------------------------
