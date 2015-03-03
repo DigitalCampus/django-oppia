@@ -5,8 +5,9 @@ v52 - not yet released
 ---------------------------------------------------
 
 
-v51 (5.1.0) - released: 27 Feb 2015
+v51 (5.1.0) - released: 3 Mar 2015
 ---------------------------------------------------
+* Now supports only v4 and above
 * https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/391 - 
   allow password reset using email
 * https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/383 - 
@@ -41,6 +42,8 @@ v51 (5.1.0) - released: 27 Feb 2015
   Reloading quiz/feedback after language change 
 * https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/229 - 
   deprecated method for preferences  
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/414 - 
+  speed up searching
 
 v50 (5.0.1) - released: 30 Dec 2014
 ---------------------------------------------------
