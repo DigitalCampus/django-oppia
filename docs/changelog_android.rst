@@ -44,6 +44,8 @@ v51 (5.1.0) - released: 3 Mar 2015
   deprecated method for preferences  
 * https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/414 - 
   speed up searching
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/398 - 
+  clicking on points/badges
 
 v50 (5.0.1) - released: 30 Dec 2014
 ---------------------------------------------------
