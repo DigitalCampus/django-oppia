@@ -1,8 +1,8 @@
 # oppia/admin.py
 from django.contrib import admin
-from oppia.models import Course,Section,Activity,Tracker,Media,Cohort, CourseManager
-from oppia.models import Participant,Message,Schedule,ActivitySchedule,Tag,CourseTag
-from oppia.models import Badge, Award, Points, AwardCourse, UserProfile
+from oppia.models import Course, Section, Activity, Tracker, Media, Cohort, CourseManager
+from oppia.models import Participant, Message, Schedule, ActivitySchedule, Tag, CourseTag
+from oppia.models import Badge, Award, Points, AwardCourse, UserProfile, CourseCohort
 
 class TrackerAdmin(admin.ModelAdmin):
     list_display = ('user', 'submitted_date', 'tracker_date', 'time_taken', 'agent', 'course','completed')
@@ -21,7 +21,10 @@ class CohortAdmin(admin.ModelAdmin):
     inlines = [
         ParticipantInline,
     ]
-    
+ 
+class CourseCohortAdmin(admin.ModelAdmin):
+    list_display = ('course','cohort')
+       
 class BadgeAdmin(admin.ModelAdmin):
     list_display = ('description','points')
  
@@ -71,6 +74,7 @@ admin.site.register(Badge,BadgeAdmin)
 admin.site.register(AwardCourse,AwardCourseAdmin)
 admin.site.register(Cohort, CohortAdmin)                    
 admin.site.register(Course,CourseAdmin)
+admin.site.register(CourseCohort, CourseCohortAdmin)
 admin.site.register(CourseTag,CourseTagAdmin)
 admin.site.register(Media, MediaAdmin)
 admin.site.register(Message)

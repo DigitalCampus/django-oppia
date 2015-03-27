@@ -527,6 +527,10 @@ def cohort_add(request,course_id):
 
     return render(request, 'oppia/cohort-form.html',{'course': course,'form': form,})  
 
+def cohort_view(request,course_id,cohort_id):
+    
+    return Http404()
+
 def cohort_edit(request,course_id,cohort_id):
     course = check_owner(request,course_id)
     cohort = Cohort.objects.get(pk=cohort_id)
@@ -640,6 +644,10 @@ def get_nav(course, user):
             nav.append({'url':reverse('oppia_course_quiz',args=(course.id,)), 'title':_(u'Course Quizzes')})
         if course.has_feedback():
             nav.append({'url':reverse('oppia_course_feedback',args=(course.id,)), 'title':_(u'Course Feedback')})
+            
+        cohorts = Cohort.objects.filter(course=course).count()
+        if cohorts > 0:
+            nav.append({'url':reverse('oppia_cohorts',args=(course.id,)), 'title':_(u'Course Cohorts')})
     return nav
     
 def leaderboard_view(request):
