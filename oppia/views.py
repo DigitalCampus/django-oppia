@@ -479,18 +479,19 @@ def schedule_saved(request, course_id, schedule_id=None):
                                     {'course': course},
                                   context_instance=RequestContext(request))
  
-def cohort(request,course_id):
-    course = check_owner(request,course_id)    
-    cohorts = Cohort.objects.filter(course=course)
-    return render_to_response('oppia/course/cohorts.html',{'course': course,'cohorts':cohorts,}, context_instance=RequestContext(request))
+def cohort(request):
+    if not request.user.is_staff:
+        raise Http404  
+    cohorts = Cohort.objects.all()
+    return render_to_response('oppia/course/cohorts.html',{'cohorts':cohorts,}, context_instance=RequestContext(request))
   
-def cohort_add(request,course_id):
-    course = check_owner(request,course_id)
+def cohort_add(request):
+    if not request.user.is_staff:
+        raise Http404  
     if request.method == 'POST':
         form = CohortForm(request.POST)
         if form.is_valid(): # All validation rules pass
             cohort = Cohort()
-            cohort.course = course
             cohort.start_date = form.cleaned_data.get("start_date")
             cohort.end_date = form.cleaned_data.get("end_date")
             cohort.description = form.cleaned_data.get("description").strip()
@@ -525,14 +526,15 @@ def cohort_add(request,course_id):
     else:
         form = CohortForm() # An unbound form
 
-    return render(request, 'oppia/cohort-form.html',{'course': course,'form': form,})  
+    return render(request, 'oppia/cohort-form.html',{'form': form,})  
 
-def cohort_view(request,course_id,cohort_id):
+def cohort_view(request,cohort_id):
     
     return Http404()
 
-def cohort_edit(request,course_id,cohort_id):
-    course = check_owner(request,course_id)
+def cohort_edit(request,cohort_id):
+    if not request.user.is_staff:
+        raise Http404  
     cohort = Cohort.objects.get(pk=cohort_id)
     if request.method == 'POST':
         form = CohortForm(request.POST)
@@ -582,7 +584,7 @@ def cohort_edit(request,course_id,cohort_id):
         students = ", ".join(student_list)
         form = CohortForm(initial={'description':cohort.description,'teachers':teachers,'students':students,'start_date': cohort.start_date,'end_date': cohort.end_date}) 
 
-    return render(request, 'oppia/cohort-form.html',{'course': course,'form': form,}) 
+    return render(request, 'oppia/cohort-form.html',{'form': form,}) 
   
   
 def can_upload(request):
@@ -644,10 +646,6 @@ def get_nav(course, user):
             nav.append({'url':reverse('oppia_course_quiz',args=(course.id,)), 'title':_(u'Course Quizzes')})
         if course.has_feedback():
             nav.append({'url':reverse('oppia_course_feedback',args=(course.id,)), 'title':_(u'Course Feedback')})
-            
-        cohorts = Cohort.objects.filter(course=course).count()
-        if cohorts > 0:
-            nav.append({'url':reverse('oppia_cohorts',args=(course.id,)), 'title':_(u'Course Cohorts')})
     return nav
     
 def leaderboard_view(request):

@@ -4,14 +4,14 @@
 
 {% block content %}
 
-<h2><a href="{% url 'oppia_recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a> > {% trans 'cohorts' %}</h2>
+<h2>{% trans 'cohorts' %}</h2>
 <p><i>{% trans 'Tags:' %} {{ course.get_tags}}</i></p>
 
 {% if cohorts %}
 	<ul>
 	{% for cohort in cohorts %}
 		<li>
-			<a href="{% url 'oppia.views.cohort_edit' cohort.course.id cohort.id %}">{{ cohort.description }}</a>
+			<a href="{% url 'oppia.views.cohort_edit' cohort.id %}">{{ cohort.description }}</a>
 			({{ cohort.no_teacher_members }} {% trans 'teachers' %},
 			{{ cohort.no_student_members }} {% trans 'students' %}) 
 		</li> 
@@ -22,6 +22,6 @@
 	
 {% endif %}
 
-<p><a href="{% url 'oppia_cohort_add' course.id %}">{% trans 'Add a cohort' %}</a></p>
+<p><a href="{% url 'oppia_cohort_add' %}">{% trans 'Add a cohort' %}</a></p>
 
 {% endblock %}

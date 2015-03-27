@@ -42,6 +42,9 @@
 	            <li><a href="{% url 'oppia_home' %}">{% trans 'Dashboard' %}</a></li>
 	            <li><a href="{% url 'oppia_course' %}">{% trans 'Courses' %}</a></li>
 	            <li><a href="{% url 'oppia_upload' %}">{% trans 'Upload' %}</a></li>
+	            {% if user.is_staff %}
+	            	 <li><a href="{% url 'oppia_cohorts' %}">{% trans 'Cohorts' %}</a></li>
+	            {% endif %}
 	          </ul>
 	          {% if nav %}
 	          <ul class="nav nav-sidebar">

@@ -3,10 +3,7 @@
 {% load display_functions %} 
 {% block content %}
 
-<h2>
-	<a href="{% url 'oppia_recent_activity' course.id %}">
-	{{ course.title|title_lang:LANGUAGE_CODE }}</a> > {% trans 'cohort' %}
-</h2>
+<h2>{% trans 'cohort' %}</h2>
 
 <form method="post" id="cohortform" action=".">
 

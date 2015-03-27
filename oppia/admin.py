@@ -17,7 +17,7 @@ class ParticipantInline(admin.TabularInline):
     model = Participant
     
 class CohortAdmin(admin.ModelAdmin):
-    list_display = ('course', 'description', 'start_date', 'end_date','schedule')
+    list_display = ( 'description', 'start_date', 'end_date','schedule')
     inlines = [
         ParticipantInline,
     ]

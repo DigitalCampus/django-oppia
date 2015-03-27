@@ -433,8 +433,7 @@ class Tracker(models.Model):
             return json_data['lang']
         
  
-class Cohort(models.Model):
-    course = models.ForeignKey(Course, null=True, blank=True)  
+class Cohort(models.Model): 
     description = models.CharField(max_length=100)
     start_date = models.DateTimeField(default=timezone.now)
     end_date = models.DateTimeField(default=timezone.now)
