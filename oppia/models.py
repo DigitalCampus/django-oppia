@@ -584,7 +584,6 @@ class Points(models.Model):
     )
     user = models.ForeignKey(User)
     course = models.ForeignKey(Course,null=True)
-    cohort = models.ForeignKey(Cohort,null=True)
     points = models.IntegerField()
     date = models.DateTimeField('date created',default=timezone.now)
     description = models.TextField(blank=False)
@@ -599,14 +598,11 @@ class Points(models.Model):
         return self.description
     
     @staticmethod
-    def get_leaderboard(count=0, course=None, cohort=None):
+    def get_leaderboard(count=0, course=None):
         users = User.objects.all()
         
         if course is not None:
             users = users.filter(points__course=course)
-        
-        if cohort is not None:
-            users = users.filter(points__cohort=cohort)
                
         if count == 0:
             users = users.annotate(total=Sum('points__points')).order_by('-total')
