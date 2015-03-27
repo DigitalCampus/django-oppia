@@ -9,13 +9,13 @@
 	</script>
 {% endblock extra_scripts %}
 {% block content %}
-<h2>{{ cohort.course.title|title_lang:LANGUAGE_CODE }}<br/>{{ cohort.description }}</h2>
+<h2>{{ course.title|title_lang:LANGUAGE_CODE }}<br/>{{ cohort.description }}</h2>
 
 <div id="monitormenu">
 	<ul>
-		<li><a onclick="load('{% url 'oppia_monitor_cohort_progress' cohort.id %}');"> {% trans 'Progress' %}</a></li>
-		<li><a onclick="load('{% url 'oppia_monitor_cohort_quizzes' cohort.id %}');">{% trans 'Quizzes' %}</a></li>
-		<li><a onclick="load('{% url 'oppia_monitor_cohort_media' cohort.id %}');">{% trans 'Media' %}</a></li>
+		<li><a onclick="load('{% url 'oppia_monitor_cohort_progress' cohort.id course.id %}');"> {% trans 'Progress' %}</a></li>
+		<li><a onclick="load('{% url 'oppia_monitor_cohort_quizzes' cohort.id course.id %}');">{% trans 'Quizzes' %}</a></li>
+		<li><a onclick="load('{% url 'oppia_monitor_cohort_media' cohort.id course.id %}');">{% trans 'Media' %}</a></li>
 	</ul>
 </div>
 	

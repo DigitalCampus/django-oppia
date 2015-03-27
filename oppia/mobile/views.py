@@ -6,7 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render,render_to_response, get_object_or_404
 from django.template import RequestContext
 
-from oppia.models import Tracker, Points, Course, Cohort, Participant, Activity, Section, Media
+from oppia.models import Tracker, Points, Course, Cohort, CourseCohort, Participant, Activity, Section, Media
 from oppia.quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
 
 from tastypie.authentication import ApiKeyAuthentication
@@ -45,14 +45,17 @@ def monitor_home_view(request):
     
     # find courses this user is a teacher on
     now = datetime.datetime.now()
-    cohorts = Cohort.objects.filter(participant__user=request.user, participant__role=Participant.TEACHER, start_date__lte=now,end_date__gte=now)
-    
+    cohorts = Cohort.objects.filter(participant__user=request.user, participant__role=Participant.TEACHER, start_date__lte=now, end_date__gte=now)
+    cohorts_list = []
+    for cohort in cohorts:
+        courses = Course.objects.filter(coursecohort__cohort=cohort).order_by('title')
+        cohorts_list.append([cohort,courses])
     key = ApiKey.objects.get(user = request.user)
     request.user.key = key.key
-    return render_to_response('oppia/mobile/monitor/home.html',{ 'cohorts_list':cohorts, 'user': request.user }, context_instance=RequestContext(request))
+    return render_to_response('oppia/mobile/monitor/home.html',{ 'cohorts_list':cohorts_list, 'user': request.user }, context_instance=RequestContext(request))
 
 
-def monitor_cohort_progress_view(request,cohort_id):
+def monitor_cohort_progress_view(request,cohort_id, course_id):
     auth = ApiKeyAuthentication()
     if auth.is_authenticated(request) is not True:
         return HttpResponse('Unauthorized', status=401)
@@ -60,10 +63,10 @@ def monitor_cohort_progress_view(request,cohort_id):
     key = ApiKey.objects.get(user = request.user)
     request.user.key = key.key
     cohort = get_object_or_404(Cohort, pk=cohort_id, participant__user=request.user, participant__role=Participant.TEACHER, start_date__lte=now,end_date__gte=now)
+    course = get_object_or_404(Course, coursecohort__cohort=cohort, pk=course_id)
+    record_mobile_tracker(request,course,'monitor','{"en": "progress"}')
     
-    record_mobile_tracker(request,cohort.course,'monitor','{"en": "progress"}')
-    
-    sections = Section.objects.filter(course=cohort.course,order__gt=0).order_by('order')
+    sections = Section.objects.filter(course=course,order__gt=0).order_by('order')
     section_list = {}
     for s in sections:
         section_list[s.id] = Activity.objects.filter(section=s).values('digest').distinct()
@@ -90,10 +93,10 @@ def monitor_cohort_progress_view(request,cohort_id):
     except (EmptyPage, InvalidPage):
         tracks = paginator.page(paginator.num_pages)
         
-    return render_to_response('oppia/mobile/monitor/progress.html',{ 'cohort':cohort, 'participants': students, 'user': request.user }, context_instance=RequestContext(request))
+    return render_to_response('oppia/mobile/monitor/progress.html',{ 'cohort':cohort, 'course': course, 'participants': students, 'user': request.user }, context_instance=RequestContext(request))
 
 
-def monitor_cohort_quizzes_view(request,cohort_id):
+def monitor_cohort_quizzes_view(request, cohort_id, course_id):
     auth = ApiKeyAuthentication()
     if auth.is_authenticated(request) is not True:
         return HttpResponse('Unauthorized', status=401)
@@ -101,10 +104,11 @@ def monitor_cohort_quizzes_view(request,cohort_id):
     key = ApiKey.objects.get(user = request.user)
     request.user.key = key.key
     cohort = get_object_or_404(Cohort, pk=cohort_id, participant__user=request.user, participant__role=Participant.TEACHER, start_date__lte=now,end_date__gte=now)
+    course = get_object_or_404(Course, coursecohort__cohort=cohort, pk=course_id)
     
-    record_mobile_tracker(request,cohort.course,'monitor','{"en": "quizzes"}')
+    record_mobile_tracker(request, course, 'monitor','{"en": "quizzes"}')
     
-    quizzes = Activity.objects.filter(section__course=cohort.course,type='quiz').order_by('section__order')
+    quizzes = Activity.objects.filter(section__course=course,type='quiz').order_by('section__order')
     participants = Participant.objects.filter(cohort=cohort,role=Participant.STUDENT).order_by('user__first_name')
     
     paginator = Paginator(participants, 25)
@@ -132,9 +136,9 @@ def monitor_cohort_quizzes_view(request,cohort_id):
     except (EmptyPage, InvalidPage):
         tracks = paginator.page(paginator.num_pages)
         
-    return render_to_response('oppia/mobile/monitor/quizzes.html',{ 'cohort':cohort, 'participants': students, 'user': request.user }, context_instance=RequestContext(request))
+    return render_to_response('oppia/mobile/monitor/quizzes.html',{ 'cohort':cohort, 'course': course, 'participants': students, 'user': request.user }, context_instance=RequestContext(request))
 
-def monitor_cohort_media_view(request,cohort_id):
+def monitor_cohort_media_view(request, cohort_id, course_id):
     auth = ApiKeyAuthentication()
     if auth.is_authenticated(request) is not True:
         return HttpResponse('Unauthorized', status=401)
@@ -142,10 +146,10 @@ def monitor_cohort_media_view(request,cohort_id):
     key = ApiKey.objects.get(user = request.user)
     request.user.key = key.key
     cohort = get_object_or_404(Cohort, pk=cohort_id, participant__user=request.user, participant__role=Participant.TEACHER, start_date__lte=now,end_date__gte=now)
+    course = get_object_or_404(Course, coursecohort__cohort=cohort, pk=course_id)
+    record_mobile_tracker(request, course, 'monitor','{"en": "media"}')
     
-    record_mobile_tracker(request,cohort.course,'monitor','{"en": "media"}')
-    
-    media = Media.objects.filter(course=cohort.course)
+    media = Media.objects.filter(course=course)
     participants = Participant.objects.filter(cohort=cohort,role=Participant.STUDENT).order_by('user__first_name')
     
     paginator = Paginator(participants, 25)
@@ -173,7 +177,7 @@ def monitor_cohort_media_view(request,cohort_id):
     except (EmptyPage, InvalidPage):
         tracks = paginator.page(paginator.num_pages)
         
-    return render_to_response('oppia/mobile/monitor/media.html',{ 'cohort':cohort, 'participants': students, 'user': request.user }, context_instance=RequestContext(request))
+    return render_to_response('oppia/mobile/monitor/media.html',{ 'cohort':cohort, 'course': course, 'participants': students, 'user': request.user }, context_instance=RequestContext(request))
 
 
 def monitor_cohort_student_view(request,cohort_id, student_id):

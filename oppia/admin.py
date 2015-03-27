@@ -29,7 +29,7 @@ class BadgeAdmin(admin.ModelAdmin):
     list_display = ('description','points')
  
 class PointsAdmin(admin.ModelAdmin):
-    list_display = ('user','type','course','cohort','points','date','description')
+    list_display = ('user','type','course','points','date','description')
     
 class ActivityAdmin(admin.ModelAdmin):
     list_display = ('title','section','type','digest')

@@ -12,8 +12,14 @@
 {% block content %}
 <h2>{% trans "Monitor" %}</h2>
 {% if cohorts_list %}
-	{% for cohort in cohorts_list %}
-		<div class="list clickable" onclick="load('{% url 'oppia_monitor_cohort_progress' cohort.id %}');">{{ cohort.course.title|title_lang:LANGUAGE_CODE }} ({{ cohort.description }} - {{ cohort.no_student_members }} students)</div>
+	{% for cohort,courses in cohorts_list %}
+		<h2>{{ cohort.description }}</h2>
+		<p style="text-align:center">{{ cohort.no_student_members }} students</p>
+		{% for course in courses %}
+			<div class="list clickable" onclick="load('{% url 'oppia_monitor_cohort_progress' cohort.id course.id %}');">
+				{{ course.title|title_lang:LANGUAGE_CODE }}
+			</div>
+		{% endfor %}
 	{% endfor %}
 {% else %}
 	{% blocktrans %}<p>You are not currently teaching on any courses.</p>{% endblocktrans %}
