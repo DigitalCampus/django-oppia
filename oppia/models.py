@@ -483,11 +483,11 @@ class Cohort(models.Model):
                 return c
         return None
 
-''' 
+
 class CourseCohort(models.Model):
     course = models.ForeignKey(Course) 
     cohort = models.ForeignKey(Cohort)  
-'''   
+  
  
     
 class Participant(models.Model):
