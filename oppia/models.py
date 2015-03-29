@@ -482,11 +482,13 @@ class Cohort(models.Model):
             for p in participants:
                 return c
         return None
- 
+
+''' 
 class CourseCohort(models.Model):
     course = models.ForeignKey(Course) 
     cohort = models.ForeignKey(Cohort)  
-    
+'''   
+ 
     
 class Participant(models.Model):
     TEACHER = 'teacher'
