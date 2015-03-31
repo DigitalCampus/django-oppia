@@ -529,8 +529,57 @@ def cohort_add(request):
     return render(request, 'oppia/cohort-form.html',{'form': form,})  
 
 def cohort_view(request,cohort_id):
+    if not request.user.is_staff:
+        raise Http404  
+    cohort = Cohort.objects.get(pk=cohort_id)
     
-    return Http404()
+    start_date = timezone.now() - datetime.timedelta(days=31)
+    end_date = timezone.now()
+    
+    # get teacher activity
+    teacher_activity = []
+    no_days = (end_date-start_date).days + 1
+    teachers =  User.objects.filter(participant__role=Participant.TEACHER, participant__cohort=cohort)
+    for i in range(0,no_days,+1):
+        temp = start_date + datetime.timedelta(days=i)
+        day = temp.strftime("%d")
+        month = temp.strftime("%m")
+        year = temp.strftime("%Y")
+        count = Tracker.objects.filter(course__coursecohort__cohort=cohort, 
+                                       user__is_staff=False,
+                                       user__in=teachers, 
+                                       tracker_date__day=day,
+                                       tracker_date__month=month,
+                                       tracker_date__year=year).count()
+        teacher_activity.append([temp.strftime("%d %b %Y"),count])
+        
+    # get student activity
+    student_activity = []
+    no_days = (end_date-start_date).days + 1
+    students =  User.objects.filter(participant__role=Participant.STUDENT, participant__cohort=cohort)    
+    for i in range(0,no_days,+1):
+        temp = start_date + datetime.timedelta(days=i)
+        day = temp.strftime("%d")
+        month = temp.strftime("%m")
+        year = temp.strftime("%Y")
+        count = Tracker.objects.filter(course__coursecohort__cohort=cohort, 
+                                       user__is_staff=False,
+                                       user__in=students,  
+                                       tracker_date__day=day,
+                                       tracker_date__month=month,
+                                       tracker_date__year=year).count()
+        student_activity.append([temp.strftime("%d %b %Y"),count])
+        
+    # get leaderboard
+    leaderboard = Points.get_cohort_leaderboard(10, cohort)
+    
+    
+    return render_to_response('oppia/course/cohort-activity.html',
+                              {'cohort':cohort,
+                               'teacher_activity': teacher_activity,
+                               'student_activity': student_activity, 
+                               'leaderboard': leaderboard, }, 
+                              context_instance=RequestContext(request))
 
 def cohort_edit(request,cohort_id):
     if not request.user.is_staff:

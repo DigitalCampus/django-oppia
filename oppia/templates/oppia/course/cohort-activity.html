@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+
+{% block extra_scripts %}
+	<script type='text/javascript' src='https://www.google.com/jsapi'></script>
+	<script type="text/javascript">
+		
+		// Load the Visualization API and the piechart package.
+		google.load('visualization', '1.0', {'packages':['corechart']});
+	
+		// Set a callback to run when the Google Visualization API is loaded.
+		google.setOnLoadCallback(drawChart);
+		function drawChart() {
+	
+			var data = new google.visualization.DataTable();
+			data.addColumn('string', "{% trans 'Date' %}");
+			data.addColumn('number', "{% trans 'Total' %}");
+			
+			data.addRows( {{ teacher_activity|length }} );
+			
+			{% for date,count in teacher_activity %}
+				data.setValue({{ forloop.counter0 }},0,'{{ date }}');
+				data.setValue({{ forloop.counter0 }},1,{{ count }});
+			{% endfor %}
+	
+	        var chart = new google.visualization.AreaChart(document.getElementById('teacher_activity_chart_div'));
+	        chart.draw(data, {	width: "100%", 
+	                			height: 400,
+	                			vAxis: {minValue:0},
+	                			pointSize:3,
+	                			chartArea: {left:45,top:10,width:"90%",height:"75%"},
+	                			backgroundColor: 'transparent',
+	                			legend: 'none',
+	                			series: [{areaOpacity:0.2}]
+	                			});
+	        
+	        var data = new google.visualization.DataTable();
+			data.addColumn('string', "{% trans 'Date' %}");
+			data.addColumn('number', "{% trans 'Total' %}");
+			
+			data.addRows( {{ student_activity|length }} );
+			
+			{% for date,count in student_activity %}
+				data.setValue({{ forloop.counter0 }},0,'{{ date }}');
+				data.setValue({{ forloop.counter0 }},1,{{ count }});
+			{% endfor %}
+	
+	        var chart = new google.visualization.AreaChart(document.getElementById('student_activity_chart_div'));
+	        chart.draw(data, {	width: "100%", 
+	                			height: 400,
+	                			vAxis: {minValue:0},
+	                			pointSize:3,
+	                			chartArea: {left:45,top:10,width:"90%",height:"75%"},
+	                			backgroundColor: 'transparent',
+	                			legend: 'none',
+	                			series: [{areaOpacity:0.2}]
+	                			});
+	      }
+	</script>
+	{% endblock extra_scripts %}
+
+
+
+{% block content %}
+<h3>{{ cohort.description }}</h3>
+
+<h4>{% trans 'Student Activity' %}</h4>
+<div id="student_activity_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
+
+<h4>{% trans 'Leaderboard' %}</h4>
+
+{% include "oppia/includes/leaderboard.html" %}
+
+<h4>{% trans 'Teacher Activity' %}</h4>
+<div id="teacher_activity_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
+
+
+
+
+{% endblock %}

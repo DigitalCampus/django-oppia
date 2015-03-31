@@ -4,19 +4,37 @@
 
 {% block content %}
 
-<h2>{% trans 'cohorts' %}</h2>
+<h2>{% trans 'Cohorts' %}</h2>
 <p><i>{% trans 'Tags:' %} {{ course.get_tags}}</i></p>
 
 {% if cohorts %}
-	<ul>
+	<div class="table-responsive">
+         <table class="table table-striped-expandable">
+         	<thead>
+                <tr>
+                  <th>{% trans 'Cohort' %}</th>
+                  <th>{% trans 'No Teachers' %}</th>
+                  <th>{% trans 'No Students' %}</th>
+                  <th>{% trans 'Courses' %}</th>
+                  <th>{% trans 'Options' %}</th>
+                </tr>
+              </thead>
+              <tbody>
 	{% for cohort in cohorts %}
-		<li>
-			<a href="{% url 'oppia.views.cohort_edit' cohort.id %}">{{ cohort.description }}</a>
-			({{ cohort.no_teacher_members }} {% trans 'teachers' %},
-			{{ cohort.no_student_members }} {% trans 'students' %}) 
-		</li> 
+		<tr>
+			<td>{{ cohort.description }}</td>
+			<td>{{ cohort.no_teacher_members }}</td>
+			<td>{{ cohort.no_student_members }}</td>
+			<td></td>
+			<td>
+				<a href="{% url 'oppia.views.cohort_view' cohort.id %}">{% trans 'View activity' %}</a> | 
+				<a href="{% url 'oppia.views.cohort_edit' cohort.id %}">{% trans 'Edit' %}</a>
+			</td>	
+		</tr> 
 	{% endfor %}
-	</ul>
+	</tbody>
+ 		</table>
+	</div>
 {% else %}
 	<p>{% trans 'No cohorts' %}</p>
 	
