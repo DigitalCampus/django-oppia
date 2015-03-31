@@ -1,6 +1,11 @@
 OppiaMobile Server Change Log
 ================================
 
+v0.7.3 - not yet released
+-----------------------------
+* https://github.com/DigitalCampus/django-oppia/issues/issue/224 - view for cohort activity 
+
+
 v0.7.2 - released 29 Mar 2015
 ------------------------------
 * https://github.com/DigitalCampus/django-oppia/issues/issue/220 - update course list display
