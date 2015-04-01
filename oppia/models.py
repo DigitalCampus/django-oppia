@@ -488,6 +488,8 @@ class CourseCohort(models.Model):
     course = models.ForeignKey(Course) 
     cohort = models.ForeignKey(Cohort)  
   
+    class Meta:
+        unique_together = ("course", "cohort")
  
     
 class Participant(models.Model):
