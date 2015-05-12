@@ -11,11 +11,13 @@ import urllib2
 import json 
 import argparse, hashlib, subprocess
 from django.db.models import Count
-from oppia.models import Tracker
-from oppia.viz.models import UserLocationVisualization
+
 
 def run():
   
+    from oppia.models import Tracker
+    from oppia.viz.models import UserLocationVisualization
+
     tracker_ip_hits = Tracker.objects.filter(user__is_staff=False).values('ip').annotate(count_hits=Count('ip'))
     
     for t in tracker_ip_hits:
@@ -57,6 +59,8 @@ def update_via_freegeoip(t):
                                          
 
 if __name__ == "__main__":
+    import django
+    django.setup()
     run()  
     
     

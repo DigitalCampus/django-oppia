@@ -25,6 +25,8 @@ def run(hours):
 
 
 if __name__ == "__main__":
+    import django
+    django.setup()
     parser = argparse.ArgumentParser()
     parser.add_argument("hours", help="", default=0, nargs="?")
     args = parser.parse_args()
