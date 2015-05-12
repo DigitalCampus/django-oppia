@@ -31,6 +31,9 @@ def run():
             update_via_freegeoip(t)
 
 def update_via_freegeoip(t):
+    
+    from oppia.viz.models import UserLocationVisualization
+    
     url = 'https://freegeoip.net/json/%s' % (t['ip'])
     print t['ip'] + " : "+ url
     try:
@@ -41,20 +44,18 @@ def update_via_freegeoip(t):
     except:
         return
     
-    try:
-        if dataJSON['latitude'] != 0 and dataJSON['longitude'] != 0:
-            viz = UserLocationVisualization()
-            viz.ip = t['ip']
-            viz.lat = dataJSON['latitude']
-            viz.lng = dataJSON['longitude']
-            viz.hits = t['count_hits']
-            viz.region = dataJSON['city'] + " " + dataJSON['region_name'] 
-            viz.country_code = dataJSON['country_code']
-            viz.country_name = dataJSON['country_name']
-            viz.geonames_data = dataJSON
-            viz.save()
-    except:
-        pass
+    if dataJSON['latitude'] != 0 and dataJSON['longitude'] != 0:
+        viz = UserLocationVisualization()
+        viz.ip = t['ip']
+        viz.lat = dataJSON['latitude']
+        viz.lng = dataJSON['longitude']
+        viz.hits = t['count_hits']
+        viz.region = dataJSON['city'] + " " + dataJSON['region_name'] 
+        viz.country_code = dataJSON['country_code']
+        viz.country_name = dataJSON['country_name']
+        viz.geonames_data = dataJSON
+        viz.save()
+
     time.sleep(1) 
                                          
 
