@@ -8,7 +8,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-oppia',
-    version='0.7.2',
+    version='0.7.3',
     packages=['oppia',
               'oppia.quiz',
               'oppia.api',
@@ -45,5 +45,6 @@ setup(
 	    "django-tastypie >= 0.12.0",
         "django-tablib >= 0.9.11",
         "django-crispy-forms >= 1.4.0",
+        "pytz",
     ],
 )
