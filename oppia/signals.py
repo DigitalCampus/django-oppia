@@ -44,16 +44,7 @@ def quizattempt_callback(sender, **kwargs):
         return
     
     if not apply_points(quiz_attempt.user):
-        return
-    
-    # give points to quiz owner
-    if quiz_attempt.is_first_attempt_today():
-        p = Points()
-        p.points = settings.OPPIA_POINTS['QUIZ_ATTEMPT_OWNER']
-        p.user = quiz.owner
-        p.type = 'userquizattempt'
-        p.description = quiz_attempt.user.username + " attempted your quiz: " + quiz.title
-        p.save()  
+        return 
     
     # find out if this quiz is part of a course
     course = None

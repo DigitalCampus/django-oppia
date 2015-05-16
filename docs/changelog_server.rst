@@ -4,6 +4,7 @@ OppiaMobile Server Change Log
 v0.7.3 - not yet released
 -----------------------------
 * https://github.com/DigitalCampus/django-oppia/issues/issue/224 - view for cohort activity 
+* 230: Prevent staff users getting points even for quiz attempts - https://github.com/DigitalCampus/django-oppia/issues/issue/230
 
 
 v0.7.2 - released 29 Mar 2015
