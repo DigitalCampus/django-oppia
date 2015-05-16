@@ -106,7 +106,7 @@ The current version of the instance is running:
 * Apache 2.4
 * Mysql 5.5
 * Django 1.7.3
-* TastyPie 0.11.0
+* TastyPie 0.12.0
 * OppiaServer 0.7.2
 
 
