@@ -30,7 +30,7 @@ class Course(models.Model):
     version = models.BigIntegerField()
     title = models.TextField(blank=False)
     description = models.TextField(blank=True, null=True, default=None)
-    shortname = models.CharField(max_length=20)
+    shortname = models.CharField(max_length=200)
     filename = models.CharField(max_length=200)
     badge_icon = models.FileField(upload_to="badges",blank=True, default=None)
     is_draft = models.BooleanField(default=False)
