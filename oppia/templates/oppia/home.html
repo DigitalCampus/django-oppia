@@ -3,6 +3,10 @@
 {% load display_functions %} 
 {% load crispy_forms_tags %}
 
+{% block extra_head_title %}
+	{% trans 'Home' %}
+{% endblock extra_head_title %}
+
 {% if user.is_authenticated %}
 	{% block extra_body %}
 		onload="setUpDatePicker();"
