@@ -21,11 +21,14 @@ Contents:
    block_install
    settings
    upgrade
+   changelog
    api
    utilities
    custom/index
    viz/index
-   changelog
    author
+   translations
+   video_embed
+   help
    acknowledgements
    

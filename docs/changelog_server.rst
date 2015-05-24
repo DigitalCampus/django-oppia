@@ -8,6 +8,7 @@ v0.7.4 - not yet released
 * 231: Increase course shortname length - https://github.com/DigitalCampus/django-oppia/issues/issue/231
 * 235: Update google graphs to cope with larger numbers on y axis - https://github.com/DigitalCampus/django-oppia/issues/issue/235
 * 226: Deprecation warning for Django 1.8 - https://github.com/DigitalCampus/django-oppia/issues/issue/226
+* 236: Add information on providing multilingual content - https://github.com/DigitalCampus/django-oppia/issues/issue/236
 
 v0.7.3 - released 15 May 2015
 -----------------------------
