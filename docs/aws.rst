@@ -102,12 +102,12 @@ Environment information
 -----------------------
 The current version of the instance is running:
 
-* Ubuntu 14.04.1 LTS Server
+* Ubuntu 14.04.2 LTS Server
 * Apache 2.4
 * Mysql 5.5
 * Django 1.7.3
 * TastyPie 0.12.0
-* OppiaServer 0.7.2
+* OppiaServer 0.7.3
 
 
 Email configuration
