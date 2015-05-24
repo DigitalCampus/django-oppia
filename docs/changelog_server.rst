@@ -4,6 +4,7 @@ OppiaMobile Server Change Log
 v0.7.4 - not yet released
 ------------------------------
 
+* 232: Check that users, quizzes, courses etc can be deleted without removing the points etc - https://github.com/DigitalCampus/django-oppia/issues/issue/232
 
 v0.7.3 - released 15 May 2015
 -----------------------------
