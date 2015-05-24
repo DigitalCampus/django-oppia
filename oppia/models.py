@@ -299,7 +299,7 @@ class Tracker(models.Model):
     user = models.ForeignKey(User)
     submitted_date = models.DateTimeField('date submitted',default=timezone.now)
     tracker_date = models.DateTimeField('date tracked',default=timezone.now)
-    ip = models.IPAddressField()
+    ip = models.GenericIPAddressField()
     agent = models.TextField(blank=True)
     digest = models.CharField(max_length=100)
     data = models.TextField(blank=True)

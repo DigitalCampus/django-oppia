@@ -135,7 +135,7 @@ class QuizAttempt(models.Model):
     submitted_date = models.DateTimeField('date submitted',default=timezone.now)
     score = models.DecimalField(decimal_places=2, max_digits=6)
     maxscore = models.DecimalField(decimal_places=2, max_digits=6)
-    ip = models.IPAddressField()
+    ip = models.GenericIPAddressField()
     instance_id = models.CharField(max_length=50,null=True,blank=True)
     agent = models.TextField(blank=True)
     
