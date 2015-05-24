@@ -303,7 +303,7 @@ class Tracker(models.Model):
     agent = models.TextField(blank=True)
     digest = models.CharField(max_length=100)
     data = models.TextField(blank=True)
-    course = models.ForeignKey(Course,null=True, blank=True, default=None)
+    course = models.ForeignKey(Course,null=True, blank=True, default=None, on_delete=models.SET_NULL)
     type = models.CharField(max_length=10,null=True, blank=True, default=None)
     completed = models.BooleanField(default=False)
     time_taken = models.IntegerField(default=0)
@@ -437,7 +437,7 @@ class Cohort(models.Model):
     description = models.CharField(max_length=100)
     start_date = models.DateTimeField(default=timezone.now)
     end_date = models.DateTimeField(default=timezone.now)
-    schedule = models.ForeignKey(Schedule,null=True, blank=True, default=None)
+    schedule = models.ForeignKey(Schedule,null=True, blank=True, default=None, on_delete=models.SET_NULL)
     
     class Meta:
         verbose_name = _('Cohort')
@@ -587,7 +587,7 @@ class Points(models.Model):
         ('coursedownloaded', 'Course downloaded'),
     )
     user = models.ForeignKey(User)
-    course = models.ForeignKey(Course,null=True)
+    course = models.ForeignKey(Course,null=True, default=None, on_delete=models.SET_NULL)
     points = models.IntegerField()
     date = models.DateTimeField('date created',default=timezone.now)
     description = models.TextField(blank=False)
