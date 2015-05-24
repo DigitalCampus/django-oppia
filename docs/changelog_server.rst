@@ -6,6 +6,7 @@ v0.7.4 - not yet released
 
 * 232: Check that users, quizzes, courses etc can be deleted without removing the points etc - https://github.com/DigitalCampus/django-oppia/issues/issue/232
 * 231: Increase course shortname length - https://github.com/DigitalCampus/django-oppia/issues/issue/231
+* 235: Update google graphs to cope with larger numbers on y axis - https://github.com/DigitalCampus/django-oppia/issues/issue/235
 
 v0.7.3 - released 15 May 2015
 -----------------------------
