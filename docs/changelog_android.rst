@@ -6,6 +6,7 @@ v53 (5.2.0) - not yet released
 --------------------------------------------------
 
 * 427: App crashing when changing server setting - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/427
+* 433: Add Urdu lang file from Bright Future app - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/433
 
 v52 (5.1.1) - released: 18 Mar 2015
 ---------------------------------------------------
