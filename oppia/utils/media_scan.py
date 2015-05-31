@@ -46,7 +46,7 @@ def run(input_dir, output_dir, image_width, image_height):
                 if not os.path.exists(os.path.join(output_dir, filename + ".images")):
                     os.makedirs(os.path.join(output_dir, filename + ".images"))
                     
-                image_generator_command = "ffmpeg -i %s -r 0.1 -s %dx%d -f image2 %s/frame-%%03d.png" % (os.path.join(input_dir, filename), image_width, image_height, os.path.join(output_dir, filename + ".images")) 
+                image_generator_command = "ffmpeg -i %s -r 0.02 -s %dx%d -f image2 %s/frame-%%03d.png" % (os.path.join(input_dir, filename), image_width, image_height, os.path.join(output_dir, filename + ".images")) 
                 print image_generator_command
                 subprocess.call(image_generator_command, shell=True)  
     out_file.close()
@@ -78,7 +78,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("input_directory", help="Input directory")
     parser.add_argument("output_directory", help="Output directory")
-    parser.add_argument("-W","--image_width", help="width of image file to create",type=int,default=260)
-    parser.add_argument("-H","--image_height", help="height of image file to create",type=int,default=195)
+    parser.add_argument("-W","--image_width", help="width of image file to create",type=int)
+    parser.add_argument("-H","--image_height", help="height of image file to create",type=int)
     args = parser.parse_args()
     run(args.input_directory,args.output_directory,args.image_width,args.image_height)
