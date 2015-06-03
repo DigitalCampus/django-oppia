@@ -717,11 +717,12 @@ def leaderboard_view(request):
 
 def course_quiz(request,course_id):
     course = check_owner(request,course_id)
-    digests = Activity.objects.filter(section__course=course,type='quiz').order_by('section__order').values('digest').distinct()
+    digests = Activity.objects.filter(section__course=course,type='quiz').order_by('section__order').distinct()
     quizzes = []
     for d in digests:
         try:
-            q = Quiz.objects.get(quizprops__name='digest',quizprops__value=d['digest'])
+            q = Quiz.objects.get(quizprops__name='digest',quizprops__value=d.digest)
+            q.section_name = d.section.title
             quizzes.append(q)
         except Quiz.DoesNotExist:
             pass
