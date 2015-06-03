@@ -7,6 +7,8 @@ v53 (5.2.0) - not yet released
 
 * 427: App crashing when changing server setting - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/427
 * 433: Add Urdu lang file from Bright Future app - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/433
+* 435: Update Bugsense to Mint jar - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/435
+* 437: Why are quiz results showing as 0% even when user has scored more - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/437
 
 v52 (5.1.1) - released: 18 Mar 2015
 ---------------------------------------------------
