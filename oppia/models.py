@@ -344,15 +344,19 @@ class Tracker(models.Model):
            
     def get_activity_title(self, lang='en'):
         media = Media.objects.filter(digest=self.digest)
+        print media
         for m in media:
             return m.filename
         try:
-            titles = json.loads(self.activity_title)
-            if lang in titles:
-                return titles[lang]
-            else:
-                for l in titles:
-                    return titles[l]
+            activity = Activity.objects.filter(digest=self.digest)
+            for a in activity:
+                print a.title
+                titles = json.loads(a.title)
+                if lang in titles:
+                    return titles[lang]
+                else:
+                    for l in titles:
+                        return titles[l]
         except:
             pass
         return self.activity_title

@@ -5,6 +5,7 @@ v0.7.5 - released 3 Jun 2015
 -----------------------------
 
 * 241: Quizzes on course page are just showing 'quiz' as title - https://github.com/DigitalCampus/django-oppia/issues/issue/241
+* 242: Show better activity titles in points table - https://github.com/DigitalCampus/django-oppia/issues/issue/242
 
 v0.7.4 - released 31 May 2015
 ------------------------------

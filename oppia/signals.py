@@ -148,7 +148,7 @@ def tracker_callback(sender, **kwargs):
         if points > settings.OPPIA_POINTS['MEDIA_MAX_POINTS']:
             points = settings.OPPIA_POINTS['MEDIA_MAX_POINTS']
     else:
-        description = "Activity completed: " + tracker.activity_title    
+        description = "Activity completed: " + tracker.get_activity_title()    
        
     p = Points()
     p.points = points
