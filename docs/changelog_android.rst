@@ -12,6 +12,7 @@ v53 (5.2.0) - not yet released
 * 431: Activity tabs with long titles aren't shortening - so sometimes are unreadable - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/431
 * 436: On the course homepage, the activity titles are being shortened to only one line - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/436
 * 419: Remove dependency on ActionBarSherlock - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/419
+* 440: Replace the default activity icons with blank background - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/440
 
 v52 (5.1.1) - released: 18 Mar 2015
 ---------------------------------------------------
