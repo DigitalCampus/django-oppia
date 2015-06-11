@@ -2,7 +2,7 @@ OppiaMobile Android App Change Log
 ====================================
 
 
-v53 (5.2.0) - not yet released
+v53 (5.2.0) - released 11 June 2015
 --------------------------------------------------
 
 * 427: App crashing when changing server setting - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/427
@@ -13,6 +13,7 @@ v53 (5.2.0) - not yet released
 * 436: On the course homepage, the activity titles are being shortened to only one line - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/436
 * 419: Remove dependency on ActionBarSherlock - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/419
 * 440: Replace the default activity icons with blank background - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/440
+* 449: Fail more cleanly when course files have been deleted from the sd card - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/449
 
 v52 (5.1.1) - released: 18 Mar 2015
 ---------------------------------------------------
