@@ -6,7 +6,7 @@ def run():
     from django.db.models import Sum
     from oppia.quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
     
-    attempts = QuizAttempt.objects.all()
+    attempts = QuizAttempt.objects.filter(score=0)
     
     for a in attempts:
         attempt_score = QuizAttemptResponse.objects.filter(quizattempt=a).aggregate(total_score=Sum('score'))
