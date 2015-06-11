@@ -208,7 +208,7 @@ class RegisterResourceTest(ResourceTestCase):
     # test username already in use
     def test_username_in_use(self):
         data = {
-            'username': 'user',
+            'username': 'demo',
             'password': 'secret',
             'passwordagain': 'secret',
             'email': 'demo@demo.com',
@@ -225,7 +225,7 @@ class RegisterResourceTest(ResourceTestCase):
             'username': 'demo3',
             'password': 'secret',
             'passwordagain': 'secret',
-            'email': 'user@demo.com',
+            'email': 'demo@me.com',
             'firstname': 'demo',
             'lastname': 'user',
         }
@@ -251,10 +251,10 @@ class AwardsResourceTest(ResourceTestCase):
     
     def setUp(self):
         super(AwardsResourceTest, self).setUp()
-        user = User.objects.get(username='user')
+        user = User.objects.get(username='demo')
         api_key = ApiKey.objects.get(user = user)
         self.auth_data = {
-            'username': 'user',
+            'username': 'demo',
             'api_key': api_key.key,
         }
         self.url = '/api/v1/awards/'
@@ -266,7 +266,7 @@ class AwardsResourceTest(ResourceTestCase):
     # check unauthorized
     def test_unauthorized(self):
         data = {
-            'username': 'user',
+            'username': 'demo',
             'api_key': '1234',
         }
         self.assertHttpUnauthorized(self.api_client.get(self.url, format='json', data=data))
@@ -291,10 +291,10 @@ class CourseResourceTest(ResourceTestCase):
     
     def setUp(self):
         super(CourseResourceTest, self).setUp()
-        user = User.objects.get(username='user')
+        user = User.objects.get(username='demo')
         api_key = ApiKey.objects.get(user = user)
         self.auth_data = {
-            'username': 'user',
+            'username': 'demo',
             'api_key': api_key.key,
         }
         self.url = '/api/v1/course/'
@@ -306,7 +306,7 @@ class CourseResourceTest(ResourceTestCase):
     # test unauthorized
     def test_unauthorized(self):
         data = {
-            'username': 'user',
+            'username': 'demo',
             'api_key': '1234',
         }
         self.assertHttpUnauthorized(self.api_client.get(self.url, format='json', data=data))
@@ -368,10 +368,10 @@ class TagResourceTest(ResourceTestCase):
     
     def setUp(self):
         super(TagResourceTest, self).setUp()
-        user = User.objects.get(username='user')
+        user = User.objects.get(username='demo')
         api_key = ApiKey.objects.get(user = user)
         self.auth_data = {
-            'username': 'user',
+            'username': 'demo',
             'api_key': api_key.key,
         }
         self.url = '/api/v1/tag/'
@@ -401,7 +401,7 @@ class TagResourceTest(ResourceTestCase):
         response_data = self.deserialize(resp)
         self.assertTrue('tags' in response_data)
         # should have 5 tags with the test data set
-        self.assertEquals(len(response_data['tags']),5)
+        self.assertEquals(len(response_data['tags']),4)
         # check each course had a download url
         for tag in response_data['tags']:
             self.assertTrue('count' in tag)
@@ -414,7 +414,7 @@ class TagResourceTest(ResourceTestCase):
             
     # test getting a listing of courses for one of the tags
     def test_tag_list(self):
-        resp = self.api_client.get(self.url+"11/", format='json', data=self.auth_data)
+        resp = self.api_client.get(self.url+"2/", format='json', data=self.auth_data)
         self.assertHttpOK(resp)
         self.assertValidJSON(resp.content)
         response_data = self.deserialize(resp)
@@ -439,7 +439,7 @@ class TrackerResourceTest(ResourceTestCase):
     
     def setUp(self):
         super(TrackerResourceTest, self).setUp()
-        self.username = 'user'
+        self.username = 'demo'
         user = User.objects.get(username=self.username)
         api_key = ApiKey.objects.get(user = user)
         self.api_key = api_key.key
@@ -609,8 +609,8 @@ class UserResourceTest(ResourceTestCase):
     # check valid login
     def test_valid_login(self):
         data = {
-            'username': 'user',
-            'password': 'demo'
+            'username': 'demo',
+            'password': 'password'
         }
         resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpCreated(resp)
@@ -676,7 +676,7 @@ class QuizAttemptResourceTest(ResourceTestCase):
     
     def setUp(self):
         super(QuizAttemptResourceTest, self).setUp()
-        self.username = 'user'
+        self.username = 'demo'
         user = User.objects.get(username=self.username)
         api_key = ApiKey.objects.get(user = user)
         self.api_key = api_key.key
@@ -697,18 +697,18 @@ class QuizAttemptResourceTest(ResourceTestCase):
     
     def test_authorized(self):
         data = {
-                "quiz_id":"354",
+                "quiz_id":2,
                 "maxscore":30,
                 "score":10,
                 "attempt_date":"2012-12-18T15:35:12",
                 "responses":[
-                             {"question_id":"1839",
+                             {"question_id":"132",
                               "score":0,
                               "text":"true"},
-                             {"question_id":"1840",
+                             {"question_id":"133",
                               "score":10,
                               "text":"true"},
-                             {"question_id":"1841",
+                             {"question_id":"134",
                               "score":0,
                               "text":"false"}]}
         quizattempt_count_start = QuizAttempt.objects.all().count()

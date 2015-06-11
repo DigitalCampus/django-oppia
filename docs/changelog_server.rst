@@ -1,6 +1,13 @@
 OppiaMobile Server Change Log
 ================================
 
+
+v0.7.6 - not yet released
+--------------------------
+
+* 237: Update tests and test data now that cohorts have been restructured - https://github.com/DigitalCampus/django-oppia/issues/issue/237
+
+
 v0.7.5 - released 3 Jun 2015
 -----------------------------
 

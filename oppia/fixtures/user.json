@@ -1,38 +1,38 @@
 [
 {
-    "pk": 318, 
-    "model": "auth.user", 
     "fields": {
-        "username": "superuser", 
-        "first_name": "Super", 
-        "last_name": "User", 
-        "is_active": true, 
-        "is_superuser": true, 
-        "is_staff": true, 
-        "last_login": "2013-06-29T13:28:21", 
-        "groups": [], 
-        "user_permissions": [], 
-        "password": "pbkdf2_sha256$10000$mmQiCQlTLh2N$oIKCwLpSJwuIwWBsgtRHPAtaLN8vCKHxvT6fKDg+eA0=", 
-        "email": "superuser@demo.com", 
-        "date_joined": "2013-06-29T13:02:48"
-    }
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "is_active": true,
+        "is_superuser": true,
+        "is_staff": true,
+        "last_login": "2015-06-11T13:21:06Z",
+        "groups": [],
+        "user_permissions": [],
+        "password": "pbkdf2_sha256$15000$MlXu7yRFWjo1$TvrX6B+xNZj8gCfORIfTvD01FIcyk7ZL6MtNfFhMTyk=",
+        "email": "admin@me.com",
+        "date_joined": "2015-06-11T13:17:14Z"
+    },
+    "model": "auth.user",
+    "pk": 1
 },
 {
-    "pk": 319, 
-    "model": "auth.user", 
     "fields": {
-        "username": "user", 
-        "first_name": "Demo", 
-        "last_name": "User", 
-        "is_active": true, 
-        "is_superuser": false, 
-        "is_staff": false, 
-        "last_login": "2013-06-29T13:18:17", 
-        "groups": [], 
-        "user_permissions": [], 
-        "password": "pbkdf2_sha256$10000$WUdL674zYoca$3C9Zx/f8/mAqrRa0ehNOTkgRr8j3A0PjEJsp8Pkb5Zg=", 
-        "email": "user@demo.com", 
-        "date_joined": "2013-06-29T13:04:10"
-    }
+        "username": "demo",
+        "first_name": "demo",
+        "last_name": "user",
+        "is_active": true,
+        "is_superuser": false,
+        "is_staff": false,
+        "last_login": "2015-06-11T13:20:48Z",
+        "groups": [],
+        "user_permissions": [],
+        "password": "pbkdf2_sha256$15000$7FJfq85aSCtQ$ZT+WV+jOaLPVeLvq5kMlxcX+Js53PeE92mcd/Zm1w7k=",
+        "email": "demo@me.com",
+        "date_joined": "2015-06-11T13:20:47Z"
+    },
+    "model": "auth.user",
+    "pk": 2
 }
 ]
