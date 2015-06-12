@@ -2,7 +2,7 @@ OppiaMobile Android App Change Log
 ====================================
 
 
-v53 (5.2.0) - released 11 June 2015
+v53 (5.2.0) - released 12 June 2015
 --------------------------------------------------
 
 * 427: App crashing when changing server setting - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/427
