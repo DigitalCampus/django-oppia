@@ -1,8 +1,13 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load display_functions %}
+
+{% block extra_head_title %}
+	{% trans 'Leaderboard' %}
+{% endblock extra_head_title %}
+
 {% block content %}
-<h2>{% trans 'page_title_leaderboard' %}</h2>
+<h2>{% trans 'Leaderboard' %}</h2>
 
 {% if page.object_list.count > 0  %}
 	{% include "oppia/includes/page_navigator.html" %}

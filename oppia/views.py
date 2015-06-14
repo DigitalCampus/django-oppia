@@ -58,7 +58,6 @@ def home_view(request):
         
         if interval == 'days':
             no_days = (end_date-start_date).days + 1
-            
             for i in range(0,no_days,+1):
                 temp = start_date + datetime.timedelta(days=i)
                 day = temp.strftime("%d")
