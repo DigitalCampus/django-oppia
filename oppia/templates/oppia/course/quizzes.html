@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load display_functions %} 
+
+{% block extra_head_title %}
+	{{ course.title|title_lang:LANGUAGE_CODE }}
+{% endblock extra_head_title %}
+
+
 {% block content %}
 
 <h2><a href="{% url 'oppia_recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a></h2>

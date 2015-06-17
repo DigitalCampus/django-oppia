@@ -1,6 +1,11 @@
 {% extends "base.html" %} 
 {% load i18n %} 
 {% load display_functions %} 
+
+{% block extra_head_title %}
+	{% trans 'Courses' %}
+{% endblock extra_head_title %}
+
 {% if course_list %}
 	{% block extra_scripts %}
 	<script type='text/javascript' src='https://www.google.com/jsapi'></script>
@@ -49,7 +54,7 @@
 {% endif %} 
 {% block content %}
 
-<h2>{% trans 'courses' %}</h2>
+<h2>{% trans 'Courses' %}</h2>
 
 {% if tag_list %}
 	<form method="post">

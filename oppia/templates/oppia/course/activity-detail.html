@@ -3,6 +3,10 @@
 {% load display_functions %}
 {% load crispy_forms_tags %}
 
+{% block extra_head_title %}
+	{{ course.title|title_lang:LANGUAGE_CODE }}
+{% endblock extra_head_title %}
+
 {% block extra_scripts %}
 	<script type="text/javascript">
 		function init(){
