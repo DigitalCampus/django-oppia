@@ -58,7 +58,12 @@ def home_view(request):
         
         if interval == 'days':
             no_days = (end_date-start_date).days + 1
-            trackers = Tracker.objects.filter(course__isnull=False, course__is_draft=False, user__is_staff=False, course__is_archived=False,tracker_date__gte=start_date,tracker_date__lte=end_date).extra({'activity_date':"date(tracker_date)"}).values('activity_date').annotate(count=Count('id'))
+            trackers = Tracker.objects.filter(course__isnull=False, 
+                                              course__is_draft=False, 
+                                              user__is_staff=False, 
+                                              course__is_archived=False,
+                                              tracker_date__gte=start_date,
+                                              tracker_date__lte=end_date).extra({'activity_date':"date(tracker_date)"}).values('activity_date').annotate(count=Count('id'))
             for i in range(0,no_days,+1):
                 temp = start_date + datetime.timedelta(days=i)
                 count = next((dct['count'] for dct in trackers if dct['activity_date'] == temp.date()), 0)
@@ -77,7 +82,12 @@ def home_view(request):
                 temp = start_date + relativedelta(months=+i)
                 month = temp.strftime("%m")
                 year = temp.strftime("%Y")
-                count = Tracker.objects.filter(course__isnull=False, course__is_draft=False, user__is_staff=False, course__is_archived=False,tracker_date__month=month,tracker_date__year=year).count()
+                count = Tracker.objects.filter(course__isnull=False,
+                                               course__is_draft=False,
+                                               user__is_staff=False,
+                                               course__is_archived=False,
+                                               tracker_date__month=month,
+                                               tracker_date__year=year).count()
                 activity.append([temp.strftime("%b %Y"),count])
     else:
         form = None
@@ -93,17 +103,19 @@ def course_view(request):
         course_list = Course.objects.filter(is_archived=False).order_by('title')
     else:
         course_list = Course.objects.filter(is_draft=False,is_archived=False).order_by('title')   
-    startdate = datetime.datetime.now()
+    start_date = timezone.now() - datetime.timedelta(days=7)
+    end_date = timezone.now()
     for course in course_list:
         course.activity = []
-        for i in range(7,-1,-1):
-            temp = startdate - datetime.timedelta(days=i)
-            day = temp.strftime("%d")
-            month = temp.strftime("%m")
-            year = temp.strftime("%Y")
-            
-            count = Tracker.objects.filter(course = course, user__is_staff=False, tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
+        trackers = Tracker.objects.filter(course = course, 
+                                          user__is_staff=False, 
+                                          tracker_date__gte=start_date,
+                                          tracker_date__lte=end_date).extra({'activity_date':"date(tracker_date)"}).values('activity_date').annotate(count=Count('id'))
+        for i in range(0,7,+1):
+            temp = start_date + datetime.timedelta(days=i)
+            count = next((dct['count'] for dct in trackers if dct['activity_date'] == temp.date()), 0)
             course.activity.append([temp.strftime("%d %b %Y"),count])  
+            
     tag_list = Tag.objects.all().order_by('name')
     return render_to_response('oppia/course/course.html',{'course_list': course_list, 'tag_list': tag_list}, context_instance=RequestContext(request))
 
@@ -537,34 +549,28 @@ def cohort_view(request,cohort_id):
     teacher_activity = []
     no_days = (end_date-start_date).days + 1
     teachers =  User.objects.filter(participant__role=Participant.TEACHER, participant__cohort=cohort)
-    for i in range(0,no_days,+1):
-        temp = start_date + datetime.timedelta(days=i)
-        day = temp.strftime("%d")
-        month = temp.strftime("%m")
-        year = temp.strftime("%Y")
-        count = Tracker.objects.filter(course__coursecohort__cohort=cohort, 
+    trackers = Tracker.objects.filter(course__coursecohort__cohort=cohort, 
                                        user__is_staff=False,
                                        user__in=teachers, 
-                                       tracker_date__day=day,
-                                       tracker_date__month=month,
-                                       tracker_date__year=year).count()
+                                       tracker_date__gte=start_date,
+                                       tracker_date__lte=end_date).extra({'activity_date':"date(tracker_date)"}).values('activity_date').annotate(count=Count('id'))
+    for i in range(0,no_days,+1):
+        temp = start_date + datetime.timedelta(days=i)
+        count = next((dct['count'] for dct in trackers if dct['activity_date'] == temp.date()), 0)
         teacher_activity.append([temp.strftime("%d %b %Y"),count])
         
     # get student activity
     student_activity = []
     no_days = (end_date-start_date).days + 1
     students =  User.objects.filter(participant__role=Participant.STUDENT, participant__cohort=cohort)    
-    for i in range(0,no_days,+1):
-        temp = start_date + datetime.timedelta(days=i)
-        day = temp.strftime("%d")
-        month = temp.strftime("%m")
-        year = temp.strftime("%Y")
-        count = Tracker.objects.filter(course__coursecohort__cohort=cohort, 
+    trackers = Tracker.objects.filter(course__coursecohort__cohort=cohort, 
                                        user__is_staff=False,
                                        user__in=students,  
-                                       tracker_date__day=day,
-                                       tracker_date__month=month,
-                                       tracker_date__year=year).count()
+                                       tracker_date__gte=start_date,
+                                       tracker_date__lte=end_date).extra({'activity_date':"date(tracker_date)"}).values('activity_date').annotate(count=Count('id'))
+    for i in range(0,no_days,+1):
+        temp = start_date + datetime.timedelta(days=i)
+        count = next((dct['count'] for dct in trackers if dct['activity_date'] == temp.date()), 0)
         student_activity.append([temp.strftime("%d %b %Y"),count])
         
     # get leaderboard

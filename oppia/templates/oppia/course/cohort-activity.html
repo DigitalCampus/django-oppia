@@ -2,6 +2,10 @@
 {% load i18n %}
 {% load display_functions %}
 
+{% block extra_head_title %}
+	{{ cohort.description }}
+{% endblock extra_head_title %}
+
 {% block extra_scripts %}
 	<script type='text/javascript' src='https://www.google.com/jsapi'></script>
 	<script type="text/javascript">
