@@ -58,12 +58,10 @@ def home_view(request):
         
         if interval == 'days':
             no_days = (end_date-start_date).days + 1
+            trackers = Tracker.objects.filter(course__isnull=False, course__is_draft=False, user__is_staff=False, course__is_archived=False,tracker_date__gte=start_date,tracker_date__lte=end_date).extra({'activity_date':"date(tracker_date)"}).values('activity_date').annotate(count=Count('id'))
             for i in range(0,no_days,+1):
                 temp = start_date + datetime.timedelta(days=i)
-                day = temp.strftime("%d")
-                month = temp.strftime("%m")
-                year = temp.strftime("%Y")
-                count = Tracker.objects.filter(course__isnull=False, course__is_draft=False, user__is_staff=False, course__is_archived=False,tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
+                count = next((dct['count'] for dct in trackers if dct['activity_date'] == temp.date()), 0)
                 activity.append([temp.strftime("%d %b %Y"),count])
         else:
             delta = relativedelta(months=+1)
