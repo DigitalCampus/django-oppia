@@ -28,6 +28,40 @@ How to embed video files in OppiaMobile courses
    code to identify a file and it's contents. We use this for the videos, so 
    when a user download the video on their phone the app can verify they have 
    the complete video (and no broken/partial downloads) and the correct video.
+#. Now you have md5 and the file uploaded to a server you can embed your video 
+   into your page on Moodle using the following code:
+   
+   .. code-block:: json
+   		
+   		[[media object='{“filename”:”ghmp-basic-skills-20121001.m4v”,
+   					”download_url”:”http://downloads.digital-campus.org/media/pnc/ghmp-basic-skills-20121001.m4v”,
+   					”digest”:”3ec4d8ab03c3c6bd66b3805f0b11225b”}’]]IMAGE/TEXT HERE[[/media]]
+   
+   Just update the filename, download_url and digest (md5) to match your video 
+   file details.
+#. You can replace the ``IMAGE/TEXT HERE`` with either some text or a screenshot
+   of you video. When your course is exported from Moodle, the export script 
+   will use the supplied information to ensure the user downloads the correct 
+   video.
+#. You optionally supply a filesize (in bytes) and length (in seconds) as 
+   follows:
+
+   .. code-block:: json
+	
+	   [[media object='{“filename”:”ghmp-basic-skills-20121001.m4v”,
+						”download_url”:”http://downloads.digital-campus.org/media/pnc/ghmp-basic-skills-20121001.m4v”,
+						”digest”:”3ec4d8ab03c3c6bd66b3805f0b11225b”, 
+						“filesize”:312345657, 
+						“length”:360}’]]IMAGE/TEXT HERE[[/media]]
+	
+   Adding a filesize will inform the user how large the file is before they try
+   to download and the length will be used to determine whether a user has 
+   watched the whole video (or not).
+#. [Optional - but probably convenient] You use the utility script 
+   :ref:`/oppia/utils/media_scan.py <utilities_media_scan>` to generate the 
+   embed code blocks for a whole directory of video files. This will also 
+   automatically generate a set of screenshots from the video that you can use 
+   for embedding.   
    
 
 How can users get the video files

@@ -15,20 +15,9 @@ Contents:
 .. toctree::
    :maxdepth: 1
    
-   install
-   aws
-   virtualbox
-   block_install
-   settings
-   upgrade
-   changelog
-   api
-   utilities
-   custom/index
+   dev/index
+   author/author
    viz/index
-   author
-   translations
-   video_embed
    help
    acknowledgements
    

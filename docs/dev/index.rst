@@ -1,7 +1,26 @@
+Installation, Upgrading and Development
+=======================================
+
+For installing OppiaMobile server and Moodle block please refer to:
+
+.. toctree::
+   :maxdepth: 1
+
+   install
+   block_install
+   upgrade
+   aws
+   virtualbox
+   settings
+   api
+   utilities
+   changelog
+   
+
 .. _customisation:
 
 Customisation
-===============
+-------------
 
 This section describes how you can do some basic customisation to the various 
 components of OppiaMobile. Before making any customisations, you should read our 
@@ -14,7 +33,7 @@ about the platform, then please post on our `OppiaMobile Google Groups forum
 <https://groups.google.com/forum/#!forum/oppiamobile>`_. 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    
    github
    server/index

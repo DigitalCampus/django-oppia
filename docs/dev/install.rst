@@ -88,6 +88,7 @@ with Django, visit http://gettingstartedwithdjango.com/.
   us a pull request to integrate into the core server code so everyone can 
   benefit. If you find an issue, but aren't sure how to fix it, then please 
   `file an issue on Github <https://github.com/DigitalCampus/django-oppia/issues>`_
+  
 Cron
 ---------
 .. _installcron:

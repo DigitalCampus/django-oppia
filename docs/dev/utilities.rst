@@ -36,8 +36,10 @@ map
 	virtualenv activiated (if applicable) and environment variables set to point
 	to your Django settings file - similar to how you set up the 
 	:ref:`OppiaMobile cron task <installcron>`
+
+.. _utilities_media_scan:
 	
-media-scan.py
+media_scan.py
 -------------
 
 This will scan a given directory of video files and create a collection of image
