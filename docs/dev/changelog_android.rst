@@ -5,7 +5,10 @@ v54 (5.3.0) - due for release 7 Sept 2015
 ----------------------------------------------------
 
 * 342: Change to using inline download bars when downloading courses/media - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/342
-
+* 309: Run download media in background - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/309
+* 177: Ability to select multiple media files for downloading - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/177
+* 444: Stop activity timer when user switches to another app - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/444
+* 445: Quiz feedback - app can crash on screen rotation - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/445
 
 v53 (5.2.0) - released 12 June 2015
 --------------------------------------------------
