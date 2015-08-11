@@ -1,6 +1,11 @@
 OppiaMobile Android App Change Log
 ====================================
 
+v54 (5.3.0) - due for release 7 Sept 2015
+----------------------------------------------------
+
+* 342: Change to using inline download bars when downloading courses/media - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/342
+
 
 v53 (5.2.0) - released 12 June 2015
 --------------------------------------------------
