@@ -435,10 +435,11 @@ class CourseResource(ModelResource):
         
     def prepend_urls(self):
         return [
-            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/download%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('download_detail'), name="api_download_detail"),
+            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/download%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('download_course'), name="api_download_course"),
+            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/activity%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('download_activity'), name="api_download_activity"),
             ]
 
-    def download_detail(self, request, **kwargs):
+    def download_course(self, request, **kwargs):
         self.is_authenticated(request)
         self.throttle_check(request)
         
@@ -449,7 +450,15 @@ class CourseResource(ModelResource):
             else:
                 course = self._meta.queryset.get(pk = pk, is_archived=False,is_draft=False)
         except Course.DoesNotExist:
-            raise Http404()
+            raise Http404(_(u"Course not found"))
+        except ValueError:
+            try:
+                if request.user.is_staff:
+                    course = self._meta.queryset.get(shortname = pk,is_archived=False)
+                else:
+                    course = self._meta.queryset.get(shortname = pk, is_archived=False,is_draft=False)
+            except Course.DoesNotExist:
+                raise Http404(_(u"Course not found"))
          
         file_to_download = course.getAbsPath();
         schedule = course.get_default_schedule()
@@ -489,13 +498,32 @@ class CourseResource(ModelResource):
         
         return response
     
-    def dehydrate(self, bundle):
-        # Include full download url
-        if bundle.request.is_secure():
-            prefix = 'https://'
-        else:
-            prefix = 'http://'
-        bundle.data['url'] = prefix + bundle.request.META['SERVER_NAME'] + bundle.data['resource_uri'] + 'download/'
+    def download_activity(self, request, **kwargs):
+        self.is_authenticated(request)
+        self.throttle_check(request)
+        
+        pk = kwargs.pop('pk', None)
+        try:
+            if request.user.is_staff:
+                course = self._meta.queryset.get(pk = pk,is_archived=False)
+            else:
+                course = self._meta.queryset.get(pk = pk, is_archived=False,is_draft=False)
+        except Course.DoesNotExist:
+            raise Http404(_(u"Course not found"))
+        except ValueError:
+            try:
+                if request.user.is_staff:
+                    course = self._meta.queryset.get(shortname = pk,is_archived=False)
+                else:
+                    course = self._meta.queryset.get(shortname = pk, is_archived=False,is_draft=False)
+            except Course.DoesNotExist:
+                raise Http404(_(u"Course not found"))
+        
+        return HttpResponse(Tracker.to_xml_string(course,request.user), content_type='text/xml')
+    
+    def dehydrate(self, bundle):        
+        bundle.data['url'] = bundle.request.build_absolute_uri(bundle.data['resource_uri'] + 'download/')
+        
         # make sure title is shown as json object (not string representation of one)
         bundle.data['title'] = json.loads(bundle.data['title'])
         
@@ -602,12 +630,8 @@ class TagResource(ModelResource):
         return count
      
     def dehydrate_icon(self,bundle):
-        if bundle.request.is_secure():
-            prefix = 'https://'
-        else:
-            prefix = 'http://'
         if bundle.data['icon'] is not None:
-            return prefix + bundle.request.META['SERVER_NAME'] + bundle.data['icon'] 
+            return bundle.request.build_absolute_uri(bundle.data['icon'])
         else:
             return None
     
@@ -665,11 +689,7 @@ class BadgesResource(ModelResource):
         always_return_data = True
         
     def dehydrate(self, bundle):
-        if bundle.request.is_secure():
-            prefix = 'https://'
-        else:
-            prefix = 'http://'
-        bundle.data['default_icon'] = prefix + bundle.request.META['SERVER_NAME'] + bundle.data['default_icon']
+        bundle.data['default_icon'] = bundle.request.build_absolute_uri(bundle.data['default_icon'])
         return bundle
     
 class AwardsResource(ModelResource):
@@ -690,12 +710,7 @@ class AwardsResource(ModelResource):
         return super(AwardsResource, self).get_object_list(request).filter(user = request.user)
     
     def dehydrate_badge_icon(self, bundle):
-        if bundle.request.is_secure():
-            prefix = 'https://'
-        else:
-            prefix = 'http://'
-        url = prefix + bundle.request.META['SERVER_NAME'] + settings.MEDIA_URL + bundle.data['badge_icon']
-        return url
+        return bundle.request.build_absolute_uri(settings.MEDIA_URL + bundle.data['badge_icon'])
     
     def dehydrate(self, bundle):
         bundle.data['award_date'] = bundle.data['award_date'].strftime("%Y-%m-%d %H:%M:%S")

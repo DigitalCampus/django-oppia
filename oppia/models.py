@@ -9,6 +9,8 @@ from django.db.models import Max, Sum, Q, F
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
+from oppia.quiz.models import QuizAttempt
+
 from tastypie.models import create_api_key
 
 from xml.dom.minidom import *
@@ -394,11 +396,25 @@ class Tracker(models.Model):
         doc = Document();
         trackerXML = doc.createElement('trackers')
         doc.appendChild(trackerXML)
-        trackers = Tracker.objects.filter(user=user, course=course,completed=True).values('digest').annotate(max_tracker=Max('submitted_date'))
+        trackers = Tracker.objects.filter(user=user, course=course)
         for t in trackers:
             track = doc.createElement('tracker')
-            track.setAttribute('digest',t['digest'])
-            track.setAttribute('submitteddate',t['max_tracker'].strftime('%Y-%m-%d %H:%M:%S'))
+            track.setAttribute('digest', t.digest)
+            track.setAttribute('submitteddate', t.submitted_date.strftime('%Y-%m-%d %H:%M:%S'))
+            track.setAttribute('completed', str(t.completed))
+            track.setAttribute('type', t.type)
+            if t.type == 'quiz':
+                try:
+                    quiz = doc.createElement('quiz')
+                    data = json.loads(t.data)
+                    quiz_attempt = QuizAttempt.objects.filter(instance_id=data['instance_id'],user=user).order_by('-submitted_date')[:1]
+                    quiz.setAttribute('score', str(quiz_attempt[0].score))
+                    quiz.setAttribute('maxscore', str(quiz_attempt[0].maxscore))
+                    track.appendChild(quiz)
+                except ValueError:
+                    pass  
+                except IndexError:
+                    pass  
             trackerXML.appendChild(track)
         return doc.toxml() 
     
