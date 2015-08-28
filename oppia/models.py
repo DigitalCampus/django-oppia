@@ -410,6 +410,9 @@ class Tracker(models.Model):
                     quiz_attempt = QuizAttempt.objects.filter(instance_id=data['instance_id'],user=user).order_by('-submitted_date')[:1]
                     quiz.setAttribute('score', str(quiz_attempt[0].score))
                     quiz.setAttribute('maxscore', str(quiz_attempt[0].maxscore))
+                    quiz.setAttribute('submitteddate', quiz_attempt[0].submitted_date.strftime('%Y-%m-%d %H:%M:%S'))
+                    quiz.setAttribute('passed', str(t.completed))
+                    quiz.setAttribute("course", course.shortname)
                     track.appendChild(quiz)
                 except ValueError:
                     pass  
