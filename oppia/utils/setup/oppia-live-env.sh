@@ -17,7 +17,7 @@ change ownership of uploads & media to be ubuntu:www-data
 virtualenv env
 source env/bin/activate
 
-pip install django==1.6.6 south django-tastypie django-tablib django-crispy-forms mysql-python
+pip install django==1.6.6 django-tastypie django-tablib django-crispy-forms mysql-python
 
 
 git clone https://github.com/DigitalCampus/django-nurhi-oppia.git

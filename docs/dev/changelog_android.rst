@@ -9,6 +9,7 @@ v54 (5.3.0) - due for release 7 Sept 2015
 * 177: Ability to select multiple media files for downloading - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/177
 * 444: Stop activity timer when user switches to another app - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/444
 * 445: Quiz feedback - app can crash on screen rotation - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/445
+* 462: record in user table being recorded even when user is null - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/462
 
 v53 (5.2.0) - released 12 June 2015
 --------------------------------------------------
