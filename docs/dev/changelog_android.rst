@@ -1,7 +1,7 @@
 OppiaMobile Android App Change Log
 ====================================
 
-v54 (5.3.0) - due for release 7 Sept 2015
+v54 (5.3.0) - due for release 11 Sept 2015
 ----------------------------------------------------
 
 * 342: Change to using inline download bars when downloading courses/media - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/342
@@ -10,6 +10,8 @@ v54 (5.3.0) - due for release 7 Sept 2015
 * 444: Stop activity timer when user switches to another app - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/444
 * 445: Quiz feedback - app can crash on screen rotation - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/445
 * 462: record in user table being recorded even when user is null - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/462
+* 458: Store extra login info to help with shared device usage - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/458
+* 307: Allow users to log back in without connection - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/307
 
 v53 (5.2.0) - released 12 June 2015
 --------------------------------------------------
