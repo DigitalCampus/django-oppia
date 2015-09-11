@@ -3,6 +3,10 @@
 {% load display_functions %} 
 {% load crispy_forms_tags %}
 
+{% block extra_head_title %}
+	{% trans 'Summary Overview' %}
+{% endblock extra_head_title %}
+
 {% block extra_body %}
 	onload="setUpDatePicker();"
 {% endblock extra_body %}

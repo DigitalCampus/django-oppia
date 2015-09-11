@@ -3,6 +3,10 @@
 {% load display_functions %}
 {% load crispy_forms_tags %}
 
+{% block extra_head_title %}
+	{{ user.first_name }} {{ user.last_name }}
+{% endblock extra_head_title %}
+
 {% block extra_scripts %}
 	<script type="text/javascript">
 		function init(){

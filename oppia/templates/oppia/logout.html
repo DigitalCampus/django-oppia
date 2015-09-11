@@ -1,7 +1,12 @@
 {% extends "base.html" %}
 {% load i18n %}
+
+{% block extra_head_title %}
+	{% trans 'Logged Out' %}
+{% endblock extra_head_title %}
+
 {% block content %}
-<h2>{% trans 'page_title_logged_out' %}</h2>
+<h2>{% trans 'Logged Out' %}</h2>
 {% url 'profile_login' as url_login %}
 <p>{% blocktrans %}You are now logged out. <a href="{{ url_login }}">Log in again</a>{% endblocktrans %}</p>
 {% endblock %}
