@@ -8,6 +8,7 @@ v0.8.0 - not yet released
 * 237: Update tests and test data now that cohorts have been restructured - https://github.com/DigitalCampus/django-oppia/issues/issue/237
 * 244: How to suppress the UnreadablePostError emails - https://github.com/DigitalCampus/django-oppia/issues/issue/244
 * 238: In Cohorts allow showing full leaderboard - https://github.com/DigitalCampus/django-oppia/issues/issue/238
+* 245: Add option to retreive the course progress only - https://github.com/DigitalCampus/django-oppia/issues/issue/245
 
 v0.7.5 - released 3 Jun 2015
 -----------------------------
