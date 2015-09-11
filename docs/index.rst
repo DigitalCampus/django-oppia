@@ -17,6 +17,7 @@ Contents:
    
    dev/index
    author/author
+   permissions
    viz/index
    help
    acknowledgements
