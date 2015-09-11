@@ -492,7 +492,9 @@ def cohort(request):
     if not request.user.is_staff:
         raise Http404  
     cohorts = Cohort.objects.all()
-    return render_to_response('oppia/course/cohorts.html',{'cohorts':cohorts,}, context_instance=RequestContext(request))
+    return render_to_response('oppia/course/cohorts.html',
+                                {'cohorts':cohorts,}, 
+                                context_instance=RequestContext(request))
   
 def cohort_add(request):
     if not request.user.is_staff:

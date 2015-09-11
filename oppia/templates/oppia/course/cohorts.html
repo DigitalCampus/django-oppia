@@ -9,7 +9,6 @@
 {% block content %}
 
 <h2>{% trans 'Cohorts' %}</h2>
-<p><i>{% trans 'Tags:' %} {{ course.get_tags}}</i></p>
 
 {% if cohorts %}
 	<div class="table-responsive">
@@ -29,7 +28,11 @@
 			<td>{{ cohort.description }}</td>
 			<td>{{ cohort.no_teacher_members }}</td>
 			<td>{{ cohort.no_student_members }}</td>
-			<td></td>
+			<td>
+			{% for c in cohort.get_courses %}
+				{{ c.title|title_lang:LANGUAGE_CODE }}<br/>
+			{% endfor %}
+			</td>
 			<td>
 				<a href="{% url 'oppia.views.cohort_view' cohort.id %}">{% trans 'View activity' %}</a> | 
 				<a href="{% url 'oppia.views.cohort_edit' cohort.id %}">{% trans 'Edit' %}</a>

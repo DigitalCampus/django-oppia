@@ -506,6 +506,9 @@ class Cohort(models.Model):
                 return c
         return None
 
+    def get_courses(self):
+        courses = Course.objects.filter(coursecohort__cohort = self).order_by('title')
+        return courses
 
 class CourseCohort(models.Model):
     course = models.ForeignKey(Course) 
