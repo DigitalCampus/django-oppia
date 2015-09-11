@@ -25,6 +25,14 @@
 		       		</ul>
 					</li>
 		       {% endif %}
+		       {% if user.is_superuser %}
+		       		<li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">{% trans 'Admin' %}<b class="caret"></b></a>
+		       		<ul class="dropdown-menu">
+		       			<li><a href="{% url 'profile_upload' %}">{% trans 'Upload users' %}</a></li>
+		       		</ul>
+					</li>
+		       {% endif %}
+		       
 		       {% if user.is_authenticated %}
 		            <li><a href="{% url 'profile_edit' %}">{% trans 'Profile' %}</a></li>
 		            <li><a href="{% url 'django.contrib.auth.views.logout' %}">{% trans 'Logout' %}</a></li>

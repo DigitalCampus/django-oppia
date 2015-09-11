@@ -1,4 +1,5 @@
 # oppia/profile/views.py
+import csv
 import datetime
 import json
 
@@ -9,6 +10,7 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core.urlresolvers import reverse
+from django.db import IntegrityError
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
@@ -16,7 +18,7 @@ from django.utils.translation import ugettext as _
 
 from oppia.forms import DateRangeForm, DateRangeIntervalForm
 from oppia.models import Points, Award, AwardCourse, Course, UserProfile, Tracker
-from oppia.profile.forms import LoginForm, RegisterForm, ResetForm, ProfileForm
+from oppia.profile.forms import LoginForm, RegisterForm, ResetForm, ProfileForm, UploadProfileForm
 from tastypie.models import ApiKey
 
 
@@ -228,3 +230,80 @@ def user_activity(request, user_id):
                                'form': form, 
                                'page':tracks,}, 
                               context_instance=RequestContext(request))
+
+def upload_view(request):
+    if not request.user.is_staff:
+        raise Http404
+    
+    if request.method == 'POST': # if form submitted...
+        form = UploadProfileForm(request.POST,request.FILES)
+        if form.is_valid():
+            request.FILES['upload_file'].open("rb")
+            csv_file = csv.DictReader(request.FILES['upload_file'].file)
+            required_fields = ['username','firstname','lastname','email']
+            results = []
+            try:
+                for row in csv_file:
+                    # check all required fields defined
+                    all_defined = True
+                    for rf in required_fields:
+                        if rf not in row or row[rf].strip() == '':
+                            result = {}
+                            result['username'] = row['username']
+                            result['created'] = False
+                            result['message'] = _(u'No %s set' % rf)
+                            results.append(result)
+                            all_defined = False
+                        
+                    if not all_defined:    
+                        continue
+                    
+                    user = User()
+                    user.username = row['username']
+                    user.first_name = row['firstname']
+                    user.last_name = row['lastname']
+                    user.email = row['email']
+                    auto_password = False
+                    if 'password' in row:
+                        user.set_password(row['password'])
+                    else:
+                        password = User.objects.make_random_password()
+                        user.set_password(password)
+                        auto_password = True
+                    try:
+                        user.save()
+                        up = UserProfile()
+                        up.user = user
+                        for col_name in row:
+                            setattr(up, col_name, row[col_name])
+                        up.save()
+                        result = {}
+                        result['username'] = row['username']
+                        result['created'] = True
+                        if auto_password:
+                            result['message'] = _(u'User created with password: %s' % password)
+                        else:
+                            result['message'] = _(u'User created')
+                        results.append(result)
+                    except IntegrityError as ie:
+                        result = {}
+                        result['username'] = row['username']
+                        result['created'] = False
+                        result['message'] = _(u'User already exists')
+                        results.append(result)
+                        continue
+            except:
+                result = {}
+                result['username'] = None
+                result['created'] = False
+                result['message'] = _(u'Could not parse file')
+                results.append(result)
+            
+    else:
+        results = []
+        form = UploadProfileForm()
+        
+    return render(request, 'oppia/profile/upload.html', {'form': form, 'results': results})
+
+def handle_profile_upload():
+    pass
