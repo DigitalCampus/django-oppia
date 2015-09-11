@@ -76,6 +76,8 @@
 
 {% include "oppia/includes/leaderboard.html" %}
 
+<div><a href="{% url 'oppia_cohort_leaderboard' cohort.id %}">{% trans "more..." %}</a></div>
+
 <h4>{% trans 'Teacher Activity' %}</h4>
 <div id="teacher_activity_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
 

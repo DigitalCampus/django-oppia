@@ -34,8 +34,8 @@
 			{% endfor %}
 			</td>
 			<td>
-				<a href="{% url 'oppia.views.cohort_view' cohort.id %}">{% trans 'View activity' %}</a> | 
-				<a href="{% url 'oppia.views.cohort_edit' cohort.id %}">{% trans 'Edit' %}</a>
+				<a href="{% url 'oppia_cohort_view' cohort.id %}">{% trans 'View activity' %}</a> | 
+				<a href="{% url 'oppia_cohort_edit' cohort.id %}">{% trans 'Edit' %}</a>
 			</td>	
 		</tr> 
 	{% endfor %}

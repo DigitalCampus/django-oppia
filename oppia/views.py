@@ -585,6 +585,34 @@ def cohort_view(request,cohort_id):
                                'student_activity': student_activity, 
                                'leaderboard': leaderboard, }, 
                               context_instance=RequestContext(request))
+    
+def cohort_leaderboard_view(request,cohort_id):
+    if not request.user.is_staff:
+        raise Http404  
+    cohort = Cohort.objects.get(pk=cohort_id)
+        
+    # get leaderboard
+    lb = Points.get_cohort_leaderboard(0, cohort)
+    
+    paginator = Paginator(lb, 25) # Show 25 contacts per page
+
+    # Make sure page request is an int. If not, deliver first page.
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+
+    # If page request (9999) is out of range, deliver last page of results.
+    try:
+        leaderboard = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        leaderboard = paginator.page(paginator.num_pages)
+
+    
+    return render_to_response('oppia/course/cohort-leaderboard.html',
+                              {'cohort':cohort,
+                               'page':leaderboard, }, 
+                              context_instance=RequestContext(request))
 
 def cohort_edit(request,cohort_id):
     if not request.user.is_staff:
