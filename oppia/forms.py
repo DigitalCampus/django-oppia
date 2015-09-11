@@ -105,10 +105,37 @@ class ActivityScheduleForm(forms.Form):
     
 class CohortForm(forms.Form):
     description = forms.CharField(required=True)
-    teachers = forms.CharField(widget=forms.Textarea(), required=False)
-    students = forms.CharField(widget=forms.Textarea(),required=True)
+    teachers = forms.CharField(widget=forms.Textarea(), 
+                               required=False,
+                               help_text=_("A comma separated list of usernames"),)
+    students = forms.CharField(widget=forms.Textarea(),
+                               required=True,
+                               help_text=_("A comma separated list of usernames"),)
     start_date = forms.DateTimeField(required=True)
     end_date = forms.DateTimeField(required=True)
+    courses = forms.CharField(widget=forms.Textarea(), 
+                              required=False,
+                              help_text=_("A comma separated list of course codes"),)
+    
+    def __init__(self, *args, **kwargs):
+        super(CohortForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = 'form-horizontal'
+        self.helper.label_class = 'col-lg-2'
+        self.helper.field_class = 'col-lg-3'
+        self.helper.layout = Layout(
+                'description',
+                'start_date',
+                'end_date',
+                'courses',
+                'teachers',
+                'students',
+                Div(
+                   Submit('submit', _(u'Save'), css_class='btn btn-default'),
+                   css_class='col-lg-offset-2 col-lg-4',
+                ),
+            )  
+        
     
 class DateDiffForm(forms.Form):
     start_date = forms.DateField(

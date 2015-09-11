@@ -23,7 +23,7 @@ from django.utils import timezone
 
 from oppia.forms import UploadCourseStep1Form, UploadCourseStep2Form, ScheduleForm, DateRangeForm, DateRangeIntervalForm
 from oppia.forms import ActivityScheduleForm, CohortForm
-from oppia.models import Course, Tracker, Tag, CourseTag, Schedule, CourseManager
+from oppia.models import Course, Tracker, Tag, CourseTag, Schedule, CourseManager, CourseCohort
 from oppia.models import ActivitySchedule, Activity, Cohort, Participant, Points 
 from oppia.quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
 
@@ -520,6 +520,7 @@ def cohort_add(request):
                         participant.save()
                     except User.DoesNotExist:
                         pass
+                    
             teachers = form.cleaned_data.get("teachers").strip().split(",")
             if len(teachers) > 0:
                 for t in teachers:
@@ -532,6 +533,16 @@ def cohort_add(request):
                         participant.save()
                     except User.DoesNotExist:
                         pass
+             
+            courses = form.cleaned_data.get("courses").strip().split(",")
+            if len(courses) > 0:
+                for c in courses:
+                    try:
+                        course = Course.objects.get(shortname=c.strip())
+                        CourseCohort(cohort=cohort, course=course).save()
+                    except Course.DoesNotExist:
+                        pass
+                           
             return HttpResponseRedirect('../') # Redirect after POST
            
     else:
@@ -650,6 +661,17 @@ def cohort_edit(request,cohort_id):
                         participant.save()
                     except User.DoesNotExist:
                         pass
+             
+            CourseCohort.objects.filter(cohort=cohort).delete()       
+            courses = form.cleaned_data.get("courses").strip().split(",")
+            if len(courses) > 0:
+                for c in courses:
+                    try:
+                        course = Course.objects.get(shortname=c.strip())
+                        CourseCohort(cohort=cohort, course=course).save()
+                    except Course.DoesNotExist:
+                        pass
+                    
             return HttpResponseRedirect('../../')
            
     else:
@@ -664,7 +686,19 @@ def cohort_edit(request,cohort_id):
         for ps in participant_students:
             student_list.append(ps.user.username)
         students = ", ".join(student_list)
-        form = CohortForm(initial={'description':cohort.description,'teachers':teachers,'students':students,'start_date': cohort.start_date,'end_date': cohort.end_date}) 
+        
+        cohort_courses = Course.objects.filter(coursecohort__cohort=cohort)
+        course_list = []
+        for c in cohort_courses:
+            course_list.append(c.shortname)
+        courses = ", ".join(course_list)
+        
+        form = CohortForm(initial={'description': cohort.description,
+                                   'teachers': teachers,
+                                   'students': students,
+                                   'start_date': cohort.start_date,
+                                   'end_date': cohort.end_date,
+                                   'courses': courses}) 
 
     return render(request, 'oppia/cohort-form.html',{'form': form,}) 
   
