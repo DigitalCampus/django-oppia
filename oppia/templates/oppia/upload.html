@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load i18n %}
 
+{% block extra_head_title %}
+	{{ title }}
+{% endblock extra_head_title %}
+
 {% load crispy_forms_tags %}
 
 {% block content %}
