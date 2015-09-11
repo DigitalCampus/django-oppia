@@ -111,8 +111,12 @@ class CohortForm(forms.Form):
     students = forms.CharField(widget=forms.Textarea(),
                                required=True,
                                help_text=_("A comma separated list of usernames"),)
-    start_date = forms.DateTimeField(required=True)
-    end_date = forms.DateTimeField(required=True)
+    start_date = forms.CharField(required=True,
+                                     error_messages={'required': _('Please enter a valid date'),
+                                                     'invalid':_('Please enter a valid date')},)
+    end_date = forms.CharField(required=True,
+                                    error_messages={'required': _('Please enter a valid date'),
+                                                    'invalid':_('Please enter a valid date')},)
     courses = forms.CharField(widget=forms.Textarea(), 
                               required=False,
                               help_text=_("A comma separated list of course codes"),)
@@ -125,8 +129,8 @@ class CohortForm(forms.Form):
         self.helper.field_class = 'col-lg-3'
         self.helper.layout = Layout(
                 'description',
-                'start_date',
-                'end_date',
+                Div('start_date',css_class='date-picker-row'),
+                Div('end_date',css_class='date-picker-row'),
                 'courses',
                 'teachers',
                 'students',
