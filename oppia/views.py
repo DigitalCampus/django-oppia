@@ -12,6 +12,7 @@ from django.conf import settings
 from django.contrib.auth import (authenticate, logout, views)
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.core.servers.basehttp import FileWrapper
 from django.core.urlresolvers import reverse
 from django.db.models import Q, Count
 from django.forms.formsets import formset_factory
@@ -117,7 +118,19 @@ def course_view(request):
             course.activity.append([temp.strftime("%d %b %Y"),count])  
             
     tag_list = Tag.objects.all().order_by('name')
-    return render_to_response('oppia/course/course.html',{'course_list': course_list, 'tag_list': tag_list}, context_instance=RequestContext(request))
+    return render_to_response('oppia/course/courses-list.html',{'course_list': course_list, 'tag_list': tag_list}, context_instance=RequestContext(request))
+
+def course_download_view(request, course_id):
+    try:
+        course = Course.objects.get(pk=course_id)
+    except Course.DoesNotExist:
+        raise Http404()
+    file_to_download = course.getAbsPath();
+    wrapper = FileWrapper(file(file_to_download))
+    response = HttpResponse(wrapper, content_type='application/zip')
+    response['Content-Length'] = os.path.getsize(file_to_download)
+    response['Content-Disposition'] = 'attachment; filename="%s"' %(course.filename)
+    return response
 
 def tag_courses_view(request, id):
     if request.user.is_staff:
@@ -136,7 +149,7 @@ def tag_courses_view(request, id):
             count = Tracker.objects.filter(course = course, user__is_staff=False, tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
             course.activity.append([temp.strftime("%d %b %Y"),count])  
     tag_list = Tag.objects.all().order_by('name')
-    return render_to_response('oppia/course/course.html',{'course_list': course_list, 'tag_list': tag_list, 'current_tag': id}, context_instance=RequestContext(request))
+    return render_to_response('oppia/course/courses-list.html',{'course_list': course_list, 'tag_list': tag_list, 'current_tag': id}, context_instance=RequestContext(request))
 
        
 def terms_view(request):
