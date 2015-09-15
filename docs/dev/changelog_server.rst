@@ -2,8 +2,8 @@ OppiaMobile Server Change Log
 ================================
 
 
-v0.8.0 - not yet released
---------------------------
+v0.8.0 - released 15 Sept 2015
+------------------------------
 
 * 237: Update tests and test data now that cohorts have been restructured - https://github.com/DigitalCampus/django-oppia/issues/issue/237
 * 244: How to suppress the UnreadablePostError emails - https://github.com/DigitalCampus/django-oppia/issues/issue/244
