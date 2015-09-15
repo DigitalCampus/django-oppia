@@ -6,22 +6,18 @@ on the default Django users system and other based on extra permissions the user
 has been specifically given.
 
 * Admin User
-
 * Staff
-
 * Teacher
-
-
 * Student
 
 
 
-Permissions on the OppiaMobile Server dashboard:
+Permissions on the OppiaMobile Server dashboard (To be completed):
 
 +------------------------+------------+----------+----------+----------+
 | Activity/Action        | Admin User | Staff    | Teacher  | Student  |
 +========================+============+==========+==========+==========+
-| Login                  | column 2   | column 3 | column 4 |          |
+| Login                  | Yes        | Yes      | Yes      |          |
 +------------------------+------------+----------+----------+----------+
 | Access Django Admin    |            |          |          |          |
 +------------------------+------------+----------+----------+----------+
@@ -35,14 +31,9 @@ Permissions on the OppiaMobile Server dashboard:
 +------------------------+------------+----------+----------+----------+
 | Edit Existing Cohort   |            |          |          |          |
 +------------------------+------------+----------+----------+----------+
-| Upload Course          |            |          |          |          |
-+------------------------+------------+----------+----------+----------+
-| Upload Course          |            |          |          |          |
-+------------------------+------------+----------+----------+----------+
-| Upload Course          |            |          |          |          |
-+------------------------+------------+----------+----------+----------+
-| Upload Course          |            |          |          |          |
-+------------------------+------------+----------+----------+----------+
+
+Notes:
+
 
 
 Permissions in the OppiaMobile client app:
