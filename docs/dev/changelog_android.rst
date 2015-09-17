@@ -1,7 +1,7 @@
 OppiaMobile Android App Change Log
 ====================================
 
-v54 (5.3.0) - due for release 11 Sept 2015
+v54 (5.3.0) - released 15 Sept 2015
 ----------------------------------------------------
 
 * 342: Change to using inline download bars when downloading courses/media - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/342
@@ -12,6 +12,12 @@ v54 (5.3.0) - due for release 11 Sept 2015
 * 462: record in user table being recorded even when user is null - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/462
 * 458: Store extra login info to help with shared device usage - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/458
 * 307: Allow users to log back in without connection - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/307
+* 423: Not-started course from SearchActivity - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/423
+* 323: Make sure trackers and quizzes submitted for all users each time the service runs - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/323
+* 451: Option to just download course activity file - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/451
+* 454: QuizWidget saving the same tracker multiple times - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/454
+* 456: Add quiz scorecard - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/456
+* 457: Quiz results - store extra info to make it easier to calc results/scorecard - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/457
 
 v53 (5.2.0) - released 12 June 2015
 --------------------------------------------------
