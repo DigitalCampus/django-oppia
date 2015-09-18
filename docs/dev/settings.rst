@@ -1,4 +1,6 @@
-Local Settings
+
+
+Server Settings
 ===============
 
 These are the settings that you may want to alter to adapt to your OppiaMobile 
@@ -84,6 +86,8 @@ Default: ``True``
 Determines if a users gravatar will appear next to their name (in the 
 leaderboard/activity reports etc)
 
+:: _server_settings:
+
 OPPIA_STAFF_EARN_POINTS
 -----------------------
 
@@ -101,3 +105,6 @@ This setting determines whether only users with the Django is_staff status are
 allowed to upload new courses. When this setting is ``True``, only users with 
 the is_staff status are able to upload courses. If this setting is set to 
 ``False``, any registered user on the server is able to upload courses.
+
+You can also give upload permissions to individual users (whatever their staff 
+status) by setting the can_upload option to true in their user profile.
