@@ -287,11 +287,9 @@ def recent_activity(request,id):
         
         
     leaderboard = Points.get_leaderboard(10, course)
-    nav = get_nav(course,request.user)
     return render_to_response('oppia/course/activity.html',
                               {'course': course,
                                'form': form,
-                                'nav': nav, 
                                 'data':dates, 
                                 'leaderboard':leaderboard}, 
                               context_instance=RequestContext(request))
@@ -341,11 +339,9 @@ def recent_activity_detail(request,id):
     except (EmptyPage, InvalidPage):
         tracks = paginator.page(paginator.num_pages)
     
-    nav = get_nav(course, request.user) 
     return render_to_response('oppia/course/activity-detail.html',
                               {'course': course,
-                               'form': form,
-                               'nav': nav, 
+                               'form': form, 
                                'page':tracks,}, 
                               context_instance=RequestContext(request))
 
@@ -715,19 +711,6 @@ def cohort_edit(request,cohort_id):
                                    'courses': courses}) 
 
     return render(request, 'oppia/cohort-form.html',{'form': form,}) 
-  
-
-
-def get_nav(course, user):
-    nav = []
-    nav.append({'url':reverse('oppia_recent_activity',args=(course.id,)), 'title':course.get_title(), 'class':'bold'})
-    if is_manager(course.id,user):
-        nav.append({'url':reverse('oppia_recent_activity_detail',args=(course.id,)), 'title':_(u'Activity Detail')})
-        if course.has_quizzes():
-            nav.append({'url':reverse('oppia_course_quiz',args=(course.id,)), 'title':_(u'Course Quizzes')})
-        if course.has_feedback():
-            nav.append({'url':reverse('oppia_course_feedback',args=(course.id,)), 'title':_(u'Course Feedback')})
-    return nav
     
 def leaderboard_view(request):
     lb = Points.get_leaderboard()
@@ -758,8 +741,10 @@ def course_quiz(request,course_id):
             quizzes.append(q)
         except Quiz.DoesNotExist:
             pass
-    nav = get_nav(course,request.user)
-    return render_to_response('oppia/course/quizzes.html',{'course': course, 'nav': nav, 'quizzes':quizzes}, context_instance=RequestContext(request))
+    return render_to_response('oppia/course/quizzes.html',
+                              {'course': course, 
+                               'quizzes':quizzes}, 
+                              context_instance=RequestContext(request))
 
 def course_quiz_attempts(request,course_id,quiz_id):
     # get the quiz digests for this course
@@ -782,8 +767,12 @@ def course_quiz_attempts(request,course_id,quiz_id):
     except (EmptyPage, InvalidPage):
         tracks = paginator.page(paginator.num_pages)
     print  len(attempts)
-    nav = get_nav(course,request.user)
-    return render_to_response('oppia/course/quiz-attempts.html',{'course': course,'nav': nav, 'quiz':quiz, 'page':attempts}, context_instance=RequestContext(request))
+
+    return render_to_response('oppia/course/quiz-attempts.html',
+                              {'course': course,
+                               'quiz':quiz, 
+                               'page':attempts}, 
+                              context_instance=RequestContext(request))
 
 def course_feedback(request,course_id):
     course = check_owner(request,course_id)
@@ -795,8 +784,11 @@ def course_feedback(request,course_id):
             feedback.append(q)
         except Quiz.DoesNotExist:
             pass
-    nav = get_nav(course,request.user)
-    return render_to_response('oppia/course/feedback.html',{'course': course,'nav': nav, 'feedback':feedback}, context_instance=RequestContext(request))
+        
+    return render_to_response('oppia/course/feedback.html',
+                              {'course': course,
+                               'feedback':feedback}, 
+                              context_instance=RequestContext(request))
 
 def course_feedback_responses(request,course_id,quiz_id):
     #get the quiz digests for this course
@@ -818,5 +810,9 @@ def course_feedback_responses(request,course_id,quiz_id):
             a.responses = QuizAttemptResponse.objects.filter(quizattempt=a)                
     except (EmptyPage, InvalidPage):
         tracks = paginator.page(paginator.num_pages)
-    nav = get_nav(course,request.user)  
-    return render_to_response('oppia/course/feedback-responses.html',{'course': course,'nav': nav, 'quiz':quiz, 'page':attempts}, context_instance=RequestContext(request))
+
+    return render_to_response('oppia/course/feedback-responses.html',
+                              {'course': course,
+                               'quiz':quiz, 
+                               'page':attempts}, 
+                              context_instance=RequestContext(request))

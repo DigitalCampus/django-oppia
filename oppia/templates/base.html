@@ -34,33 +34,7 @@
 </div>
 
 <div class="container-fluid">
-     {% if user.is_authenticated %}
-     <div class="row">
-	        <div class="col-sm-3 col-md-2 sidebar">
-	          
-	          <ul class="nav nav-sidebar">
-	            <li><a href="{% url 'oppia_home' %}">{% trans 'Dashboard' %}</a></li>
-	            <li><a href="{% url 'oppia_course' %}">{% trans 'Courses' %}</a></li>
-	            <li><a href="{% url 'oppia_upload' %}">{% trans 'Upload' %}</a></li>
-	            {% if user.is_staff %}
-	            	 <li><a href="{% url 'oppia_cohorts' %}">{% trans 'Cohorts' %}</a></li>
-	            {% endif %}
-	          </ul>
-	          {% if nav %}
-	          <ul class="nav nav-sidebar">
-	          	{% for n in nav %}
-	            <li {% if n.class %}class="{{n.class}}"{% endif%}><a href="{{ n.url }}">{{ n.title }}</a></li>
-	            {% endfor %}
-	          </ul>
-	          {% endif %}
-	        </div>
-    </div> <!--  end row -->
-    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-    {% else %}
-    	<div class="main">
-    {% endif %}
-	
-          
+    <div class="main">       
 {% block content %}
 {% endblock content %}
 	</div> <!--  end main -->
