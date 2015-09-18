@@ -26,6 +26,7 @@ from oppia.forms import UploadCourseStep1Form, UploadCourseStep2Form, ScheduleFo
 from oppia.forms import ActivityScheduleForm, CohortForm
 from oppia.models import Course, Tracker, Tag, CourseTag, Schedule, CourseManager, CourseCohort
 from oppia.models import ActivitySchedule, Activity, Cohort, Participant, Points 
+from oppia.permissions import course_can_view, is_manager
 from oppia.quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
 
 from uploader import handle_uploaded_file
@@ -216,7 +217,7 @@ def upload_step2(request, course_id):
 
 
 def recent_activity(request,id):
-    course = check_can_view(request, id)
+    course = course_can_view(request, id)
     
     start_date = datetime.datetime.now() - datetime.timedelta(days=31)
     end_date = datetime.datetime.now()
@@ -715,56 +716,7 @@ def cohort_edit(request,cohort_id):
 
     return render(request, 'oppia/cohort-form.html',{'form': form,}) 
   
-  
-def can_upload(request):
-    if settings.OPPIA_STAFF_ONLY_UPLOAD is True and not request.user.is_staff and request.user.userprofile.can_upload is False:
-        return False
-    else:
-        return True
-           
-def check_owner(request,id):
-    try:
-        # check only the owner can view 
-        if request.user.is_staff:
-            course = Course.objects.get(pk=id)
-        else:
-            try:
-                course = Course.objects.get(pk=id,user=request.user)
-            except Course.DoesNotExist:
-                course = Course.objects.get(pk=id,coursemanager__course__id=id, coursemanager__user = request.user)
-    except Course.DoesNotExist:
-        raise Http404
-    return course
 
-def is_manager(course_id,user):
-    try:
-        # check only the owner can view 
-        if user.is_staff:
-            return True
-        else:
-            try:
-                course = Course.objects.get(pk=course_id,user=user)
-                return True
-            except Course.DoesNotExist:
-                course = Course.objects.get(pk=course_id,coursemanager__course__id=course_id, coursemanager__user = user)
-                return True
-    except Course.DoesNotExist:
-        return False
-
-
-def check_can_view(request,id):
-    try:
-        # check only the owner can view 
-        if request.user.is_staff:
-            course = Course.objects.get(pk=id)
-        else:
-            try:
-                course = Course.objects.get(pk=id,is_draft=False,is_archived=False)
-            except Course.DoesNotExist:
-                course = Course.objects.get(pk=id,is_draft=False,is_archived=False, coursemanager__course__id=id, coursemanager__user = request.user)
-    except Course.DoesNotExist:
-        raise Http404
-    return course
 
 def get_nav(course, user):
     nav = []
@@ -779,7 +731,7 @@ def get_nav(course, user):
     
 def leaderboard_view(request):
     lb = Points.get_leaderboard()
-    paginator = Paginator(lb, 25) # Show 25 contacts per page
+    paginator = Paginator(lb, 25) # Show 25 per page
 
     # Make sure page request is an int. If not, deliver first page.
     try:
