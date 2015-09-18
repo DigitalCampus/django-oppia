@@ -45,7 +45,10 @@ def login_view(request):
     else:
         form = LoginForm(initial={'next':request.GET.get('next'),})
         
-    return render(request, 'oppia/form.html',{'username': username, 'form': form, 'title': _(u'Login')})
+    return render(request, 'oppia/form.html',
+                  {'username': username, 
+                   'form': form, 
+                   'title': _(u'Login')})
 
 def register(request):
     if not settings.OPPIA_ALLOW_SELF_REGISTRATION:
@@ -78,7 +81,10 @@ def register(request):
     else:
         form = RegisterForm(initial={'next':request.GET.get('next'),})
 
-    return render(request, 'oppia/form.html', {'form': form, 'title': _(u'Register')})
+    return render_to_response('oppia/form.html', 
+                              {'form': form, 
+                               'title': _(u'Register'), },
+                               context_instance=RequestContext(request),)
 
 def reset(request):
     if request.method == 'POST': # if form submitted...
@@ -105,7 +111,11 @@ def reset(request):
     else:
         form = ResetForm() # An unbound form
 
-    return render(request, 'oppia/form.html', {'form': form,'title': _(u'Reset password')})
+    return render_to_response( 
+                  'oppia/form.html', 
+                  {'form': form,
+                   'title': _(u'Reset password')},
+                  context_instance=RequestContext(request))
 
 def edit(request):
     key = ApiKey.objects.get(user = request.user)
@@ -153,7 +163,10 @@ def edit(request):
                                     'job_title': user_profile.job_title,
                                     'organisation': user_profile.organisation,})
         
-    return render(request, 'oppia/profile/profile.html', {'form': form,})
+    return render_to_response( 
+                  'oppia/profile/profile.html', 
+                  {'form': form,},
+                  context_instance=RequestContext(request))
 
 def points(request):
     points = Points.objects.filter(user=request.user).order_by('-date')
@@ -181,7 +194,7 @@ def user_activity(request, user_id):
     if not request.user.is_staff:
         raise Http404
     
-    user = User.objects.get(pk=user_id)
+    view_user = User.objects.get(pk=user_id)
         
     start_date = datetime.datetime.now() - datetime.timedelta(days=31)
     end_date = datetime.datetime.now()
@@ -192,15 +205,15 @@ def user_activity(request, user_id):
             start_date = datetime.datetime.strptime(start_date,"%Y-%m-%d")
             end_date = form.cleaned_data.get("end_date")
             end_date = datetime.datetime.strptime(end_date,"%Y-%m-%d") 
-            trackers = Tracker.objects.filter(user=user,tracker_date__gte=start_date, tracker_date__lte=end_date).order_by('-tracker_date')
+            trackers = Tracker.objects.filter(user=view_user,tracker_date__gte=start_date, tracker_date__lte=end_date).order_by('-tracker_date')
         else:
-            trackers = Tracker.objects.filter(user=user).order_by('-tracker_date')             
+            trackers = Tracker.objects.filter(user=view_user).order_by('-tracker_date')             
     else:
         data = {}
         data['start_date'] = start_date
         data['end_date'] = end_date
         form = DateRangeForm(initial=data)
-        trackers = Tracker.objects.filter(user=user).order_by('-tracker_date')
+        trackers = Tracker.objects.filter(user=view_user).order_by('-tracker_date')
         
     paginator = Paginator(trackers, 25)
     # Make sure page request is an int. If not, deliver first page.
@@ -226,7 +239,7 @@ def user_activity(request, user_id):
         tracks = paginator.page(paginator.num_pages)
     
     return render_to_response('oppia/profile/user-activity.html',
-                              {'user': user,
+                              {'view_user': view_user,
                                'form': form, 
                                'page':tracks,}, 
                               context_instance=RequestContext(request))

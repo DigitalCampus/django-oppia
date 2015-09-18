@@ -4,7 +4,7 @@
 {% load crispy_forms_tags %}
 
 {% block extra_head_title %}
-	{{ user.first_name }} {{ user.last_name }}
+	{{ view_user.first_name }} {{ view_user.last_name }}
 {% endblock extra_head_title %}
 
 {% block extra_scripts %}
@@ -26,7 +26,7 @@ onload="init();setUpDatePicker();"
 {% endblock extra_body %}
 {% block content %}
 
-<h2>{{ user.first_name }} {{ user.last_name }}</h2>
+<h2>{{ view_user.first_name }} {{ view_user.last_name }}</h2>
 
 {% if page.object_list %}
 
@@ -96,6 +96,6 @@ onload="init();setUpDatePicker();"
 
 	
 {% else %}
-	<p>{% trans 'No hits yet' %}</p>
+	<p>{% blocktrans %}This user hasn't taken part in any activities yet. {% endblocktrans %}</p>
 {% endif %}
 {% endblock %}

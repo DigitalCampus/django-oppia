@@ -1,5 +1,6 @@
 # oppia/permissions.py
 
+from django.conf import settings
 from oppia.models import Course
 
 def can_upload(request):

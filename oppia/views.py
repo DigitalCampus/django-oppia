@@ -26,7 +26,7 @@ from oppia.forms import UploadCourseStep1Form, UploadCourseStep2Form, ScheduleFo
 from oppia.forms import ActivityScheduleForm, CohortForm
 from oppia.models import Course, Tracker, Tag, CourseTag, Schedule, CourseManager, CourseCohort
 from oppia.models import ActivitySchedule, Activity, Cohort, Participant, Points 
-from oppia.permissions import course_can_view, is_manager
+from oppia.permissions import course_can_view, can_upload, is_manager
 from oppia.quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
 
 from uploader import handle_uploaded_file
