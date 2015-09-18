@@ -1,7 +1,9 @@
 # oppia/permissions.py
 
 from django.conf import settings
-from oppia.models import Course
+from django.http import Http404
+
+from oppia.models import Course, Participant
 
 def can_upload(request):
     if settings.OPPIA_STAFF_ONLY_UPLOAD is True and not request.user.is_staff and request.user.userprofile.can_upload is False:
@@ -22,6 +24,25 @@ def check_owner(request,id):
     except Course.DoesNotExist:
         raise Http404
     return course
+
+def view_user_courses(request, view_user):
+    
+    if request.user.is_staff or request.user == view_user:
+        # get all courses user has taken part in
+        # plus all those they are students on
+        cohort_courses = Course.objects.filter(coursecohort__cohort__participant__user=view_user, 
+                                        coursecohort__cohort__participant__role=Participant.STUDENT).distinct()
+        print cohort_courses.count()
+        other_courses = Course.objects.filter(tracker__user=view_user).distinct()
+        print other_courses.count()
+    else:
+        cohort_courses = Course.objects.filter(coursecohort__cohort__participant__user=view_user, 
+                                        coursecohort__cohort__participant__role=Participant.STUDENT) \
+                                .filter(coursecohort__cohort__participant__user=request.user, 
+                                        coursecohort__cohort__participant__role=Participant.TEACHER).distinct()
+        other_courses = None
+    return {'cohort_courses': cohort_courses,
+            'other_courses': other_courses }
 
 def is_manager(course_id,user):
     try:

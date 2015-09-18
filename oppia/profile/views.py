@@ -18,6 +18,7 @@ from django.utils.translation import ugettext as _
 
 from oppia.forms import DateRangeForm, DateRangeIntervalForm
 from oppia.models import Points, Award, AwardCourse, Course, UserProfile, Tracker
+from oppia.permissions import view_user_courses
 from oppia.profile.forms import LoginForm, RegisterForm, ResetForm, ProfileForm, UploadProfileForm
 from tastypie.models import ApiKey
 
@@ -191,11 +192,10 @@ def badges(request):
 
 
 def user_activity(request, user_id):
-    if not request.user.is_staff:
-        raise Http404
-    
     view_user = User.objects.get(pk=user_id)
         
+    courses = view_user_courses(request, view_user) 
+       
     start_date = datetime.datetime.now() - datetime.timedelta(days=31)
     end_date = datetime.datetime.now()
     if request.method == 'POST':
@@ -241,7 +241,8 @@ def user_activity(request, user_id):
     return render_to_response('oppia/profile/user-activity.html',
                               {'view_user': view_user,
                                'form': form, 
-                               'page':tracks,}, 
+                               'page':tracks,
+                               'courses': courses }, 
                               context_instance=RequestContext(request))
 
 def upload_view(request):
