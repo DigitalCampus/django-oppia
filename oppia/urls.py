@@ -60,6 +60,7 @@ urlpatterns = patterns('',
     url(r'^cohort/add/$', 'oppia.views.cohort_add', name="oppia_cohort_add"),
     url(r'^cohort/(?P<cohort_id>\d+)/edit/$', 'oppia.views.cohort_edit', name="oppia_cohort_edit"),
     url(r'^cohort/(?P<cohort_id>\d+)/view/$', 'oppia.views.cohort_view', name="oppia_cohort_view"),
+    url(r'^cohort/(?P<cohort_id>\d+)/(?P<course_id>\d+)/view/$', 'oppia.views.cohort_course_view', name="oppia_cohort_course_view"),
     url(r'^cohort/(?P<cohort_id>\d+)/leaderboard/$', 'oppia.views.cohort_leaderboard_view', name="oppia_cohort_leaderboard"),
     
     url(r'^profile/', include('oppia.profile.urls')),

@@ -64,7 +64,7 @@ def get_user_courses(request, view_user):
                                         coursecohort__cohort__participant__role=Participant.STUDENT) \
                                 .filter(coursecohort__cohort__participant__user=request.user, 
                                         coursecohort__cohort__participant__role=Participant.TEACHER).distinct().order_by('title')
-        other_courses = None
+        other_courses = Course.objects.none()
         
     all_courses = list(chain(cohort_courses, other_courses))    
     return cohort_courses, other_courses, all_courses
@@ -93,6 +93,16 @@ def can_edit_cohort(request, cohort_id):
     if request.user.is_staff:
         return True
     return False
+
+def can_view_cohort(request, cohort_id):
+    try:
+        if request.user.is_staff:
+            return Cohort.objects.get(pk=cohort_id), None
+        return Cohort.objects.get(pk=cohort_id,participant__user=request.user, participant__role=Participant.TEACHER), None
+    except Cohort.DoesNotExist:
+        return False,  HttpResponse('Unauthorized', status=401)
+    return False,  HttpResponse('Unauthorized', status=401)
+
 
 def get_cohorts(request):
     if request.user.is_staff:

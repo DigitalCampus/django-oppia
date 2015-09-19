@@ -6,7 +6,6 @@
 	{% trans 'Home' %}
 {% endblock extra_head_title %}
 
-
 {% block content %}
 
 <h3>{% trans 'Recent Activity' %}</h3>
@@ -14,7 +13,7 @@
 
 <h3>{% trans 'Cohorts' %}</h3>
 <div class="table-responsive">
-         <table class="table table-striped-expandable">
+         <table class="table table-striped">
          	<thead>
                 <tr>
                   <th>{% trans 'Cohort' %}</th>
@@ -26,7 +25,7 @@
               
 				{% for cohort in cohorts %}
 					<tr>
-						<td>{{ cohort.description }}</td>
+						<td><a href="{% url 'oppia_cohort_view' cohort.id %}">{{ cohort.description }}</a></td>
 						<td>{{ cohort.no_student_members }}</td>
 						<td>
 						{% for c in cohort.get_courses %}

@@ -582,26 +582,13 @@ def cohort_add(request):
     return render(request, 'oppia/cohort-form.html',{'form': form,})  
 
 def cohort_view(request,cohort_id):
-    if not request.user.is_staff:
-        raise Http404  
-    cohort = Cohort.objects.get(pk=cohort_id)
+    cohort, response = can_view_cohort(request,cohort_id)
+    
+    if cohort is None:
+        return response
     
     start_date = timezone.now() - datetime.timedelta(days=31)
     end_date = timezone.now()
-    
-    # get teacher activity
-    teacher_activity = []
-    no_days = (end_date-start_date).days + 1
-    teachers =  User.objects.filter(participant__role=Participant.TEACHER, participant__cohort=cohort)
-    trackers = Tracker.objects.filter(course__coursecohort__cohort=cohort, 
-                                       user__is_staff=False,
-                                       user__in=teachers, 
-                                       tracker_date__gte=start_date,
-                                       tracker_date__lte=end_date).extra({'activity_date':"date(tracker_date)"}).values('activity_date').annotate(count=Count('id'))
-    for i in range(0,no_days,+1):
-        temp = start_date + datetime.timedelta(days=i)
-        count = next((dct['count'] for dct in trackers if dct['activity_date'] == temp.date()), 0)
-        teacher_activity.append([temp.strftime("%d %b %Y"),count])
         
     # get student activity
     student_activity = []
@@ -623,15 +610,16 @@ def cohort_view(request,cohort_id):
     
     return render_to_response('oppia/course/cohort-activity.html',
                               {'cohort':cohort,
-                               'teacher_activity': teacher_activity,
                                'student_activity': student_activity, 
                                'leaderboard': leaderboard, }, 
                               context_instance=RequestContext(request))
     
 def cohort_leaderboard_view(request,cohort_id):
-    if not request.user.is_staff:
-        raise Http404  
-    cohort = Cohort.objects.get(pk=cohort_id)
+    
+    cohort, response = can_view_cohort(request,cohort_id)
+    
+    if cohort is None:
+        return response
         
     # get leaderboard
     lb = Points.get_cohort_leaderboard(0, cohort)
@@ -732,7 +720,11 @@ def cohort_edit(request,cohort_id):
                                    'courses': courses}) 
 
     return render(request, 'oppia/cohort-form.html',{'form': form,}) 
+
+def cohort_course_view(request,cohort_id, course_id): 
     
+    return HttpResponse()
+       
 def leaderboard_view(request):
     lb = Points.get_leaderboard()
     paginator = Paginator(lb, 25) # Show 25 per page

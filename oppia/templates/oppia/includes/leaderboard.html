@@ -15,15 +15,9 @@
  	{% for user in leaderboard %}
  			 <tr>
                   <td>{{ forloop.counter }}</td>
-                  <td>{% if OPPIA_SHOW_GRAVATARS %}
-       						{{ user|gravatar:24 }}
-	       				{% endif %} 
-	    				{% if request.user.is_staff %}
-							<a href="{% url 'profile_user_activity' user.id %}">{{ user.first_name }} {{ user.last_name }}</a>
-						{% else %}
-							{{ user.first_name }} {{ user.last_name }}
-						{% endif %}	
-
+                  <td>
+                  	{% if OPPIA_SHOW_GRAVATARS %} {{ user|gravatar:24 }} {% endif %} 
+					<a href="{% url 'profile_user_activity' user.id %}">{{ user.first_name }} {{ user.last_name }}</a>
 				  </td>
                   <td><span title="{{ user.total  }} {% trans 'points' %}">{{ user.total }}</span></td>
                   <td>
