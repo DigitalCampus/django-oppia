@@ -3,6 +3,8 @@
 from django.conf import settings
 from django.http import Http404
 
+from itertools import chain
+
 from oppia.models import Course, Participant
 
 def can_upload(request):
@@ -33,7 +35,8 @@ def view_user_courses(request, view_user):
         cohort_courses = Course.objects.filter(coursecohort__cohort__participant__user=view_user, 
                                         coursecohort__cohort__participant__role=Participant.STUDENT).distinct()
         print cohort_courses.count()
-        other_courses = Course.objects.filter(tracker__user=view_user).distinct()
+        temp = cohort_courses.values_list('id', flat=True)
+        other_courses = Course.objects.filter(tracker__user=view_user).exclude(pk__in=temp).distinct()
         print other_courses.count()
     else:
         cohort_courses = Course.objects.filter(coursecohort__cohort__participant__user=view_user, 
@@ -41,8 +44,9 @@ def view_user_courses(request, view_user):
                                 .filter(coursecohort__cohort__participant__user=request.user, 
                                         coursecohort__cohort__participant__role=Participant.TEACHER).distinct()
         other_courses = None
-    return {'cohort_courses': cohort_courses,
-            'other_courses': other_courses }
+        
+    all_courses = list(chain(cohort_courses, other_courses))    
+    return cohort_courses, other_courses
 
 def is_manager(course_id,user):
     try:

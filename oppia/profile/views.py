@@ -194,8 +194,10 @@ def badges(request):
 def user_activity(request, user_id):
     view_user = User.objects.get(pk=user_id)
         
-    courses = view_user_courses(request, view_user) 
+    cohort_courses, other_courses = view_user_courses(request, view_user) 
        
+    #courses = join(cohort_courses,other_courses)
+    
     start_date = datetime.datetime.now() - datetime.timedelta(days=31)
     end_date = datetime.datetime.now()
     if request.method == 'POST':
@@ -238,11 +240,12 @@ def user_activity(request, user_id):
     except (EmptyPage, InvalidPage):
         tracks = paginator.page(paginator.num_pages)
     
-    return render_to_response('oppia/profile/user-activity.html',
+    return render_to_response('oppia/profile/user-scorecard.html',
                               {'view_user': view_user,
                                'form': form, 
                                'page':tracks,
-                               'courses': courses }, 
+                               'cohort_courses': cohort_courses,
+                               'other_courses': other_courses }, 
                               context_instance=RequestContext(request))
 
 def upload_view(request):

@@ -28,6 +28,21 @@ onload="init();setUpDatePicker();"
 
 <h2>{{ view_user.first_name }} {{ view_user.last_name }}</h2>
 
+<h3>{% trans 'Recent activity' %}</h3>
+
+
+
+<h3>{% trans 'Enrolled courses' %}</h3>
+{% if cohort_courses %}
+	{% for c in cohort_courses %}
+		{{ c.title }}
+	{% endfor %}
+{% else %}
+	{% blocktrans %}<p>Not enrolled on any courses.</p>{% endblocktrans %}
+{% endif %}
+<h3>{% trans 'Other courses' %}</h3>
+
+
 {% if page.object_list %}
 
 	<div style="margin-left:15px">
