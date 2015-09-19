@@ -6,7 +6,7 @@ from django.http import Http404, HttpResponse
 
 from itertools import chain
 
-from oppia.models import Course, Participant
+from oppia.models import Course, Participant, Cohort
 
 def can_upload(request):
     if settings.OPPIA_STAFF_ONLY_UPLOAD is True and not request.user.is_staff and request.user.userprofile.can_upload is False:
@@ -93,6 +93,17 @@ def can_edit_cohort(request, cohort_id):
     if request.user.is_staff:
         return True
     return False
+
+def get_cohorts(request):
+    if request.user.is_staff:
+        cohorts = Cohort.objects.all().order_by('description')
+    else:
+        cohorts = Cohort.objects.filter(participant__user=request.user, participant__role=Participant.TEACHER).order_by('description')
+    
+    if cohorts.count() == 0:
+        return None, HttpResponse('Unauthorized', status=401)
+    
+    return cohorts, None
 
 def course_can_view(request,id):
     try:

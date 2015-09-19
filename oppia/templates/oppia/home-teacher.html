@@ -1,0 +1,42 @@
+{% extends "base.html" %} 
+{% load i18n %} 
+{% load display_functions %} 
+
+{% block extra_head_title %}
+	{% trans 'Home' %}
+{% endblock extra_head_title %}
+
+
+{% block content %}
+
+<h3>{% trans 'Recent Activity' %}</h3>
+
+
+<h3>{% trans 'Cohorts' %}</h3>
+<div class="table-responsive">
+         <table class="table table-striped-expandable">
+         	<thead>
+                <tr>
+                  <th>{% trans 'Cohort' %}</th>
+                  <th>{% trans 'No Students' %}</th>
+                  <th>{% trans 'Courses' %}</th>
+                </tr>
+              </thead>
+              <tbody>
+              
+				{% for cohort in cohorts %}
+					<tr>
+						<td>{{ cohort.description }}</td>
+						<td>{{ cohort.no_student_members }}</td>
+						<td>
+						{% for c in cohort.get_courses %}
+							{{ c.title|title_lang:LANGUAGE_CODE }}<br/>
+						{% endfor %}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+ 		</table>
+	</div>
+
+{% endblock %}

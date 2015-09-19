@@ -30,6 +30,24 @@ class UserProfile (models.Model):
             return True
         return self.can_upload
     
+    def is_student_only(self):
+        if self.user.is_staff:
+            return False
+        teach = Participant.objects.filter(user=self.user,role=Participant.TEACHER).count()
+        if teach > 0:
+            return False
+        else:
+            return True
+        
+    def is_teacher_only(self):
+        if self.user.is_staff:
+            return False
+        teach = Participant.objects.filter(user=self.user,role=Participant.TEACHER).count()
+        if teach > 0:
+            return True
+        else:
+            return False
+    
 class Course(models.Model):
     user = models.ForeignKey(User)
     created_date = models.DateTimeField('date created',default=timezone.now)

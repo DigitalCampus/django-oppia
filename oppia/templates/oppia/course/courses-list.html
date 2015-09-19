@@ -6,52 +6,7 @@
 	{% trans 'Courses' %}
 {% endblock extra_head_title %}
 
-{% if course_list %}
-	{% block extra_scripts %}
-	<script type='text/javascript' src='https://www.google.com/jsapi'></script>
-	<script type="text/javascript">
-	
-		// Load the Visualization API and the piechart package.
-		google.load('visualization', '1.0', {'packages':['corechart']});
-	
-		// Set a callback to run when the Google Visualization API is loaded.
-		google.setOnLoadCallback(drawChart);
-		function drawChart() {
-	
-			{% for course in course_list %}
-				var data = new google.visualization.DataTable();
-				data.addColumn('string', "{% trans 'Date' %}");
-				data.addColumn('number', "{% trans 'Total' %}");
-				
-				data.addRows( {{ course.activity|length }} );
-				
-				{% for date,count in course.activity %}
-					data.setValue({{ forloop.counter0 }},0,'{{ date }}');
-					data.setValue({{ forloop.counter0 }},1,{{ count }});
-				{% endfor %}
-		
-		        var chart = new google.visualization.AreaChart(document.getElementById('activity_chart_div_{{course.id}}'));
-		        chart.draw(data, {	width: 100, 
-		                			height: 50,
-		                			vAxis: {minValue:0},
-		                			pointSize:0,
-		                			chartArea: {left:0,top:0,width:"100%",height:"100%"},
-		                			backgroundColor: 'transparent',
-		                			legend: 'none',
-		                			series: [{areaOpacity:0.2}]
-		                			});
-	        {% endfor %}
-	      }
-		
-		function OnTagChange(dropdown) {
-		    var myindex  = dropdown.selectedIndex;
-		    var selValue = dropdown.options[myindex].value;
-		    top.location.href = selValue;
-		    return true;
-		}
-	</script>
-	{% endblock extra_scripts %}
-{% endif %} 
+
 {% block content %}
 
 <h2>{% trans 'Courses' %}</h2>
@@ -70,7 +25,7 @@
 	</form>
 {% endif %}
 
-{% if course_list %}
+{% if courses %}
 
 	 <div class="table-responsive">
          <table class="table table-striped-expandable">
@@ -79,11 +34,10 @@
                   <th>{% trans 'Course' %}</th>
                   <th>{% trans 'Last updated' %}</th>
                   <th>{% trans 'Downloads' %}</th>
-                  <th>{% trans 'Activity' %}</th>
                 </tr>
               </thead>
               <tbody>
-	{% for course in course_list %}
+	{% for course in courses %}
 		<tr>
 				<td><a href="{% url 'oppia_recent_activity' course.id %}">
 				<strong>{{ course.title|title_lang:LANGUAGE_CODE }}</strong></a>
@@ -94,12 +48,10 @@
 					- <i>{% trans 'archived' %}</i>
 				{% endif %}<br/>
 				<small>{% trans 'Tags:' %} {{ course.get_tags }}</small></td>
-				<td>{{course.lastupdated_date}} </td>
-				<td>{{course.no_downloads}} downloads by {{course.no_distinct_downloads}} users<br/>
+				<td>{{ course.lastupdated_date }} </td>
+				<td>{{ course.no_downloads }} downloads by {{ course.no_distinct_downloads }} users<br/>
 					<a href="{% url 'oppia_course_download' course.id %}">{% trans 'download course' %}</a>
 				</td>
-				<td><div id="activity_chart_div_{{course.id}}" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div></td>
-
 			</tr>
 	{% endfor %}
 			</tbody>

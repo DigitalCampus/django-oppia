@@ -33,6 +33,9 @@ urlpatterns = patterns('',
 
     url(r'^$', 'oppia.views.home_view', name="oppia_home"),
     url(r'^server/$', 'oppia.views.server_view', name="oppia_server"),
+    
+    url(r'^teacher/$', 'oppia.views.teacher_home_view', name="oppia_teacher_home"),
+    
     url(r'^leaderboard/$', 'oppia.views.leaderboard_view', name="oppia_leaderboard"),
     url(r'^upload/$', 'oppia.views.upload_step1', name="oppia_upload"),
     url(r'^upload2/(?P<course_id>\d+)$', 'oppia.views.upload_step2', name="oppia_upload2"),
