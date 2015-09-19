@@ -26,7 +26,7 @@ from oppia.forms import UploadCourseStep1Form, UploadCourseStep2Form, ScheduleFo
 from oppia.forms import ActivityScheduleForm, CohortForm
 from oppia.models import Course, Tracker, Tag, CourseTag, Schedule, CourseManager, CourseCohort
 from oppia.models import ActivitySchedule, Activity, Cohort, Participant, Points 
-from oppia.permissions import course_can_view, can_upload, is_manager
+from oppia.permissions import course_can_view, can_upload, is_manager, can_add_cohort, can_edit_cohort
 from oppia.quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
 
 from uploader import handle_uploaded_file
@@ -164,8 +164,8 @@ def terms_view(request):
     return render_to_response('oppia/terms.html', {'settings': settings}, context_instance=RequestContext(request))
         
 def upload_step1(request):
-    if not can_upload(request):
-        return render_to_response('oppia/upload-staff-only.html', {'settings': settings}, context_instance=RequestContext(request))
+    if not request.user.userprofile.get_can_upload():
+        return HttpResponse('Unauthorized', status=401)
         
     
     if request.method == 'POST':
@@ -183,8 +183,8 @@ def upload_step1(request):
     return render(request, 'oppia/upload.html', {'form': form,'title':_(u'Upload Course - step 1')})
 
 def upload_step2(request, course_id):
-    if not can_upload(request):
-        return render_to_response('oppia/upload-staff-only.html', {'settings': settings}, context_instance=RequestContext(request))
+    if not request.user.userprofile.get_can_upload():
+        return HttpResponse('Unauthorized', status=401)
         
     course = Course.objects.get(pk=course_id)
     
@@ -502,20 +502,21 @@ def schedule_edit(request,course_id, schedule_id):
 def schedule_saved(request, course_id, schedule_id=None):
     course = check_owner(request,course_id)
     return render_to_response('oppia/schedule-saved.html', 
-                                    {'course': course},
-                                  context_instance=RequestContext(request))
+                              {'course': course},
+                              context_instance=RequestContext(request))
  
 def cohort(request):
     if not request.user.is_staff:
         raise Http404  
     cohorts = Cohort.objects.all()
     return render_to_response('oppia/course/cohorts.html',
-                                {'cohorts':cohorts,}, 
-                                context_instance=RequestContext(request))
+                              {'cohorts':cohorts,}, 
+                              context_instance=RequestContext(request))
   
 def cohort_add(request):
-    if not request.user.is_staff:
-        raise Http404  
+    if not can_add_cohort(request):
+        return HttpResponse('Unauthorized', status=401)   
+    
     if request.method == 'POST':
         form = CohortForm(request.POST)
         if form.is_valid(): # All validation rules pass
@@ -643,8 +644,8 @@ def cohort_leaderboard_view(request,cohort_id):
                               context_instance=RequestContext(request))
 
 def cohort_edit(request,cohort_id):
-    if not request.user.is_staff:
-        raise Http404  
+    if not can_edit_cohort(request, cohort_id):
+        return HttpResponse('Unauthorized', status=401)  
     cohort = Cohort.objects.get(pk=cohort_id)
     if request.method == 'POST':
         form = CohortForm(request.POST)

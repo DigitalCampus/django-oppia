@@ -84,6 +84,15 @@ def is_manager(course_id,user):
     except Course.DoesNotExist:
         return False
 
+def can_add_cohort(request):
+    if request.user.is_staff:
+        return True
+    return False
+
+def can_edit_cohort(request, cohort_id):
+    if request.user.is_staff:
+        return True
+    return False
 
 def course_can_view(request,id):
     try:

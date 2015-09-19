@@ -20,6 +20,7 @@
 		        	{% endif %}
 		      {% endif %}
 		       {% if user.is_staff %}
+		       		<li><a href="{% url 'oppia_cohorts' %}">{% trans 'Cohorts' %}</a></li>
 		       		<li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">{% trans 'Analytics' %}<b class="caret"></b></a>
 		       		<ul class="dropdown-menu">
 		       			<li><a href="{% url 'oppia_viz_summary' %}">{% trans 'Summary Overview' %}</a></li>
