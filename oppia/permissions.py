@@ -1,7 +1,8 @@
 # oppia/permissions.py
 
 from django.conf import settings
-from django.http import Http404
+from django.contrib.auth.models import User
+from django.http import Http404, HttpResponse
 
 from itertools import chain
 
@@ -26,6 +27,29 @@ def check_owner(request,id):
     except Course.DoesNotExist:
         raise Http404
     return course
+
+def get_user(request, view_user_id):
+    if request.user.is_staff or (request.user.id == int(view_user_id)):
+        try:
+            view_user = User.objects.get(pk=view_user_id)
+            return view_user, None
+        except User.DoesNotExist:
+            raise Http404()
+    else: 
+        try:
+            view_user = User.objects.get(pk=view_user_id)
+            courses = Course.objects.filter(coursecohort__cohort__participant__user=view_user, 
+                                        coursecohort__cohort__participant__role=Participant.STUDENT) \
+                                .filter(coursecohort__cohort__participant__user=request.user, 
+                                        coursecohort__cohort__participant__role=Participant.TEACHER).count()
+            if courses > 0:
+                return view_user, None
+            else:
+                return None, HttpResponse('Unauthorized', status=401)
+        except User.DoesNotExist:
+            return None, HttpResponse('Unauthorized', status=401)
+
+
 
 def get_user_courses(request, view_user):
     

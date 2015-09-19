@@ -22,7 +22,7 @@ from itertools import chain
 
 from oppia.forms import DateRangeForm, DateRangeIntervalForm
 from oppia.models import Points, Award, AwardCourse, Course, UserProfile, Tracker
-from oppia.permissions import get_user_courses
+from oppia.permissions import get_user, get_user_courses
 from oppia.profile.forms import LoginForm, RegisterForm, ResetForm, ProfileForm, UploadProfileForm
 
 from tastypie.models import ApiKey
@@ -197,10 +197,11 @@ def badges(request):
 
 
 def user_activity(request, user_id):
-    try:
-        view_user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        raise Http404()
+    
+    view_user, response = get_user(request, user_id)
+    
+    if response is not None:
+        return response
     
     cohort_courses, other_courses, all_courses = get_user_courses(request, view_user) 
     
