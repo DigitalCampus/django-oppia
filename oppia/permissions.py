@@ -27,26 +27,23 @@ def check_owner(request,id):
         raise Http404
     return course
 
-def view_user_courses(request, view_user):
+def get_user_courses(request, view_user):
     
     if request.user.is_staff or request.user == view_user:
         # get all courses user has taken part in
         # plus all those they are students on
         cohort_courses = Course.objects.filter(coursecohort__cohort__participant__user=view_user, 
-                                        coursecohort__cohort__participant__role=Participant.STUDENT).distinct()
-        print cohort_courses.count()
-        temp = cohort_courses.values_list('id', flat=True)
-        other_courses = Course.objects.filter(tracker__user=view_user).exclude(pk__in=temp).distinct()
-        print other_courses.count()
+                                        coursecohort__cohort__participant__role=Participant.STUDENT).distinct().order_by('title')
+        other_courses = Course.objects.filter(tracker__user=view_user).exclude(pk__in=cohort_courses.values_list('id', flat=True)).distinct().order_by('title')
     else:
         cohort_courses = Course.objects.filter(coursecohort__cohort__participant__user=view_user, 
                                         coursecohort__cohort__participant__role=Participant.STUDENT) \
                                 .filter(coursecohort__cohort__participant__user=request.user, 
-                                        coursecohort__cohort__participant__role=Participant.TEACHER).distinct()
+                                        coursecohort__cohort__participant__role=Participant.TEACHER).distinct().order_by('title')
         other_courses = None
         
     all_courses = list(chain(cohort_courses, other_courses))    
-    return cohort_courses, other_courses
+    return cohort_courses, other_courses, all_courses
 
 def is_manager(course_id,user):
     try:

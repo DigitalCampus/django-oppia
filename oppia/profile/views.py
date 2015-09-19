@@ -11,15 +11,20 @@ from django.core.mail import send_mail
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
+from django.db.models import Count
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
+from django.utils import timezone
 from django.utils.translation import ugettext as _
+
+from itertools import chain
 
 from oppia.forms import DateRangeForm, DateRangeIntervalForm
 from oppia.models import Points, Award, AwardCourse, Course, UserProfile, Tracker
-from oppia.permissions import view_user_courses
+from oppia.permissions import get_user_courses
 from oppia.profile.forms import LoginForm, RegisterForm, ResetForm, ProfileForm, UploadProfileForm
+
 from tastypie.models import ApiKey
 
 
@@ -192,60 +197,46 @@ def badges(request):
 
 
 def user_activity(request, user_id):
-    view_user = User.objects.get(pk=user_id)
-        
-    cohort_courses, other_courses = view_user_courses(request, view_user) 
-       
-    #courses = join(cohort_courses,other_courses)
-    
-    start_date = datetime.datetime.now() - datetime.timedelta(days=31)
-    end_date = datetime.datetime.now()
-    if request.method == 'POST':
-        form = DateRangeForm(request.POST)
-        if form.is_valid():
-            start_date = form.cleaned_data.get("start_date")  
-            start_date = datetime.datetime.strptime(start_date,"%Y-%m-%d")
-            end_date = form.cleaned_data.get("end_date")
-            end_date = datetime.datetime.strptime(end_date,"%Y-%m-%d") 
-            trackers = Tracker.objects.filter(user=view_user,tracker_date__gte=start_date, tracker_date__lte=end_date).order_by('-tracker_date')
-        else:
-            trackers = Tracker.objects.filter(user=view_user).order_by('-tracker_date')             
-    else:
-        data = {}
-        data['start_date'] = start_date
-        data['end_date'] = end_date
-        form = DateRangeForm(initial=data)
-        trackers = Tracker.objects.filter(user=view_user).order_by('-tracker_date')
-        
-    paginator = Paginator(trackers, 25)
-    # Make sure page request is an int. If not, deliver first page.
     try:
-        page = int(request.GET.get('page', '1'))
-    except ValueError:
-        page = 1
-
-    # If page request (9999) is out of range, deliver last page of results.
-    try:
-        tracks = paginator.page(page)
-        for t in tracks:  
-            t.data_obj = []
-            try:
-                data_dict = json.loads(t.data)
-                for key, value in data_dict.items():
-                    t.data_obj.append([key,value])
-            except ValueError:
-                pass
-            t.data_obj.append(['agent',t.agent])
-            t.data_obj.append(['ip',t.ip])
-    except (EmptyPage, InvalidPage):
-        tracks = paginator.page(paginator.num_pages)
+        view_user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        raise Http404()
     
+    cohort_courses, other_courses, all_courses = get_user_courses(request, view_user) 
+    
+    courses = []
+    for c in all_courses:
+        data = {'course': c,
+                'no_quizzes_completed': c.get_no_quizzes_completed(c,view_user),
+                'pretest_score': c.get_pre_test_score(c,view_user),
+                'no_activities_completed': c.get_activities_completed(c,view_user),
+                'no_quizzes_completed': c.get_no_quizzes_completed(c,view_user),
+                'no_points': c.get_points(c,view_user),
+                'no_badges': c.get_badges(c,view_user),}
+        courses.append(data)
+    
+    activity = []
+    start_date = timezone.now() - datetime.timedelta(days=31)
+    end_date = timezone.now()
+    no_days = (end_date-start_date).days + 1
+    
+    course_ids = list(chain(cohort_courses.values_list('id',flat=True),other_courses.values_list('id',flat=True)))
+    trackers = Tracker.objects.filter(course__id__in=course_ids, 
+                                      user=view_user, 
+                                      tracker_date__gte=start_date,
+                                      tracker_date__lte=end_date) \
+                                      .extra({'activity_date':"date(tracker_date)"}) \
+                                      .values('activity_date') \
+                                      .annotate(count=Count('id'))
+    for i in range(0,no_days,+1):
+        temp = start_date + datetime.timedelta(days=i)
+        count = next((dct['count'] for dct in trackers if dct['activity_date'] == temp.date()), 0)
+        activity.append([temp.strftime("%d %b %Y"),count])
+        
     return render_to_response('oppia/profile/user-scorecard.html',
                               {'view_user': view_user,
-                               'form': form, 
-                               'page':tracks,
-                               'cohort_courses': cohort_courses,
-                               'other_courses': other_courses }, 
+                               'courses': courses, 
+                               'activity': activity }, 
                               context_instance=RequestContext(request))
 
 def upload_view(request):

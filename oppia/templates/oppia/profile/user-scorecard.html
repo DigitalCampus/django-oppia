@@ -32,85 +32,52 @@ onload="init();setUpDatePicker();"
 
 
 
-<h3>{% trans 'Enrolled courses' %}</h3>
-{% if cohort_courses %}
-	{% for c in cohort_courses %}
-		{{ c.title }}
-	{% endfor %}
-{% else %}
-	{% blocktrans %}<p>Not enrolled on any courses.</p>{% endblocktrans %}
-{% endif %}
-<h3>{% trans 'Other courses' %}</h3>
-
-
-{% if page.object_list %}
-
-	<div style="margin-left:15px">
-	{% include "includes/messages.html" %}	
-	{% crispy form %}
-	</div>
-	{% include "oppia/includes/page_navigator.html" %}
-    
-    <div class="table-responsive">
-         <table class="table">
-         	 <thead>
+<h3>{% trans 'Courses' %}</h3>
+{% if courses %}
+	<div class="table-responsive">
+         <table class="table table-striped-expandable">
+         	<thead>
                 <tr>
-                  <th>{% trans 'table_header_tracker_date' %}</th>
-                  <th>{% trans 'table_header_tracker_course' %}</th>
-                  <th>{% trans 'table_header_tracker_type' %}</th>
-                  <th>{% trans 'table_header_tracker_activity' %}</th>
-                  <th>{% trans 'table_header_tracker_timetaken' %}</th>
-                  <th>{% trans 'table_header_tracker_lang' %}</th>
+                  <th>{% trans 'Course' %}</th>
+                  <th>{% trans 'Pre-test Score' %}</th>
+                  <th>{% trans 'Activities Completed' %}</th>
+                  <th>{% trans 'Quizzes Completed' %}</th>
+                  <th>{% trans 'Points' %}</th>
+                  <th>{% trans 'Badges' %}</th>
                 </tr>
               </thead>
-              <tbody>
-	{% for t in page.object_list %}
-		<tr id='{{ t.id }}' name="trackerlist" class="hover">
-			<td>{{ t.tracker_date|date:"d M Y H:i" }}</td>
-			<td>{{ t.course.title|title_lang:LANGUAGE_CODE }} </td>
-			<td>{{ t.type }}</td>
-			<td>{% if t.get_media_title %}
-					{{ t.get_media_title }}
-				{% else %}
-					{% if t.activity_title %}
-						{{ t.activity_title|title_lang:LANGUAGE_CODE }} 
-					{% endif %}
-					{% if t.section_title %}
-						({{ t.section_title|title_lang:LANGUAGE_CODE }})
-					{% endif %}
-				{% endif %}</td>
-			<td>{{ t.time_taken }}</td>
-			<td>{% if t.get_lang %}{{ t.get_lang}}{% else %}--{% endif %}</td>
-		</tr>
-		<tr id='detail{{ t.id }}'>
-			<td colspan="6">
-				 <div class="table-responsive">
-        			 <table class="table table-striped">
-			         	 <thead>
-			                <tr>
-			                  <th>{% trans 'Name' %}</th>
-			                  <th>{% trans 'Value' %}</th>
-			                </tr>
-			              </thead>
-			              <tbody>
-				{% for k,v in t.data_obj %}
+             <tbody>
+				{% for c in courses %}
 					<tr>
-						<td>{{ k }}</td>
-						<td>{{ v }}</td>
+						<td>{{ c.course.title|title_lang:LANGUAGE_CODE }}</td>
+						<td>
+							{% if c.pretest_score %}
+								{{ c.pretest_score }}%
+							{% else %}
+								--
+							{% endif %}
+						</td>
+						<td>{{ c.no_activities_completed }}/{{ c.course.get_no_activities }}</td>
+						<td>{{ c.no_quizzes_completed }}/{{ c.course.get_no_quizzes }}</td>
+						<td>{{ c.no_points }}</td>
+						<td>
+							{% if c.no_badges > 0 %}
+								<span class="badges"
+									title="{% trans 'Badge' %}"><img
+									src="{{ STATIC_URL }}oppia/images/badge.png"
+									alt="{% trans 'Badge' %}" /></span>
+							{% else %}
+								&nbsp;
+							{% endif %}
+						</td>
 					</tr>
-			{% endfor %}
+				{% endfor %}
 			</tbody>
  		</table>
-			</td>
-		</tr>
-	{% endfor %}
-			</tbody>
- 		</table>
-	</div> 
-	{% include "oppia/includes/page_navigator.html" %}
-
-	
+	</div>
 {% else %}
-	<p>{% blocktrans %}This user hasn't taken part in any activities yet. {% endblocktrans %}</p>
+	{% blocktrans %}<p>Not participated in any courses.</p>{% endblocktrans %}
 {% endif %}
+
+
 {% endblock %}
