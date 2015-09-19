@@ -51,10 +51,11 @@ def login_view(request):
     else:
         form = LoginForm(initial={'next':request.GET.get('next'),})
         
-    return render(request, 'oppia/form.html',
-                  {'username': username, 
-                   'form': form, 
-                   'title': _(u'Login')})
+    return render_to_response('oppia/form.html',
+                              {'username': username, 
+                               'form': form, 
+                               'title': _(u'Login')},
+                              context_instance=RequestContext(request),)
 
 def register(request):
     if not settings.OPPIA_ALLOW_SELF_REGISTRATION:
@@ -189,17 +190,20 @@ def points(request):
         mypoints = paginator.page(page)
     except (EmptyPage, InvalidPage):
         mypoints = paginator.page(paginator.num_pages)
-    return render(request, 'oppia/profile/points.html', {'page': mypoints,})
+    return render_to_response('oppia/profile/points.html', 
+                              {'page': mypoints,}, 
+                              context_instance=RequestContext(request),)
 
 def badges(request):
     awards = Award.objects.filter(user=request.user).order_by('-award_date')
-    return render(request, 'oppia/profile/badges.html', {'awards': awards,})
+    return render_to_response('oppia/profile/badges.html', 
+                              {'awards': awards,},
+                              context_instance=RequestContext(request),)
 
 
 def user_activity(request, user_id):
     
     view_user, response = get_user(request, user_id)
-    
     if response is not None:
         return response
     
@@ -312,7 +316,7 @@ def upload_view(request):
         results = []
         form = UploadProfileForm()
         
-    return render(request, 'oppia/profile/upload.html', {'form': form, 'results': results})
-
-def handle_profile_upload():
-    pass
+    return render_to_response('oppia/profile/upload.html', 
+                              {'form': form, 
+                               'results': results},
+                              context_instance=RequestContext(request),)

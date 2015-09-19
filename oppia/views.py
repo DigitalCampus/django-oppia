@@ -40,6 +40,10 @@ def server_view(request):
 def home_view(request):
     activity = []
     if request.user.is_authenticated():
+        # if user is student redirect to their scorecard
+        
+        # is user is teacher redirect to teacher home
+        
         start_date = timezone.now() - datetime.timedelta(days=31)
         end_date = timezone.now()
         interval = 'days'
@@ -119,7 +123,10 @@ def course_view(request):
             course.activity.append([temp.strftime("%d %b %Y"),count])  
             
     tag_list = Tag.objects.all().order_by('name')
-    return render_to_response('oppia/course/courses-list.html',{'course_list': course_list, 'tag_list': tag_list}, context_instance=RequestContext(request))
+    return render_to_response('oppia/course/courses-list.html',
+                              {'course_list': course_list, 
+                               'tag_list': tag_list}, 
+                              context_instance=RequestContext(request))
 
 def course_download_view(request, course_id):
     try:
