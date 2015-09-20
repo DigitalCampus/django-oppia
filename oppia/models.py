@@ -589,10 +589,10 @@ class Cohort(models.Model):
         if count != 0:
             users = users[:count]
    
-        #for u in users:
-        #    u.badges = Award.get_userawards(u,course)
-        #    if u.total is None:
-        #        u.total = 0
+        for u in users:
+            u.badges = Award.objects.filter(user=u, awardcourse__course__coursecohort__cohort=self).count()
+            if u.total is None:
+                u.total = 0
         return users
     
 class CourseCohort(models.Model):

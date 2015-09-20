@@ -722,8 +722,19 @@ def cohort_edit(request,cohort_id):
     return render(request, 'oppia/cohort-form.html',{'form': form,}) 
 
 def cohort_course_view(request,cohort_id, course_id): 
+    cohort, response = can_view_cohort(request,cohort_id)
+    if cohort is None:
+        return response
     
-    return HttpResponse()
+    try:
+        course = Course.objects.get(pk=course_id)
+    except Course.DoesNotExist:
+        raise Http404()
+    
+    return render_to_response('oppia/course/cohort-course-activity.html',
+                              {'course': course,
+                               'cohort': cohort, }, 
+                              context_instance=RequestContext(request))
        
 def leaderboard_view(request):
     lb = Points.get_leaderboard()
@@ -741,7 +752,9 @@ def leaderboard_view(request):
     except (EmptyPage, InvalidPage):
         leaderboard = paginator.page(paginator.num_pages)
 
-    return render_to_response('oppia/leaderboard.html',{'page':leaderboard}, context_instance=RequestContext(request))
+    return render_to_response('oppia/leaderboard.html',
+                              {'page':leaderboard}, 
+                              context_instance=RequestContext(request))
 
 def course_quiz(request,course_id):
     course = check_owner(request,course_id)

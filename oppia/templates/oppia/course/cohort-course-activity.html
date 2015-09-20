@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{{ cohort.description }} &gt; {{ course.title|title_lang:LANGUAGE_CODE}}
+{% endblock extra_head_title %}
+
+{% block content %}
+<h2><a href="{% url 'oppia_cohort_view' cohort.id %}">{{ cohort.description }}</a> &gt; {{ course.title|title_lang:LANGUAGE_CODE}}</h2>
+
+<h3>{% trans 'Recent Activity' %}</h3>
+
+<h3>{% trans 'Leaderboard' %}</h3>
+
+{% endblock %}
