@@ -23,11 +23,22 @@
              <th>{% trans 'Max Score' %}</th>
              <th>{% trans 'Min Score' %}</th>
              <th>{% trans 'First Score' %}</th>
-             <th>{% trans 'Last Score' %}</th>
+             <th>{% trans 'Latest Score' %}</th>
              <th>{% trans 'Average Score' %}</th>
            </tr>
          </thead>
         <tbody>
+        {% for q in quizzes %}
+        	<tr>
+        		<td>{{ q.quiz.title|title_lang:LANGUAGE_CODE }} ({{ q.quiz.section.title|title_lang:LANGUAGE_CODE }})</td>
+        		<td>{{ q.no_attempts }}</td>
+        		<td>{% if q.max_score %}{{ q.max_score|floatformat:1 }}%{% else %}--{% endif %}</td>
+        		<td>{% if q.min_score %}{{ q.min_score|floatformat:1 }}%{% else %}--{% endif %}</td>
+        		<td>{% if q.first_score %}{{ q.first_score|floatformat:1 }}%{% else %}--{% endif %}</td>
+        		<td>{% if q.latest_score %}{{ q.latest_score|floatformat:1 }}%{% else %}--{% endif %}</td>
+        		<td>{% if q.avg_score %}{{ q.avg_score|floatformat:1 }}%{% else %}--{% endif %}</td>
+        	</tr>
+        {% endfor %}
 		</tbody>
  	</table>
 </div>

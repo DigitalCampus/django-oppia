@@ -11,7 +11,7 @@ from django.core.mail import send_mail
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
-from django.db.models import Count
+from django.db.models import Count, Max, Min, Sum, Avg
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
@@ -21,9 +21,10 @@ from django.utils.translation import ugettext as _
 from itertools import chain
 
 from oppia.forms import DateRangeForm, DateRangeIntervalForm
-from oppia.models import Points, Award, AwardCourse, Course, UserProfile, Tracker
+from oppia.models import Points, Award, AwardCourse, Course, UserProfile, Tracker, Activity
 from oppia.permissions import get_user, get_user_courses, course_can_view
 from oppia.profile.forms import LoginForm, RegisterForm, ResetForm, ProfileForm, UploadProfileForm
+from oppia.quiz.models import Quiz, QuizAttempt
 
 from tastypie.models import ApiKey
 
@@ -252,9 +253,40 @@ def user_course_activity_view(request, user_id, course_id):
     
     course = course_can_view(request, course_id)
 
+    act_quizzes = Activity.objects.filter(section__course=course,type=Activity.QUIZ).order_by('section__order','order')
+    quizzes = []
+    for aq in act_quizzes:
+        quiz = Quiz.objects.get(quizprops__value=aq.digest, quizprops__name="digest")
+        attempts = QuizAttempt.objects.filter(quiz=quiz, user=view_user)
+        if attempts.count() > 0:
+            max_score = 100*float(attempts.aggregate(max=Max('score'))['max']) / float(attempts[0].maxscore)
+            min_score = 100*float(attempts.aggregate(min=Min('score'))['min']) / float(attempts[0].maxscore)
+            avg_score = 100*float(attempts.aggregate(avg=Avg('score'))['avg']) / float(attempts[0].maxscore)
+            first_date = attempts.aggregate(date=Min('attempt_date'))['date']
+            recent_date = attempts.aggregate(date=Max('attempt_date'))['date']
+            first_score = 100*float(attempts.filter(attempt_date = first_date)[0].score) / float(attempts[0].maxscore)
+            latest_score = 100*float(attempts.filter(attempt_date = recent_date)[0].score) / float(attempts[0].maxscore)
+        else:
+            max_score = None
+            min_score = None
+            avg_score = None
+            first_score = None
+            latest_score = None
+            
+        quiz = {'quiz': aq,
+                'no_attempts': attempts.count(),
+                'max_score': max_score,
+                'min_score': min_score,
+                'first_score': first_score,
+                'latest_score': latest_score,
+                'avg_score': avg_score,
+                 }
+        quizzes.append(quiz);
+    
     return render_to_response('oppia/profile/user-course-scorecard.html',
                               {'view_user': view_user,
-                               'course': course, }, 
+                               'course': course, 
+                               'quizzes': quizzes, }, 
                               context_instance=RequestContext(request))
 
 def upload_view(request):
