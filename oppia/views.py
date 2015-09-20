@@ -605,7 +605,7 @@ def cohort_view(request,cohort_id):
         student_activity.append([temp.strftime("%d %b %Y"),count])
         
     # get leaderboard
-    leaderboard = Points.get_cohort_leaderboard(10, cohort)
+    leaderboard = cohort.get_leaderboard(10)
     
     
     return render_to_response('oppia/course/cohort-activity.html',
@@ -622,7 +622,7 @@ def cohort_leaderboard_view(request,cohort_id):
         return response
         
     # get leaderboard
-    lb = Points.get_cohort_leaderboard(0, cohort)
+    lb = cohort.get_leaderboard(0)
     
     paginator = Paginator(lb, 25) # Show 25 contacts per page
 

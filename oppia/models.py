@@ -579,6 +579,22 @@ class Cohort(models.Model):
         courses = Course.objects.filter(coursecohort__cohort = self).order_by('title')
         return courses
 
+    def get_leaderboard(self, count=0):
+        users = User.objects.filter(participant__cohort=self, 
+                                    participant__role=Participant.STUDENT, 
+                                    points__course__coursecohort__cohort=self) \
+                            .annotate(total=Sum('points__points')) \
+                            .order_by('-total')
+         
+        if count != 0:
+            users = users[:count]
+   
+        #for u in users:
+        #    u.badges = Award.get_userawards(u,course)
+        #    if u.total is None:
+        #        u.total = 0
+        return users
+    
 class CourseCohort(models.Model):
     course = models.ForeignKey(Course) 
     cohort = models.ForeignKey(Cohort)  
@@ -714,24 +730,6 @@ class Points(models.Model):
                 u.total = 0
         return users
     
-    @staticmethod
-    def get_cohort_leaderboard(count, cohort):
-        users = User.objects.filter(participant__cohort=cohort, participant__role=Participant.STUDENT)
-        
-        courses = Course.objects.filter(coursecohort__cohort=cohort)
-        if courses is not None:
-            users = users.filter(points__course__in=courses)
-               
-        if count == 0:
-            users = users.annotate(total=Sum('points__points')).order_by('-total')
-        else:
-            users = users.annotate(total=Sum('points__points')).order_by('-total')[:count]
-            
-        #for u in users:
-        #    u.badges = Award.get_userawards(u,course)
-        #    if u.total is None:
-        #        u.total = 0
-        return users
     
     @staticmethod
     def get_userscore(user):
