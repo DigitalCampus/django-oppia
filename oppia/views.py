@@ -104,8 +104,8 @@ def home_view(request):
     leaderboard = Points.get_leaderboard(10)
     return render_to_response('oppia/home.html',
                               {'form': form,
-                               'recent_activity':activity, 
-                               'leaderboard':leaderboard}, 
+                               'activity_graph_data': activity, 
+                               'leaderboard': leaderboard}, 
                               context_instance=RequestContext(request))
 
 def teacher_home_view(request):
