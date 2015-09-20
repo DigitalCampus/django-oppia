@@ -3,17 +3,32 @@
 {% load display_functions %}
 
 {% block extra_head_title %}
-	{{ view_user.first_name }} {{ view_user.last_name }}
+	{{ view_user.first_name }} {{ view_user.last_name }} &gt; {{ course.title|title_lang:LANGUAGE_CODE }}
 {% endblock extra_head_title %}
 
 {% block content %}
 
-<h2>{{ view_user.first_name }} {{ view_user.last_name }}</h2>
+<h2><a href="{% url 'profile_user_activity' view_user.id %}">{{ view_user.first_name }} {{ view_user.last_name }}</a> &gt; {{ course.title|title_lang:LANGUAGE_CODE }}</h2>
 
 <h3>{% trans 'Recent activity' %}</h3>
 
 
-
-
-
+<h3>{% trans 'Quizzes' %}</h3>
+<div class="table-responsive">
+    <table class="table table-striped">
+    	<thead>
+           <tr>
+             <th>{% trans 'Quiz' %}</th>
+             <th>{% trans 'No attempts' %}</th>
+             <th>{% trans 'Max Score' %}</th>
+             <th>{% trans 'Min Score' %}</th>
+             <th>{% trans 'First Score' %}</th>
+             <th>{% trans 'Last Score' %}</th>
+             <th>{% trans 'Average Score' %}</th>
+           </tr>
+         </thead>
+        <tbody>
+		</tbody>
+ 	</table>
+</div>
 {% endblock %}
