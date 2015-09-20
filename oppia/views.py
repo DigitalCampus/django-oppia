@@ -118,7 +118,7 @@ def teacher_home_view(request):
                               {'cohorts': cohorts }, 
                               context_instance=RequestContext(request))
 
-def course_view(request):
+def courses_list_view(request):
     if request.user.is_staff:
         courses = Course.objects.filter(is_archived=False).order_by('title')
     else:
@@ -518,7 +518,7 @@ def schedule_saved(request, course_id, schedule_id=None):
                               {'course': course},
                               context_instance=RequestContext(request))
  
-def cohort(request):
+def cohort_list_view(request):
     if not request.user.is_staff:
         raise Http404  
     cohorts = Cohort.objects.all()
