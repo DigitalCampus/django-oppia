@@ -11,6 +11,51 @@
 
 <h3>{% trans 'Recent Activity' %}</h3>
 
-<h3>{% trans 'Leaderboard' %}</h3>
+{% include "oppia/includes/activity-graph.html" %}	
+
+
+<h3>{% trans 'Students' %}</h3>
+
+<div class="table-responsive">
+         <table class="table table-striped-expandable">
+         	<thead>
+                <tr>
+                  <th>{% trans 'Student' %}</th>
+                  <th>{% trans 'Pre-test Score' %}</th>
+                  <th>{% trans 'Activities Completed' %}</th>
+                  <th>{% trans 'Quizzes Completed' %}</th>
+                  <th>{% trans 'Points' %}</th>
+                  <th>{% trans 'Badges' %}</th>
+                </tr>
+              </thead>
+             <tbody>
+				{% for student in students %}
+					<tr>
+						<td><a href="{% url 'profile_user_course_activity' student.user.id course.id %}">{{ student.user.first_name }} {{ student.user.last_name }}</a></td>
+						<td>
+							{% if student.pretest_score %}
+								{{ student.pretest_score }}%
+							{% else %}
+								--
+							{% endif %}
+						</td>
+						<td>{{ student.no_activities_completed }}/{{ course.get_no_activities }}</td>
+						<td>{{ student.no_quizzes_completed }}/{{ course.get_no_quizzes }}</td>
+						<td>{{ student.no_points }}</td>
+						<td>
+							{% if student.no_badges > 0 %}
+								<span class="badges"
+									title="{% trans 'Badge' %}"><img
+									src="{{ STATIC_URL }}oppia/images/badge.png"
+									alt="{% trans 'Badge' %}" /></span>
+							{% else %}
+								&nbsp;
+							{% endif %}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+ 		</table>
+	</div>
 
 {% endblock %}

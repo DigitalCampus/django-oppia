@@ -522,7 +522,7 @@ def cohort_list_view(request):
     if not request.user.is_staff:
         raise Http404  
     cohorts = Cohort.objects.all()
-    return render_to_response('oppia/course/cohorts.html',
+    return render_to_response('oppia/course/cohorts-list.html',
                               {'cohorts':cohorts,}, 
                               context_instance=RequestContext(request))
   
@@ -584,7 +584,7 @@ def cohort_add(request):
 def cohort_view(request,cohort_id):
     cohort, response = can_view_cohort(request,cohort_id)
     
-    if cohort is None:
+    if response is not None:
         return response
     
     start_date = timezone.now() - datetime.timedelta(days=31)
@@ -610,7 +610,7 @@ def cohort_view(request,cohort_id):
     
     return render_to_response('oppia/course/cohort-activity.html',
                               {'cohort':cohort,
-                               'student_activity': student_activity, 
+                               'activity_graph_data': student_activity, 
                                'leaderboard': leaderboard, }, 
                               context_instance=RequestContext(request))
     
@@ -721,19 +721,47 @@ def cohort_edit(request,cohort_id):
 
     return render(request, 'oppia/cohort-form.html',{'form': form,}) 
 
-def cohort_course_view(request,cohort_id, course_id): 
+def cohort_course_view(request, cohort_id, course_id): 
     cohort, response = can_view_cohort(request,cohort_id)
-    if cohort is None:
+    if response is not None:
         return response
     
     try:
-        course = Course.objects.get(pk=course_id)
+        course = Course.objects.get(pk=course_id, coursecohort__cohort=cohort)
     except Course.DoesNotExist:
         raise Http404()
     
+    start_date = timezone.now() - datetime.timedelta(days=31)
+    end_date = timezone.now()
+    student_activity = []
+    no_days = (end_date-start_date).days + 1
+    users =  User.objects.filter(participant__role=Participant.STUDENT, participant__cohort=cohort).order_by('first_name', 'last_name')   
+    trackers = Tracker.objects.filter(course=course, 
+                                       user__is_staff=False,
+                                       user__in=users,  
+                                       tracker_date__gte=start_date,
+                                       tracker_date__lte=end_date).extra({'activity_date':"date(tracker_date)"}).values('activity_date').annotate(count=Count('id'))
+    for i in range(0,no_days,+1):
+        temp = start_date + datetime.timedelta(days=i)
+        count = next((dct['count'] for dct in trackers if dct['activity_date'] == temp.date()), 0)
+        student_activity.append([temp.strftime("%d %b %Y"),count])
+     
+    students = []
+    for user in users:
+        data = {'user': user,
+                'no_quizzes_completed': course.get_no_quizzes_completed(course,user),
+                'pretest_score': course.get_pre_test_score(course,user),
+                'no_activities_completed': course.get_activities_completed(course,user),
+                'no_quizzes_completed': course.get_no_quizzes_completed(course,user),
+                'no_points': course.get_points(course,user),
+                'no_badges': course.get_badges(course,user),}
+        students.append(data)
+       
     return render_to_response('oppia/course/cohort-course-activity.html',
                               {'course': course,
-                               'cohort': cohort, }, 
+                               'cohort': cohort, 
+                               'activity_graph_data': student_activity,
+                               'students': students }, 
                               context_instance=RequestContext(request))
        
 def leaderboard_view(request):

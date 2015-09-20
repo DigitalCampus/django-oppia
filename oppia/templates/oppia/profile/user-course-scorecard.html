@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{{ view_user.first_name }} {{ view_user.last_name }}
+{% endblock extra_head_title %}
+
+{% block content %}
+
+<h2>{{ view_user.first_name }} {{ view_user.last_name }}</h2>
+
+<h3>{% trans 'Recent activity' %}</h3>
+
+
+
+
+
+{% endblock %}

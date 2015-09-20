@@ -115,15 +115,15 @@ def get_cohorts(request):
     
     return cohorts, None
 
-def course_can_view(request,id):
+def course_can_view(request,course_id):
     try:
         if request.user.is_staff:
-            course = Course.objects.get(pk=id)
+            course = Course.objects.get(pk=course_id)
         else:
             try:
-                course = Course.objects.get(pk=id,is_draft=False,is_archived=False)
+                course = Course.objects.get(pk=course_id,is_draft=False,is_archived=False)
             except Course.DoesNotExist:
-                course = Course.objects.get(pk=id,is_draft=False,is_archived=False, coursemanager__course__id=id, coursemanager__user = request.user)
+                course = Course.objects.get(pk=course_id,is_draft=False,is_archived=False, coursemanager__course__id=id, coursemanager__user = request.user)
     except Course.DoesNotExist:
         raise Http404
     return course

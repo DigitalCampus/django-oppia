@@ -22,7 +22,7 @@ from itertools import chain
 
 from oppia.forms import DateRangeForm, DateRangeIntervalForm
 from oppia.models import Points, Award, AwardCourse, Course, UserProfile, Tracker
-from oppia.permissions import get_user, get_user_courses
+from oppia.permissions import get_user, get_user_courses, course_can_view
 from oppia.profile.forms import LoginForm, RegisterForm, ResetForm, ProfileForm, UploadProfileForm
 
 from tastypie.models import ApiKey
@@ -210,14 +210,14 @@ def user_activity(request, user_id):
     cohort_courses, other_courses, all_courses = get_user_courses(request, view_user) 
     
     courses = []
-    for c in all_courses:
-        data = {'course': c,
-                'no_quizzes_completed': c.get_no_quizzes_completed(c,view_user),
-                'pretest_score': c.get_pre_test_score(c,view_user),
-                'no_activities_completed': c.get_activities_completed(c,view_user),
-                'no_quizzes_completed': c.get_no_quizzes_completed(c,view_user),
-                'no_points': c.get_points(c,view_user),
-                'no_badges': c.get_badges(c,view_user),}
+    for course in all_courses:
+        data = {'course': course,
+                'no_quizzes_completed': course.get_no_quizzes_completed(course,view_user),
+                'pretest_score': course.get_pre_test_score(course,view_user),
+                'no_activities_completed': course.get_activities_completed(course,view_user),
+                'no_quizzes_completed': course.get_no_quizzes_completed(course,view_user),
+                'no_points': course.get_points(course,view_user),
+                'no_badges': course.get_badges(course,view_user),}
         courses.append(data)
     
     activity = []
@@ -242,6 +242,19 @@ def user_activity(request, user_id):
                               {'view_user': view_user,
                                'courses': courses, 
                                'activity': activity }, 
+                              context_instance=RequestContext(request))
+
+def user_course_activity_view(request, user_id, course_id):
+    
+    view_user, response = get_user(request, user_id)
+    if response is not None:
+        return response
+    
+    course = course_can_view(request, course_id)
+
+    return render_to_response('oppia/profile/user-course-scorecard.html',
+                              {'view_user': view_user,
+                               'course': course, }, 
                               context_instance=RequestContext(request))
 
 def upload_view(request):
