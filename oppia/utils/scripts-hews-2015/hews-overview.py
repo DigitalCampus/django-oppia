@@ -26,16 +26,16 @@ def run():
     out_file.write("<table>")
     out_file.write("<tr>")
     out_file.write("<th>&nbsp;</th>")
-    '''
+    
     out_file.write("<th colspan=3>ANC 1</th>")
     out_file.write("<th colspan=3>ANC 2</th>")
     out_file.write("<th colspan=3>PNC</th>")
-    '''
+    
     out_file.write("<th colspan=3>Total</th>")
     out_file.write("</tr>")
     out_file.write("<tr>")
     out_file.write("<th>Student</th>")
-    '''
+    
     out_file.write("<th>No Quizzes</th>")
     out_file.write("<th>No Attempted</th>")
     out_file.write("<th>No Passed</th>")
@@ -45,7 +45,7 @@ def run():
     out_file.write("<th>No Quizzes</th>")
     out_file.write("<th>No Attempted</th>")
     out_file.write("<th>No Passed</th>")
-    '''
+    
     out_file.write("<th>No Quizzes</th>")
     out_file.write("<th>No Attempted</th>")
     out_file.write("<th>No Passed</th>")
@@ -73,11 +73,11 @@ def run():
             passed = Tracker.objects.filter(user_id=s.id, digest__in=quiz_digests, completed=True).values_list('digest', flat=True).distinct()
             anc1_no_passed += passed.count()
         
-        '''
+        
         out_file.write("<td>%d</td>" % anc1_no_quizzes) 
         out_file.write("<td>%d</td>" % anc1_no_attempted) 
         out_file.write("<td>%d</td>" % anc1_no_passed) 
-        '''
+        
             
         anc2_no_quizzes = 0  
         anc2_no_attempted = 0
@@ -96,11 +96,11 @@ def run():
             passed = Tracker.objects.filter(user_id=s.id, digest__in=quiz_digests, completed=True).values_list('digest', flat=True).distinct()
             anc2_no_passed += passed.count()
         
-        '''
+        
         out_file.write("<td>%d</td>" % anc2_no_quizzes) 
         out_file.write("<td>%d</td>" % anc2_no_attempted) 
         out_file.write("<td>%d</td>" % anc2_no_passed) 
-        '''
+        
             
         pnc_no_quizzes = 0
         pnc_no_attempted = 0
@@ -119,11 +119,11 @@ def run():
             passed = Tracker.objects.filter(user_id=s.id, digest__in=quiz_digests, completed=True).values_list('digest', flat=True).distinct()
             pnc_no_passed += passed.count()
         
-        '''
+       
         out_file.write("<td>%d</td>" % pnc_no_quizzes) 
         out_file.write("<td>%d</td>" % pnc_no_attempted) 
         out_file.write("<td>%d</td>" % pnc_no_passed) 
-        '''
+        
         
         no_quizzes = pnc_no_quizzes + anc1_no_quizzes + anc2_no_quizzes
         no_attempted = pnc_no_attempted + anc1_no_attempted + anc2_no_attempted
