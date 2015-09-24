@@ -242,7 +242,7 @@ def user_activity(request, user_id):
     return render_to_response('oppia/profile/user-scorecard.html',
                               {'view_user': view_user,
                                'courses': courses, 
-                               'activity': activity }, 
+                               'activity_graph_data': activity }, 
                               context_instance=RequestContext(request))
 
 def user_course_activity_view(request, user_id, course_id):
@@ -283,10 +283,28 @@ def user_course_activity_view(request, user_id, course_id):
                  }
         quizzes.append(quiz);
     
+    activity = []
+    start_date = timezone.now() - datetime.timedelta(days=31)
+    end_date = timezone.now()
+    no_days = (end_date-start_date).days + 1
+    
+    trackers = Tracker.objects.filter(course=course, 
+                                      user=view_user, 
+                                      tracker_date__gte=start_date,
+                                      tracker_date__lte=end_date) \
+                                      .extra({'activity_date':"date(tracker_date)"}) \
+                                      .values('activity_date') \
+                                      .annotate(count=Count('id'))
+    for i in range(0,no_days,+1):
+        temp = start_date + datetime.timedelta(days=i)
+        count = next((dct['count'] for dct in trackers if dct['activity_date'] == temp.date()), 0)
+        activity.append([temp.strftime("%d %b %Y"),count])
+    
     return render_to_response('oppia/profile/user-course-scorecard.html',
                               {'view_user': view_user,
                                'course': course, 
-                               'quizzes': quizzes, }, 
+                               'quizzes': quizzes, 
+                               'activity_graph_data': activity }, 
                               context_instance=RequestContext(request))
 
 def upload_view(request):
