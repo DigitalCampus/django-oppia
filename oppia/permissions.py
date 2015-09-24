@@ -134,14 +134,14 @@ def can_view_course_detail(request,course_id):
             course = Course.objects.get(pk=course_id)
         except Course.DoesNotExist:
             raise Http404
-        return course
+        return course, None 
     else:
         return None, HttpResponse('Unauthorized', status=401)
 
 
 def can_view_courses_list(request):
     if request.user.is_staff:
-        courses = Course.objects.all()
+        courses = Course.objects.all().order_by('title')
     else:
-        courses = Course.objects.filter(is_draft=False,is_archived=False)
-    return courses
+        courses = Course.objects.filter(is_draft=False,is_archived=False).order_by('title')
+    return courses, None

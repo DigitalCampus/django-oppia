@@ -136,15 +136,24 @@ def teacher_home_view(request):
                               context_instance=RequestContext(request))
 
 def courses_list_view(request):
-    if request.user.is_staff:
-        courses = Course.objects.filter(is_archived=False).order_by('title')
-    else:
-        courses = Course.objects.filter(is_draft=False,is_archived=False).order_by('title')   
-            
-    tag_list = Tag.objects.all().order_by('name')
-    
+    courses, response = can_view_courses_list(request) 
+    if response is not None:
+        return response
+           
+    tag_list = Tag.objects.all().exclude(coursetag=None).order_by('name')
+    courses_list = []
+    for course in courses:
+        obj = {}
+        obj['course'] = course
+        access_detail, response = can_view_course_detail(request,course.id)
+        if access_detail is not None:
+            obj['access_detail'] = True
+        else:
+            obj['access_detail'] = False
+        courses_list.append(obj)
+        
     return render_to_response('oppia/course/courses-list.html',
-                              {'courses': courses, 
+                              {'courses_list': courses_list, 
                                'tag_list': tag_list}, 
                               context_instance=RequestContext(request))
 
@@ -160,25 +169,24 @@ def course_download_view(request, course_id):
     response['Content-Disposition'] = 'attachment; filename="%s"' %(course.filename)
     return response
 
-def tag_courses_view(request, id):
-    if request.user.is_staff:
-        course_list = Course.objects.filter(is_archived=False, coursetag__tag_id=id).order_by('title')
-    else:
-        course_list = Course.objects.filter(is_draft=False,is_archived=False, coursetag__tag_id=id).order_by('title')   
-    startdate = datetime.datetime.now()
-    for course in course_list:
-        course.activity = []
-        for i in range(7,-1,-1):
-            temp = startdate - datetime.timedelta(days=i)
-            day = temp.strftime("%d")
-            month = temp.strftime("%m")
-            year = temp.strftime("%Y")
-            
-            count = Tracker.objects.filter(course = course, user__is_staff=False, tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).count()
-            course.activity.append([temp.strftime("%d %b %Y"),count])  
+def tag_courses_view(request, tag_id):
+    courses, response = can_view_courses_list(request) 
+    if response is not None:
+        return response
+    courses = courses.filter(coursetag__tag__pk=tag_id)
+    courses_list = []
+    for course in courses:
+        obj = {}
+        obj['course'] = course
+        access_detail, response = can_view_course_detail(request,course.id)
+        if access_detail is not None:
+            obj['access_detail'] = True
+        else:
+            obj['access_detail'] = False
+        courses_list.append(obj)
     tag_list = Tag.objects.all().order_by('name')
     return render_to_response('oppia/course/courses-list.html',
-                              {'course_list': course_list, 
+                              {'courses_list': courses_list, 
                                'tag_list': tag_list, 
                                'current_tag': id}, 
                               context_instance=RequestContext(request))
