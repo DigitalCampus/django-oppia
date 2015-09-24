@@ -1,6 +1,12 @@
 OppiaMobile Android App Change Log
 ====================================
 
+v55 (5.4.0) - released 24 Sept 2015
+-------------------------------------
+
+* 469: Check new scorecard calculating correctly - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/469
+
+
 v54 (5.3.0) - released 15 Sept 2015
 ----------------------------------------------------
 
