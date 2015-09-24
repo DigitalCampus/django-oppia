@@ -113,9 +113,26 @@ def teacher_home_view(request):
     if response is not None:
         return response
     
+    start_date = timezone.now() - datetime.timedelta(days=31)
+    end_date = timezone.now()
+        
+    # get student activity
+    activity = []
+    no_days = (end_date-start_date).days + 1
+    students =  User.objects.filter(participant__role=Participant.STUDENT, participant__cohort__in=cohorts).distinct()   
+    courses = Course.objects.filter(coursecohort__cohort__in=cohorts).distinct()
+    trackers = Tracker.objects.filter(course__in=courses, 
+                                       user__in=students,  
+                                       tracker_date__gte=start_date,
+                                       tracker_date__lte=end_date).extra({'activity_date':"date(tracker_date)"}).values('activity_date').annotate(count=Count('id'))
+    for i in range(0,no_days,+1):
+        temp = start_date + datetime.timedelta(days=i)
+        count = next((dct['count'] for dct in trackers if dct['activity_date'] == temp.date()), 0)
+        activity.append([temp.strftime("%d %b %Y"),count])
     
     return render_to_response('oppia/home-teacher.html',
-                              {'cohorts': cohorts }, 
+                              {'cohorts': cohorts,
+                               'activity_graph_data': activity, }, 
                               context_instance=RequestContext(request))
 
 def courses_list_view(request):
@@ -236,8 +253,11 @@ def upload_step2(request, course_id):
                               context_instance=RequestContext(request))
 
 
-def recent_activity(request,id):
-    course = course_can_view(request, id)
+def recent_activity(request,course_id):
+    course, response = can_view_course_detail(request, course_id)
+    
+    if response is not None:
+        return response
     
     start_date = datetime.datetime.now() - datetime.timedelta(days=31)
     end_date = datetime.datetime.now()
@@ -314,8 +334,11 @@ def recent_activity(request,id):
                                 'leaderboard':leaderboard}, 
                               context_instance=RequestContext(request))
 
-def recent_activity_detail(request,id):
-    course = check_owner(request,id)
+def recent_activity_detail(request,course_id):
+    course, response = can_view_course_detail(request, course_id)
+    
+    if response is not None:
+        return response
         
     start_date = datetime.datetime.now() - datetime.timedelta(days=31)
     end_date = datetime.datetime.now()
@@ -366,8 +389,11 @@ def recent_activity_detail(request,id):
                               context_instance=RequestContext(request))
 
 
-def export_tracker_detail(request,id):
-    course = check_owner(request,id)
+def export_tracker_detail(request,course_id):
+    course, response = can_view_course_detail(request, course_id)
+    
+    if response is not None:
+        return response
     
     headers = ('Date', 'UserId', 'Type', 'Activity Title', 'Section Title', 'Time Taken', 'IP Address', 'User Agent', 'Language')
     data = []

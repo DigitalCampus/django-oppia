@@ -115,7 +115,7 @@ def get_cohorts(request):
     
     return cohorts, None
 
-def course_can_view(request,course_id):
+def can_view_course(request,course_id):
     try:
         if request.user.is_staff:
             course = Course.objects.get(pk=course_id)
@@ -127,3 +127,21 @@ def course_can_view(request,course_id):
     except Course.DoesNotExist:
         raise Http404
     return course
+
+def can_view_course_detail(request,course_id):
+    if request.user.is_staff:
+        try:    
+            course = Course.objects.get(pk=course_id)
+        except Course.DoesNotExist:
+            raise Http404
+        return course
+    else:
+        return None, HttpResponse('Unauthorized', status=401)
+
+
+def can_view_courses_list(request):
+    if request.user.is_staff:
+        courses = Course.objects.all()
+    else:
+        courses = Course.objects.filter(is_draft=False,is_archived=False)
+    return courses

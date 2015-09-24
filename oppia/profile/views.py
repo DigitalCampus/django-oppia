@@ -22,7 +22,7 @@ from itertools import chain
 
 from oppia.forms import DateRangeForm, DateRangeIntervalForm
 from oppia.models import Points, Award, AwardCourse, Course, UserProfile, Tracker, Activity
-from oppia.permissions import get_user, get_user_courses, course_can_view
+from oppia.permissions import get_user, get_user_courses, can_view_course
 from oppia.profile.forms import LoginForm, RegisterForm, ResetForm, ProfileForm, UploadProfileForm
 from oppia.quiz.models import Quiz, QuizAttempt
 
@@ -251,7 +251,7 @@ def user_course_activity_view(request, user_id, course_id):
     if response is not None:
         return response
     
-    course = course_can_view(request, course_id)
+    course = can_view_course(request, course_id)
 
     act_quizzes = Activity.objects.filter(section__course=course,type=Activity.QUIZ).order_by('section__order','order')
     quizzes = []
