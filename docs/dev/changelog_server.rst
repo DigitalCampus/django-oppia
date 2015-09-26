@@ -7,7 +7,7 @@ v0.9.0 - not yet released
 * 250: Add docs about groups and permissions - https://github.com/DigitalCampus/django-oppia/issues/issue/250
 * 255: Don't show upload option in main menu if no permissions - https://github.com/DigitalCampus/django-oppia/issues/issue/255
 * 254: Update and redesign the user activity page on the dashboard - https://github.com/DigitalCampus/django-oppia/issues/issue/254
-* 
+* 260: RelatedObjectDoesNotExist error if user has no profile record - https://github.com/DigitalCampus/django-oppia/issues/issue/260
 
 v0.8.0 - released 15 Sept 2015
 ------------------------------

@@ -25,7 +25,7 @@ from django.utils import timezone
 from oppia.forms import UploadCourseStep1Form, UploadCourseStep2Form, ScheduleForm, DateRangeForm, DateRangeIntervalForm
 from oppia.forms import ActivityScheduleForm, CohortForm
 from oppia.models import Course, Tracker, Tag, CourseTag, Schedule, CourseManager, CourseCohort
-from oppia.models import ActivitySchedule, Activity, Cohort, Participant, Points 
+from oppia.models import ActivitySchedule, Activity, Cohort, Participant, Points, UserProfile
 from oppia.permissions import *
 from oppia.quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
 
@@ -40,12 +40,20 @@ def server_view(request):
 def home_view(request):
     activity = []
     if request.user.is_authenticated():
+        # create profile if none exists (historical for very old users)
+        try:
+            up = request.user.userprofile
+        except UserProfile.DoesNotExist:
+            up = UserProfile()
+            up.user= request.user
+            up.save()
+        
         # if user is student redirect to their scorecard
-        if request.user.userprofile.is_student_only():
+        if up.is_student_only():
             return HttpResponseRedirect(reverse('profile_user_activity', args=[request.user.id]))
         
         # is user is teacher redirect to teacher home
-        if request.user.userprofile.is_teacher_only():
+        if up.is_teacher_only():
             return HttpResponseRedirect(reverse('oppia_teacher_home'))
         
         start_date = timezone.now() - datetime.timedelta(days=31)
