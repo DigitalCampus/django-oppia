@@ -3,6 +3,8 @@ OppiaMobile Moodle Block Change Log
 
 vX - not yet released
 --------------------------------------
+* 129: Change link in bottom of block - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/129
+
 
 v2015021800 - released: 18 Feb 2015
 --------------------------------------
