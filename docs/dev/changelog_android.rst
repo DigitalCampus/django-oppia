@@ -1,6 +1,12 @@
 OppiaMobile Android App Change Log
 ====================================
 
+v56 (5.5.0) - not yet released
+-----------------------------------
+
+* 473: Add options for display or not for the menu options - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/473
+
+
 v55 (5.4.0) - released 24 Sept 2015
 -------------------------------------
 
