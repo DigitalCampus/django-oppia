@@ -7,6 +7,7 @@ from django.http import Http404, HttpResponse
 from itertools import chain
 
 from oppia.models import Course, Participant, Cohort
+from __builtin__ import True
 
 def can_upload(request):
     if settings.OPPIA_STAFF_ONLY_UPLOAD is True and not request.user.is_staff and request.user.userprofile.can_upload is False:
@@ -27,6 +28,12 @@ def check_owner(request,id):
     except Course.DoesNotExist:
         raise Http404
     return course
+
+def can_edit_user(request, view_user_id):
+    if request.user.is_staff:
+        return True
+    else:
+        return False
 
 def get_user(request, view_user_id):
     if request.user.is_staff or (request.user.id == int(view_user_id)):

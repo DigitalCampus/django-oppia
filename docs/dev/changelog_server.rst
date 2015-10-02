@@ -9,6 +9,10 @@ v0.9.0 - not yet released
 * 254: Update and redesign the user activity page on the dashboard - https://github.com/DigitalCampus/django-oppia/issues/issue/254
 * 260: RelatedObjectDoesNotExist error if user has no profile record - https://github.com/DigitalCampus/django-oppia/issues/issue/260
 * 261: Add link to django admin in menu (for superusers) - https://github.com/DigitalCampus/django-oppia/issues/issue/261
+* 264: Allow editing of profiles by staff users - https://github.com/DigitalCampus/django-oppia/issues/issue/264
+* 239: Check why getting a lot of duplicate tracker items in the table - https://github.com/DigitalCampus/django-oppia/issues/issue/239
+* 208: On user page show graph of activity - https://github.com/DigitalCampus/django-oppia/issues/issue/208
+* 253: Review permissions on dashboard to make sure they're sensible - https://github.com/DigitalCampus/django-oppia/issues/issue/253
 
 
 v0.8.0 - released 15 Sept 2015

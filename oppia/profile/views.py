@@ -12,7 +12,7 @@ from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 from django.db.models import Count, Max, Min, Sum, Avg
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 from django.utils import timezone
@@ -22,7 +22,7 @@ from itertools import chain
 
 from oppia.forms import DateRangeForm, DateRangeIntervalForm
 from oppia.models import Points, Award, AwardCourse, Course, UserProfile, Tracker, Activity
-from oppia.permissions import get_user, get_user_courses, can_view_course
+from oppia.permissions import get_user, get_user_courses, can_view_course, can_edit_user
 from oppia.profile.forms import LoginForm, RegisterForm, ResetForm, ProfileForm, UploadProfileForm
 from oppia.quiz.models import Quiz, QuizAttempt
 
@@ -125,8 +125,16 @@ def reset(request):
                    'title': _(u'Reset password')},
                   context_instance=RequestContext(request))
 
-def edit(request):
-    key = ApiKey.objects.get(user = request.user)
+def edit(request, user_id=0):
+    if user_id != 0:
+        if can_edit_user(request, user_id):
+            view_user = User.objects.get(pk=user_id)
+        else:
+            return HttpResponse('Unauthorized', status=401)
+    else:
+        view_user = request.user
+    
+    key = ApiKey.objects.get(user = view_user)
     if request.method == 'POST':
         form = ProfileForm(request.POST)
         if form.is_valid():
@@ -134,19 +142,19 @@ def edit(request):
             email = form.cleaned_data.get("email")
             first_name = form.cleaned_data.get("first_name")
             last_name = form.cleaned_data.get("last_name")
-            request.user.email = email
-            request.user.first_name = first_name
-            request.user.last_name = last_name
-            request.user.save()
+            view_user.email = email
+            view_user.first_name = first_name
+            view_user.last_name = last_name
+            view_user.save()
             
             try:
-                user_profile = UserProfile.objects.get(user=request.user)
+                user_profile = UserProfile.objects.get(user=view_user)
                 user_profile.job_title = form.cleaned_data.get("job_title")
                 user_profile.organisation = form.cleaned_data.get("organisation")
                 user_profile.save()
             except UserProfile.DoesNotExist:
                 user_profile = UserProfile()
-                user_profile.user = request.user
+                user_profile.user = view_user
                 user_profile.job_title = form.cleaned_data.get("job_title")
                 user_profile.organisation = form.cleaned_data.get("organisation")
                 user_profile.save()
@@ -155,18 +163,18 @@ def edit(request):
             # if password should be changed
             password = form.cleaned_data.get("password")
             if password:
-                request.user.set_password(password)
-                request.user.save()
+                view_user.set_password(password)
+                view_user.save()
                 messages.success(request, _(u"Password updated"))
     else:
         try:
-            user_profile = UserProfile.objects.get(user=request.user)
+            user_profile = UserProfile.objects.get(user=view_user)
         except UserProfile.DoesNotExist:
             user_profile = UserProfile()
-        form = ProfileForm(initial={'username':request.user.username,
-                                    'email':request.user.email,
-                                    'first_name':request.user.first_name,
-                                    'last_name':request.user.last_name,
+        form = ProfileForm(initial={'username':view_user.username,
+                                    'email':view_user.email,
+                                    'first_name':view_user.first_name,
+                                    'last_name':view_user.last_name,
                                     'api_key': key.key,
                                     'job_title': user_profile.job_title,
                                     'organisation': user_profile.organisation,})

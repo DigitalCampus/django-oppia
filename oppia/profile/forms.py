@@ -163,16 +163,16 @@ class ResetForm(forms.Form):
 
 class ProfileForm(forms.Form):
     api_key = forms.CharField(widget = forms.TextInput(attrs={'readonly':'readonly'}),
-                               required=False, help_text=_(u'You cannot edit your API Key.'))
+                               required=False, help_text=_(u'You cannot edit the API Key.'))
     username = forms.CharField(widget = forms.TextInput(attrs={'readonly':'readonly'}),
-                               required=False, help_text=_(u'You cannot edit your username.'))
+                               required=False, help_text=_(u'You cannot edit the username.'))
     email = forms.CharField(validators=[validate_email],
                             error_messages={'invalid': _(u'Please enter a valid e-mail address.')},
                             required=True)
     password = forms.CharField(widget=forms.PasswordInput,
                                required=False,
                                min_length=6,
-                               error_messages={'min_length': _(u'Your new password should be at least 6 characters long')},)
+                               error_messages={'min_length': _(u'The new password should be at least 6 characters long')},)
     password_again = forms.CharField(widget=forms.PasswordInput,
                                      required=False,
                                      min_length=6)
@@ -195,7 +195,6 @@ class ProfileForm(forms.Form):
             email = kw['email'] 
             username = kw['username'] 
         self.helper = FormHelper()
-        self.helper.form_action = reverse('profile_edit')
         self.helper.form_class = 'form-horizontal'
         self.helper.label_class = 'col-lg-2'
         self.helper.field_class = 'col-lg-4'
@@ -211,7 +210,7 @@ class ProfileForm(forms.Form):
                         Div(
                             HTML(mark_safe('<img src="{0}" alt="gravatar for {1}" class="gravatar" width="{2}" height="{2}"/>'.format(gravatar_url, username, 64))),
                             HTML("""<br/>"""),
-                            HTML("""<a href="https://www.gravatar.com">"""+_(u'Update your gravatar')+"""</a>"""),
+                            HTML("""<a href="https://www.gravatar.com">"""+_(u'Update gravatar')+"""</a>"""),
                             css_class="col-lg-4",
                         ),
                         css_class="form-group",
