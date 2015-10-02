@@ -2,6 +2,7 @@
 from django.conf import settings
 import oppia
 from oppia.models import Points, Award
+from oppia.reports.views import menu_reports
 
 def get_points(request):
     if not request.user.is_authenticated():
@@ -24,4 +25,5 @@ def get_settings(request):
              'OPPIA_GOOGLE_ANALYTICS_ENABLED': settings.OPPIA_GOOGLE_ANALYTICS_ENABLED,
              'OPPIA_GOOGLE_ANALYTICS_CODE': settings.OPPIA_GOOGLE_ANALYTICS_CODE,
              'OPPIA_GOOGLE_ANALYTICS_DOMAIN': settings.OPPIA_GOOGLE_ANALYTICS_DOMAIN,
-             'OPPIA_SHOW_GRAVATARS': settings.OPPIA_SHOW_GRAVATARS,}
+             'OPPIA_SHOW_GRAVATARS': settings.OPPIA_SHOW_GRAVATARS,
+             'OPPIA_REPORTS': menu_reports(request), }

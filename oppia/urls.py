@@ -75,6 +75,8 @@ urlpatterns = patterns('',
     
     url(r'^preview/', include('oppia.preview.urls')),
     
+    url(r'^reports/', include('oppia.reports.urls')),
+    
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT }),
     
 )

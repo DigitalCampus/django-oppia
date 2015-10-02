@@ -25,6 +25,9 @@
 		       		<ul class="dropdown-menu">
 		       			<li><a href="{% url 'oppia_viz_summary' %}">{% trans 'Summary Overview' %}</a></li>
 		        		<li><a href="{% url 'oppia_viz_map' %}">{% trans 'Activity Map' %}</a></li>
+		        		{% for report in OPPIA_REPORTS %}
+		        			<li><a href="{{ report.url }}">{{ report.name }}</a></li>
+		        		{% endfor %}
 		       		</ul>
 					</li>
 		       {% endif %}
