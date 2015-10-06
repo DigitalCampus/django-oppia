@@ -13,9 +13,13 @@ def run():
     cohort_id = 23
     
     students = User.objects.filter(participant__cohort_id=cohort_id, participant__role=Participant.STUDENT).order_by('username')
-    courses = Course.objects.filter(coursecohort__cohort_id = cohort_id, shortname__in=['anc1-et','anc2-et','pnc-et']).order_by('title')
+    courses = Course.objects.filter(coursecohort__cohort__pk=cohort_id)
     
-    out_file = open('/home/alex/temp/hew-quiz.html', 'w')
+    trackers = Tracker.objects.filter(user__in=students,course__in=courses, type='media')
+    
+    
+    '''
+    out_file = open('/home/alex/temp/hew-video.html', 'w')
     
     out_file.write("<html>")
     out_file.write("<head></head>")
@@ -123,7 +127,8 @@ def run():
     out_file.write("</table>")   
     out_file.write("</body></html>")
     out_file.close()
-   
+    '''
+    
 def title_lang(title,lang):
     try:
         titles = json.loads(title)
