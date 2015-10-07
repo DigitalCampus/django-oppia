@@ -13,6 +13,7 @@ v55 (5.4.0) - released 24 Sept 2015
 * 469: Check new scorecard calculating correctly - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/469
 
 
+
 v54 (5.3.0) - released 15 Sept 2015
 ----------------------------------------------------
 
@@ -30,6 +31,9 @@ v54 (5.3.0) - released 15 Sept 2015
 * 454: QuizWidget saving the same tracker multiple times - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/454
 * 456: Add quiz scorecard - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/456
 * 457: Quiz results - store extra info to make it easier to calc results/scorecard - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/457
+
+.. note::
+	For some of the functionality now available in v54, the app must connect to an OppiaServer running at least :ref:`v0.8.0 <v0.8.0>`
 
 v53 (5.2.0) - released 12 June 2015
 --------------------------------------------------
