@@ -35,4 +35,4 @@ The current version of the instance is running:
 * Mysql 5.5
 * Django 1.7.3
 * TastyPie 0.11.0
-* OppiaServer 0.7.3
+* OppiaServer 0.9.0
