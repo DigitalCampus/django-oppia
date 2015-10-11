@@ -1,7 +1,10 @@
 OppiaMobile Server Change Log
 ================================
 
-v0.9.0 - not yet released
+
+.. _v0.9.0:
+
+v0.9.0 - Released 11 Oct 2015
 --------------------------------
 
 * 250: Add docs about groups and permissions - https://github.com/DigitalCampus/django-oppia/issues/issue/250
