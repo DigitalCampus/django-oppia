@@ -1,11 +1,19 @@
 OppiaMobile Android App Change Log
 ====================================
 
+.. _appv56:
+
 v56 (5.5.0) - not yet released
 -----------------------------------
 
 * 473: Add options for display or not for the menu options - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/473
+* 418: Not connecting to get course download list - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/418
+* 463: Download media message not showing even when new courses are installed - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/463
+* 470: NullPointer causes crash on start up - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/470
+* 472: In scorecard - allow users to jump directly to the quiz - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/472
+* 474: Allow setting up of admin password for accessing settings and course management - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/474
 
+.. _appv55:
 
 v55 (5.4.0) - released 24 Sept 2015
 -------------------------------------
@@ -33,7 +41,7 @@ v54 (5.3.0) - released 15 Sept 2015
 * 457: Quiz results - store extra info to make it easier to calc results/scorecard - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/457
 
 .. note::
-	For some of the functionality now available in v54, the app must connect to an OppiaServer running at least :ref:`v0.8.0 <v0.8.0>`
+	For some of the functionality now available in v54, the app must connect to an OppiaServer running at least :ref:`v0.8.0 <serverv0.8.0>`
 
 v53 (5.2.0) - released 12 June 2015
 --------------------------------------------------
