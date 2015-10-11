@@ -15,7 +15,7 @@ def run():
     students = User.objects.filter(participant__cohort_id=cohort_id, participant__role=Participant.STUDENT).order_by('username')
     courses = Course.objects.filter(coursecohort__cohort__pk=cohort_id)
     
-    trackers = Tracker.objects.filter(user__in=students,course__in=courses, type='media')
+    trackers = Tracker.objects.filter(user__in=students,course__in=courses, type=Activity.MEDIA)
     
     print trackers.count()
     
@@ -23,17 +23,24 @@ def run():
     
     for tracker in trackers:
         data = json.loads(tracker.data)
-        #print data['mediafile'] + ": " + str(tracker.time_taken)
         found = False
         
         if tracker.time_taken < 0:
             continue
          
+        media = Media.objects.filter(digest = tracker.digest)[:1]
+        if media[0].media_length is None:
+            print "NONE?!" + media[0].filename
+            
+        max_time = media[0].media_length
            
         for vv in video_views:
             if vv['mediafile'] == data['mediafile']:
                 vv['users'].append(tracker.user.id)
-                vv['time_taken'] += tracker.time_taken
+                if tracker.time_taken > max_time:
+                    vv['time_taken'] += max_time
+                else:
+                    vv['time_taken'] += tracker.time_taken
                 vv['uuid'].append(tracker.uuid)
                 found = True
         
@@ -42,7 +49,10 @@ def run():
             video_view['mediafile'] = data['mediafile']
             video_view['users'] = []
             video_view['users'].append(tracker.user.id)
-            video_view['time_taken'] = tracker.time_taken
+            if tracker.time_taken > max_time:
+                video_view['time_taken'] = max_time
+            else:
+                video_view['time_taken'] = tracker.time_taken
             video_view['uuid'] = []
             video_view['uuid'].append(tracker.uuid)
             video_views.append(video_view)
