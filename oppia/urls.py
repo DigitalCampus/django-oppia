@@ -33,6 +33,7 @@ urlpatterns = patterns('',
 
     url(r'^$', 'oppia.views.home_view', name="oppia_home"),
     url(r'^server/$', 'oppia.views.server_view', name="oppia_server"),
+    url(r'^about/$', 'oppia.views.about_view', name="oppia_about"),
     
     url(r'^teacher/$', 'oppia.views.teacher_home_view', name="oppia_teacher_home"),
     
