@@ -42,7 +42,7 @@
 
 <div id="footer">
     <p class="text-muted">
-    	<a href="http://oppia-mobile.org">{% trans 'footer_about' %}</a> |
+    	<a href="{% url 'oppia_about' %}">{% trans 'footer_about' %}</a> |
     	<a href="{% url 'oppia_terms' %}">{% trans 'footer_terms' %}</a> |
     	{{ version }} &copy; {% now "Y" %} <a href="http://digital-campus.org">Digital Campus</a>
     </p>
