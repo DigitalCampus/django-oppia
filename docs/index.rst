@@ -18,6 +18,7 @@ Contents:
    dev/index
    author/author
    permissions
+   gamification
    viz/index
    help
    acknowledgements
