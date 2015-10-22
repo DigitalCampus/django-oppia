@@ -144,7 +144,7 @@ def tracker_callback(sender, **kwargs):
             points = settings.OPPIA_POINTS['MEDIA_STARTED']
         else:
             points = 0
-        points =  (settings.OPPIA_POINTS['MEDIA_PLAYING_POINTS_PER_INTERVAL'] * math.floor(tracker.time_taken/settings.OPPIA_POINTS['MEDIA_PLAYING_INTERVAL']))
+        points += (settings.OPPIA_POINTS['MEDIA_PLAYING_POINTS_PER_INTERVAL'] * math.floor(tracker.time_taken/settings.OPPIA_POINTS['MEDIA_PLAYING_INTERVAL']))
         if points > settings.OPPIA_POINTS['MEDIA_MAX_POINTS']:
             points = settings.OPPIA_POINTS['MEDIA_MAX_POINTS']
     else:
