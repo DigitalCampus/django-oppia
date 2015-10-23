@@ -7,6 +7,7 @@ v0.9.1 -  not yet released
 --------------------------------
 
 * 265: Write docs on points and badging - http://github.com/DigitalCampus/django-oppia/issues/issue/265
+* 267: Updating for Django 1.8 - http://github.com/DigitalCampus/django-oppia/issues/issue/267
 
 .. _serverv0.9.0:
 
