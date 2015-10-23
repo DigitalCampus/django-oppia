@@ -65,7 +65,6 @@ urlpatterns = patterns('',
     url(r'^cohort/(?P<cohort_id>\d+)/leaderboard/$', 'oppia.views.cohort_leaderboard_view', name="oppia_cohort_leaderboard"),
     
     url(r'^profile/', include('oppia.profile.urls')),
-    url(r'^terms/$', 'oppia.views.terms_view', name="oppia_terms"),
     
     url(r'^api/', include(v1_api.urls)),
     url(r'^api/publish/$', 'oppia.api.publish.publish_view', name="oppia_publish"),

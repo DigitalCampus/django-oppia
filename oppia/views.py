@@ -203,11 +203,6 @@ def tag_courses_view(request, tag_id):
                                'tag_list': tag_list, 
                                'current_tag': id}, 
                               context_instance=RequestContext(request))
-           
-def terms_view(request):
-    return render_to_response('oppia/terms.html', 
-                              {'settings': settings}, 
-                              context_instance=RequestContext(request))
         
 def upload_step1(request):
     if not request.user.userprofile.get_can_upload():
