@@ -1,6 +1,12 @@
 OppiaMobile Server Change Log
 ================================
 
+.. _serverv0.9.2:
+
+v0.9.2 - not yet released
+--------------------------------
+
+
 .. _serverv0.9.1:
 
 v0.9.1 - Released 23 Oct 2015

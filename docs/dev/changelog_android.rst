@@ -12,6 +12,7 @@ v56 (5.5.0) - not yet released
 * 470: NullPointer causes crash on start up - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/470
 * 472: In scorecard - allow users to jump directly to the quiz - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/472
 * 474: Allow setting up of admin password for accessing settings and course management - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/474
+* 483: Add setting to allow removal of register option in app - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/483
 
 .. _appv55:
 
