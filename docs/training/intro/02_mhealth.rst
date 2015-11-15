@@ -1,7 +1,7 @@
-Session 2: A primer on Mobile Health 
+Session 2: A Primer on Mobile Health 
 ==========================================
 
-(Time: 1 hour)
+Time: 1 hour
 
 Objectives
 ------------

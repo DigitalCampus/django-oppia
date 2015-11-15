@@ -9,5 +9,3 @@ We've used this workshop structure many times, and have found it works well, but
    :maxdepth: 1
    
    initial_workshop
-   follow_up_workshop
-   competency_checklist

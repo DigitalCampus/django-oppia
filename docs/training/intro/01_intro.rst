@@ -1,7 +1,7 @@
 Session 1: Course Introduction
 ====================================
 
-(Time: 1 hour)
+Time: 1 hour
 
 Objectives
 -------------

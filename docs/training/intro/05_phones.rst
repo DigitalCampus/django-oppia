@@ -1,8 +1,7 @@
 Session 5: Distribution of Phones
 ===========================================
-(Time: 1 hour )
 
-It’s useful to have a break immediately after this activity - the participants will usually want to start ‘playing’ with the phones straight away.
+Time: 1 hour
 
 Objectives
 ----------------
