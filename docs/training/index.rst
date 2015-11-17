@@ -8,5 +8,5 @@ We've used this workshop structure many times, and have found it works well, but
 .. toctree::
    :maxdepth: 1
    
-   initial_workshop
+   intro/index
    competency_checklist

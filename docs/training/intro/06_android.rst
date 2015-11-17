@@ -7,6 +7,7 @@ Objectives
 ----------------
 
 * To perform the following basic functions of the phone:
+
   * Turning the phone on and off
   * Plugging in the charger
   * Replacing/adding sim card
@@ -30,4 +31,4 @@ M&E
 
 * Complete attendance sheet (if being run on different day to the other sessions)
 * Complete the competency checklist for each of the functions listed in the objectives. Facilitators to verify with each participant that they can perform each function
-* Complete a summary of the session main ideas/ topics.
+* Complete a summary of the session issues/difficulties participants had.
