@@ -1,7 +1,7 @@
 Competency Checklist
 ========================
 
-:doc:`intro/06_android` 	
+:doc:`06_android` 	
 			
 * Turning the phone on and off
 * Plugging in the charger
@@ -14,7 +14,7 @@ Competency Checklist
 * Reply to an SMS message
 * Add a contact (suggest they try adding the facilitators contact details)
 
-:doc:`intro/07_care`
+:doc:`07_care`
 			
 * Turn on /off wifi	
 * Turn on/off data connection
@@ -22,7 +22,7 @@ Competency Checklist
 * Turn on/off airplane mode
 * Manage camera images
 	
-:doc:`intro/08_oppia` 
+:doc:`08_oppia` 
 				
 * complete a quiz
 * play a video
