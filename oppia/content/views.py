@@ -18,7 +18,12 @@ from oppia.content.forms import VideoEmbedHelperForm
 '''
 Processes the video file found at the given URL and provides the embed code and sample images for embedding into Moodle.
 
-NOTE: for this to run you will need to have 
+NOTE: for this to run you will need to have ffmpeg and avprobe installed
+For Ubuntu these can be installed by:
+
+ffmpeg see: https://launchpad.net/~mc3man/+archive/ubuntu/trusty-media
+avprobe: sudo apt-get install libav-tools
+
 '''
 def video_embed_helper(request):
     

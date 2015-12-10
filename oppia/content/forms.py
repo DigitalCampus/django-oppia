@@ -10,7 +10,7 @@ from crispy_forms.layout import Button, Layout, Fieldset, ButtonHolder, Submit, 
 
 class VideoEmbedHelperForm(forms.Form):
     video_url = forms.CharField(
-                help_text=_("The url to your video - this should be a url to download the actual video file, NOT a link to video streaming service such as YouTube, Vimeo etc"),
+                help_text=_("The url to your video - this should be a url to download the actual video file (.avi, .m4v or .mp4) , NOT a link to video streaming service such as YouTube, Vimeo etc"),
                 required=True,
                 error_messages={'required': _('Please enter the video url')},)
     

@@ -25,7 +25,7 @@
 	
 	{% if processed_video.image_files %}
 		{% blocktrans %}
-		<p>The script has also generated the following screenshots from the video that you may wish to use:</p>
+		<p>The script has also generated the following screenshots from the video that you may wish to use (right click over the image and select 'save as' to save to your computer for uploading into Moodle):</p>
 		{% endblocktrans %}
 		{% for im in processed_video.image_files %}
 			<img src="{{ processed_video.image_url_root }}{{ im }}" style="margin:20px;"/>
