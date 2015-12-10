@@ -39,7 +39,7 @@ def video_embed_helper(request):
             urllib.urlretrieve(video_url, filename=video_local_file)
             
             # get the basic meta info
-            embed_template = "[[media object='{\"filename\":\"%s\",\"download_url\":\"/%s\",\"digest\":\"%s\", \"filesize\":%d, \"length\":%d}']]IMAGE/TEXT HERE[[/media]]"
+            embed_template = "[[media object='{\"filename\":\"%s\",\"download_url\":\"%s\",\"digest\":\"%s\", \"filesize\":%d, \"length\":%d}']]IMAGE/TEXT HERE[[/media]]"
             file_size = os.path.getsize(video_local_file)
             md5sum = md5_checksum(video_local_file)
             file_length = get_length(video_local_file)
