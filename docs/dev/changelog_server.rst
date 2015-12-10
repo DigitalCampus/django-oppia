@@ -1,6 +1,14 @@
 OppiaMobile Server Change Log
 ================================
 
+.. _serverv0.9.2:
+
+v0.9.2 - Released 10 Dec 2015
+--------------------------------
+
+* 271: Add documentation for the training plans - http://github.com/DigitalCampus/django-oppia/issues/issue/271
+* 277: Add page in the server to allow easier generation of video embed code - http://github.com/DigitalCampus/django-oppia/issues/issue/277
+
 .. _serverv0.9.1:
 
 v0.9.1 - Released 23 Oct 2015
