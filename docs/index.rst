@@ -20,6 +20,7 @@ Contents:
    permissions
    gamification
    viz/index
+   training/index
    help
    acknowledgements
    
