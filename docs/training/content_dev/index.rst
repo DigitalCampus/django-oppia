@@ -27,6 +27,15 @@ This training is designed to teach content developers how to create courses in M
 * How to publish and make available to your students
 * Updating courses once already been made live
 
+* adding quizzes
+* adding images
+* embedding videos
+* multilingual content
+* user & course groups/cohorts
+* server permissions
+* admin/reporting
+* phone set up and initial user training
+
   
 
 
