@@ -13,6 +13,10 @@ v56 (5.5.0) - not yet released
 * 472: In scorecard - allow users to jump directly to the quiz - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/472
 * 474: Allow setting up of admin password for accessing settings and course management - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/474
 * 483: Add setting to allow removal of register option in app - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/483
+* 488: Bug: viewing the course contents with the pre-test unpassed - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/488
+* 489: Check all main activities extend AppActivity - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/489
+* 471: Update activity task - give feedback if successful or not - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/471
+* 495: Update Mint SDK jar file - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/495
 
 .. _appv55:
 
