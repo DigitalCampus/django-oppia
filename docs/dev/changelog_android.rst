@@ -17,6 +17,9 @@ v56 (5.5.0) - not yet released
 * 489: Check all main activities extend AppActivity - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/489
 * 471: Update activity task - give feedback if successful or not - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/471
 * 495: Update Mint SDK jar file - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/495
+* 496: Simplify querying for getting quizzes passed - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/496
+* 481: Log out users after specified length of time - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/481
+* 465: Add user prefs table - instead of using prefs activity - to help with shared devices - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/465
 
 .. _appv55:
 
