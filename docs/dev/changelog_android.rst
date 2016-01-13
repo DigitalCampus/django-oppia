@@ -20,6 +20,8 @@ v56 (5.5.0) - not yet released
 * 496: Simplify querying for getting quizzes passed - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/496
 * 481: Log out users after specified length of time - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/481
 * 465: Add user prefs table - instead of using prefs activity - to help with shared devices - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/465
+* 464: Can't start app with storage location set to external - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/464
+* 497: Update the main scorecard (for multiple courses) so matches the individual course scorecard - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/497
 
 .. _appv55:
 
