@@ -37,6 +37,13 @@ This training is designed to teach content developers how to create courses in M
 * phone set up and initial user training
 
   
+ Structure of Instrat Training: 5 x 1-2 hour sessions
+ 
+ *. introduction and explanation of Oppia and the components, creation of basic course (html web page in Moodle) and exporting to run on Oppia
+ *. quizzes - creating in Moodle and exporting to Oppia (& running in the app) 
+ *. video embedding - get to having a page running in Oppia with embedded video
+ *. Oppia server overview - the graphs/reports available - and drilling down into user and course activity
+ *. Review of all the above - esp the server side
 
 
 
