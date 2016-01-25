@@ -7,6 +7,7 @@ v0.9.3 - Not yet released
 --------------------------------
 
 * 287: Separate out the local_settings for dev, staging and live - http://github.com/DigitalCampus/django-oppia/issues/issue/287
+* 290: Add local settings option for the course badges criteria - http://github.com/DigitalCampus/django-oppia/issues/issue/290
 
 .. _serverv0.9.2:
 

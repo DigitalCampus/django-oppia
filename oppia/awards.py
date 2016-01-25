@@ -5,7 +5,7 @@ import datetime
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Count, F
+from django.db.models import Count, F, Max
 from django.utils import timezone
 
 from oppia.models import Badge, Award, AwardCourse
@@ -74,8 +74,15 @@ def badge_award_all_activities(hours):
 def badge_award_final_quiz(hours):
     courses = Course.objects.filter(is_draft=False, is_archived=False)
     for c in courses:
-        final_quiz_digest = Activity.objects.filter(section__course=c, type=Activity.QUIZ).values('digest').distinct()
+        
+        final_quiz_digest_activity = Activity.objects.filter(section__course=c, type=Activity.QUIZ).order_by('-section__order','-order')[:1]
             
+        if final_quiz_digest_activity.count() != 1:
+            continue
+        final_quiz_digest = final_quiz_digest_activity[0].digest
+        print final_quiz_digest
+        print c.title
+    
         # get all the users who've added tracker for this course in last 'hours'
         if hours == 0:
             users = User.objects.filter(tracker__course=c).distinct()     
