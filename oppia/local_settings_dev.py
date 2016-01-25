@@ -69,6 +69,12 @@ def modify(settings):
     
     settings['OPPIA_BADGES_ENABLED'] = True            # determines if the badges system is enabled
     
+    settings['BADGE_AWARD_METHOD_ALL_ACTIVITIES'] = 'all activities'
+    settings['BADGE_AWARD_METHOD_FINAL_QUIZ'] = 'final quiz'
+    settings['BADGE_AWARD_METHOD_ALL_QUIZZES'] = 'all quizzes'
+    
+    settings['BADGE_AWARDING_METHOD'] = settings['BADGE_AWARD_METHOD_FINAL_QUIZ']
+    
     settings['OPPIA_GOOGLE_ANALYTICS_ENABLED'] = True
     settings['OPPIA_GOOGLE_ANALYTICS_CODE'] = 'UA-3609005-11'
     settings['OPPIA_GOOGLE_ANALYTICS_DOMAIN'] = 'oppia-mobile.org'
