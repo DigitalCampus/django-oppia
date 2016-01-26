@@ -64,18 +64,15 @@ urlpatterns = patterns('',
     url(r'^cohort/(?P<cohort_id>\d+)/(?P<course_id>\d+)/view/$', 'oppia.views.cohort_course_view', name="oppia_cohort_course_view"),
     url(r'^cohort/(?P<cohort_id>\d+)/leaderboard/$', 'oppia.views.cohort_leaderboard_view', name="oppia_cohort_leaderboard"),
     
-    url(r'^profile/', include('oppia.profile.urls')),
-    
     url(r'^api/', include(v1_api.urls)),
     url(r'^api/publish/$', 'oppia.api.publish.publish_view', name="oppia_publish"),
     
-    url(r'^mobile/', include('oppia.mobile.urls')),
-    
-    url(r'^viz/', include('oppia.viz.urls')),
-    
+    url(r'^content/', include('oppia.content.urls')),
     url(r'^preview/', include('oppia.preview.urls')),
-    
+    url(r'^profile/', include('oppia.profile.urls')),
+    url(r'^mobile/', include('oppia.mobile.urls')),
     url(r'^reports/', include('oppia.reports.urls')),
+    url(r'^viz/', include('oppia.viz.urls')),
     
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT }),
     

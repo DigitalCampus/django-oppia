@@ -9,4 +9,4 @@ We've used this workshop structure many times, and have found it works well, but
    :maxdepth: 1
    
    intro/index
-   competency_checklist
+   content_dev/index

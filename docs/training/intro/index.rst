@@ -9,18 +9,18 @@ to your project/implementation.
 .. toctree::
    	:maxdepth: 1
 
-	00_setup 
-	01_intro  
-	02_mhealth
-	03_barriers
-	04_day
-	05_phones
-	06_android
-	07_care
-	08_oppia
-	09_oppia_courses
-	10_apps
-	11a_health_workers
-	11b_tutors
-	12_close
-   
+    00_setup 
+    01_intro  
+    02_mhealth
+    03_barriers
+    04_day
+    05_phones
+    06_android
+    07_care
+    08_oppia
+    09_oppia_courses
+    10_apps
+    11a_health_workers
+    11b_tutors
+    12_close
+    competency_checklist
