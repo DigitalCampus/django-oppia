@@ -26,18 +26,18 @@ def courses_completed(hours):
     print hours
     
     if settings.BADGE_AWARDING_METHOD == settings.BADGE_AWARD_METHOD_ALL_ACTIVITIES:
-        badge_award_all_activities(hours)
+        badge_award_all_activities(badge, hours)
         
     if settings.BADGE_AWARDING_METHOD == settings.BADGE_AWARD_METHOD_FINAL_QUIZ:
-        badge_award_final_quiz(hours)
+        badge_award_final_quiz(badge, hours)
     
     if settings.BADGE_AWARDING_METHOD == settings.BADGE_AWARD_METHOD_ALL_QUIZZES:
-        badge_award_all_quizzes(hours)
+        badge_award_all_quizzes(badge, hours)
         
     return
 
 
-def badge_award_all_activities(hours):
+def badge_award_all_activities(badge, hours):
     courses = Course.objects.filter(is_draft=False, is_archived=False)
     for c in courses:
         digests = Activity.objects.filter(section__course=c).values('digest').distinct()
@@ -71,7 +71,7 @@ def badge_award_all_activities(hours):
                 am.course_version = c.version
                 am.save() 
                 
-def badge_award_final_quiz(hours):
+def badge_award_final_quiz(badge, hours):
     courses = Course.objects.filter(is_draft=False, is_archived=False)
     for c in courses:
         
@@ -112,7 +112,7 @@ def badge_award_final_quiz(hours):
                 am.course_version = c.version
                 am.save() 
     
-def badge_award_all_quizzes(hours):
+def badge_award_all_quizzes(badge, hours):
     courses = Course.objects.filter(is_draft=False, is_archived=False)
     for c in courses:
         digests = Activity.objects.filter(section__course=c,type=Activity.QUIZ).values('digest').distinct()
