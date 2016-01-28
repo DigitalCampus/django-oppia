@@ -44,7 +44,7 @@ def video_embed_helper(request):
             except IOError as err:
                 downloadError = err
                 processed_video['success'] = False
-                processed_video['error'] = "url_download_fail"
+                processed_video['error'] = _("url_download_fail")
 
             if downloadError is None and can_execute("avprobe") and can_execute("ffmpeg"):
 
@@ -68,14 +68,14 @@ def video_embed_helper(request):
 
                 else:
                     processed_video['success'] = False
-                    processed_video['error'] = "get_length_error"
+                    processed_video['error'] = _("get_length_error")
 
             else:
                 processed_video['success'] = False
                 if downloadError is not None:
                     processed_video['error'] = downloadError.strerror
                 else:
-                    processed_video['error'] = "ffmpeg_missing"
+                    processed_video['error'] = _("ffmpeg_missing")
 
             # try to delete the temp video file
             try:
