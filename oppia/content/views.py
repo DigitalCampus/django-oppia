@@ -66,11 +66,6 @@ def video_embed_helper(request):
                     processed_video['image_files'] = next(os.walk(image_path))[2]
                     processed_video['success'] = True
 
-                    # try to delete
-                    try:
-                        os.remove(video_local_file)
-                    except OSError:
-                        pass
                 else:
                     processed_video['success'] = False
                     processed_video['error'] = "get_length_error"
@@ -81,6 +76,12 @@ def video_embed_helper(request):
                     processed_video['error'] = downloadError.strerror
                 else:
                     processed_video['error'] = "ffmpeg_missing"
+
+            # try to delete the temp video file
+            try:
+                os.remove(video_local_file)
+            except OSError:
+                pass
     else:
         form = VideoEmbedHelperForm() 
 
