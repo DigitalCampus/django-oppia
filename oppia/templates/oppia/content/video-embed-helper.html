@@ -33,9 +33,9 @@
             {% endfor %}
         {% endif %}
     {% else %}
-
-            <strong>Error:</strong> {{ processed_video.error }}
-
+        {% if processed_video.error %}
+            <p><div class="alert alert-danger" role="alert"><strong>Error:</strong> {{ processed_video.error }}</div></p>
+        {% endif %}
     {% endif %}
 	
 {% endif %}
