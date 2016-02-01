@@ -280,6 +280,18 @@ class ResetPasswordResource(ModelResource):
         return message
 
 
+class TrackerValidation(Validation):
+    def is_valid(self, bundle, request=None):
+
+        errors = {}
+        if bundle.data and 'type' in bundle.data and bundle.data['type'] == 'search':
+            # if the tracker is a search, we check that the needed values are present
+            json_data = json.loads(bundle.data['data'])
+            if not 'query' in json_data or not 'results_count' in json_data:
+                errors['search'] = 'You must include the search term and the results count!'
+
+        return errors
+
 class TrackerResource(ModelResource):
     ''' 
     Submitting a Tracker
@@ -302,6 +314,7 @@ class TrackerResource(ModelResource):
         serializer = PrettyJSONSerializer()
         always_return_data = True
         fields = ['points','digest','data','tracker_date','badges','course','completed','scoring','metadata','badging']
+        validation = TrackerValidation()
 
     def hydrate(self, bundle, request=None):
         # remove any id if this is submitted - otherwise it may overwrite existing tracker item
