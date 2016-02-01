@@ -1211,6 +1211,15 @@ msgstr ""
 msgid "Other"
 msgstr ""
 
+msgid "ffmpeg_missing"
+msgstr "The command line \"ffmpeg\" is missing, or is not accessible in $PATH. Please install it."
+
+msgid "url_download_fail"
+msgstr "Download failed. Are you sure it is a correct URL?"
+
+msgid "get_length_error"
+msgstr "Failed to get file length. Are you sure that the URL is correct and that it contains a video file?"
+
 #~ msgid "menu_home"
 #~ msgstr "Home"
 
