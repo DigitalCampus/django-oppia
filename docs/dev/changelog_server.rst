@@ -9,6 +9,8 @@ v0.9.3 - Not yet released
 * 287: Separate out the local_settings for dev, staging and live - http://github.com/DigitalCampus/django-oppia/issues/issue/287
 * 290: Add local settings option for the course badges criteria - http://github.com/DigitalCampus/django-oppia/issues/issue/290
 * 270: Add documentation about the Device Admin API - http://github.com/DigitalCampus/django-oppia/issues/issue/270
+* 283: Error in video embed helper (list index out of range) - http://github.com/DigitalCampus/django-oppia/issues/issue/283
+
 
 .. _serverv0.9.2:
 
