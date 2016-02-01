@@ -2,7 +2,12 @@
 
 def modify(settings):
     
-    settings['INSTALLED_APPS'] += ('oppia.quiz', 'oppia.viz', 'oppia.preview', 'crispy_forms','tastypie',)
+    settings['INSTALLED_APPS'] += ('oppia.quiz', 
+                                   'oppia.viz', 
+                                   'oppia.preview', 
+                                   'oppia.reports',
+                                   'crispy_forms',
+                                   'tastypie',)
     settings['MIDDLEWARE_CLASSES'] += ('oppia.middleware.LoginRequiredMiddleware',)
     settings['TEMPLATE_CONTEXT_PROCESSORS'] += ('oppia.context_processors.get_points',)
     settings['TEMPLATE_CONTEXT_PROCESSORS'] += ('oppia.context_processors.get_version',)
