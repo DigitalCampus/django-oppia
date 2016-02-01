@@ -20,7 +20,7 @@ def run(hours):
                 os.remove(f)
     
 
-    courses_completed(hours)           
+    courses_completed(int(hours))           
     print 'cron completed'
 
 

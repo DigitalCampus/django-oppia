@@ -1,6 +1,14 @@
 OppiaMobile Moodle Block Change Log
 =====================================
 
+.. _blockv2016020100:
+
+v2016020100 - released: 1 Feb 2016
+--------------------------------------
+
+* 134: Add option to specify that the course activities must be attempted sequentially - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/134
+
+
 .. _blockv2016011400:
 
 v2016011400 - released: 14 Jan 2016
