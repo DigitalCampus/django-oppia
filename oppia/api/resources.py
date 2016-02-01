@@ -314,8 +314,8 @@ class TrackerResource(ModelResource):
         if 'type' in bundle.data and bundle.data['type'] == 'search':
             # if the tracker is a search, we just need to save it
             bundle.obj.course = None
+            bundle.obj.type = "search"
             return bundle
-
 
         # find out the course & activity type from the digest
         try:
