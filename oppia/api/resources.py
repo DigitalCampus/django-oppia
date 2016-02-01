@@ -11,7 +11,10 @@ from django.contrib.auth import authenticate, login
 from django.conf import settings
 from django.core import serializers
 from django.core.mail import send_mail
-from django.core.servers.basehttp import FileWrapper
+from wsgiref.util import FileWrapper
+from django.core.files.base import ContentFile
+from django.utils.six import b
+
 from django.db import IntegrityError
 from django.db.models import Sum
 from django.http import HttpRequest, HttpResponse ,Http404
@@ -275,7 +278,8 @@ class ResetPasswordResource(ModelResource):
     def dehydrate_message(self,bundle):
         message = _(u'An email has been sent to your registered email address with your new password')
         return message
-    
+
+
 class TrackerResource(ModelResource):
     ''' 
     Submitting a Tracker
@@ -287,7 +291,7 @@ class TrackerResource(ModelResource):
     badging = fields.BooleanField(readonly=True)
     metadata = fields.CharField(readonly=True)
     course_points = fields.CharField(readonly=True)
-    
+
     class Meta:
         queryset = Tracker.objects.all()
         resource_name = 'tracker'
@@ -296,9 +300,9 @@ class TrackerResource(ModelResource):
         authentication = ApiKeyAuthentication()
         authorization = Authorization() 
         serializer = PrettyJSONSerializer()
-        always_return_data =  True
+        always_return_data = True
         fields = ['points','digest','data','tracker_date','badges','course','completed','scoring','metadata','badging']
-              
+
     def hydrate(self, bundle, request=None):
         # remove any id if this is submitted - otherwise it may overwrite existing tracker item
         if 'id' in bundle.data:
@@ -306,7 +310,13 @@ class TrackerResource(ModelResource):
         bundle.obj.user = bundle.request.user
         bundle.obj.ip = bundle.request.META.get('REMOTE_ADDR','0.0.0.0')
         bundle.obj.agent = bundle.request.META.get('HTTP_USER_AGENT','unknown')
-            
+
+        if 'type' in bundle.data and bundle.data['type'] == 'search':
+            # if the tracker is a search, we just need to save it
+            bundle.obj.course = None
+            return bundle
+
+
         # find out the course & activity type from the digest
         try:
             if 'course' in bundle.data:
