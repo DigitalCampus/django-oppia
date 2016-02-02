@@ -17,78 +17,73 @@
 	<script type="text/javascript">
 	
 		function setUpDatePicker(){
-	 		$( "#id_start_date" ).datepicker();
-	 		$( "#id_start_date" ).datepicker( "option", "defaultDate", "-1y" );
-	 		$( "#id_start_date" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+            var picker = $("#id_start_date");
+            picker.datepicker();
+	 		picker.datepicker( "option", "defaultDate", "-1y" );
+	 		picker.datepicker( "option", "dateFormat", "yy-mm-dd" );
 	 	}
-	 	
+
+        function getAreaChartConfig(title){
+            var defaultConfig = {
+                width: '100%',
+                height: 400,
+                vAxis: {minValue:0},
+                pointSize:3,
+                chartArea: {left:80,width:"90%",height:"75%"},
+                backgroundColor: 'transparent',
+                legend: 'none',
+                series: [{areaOpacity:0.2}]
+            };
+            defaultConfig.title = title;
+            return defaultConfig;
+        }
+
+        function getMonthlyDatatable(rowCount){
+            var datatable = new google.visualization.DataTable();
+			datatable.addColumn('string', "{% trans 'Month/Year' %}");
+			datatable.addColumn('number', "{% trans 'Total' %}");
+			datatable.addRows( rowCount );
+            return datatable;
+        }
+
 		// Load the Visualization API and the piechart package.
 		google.load('visualization', '1.0', {'packages':['corechart']});
-	
+
 		// Set a callback to run when the Google Visualization API is loaded.
 		google.setOnLoadCallback(drawChart);
 		function drawChart() {
-	
-			var data = new google.visualization.DataTable();
-			data.addColumn('string', "{% trans 'Month/Year' %}");
-			data.addColumn('number', "{% trans 'Total' %}");
-			
-			data.addRows( {{ user_registrations|length }} );
-			
-			{% for u in user_registrations %}
-				data.setValue({{ forloop.counter0 }},0,'{{ u.month }}-{{ u.year }}');
-				data.setValue({{ forloop.counter0 }},1,{{ u.count }});
-			{% endfor %}
-	
-	        var chart = new google.visualization.AreaChart(document.getElementById('user_registrations_chart_div'));
-	        chart.draw(data, {	width: '100%', 
-	                			height: 400,
-	                			vAxis: {minValue:0},
-	                			pointSize:3,
-	                			chartArea: {left:80,width:"90%",height:"75%"},
-	                			backgroundColor: 'transparent',
-	                			legend: 'none',
-	                			series: [{areaOpacity:0.2}],
-	                			title: '{% trans 'User Registrations (by month)' %}'
-	                			});
-	        
-	        var data2 = new google.visualization.DataTable();
-			data2.addColumn('string', "{% trans 'Month/Year' %}");
-			data2.addColumn('number', "{% trans 'Total' %}");
-			
-			data2.addRows( {{ user_registrations|length }} );
-			
+
+			var data = getMonthlyDatatable({{ user_registrations|length }});
+	        var data2 = getMonthlyDatatable({{ user_registrations|length }});
+
 			count = {{ previous_user_registrations }};
 			{% for u in user_registrations %}
+                data.setValue({{ forloop.counter0 }},0,'{{ u.month }}-{{ u.year }}');
+				data.setValue({{ forloop.counter0 }},1,{{ u.count }});
 				count += {{ u.count }};
 				data2.setValue({{ forloop.counter0 }},0,'{{ u.month }}-{{ u.year }}');
 				data2.setValue({{ forloop.counter0 }},1,count);
 			{% endfor %}
-	
-	        var chart2 = new google.visualization.AreaChart(document.getElementById('user_registrations_cumulative_chart_div'));
-	        chart2.draw(data2, {	width: '100%', 
-	                			height: 400,
-	                			vAxis: {minValue:0},
-	                			pointSize:3,
-	                			chartArea: {left:80,width:"90%",height:"75%"},
-	                			backgroundColor: 'transparent',
-	                			legend: 'none',
-	                			series: [{areaOpacity:0.2}],
-	                			title: '{% trans 'User Registrations (cumulative)' %}'
-	                			});
-	        
+
+            new google.visualization
+                    .AreaChart(document.getElementById('user_registrations_chart_div'))
+	                .draw(data, getAreaChartConfig('{% trans 'User Registrations (by month)' %}'));
+
+	        new google.visualization
+                    .AreaChart(document.getElementById('user_registrations_cumulative_chart_div'))
+	                .draw(data2, getAreaChartConfig('{% trans 'User Registrations (cumulative)' %}'));
+
 	        var data3 = new google.visualization.DataTable();
 			data3.addColumn('string', "{% trans 'Country' %}");
 			data3.addColumn('number', "{% trans 'Total' %}");
-			
 			data3.addRows( {{ country_activity|length }} );
-			
+
 			count = 0;
 			{% for ca in country_activity %}
 				data3.setValue({{ forloop.counter0 }},0,'{{ ca.country_name }}');
 				data3.setValue({{ forloop.counter0 }},1,{{ ca.hits_percent|floatformat:1 }});
 			{% endfor %}
-	
+
 			var options3 = {
 			          title: '{% trans 'Activity by Country (top 20 + others)' %}',
 			          width: '50%',
@@ -103,15 +98,15 @@
 			var dataLang = new google.visualization.DataTable();
 			dataLang.addColumn('string', "{% trans 'Language' %}");
 			dataLang.addColumn('number', "{% trans 'Total' %}");
-			
+
 			dataLang.addRows( {{ languages|length }} );
-			
+
 			count = 0;
 			{% for l in languages %}
 				dataLang.setValue({{ forloop.counter0 }},0,'{{ l.lang }}');
 				dataLang.setValue({{ forloop.counter0 }},1,{{ l.hits_percent|floatformat:1 }});
 			{% endfor %}
-	
+
 			var optionsLang = {
 			          title: '{% trans 'Activity by Language (top 10 + others)' %}',
 			          width: '50%',
@@ -122,102 +117,46 @@
 
 			var chartLang = new google.visualization.PieChart(document.getElementById('activity_by_language_chart_div'));
 			chartLang.draw(dataLang, optionsLang);
-			
-			var data4 = new google.visualization.DataTable();
-			data4.addColumn('string', "{% trans 'Month/Year' %}");
-			data4.addColumn('number', "{% trans 'Total' %}");
-			
-			data4.addRows( {{ course_downloads|length }} );
-			
+
+			var data4 = getMonthlyDatatable( {{ course_downloads|length }} );
+            var data5 = getMonthlyDatatable( {{ course_downloads|length }} );
+
+            count =  {{ previous_course_downloads }}
 			{% for cd in course_downloads %}
 				data4.setValue({{ forloop.counter0 }},0,'{{ cd.month }}-{{ cd.year }}');
 				data4.setValue({{ forloop.counter0 }},1,{{ cd.count }});
-			{% endfor %}
-	
-	        var chart4 = new google.visualization.AreaChart(document.getElementById('course_downloads_chart_div'));
-	        chart4.draw(data4, {	width: '100%', 
-	                			height: 400,
-	                			vAxis: {minValue:0},
-	                			pointSize:3,
-	                			chartArea: {left:80,width:"90%",height:"75%"},
-	                			backgroundColor: 'transparent',
-	                			legend: 'none',
-	                			series: [{areaOpacity:0.2}],
-	                			title: '{% trans 'Course Downloads (by month)' %}'
-	                			});
-	        
-	        var data5 = new google.visualization.DataTable();
-			data5.addColumn('string', "{% trans 'Month/Year' %}");
-			data5.addColumn('number', "{% trans 'Total' %}");
-			
-			data5.addRows( {{ course_downloads|length }} );
-			
-			count = {{ previous_course_downloads }};
-			{% for cd in course_downloads %}
-				count += {{ cd.count }};
+                count += {{ cd.count }};
 				data5.setValue({{ forloop.counter0 }},0,'{{ cd.month }}-{{ cd.year }}');
 				data5.setValue({{ forloop.counter0 }},1,count);
 			{% endfor %}
-	
-	        var chart5 = new google.visualization.AreaChart(document.getElementById('course_downloads_cumulative_chart_div'));
-	        chart5.draw(data5, {	width: '100%', 
-	                			height: 400,
-	                			vAxis: {minValue:0},
-	                			pointSize:3,
-	                			chartArea: {left:80,width:"90%",height:"75%"},
-	                			backgroundColor: 'transparent',
-	                			legend: 'none',
-	                			series: [{areaOpacity:0.2}],
-	                			title: '{% trans 'Course Downloads (cumulative)' %}'
-	                			});
-			   
-	        var data6 = new google.visualization.DataTable();
-			data6.addColumn('string', "{% trans 'Month/Year' %}");
-			data6.addColumn('number', "{% trans 'Total' %}");
-			
-			data6.addRows( {{ course_activity|length }} );
-			
-			{% for ca in course_activity %}
+
+	        new google.visualization
+                .AreaChart(document.getElementById('course_downloads_chart_div'))
+                .draw(data4, getAreaChartConfig('{% trans 'Course Downloads (by month)' %}'));
+
+	        new google.visualization
+                .AreaChart(document.getElementById('course_downloads_cumulative_chart_div'))
+                .draw(data5, getAreaChartConfig('{% trans 'Course Downloads (cumulative)' %}'));
+
+	        var data6 = getMonthlyDatatable( {{ course_activity|length }} );
+            var data7 = getMonthlyDatatable( {{ course_activity|length }} );
+
+            count = {{ previous_course_activity }};
+            {% for ca in course_activity %}
 				data6.setValue({{ forloop.counter0 }},0,'{{ ca.month }}-{{ ca.year }}');
 				data6.setValue({{ forloop.counter0 }},1,{{ ca.count }});
-			{% endfor %}
-	
-	        var chart6 = new google.visualization.AreaChart(document.getElementById('course_activity_chart_div'));
-	        chart6.draw(data6, {	width: '100%', 
-	                			height: 400,
-	                			vAxis: {minValue:0},
-	                			pointSize:3,
-	                			chartArea: {left:80,width:"90%",height:"75%"},
-	                			backgroundColor: 'transparent',
-	                			legend: 'none',
-	                			series: [{areaOpacity:0.2}],
-	                			title: '{% trans 'Course Activity (by month)' %}'
-	                			});
-	        
-	        var data7 = new google.visualization.DataTable();
-			data7.addColumn('string', "{% trans 'Month/Year' %}");
-			data7.addColumn('number', "{% trans 'Total' %}");
-			
-			data7.addRows( {{ course_activity|length }} );
-			
-			count = {{ previous_course_activity }};
-			{% for ca in course_activity %}
-				count += {{ ca.count }};
+                count += {{ ca.count }};
 				data7.setValue({{ forloop.counter0 }},0,'{{ ca.month }}-{{ ca.year }}');
 				data7.setValue({{ forloop.counter0 }},1,count);
 			{% endfor %}
-	
-	        var chart7 = new google.visualization.AreaChart(document.getElementById('course_activity_cumulative_chart_div'));
-	        chart7.draw(data7, {	width: '100%', 
-	                			height: 400,
-	                			vAxis: {minValue:0},
-	                			pointSize:3,
-	                			chartArea: {left:80,width:"90%",height:"75%"},
-	                			backgroundColor: 'transparent',
-	                			legend: 'none',
-	                			series: [{areaOpacity:0.2}],
-	                			title: '{% trans 'Course Activity (cumulative)' %}'
-	                			});
+
+	        new google.visualization
+                .AreaChart(document.getElementById('course_activity_chart_div'))
+                .draw(data6, getAreaChartConfig('{% trans 'Course Activity (by month)' %}'));
+
+	        new google.visualization
+                    .AreaChart(document.getElementById('course_activity_cumulative_chart_div'))
+	                .draw(data7, getAreaChartConfig('{% trans 'Course Activity (cumulative)' %}'));
 	        
 	        var data8 = new google.visualization.DataTable();
 			data8.addColumn('string', "{% trans 'Course' %}");
@@ -241,6 +180,26 @@
 
 			var chart8 = new google.visualization.PieChart(document.getElementById('activity_by_course_chart_div'));
 			chart8.draw(data8, options8);
+
+            var data9 = getMonthlyDatatable( {{ searches | length }} );
+            var data10 = getMonthlyDatatable( {{ searches | length }} );
+
+			count = {{ previous_searches }};
+			{% for ss in searches %}
+                data9.setValue({{ forloop.counter0 }},0,'{{ ss.month }}-{{ ss.year }}');
+				data9.setValue({{ forloop.counter0 }},1,{{ ss.count }});
+                count += {{ ss.count }};
+				data10.setValue({{ forloop.counter0 }},0,'{{ ss.month }}-{{ ss.year }}');
+				data10.setValue({{ forloop.counter0 }},1,count);
+			{% endfor %}
+
+            new google.visualization
+                    .AreaChart(document.getElementById('searches_chart_div'))
+	                .draw(data9, getAreaChartConfig('{% trans 'In app-searches (by month)' %}'));
+
+	        new google.visualization
+                    .AreaChart(document.getElementById('searches_cumulative_chart_div'))
+	                .draw(data10, getAreaChartConfig('{% trans 'In app-searches (cumulative)' %}'));
 	      }
 	</script>
 	{% endblock extra_scripts %}
@@ -269,5 +228,8 @@
 <div id="course_activity_cumulative_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div> 
 <div id="activity_by_course_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
 
+<h3>{% trans 'In app-searches' %}</h3>
+<div id="searches_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
+<div id="searches_cumulative_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
+
 {% endblock %}
-	

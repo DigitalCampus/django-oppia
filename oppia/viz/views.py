@@ -113,7 +113,15 @@ def summary_view(request):
     if i > 10:
         hits_percent = float(other_course_activity * 100.0/total_hits['total_hits'])
         hot_courses.append({'course':_('Other'),'hits_percent':hits_percent })
-                       
+
+    searches = Tracker.objects.filter(user__is_staff=False, submitted_date__gte=start_date, type='search' ).\
+                        extra(select={'month':'extract( month from submitted_date )',
+                                      'year':'extract( year from submitted_date )'}).\
+                        values('month','year').\
+                        annotate(count=Count('id')).order_by('year','month')
+
+    previous_searches = Tracker.objects.filter(user__is_staff=False, submitted_date__lt=start_date, type='search' ).count()
+
     return render_to_response('oppia/viz/summary.html',
                               {'form': form, 
                                'user_registrations': user_registrations,
@@ -125,7 +133,9 @@ def summary_view(request):
                                'previous_course_downloads': previous_course_downloads,
                                'course_activity': course_activity, 
                                'previous_course_activity': previous_course_activity,
-                               'hot_courses': hot_courses, }, 
+                               'hot_courses': hot_courses,
+                               'searches': searches,
+                               'previous_searches': previous_searches, },
                               context_instance=RequestContext(request))
 
 def map_view(request):
