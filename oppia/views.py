@@ -28,6 +28,7 @@ from oppia.models import Course, Tracker, Tag, CourseTag, Schedule, CourseManage
 from oppia.models import ActivitySchedule, Activity, Cohort, Participant, Points, UserProfile
 from oppia.permissions import *
 from oppia.quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
+from oppia.reports.signals import dashboard_accessed
 
 from uploader import handle_uploaded_file
 
@@ -52,6 +53,8 @@ def home_view(request):
             up = UserProfile()
             up.user= request.user
             up.save()
+        
+        dashboard_accessed.send(sender=None, request=request, data=None)
         
         # if user is student redirect to their scorecard
         if up.is_student_only():
@@ -152,6 +155,8 @@ def courses_list_view(request):
     courses, response = can_view_courses_list(request) 
     if response is not None:
         return response
+    
+    dashboard_accessed.send(sender=None, request=request, data=None)
            
     tag_list = Tag.objects.all().exclude(coursetag=None).order_by('name')
     courses_list = []
@@ -187,6 +192,9 @@ def tag_courses_view(request, tag_id):
     if response is not None:
         return response
     courses = courses.filter(coursetag__tag__pk=tag_id)
+    
+    dashboard_accessed.send(sender=None, request=request, data=None)
+    
     courses_list = []
     for course in courses:
         obj = {}
@@ -274,6 +282,8 @@ def recent_activity(request,course_id):
     
     if response is not None:
         return response
+    
+    dashboard_accessed.send(sender=None, request=request, data=course)
     
     start_date = datetime.datetime.now() - datetime.timedelta(days=31)
     end_date = datetime.datetime.now()
