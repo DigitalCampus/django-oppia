@@ -20,3 +20,4 @@ Contributors
 * `Picasso (by SquareUp) <https://github.com/square/picasso>`_ - image caching library
 * `TwoWayView <https://github.com/lucasr/twoway-view>`_ - adapter view
 * Laila Hussain - Urdu translation
+* `OkHttp <http://square.github.io/okhttp/>`_ - HTTP library

@@ -4,7 +4,7 @@ Remote Device Admin
 Introduction
 -------------
 
-This feature allows the administrator of an OppiaMobile instance to remotely manage some options of the devices wich have the app installed. For example, it can be useful to manage the device losts, locking them or remotely wiping all the phone data, specially important in the case of health workers who may have data/photos stored on the device.
+This feature allows the administrator of an OppiaMobile instance to remotely manage some options of the devices which have the app installed. For example, it can be useful to manage the device losts, locking them or remotely wiping all the phone data, specially important in the case of health workers who may have data/photos stored on the device.
 
 In the mobile part, it uses the Android `Device Administration API <http://developer.android.com/intl/es/guide/topics/admin/device-admin.html>`_ to access some device features at system level. The available features in this API include the possibility to manage security options of the device (screen lock system, user password, enforce password complexity), as well as enabling/disabling the device cameras or perfoming a data wipe, restoring the device to its factory defaults.
 
