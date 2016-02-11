@@ -30,9 +30,9 @@ Environment information
 -----------------------
 The current version of the instance is running:
 
-* Ubuntu 14.04.2 LTS Desktop
+* Ubuntu 14.04 LTS Desktop
 * Apache 2.4
 * Mysql 5.5
-* Django 1.7.3
-* TastyPie 0.11.0
-* OppiaServer 0.9.0
+* Django 1.8.5
+* TastyPie 0.12.1
+* OppiaServer 0.9.2
