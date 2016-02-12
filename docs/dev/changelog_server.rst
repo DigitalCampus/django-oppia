@@ -12,6 +12,7 @@ v0.9.3 - Not yet released
 * 283: Error in video embed helper (list index out of range) - http://github.com/DigitalCampus/django-oppia/issues/issue/283
 * 294: Add logging of dashboard access - http://github.com/DigitalCampus/django-oppia/issues/issue/294
 * 298: Allow searching for courses in Django Admin - http://github.com/DigitalCampus/django-oppia/issues/issue/298
+* 299: 'Add cohort' button styling - http://github.com/DigitalCampus/django-oppia/issues/issue/299
 
 .. _serverv0.9.2:
 
