@@ -36,10 +36,21 @@ View activity for specific course
 -------------------------------------
 
 #. From the menu bar, select 'Courses'
-#. Browse to the course
+#. Browse to the course and click on its title
+#. You will see the daily activity for the last month, and the option to select a date range and interval to view by.
 
-View activity for specific cohort/group
+.. image:: images/activity-course.png
+
+View activity for specific cohort (group)
 -------------------------------------------
+
+#. From the menu bar, select 'Cohorts'
+#. Browse to the relevant cohort. 
+#. You can either select to view the activity for the whole cohort (click on the cohort title), or you can view the activity for a specific course within a cohort (click on the course title)
+
+.. image:: images/activity-cohort.png
+
+.. image:: images/activity-cohort-course.png
 
 
 View activity for specific user
