@@ -2,12 +2,12 @@ Activity and Progress Monitoring
 ====================================
 
 
-View total recent activity on server
+View recent daily activity on server
 ------------------------------------
 
 
-View total activity on server between specific dates
------------------------------------------------------
+View daily/monthly activity on server between specific dates
+-------------------------------------------------------------
 
 
 View server summary activity
