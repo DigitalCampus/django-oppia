@@ -9,7 +9,8 @@ class TrackerAdmin(admin.ModelAdmin):
     list_display = ('user', 'submitted_date', 'tracker_date', 'time_taken', 'agent', 'course','completed')
     
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ('title', 'version', 'lastupdated_date', 'user', 'filename','is_draft','is_archived')
+    list_display = ('title', 'shortname', 'version', 'lastupdated_date', 'user', 'filename','is_draft','is_archived')
+    search_fields = ['title','shortname']
 
 class ParticipantAdmin(admin.ModelAdmin):
     list_display = ('cohort', 'user', 'role')
