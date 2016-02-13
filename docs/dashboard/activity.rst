@@ -56,7 +56,13 @@ View activity for specific cohort (group)
 View activity for specific user
 --------------------------------
 
+Wherever you see a users name, you can click on their name to go directly to view their activity.
+
+.. image:: images/activity-user-all.png
 
 View activity for specific user on a particular course
 --------------------------------------------------------
  
+From the user homepage, you can select which course to view the full detail from.
+
+.. image:: images/activity-user-course.png
