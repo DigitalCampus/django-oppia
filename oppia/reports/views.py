@@ -1,6 +1,5 @@
 # oppia/reports/views.py
 from django.contrib.auth.models import User
-from django.db.models import Sum
 from django.http.response import HttpResponse, Http404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -12,9 +11,6 @@ def menu_reports(request):
     # add in here any reports that need to appear in the menu
     #return [{'name': 'test', 'url':'/reports/1/'},{'name': 'test2', 'url':'/reports/2/'}]
     return [{'name':'completion_rates', 'url':'/reports/completion_rates/'}]
-
-from django.db.models.query import QuerySet
-from pprint import PrettyPrinter
 
 def completion_rates(request):
 
@@ -64,11 +60,13 @@ def course_completion_rates(request,course_id):
     users = User.objects.filter(tracker__course=course).distinct()
     for user in users:
         userActivities = Course.get_activities_completed(course, user)
-
+        userObj = {'user': user}
+        userObj['activities_completed'] = userActivities
+        userObj['completion_percent'] = (userActivities * 100 / courseActivities)
         if (userActivities >= courseActivities):
-            users_completed.append(user)
+            users_completed.append(userObj)
         else:
-            users_incompleted.append(user)
+            users_incompleted.append(userObj)
 
     return render_to_response('oppia/reports/course_completion_rates.html',
                               {
