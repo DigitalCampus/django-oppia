@@ -42,14 +42,6 @@ function getDefaultAreaChartConfig(title){
     return defaultConfig;
 }
 
-function getMonthlyDatatable(rowCount){
-    var datatable = new google.visualization.DataTable();
-    datatable.addColumn('string', "{% trans 'Month/Year' %}");
-    datatable.addColumn('number', "{% trans 'Total' %}");
-    datatable.addRows( rowCount );
-    return datatable;
-}
-
 function getCSVFromDatatable(datatable){
     var numColumns = datatable.getNumberOfColumns();
     var numRows = datatable.getNumberOfRows();

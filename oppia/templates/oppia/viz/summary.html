@@ -18,6 +18,13 @@
 	<script type="text/javascript">
         {% include "oppia/includes/init-date-picker-js.html" %}
 
+        function getMonthlyDatatable(rowCount){
+            var datatable = new google.visualization.DataTable();
+            datatable.addColumn('string', "{% trans 'Month/Year' %}");
+            datatable.addColumn('number', "{% trans 'Total' %}");
+            datatable.addRows( rowCount );
+            return datatable;
+        }
         // Initialize the datasets dictionary
         var dsets = {};
 
@@ -173,6 +180,17 @@
                     .AreaChart(document.getElementById('searches_cumulative_chart_div'))
 	                .draw(dsets['searches_aggr'], getDefaultAreaChartConfig('{% trans 'In app-searches (cumulative)' %}'));
 	      }
+
+    $(function(){
+        $('.download-csv').on('click', function(){
+            var dataset_name = $(this).attr('data-csv');
+            if (dsets[dataset_name]){
+                var csvContent = getCSVFromDatatable(dsets[dataset_name]);
+                downloadFile(csvContent, dataset_name+'.xls', 'text/csv');
+            }
+        });
+    });
+
 	</script>
 	{% endblock extra_scripts %}
 
