@@ -395,3 +395,9 @@ def upload_view(request):
                               {'form': form, 
                                'results': results},
                               context_instance=RequestContext(request),)
+
+def export_users(request):
+
+    return render_to_response('oppia/profile/export_users.html',
+                              {},
+                              context_instance=RequestContext(request),)

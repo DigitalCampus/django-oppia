@@ -18,4 +18,5 @@ urlpatterns = patterns('',
     url(r'^(?P<user_id>\d+)/activity/$', 'oppia.profile.views.user_activity', name="profile_user_activity"),
     url(r'^(?P<user_id>\d+)/(?P<course_id>\d+)/activity/$', 'oppia.profile.views.user_course_activity_view', name="profile_user_course_activity"),
     url(r'^upload/$', 'oppia.profile.views.upload_view', name="profile_upload"),
+    url(r'^export/$', 'oppia.profile.views.export_users', name="profile_export"),
 )
