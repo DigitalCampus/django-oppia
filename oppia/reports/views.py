@@ -47,6 +47,38 @@ def completion_rates(request):
                               {'courses_list': courses_list },
                               context_instance=RequestContext(request))
 
+def course_completion_rates(request,course_id):
+
+    if not request.user.is_staff:
+        return HttpResponse('Unauthorized', status=401)
+
+    try:
+        course = Course.objects.get(pk=course_id)
+    except Course.DoesNotExist:
+        raise Http404
+
+    users_completed = []
+    users_incompleted = []
+
+    courseActivities = course.get_no_activities()
+    users = User.objects.filter(tracker__course=course).distinct()
+    for user in users:
+        userActivities = Course.get_activities_completed(course, user)
+
+        if (userActivities >= courseActivities):
+            users_completed.append(user)
+        else:
+            users_incompleted.append(user)
+
+    return render_to_response('oppia/reports/course_completion_rates.html',
+                              {
+                                  'course': course,
+                                  'users_enroled_count': len(users_completed) + len(users_incompleted),
+                                  'users_completed': users_completed,
+                                  'users_incompleted': users_incompleted,
+                              },
+                              context_instance=RequestContext(request))
+
 def can_view_courses_list(request):
     if not request.user.is_staff:
         return None, HttpResponse('Unauthorized', status=401)

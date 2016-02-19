@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+{% load crispy_forms_tags %}
+
+{% block extra_head_title %}
+	{{ course.title|title_lang:LANGUAGE_CODE }}
+{% endblock extra_head_title %}
+
+{% block content %}
+
+<h2>{{ course.title|title_lang:LANGUAGE_CODE }}</h2>
+<p><i>{% trans 'Tags:' %} {{ course.get_tags}}</i></p>
+	
+<h3>{% trans 'Course completion rates' %}</h3>
+<p><br></p>
+
+<h4>{% trans 'Course completed' %}</h4>
+<p>{% trans 'Users' %}: {{ users_completed | length }}</p>
+{% for user in users_completed %}
+    <a href="{% url 'profile_user_activity' user.id %}">{{ user.first_name }} {{ user.last_name }}</a>
+{% endfor %}
+<br>
+<h4>{% trans 'Course in progress' %}</h4>
+<p>{% trans 'Users' %}: {{ users_incompleted | length }}</p>
+{% for user in users_incompleted %}
+    <a href="{% url 'profile_user_activity' user.id %}">{{ user.first_name }} {{ user.last_name }}</a>
+{% endfor %}
+
+{% endblock  %}
