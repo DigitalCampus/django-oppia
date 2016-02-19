@@ -32,9 +32,8 @@
 					- <i>{% trans 'archived' %}</i>
 				{% endif %}<br/>
 				<small>{% trans 'Tags:' %} {{ cl.course.get_tags }}</small></td>
-				<td></td>
-				<td>
-				</td>
+				<td>{{ cl.enroled }} </td>
+				<td>{{ cl.completion|floatformat:2 }}%</td>
 			</tr>
 	{% endfor %}
 			</tbody>

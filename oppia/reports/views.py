@@ -27,6 +27,22 @@ def completion_rates(request):
         obj = {}
         obj['course'] = course
 
+        courseActivities = course.get_no_activities()
+        users = User.objects.filter(tracker__course=course).distinct()
+
+        usersComplete = 0
+        for user in users:
+            userActivities = Course.get_activities_completed(course, user)
+            if (userActivities >= courseActivities):
+                usersComplete +=1
+
+        obj['enroled'] = len(users)
+        if len(users) > 0:
+            obj['completion'] = (usersComplete / len(users)) * 100
+        else:
+            obj['completion'] = 0
+        courses_list.append(obj)
+
     return render_to_response('oppia/reports/completion_rates.html',
                               {'courses_list': courses_list },
                               context_instance=RequestContext(request))
