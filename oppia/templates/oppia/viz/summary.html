@@ -15,13 +15,8 @@
 	{% block extra_scripts %}
 	<script type='text/javascript' src='https://www.google.com/jsapi'></script>
 	<script type="text/javascript">
-	
-		function setUpDatePicker(){
-            var picker = $("#id_start_date");
-            picker.datepicker();
-	 		picker.datepicker( "option", "defaultDate", "-1y" );
-	 		picker.datepicker( "option", "dateFormat", "yy-mm-dd" );
-	 	}
+
+        {% include "oppia/includes/init-date-picker-js.html" %}
 
         function getAreaChartConfig(title){
             var defaultConfig = {
