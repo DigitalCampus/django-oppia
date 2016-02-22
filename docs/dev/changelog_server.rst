@@ -13,6 +13,7 @@ v0.9.3 - Not yet released
 * 294: Add logging of dashboard access - http://github.com/DigitalCampus/django-oppia/issues/issue/294
 * 298: Allow searching for courses in Django Admin - http://github.com/DigitalCampus/django-oppia/issues/issue/298
 * 299: 'Add cohort' button styling - http://github.com/DigitalCampus/django-oppia/issues/issue/299
+* 288: Allow downloading of raw data from the sumary overview page - http://github.com/DigitalCampus/django-oppia/issues/issue/288
 
 .. _serverv0.9.2:
 
