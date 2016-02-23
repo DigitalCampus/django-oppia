@@ -18,10 +18,12 @@
                   <tbody id="available-users">
 
         {% for user in users %}
-                <tr id="{{ user.username }}">
-                    <td class="col-xs-9 col-sm-10 ">{% if OPPIA_SHOW_GRAVATARS %} {{ user|gravatar:24 }} {% endif %}
-                        {{ user.first_name }} {{ user.last_name }}
-                        <input type="text" placeholder="{% trans 'Password' %}" class="password removing" style="display:none;float:right;" />
+                <tr id="{{ user.u.username }}">
+                    <td class="col-xs-9 col-sm-10 ">{% if OPPIA_SHOW_GRAVATARS %} {{ user.u|gravatar:24 }} {% endif %}
+                        {{ user.u.first_name }} {{ user.u.last_name }}
+                        <input type="hidden" name="apikey" value="{{ user.apikey }}" />
+                        <input type="hidden" name="email" value="{{ user.u.email }}" />
+                        <input type="text" name="password" placeholder="{% trans 'Password' %}" class="password removing" style="display:none;float:right;" />
                     </td>
                         <button class="btn btn-sm btn-primary btn-add"><i class="glyphicon glyphicon-plus"></i> </button>
                         <button class="btn btn-sm btn-primary btn-remove removing" style="display: none;"><i class="glyphicon glyphicon-remove"></i> </button>
@@ -62,7 +64,7 @@
     </div>
     <div class="row">
         <div class="col-sm-6 col-sm-offset-6">
-            <button class="btn btn-sm btn-primary">{% trans 'Download users CSV' %}</button>
+            <button class="btn btn-sm btn-primary btn-download"><i class="glyphicon glyphicon-download"></i> {% trans 'Download users CSV' %}</button>
         </div>
     </div>
 
@@ -99,7 +101,33 @@
                 explanation.show();
                 selUsersTable.hide();
             }
-        })
+        });
+
+        function inputVal($user, field){
+            return $user.find('[name="'+field+'"]').val();
+        }
+
+        var csvFields = ['password', 'email', ' apikey'];
+        $('.btn-download').on('click', function(){
+
+            var usersCSV = "";
+            var formValidated = true;
+
+            $.each(selectedUsers.find('tr'), function(){
+                var user = $(this);
+                formValidated &= (inputVal(user,'password') != "");
+                for(key in csvFields)
+                    console.log(csvFields[key] + ":" + inputVal(user, csvFields[key]));
+
+            });
+
+            if (formValidated){
+
+            }
+            else{
+
+            }
+        });
     });
     </script>
 {% endblock extra_scripts %}
