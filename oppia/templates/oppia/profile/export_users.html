@@ -1,6 +1,135 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load display_functions %}
+
 {% block content %}
 <h2>{% trans 'Export users' %}</h2>
 
+    <div class="row">
+         <div class="table-responsive col-sm-6">
+         <h3>Available users</h3>
+             <table class="table table-fixed">
+                 <thead>
+                    <tr>
+                      <th>{% trans 'User' %}</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody id="available-users">
+
+        {% for user in users %}
+                <tr id="{{ user.username }}">
+                    <td class="col-xs-9 col-sm-10 ">{% if OPPIA_SHOW_GRAVATARS %} {{ user|gravatar:24 }} {% endif %}
+                        {{ user.first_name }} {{ user.last_name }}
+                        <input type="text" placeholder="{% trans 'Password' %}" class="password removing" style="display:none;float:right;" />
+                    </td>
+                        <button class="btn btn-sm btn-primary btn-add"><i class="glyphicon glyphicon-plus"></i> </button>
+                        <button class="btn btn-sm btn-primary btn-remove removing" style="display: none;"><i class="glyphicon glyphicon-remove"></i> </button>
+                    </td>
+                    <td class="col-xs-3 col-sm-2 text-right">
+                        <button class="btn btn-sm btn-primary btn-add"><i class="glyphicon glyphicon-plus"></i> </button>
+                        <button class="btn btn-sm btn-primary btn-remove removing" style="display: none;"><i class="glyphicon glyphicon-remove"></i> </button>
+                    </td>
+
+                </tr>
+        {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="table-responsive col-sm-6">
+        <h3>Selected users</h3>
+             <div class="panel panel-default" id="explanation">
+                 <div class="panel-heading"></div>
+                 <div class="panel-body">
+                 Add users from the "Available users" lists by clicking the button with the <i class="glyphicon glyphicon-plus"></i> sign.
+                 Then, you'll have to enter the user's password for each of them before downloading the CSV to include in the app.
+                 <br/><br/>
+                 If you want to remove one selected user, press the button with the <i class="glyphicon glyphicon-remove"></i> sign by its side.
+                 </div>
+             </div>
+             <table class="table table-fixed" id="selected-users-table">
+                 <thead>
+                    <tr>
+                      <th>{% trans 'User' %}</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody id="selected-users">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-6">
+            <button class="btn btn-sm btn-primary">{% trans 'Download users CSV' %}</button>
+        </div>
+    </div>
+
+
 {% endblock %}
+
+{% block extra_scripts %}
+    <script type="text/javascript">
+
+
+    $(function(){
+        var explanation = $('#explanation');
+        var allUsers = $('#available-users');
+        var selUsersTable = $('#selected-users-table').hide();
+        var selectedUsers = $('#selected-users');
+
+        $('.btn-add').on('click', function(){
+            var user = $(this).parents('tr').first();
+            user.clone().attr('data-username', user.attr('id'))
+                .removeAttr('id')
+                .appendTo(selectedUsers)
+                .find('.btn-add').hide().end()
+                .find('.removing').show();
+            user.hide();
+            selUsersTable.show();
+            explanation.hide();
+        });
+
+        $(selectedUsers).on('click', '.btn-remove', function(){
+            var user = $(this).parents('tr').first();
+            allUsers.find('#'+user.attr('data-username')).show();
+            user.remove();
+            if (selectedUsers.children().size() == 0){
+                explanation.show();
+                selUsersTable.hide();
+            }
+        })
+    });
+    </script>
+{% endblock extra_scripts %}
+
+{% block extra_styles %}
+
+<style>
+
+.table-fixed{
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    background:#f5f5f5;
+    border: 1px solid #ddd;
+}
+.table-fixed thead {
+  width: 97%;
+}
+.table-fixed tbody {
+    min-height: 150px;
+  max-height: 300px;
+  overflow-y: auto;
+  width: 100%;
+    background:#fff;
+}
+.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
+  display: block;
+}
+.table-fixed tbody td, .table-fixed thead > tr> th {
+  float: left;
+  border-bottom-width: 0;
+}
+</style>
+{% endblock extra_styles %}

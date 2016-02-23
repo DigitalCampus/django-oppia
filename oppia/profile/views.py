@@ -398,6 +398,10 @@ def upload_view(request):
 
 def export_users(request):
 
+    if not request.user.is_staff:
+        raise Http404
+
+    users = User.objects.all()
     return render_to_response('oppia/profile/export_users.html',
-                              {},
+                              {'users': users},
                               context_instance=RequestContext(request),)
