@@ -7,7 +7,7 @@ v2016021500 - not yet released
 --------------------------------------
 
 * 131: Error when exporting file activity when no description entered - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/131
-
+* 99: Allow blank topic titles - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/99
 
 .. _blockv2016020100:
 
