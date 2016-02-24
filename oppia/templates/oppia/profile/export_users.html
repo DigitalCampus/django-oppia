@@ -27,6 +27,9 @@
                         {{ user.u.first_name }} {{ user.u.last_name }}
                         <input type="hidden" name="apikey" value="{{ user.apikey }}" />
                         <input type="hidden" name="email" value="{{ user.u.email }}" />
+                        <input type="hidden" name="username" value="{{ user.u.username }}" />
+                        <input type="hidden" name="first_name" value="{{ user.u.first_name }}" />
+                        <input type="hidden" name="last_name" value="{{ user.u.last_name }}" />
                         <input type="text" name="password" placeholder="{% trans 'Password' %}" class="password removing" style="display:none;float:right;" />
                     </td>
                     <td class="col-xs-3 col-sm-2 text-right">
@@ -114,7 +117,7 @@
             return $user.find('[name="'+field+'"]').val();
         }
 
-        var csvFields = ['password', 'email', 'apikey'];
+        var csvFields = ['username', 'password', 'apikey', 'email', 'first_name', 'last_name'];
         var fieldsLength = csvFields.length;
         $('.btn-download').on('click', function(){
 
