@@ -1,6 +1,14 @@
 OppiaMobile Moodle Block Change Log
 =====================================
 
+.. _blockv2016021500:
+
+v2016021500 - not yet released
+--------------------------------------
+
+* 131: Error when exporting file activity when no description entered - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/131
+
+
 .. _blockv2016020100:
 
 v2016020100 - released: 1 Feb 2016
