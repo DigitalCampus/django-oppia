@@ -1,17 +1,20 @@
 OppiaMobile Moodle Block Change Log
 =====================================
 
-.. _blockv2016021500:
+.. _blockv2016022400:
 
-v2016021500 - not yet released
+v2016022400 - Released: 24 Feb 2016
 --------------------------------------
 
 * 131: Error when exporting file activity when no description entered - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/131
 * 99: Allow blank topic titles - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/99
+* 126: Clearer info and handle better the section name and xml error when no activities/sections exported - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/126
+* 127: In quizzes add option for max no attempts - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/127
+
 
 .. _blockv2016020100:
 
-v2016020100 - released: 1 Feb 2016
+v2016020100 - Released: 1 Feb 2016
 --------------------------------------
 
 * 134: Add option to specify that the course activities must be attempted sequentially - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/134
