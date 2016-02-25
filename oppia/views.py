@@ -1,6 +1,8 @@
 # oppia/views.py
 import datetime
 import json
+from wsgiref.util import FileWrapper
+
 import os
 import oppia
 import tablib
@@ -12,7 +14,7 @@ from django.conf import settings
 from django.contrib.auth import (authenticate, logout, views)
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from django.core.servers.basehttp import FileWrapper
+
 from django.core.urlresolvers import reverse
 from django.db.models import Q, Count
 from django.forms.formsets import formset_factory
@@ -25,8 +27,9 @@ from django.utils import timezone
 from oppia.forms import UploadCourseStep1Form, UploadCourseStep2Form, ScheduleForm, DateRangeForm, DateRangeIntervalForm
 from oppia.forms import ActivityScheduleForm, CohortForm
 from oppia.models import Course, Tracker, Tag, CourseTag, Schedule, CourseManager, CourseCohort
-from oppia.models import ActivitySchedule, Activity, Cohort, Participant, Points, UserProfile
+from oppia.models import ActivitySchedule, Activity, Cohort, Participant, Points
 from oppia.permissions import *
+from oppia.profile.models import UserProfile
 from oppia.quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
 from oppia.reports.signals import dashboard_accessed
 
