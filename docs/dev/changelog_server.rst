@@ -1,6 +1,14 @@
 OppiaMobile Server Change Log
 ================================
 
+
+.. _serverv0.9.4:
+
+v0.9.4 - not yet released
+--------------------------------
+
+* 289: Add default report for no badges (course completion rates) - http://github.com/DigitalCampus/django-oppia/issues/issue/289
+
 .. _serverv0.9.3:
 
 v0.9.3 - Released 22 Feb 2016
