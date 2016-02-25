@@ -4,7 +4,6 @@ from oppia.models import Course, Section, Activity, Tracker, Media, Cohort, Cour
 from oppia.models import Participant, Message, Schedule, ActivitySchedule, Tag, CourseTag
 from oppia.models import Badge, Award, Points, AwardCourse
 from oppia.models import CourseCohort
-from oppia.profile.models import UserProfile
 
 
 class TrackerAdmin(admin.ModelAdmin):
@@ -49,12 +48,7 @@ class AwardAdmin(admin.ModelAdmin):
   
 class CourseTagAdmin(admin.ModelAdmin):
     list_display = ('course','tag')
- 
-    
-class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'can_upload', 'about', 'job_title', 'organisation')
-    
-    
+
 class CourseManagerAdmin(admin.ModelAdmin):
     list_display = ('user', 'course')
  
@@ -88,5 +82,4 @@ admin.site.register(Schedule, ScheduleAdmin)
 admin.site.register(Section,SectionAdmin)
 admin.site.register(Tag,TagAdmin)
 admin.site.register(Tracker, TrackerAdmin)
-admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(CourseManager, CourseManagerAdmin)
