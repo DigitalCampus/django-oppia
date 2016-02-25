@@ -9,7 +9,8 @@
 
 {% block content %}
 
-<h2>{{ course.title|title_lang:LANGUAGE_CODE }}</h2>
+<h2><a href="{% url 'oppia_completion_rates' %}">{% trans 'Completion Rates' %}</a> &gt; {{ course.title|title_lang:LANGUAGE_CODE }}</h2>
+
 <p><i>{% trans 'Tags:' %} {{ course.get_tags}}</i></p>
 	
 <h3>{% trans 'Course completion rates' %}</h3>

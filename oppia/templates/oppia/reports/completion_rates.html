@@ -7,7 +7,7 @@
 {% endblock extra_head_title %}
 
 {% block content %}
-<h2>{% trans 'Completion rates' %}</h2>
+<h2>{% trans 'Completion Rates' %}</h2>
 
 {% if courses_list %}
 
@@ -17,7 +17,7 @@
                 <tr>
                   <th>{% trans 'Course' %}</th>
                   <th>{% trans 'Users enroled' %}</th>
-                  <th>{% trans 'Completion rate' %}</th>
+                  <th>{% trans 'Completion rate (badge awarded)' %}</th>
                 </tr>
               </thead>
               <tbody>
@@ -33,7 +33,7 @@
 				{% endif %}<br/>
 				<small>{% trans 'Tags:' %} {{ cl.course.get_tags }}</small></td>
 				<td>{{ cl.enroled }} </td>
-				<td>{{ cl.completion|floatformat:2 }}%</td>
+				<td>{{ cl.completion|floatformat:1 }}%</td>
 			</tr>
 	{% endfor %}
 			</tbody>

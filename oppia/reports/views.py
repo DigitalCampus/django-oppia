@@ -1,16 +1,18 @@
 # oppia/reports/views.py
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.http.response import HttpResponse, Http404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.utils.translation import ugettext_lazy as _
 
-from oppia.models import Course
+from oppia.models import Course, Badge, Award, AwardCourse
 
 
 def menu_reports(request):
     # add in here any reports that need to appear in the menu
     #return [{'name': 'test', 'url':'/reports/1/'},{'name': 'test2', 'url':'/reports/2/'}]
-    return [{'name':'completion_rates', 'url':'/reports/completion_rates/'}]
+    return [{'name':_('Completion Rates'), 'url':reverse('oppia_completion_rates')}]
 
 def completion_rates(request):
 
@@ -24,19 +26,16 @@ def completion_rates(request):
         obj['course'] = course
 
         courseActivities = course.get_no_activities()
-        users = User.objects.filter(tracker__course=course).distinct()
+        no_users = User.objects.filter(tracker__course=course).distinct().count()
 
-        usersComplete = 0
-        for user in users:
-            userActivities = Course.get_activities_completed(course, user)
-            if (userActivities >= courseActivities):
-                usersComplete +=1
+        awards_given = AwardCourse.objects.filter(course=course).count()
 
-        obj['enroled'] = len(users)
-        if len(users) > 0:
-            obj['completion'] = (usersComplete / len(users)) * 100
+        obj['enroled'] = no_users
+        if no_users > 0:
+            obj['completion'] = (float(awards_given) / float(no_users)) * 100
         else:
             obj['completion'] = 0
+            
         courses_list.append(obj)
 
     return render_to_response('oppia/reports/completion_rates.html',
