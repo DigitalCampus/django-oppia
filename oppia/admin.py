@@ -2,8 +2,10 @@
 from django.contrib import admin
 from oppia.models import Course, Section, Activity, Tracker, Media, Cohort, CourseManager
 from oppia.models import Participant, Message, Schedule, ActivitySchedule, Tag, CourseTag
-from oppia.models import Badge, Award, Points, AwardCourse, UserProfile
+from oppia.models import Badge, Award, Points, AwardCourse
 from oppia.models import CourseCohort
+from oppia.profile.models import UserProfile
+
 
 class TrackerAdmin(admin.ModelAdmin):
     list_display = ('user', 'submitted_date', 'tracker_date', 'time_taken', 'agent', 'course','completed')
