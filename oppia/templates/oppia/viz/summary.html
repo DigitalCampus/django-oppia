@@ -13,75 +13,57 @@
 
 {% if user.is_authenticated %}
 	{% block extra_scripts %}
+    <script src="{{ STATIC_URL }}oppia/js/oppia.chart-utils.js"></script>
 	<script type='text/javascript' src='https://www.google.com/jsapi'></script>
 	<script type="text/javascript">
-	
-		function setUpDatePicker(){
-            var picker = $("#id_start_date");
-            picker.datepicker();
-	 		picker.datepicker( "option", "defaultDate", "-1y" );
-	 		picker.datepicker( "option", "dateFormat", "yy-mm-dd" );
-	 	}
 
-        function getAreaChartConfig(title){
-            var defaultConfig = {
-                width: '100%',
-                height: 400,
-                vAxis: {minValue:0},
-                pointSize:3,
-                chartArea: {left:80,width:"90%",height:"75%"},
-                backgroundColor: 'transparent',
-                legend: 'none',
-                series: [{areaOpacity:0.2}]
-            };
-            defaultConfig.title = title;
-            return defaultConfig;
-        }
+        {% include "oppia/includes/init-date-picker-js.html" %}
 
         function getMonthlyDatatable(rowCount){
             var datatable = new google.visualization.DataTable();
-			datatable.addColumn('string', "{% trans 'Month/Year' %}");
-			datatable.addColumn('number', "{% trans 'Total' %}");
-			datatable.addRows( rowCount );
+            datatable.addColumn('string', "{% trans 'Month/Year' %}");
+            datatable.addColumn('number', "{% trans 'Total' %}");
+            datatable.addRows( rowCount );
             return datatable;
         }
+        // Initialize the datasets dictionary
+        var dsets = {};
 
-		// Load the Visualization API and the piechart package.
+        // Load the Visualization API and the piechart package.
 		google.load('visualization', '1.0', {'packages':['corechart']});
-
 		// Set a callback to run when the Google Visualization API is loaded.
 		google.setOnLoadCallback(drawChart);
 		function drawChart() {
 
-			var data = getMonthlyDatatable({{ user_registrations|length }});
-	        var data2 = getMonthlyDatatable({{ user_registrations|length }});
+			dsets['users_regs'] = getMonthlyDatatable({{ user_registrations|length }});
+	        dsets['users_regs_aggr'] = getMonthlyDatatable({{ user_registrations|length }});
 
 			count = {{ previous_user_registrations }};
 			{% for u in user_registrations %}
-                data.setValue({{ forloop.counter0 }},0,'{{ u.month }}-{{ u.year }}');
-				data.setValue({{ forloop.counter0 }},1,{{ u.count }});
+                dsets['users_regs'].setValue({{ forloop.counter0 }},0,'{{ u.month }}-{{ u.year }}');
+				dsets['users_regs'].setValue({{ forloop.counter0 }},1,{{ u.count }});
 				count += {{ u.count }};
-				data2.setValue({{ forloop.counter0 }},0,'{{ u.month }}-{{ u.year }}');
-				data2.setValue({{ forloop.counter0 }},1,count);
+				dsets['users_regs_aggr'].setValue({{ forloop.counter0 }},0,'{{ u.month }}-{{ u.year }}');
+				dsets['users_regs_aggr'].setValue({{ forloop.counter0 }},1,count);
 			{% endfor %}
 
             new google.visualization
                     .AreaChart(document.getElementById('user_registrations_chart_div'))
-	                .draw(data, getAreaChartConfig('{% trans 'User Registrations (by month)' %}'));
+	                .draw(dsets['users_regs'], getDefaultAreaChartConfig('{% trans 'User Registrations (by month)' %}'));
 
 	        new google.visualization
                     .AreaChart(document.getElementById('user_registrations_cumulative_chart_div'))
-	                .draw(data2, getAreaChartConfig('{% trans 'User Registrations (cumulative)' %}'));
+	                .draw(dsets['users_regs_aggr'], getDefaultAreaChartConfig('{% trans 'User Registrations (cumulative)' %}'));
 
-	        var data3 = new google.visualization.DataTable();
-			data3.addColumn('string', "{% trans 'Country' %}");
-			data3.addColumn('number', "{% trans 'Total' %}");
-			data3.addRows( {{ country_activity|length }} );
+	        dsets['country_activity'] = new google.visualization.DataTable();
+			dsets['country_activity'].addColumn('string', "{% trans 'Country' %}");
+			dsets['country_activity'].addColumn('number', "{% trans 'Total' %}");
+			dsets['country_activity'].addRows( {{ country_activity|length }} );
 
 			count = 0;
 			{% for ca in country_activity %}
-				data3.setValue({{ forloop.counter0 }},0,'{{ ca.country_name }}');
-				data3.setValue({{ forloop.counter0 }},1,{{ ca.hits_percent|floatformat:1 }});
+				dsets['country_activity'].setValue({{ forloop.counter0 }},0,'{{ ca.country_name }}');
+				dsets['country_activity'].setValue({{ forloop.counter0 }},1,{{ ca.hits_percent|floatformat:1 }});
 			{% endfor %}
 
 			var options3 = {
@@ -93,18 +75,17 @@
 			        };
 
 			var chart3 = new google.visualization.PieChart(document.getElementById('activity_by_country_chart_div'));
-			chart3.draw(data3, options3);
+			chart3.draw(dsets['country_activity'], options3);
 
-			var dataLang = new google.visualization.DataTable();
-			dataLang.addColumn('string', "{% trans 'Language' %}");
-			dataLang.addColumn('number', "{% trans 'Total' %}");
-
-			dataLang.addRows( {{ languages|length }} );
+			dsets['languages'] = new google.visualization.DataTable();
+			dsets['languages'].addColumn('string', "{% trans 'Language' %}");
+			dsets['languages'].addColumn('number', "{% trans 'Total' %}");
+			dsets['languages'].addRows( {{ languages|length }} );
 
 			count = 0;
 			{% for l in languages %}
-				dataLang.setValue({{ forloop.counter0 }},0,'{{ l.lang }}');
-				dataLang.setValue({{ forloop.counter0 }},1,{{ l.hits_percent|floatformat:1 }});
+				dsets['languages'].setValue({{ forloop.counter0 }},0,'{{ l.lang }}');
+				dsets['languages'].setValue({{ forloop.counter0 }},1,{{ l.hits_percent|floatformat:1 }});
 			{% endfor %}
 
 			var optionsLang = {
@@ -116,52 +97,51 @@
 			        };
 
 			var chartLang = new google.visualization.PieChart(document.getElementById('activity_by_language_chart_div'));
-			chartLang.draw(dataLang, optionsLang);
+			chartLang.draw(dsets['languages'], optionsLang);
 
-			var data4 = getMonthlyDatatable( {{ course_downloads|length }} );
-            var data5 = getMonthlyDatatable( {{ course_downloads|length }} );
+			dsets['downloads'] = getMonthlyDatatable( {{ course_downloads|length }} );
+            dsets['downloads_aggr'] = getMonthlyDatatable( {{ course_downloads|length }} );
 
             count =  {{ previous_course_downloads }}
 			{% for cd in course_downloads %}
-				data4.setValue({{ forloop.counter0 }},0,'{{ cd.month }}-{{ cd.year }}');
-				data4.setValue({{ forloop.counter0 }},1,{{ cd.count }});
+				dsets['downloads'].setValue({{ forloop.counter0 }},0,'{{ cd.month }}-{{ cd.year }}');
+				dsets['downloads'].setValue({{ forloop.counter0 }},1,{{ cd.count }});
                 count += {{ cd.count }};
-				data5.setValue({{ forloop.counter0 }},0,'{{ cd.month }}-{{ cd.year }}');
-				data5.setValue({{ forloop.counter0 }},1,count);
+				dsets['downloads_aggr'].setValue({{ forloop.counter0 }},0,'{{ cd.month }}-{{ cd.year }}');
+				dsets['downloads_aggr'].setValue({{ forloop.counter0 }},1,count);
 			{% endfor %}
 
 	        new google.visualization
                 .AreaChart(document.getElementById('course_downloads_chart_div'))
-                .draw(data4, getAreaChartConfig('{% trans 'Course Downloads (by month)' %}'));
+                .draw(dsets['downloads'], getDefaultAreaChartConfig('{% trans 'Course Downloads (by month)' %}'));
 
 	        new google.visualization
                 .AreaChart(document.getElementById('course_downloads_cumulative_chart_div'))
-                .draw(data5, getAreaChartConfig('{% trans 'Course Downloads (cumulative)' %}'));
+                .draw(dsets['downloads_aggr'], getDefaultAreaChartConfig('{% trans 'Course Downloads (cumulative)' %}'));
 
-	        var data6 = getMonthlyDatatable( {{ course_activity|length }} );
-            var data7 = getMonthlyDatatable( {{ course_activity|length }} );
+	        dsets['activity'] = getMonthlyDatatable( {{ course_activity|length }} );
+            dsets['activity_aggr'] = getMonthlyDatatable( {{ course_activity|length }} );
 
             count = {{ previous_course_activity }};
             {% for ca in course_activity %}
-				data6.setValue({{ forloop.counter0 }},0,'{{ ca.month }}-{{ ca.year }}');
-				data6.setValue({{ forloop.counter0 }},1,{{ ca.count }});
+				dsets['activity'].setValue({{ forloop.counter0 }},0,'{{ ca.month }}-{{ ca.year }}');
+				dsets['activity'].setValue({{ forloop.counter0 }},1,{{ ca.count }});
                 count += {{ ca.count }};
-				data7.setValue({{ forloop.counter0 }},0,'{{ ca.month }}-{{ ca.year }}');
-				data7.setValue({{ forloop.counter0 }},1,count);
+				dsets['activity_aggr'].setValue({{ forloop.counter0 }},0,'{{ ca.month }}-{{ ca.year }}');
+				dsets['activity_aggr'].setValue({{ forloop.counter0 }},1,count);
 			{% endfor %}
 
 	        new google.visualization
                 .AreaChart(document.getElementById('course_activity_chart_div'))
-                .draw(data6, getAreaChartConfig('{% trans 'Course Activity (by month)' %}'));
+                .draw(dsets['activity'], getDefaultAreaChartConfig('{% trans 'Course Activity (by month)' %}'));
 
 	        new google.visualization
                     .AreaChart(document.getElementById('course_activity_cumulative_chart_div'))
-	                .draw(data7, getAreaChartConfig('{% trans 'Course Activity (cumulative)' %}'));
+	                .draw(dsets['activity_aggr'], getDefaultAreaChartConfig('{% trans 'Course Activity (cumulative)' %}'));
 	        
 	        var data8 = new google.visualization.DataTable();
 			data8.addColumn('string', "{% trans 'Course' %}");
 			data8.addColumn('number', "{% trans 'Total' %}");
-			
 			data8.addRows( {{ hot_courses|length }} );
 			
 			count = 0;
@@ -181,28 +161,50 @@
 			var chart8 = new google.visualization.PieChart(document.getElementById('activity_by_course_chart_div'));
 			chart8.draw(data8, options8);
 
-            var data9 = getMonthlyDatatable( {{ searches | length }} );
-            var data10 = getMonthlyDatatable( {{ searches | length }} );
+            dsets['searches'] = getMonthlyDatatable( {{ searches | length }} );
+            dsets['searches_aggr'] = getMonthlyDatatable( {{ searches | length }} );
 
 			count = {{ previous_searches }};
 			{% for ss in searches %}
-                data9.setValue({{ forloop.counter0 }},0,'{{ ss.month }}-{{ ss.year }}');
-				data9.setValue({{ forloop.counter0 }},1,{{ ss.count }});
+                dsets['searches'].setValue({{ forloop.counter0 }},0,'{{ ss.month }}-{{ ss.year }}');
+				dsets['searches'].setValue({{ forloop.counter0 }},1,{{ ss.count }});
                 count += {{ ss.count }};
-				data10.setValue({{ forloop.counter0 }},0,'{{ ss.month }}-{{ ss.year }}');
-				data10.setValue({{ forloop.counter0 }},1,count);
+				dsets['searches_aggr'].setValue({{ forloop.counter0 }},0,'{{ ss.month }}-{{ ss.year }}');
+				dsets['searches_aggr'].setValue({{ forloop.counter0 }},1,count);
 			{% endfor %}
 
             new google.visualization
                     .AreaChart(document.getElementById('searches_chart_div'))
-	                .draw(data9, getAreaChartConfig('{% trans 'In app-searches (by month)' %}'));
+	                .draw(dsets['searches'], getDefaultAreaChartConfig('{% trans 'In app-searches (by month)' %}'));
 
 	        new google.visualization
                     .AreaChart(document.getElementById('searches_cumulative_chart_div'))
-	                .draw(data10, getAreaChartConfig('{% trans 'In app-searches (cumulative)' %}'));
+	                .draw(dsets['searches_aggr'], getDefaultAreaChartConfig('{% trans 'In app-searches (cumulative)' %}'));
 	      }
+
+    $(function(){
+        $('.download-csv').on('click', function(){
+            var dataset_name = $(this).attr('data-csv');
+            if (dsets[dataset_name]){
+                var csvContent = getCSVFromDatatable(dsets[dataset_name]);
+                downloadFile(csvContent, dataset_name+'.xls', 'text/csv');
+            }
+        });
+    });
+
 	</script>
 	{% endblock extra_scripts %}
+
+    {% block extra_styles %}
+        <style>
+        .download-csv{
+            position: relative;
+            top: -20px;
+            left: 50px;
+        }
+        </style>
+    {% endblock extra_styles %}
+
 {% endif %} 
 {% block content %}
 
@@ -211,25 +213,56 @@
 {% crispy form %}
 
 <h3>{% trans 'User Registrations' %}</h3>
+
 <div id="user_registrations_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
+{% if user_registrations %}
+    <button class="btn btn-default btn-primary btn-sm download-csv" data-csv="users_regs">{% trans 'Download as CSV' %}</button>
+{% endif %}
+
 <div id="user_registrations_cumulative_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
+{% if user_registrations %}
+    <button class="btn btn-default btn-primary btn-sm download-csv" data-csv="users_regs_aggr">{% trans 'Download as CSV' %}</button>
+{% endif %}
 
 <h3>{% trans 'Activity by Country' %}</h3>
 <p>{% trans 'Total countries:' %} {{ total_countries }}</p>
 <div id="activity_by_country_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
+<button class="btn btn-default btn-primary btn-sm download-csv" data-csv="country_activity">{% trans 'Download as CSV' %}</button>
 <div id="activity_by_language_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
 
 <h3>{% trans 'Course Downloads' %}</h3>
 <div id="course_downloads_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
-<div id="course_downloads_cumulative_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div> 
+{% if course_downloads %}
+    <button class="btn btn-default btn-primary btn-sm download-csv" data-csv="downloads">{% trans 'Download as CSV' %}</button>
+{% endif %}
+
+<div id="course_downloads_cumulative_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
+{% if course_downloads %}
+    <button class="btn btn-default btn-primary btn-sm download-csv" data-csv="downloads_aggr">{% trans 'Download as CSV' %}</button>
+{% endif %}
 
 <h3>{% trans 'Course Activity' %}</h3>
 <div id="course_activity_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
-<div id="course_activity_cumulative_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div> 
+{% if course_activity %}
+    <button class="btn btn-default btn-primary btn-sm download-csv" data-csv="activity">{% trans 'Download as CSV' %}</button>
+{% endif %}
+
+<div id="course_activity_cumulative_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
+{% if course_activity %}
+    <button class="btn btn-default btn-primary btn-sm download-csv" data-csv="activity_aggr">{% trans 'Download as CSV' %}</button>
+{% endif %}
+
 <div id="activity_by_course_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
 
 <h3>{% trans 'In app-searches' %}</h3>
 <div id="searches_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
+{% if searches %}
+    <button class="btn btn-default btn-primary btn-sm download-csv" data-csv="searches">{% trans 'Download as CSV' %}</button>
+{% endif %}
+
 <div id="searches_cumulative_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
+{% if searches %}
+    <button class="btn btn-default btn-primary btn-sm download-csv" data-csv="searches_aggr">{% trans 'Download as CSV' %}</button>
+{% endif %}
 
 {% endblock %}

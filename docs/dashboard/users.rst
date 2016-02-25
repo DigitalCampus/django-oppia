@@ -62,6 +62,11 @@ Reset user password
 Add/remove admin access permission
 ------------------------------------
 
+.. warning::
+	Admin accounts have permissions to add, edit and delete any or all of the data stored, 
+	as well as create other Admin user accounts. Admin permissions should only be given to 
+	users who really need it, and consider giving staff status instead.
+	
 #. From the menu bar, select 'Admin' > 'Django Admin'
 #. Select 'Users' under the 'Authentication and Authorization' section
 #. Browse or search for the user and select
