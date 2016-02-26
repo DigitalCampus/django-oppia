@@ -74,7 +74,7 @@ def handle_uploaded_file(f, extract_path, request, user):
         course = Course.objects.get(shortname = shortname)
         old_course_filename = course.filename
         old_course_version = course.version
-         
+
         # check that the current user is allowed to wipe out the other course
         if course.user != user:
             messages.info(request,_("Sorry, only the original owner may update this course"))
@@ -184,13 +184,13 @@ def handle_uploaded_file(f, extract_path, request, user):
     shutil.rmtree(extract_path,ignore_errors=True)
         
     return course       
-  
+
 def activity_create(section, act, baseline=False):
     temp_title = {}
     for t in act.getElementsByTagName("title"):
         temp_title[t.getAttribute('lang')] = t.firstChild.nodeValue
     title = json.dumps(temp_title)
-    
+
     if act.getAttribute("type") == "page":
         temp_content = {}
         for t in act.getElementsByTagName("location"):
@@ -222,7 +222,8 @@ def activity_create(section, act, baseline=False):
     if act.getElementsByTagName("description"):
         description = {}
         for d in act.getElementsByTagName("description"):
-            description[t.getAttribute('lang')] = d.firstChild.nodeValue
+            if d.firstChild and d.getAttribute('lang'):
+                description[d.getAttribute('lang')] = d.firstChild.nodeValue
         description = json.dumps(description)
     else:
         description = None
