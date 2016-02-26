@@ -29,6 +29,12 @@ def publish_view(request):
     if 'course_file' not in request.FILES:
         print "Course file not found"
         return HttpResponse(status=400)
+    else:
+        file = request.FILES['course_file']
+        if file is not None and file._size > settings.OPPIA_MAX_UPLOAD_SIZE:
+            return HttpResponse(status=400)
+        if file is not None and file.content_type != 'application/zip' and file.content_type != 'application/x-zip-compressed':
+            return HttpResponse(status=400)
         
     # authenticate user
     username = request.POST['username']
