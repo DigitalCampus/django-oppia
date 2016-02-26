@@ -194,7 +194,8 @@ def activity_create(section, act, baseline=False):
     if act.getAttribute("type") == "page":
         temp_content = {}
         for t in act.getElementsByTagName("location"):
-            temp_content[t.getAttribute('lang')] = t.firstChild.nodeValue
+            if t.firstChild and t.getAttribute('lang'):
+                temp_content[t.getAttribute('lang')] = t.firstChild.nodeValue
         content = json.dumps(temp_content)
     elif act.getAttribute("type") == "quiz":
         for c in act.getElementsByTagName("content"):
@@ -208,7 +209,8 @@ def activity_create(section, act, baseline=False):
     elif act.getAttribute("type") == "url":
         temp_content = {}
         for t in act.getElementsByTagName("location"):
-            temp_content[t.getAttribute('lang')] = t.firstChild.nodeValue
+            if t.firstChild and t.getAttribute('lang'):
+                temp_content[t.getAttribute('lang')] = t.firstChild.nodeValue
         content = json.dumps(temp_content)
     else:
         content = None
