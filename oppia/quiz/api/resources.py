@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator, InvalidPage
 from django.db import IntegrityError
 from django.db.models import Q
+from django.http.response import Http404
 from django.utils.translation import ugettext as _
 
 from tastypie import fields, bundle, http
