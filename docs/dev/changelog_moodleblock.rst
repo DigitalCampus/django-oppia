@@ -1,6 +1,15 @@
 OppiaMobile Moodle Block Change Log
 =====================================
 
+
+.. _blockv2016xxxxxx:
+
+v2016xxxxxx - not yet released
+--------------------------------------
+
+* 118: In extracting media - not picking up newlines as blank space - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/118
+
+
 .. _blockv2016022400:
 
 v2016022400 - Released: 24 Feb 2016
