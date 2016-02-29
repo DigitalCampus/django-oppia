@@ -73,8 +73,15 @@ urlpatterns = patterns('',
     url(r'^mobile/', include('oppia.mobile.urls')),
     url(r'^reports/', include('oppia.reports.urls')),
     url(r'^viz/', include('oppia.viz.urls')),
-    url(r'', include('gcm.urls')),
-    
+
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT }),
-    
+
 )
+
+if settings.DEVICE_ADMIN_ENABLED:
+    gcmpatterns = patterns('',
+        url(r'', include('gcm.urls')),
+        url(r'^device/', include('oppia.deviceadmin.urls')),
+    )
+    urlpatterns += gcmpatterns
+

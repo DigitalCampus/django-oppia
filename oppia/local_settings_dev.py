@@ -8,8 +8,7 @@ def modify(settings):
                                    'oppia.profile',
                                    'oppia.reports',
                                    'crispy_forms',
-                                   'tastypie',
-                                   'gcm',)
+                                   'tastypie',)
     settings['MIDDLEWARE_CLASSES'] += ('oppia.middleware.LoginRequiredMiddleware',)
     settings['TEMPLATE_CONTEXT_PROCESSORS'] += ('oppia.context_processors.get_points',)
     settings['TEMPLATE_CONTEXT_PROCESSORS'] += ('oppia.context_processors.get_version',)
@@ -90,5 +89,8 @@ def modify(settings):
     
     settings['API_LIMIT_PER_PAGE'] = 0
 
-    settings['GCM_APIKEY'] = "OPPIA_GOOGLEAPIKEY"
-    
+    settings['DEVICE_ADMIN_ENABLED'] = True
+
+    if settings['DEVICE_ADMIN_ENABLED']:
+        settings['INSTALLED_APPS'] += ('oppia.deviceadmin', 'gcm',)
+        settings['GCM_APIKEY'] = "OPPIA_GOOGLEAPIKEY"
