@@ -9,7 +9,7 @@ def modify(settings):
                                    'oppia.reports',
                                    'crispy_forms',
                                    'tastypie',
-                                   'gcm')
+                                   'gcm',)
     settings['MIDDLEWARE_CLASSES'] += ('oppia.middleware.LoginRequiredMiddleware',)
     settings['TEMPLATE_CONTEXT_PROCESSORS'] += ('oppia.context_processors.get_points',)
     settings['TEMPLATE_CONTEXT_PROCESSORS'] += ('oppia.context_processors.get_version',)
@@ -89,4 +89,6 @@ def modify(settings):
     settings['OPPIA_MAX_UPLOAD_SIZE'] = 5242880         # max course file upload size - in bytes
     
     settings['API_LIMIT_PER_PAGE'] = 0
+
+    settings['GCM_APIKEY'] = "OPPIA_GOOGLEAPIKEY"
     
