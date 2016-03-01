@@ -80,7 +80,6 @@ urlpatterns = patterns('',
 
 if settings.DEVICE_ADMIN_ENABLED:
     gcmpatterns = patterns('',
-        url(r'', include('gcm.urls')),
         url(r'^device/', include('oppia.deviceadmin.urls')),
     )
     urlpatterns += gcmpatterns

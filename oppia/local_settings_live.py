@@ -93,4 +93,5 @@ def modify(settings):
 
     if settings['DEVICE_ADMIN_ENABLED']:
         settings['INSTALLED_APPS'] += ('oppia.deviceadmin', 'gcm',)
-        settings['GCM_APIKEY'] = "OPPIA_GOOGLEAPIKEY"
+        settings['GCM_APIKEY'] = 'OPPIA_GOOGLEAPIKEY'
+        settings['GCM_DEVICE_MODEL'] = 'oppia.deviceadmin.models.UserDevice'
