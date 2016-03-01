@@ -50,26 +50,24 @@ def badge_award_all_activities(badge, hours):
             users = User.objects.filter(tracker__course=c, tracker__submitted_date__gte=since).distinct()
        
         for u in users:   
-            if AwardCourse.objects.filter(award__user=u,course=c).count() == 0:
-                continue # if user already has the badge then just move to next user
-                     
-            user_completed = Tracker.objects.filter(user=u, course=c, completed=True, digest__in=digests).values('digest').distinct().count()
-            if digests.count() == user_completed:
-                print c.title
-                print "-----------------------------"
-                print digests.count()
-                print u.username + " AWARD BADGE"
-                award = Award()
-                award.badge = badge
-                award.user = u
-                award.description = "Course completed: " + c.get_title()
-                award.save()
-                
-                am = AwardCourse()
-                am.course = c
-                am.award = award
-                am.course_version = c.version
-                am.save() 
+            if AwardCourse.objects.filter(award__user=u,course=c).count() == 0:        
+                user_completed = Tracker.objects.filter(user=u, course=c, completed=True, digest__in=digests).values('digest').distinct().count()
+                if digests.count() == user_completed:
+                    print c.title
+                    print "-----------------------------"
+                    print digests.count()
+                    print u.username + " AWARD BADGE"
+                    award = Award()
+                    award.badge = badge
+                    award.user = u
+                    award.description = "Course completed: " + c.get_title()
+                    award.save()
+                    
+                    am = AwardCourse()
+                    am.course = c
+                    am.award = award
+                    am.course_version = c.version
+                    am.save() 
                 
 def badge_award_final_quiz(badge, hours):
     courses = Course.objects.filter(is_draft=False, is_archived=False)
@@ -92,25 +90,22 @@ def badge_award_final_quiz(badge, hours):
        
         for u in users:   
             if AwardCourse.objects.filter(award__user=u,course=c).count() == 0:
-                continue # if user already has the badge then just move to next user
-                     
-            user_completed = Tracker.objects.filter(user=u, course=c, completed=True, digest=final_quiz_digest).values('digest').distinct().count()
-            if user_completed > 0:
-                print c.title
-                print "-----------------------------"
-                print digests.count()
-                print u.username + " AWARD BADGE"
-                award = Award()
-                award.badge = badge
-                award.user = u
-                award.description = "Course completed: " + c.get_title()
-                award.save()
-                
-                am = AwardCourse()
-                am.course = c
-                am.award = award
-                am.course_version = c.version
-                am.save() 
+                user_completed = Tracker.objects.filter(user=u, course=c, completed=True, digest=final_quiz_digest).values('digest').distinct().count()
+                if user_completed > 0:
+                    print c.title
+                    print "-----------------------------"
+                    print u.username + " AWARD BADGE"
+                    award = Award()
+                    award.badge = badge
+                    award.user = u
+                    award.description = "Course completed: " + c.get_title()
+                    award.save()
+                    
+                    am = AwardCourse()
+                    am.course = c
+                    am.award = award
+                    am.course_version = c.version
+                    am.save() 
     
 def badge_award_all_quizzes(badge, hours):
     courses = Course.objects.filter(is_draft=False, is_archived=False)
@@ -126,22 +121,20 @@ def badge_award_all_quizzes(badge, hours):
        
         for u in users:     
             if AwardCourse.objects.filter(award__user=u,course=c).count() == 0:
-                continue # if user already has the badge then just move to next user
-                   
-            user_completed = Tracker.objects.filter(user=u, course=c, completed=True, type=Activity.QUIZ, digest__in=digests).values('digest').distinct().count()
-            if digests.count() == user_completed:
-                print c.title
-                print "-----------------------------"
-                print digests.count()
-                print u.username + " AWARD BADGE"
-                award = Award()
-                award.badge = badge
-                award.user = u
-                award.description = "Course completed: " + c.get_title()
-                award.save()
-                
-                am = AwardCourse()
-                am.course = c
-                am.award = award
-                am.course_version = c.version
-                am.save() 
+                user_completed = Tracker.objects.filter(user=u, course=c, completed=True, type=Activity.QUIZ, digest__in=digests).values('digest').distinct().count()
+                if digests.count() == user_completed:
+                    print c.title
+                    print "-----------------------------"
+                    print digests.count()
+                    print u.username + " AWARD BADGE"
+                    award = Award()
+                    award.badge = badge
+                    award.user = u
+                    award.description = "Course completed: " + c.get_title()
+                    award.save()
+                    
+                    am = AwardCourse()
+                    am.course = c
+                    am.award = award
+                    am.course_version = c.version
+                    am.save() 
