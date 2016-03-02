@@ -9,6 +9,8 @@ v2016xxxxxx - not yet released
 
 * 118: In extracting media - not picking up newlines as blank space - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/118
 * 94: Better display format for quiz export settings - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/94
+* 25: Check still picks up media image  - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/25
+
 
 .. _blockv2016022400:
 
