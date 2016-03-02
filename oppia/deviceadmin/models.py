@@ -10,3 +10,4 @@ class UserDevice(AbstractDevice):
     model_name = models.TextField(blank=True, null=True, default=None)
     admin_enabled = models.BooleanField(blank=False, default=False)
 
+    
