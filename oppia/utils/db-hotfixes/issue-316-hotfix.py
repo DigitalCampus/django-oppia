@@ -11,6 +11,9 @@ def run():
 	from django.contrib.auth.models import User
 	from oppia.models import Course, Award, AwardCourse
 
+	'''
+	Remove the duplicated awards
+	'''
 	users = User.objects.filter(~Q(award = None)).distinct()
 
 	for user in users:
@@ -26,6 +29,11 @@ def run():
 					first_award = duplicates.aggregate(first=Min('award_date'))
 					print first_award['first']
 					Award.objects.filter(user=user, awardcourse__course = awardcourse.course).exclude(award_date = first_award['first']).delete()
+	
+	'''
+	Remove the duplicated points awarded
+	'''
+					
 		
 
 if __name__ == "__main__":
