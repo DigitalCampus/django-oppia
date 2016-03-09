@@ -29,6 +29,10 @@
 				type="xs:integer" />
 			<xs:element name="server" minOccurs="0" maxOccurs="1"
 				type="xs:string" />
+			<xs:element name="sequencing" minOccurs="0" maxOccurs="1"
+				type="xs:string" />
+				<xs:element name="tags" minOccurs="0" maxOccurs="1"
+				type="xs:string" />
 			<xs:element name="title" minOccurs="1" maxOccurs="unbounded"
 				type="LangType" />
 			<xs:element name="shortname" minOccurs="1" maxOccurs="1" />
