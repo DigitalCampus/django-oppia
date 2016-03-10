@@ -1,6 +1,15 @@
 OppiaMobile Server Change Log
 ================================
 
+
+.. _serverv0.9.4:
+
+v0.9.4 - not yet released
+--------------------------------
+
+* 289: Add default report for no badges (course completion rates) - http://github.com/DigitalCampus/django-oppia/issues/issue/289
+* 273: Refactor UserProfile model - http://github.com/DigitalCampus/django-oppia/issues/issue/273
+
 .. _serverv0.9.3:
 
 v0.9.3 - Released 22 Feb 2016
@@ -15,6 +24,7 @@ v0.9.3 - Released 22 Feb 2016
 * 299: 'Add cohort' button styling - http://github.com/DigitalCampus/django-oppia/issues/issue/299
 * 288: Allow downloading of raw data from the summary overview page - http://github.com/DigitalCampus/django-oppia/issues/issue/288
 * 274: Fix issue with date picker not displaying the date - http://github.com/DigitalCampus/django-oppia/issues/issue/274
+* HOTFIX (1 Mar 2016): 316: One user has 124 badges - http://github.com/DigitalCampus/django-oppia/issues/issue/316
 
 .. _serverv0.9.2:
 

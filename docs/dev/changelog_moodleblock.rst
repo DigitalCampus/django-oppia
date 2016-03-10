@@ -1,6 +1,24 @@
 OppiaMobile Moodle Block Change Log
 =====================================
 
+.. _blockv2016xxxxxx:
+
+v2016xxxxxx - not yet released
+-------------------------------------
+
+* 135: Add course tags to the course XML file - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/135
+
+
+.. _blockv2016030400:
+
+v2016030400 - Released: 4 Mar 2016
+--------------------------------------
+
+* 118: In extracting media - not picking up newlines as blank space - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/118
+* 94: Better display format for quiz export settings - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/94
+* 25: Check still picks up media image  - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/25
+* 147: Page/Settings button disappeared - conflict with new styles applied? - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/147
+
 .. _blockv2016022400:
 
 v2016022400 - Released: 24 Feb 2016
