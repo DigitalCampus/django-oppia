@@ -1,4 +1,5 @@
 # oppia/deviceadmin/api/resources.py
+
 from gcm.resources import DeviceResource
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie.authorization import Authorization
