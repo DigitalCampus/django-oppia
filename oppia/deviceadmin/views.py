@@ -11,7 +11,7 @@ def user_devices_list(request):
     if not request.user.is_staff:
         return HttpResponse('Unauthorized', status=401)
 
-    devices = UserDevice.objects.all()
+    devices = UserDevice.objects.all().order_by('-modified_date')
 
     return render_to_response('oppia/deviceadmin/list.html',
                               { 'devices': devices },
