@@ -10,11 +10,74 @@
 {% block content %}
     <h3>{% trans 'Remote Device Administration' %}</h3>
     {% for device in devices %}
-        <div class="device">
+        <div class="device"
+             data-device_name="{{ device.name }}"
+             data-model_name="{{ device.model_name }}"
+             data-created_at="{{ device.created_at }}"
+             data-modified="{{ device.modified_date }}"
+             data-device="{{ device.dev_id }}">
             user: {{ device.user.username }}<br/>
             <strong> {{ device.model_name }}</strong><br/>
             last modified: {{ device.modified_date }}
+            <button class="btn btn-primary admin-device">{% trans 'Admin' %}</button>
         </div>
     {% endfor %}
 
+<div class="modal fade" id="adminModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-body">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <span class="hidden" style="display:none;" data-label="device"></span>
+          <h2 data-label="device_name">Device</h2>
+          <h3 data-label="model_name">Model name</h3>
+          <strong>Created at:</strong><span data-label="created_at"></span><br/>
+          <strong>Last modified:</strong><span data-label="modified"></span><br/>
+
+          <hr/>
+          <h3>Disable camera</h3>
+          Send a message to the device to disable all the device cameras.
+          <button class="send-message" data-action="disable_camera">Send</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock  %}
+
+{% block extra_scripts %}
+    <script src="{{ STATIC_URL }}oppia/js/oppia.ajax-utils.js"></script>
+    <script type="text/javascript">
+       $(function(){
+
+           var devField = ['device_name', 'created_at', 'modified', 'device', 'model_name'];
+           var modal = $('#adminModal');
+           $('.admin-device').on('click', function(){
+               var device = $(this).parent();
+               for(var i=0; i<devField.length; i++){
+                   console.log(devField[i]);
+                   modal.find('[data-label="'+devField[i]+'"]').text(device.attr('data-'+devField[i]));
+               }
+               modal.modal('show');
+           });
+
+           modal.find('.send-message').on('click', function(){
+               var action = $(this).attr('data-action');
+               console.log(action);
+               var message = {
+                   action: action,
+                   device: modal.find('[data-label="device"]').text()
+               }
+
+               $.postWithCSRF('send_message', message, function(data){
+                   console.log(data);
+               });
+           });
+
+       });
+    </script>
 {% endblock  %}

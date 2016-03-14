@@ -30,7 +30,7 @@ def send_message_to_device(request):
     form = AdminMessageForm(request.POST)
     if form.is_valid():
         action = form.cleaned_data.get("action")
-        device = form.cleaned_data.get("device")
+        device_id = form.cleaned_data.get("device")
 
         message_data = {'type': 'admin', 'action': action}
 
@@ -38,9 +38,12 @@ def send_message_to_device(request):
             password = request.POST.get('password')
             message_data['password'] = password
 
-        phone = UserDevice.objects.get(reg_id=device)
-        message = phone.send_message(message_data)
+        device = UserDevice.objects.get(dev_id=device_id)
+        message = device.send_message(message_data)
         print message # returns a tuple containing reg_ids as list and response json
 
         #return the response object as json
         return JsonResponse(json.dumps(message[1]))
+
+    else:
+        return HttpResponse(status=400)
