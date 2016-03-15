@@ -1,5 +1,6 @@
 import json
 
+from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render_to_response
 
@@ -14,9 +15,23 @@ def user_devices_list(request):
         return HttpResponse('Unauthorized', status=401)
 
     devices = UserDevice.objects.all().order_by('-modified_date')
+    paginator = Paginator(devices, 10) # Show 25 per page
 
+    # Make sure page request is an int. If not, deliver first page.
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+
+    # If page request (9999) is out of range, deliver last page of results.
+    try:
+        devices = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        devices = paginator.page(paginator.num_pages)
+
+    print devices
     return render_to_response('oppia/deviceadmin/list.html',
-                              { 'devices': devices },
+                              { 'page': devices },
                               context_instance=RequestContext(request))
 
 def send_message_to_device(request):
