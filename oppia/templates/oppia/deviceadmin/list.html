@@ -13,7 +13,7 @@
         <div class="device"
              data-device_name="{{ device.name }}"
              data-model_name="{{ device.model_name }}"
-             data-created_at="{{ device.created_at }}"
+             data-created_at="{{ device.creation_date }}"
              data-modified="{{ device.modified_date }}"
              data-device="{{ device.dev_id }}">
             user: {{ device.user.username }}<br/>
@@ -22,6 +22,7 @@
             <button class="btn btn-primary admin-device">{% trans 'Admin' %}</button>
         </div>
     {% endfor %}
+    
 
 <div class="modal fade" id="adminModal" tabindex="-1" role="dialog">
   <div class="modal-dialog">
@@ -30,23 +31,97 @@
       <div class="modal-body">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <span class="hidden" style="display:none;" data-label="device"></span>
-          <h2 data-label="device_name">Device</h2>
-          <h3 data-label="model_name">Model name</h3>
-          <strong>Created at:</strong><span data-label="created_at"></span><br/>
-          <strong>Last modified:</strong><span data-label="modified"></span><br/>
+
+          <div class="device-modal-header">
+              <span class="glyphicon glyphicon-phone hidden-xs  "></span>
+            <h2 data-label="device_name">Device</h2>
+            <h3 data-label="model_name">Model name</h3>
+
+
+            <strong>Created at: </strong><span data-label="created_at"></span><br/>
+            <strong>Last modified: </strong><span data-label="modified"></span><br/>
+          </div>
 
           <hr/>
-          <h3>Disable camera</h3>
-          Send a message to the device to disable all the device cameras.
-          <button class="send-message" data-action="disable_camera">Send</button>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <div class="row">
+              <div class="col-sm-2">
+              <div class="action-icon"><i class="glyphicon glyphicon-ban-circle"></i></div>
+              </div>
+              <div class="col-sm-8">
+                  <h4 class="media-heading">Disable camera</h4>
+                  Send a message to the device to disable all the device cameras.
+              </div>
+              <div class="col-sm-2 text-center" style="padding-top: 1.5em;">
+                <button class="btn btn-primary send-message btn-sm" data-action="disable_camera">Send</button>
+              </div>
+          </div>
+
+          <hr/>
+          <div class="row">
+              <div class="col-sm-2">
+              <div class="action-icon"><i class="glyphicon glyphicon-camera"></i></div>
+              </div>
+              <div class="col-sm-8">
+                  <h4 class="media-heading">Enable cameras</h4>
+                  Send a message to the device to enable again all the device cameras (to undo the prior action).
+              </div>
+              <div class="col-sm-2 text-center" style="padding-top: 1.5em;">
+                <button class="btn btn-primary send-message btn-sm" data-action="enable_camera">Send</button>
+              </div>
+          </div>
+
+          <hr/>
+          <div class="row">
+              <div class="col-sm-2">
+              <div class="action-icon"><i class="glyphicon glyphicon-lock"></i></div>
+              </div>
+              <div class="col-sm-8">
+                  <h4 class="media-heading">Lock device</h4>
+                  Send a message to the device to lock its screen and set a new password.
+                  <div class="form-group" style="margin-top:0.5em;"><input type="password" class="form-control" name="password" placeholder="{% trans 'Password' %}" /></div>
+                  <div class="alert alert-danger" id="password-alert" style="display:none;" role="alert"> <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> You must set a password!</div>
+              </div>
+              <div class="col-sm-2 text-center" style="padding-top: 1.5em;">
+                <button class="btn btn-primary send-message btn-sm" data-action="password_lock">Send</button>
+              </div>
+          </div>
       </div>
     </div>
   </div>
 </div>
 
+    <style>
+    .action-icon{
+        margin:auto;
+        width: 64px;
+        height: 64px;
+        border-radius: 100%;
+        background: #77A240;
+        text-align: center;
+        line-height: 68px;
+        font-size:36px;
+        color: #fff;
+        margin-bottom: 0.5em;
+    }
+    .device-modal-header{
+        max-height: 130px;
+        overflow: hidden;
+    }
+    .device-modal-header h2{
+        margin: 0;
+    }
+    .device-modal-header h3{
+        margin-top:0;
+        color: #666;
+    }
+    .device-modal-header .glyphicon{
+        font-size: 120px;
+        float: left;
+        margin-bottom: 100px;
+        margin-top:10px;
+        color:#888;
+    }
+    </style>
 {% endblock  %}
 
 {% block extra_scripts %}
@@ -67,10 +142,20 @@
 
            modal.find('.send-message').on('click', function(){
                var action = $(this).attr('data-action');
-               console.log(action);
                var message = {
                    action: action,
                    device: modal.find('[data-label="device"]').text()
+               };
+               if (action == 'password_lock'){
+                   var password = modal.find('input[name="password"]').val().trim();
+                   if (password == ''){
+                        $('#password-alert').hide().fadeIn();
+                       return;
+                   }
+                   else{
+                       $('#password-alert').hide();
+                       message['password'] = password;
+                   }
                }
 
                $.postWithCSRF('send_message', message, function(data){
