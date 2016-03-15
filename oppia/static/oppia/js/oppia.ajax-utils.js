@@ -17,12 +17,11 @@ function getCookieValue(name) {
 $.postWithCSRF = function postWithCSRF(url, data, callback){
 
     var csrfToken = getCookieValue('csrftoken');
-    $.ajax({
+    return $.ajax({
         type: "POST",
         url : url,
         data: data,
         beforeSend: function(xhr) { xhr.setRequestHeader("X-CSRFToken", csrfToken); },
         success: callback
     });
-
 };

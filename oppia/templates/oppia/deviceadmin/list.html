@@ -146,6 +146,28 @@
   </div>
 </div>
 
+<div class="modal fade" id="resultsModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+
+          <h3><div class="action-icon"><i class="glyphicon glyphicon-send"></i></div>{% trans 'Remote messaging' %}</h3>
+
+          <div class="loading">
+            <img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/>
+              Sending push message...
+          </div>
+            <div class="alert alert-success" role="alert" style="margin-bottom:0;"><span class="glyphicon glyphicon-ok"></span> Message succesfully sent.</div>
+          <div class="alert alert-danger" role="alert" style="margin-bottom:0;"><span class="glyphicon glyphicon-warning-sign"></span> <strong>Ouch!</strong> The message could not be delivered.</div>
+      </div>
+
+      <div class="modal-footer" style="display: none;">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
     <style>
     .user-avatar{
         display: inline-block !important;
@@ -189,26 +211,28 @@
     <script type="text/javascript">
        $(function(){
            var devField = ['device_name', 'created_at', 'modified', 'device', 'model_name'];
-           var modal = $('#adminModal');
+           var adminModal = $('#adminModal');
+           var resultsModal = $('#resultsModal');
+
            $('.admin-device').on('click', function(){
                var device = $(this).parents('tr');
                for(var i=0; i<devField.length; i++){
-                   modal.find('[data-label="'+devField[i]+'"]').text(device.attr('data-'+devField[i]));
+                   adminModal.find('[data-label="'+devField[i]+'"]').text(device.attr('data-'+devField[i]));
                }
-               modal
+               adminModal
                    .modal('show')
                    .find('[data-label="device_user"]')
                     .replaceWith(device.find('a.device-user').clone().find('.user-avatar').show().end());
            });
 
-           modal.find('.send-message').on('click', function(){
+           adminModal.find('.send-message').on('click', function(){
                var action = $(this).attr('data-action');
                var message = {
                    action: action,
-                   device: modal.find('[data-label="device"]').text()
+                   device: adminModal.find('[data-label="device"]').text()
                };
                if (action == 'password_lock'){
-                   var password = modal.find('input[name="password"]').val().trim();
+                   var password = adminModal.find('input[name="password"]').val().trim();
                    if (password == ''){
                         $('#password-alert').hide().fadeIn();
                        return;
@@ -220,8 +244,27 @@
                }
 
                $.postWithCSRF('send_message', message, function(data){
-                   console.log(data);
+                    resultsModal
+                            .find('.alert-success').fadeIn().end()
+                            .find('.loading').hide().end()
+                            .find('.modal-footer').show();
+               }).fail(function(xhr){
+                    var response = $.parseJSON(xhr.responseText);
+                    var errors = $('<span class="errors"></span>');
+                   $.each(response.results, function(i,elem){ errors.append('<p>'+elem.error+'</p>')});
+                    console.log(response);
+                    resultsModal
+                            .find('.errors').remove().end()
+                            .find('.alert-danger').append(errors).fadeIn().end()
+                            .find('.loading').hide().end()
+                            .find('.modal-footer').show();
                });
+               adminModal.modal('hide');
+               resultsModal
+                       .modal({backdrop: 'static', keyboard: false})
+                       .find('.loading').show().end()
+                       .find('.modal-footer').hide().end()
+                       .find('.alert').hide();
            });
        });
     </script>

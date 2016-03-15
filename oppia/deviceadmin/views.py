@@ -57,11 +57,13 @@ def send_message_to_device(request):
             message_data['password'] = password
 
         device = UserDevice.objects.get(dev_id=device_id)
-        message = device.send_message(message_data)
-        print message # returns a tuple containing reg_ids as list and response json
-
+        messageID, response = device.send_message(message_data)
+        success = response['failure'] == 0
+        if success:
+            return JsonResponse(response, status=200)
+        else:
+            return JsonResponse(response, status=400)
         #return the response object as json
-        return JsonResponse(json.dumps(message[1]))
 
     else:
         return HttpResponse(status=400)
