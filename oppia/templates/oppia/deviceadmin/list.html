@@ -16,9 +16,45 @@
          	 <thead>
                 <tr>
                     <th></th>
-                  <th>{% trans 'Device' %}</th>
-                  <th>{% trans 'User' %}</th>
-                  <th>{% trans 'Last modified' %}</th>
+                  <th>
+                      {% if page_ordering == "name" %}
+                        <a href="?order_by=-name"><span class="glyphicon glyphicon-sort-by-attributes"></span></a>
+                      {% else %}
+                      <a href="?order_by=name">
+                          {% if page_ordering == "-name" %}
+                            <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                          {% else %}
+                            <span class="glyphicon glyphicon-sort"></span>
+                          {% endif %}
+                      </a>
+                      {% endif %}
+                      {% trans 'Device' %} </th>
+                  <th>
+                      {% if page_ordering == "user" %}
+                        <a href="?order_by=-user"><span class="glyphicon glyphicon-sort-by-attributes"></span></a>
+                      {% else %}
+                      <a href="?order_by=user">
+                          {% if page_ordering == "-user" %}
+                            <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                          {% else %}
+                            <span class="glyphicon glyphicon-sort"></span>
+                          {% endif %}
+                      </a>
+                      {% endif %}
+                      {% trans 'User' %}</th>
+                  <th>
+                      {% if page_ordering == "modified_date" %}
+                        <a href="?order_by=-modified_date"><span class="glyphicon glyphicon-sort-by-attributes"></span></a>
+                      {% else %}
+                      <a href="?order_by=modified_date">
+                          {% if page_ordering == "-modified_date" %}
+                            <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                          {% else %}
+                            <span class="glyphicon glyphicon-sort"></span>
+                          {% endif %}
+                      </a>
+                      {% endif %}
+                      {% trans 'Last modified' %}</th>
                 </tr>
               </thead>
               <tbody>
@@ -28,7 +64,7 @@
              data-created_at="{{ device.creation_date }}"
              data-modified="{{ device.modified_date }}"
              data-device="{{ device.dev_id }}">
-                <td><button class="btn btn-primary admin-device"><span class="glyphicon glyphicon-cog"></span></button></td>
+                <td><button class="btn btn-primary btn-sm admin-device"><span class="glyphicon glyphicon-cog"></span></button></td>
 				<td>{{ device.name }}</td>
                 <td> <a class="device-user" href="{% url 'profile_user_activity' device.user.id %}">
                     {% if OPPIA_SHOW_GRAVATARS %} <span class="user-avatar" style="display:none !important;">{{ device.user|gravatar:24 }}</span> {% endif %}

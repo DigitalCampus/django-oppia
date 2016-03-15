@@ -14,7 +14,11 @@ def user_devices_list(request):
     if not request.user.is_staff:
         return HttpResponse('Unauthorized', status=401)
 
-    devices = UserDevice.objects.all().order_by('-modified_date')
+    ordering = request.GET.get('order_by', None)
+    if ordering is None:
+        ordering = '-modified_date'
+
+    devices = UserDevice.objects.all().order_by(ordering)
     paginator = Paginator(devices, 10) # Show 25 per page
 
     # Make sure page request is an int. If not, deliver first page.
@@ -23,7 +27,6 @@ def user_devices_list(request):
     except ValueError:
         page = 1
 
-    # If page request (9999) is out of range, deliver last page of results.
     try:
         devices = paginator.page(page)
     except (EmptyPage, InvalidPage):
@@ -31,7 +34,7 @@ def user_devices_list(request):
 
     print devices
     return render_to_response('oppia/deviceadmin/list.html',
-                              { 'page': devices },
+                              { 'page': devices, 'page_ordering':ordering },
                               context_instance=RequestContext(request))
 
 def send_message_to_device(request):
