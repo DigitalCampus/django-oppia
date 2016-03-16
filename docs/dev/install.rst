@@ -14,7 +14,7 @@ with Django, visit http://gettingstartedwithdjango.com/.
   
 * Create a fork of the `django-oppia <https://github.com/DigitalCampus/django-oppia>`_ 
   repository on Github and check this out to your server. For more information 
-  on how to fork a repository in GitHub, see: https://github.com/DigitalCampus/django-oppia/
+  on how to fork a repository in GitHub, see: https://help.github.com/articles/fork-a-repo/
 
 * Run ``python setup.py develop`` to install the dependencies
 
@@ -29,10 +29,10 @@ with Django, visit http://gettingstartedwithdjango.com/.
     * Add::
     
     	import os,sys
-		BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-		PROJECT_PATH = os.path.normpath(os.path.join(BASE_DIR, '..', 'django-oppia'))
-		if PROJECT_PATH not in sys.path:
-		    sys.path.insert(0, PROJECT_PATH)
+	BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+	PROJECT_PATH = os.path.normpath(os.path.join(BASE_DIR, '..', 'django-oppia'))
+	if PROJECT_PATH not in sys.path:
+		sys.path.insert(0, PROJECT_PATH)
     
       replacing `django-oppia` with the name of your fork in github and 
       referencing the location on your server where you have cloned the repository
