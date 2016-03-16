@@ -15,6 +15,7 @@ Contents:
 .. toctree::
    :maxdepth: 1
    
+   features
    dev/index
    author/author
    permissions
