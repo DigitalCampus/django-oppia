@@ -88,4 +88,10 @@ def modify(settings):
     settings['OPPIA_MAX_UPLOAD_SIZE'] = 5242880         # max course file upload size - in bytes
     
     settings['API_LIMIT_PER_PAGE'] = 0
-    
+
+    settings['DEVICE_ADMIN_ENABLED'] = True
+
+    if settings['DEVICE_ADMIN_ENABLED']:
+        settings['INSTALLED_APPS'] += ('oppia.deviceadmin', 'gcm',)
+        settings['GCM_APIKEY'] = 'OPPIA_GOOGLEAPIKEY'
+        settings['GCM_DEVICE_MODEL'] = 'oppia.deviceadmin.models.UserDevice'
