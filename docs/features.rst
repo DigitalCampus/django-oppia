@@ -1,4 +1,4 @@
-Oppia Mobile Key Features
+OppiaMobile Key Features
 ===========================
 
 For Learners
