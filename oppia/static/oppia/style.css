@@ -201,3 +201,18 @@ tr.hover:hover {
 div.date-picker-row-fluid {
 	float:left;
 }
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+    background-color: #77A240;
+    border-color: #77A240;
+    color: #fff;
+}
+
+.pagination > li > a:hover, .pagination > li > span:hover, .pagination > li > a:focus, .pagination > li > span:focus {
+    color: #495525;
+    background-color: #a5c727;
+    border-color: #a5c727;
+}
+.pagination > li > a, .pagination > li > span {
+    color: #77A240;
+}

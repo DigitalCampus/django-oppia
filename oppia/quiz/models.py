@@ -1,4 +1,5 @@
 # quiz/models.py
+from django.apps import apps
 from django.contrib.auth.models import User
 from django.core import serializers
 from django.db import models
@@ -138,6 +139,7 @@ class QuizAttempt(models.Model):
     ip = models.GenericIPAddressField()
     instance_id = models.CharField(max_length=50,null=True,blank=True)
     agent = models.TextField(blank=True)
+    uuid = models.TextField(blank=True, null=True, default=None)
     
     class Meta:
         verbose_name = _('QuizAttempt')
@@ -171,7 +173,19 @@ class QuizAttempt(models.Model):
             return qp[0].value
         else:
             return None
-        
+
+    def get_tracker(self):
+        if (self.uuid is None):
+            return None
+        else:
+            #get Tracker model this way to avoid circular import issues
+            Tracker = apps.get_model('app_label.model_name')
+            trackers = Tracker.objects.filter(uuid=self.uuid)
+            if trackers.count() > 0:
+                return trackers[0]
+            else:
+                return None
+
 class QuizAttemptResponse(models.Model):
     quizattempt = models.ForeignKey(QuizAttempt)
     question = models.ForeignKey(Question)
