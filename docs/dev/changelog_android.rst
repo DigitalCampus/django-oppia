@@ -3,8 +3,8 @@ OppiaMobile Android App Change Log
 
 .. _appv56:
 
-v56 (5.5.0) - not yet released
------------------------------------
+v56 (5.5.0) - released 21 March 2016
+--------------------------------------
 
 * 473: Add options for display or not for the menu options - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/473
 * 418: Not connecting to get course download list - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/418
