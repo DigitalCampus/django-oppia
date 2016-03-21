@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{% trans 'Export users' %}
+{% endblock extra_head_title %}
+
+{% block content %}
+<h2>{% trans 'Export users' %}</h2>
+
+    <div class="row">
+         <div class="table-responsive col-sm-6">
+         <h3>Available users</h3>
+             <table class="table table-fixed">
+                 <thead>
+                    <tr>
+                      <th>{% trans 'User' %}</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody id="available-users">
+
+        {% for user in users %}
+                <tr id="{{ user.u.username }}">
+                    <td class="col-xs-9 col-sm-10 ">{% if OPPIA_SHOW_GRAVATARS %} {{ user.u|gravatar:24 }} {% endif %}
+                        {{ user.u.first_name }} {{ user.u.last_name }}
+                        <input type="hidden" name="apikey" value="{{ user.apikey }}" />
+                        <input type="hidden" name="email" value="{{ user.u.email }}" />
+                        <input type="hidden" name="username" value="{{ user.u.username }}" />
+                        <input type="hidden" name="first_name" value="{{ user.u.first_name }}" />
+                        <input type="hidden" name="last_name" value="{{ user.u.last_name }}" />
+                        <input type="text" name="password" placeholder="{% trans 'Password' %}" class="password removing" style="display:none;float:right;" />
+                    </td>
+                    <td class="col-xs-3 col-sm-2 text-right">
+                        <button class="btn btn-sm btn-primary btn-add"><i class="glyphicon glyphicon-plus"></i> </button>
+                        <button class="btn btn-sm btn-primary btn-remove removing" style="display: none;"><i class="glyphicon glyphicon-remove"></i> </button>
+                    </td>
+
+                </tr>
+        {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="table-responsive col-sm-6">
+        <h3>Selected users</h3>
+             <div class="panel panel-default" id="explanation">
+                 <div class="panel-heading"></div>
+                 <div class="panel-body">
+                 Add users from the "Available users" lists by clicking the button with the <i class="glyphicon glyphicon-plus"></i> sign.
+                 Then, you'll have to enter the user's password for each of them before downloading the CSV to include in the app.
+                 <br/><br/>
+                 If you want to remove one selected user, press the button with the <i class="glyphicon glyphicon-remove"></i> sign by its side.
+                 </div>
+             </div>
+             <table class="table table-fixed" id="selected-users-table">
+                 <thead>
+                    <tr>
+                      <th>{% trans 'User' %}</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody id="selected-users">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-6">
+            <div class="alert alert-danger alert-dismissible password-alert" role="alert" style="display:none;">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <strong>{% trans 'Error' %}!</strong> {% trans 'You must fill the password for every user' %}
+            </div>
+            <button class="btn btn-sm btn-primary btn-download"><i class="glyphicon glyphicon-download"></i> {% trans 'Download users CSV' %}</button>
+
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{{ STATIC_URL }}oppia/js/oppia.chart-utils.js"></script>
+    <script type="text/javascript">
+
+
+    $(function(){
+        var explanation = $('#explanation');
+        var allUsers = $('#available-users');
+        var selUsersTable = $('#selected-users-table').hide();
+        var selectedUsers = $('#selected-users');
+
+        $('.btn-add').on('click', function(){
+            var user = $(this).parents('tr').first();
+            user.clone().attr('data-username', user.attr('id'))
+                .removeAttr('id')
+                .appendTo(selectedUsers)
+                .find('.btn-add').hide().end()
+                .find('.removing').show();
+            user.hide();
+            selUsersTable.show();
+            explanation.hide();
+        });
+
+        $(selectedUsers).on('click', '.btn-remove', function(){
+            var user = $(this).parents('tr').first();
+            allUsers.find('#'+user.attr('data-username')).show();
+            user.remove();
+            if (selectedUsers.children().size() == 0){
+                explanation.show();
+                selUsersTable.hide();
+            }
+        });
+
+        function inputVal($user, field){
+            return $user.find('[name="'+field+'"]').val();
+        }
+
+        var csvFields = ['username', 'password', 'apikey', 'email', 'first_name', 'last_name'];
+        var fieldsLength = csvFields.length;
+        $('.btn-download').on('click', function(){
+
+            var usersCSV = "";
+            var formValidated = true;
+
+            //Print headers to CSV
+            for(var i=0; i<fieldsLength; i++) {
+                usersCSV += csvFields[i];
+                usersCSV += (i < (fieldsLength - 1)) ? "," : "\n";
+            }
+
+            //Print selected users to CSV
+            $.each(selectedUsers.find('tr'), function(){
+                var user = $(this);
+                formValidated &= (inputVal(user,'password') != "");
+                for(var i=0; i<fieldsLength; i++) {
+                    usersCSV += inputVal(user, csvFields[i]);
+                    usersCSV += (i < (fieldsLength - 1)) ? "," : "\n";
+                }
+            });
+
+            var alert = $('.password-alert');
+            if (formValidated){
+                alert.hide();
+                downloadFile(usersCSV,'oppia_users.csv', 'text/csv');
+            }
+            else{
+                //Show a new alert if there is no visible one
+                if (alert.size() == 1)
+                    alert.clone().insertBefore(alert).fadeIn();
+                else
+                    alert.first().hide().fadeIn();
+            }
+        });
+    });
+    </script>
+{% endblock extra_scripts %}
+
+{% block extra_styles %}
+
+<style>
+
+.table-fixed{
+    display: block;
+    border: 1px solid #ddd;
+    background:#f5f5f5;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+.table-fixed thead {
+  width: 97%;
+}
+.table-fixed tbody {
+    min-height: 150px;
+  max-height: 300px;
+  overflow-y: auto;
+  width: 100%;
+    background:#fff;
+}
+.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
+  display: block;
+}
+.table-fixed tbody td, .table-fixed thead > tr> th {
+  float: left;
+  border-bottom-width: 0;
+}
+</style>
+{% endblock extra_styles %}
