@@ -24,6 +24,10 @@ v56 (5.5.0) - not yet released
 * 497: Update the main scorecard (for multiple courses) so matches the individual course scorecard - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/497
 * 482: How to enable more structured courses - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/482
 * 512: Updated quiz jar file - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/512
+* 498: Deal with deprecation of HTTP libraries - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/498
+* 499: Pull in the Device Admin API option into the core code - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/499
+* 517: DB errors: java.lang.IllegalStateException: attempt to re-open an already-closed object - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/517
+* 424: Save searches into tracker - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/424
 
 .. _appv55:
 
