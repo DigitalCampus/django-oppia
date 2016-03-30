@@ -1,6 +1,12 @@
 OppiaMobile Android App Change Log
 ====================================
 
+
+.. note:: 
+	For the next release of the OppiaMobile Android App (v57 - 6.0.0), we will be moving to using Android Studio as the 
+	supported development environment. This is an important note since the project structure will change significantly.
+
+
 .. _appv56:
 
 v56 (5.5.0) - released 21 March 2016
