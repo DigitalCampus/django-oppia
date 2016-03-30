@@ -143,6 +143,7 @@ related jar from the `/app/libs/` folder
 	git mv src/com app/src/main/java
 	git mv res app/src/main
 	git mv assets app/src/main
+	git git mv AndroidManifest.xml app/src/main
 
 Make sure that the files are detected as a move by using `git status` (not needed if using `git mv` command)
 
@@ -162,6 +163,7 @@ Make sure that the files are detected as a move by using `git status` (not neede
 
 	/.idea/
 	/build
+	/app/build
 	/gradle
 	*.iml
 	.gradle
@@ -170,9 +172,7 @@ Make sure that the files are detected as a move by using `git status` (not neede
 	gradlew.bat
 
 
-9. Finally, we can remove the old Eclipse files as they are no longer needed, remove the temporary project and open the 
-   project with Android Studio. If everything is working properly, we can make the commit and start to get used to the 
-   new IDE :)
+9. Finally, we can remove the old Eclipse files as they are no longer needed, remove the temporary project and open the project with Android Studio. As we only copied the minimum possible from the other project, it will detect it at first as a plain gradle project in the folder hierarchy selector, but once it scans the project it will mark it as an Android project, generating all the IDE files associated (that we have added to the .gitignore file manually). If everything is working properly, we can make the commit and start to get used to the new IDE :)
    
 
 
