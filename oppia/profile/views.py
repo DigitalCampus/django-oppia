@@ -21,9 +21,10 @@ from django.utils.translation import ugettext as _
 from itertools import chain
 
 from oppia.forms import DateRangeForm, DateRangeIntervalForm
-from oppia.models import Points, Award, AwardCourse, Course, UserProfile, Tracker, Activity
+from oppia.models import Points, Award, AwardCourse, Course, Tracker, Activity
 from oppia.permissions import get_user, get_user_courses, can_view_course, can_edit_user
 from oppia.profile.forms import LoginForm, RegisterForm, ResetForm, ProfileForm, UploadProfileForm
+from oppia.profile.models import UserProfile
 from oppia.quiz.models import Quiz, QuizAttempt
 from oppia.reports.signals import dashboard_accessed
 

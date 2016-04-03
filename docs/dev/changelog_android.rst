@@ -23,6 +23,7 @@ v56 (5.5.0) - not yet released
 * 464: Can't start app with storage location set to external - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/464
 * 497: Update the main scorecard (for multiple courses) so matches the individual course scorecard - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/497
 * 482: How to enable more structured courses - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/482
+* 512: Updated quiz jar file - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/512
 
 .. _appv55:
 

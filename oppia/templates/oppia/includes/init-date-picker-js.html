@@ -1,9 +1,12 @@
 function setUpDatePicker(){
-	$( "#id_start_date" ).datepicker();
-	$( "#id_start_date" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
-	$( "#id_start_date" ).datepicker( "option", "defaultDate", "-1m" );
 
-	$( "#id_end_date" ).datepicker();
-	$( "#id_end_date" ).datepicker( "option", "defaultDate", "-1d" );
-	$( "#id_end_date" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+    startDate = $( "#id_start_date" );
+    if (startDate.length) //Check if not empty jQuery object
+        startDate.datepicker({dateFormat: "yy-mm-dd", defaultDate: "-1m"})
+                 .datepicker('setDate', startDate.val());
+
+    endDate = $( "#id_end_date" );
+    if (endDate.length) //Check if not empty jQuery object
+        endDate.datepicker({dateFormat: "yy-mm-dd", defaultDate: "-1d"})
+               .datepicker('setDate', endDate.val());
 }
