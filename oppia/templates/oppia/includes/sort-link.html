@@ -1,5 +1,5 @@
 <a
-    {% if ordered_ascending or ordered_descending %}class="active" {% endif %}
+    {% if ordered_ascending or ordered_descending %}class="sorted" {% endif %}
     href="?order_by={% if ordered_ascending %}-{% endif %}{{ orderby }}">
     <span class="glyphicon
     {% if ordered_ascending %}

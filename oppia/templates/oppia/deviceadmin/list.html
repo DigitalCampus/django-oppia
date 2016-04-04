@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load display_functions %}
 {% load crispy_forms_tags %}
+{% load sort_link %}
 
 {% block extra_head_title %}
 	{{ course.title|title_lang:LANGUAGE_CODE }}
@@ -12,49 +13,13 @@
 
     <div class="container">
     <div class="table-responsive">
-         <table class="table table-striped-expandable">
+         <table class="table table-striped-expandable sortable">
          	 <thead>
                 <tr>
                     <th></th>
-                  <th>
-                      {% if page_ordering == "name" %}
-                        <a href="?order_by=-name"><span class="glyphicon glyphicon-sort-by-attributes"></span></a>
-                      {% else %}
-                      <a href="?order_by=name">
-                          {% if page_ordering == "-name" %}
-                            <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
-                          {% else %}
-                            <span class="glyphicon glyphicon-sort"></span>
-                          {% endif %}
-                      </a>
-                      {% endif %}
-                      {% trans 'Device' %} </th>
-                  <th>
-                      {% if page_ordering == "user" %}
-                        <a href="?order_by=-user"><span class="glyphicon glyphicon-sort-by-attributes"></span></a>
-                      {% else %}
-                      <a href="?order_by=user">
-                          {% if page_ordering == "-user" %}
-                            <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
-                          {% else %}
-                            <span class="glyphicon glyphicon-sort"></span>
-                          {% endif %}
-                      </a>
-                      {% endif %}
-                      {% trans 'User' %}</th>
-                  <th>
-                      {% if page_ordering == "modified_date" %}
-                        <a href="?order_by=-modified_date"><span class="glyphicon glyphicon-sort-by-attributes"></span></a>
-                      {% else %}
-                      <a href="?order_by=modified_date">
-                          {% if page_ordering == "-modified_date" %}
-                            <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
-                          {% else %}
-                            <span class="glyphicon glyphicon-sort"></span>
-                          {% endif %}
-                      </a>
-                      {% endif %}
-                      {% trans 'Last modified' %}</th>
+                    <th>{% sort_link 'name' 'Device' %}</th>
+                    <th>{% sort_link 'user' 'User' %}</th>
+                    <th>{% sort_link 'modified_date' 'Last modified' %}</th>
                 </tr>
               </thead>
               <tbody>
