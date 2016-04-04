@@ -1,6 +1,6 @@
 {% extends "base.html" %} 
 {% load i18n %} 
-
+{% load staticfiles %}
 {% block extra_head_title %}
 	{% trans 'About' %}
 {% endblock extra_head_title %}
@@ -21,7 +21,7 @@
 {% blocktrans %} 
 	<p>The development of OppiaMobile has been made possible by funding from:</p>
 	
-	<img src="{{ STATIC_URL }}oppia/images/UK-AID-Standard-RGB.jpg"/>
+	<img src="{% static "oppia/images/UK-AID-Standard-RGB.jpg" %}"/>
 	
 	<p>Acknowledgements and contributors to the code include:</p>
 		<ul>
