@@ -8,7 +8,10 @@ This training is designed to teach content developers how to create courses in M
    	
    	00_setup 
    	01_overview
-   	02_moodle
+   	02_quiz
+   	03_video
+   	04_server
+   	05_review
    	
  
 * How to add sections/topic titles

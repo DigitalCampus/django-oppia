@@ -1,11 +1,12 @@
 Session 2: Moodle LMS Overview 
 ==================================
 
-Time: 30 mins
+Time: 1 hour
 
 Objectives
 -------------
 
+At the end of this session, participants will be able to:
 
 
 Activities
@@ -17,5 +18,5 @@ Activities
 * Refer to guidelines for course structure
 
 
-M&E
-------
+Follow up and preparation for next session
+-------------------------------------------------------
