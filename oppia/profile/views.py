@@ -3,6 +3,7 @@ import csv
 import datetime
 from itertools import chain
 
+import operator
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import (authenticate, login)
@@ -236,10 +237,24 @@ def user_activity(request, user_id):
                 'no_quizzes_completed': course.get_no_quizzes_completed(course,view_user),
                 'pretest_score': course.get_pre_test_score(course,view_user),
                 'no_activities_completed': course.get_activities_completed(course,view_user),
-                'no_quizzes_completed': course.get_no_quizzes_completed(course,view_user),
                 'no_points': course.get_points(course,view_user),
                 'no_badges': course.get_badges(course,view_user),}
         courses.append(data)
+
+    order_options = ['course', 'no_quizzes_completed', 'pretest_score',
+                     'no_activities_completed','no_points', 'no_badges']
+    default_order = 'course'
+
+    ordering = request.GET.get('order_by', default_order)
+    inverse_order = ordering.startswith('-')
+    if inverse_order:
+        ordering = ordering[1:]
+
+    if ordering not in order_options:
+        ordering = default_order
+        inverse_order = False
+
+    courses.sort(key=operator.itemgetter(ordering), reverse=inverse_order)
 
     activity = []
     start_date = timezone.now() - datetime.timedelta(days=31)
@@ -262,6 +277,7 @@ def user_activity(request, user_id):
     return render_to_response('oppia/profile/user-scorecard.html',
                               {'view_user': view_user,
                                'courses': courses,
+                               'page_ordering': ('-' if inverse_order else '') + ordering,
                                'activity_graph_data': activity },
                               context_instance=RequestContext(request))
 

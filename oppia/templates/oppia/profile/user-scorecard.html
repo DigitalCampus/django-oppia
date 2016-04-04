@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load display_functions %}
+{% load sort_link %}
 
 {% block extra_head_title %}
 	{{ view_user.first_name }} {{ view_user.last_name }}
@@ -17,15 +18,15 @@
 <h3>{% trans 'Courses' %}</h3>
 {% if courses %}
 	<div class="table-responsive">
-         <table class="table table-striped">
+         <table class="table table-striped sortable">
          	<thead>
                 <tr>
-                  <th>{% trans 'Course' %}</th>
-                  <th>{% trans 'Pre-test Score' %}</th>
-                  <th>{% trans 'Activities Completed' %}</th>
-                  <th>{% trans 'Quizzes Completed' %}</th>
-                  <th>{% trans 'Points' %}</th>
-                  <th>{% trans 'Badges' %}</th>
+                  <th>{% sort_link 'course' 'Course' %}</th>
+                  <th>{% sort_link 'pretest_score' 'Pre-test Score' %}</th>
+                  <th>{% sort_link 'no_activities_completed' 'Activities Completed' %}</th>
+                  <th>{% sort_link 'no_quizzes_completed' 'Quizzes Completed' %}</th>
+                  <th>{% sort_link 'no_points' 'Points' %}</th>
+                  <th>{% sort_link 'no_badges' 'Badges' %}</th>
                 </tr>
               </thead>
              <tbody>
