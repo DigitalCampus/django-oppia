@@ -1,0 +1,13 @@
+<a
+    {% if ordered_ascending or ordered_descending %}class="active" {% endif %}
+    href="?order_by={% if ordered_ascending %}-{% endif %}{{ orderby }}">
+    <span class="glyphicon
+    {% if ordered_ascending %}
+        glyphicon-sort-by-attributes
+    {% elif ordered_descending %}
+        glyphicon-sort-by-attributes-alt
+    {% else %}
+        glyphicon-sort
+    {% endif %}
+    "></span>
+{{ title }}</a>
