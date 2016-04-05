@@ -1,4 +1,4 @@
-Session 2: Moodle LMS Overview 
+Session 2: Adding a Quiz to a Course in OppiaMobile
 ==================================
 
 Time: 1 hour
@@ -8,15 +8,20 @@ Objectives
 
 At the end of this session, participants will be able to:
 
+* Create a quiz for OppiaMobile
+* Create a baseline/pre-test
 
 Activities
 -------------
 
-* How Moodle is used for OppiaMobile
-* How to access a course and turn editing on
-* Basic course structure, levels of activities and how they get represented when exported to Oppia
-* Refer to guidelines for course structure
+* Review of previous session, any questions/queries
+
+
+* Adding pre-test quizzes/assessments
 
 
 Follow up and preparation for next session
 -------------------------------------------------------
+
+
+

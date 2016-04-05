@@ -12,6 +12,9 @@ At the end of this session, participants will be able to:
 Activities
 -------------
 
+* user & course groups/cohorts
+* server permissions
+* admin/reporting
 
 
 Follow up and preparation for next session
