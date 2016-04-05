@@ -11,6 +11,9 @@ OppiaMobile Android App Change Log
 v57 (6.0.0) - not yet released
 --------------------------------------
 
+* 490: Add option to show the logged in user - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/490
+* 421: context menu of the main activity into a drawer - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/421
+* 360: Look at how to reorganise menu options - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/360
 
 .. _appv56:
 
