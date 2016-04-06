@@ -22,7 +22,7 @@ Activities
 * Describe architecture and components of OppiaMobile, especially Moodle for course authoring
 * Access a Moodle course and turn editing on
 * Basic course structure, levels of activities and how they get represented when exported to OppiaMobile
-* Activity types supporting in OppiaMobile
+* Activity types supporting in OppiaMobile (see: :doc:`../../author/activitytypes`)
 * Adding a section/topic title
 * Adding an HTML page activity
 * Adding an image to the page
