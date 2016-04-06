@@ -1,5 +1,5 @@
-Installing and configuring Moodle and OppiaMobile export block
-================================================================
+Session 3: Installing and configuring Moodle and OppiaMobile export block
+===========================================================================
 
 Time: 
 

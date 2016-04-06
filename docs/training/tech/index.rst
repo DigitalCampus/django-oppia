@@ -22,17 +22,8 @@ At the end of this course, participants will be able to:
 * Create a clone of the OppiaMobile app and submit to Google Play Store
 
 
-
 Sessions
 ------------
-
-#. Overview of components and technical tools
-#. Installing an Oppia AWS machine. Homework: Set up, install and configure on AWS, read up on Moodle and install 
-   requirements
-#. Installing and configuring Moodle and OppiaMobile export block. Homework: Set up and install Moodle, configure to 
-   export course to your installed AWS server, install Android Studio
-#. Creating own version of OppiaMobile app
-
 
 .. toctree::
    	:maxdepth: 1
@@ -41,3 +32,4 @@ Sessions
    	02_aws
    	03_moodle
    	04_oppia_app
+   	05_review

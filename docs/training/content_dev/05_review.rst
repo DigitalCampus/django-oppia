@@ -25,7 +25,7 @@ Advanced topics
 -----------------
 
 There are several features that we haven't covered during this training, these may be useful if you have specific 
-requirements in your implementation, for example adding multilingual content and specific server settings for the 
-criteria for awarding points and badges and generating custom reports. Please discuss with us if you have any particular 
-requirements in these areas.
+requirements in your implementation, for example adding multilingual content, using stylesheets and javascript within 
+your course pages, specific server settings for the criteria for awarding points and badges and generating custom 
+reports. Please discuss with us if you have any particular requirements in these areas.
 

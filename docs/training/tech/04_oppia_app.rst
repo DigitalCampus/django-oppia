@@ -1,4 +1,4 @@
-Creating own version of OppiaMobile app
+Session 4: Creating own version of OppiaMobile app
 ================================================================
 
 Time: 
