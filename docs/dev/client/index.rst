@@ -12,23 +12,22 @@ Prerequisites
 Before being able to create your own version of the OppiaMobile app, you should 
 have an understanding of:
 
-* Using Eclipse IDE for development
+* Using Android Studio for development
 * Basic understanding of the Android Java framework
 * How to use GitHub for source code management
 
 If you are completely new to any of the above, here are a few links to help get 
 you started:
 
-* Eclipse - installation and set up - http://eclipse.org/
 * Android development environment - https://developer.android.com/
 * Android app development - getting started - http://www.vogella.com/android.html
 * Git - http://git-scm.com/
-* GitHub getting started (and Egit for linking up to Eclipse) - http://www.eclipse.org/egit/ 
+* GitHub getting started - 
 
 
 Getting Started
 ---------------
-* Set up your development environment (Eclipse and Android framework)
+* Set up your development environment
 * Create a fork of the `oppia-mobile-android` repository in GitHub
 * Clone your new GitHub repository to your machine
 * Create a project in Eclipse connected to this repository
@@ -38,8 +37,10 @@ Getting Started
 Please ensure that you are able to compile and run the core version of the app
 before you start to make any changes to the code.
 
-Server Connection 
------------------
+
+Configuring your own version of the app
+-------------------------------------------
+
 Assuming you have set up and installed you own OppiaMobile server, clearly 
 you'll want your users to connect to this by default.
 
@@ -49,6 +50,9 @@ automatically point to your server:
 
 * Open the ``/res/values/strings.xml`` file
 * Change the ``prefServerDefault`` string to be the url to your server
+
+
+
 
 Design/Layout
 -------------
@@ -63,9 +67,6 @@ For more significant changes to the interface over and above changing the basic
 colour scheme and header etc, then this will require more substantial updates 
 and familiarity with the code base.
  
-
-Splash Screen
--------------
 
 
 Preloading Courses
@@ -93,19 +94,6 @@ courses, then follow these steps:
   the courses), then you will need to add another code block (with new version 
   number) to trigger the automatic installation of the updated/new courses.
 
-Preloading Media Files
-----------------------
-
-Registration Form
-------------------
-
-Other Activity Types
---------------------
-
-.. _clientappdist:
-
-Application distribution and auto-updating
-------------------------------------------
 
 
 

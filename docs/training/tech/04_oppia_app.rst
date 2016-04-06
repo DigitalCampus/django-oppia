@@ -6,10 +6,14 @@ Time:
 Objectives
 -------------
 
+At the end of this session, participants will be able to:
+
+
 
 Activities
 -------------
 
+* Review of previous session, any questions/queries
 
 Code changes that need to be made:
 

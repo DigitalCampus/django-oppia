@@ -6,6 +6,8 @@ Time:
 Objectives
 -------------
 
+At the end of this session, participants will be able to:
+
 
 Activities
 -------------
