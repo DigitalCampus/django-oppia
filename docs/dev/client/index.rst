@@ -43,6 +43,7 @@ before you start to make any changes to the code.
    	:maxdepth: 1
    	
    	configure 
+   	settings
    	theme
    	preloading
 
