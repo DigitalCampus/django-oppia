@@ -13,6 +13,8 @@ v0.9.4 - not yet released
 * 276: Add content development training course to docs - http://github.com/DigitalCampus/django-oppia/issues/issue/276
 * 313: Add architecture/workflow to docs - http://github.com/DigitalCampus/django-oppia/issues/issue/313
 
+.. note::
+ 	Make sure that django.contrib.staticfiles is included in your INSTALLED_APPS setting (for issue #305 above)
 
 .. _serverv0.9.3:
 
