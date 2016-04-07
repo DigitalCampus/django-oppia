@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load display_functions %}
 {% load crispy_forms_tags %}
+{% load staticfiles %}
 
 {% block extra_head_title %}
 	{{ course.title|title_lang:LANGUAGE_CODE }}
@@ -154,7 +155,7 @@
           <h3><div class="action-icon"><i class="glyphicon glyphicon-send"></i></div>{% trans 'Remote messaging' %}</h3>
 
           <div class="loading">
-            <img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/>
+            <img src="{% static "oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}" %}"/>
               Sending push message...
           </div>
             <div class="alert alert-success" role="alert" style="margin-bottom:0;"><span class="glyphicon glyphicon-ok"></span> Message succesfully sent.</div>
@@ -207,7 +208,7 @@
 {% endblock  %}
 
 {% block extra_scripts %}
-    <script src="{{ STATIC_URL }}oppia/js/oppia.ajax-utils.js"></script>
+    <script src="{% static "oppia/js/oppia.ajax-utils.js" %}"></script>
     <script type="text/javascript">
        $(function(){
            var devField = ['device_name', 'created_at', 'modified', 'device', 'model_name'];
