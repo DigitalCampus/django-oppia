@@ -1,0 +1,272 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+{% block extra_head_title %}
+	{{ course.title|title_lang:LANGUAGE_CODE }}
+{% endblock extra_head_title %}
+
+{% block content %}
+    <h3>{% trans 'Remote Device Administration' %}</h3>
+
+    <div class="container">
+    <div class="table-responsive">
+         <table class="table table-striped-expandable">
+         	 <thead>
+                <tr>
+                    <th></th>
+                  <th>
+                      {% if page_ordering == "name" %}
+                        <a href="?order_by=-name"><span class="glyphicon glyphicon-sort-by-attributes"></span></a>
+                      {% else %}
+                      <a href="?order_by=name">
+                          {% if page_ordering == "-name" %}
+                            <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                          {% else %}
+                            <span class="glyphicon glyphicon-sort"></span>
+                          {% endif %}
+                      </a>
+                      {% endif %}
+                      {% trans 'Device' %} </th>
+                  <th>
+                      {% if page_ordering == "user" %}
+                        <a href="?order_by=-user"><span class="glyphicon glyphicon-sort-by-attributes"></span></a>
+                      {% else %}
+                      <a href="?order_by=user">
+                          {% if page_ordering == "-user" %}
+                            <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                          {% else %}
+                            <span class="glyphicon glyphicon-sort"></span>
+                          {% endif %}
+                      </a>
+                      {% endif %}
+                      {% trans 'User' %}</th>
+                  <th>
+                      {% if page_ordering == "modified_date" %}
+                        <a href="?order_by=-modified_date"><span class="glyphicon glyphicon-sort-by-attributes"></span></a>
+                      {% else %}
+                      <a href="?order_by=modified_date">
+                          {% if page_ordering == "-modified_date" %}
+                            <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+                          {% else %}
+                            <span class="glyphicon glyphicon-sort"></span>
+                          {% endif %}
+                      </a>
+                      {% endif %}
+                      {% trans 'Last modified' %}</th>
+                </tr>
+              </thead>
+              <tbody>
+	{% for device in page.object_list %}
+		<tr data-device_name="{{ device.name }}"
+             data-model_name="{{ device.model_name }}"
+             data-created_at="{{ device.creation_date }}"
+             data-modified="{{ device.modified_date }}"
+             data-device="{{ device.dev_id }}">
+                <td><button class="btn btn-primary btn-sm admin-device"><span class="glyphicon glyphicon-cog"></span></button></td>
+				<td>{{ device.name }}</td>
+                <td> <a class="device-user" href="{% url 'profile_user_activity' device.user.id %}">
+                    {% if OPPIA_SHOW_GRAVATARS %} <span class="user-avatar" style="display:none !important;">{{ device.user|gravatar:24 }}</span> {% endif %}
+                    {{ device.user.first_name }} {{ device.user.last_name }}</a></td>
+                <td>  {{ device.modified_date }}</td>
+
+			</tr>
+	{% endfor %}
+			</tbody>
+ 		</table>
+	</div>
+    {% include "oppia/includes/pagination.html" %}
+    </div>
+
+<div class="modal fade" id="adminModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-body">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <span class="hidden" style="display:none;" data-label="device"></span>
+
+          <div class="device-modal-header">
+              <span class="glyphicon glyphicon-phone hidden-xs"></span>
+            <h2 data-label="device_name">Device</h2>
+            <h3 data-label="model_name">Model name</h3>
+
+              <span data-label="device_user"></span><br/>
+
+            <strong>Created at: </strong><span data-label="created_at"></span><br/>
+            <strong>Last modified: </strong><span data-label="modified"></span><br/>
+          </div>
+
+          <hr/>
+          <div class="row">
+              <div class="col-sm-2 hidden-xs">
+              <div class="action-icon"><i class="glyphicon glyphicon-ban-circle"></i></div>
+              </div>
+              <div class="col-sm-8">
+                  <h4>{% trans 'Disable camera' %}</h4>
+                  Send a message to the device to disable all the device cameras.
+              </div>
+              <div class="col-sm-2 text-center" style="padding-top: 1.5em;">
+                <button class="btn btn-primary send-message btn-sm" data-action="disable_camera">{% trans 'Send' %}</button>
+              </div>
+          </div>
+
+          <hr/>
+          <div class="row">
+              <div class="col-sm-2 hidden-xs">
+              <div class="action-icon"><i class="glyphicon glyphicon-camera"></i></div>
+              </div>
+              <div class="col-sm-8">
+                  <h4>{% trans 'Enable cameras' %}</h4>
+                  Send a message to the device to enable again all the device cameras (to undo the prior action).
+              </div>
+              <div class="col-sm-2 text-center" style="padding-top: 1.5em;">
+                <button class="btn btn-primary send-message btn-sm" data-action="enable_camera">{% trans 'Send' %}</button>
+              </div>
+          </div>
+
+          <hr/>
+          <div class="row">
+              <div class="col-sm-2 hidden-xs">
+              <div class="action-icon"><i class="glyphicon glyphicon-lock"></i></div>
+              </div>
+              <div class="col-sm-8">
+                  <h4>{% trans 'Lock device' %}</h4>
+                  Send a message to the device to lock its screen and set a new password.
+                  <div class="form-group" style="margin-top:0.5em;"><input type="password" class="form-control" name="password" placeholder="{% trans 'Password' %}" /></div>
+                  <div class="alert alert-danger" id="password-alert" style="display:none;" role="alert"> <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {% trans 'Please enter a password.' %} </div>
+              </div>
+              <div class="col-sm-2 text-center" style="padding-top: 1.5em;">
+                <button class="btn btn-primary send-message btn-sm" data-action="password_lock">{% trans 'Send' %}</button>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="resultsModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+
+          <h3><div class="action-icon"><i class="glyphicon glyphicon-send"></i></div>{% trans 'Remote messaging' %}</h3>
+
+          <div class="loading">
+            <img src="{% static "oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}" %}"/>
+              Sending push message...
+          </div>
+            <div class="alert alert-success" role="alert" style="margin-bottom:0;"><span class="glyphicon glyphicon-ok"></span> Message succesfully sent.</div>
+          <div class="alert alert-danger" role="alert" style="margin-bottom:0;"><span class="glyphicon glyphicon-warning-sign"></span> <strong>Ouch!</strong> The message could not be delivered.</div>
+      </div>
+
+      <div class="modal-footer" style="display: none;">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <style>
+    .user-avatar{
+        display: inline-block !important;
+        margin-bottom: 0.5em;
+    }
+    .action-icon{
+        margin:auto;
+        width: 64px;
+        height: 64px;
+        border-radius: 100%;
+        background: #77A240;
+        text-align: center;
+        line-height: 68px;
+        font-size:36px;
+        color: #fff;
+        margin-bottom: 0.5em;
+    }
+    @media (min-width:768px){
+        .device-modal-header{
+            max-height: 140px;
+            overflow: hidden;
+        }
+    }
+    .device-modal-header h2{  margin: 0;  }
+    .device-modal-header h3{
+        margin-top:0;
+        color: #666;
+    }
+    .device-modal-header .glyphicon{
+        font-size: 120px;
+        float: left;
+        margin-bottom: 100px;
+        margin-top:10px;
+        color:#888;
+    }
+    </style>
+{% endblock  %}
+
+{% block extra_scripts %}
+    <script src="{% static "oppia/js/oppia.ajax-utils.js" %}"></script>
+    <script type="text/javascript">
+       $(function(){
+           var devField = ['device_name', 'created_at', 'modified', 'device', 'model_name'];
+           var adminModal = $('#adminModal');
+           var resultsModal = $('#resultsModal');
+
+           $('.admin-device').on('click', function(){
+               var device = $(this).parents('tr');
+               for(var i=0; i<devField.length; i++){
+                   adminModal.find('[data-label="'+devField[i]+'"]').text(device.attr('data-'+devField[i]));
+               }
+               adminModal
+                   .modal('show')
+                   .find('[data-label="device_user"]')
+                    .replaceWith(device.find('a.device-user').clone().find('.user-avatar').show().end());
+           });
+
+           adminModal.find('.send-message').on('click', function(){
+               var action = $(this).attr('data-action');
+               var message = {
+                   action: action,
+                   device: adminModal.find('[data-label="device"]').text()
+               };
+               if (action == 'password_lock'){
+                   var password = adminModal.find('input[name="password"]').val().trim();
+                   if (password == ''){
+                        $('#password-alert').hide().fadeIn();
+                       return;
+                   }
+                   else{
+                       $('#password-alert').hide();
+                       message['password'] = password;
+                   }
+               }
+
+               $.postWithCSRF('send_message', message, function(data){
+                    resultsModal
+                            .find('.alert-success').fadeIn().end()
+                            .find('.loading').hide().end()
+                            .find('.modal-footer').show();
+               }).fail(function(xhr){
+                    var response = $.parseJSON(xhr.responseText);
+                    var errors = $('<span class="errors"></span>');
+                   $.each(response.results, function(i,elem){ errors.append('<p>'+elem.error+'</p>')});
+                    console.log(response);
+                    resultsModal
+                            .find('.errors').remove().end()
+                            .find('.alert-danger').append(errors).fadeIn().end()
+                            .find('.loading').hide().end()
+                            .find('.modal-footer').show();
+               });
+               adminModal.modal('hide');
+               resultsModal
+                       .modal({backdrop: 'static', keyboard: false})
+                       .find('.loading').show().end()
+                       .find('.modal-footer').hide().end()
+                       .find('.alert').hide();
+           });
+       });
+    </script>
+{% endblock  %}
