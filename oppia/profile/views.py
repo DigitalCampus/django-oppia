@@ -411,16 +411,17 @@ def export_users(request):
         raise Http404
 
     users = []
-    for user in User.objects.all():
+    for user in User.objects.all().select_related('api_key__key'):
         userObj = {}
         userObj['u'] = user
         try:
-            apiKey = ApiKey.objects.get(user=user)
+            apiKey = user.api_key.key
         except ApiKey.DoesNotExist:
             #if the user doesn't have an apiKey yet, generate it
             apiKey = ApiKey.objects.create(user=user)
         print apiKey
-        userObj['apikey'] = apiKey.key
+        userObj['apikey'] = apiKey
+
         users.append(userObj)
 
     return render_to_response('oppia/profile/export_users.html',
