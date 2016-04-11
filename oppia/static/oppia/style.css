@@ -230,7 +230,6 @@ div.date-picker-row-fluid {
 }
 .table-fixed tbody {
     min-height: 150px;
-  max-height: 300px;
   overflow-y: auto;
   width: 100%;
     background:#fff;

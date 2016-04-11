@@ -432,6 +432,7 @@ def export_users(request):
             #if the user doesn't have an apiKey yet, generate it
             ApiKey.objects.create(user=user)
 
-    return render_to_response('oppia/profile/export_users.html',
+    template = 'export_users_table.html' if request.is_ajax() else 'export_users.html'
+    return render_to_response('oppia/profile/' + template,
                               {'page': users, 'page_ordering':ordering},
                               context_instance=RequestContext(request),)
