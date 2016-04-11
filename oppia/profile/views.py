@@ -295,11 +295,13 @@ def user_course_activity_view(request, user_id, course_id):
     for aq in act_quizzes:
         quiz = Quiz.objects.get(quizprops__value=aq.digest, quizprops__name="digest")
         attempts = QuizAttempt.objects.filter(quiz=quiz, user=view_user)
-        if attempts.count() > 0:
+        num_attempts = attempts.count()
+        if num_attempts > 0:
             quiz_maxscore = float(attempts[0].maxscore)
-            max_score = 100*float(attempts.aggregate(max=Max('score'))['max']) / quiz_maxscore
-            min_score = 100*float(attempts.aggregate(min=Min('score'))['min']) / quiz_maxscore
-            avg_score = 100*float(attempts.aggregate(avg=Avg('score'))['avg']) / quiz_maxscore
+            attemps_stats = attempts.aggregate(max=Max('score'), min=Min('score'), avg=Avg('score'))
+            max_score = 100*float(attemps_stats['max']) / quiz_maxscore
+            min_score = 100*float(attemps_stats['min']) / quiz_maxscore
+            avg_score = 100*float(attemps_stats['avg']) / quiz_maxscore
             first_date = attempts.aggregate(date=Min('attempt_date'))['date']
             recent_date = attempts.aggregate(date=Max('attempt_date'))['date']
             first_score = 100*float(attempts.filter(attempt_date = first_date)[0].score) / quiz_maxscore
@@ -313,7 +315,7 @@ def user_course_activity_view(request, user_id, course_id):
 
         quiz = {'quiz': aq,
                 'quiz_order': aq.order,
-                'no_attempts': attempts.count(),
+                'no_attempts': num_attempts,
                 'max_score': max_score,
                 'min_score': min_score,
                 'first_score': first_score,
@@ -339,11 +341,16 @@ def user_course_activity_view(request, user_id, course_id):
         count = next((dct['count'] for dct in trackers if dct['activity_date'] == temp.date()), 0)
         activity.append([temp.strftime("%d %b %Y"),count])
 
+    order_options = ['quiz_order', 'no_attempts', 'max_score', 'min_score',
+                     'first_score', 'latest_score', 'avg_score']
     default_order = 'quiz_order'
     ordering = request.GET.get('order_by', default_order)
     inverse_order = ordering.startswith('-')
     if inverse_order:
         ordering = ordering[1:]
+    if ordering not in order_options:
+        ordering = default_order
+        inverse_order = False
 
     quizzes.sort(key=operator.itemgetter(ordering), reverse=inverse_order)
 
