@@ -1,7 +1,15 @@
-Adpating Open University Moodle Content
+Adapting Open University Moodle Content
 ===============================================
 
+This describes the process and scripts Digital Campus has used to adapt content from the Open University (UK), for 
+example the HEAT and OpenWASH content.
 
+This content is already very well structured and edited, however there are a few areas that need to be updated so the 
+courses display very well on OppiaMobile.
+
+#. Import the Moodle course onto your own Moodle server - you will need to have full access to the Moodle installation 
+   and database for this adaptation.
+   
 #. Updating and applying the scripts that we used for the HEAT content adaptation. These remove OU specific stylesheets 
    and navigation. [Describe each script below and what function it performs]
 
