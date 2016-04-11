@@ -2,6 +2,7 @@
 {% load i18n %} 
 {% load display_functions %} 
 {% load crispy_forms_tags %}
+{% load staticfiles %}
 
 {% block extra_head_title %}
 	{% trans 'Summary Overview' %}
@@ -13,7 +14,7 @@
 
 {% if user.is_authenticated %}
 	{% block extra_scripts %}
-    <script src="{{ STATIC_URL }}oppia/js/oppia.chart-utils.js"></script>
+    <script src="{% static "oppia/js/oppia.chart-utils.js" %}"></script>
 	<script type='text/javascript' src='https://www.google.com/jsapi'></script>
 	<script type="text/javascript">
 
@@ -214,53 +215,53 @@
 
 <h3>{% trans 'User Registrations' %}</h3>
 
-<div id="user_registrations_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
+<div id="user_registrations_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
 {% if user_registrations %}
     <button class="btn btn-default btn-primary btn-sm download-csv" data-csv="users_regs">{% trans 'Download as CSV' %}</button>
 {% endif %}
 
-<div id="user_registrations_cumulative_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
+<div id="user_registrations_cumulative_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
 {% if user_registrations %}
     <button class="btn btn-default btn-primary btn-sm download-csv" data-csv="users_regs_aggr">{% trans 'Download as CSV' %}</button>
 {% endif %}
 
 <h3>{% trans 'Activity by Country' %}</h3>
 <p>{% trans 'Total countries:' %} {{ total_countries }}</p>
-<div id="activity_by_country_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
+<div id="activity_by_country_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
 <button class="btn btn-default btn-primary btn-sm download-csv" data-csv="country_activity">{% trans 'Download as CSV' %}</button>
-<div id="activity_by_language_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
+<div id="activity_by_language_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
 
 <h3>{% trans 'Course Downloads' %}</h3>
-<div id="course_downloads_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
+<div id="course_downloads_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
 {% if course_downloads %}
     <button class="btn btn-default btn-primary btn-sm download-csv" data-csv="downloads">{% trans 'Download as CSV' %}</button>
 {% endif %}
 
-<div id="course_downloads_cumulative_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
+<div id="course_downloads_cumulative_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
 {% if course_downloads %}
     <button class="btn btn-default btn-primary btn-sm download-csv" data-csv="downloads_aggr">{% trans 'Download as CSV' %}</button>
 {% endif %}
 
 <h3>{% trans 'Course Activity' %}</h3>
-<div id="course_activity_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
+<div id="course_activity_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
 {% if course_activity %}
     <button class="btn btn-default btn-primary btn-sm download-csv" data-csv="activity">{% trans 'Download as CSV' %}</button>
 {% endif %}
 
-<div id="course_activity_cumulative_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
+<div id="course_activity_cumulative_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
 {% if course_activity %}
     <button class="btn btn-default btn-primary btn-sm download-csv" data-csv="activity_aggr">{% trans 'Download as CSV' %}</button>
 {% endif %}
 
-<div id="activity_by_course_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
+<div id="activity_by_course_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
 
 <h3>{% trans 'In app-searches' %}</h3>
-<div id="searches_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
+<div id="searches_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
 {% if searches %}
     <button class="btn btn-default btn-primary btn-sm download-csv" data-csv="searches">{% trans 'Download as CSV' %}</button>
 {% endif %}
 
-<div id="searches_cumulative_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
+<div id="searches_cumulative_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
 {% if searches %}
     <button class="btn btn-default btn-primary btn-sm download-csv" data-csv="searches_aggr">{% trans 'Download as CSV' %}</button>
 {% endif %}

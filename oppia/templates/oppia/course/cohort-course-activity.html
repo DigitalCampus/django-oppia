@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load display_functions %}
+{% load staticfiles %}
 
 {% block extra_head_title %}
 	{{ cohort.description }} &gt; {{ course.title|title_lang:LANGUAGE_CODE}}
@@ -46,7 +47,7 @@
 							{% if student.no_badges > 0 %}
 								<span class="badges"
 									title="{% trans 'Badge' %}"><img
-									src="{{ STATIC_URL }}oppia/images/badge.png"
+									src="{% static "oppia/images/badge.png" %}"
 									alt="{% trans 'Badge' %}" /></span>
 							{% else %}
 								&nbsp;

@@ -1,9 +1,10 @@
 {% extends "base-preview.html" %} 
 {% load i18n %} 
 {% load display_functions %} 
+{% load staticfiles %}
 
 {% block extra_styles %}
-	<link href="{{ STATIC_URL }}oppia/preview/default.css" rel="stylesheet"/>
+	<link href="{% static "oppia/preview/default.css" %}" rel="stylesheet"/>
 {% endblock extra_styles %}
 
 {% block extra_scripts %}
