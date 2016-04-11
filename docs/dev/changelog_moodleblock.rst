@@ -8,7 +8,7 @@ v2016xxxxxx - not yet released
 
 * 135: Add course tags to the course XML file - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/135
 * 131: Error when exporting file activity when no description entered - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/131
-
+* 148: On export check the course shortname used - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/148
 
 .. _blockv2016030400:
 
