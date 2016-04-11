@@ -296,13 +296,14 @@ def user_course_activity_view(request, user_id, course_id):
         quiz = Quiz.objects.get(quizprops__value=aq.digest, quizprops__name="digest")
         attempts = QuizAttempt.objects.filter(quiz=quiz, user=view_user)
         if attempts.count() > 0:
-            max_score = 100*float(attempts.aggregate(max=Max('score'))['max']) / float(attempts[0].maxscore)
-            min_score = 100*float(attempts.aggregate(min=Min('score'))['min']) / float(attempts[0].maxscore)
-            avg_score = 100*float(attempts.aggregate(avg=Avg('score'))['avg']) / float(attempts[0].maxscore)
+            quiz_maxscore = float(attempts[0].maxscore)
+            max_score = 100*float(attempts.aggregate(max=Max('score'))['max']) / quiz_maxscore
+            min_score = 100*float(attempts.aggregate(min=Min('score'))['min']) / quiz_maxscore
+            avg_score = 100*float(attempts.aggregate(avg=Avg('score'))['avg']) / quiz_maxscore
             first_date = attempts.aggregate(date=Min('attempt_date'))['date']
             recent_date = attempts.aggregate(date=Max('attempt_date'))['date']
-            first_score = 100*float(attempts.filter(attempt_date = first_date)[0].score) / float(attempts[0].maxscore)
-            latest_score = 100*float(attempts.filter(attempt_date = recent_date)[0].score) / float(attempts[0].maxscore)
+            first_score = 100*float(attempts.filter(attempt_date = first_date)[0].score) / quiz_maxscore
+            latest_score = 100*float(attempts.filter(attempt_date = recent_date)[0].score) / quiz_maxscore
         else:
             max_score = None
             min_score = None
@@ -311,6 +312,7 @@ def user_course_activity_view(request, user_id, course_id):
             latest_score = None
 
         quiz = {'quiz': aq,
+                'quiz_order': aq.order,
                 'no_attempts': attempts.count(),
                 'max_score': max_score,
                 'min_score': min_score,
@@ -318,7 +320,7 @@ def user_course_activity_view(request, user_id, course_id):
                 'latest_score': latest_score,
                 'avg_score': avg_score,
                  }
-        quizzes.append(quiz);
+        quizzes.append(quiz)
 
     activity = []
     start_date = timezone.now() - datetime.timedelta(days=31)
@@ -337,10 +339,19 @@ def user_course_activity_view(request, user_id, course_id):
         count = next((dct['count'] for dct in trackers if dct['activity_date'] == temp.date()), 0)
         activity.append([temp.strftime("%d %b %Y"),count])
 
+    default_order = 'quiz_order'
+    ordering = request.GET.get('order_by', default_order)
+    inverse_order = ordering.startswith('-')
+    if inverse_order:
+        ordering = ordering[1:]
+
+    quizzes.sort(key=operator.itemgetter(ordering), reverse=inverse_order)
+
     return render_to_response('oppia/profile/user-course-scorecard.html',
                               {'view_user': view_user,
                                'course': course,
                                'quizzes': quizzes,
+                               'page_ordering': ('-' if inverse_order else '') + ordering,
                                'activity_graph_data': activity },
                               context_instance=RequestContext(request))
 
