@@ -410,20 +410,28 @@ def export_users(request):
     if not request.user.is_staff:
         raise Http404
 
-    users = []
-    for user in User.objects.all().select_related('api_key__key'):
+    default_order = 'date_joined'
+    ordering = request.GET.get('order_by', None)
+    if ordering is None:
+        ordering = default_order
+
+    users = User.objects.all().order_by(ordering).select_related('api_key__key')
+    paginator = Paginator(users, 5)
+
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+
+    users = paginator.page(page)
+    for user in users:
         userObj = {}
-        userObj['u'] = user
         try:
             apiKey = user.api_key.key
         except ApiKey.DoesNotExist:
             #if the user doesn't have an apiKey yet, generate it
-            apiKey = ApiKey.objects.create(user=user)
-        print apiKey
-        userObj['apikey'] = apiKey
-
-        users.append(userObj)
+            ApiKey.objects.create(user=user)
 
     return render_to_response('oppia/profile/export_users.html',
-                              {'users': users},
+                              {'page': users, 'page_ordering':ordering},
                               context_instance=RequestContext(request),)

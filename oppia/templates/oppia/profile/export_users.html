@@ -10,37 +10,9 @@
 <h2>{% trans 'Export users' %}</h2>
 
     <div class="row">
-         <div class="table-responsive col-sm-6">
+         <div class="col-sm-6">
          <h3>Available users</h3>
-             <table class="table table-fixed">
-                 <thead>
-                    <tr>
-                      <th>{% trans 'User' %}</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody id="available-users">
-
-        {% for user in users %}
-                <tr id="{{ user.u.username }}">
-                    <td class="col-xs-9 col-sm-10 ">{% if OPPIA_SHOW_GRAVATARS %} {{ user.u|gravatar:24 }} {% endif %}
-                        {{ user.u.first_name }} {{ user.u.last_name }}
-                        <input type="hidden" name="apikey" value="{{ user.apikey }}" />
-                        <input type="hidden" name="email" value="{{ user.u.email }}" />
-                        <input type="hidden" name="username" value="{{ user.u.username }}" />
-                        <input type="hidden" name="first_name" value="{{ user.u.first_name }}" />
-                        <input type="hidden" name="last_name" value="{{ user.u.last_name }}" />
-                        <input type="text" name="password" placeholder="{% trans 'Password' %}" class="password removing" style="display:none;float:right;" />
-                    </td>
-                    <td class="col-xs-3 col-sm-2 text-right">
-                        <button class="btn btn-sm btn-primary btn-add"><i class="glyphicon glyphicon-plus"></i> </button>
-                        <button class="btn btn-sm btn-primary btn-remove removing" style="display: none;"><i class="glyphicon glyphicon-remove"></i> </button>
-                    </td>
-
-                </tr>
-        {% endfor %}
-                </tbody>
-            </table>
+             {% include "oppia/profile/exports_users_table.html" %}
         </div>
 
         <div class="table-responsive col-sm-6">
@@ -156,35 +128,3 @@
     });
     </script>
 {% endblock extra_scripts %}
-
-{% block extra_styles %}
-
-<style>
-
-.table-fixed{
-    display: block;
-    border: 1px solid #ddd;
-    background:#f5f5f5;
-    border-radius: 4px;
-    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
-    box-shadow: 0 1px 1px rgba(0,0,0,.05);
-}
-.table-fixed thead {
-  width: 97%;
-}
-.table-fixed tbody {
-    min-height: 150px;
-  max-height: 300px;
-  overflow-y: auto;
-  width: 100%;
-    background:#fff;
-}
-.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
-  display: block;
-}
-.table-fixed tbody td, .table-fixed thead > tr> th {
-  float: left;
-  border-bottom-width: 0;
-}
-</style>
-{% endblock extra_styles %}
