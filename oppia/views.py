@@ -166,11 +166,8 @@ def courses_list_view(request):
     for course in courses:
         obj = {}
         obj['course'] = course
-        access_detail, response = can_view_course_detail(request,course.id)
-        if access_detail is not None:
-            obj['access_detail'] = True
-        else:
-            obj['access_detail'] = False
+        #access_detail, response = can_view_course_detail(request,course.id)
+        obj['access_detail'] = request.user.is_staff
         courses_list.append(obj)
         
     return render_to_response('oppia/course/courses-list.html',
