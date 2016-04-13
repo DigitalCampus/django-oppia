@@ -690,19 +690,17 @@ class Points(models.Model):
     @staticmethod
     def get_leaderboard(count=0, course=None):
         users = User.objects.all()
-        users = users.annotate(total=Sum('points__points', distinct=True)).order_by('-total')
-
         if course is not None:
             users = users.filter(points__course=course)
-        else:
-            users = users.annotate(badges=Count('award', distinct=True))
+        users = users.annotate(total=Sum('points__points')).order_by('-total')
         if count > 0:
             users = users[:count]
 
         for u in users:
-            if course is not None:
-                u.badges = Award.get_userawards(u,course)
-            u.total = 0 if u.total is None else u.total
+            u.badges = Award.get_userawards(u,course)
+            if u.total is None:
+                u.total = 0
+
         return users
     
     
