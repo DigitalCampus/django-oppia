@@ -241,3 +241,4 @@ div.date-picker-row-fluid {
   float: left;
   border-bottom-width: 0;
 }
+.hidden-fields{ display:none; }

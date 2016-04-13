@@ -1,0 +1,94 @@
+{% load i18n %}
+{% load display_functions %}
+
+<h2>{% trans 'Students' %}</h2>
+
+<div class="row">
+     <div class="col-sm-6">
+     <h3>{% trans 'Available students' %}</h3>
+         <div id="available-users">
+         {% include "oppia/profile/export_users_table.html" %}
+         </div>
+    </div>
+
+    <div class="table-responsive col-sm-6">
+    <h3>{% trans 'Selected students' %}</h3>
+         <div class="panel panel-default" id="explanation">
+             <div class="panel-heading"></div>
+             <div class="panel-body">
+             Add students from the "Available students" lists by clicking the button with the <i class="glyphicon glyphicon-plus"></i> sign.
+             If you want to remove one selected student, press the button with the <i class="glyphicon glyphicon-remove"></i> sign by its side.
+             </div>
+         </div>
+         <table class="table table-fixed" id="selected-users-table" style="display:none;">
+             <thead>
+                <tr>
+                  <th>{% trans 'User' %}</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="selected-users" style="max-height:400px;">
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+     <div class="col-sm-6">
+     <h3>{% trans 'Available teachers' %}</h3>
+         <div id="available-users">
+         {% include "oppia/profile/export_users_table.html" %}
+         </div>
+    </div>
+
+    <div class="table-responsive col-sm-6">
+    <h3>{% trans 'Selected teachers' %}</h3>
+         <div class="panel panel-default" id="explanation">
+             <div class="panel-heading"></div>
+             <div class="panel-body">
+             Add students from the "Available students" lists by clicking the button with the <i class="glyphicon glyphicon-plus"></i> sign.
+             If you want to remove one selected student, press the button with the <i class="glyphicon glyphicon-remove"></i> sign by its side.
+             </div>
+         </div>
+         <table class="table table-fixed" id="selected-users-table" style="display:none;">
+             <thead>
+                <tr>
+                  <th>{% trans 'User' %}</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="selected-users" style="max-height:400px;">
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+     <div class="col-sm-6">
+     <h3>{% trans 'Available courses' %}</h3>
+         <div id="available-users">
+         {% include "oppia/profile/export_users_table.html" %}
+         </div>
+    </div>
+
+    <div class="table-responsive col-sm-6">
+    <h3>{% trans 'Selected courses' %}</h3>
+         <div class="panel panel-default" id="explanation">
+             <div class="panel-heading"></div>
+             <div class="panel-body">
+             Add students from the "Available students" lists by clicking the button with the <i class="glyphicon glyphicon-plus"></i> sign.
+             If you want to remove one selected student, press the button with the <i class="glyphicon glyphicon-remove"></i> sign by its side.
+             </div>
+         </div>
+         <table class="table table-fixed" id="selected-users-table" style="display:none;">
+             <thead>
+                <tr>
+                  <th>{% trans 'User' %}</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="selected-users" style="max-height:400px;">
+            </tbody>
+        </table>
+    </div>
+</div>

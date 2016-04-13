@@ -1,18 +1,17 @@
 # oppia/forms.py
 import datetime
 import math
+
+from crispy_forms.bootstrap import FieldWithButtons
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit, Div, Row, Field
 from django import forms
 from django.conf import settings
-from django.contrib.admin import widgets
 from django.core.urlresolvers import reverse
-from django.forms.extras.widgets import SelectDateWidget
 from django.utils.translation import ugettext_lazy as _
 
-from crispy_forms.helper import FormHelper
-from crispy_forms.bootstrap import FieldWithButtons
-from crispy_forms.layout import Button, Layout, Fieldset, ButtonHolder, Submit, Div, HTML, Row
-
 from oppia.models import Schedule
+
 
 class UploadCourseStep1Form(forms.Form):
     course_file = forms.FileField(
@@ -102,8 +101,14 @@ class ActivityScheduleForm(forms.Form):
             raise forms.ValidationError("Start date must be before the end date.")
 
         return cleaned_data
-    
+
+
+class CohortHelperDiv(Div):
+    template = "oppia/includes/cohort-helper.html"
+
 class CohortForm(forms.Form):
+
+
     description = forms.CharField(required=True)
     teachers = forms.CharField(widget=forms.Textarea(), 
                                required=False,
@@ -125,15 +130,19 @@ class CohortForm(forms.Form):
         super(CohortForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
-        self.helper.label_class = 'col-lg-2'
-        self.helper.field_class = 'col-lg-3'
+        self.helper.label_class = 'col-sm-3 col-md-2'
+        self.helper.field_class = 'col-sm-9 col-md-10 col-lg-9'
         self.helper.layout = Layout(
                 'description',
                 Div('start_date',css_class='date-picker-row'),
                 Div('end_date',css_class='date-picker-row'),
-                'courses',
-                'teachers',
-                'students',
+                Div(
+                    'courses',
+                    'teachers',
+                    'students',
+                    css_class='hidden-fields'
+                ),
+                CohortHelperDiv(),
                 Div(
                    Submit('submit', _(u'Save'), css_class='btn btn-default'),
                    css_class='col-lg-offset-2 col-lg-4',
