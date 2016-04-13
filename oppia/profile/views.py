@@ -404,3 +404,33 @@ def upload_view(request):
                               {'form': form,
                                'results': results},
                               context_instance=RequestContext(request),)
+
+def search_users(request):
+
+    if not request.user.is_staff:
+        return HttpResponse('Unauthorized', status=401)
+
+    ordering = request.GET.get('order_by', None)
+    if ordering is None:
+        ordering = 'first_name'
+
+    users = User.objects.all().order_by(ordering)
+    paginator = Paginator(users, 10) # Show 25 per page
+
+    # Make sure page request is an int. If not, deliver first page.
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+
+    try:
+        users = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        users = paginator.page(paginator.num_pages)
+
+    return render_to_response('oppia/profile/search_user.html',
+                              {
+                                'page': users,
+                                'page_ordering':ordering
+                              },
+                              context_instance=RequestContext(request),)

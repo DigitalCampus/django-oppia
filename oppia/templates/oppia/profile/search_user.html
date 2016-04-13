@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{% trans 'Export users' %}
+{% endblock extra_head_title %}
+
+{% block content %}
+<h2>{% trans 'Search users' %}</h2>
+
+{% include "oppia/profile/users_paginated_table.html" %}
+
+{% endblock content %}
