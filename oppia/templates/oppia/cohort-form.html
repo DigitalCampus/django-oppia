@@ -2,12 +2,7 @@
 {% load i18n %} 
 {% load display_functions %} 
 {% load crispy_forms_tags %}
-
-{% block extra_scripts %}
-	<script type="text/javascript">
-	{% include "oppia/includes/init-date-picker-js.html" %}	
-	</script>
-{% endblock extra_scripts %}
+{% load staticfiles %}
 
 {% block extra_body %}
 		onload="setUpDatePicker();"
@@ -24,3 +19,24 @@
 {% crispy form %}
 
 {% endblock %}
+{% block extra_scripts %}
+    <script src="{% static "oppia/js/oppia.chart-utils.js" %}"></script>
+    <script src="{% static "oppia/js/oppia.ajax-utils.js" %}"></script>
+    <script type="text/javascript">
+    {% include "oppia/includes/init-date-picker-js.html" %}
+
+    $(function() {
+        var explanation = $('#explanation');
+        var allUsers = $('#available-users');
+        var selUsersTable = $('#selected-users-table').hide();
+        var selectedUsers = $('#selected-users');
+
+        $('.btn-table-toggle').on('click', function(){
+            var target = $(this).hide().attr('data-show');
+            $(target).show();
+        })
+
+    });
+
+    </script>
+{% endblock extra_scripts %}

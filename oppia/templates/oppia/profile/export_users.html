@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load display_functions %}
+{% load staticfiles %}
 
 {% block extra_head_title %}
 	{% trans 'Export users' %}
@@ -51,12 +52,11 @@
         </div>
     </div>
 
-
 {% endblock %}
 
 {% block extra_scripts %}
-    <script src="{{ STATIC_URL }}oppia/js/oppia.chart-utils.js"></script>
-    <script src="{{ STATIC_URL }}oppia/js/oppia.ajax-utils.js"></script>
+    <script src="{% static "oppia/js/oppia.chart-utils.js" %}"></script>
+    <script src="{% static "oppia/js/oppia.ajax-utils.js" %}"></script>
     <script type="text/javascript">
 
     $(function(){
