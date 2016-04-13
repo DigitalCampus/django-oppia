@@ -10,37 +10,11 @@
 <h2>{% trans 'Export users' %}</h2>
 
     <div class="row">
-         <div class="table-responsive col-sm-6">
+         <div class="col-sm-6">
          <h3>Available users</h3>
-             <table class="table table-fixed">
-                 <thead>
-                    <tr>
-                      <th>{% trans 'User' %}</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody id="available-users">
-
-        {% for user in users %}
-                <tr id="{{ user.u.username }}">
-                    <td class="col-xs-9 col-sm-10 ">{% if OPPIA_SHOW_GRAVATARS %} {{ user.u|gravatar:24 }} {% endif %}
-                        {{ user.u.first_name }} {{ user.u.last_name }}
-                        <input type="hidden" name="apikey" value="{{ user.apikey }}" />
-                        <input type="hidden" name="email" value="{{ user.u.email }}" />
-                        <input type="hidden" name="username" value="{{ user.u.username }}" />
-                        <input type="hidden" name="first_name" value="{{ user.u.first_name }}" />
-                        <input type="hidden" name="last_name" value="{{ user.u.last_name }}" />
-                        <input type="text" name="password" placeholder="{% trans 'Password' %}" class="password removing" style="display:none;float:right;" />
-                    </td>
-                    <td class="col-xs-3 col-sm-2 text-right">
-                        <button class="btn btn-sm btn-primary btn-add"><i class="glyphicon glyphicon-plus"></i> </button>
-                        <button class="btn btn-sm btn-primary btn-remove removing" style="display: none;"><i class="glyphicon glyphicon-remove"></i> </button>
-                    </td>
-
-                </tr>
-        {% endfor %}
-                </tbody>
-            </table>
+             <div id="available-users">
+             {% include "oppia/profile/export_users_table.html" %}
+             </div>
         </div>
 
         <div class="table-responsive col-sm-6">
@@ -61,7 +35,7 @@
                       <th></th>
                     </tr>
                   </thead>
-                  <tbody id="selected-users">
+                  <tbody id="selected-users" style="max-height:400px;">
                 </tbody>
             </table>
         </div>
@@ -70,7 +44,7 @@
         <div class="col-sm-6 col-sm-offset-6">
             <div class="alert alert-danger alert-dismissible password-alert" role="alert" style="display:none;">
               <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <strong>{% trans 'Error' %}!</strong> {% trans 'You must fill the password for every user' %}
+              <strong>{% trans 'Error' %}!</strong> {% trans 'You must select at least one user and fill the password for each of them' %}
             </div>
             <button class="btn btn-sm btn-primary btn-download"><i class="glyphicon glyphicon-download"></i> {% trans 'Download users CSV' %}</button>
 
@@ -82,8 +56,8 @@
 
 {% block extra_scripts %}
     <script src="{{ STATIC_URL }}oppia/js/oppia.chart-utils.js"></script>
+    <script src="{{ STATIC_URL }}oppia/js/oppia.ajax-utils.js"></script>
     <script type="text/javascript">
-
 
     $(function(){
         var explanation = $('#explanation');
@@ -91,22 +65,47 @@
         var selUsersTable = $('#selected-users-table').hide();
         var selectedUsers = $('#selected-users');
 
-        $('.btn-add').on('click', function(){
-            var user = $(this).parents('tr').first();
+        allUsers.on('click', '.btn-add', function(){
+            var btn = $(this);
+            var user = btn.parents('tr').first();
+            if (btn.hasClass('disabled')) return;
+
             user.clone().attr('data-username', user.attr('id'))
                 .removeAttr('id')
                 .appendTo(selectedUsers)
                 .find('.btn-add').hide().end()
                 .find('.removing').show();
-            user.hide();
+
+            updateUserBtn(btn, true);
             selUsersTable.show();
             explanation.hide();
         });
 
+        allUsers.on('click', '.pagination a', function(e){
+            e.preventDefault();
+            $.get(this.href, function(page){
+                allUsers.html($(page));
+                //Update any user that is already added
+                selectedUsers.children().each(function(i, user){
+                    updateUserBtn($(user).attr('data-username'), true);
+                });
+            });
+        });
+
+        function updateUserBtn(username_or_btn, enable){
+            var btn;
+            if (username_or_btn instanceof jQuery)
+                btn = username_or_btn;
+            else
+                btn = allUsers.find('#'+username_or_btn+' .btn-add');
+            btn.toggleClass('disabled', enable)
+                .find('.glyphicon-ok').toggleClass('hidden', (!enable)).end()
+                .find('.glyphicon-plus').toggleClass('hidden', enable).end();
+        }
+
         $(selectedUsers).on('click', '.btn-remove', function(){
-            var user = $(this).parents('tr').first();
-            allUsers.find('#'+user.attr('data-username')).show();
-            user.remove();
+            var user = $(this).parents('tr').first().remove();
+            updateUserBtn(user.attr('data-username'), false);
             if (selectedUsers.children().size() == 0){
                 explanation.show();
                 selUsersTable.hide();
@@ -120,9 +119,12 @@
         var csvFields = ['username', 'password', 'apikey', 'email', 'first_name', 'last_name'];
         var fieldsLength = csvFields.length;
         $('.btn-download').on('click', function(){
-
             var usersCSV = "";
             var formValidated = true;
+
+            if (selectedUsers.find('tr').length == 0){
+                formValidated = false;
+            }
 
             //Print headers to CSV
             for(var i=0; i<fieldsLength; i++) {
@@ -156,35 +158,3 @@
     });
     </script>
 {% endblock extra_scripts %}
-
-{% block extra_styles %}
-
-<style>
-
-.table-fixed{
-    display: block;
-    border: 1px solid #ddd;
-    background:#f5f5f5;
-    border-radius: 4px;
-    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
-    box-shadow: 0 1px 1px rgba(0,0,0,.05);
-}
-.table-fixed thead {
-  width: 97%;
-}
-.table-fixed tbody {
-    min-height: 150px;
-  max-height: 300px;
-  overflow-y: auto;
-  width: 100%;
-    background:#fff;
-}
-.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
-  display: block;
-}
-.table-fixed tbody td, .table-fixed thead > tr> th {
-  float: left;
-  border-bottom-width: 0;
-}
-</style>
-{% endblock extra_styles %}

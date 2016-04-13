@@ -1,5 +1,7 @@
 {% load i18n %}
 {% load display_functions %}
+{% load staticfiles %}
+
 {% if leaderboard %}
 	<div class="table-responsive">
          <table class="table table-striped">
@@ -22,7 +24,7 @@
                   <td><span title="{{ user.total  }} {% trans 'points' %}">{{ user.total }}</span></td>
                   <td>
                   	{% if user.badges > 0 %}
-                  		<span class="badges" title="{{ user.badges }} {% trans 'badges' %}"><img src="{{ STATIC_URL }}oppia/images/badge.png" alt="{{ user.badges }} {% trans 'badges' %}"/> x {{ user.badges }}</span>
+                  		<span class="badges" title="{{ user.badges }} {% trans 'badges' %}"><img src="{% static "oppia/images/badge.png" %}" alt="{{ user.badges }} {% trans 'badges' %}"/> x {{ user.badges }}</span>
                   	{% endif %}
                   </td>
                 </tr>
