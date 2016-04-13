@@ -1,0 +1,28 @@
+{% load i18n %}
+{% load display_functions %}
+
+<div class="table-responsive">
+<table class="table table-fixed" style="margin-bottom:0;">
+         <thead>
+            <tr>
+              <th class="col-xs-7 col-sm-7 ">{% trans 'User' %}</th>
+              <th class="col-xs-3 col-sm-3 ">{% trans 'Registration date' %}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="available-users">
+
+{% for user in page.object_list %}
+    {% if users_list_template %}
+        {% with "oppia/profile/row-user-"|add:users_list_template|add:".html" as row_template_path %}
+        {% include row_template_path %}
+        {% endwith %}
+    {% else %}
+        {% include 'oppia/profile/row-user-default.html' %}
+    {% endif %}
+{% endfor %}
+    </tbody>
+</table>
+</div>
+
+{% include "oppia/includes/pagination.html" %}

@@ -3,12 +3,12 @@
 {% load display_functions %}
 
 {% block extra_head_title %}
-	{% trans 'Export users' %}
+	{% trans 'Search users' %}
 {% endblock extra_head_title %}
 
 {% block content %}
 <h2>{% trans 'Search users' %}</h2>
 
-{% include "oppia/profile/users_paginated_table.html" %}
+{% include "oppia/profile/users_paginated_list.html" %}
 
 {% endblock content %}
