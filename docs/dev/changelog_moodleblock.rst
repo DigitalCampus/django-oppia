@@ -1,9 +1,10 @@
 OppiaMobile Moodle Block Change Log
 =====================================
 
-.. _blockv2016xxxxxx:
 
-v2016xxxxxx - not yet released
+.. _blockv2016041301:
+
+v2016041301 - Released: 13 Apr 2016
 -------------------------------------
 
 * 135: Add course tags to the course XML file - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/135
