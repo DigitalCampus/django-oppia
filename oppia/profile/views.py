@@ -430,6 +430,7 @@ def search_users(request):
 
     return render_to_response('oppia/profile/search_user.html',
                               {
+
                                 'page': users,
                                 'page_ordering':ordering
                               },
