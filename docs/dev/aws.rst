@@ -67,6 +67,9 @@ Please note that on this machine the django-oppia server is installed as a clone
 from GitHub (rather than using the pip install method described in the :ref:`standard 
 installation instructions <install>`). 
 
+.. warning:: 
+	In the main django settings, the server is set to run in debug mode. This will be fine when you are testing, but 
+	once you are ready to start providing the server live, you should change this setting to `DEBUG=False`
 
 Updating django-oppia server code from core
 --------------------------------------------
