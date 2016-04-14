@@ -7,8 +7,36 @@
 {% endblock extra_head_title %}
 
 {% block content %}
+    <div class="container">
 <h2>{% trans 'Search users' %}</h2>
 
-{% include "oppia/profile/users_paginated_list.html" %}
+<div class="search-block">
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+          <div class="row">
+              <div class="col-sm-3">
+              <div class="input-group">
+                  <input type="text" class="form-control" aria-label="{% trans 'Search' %}" placeholder="{% trans 'Search...' %}">
+                  <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+                </div>
+            </div>
+              <div class="col-sm-9">
+                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne"><span class="glyphicon glyphicon-plus-sign"></span> advanced search </a>
+              </div>
+          </div>
 
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body row">
+            //Advanced search form
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% include "oppia/profile/users_paginated_list.html" %}
+</div>
+</div>
 {% endblock content %}
