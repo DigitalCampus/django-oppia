@@ -21,7 +21,8 @@ from tastypie.models import ApiKey
 
 from oppia.models import Points, Award, Tracker, Activity
 from oppia.permissions import get_user, get_user_courses, can_view_course, can_edit_user
-from oppia.profile.forms import LoginForm, RegisterForm, ResetForm, ProfileForm, UploadProfileForm
+from oppia.profile.forms import LoginForm, RegisterForm, ResetForm, ProfileForm, UploadProfileForm, \
+    UserSearchForm
 from oppia.profile.models import UserProfile
 from oppia.quiz.models import Quiz, QuizAttempt
 from oppia.reports.signals import dashboard_accessed
@@ -417,6 +418,8 @@ def search_users(request):
     users = User.objects.all().order_by(ordering)
     paginator = Paginator(users, 10) # Show 25 per page
 
+    search_form = UserSearchForm()
+
     # Make sure page request is an int. If not, deliver first page.
     try:
         page = int(request.GET.get('page', '1'))
@@ -430,7 +433,7 @@ def search_users(request):
 
     return render_to_response('oppia/profile/search_user.html',
                               {
-
+                                'search_form':search_form,
                                 'page': users,
                                 'page_ordering':ordering
                               },

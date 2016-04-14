@@ -2,6 +2,7 @@
 import hashlib
 import urllib
 
+from crispy_forms.bootstrap import FieldWithButtons, StrictButton
 from django import forms
 from django.conf import settings
 from django.contrib.auth import (authenticate, login, views)
@@ -12,7 +13,8 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Button, Layout, Fieldset, ButtonHolder, Submit, Div, HTML
+from crispy_forms.layout import Button, Layout, Fieldset, ButtonHolder, Submit, Div, HTML, Field, Row
+
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=30, 
@@ -288,4 +290,27 @@ class UploadProfileForm(forms.Form):
                    css_class='col-lg-offset-2 col-lg-4',
                 ),
             ) 
-    
+
+class UserSearchForm(forms.Form):
+    first_name = forms.CharField(max_length=100,min_length=2,required=False)
+    last_name = forms.CharField(max_length=100,min_length=2,required=False)
+    is_active = forms.BooleanField(initial=False)
+    is_staff = forms.BooleanField(initial=False)
+
+    register_start_date = forms.CharField(required=False,label=False)
+
+    register_end_date = forms.CharField(required=False,label=False)
+
+    def __init__(self, *args, **kwargs):
+        super(UserSearchForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.fields['register_start_date'].label = False
+        self.helper.form_class = 'form-horizontal'
+        self.helper.layout = Layout(
+                'first_name','last_name','is_active','is_staff',
+                Row(
+                    Div(Field('register_start_date',css_class='date-picker-input'),css_class='date-picker-row-fluid'),
+                    Div(Field('register_end_date',css_class='date-picker-input'),css_class='date-picker-row-fluid'),
+                    css_class='date-picker-row-fluid'
+                ),
+            )
