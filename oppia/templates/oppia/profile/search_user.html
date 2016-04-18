@@ -17,7 +17,7 @@
 
     <div class="panel-heading" role="tab" id="headingOne">
           <div class="row">
-              <div class="col-sm-3">
+              <div class="col-sm-3 col-xs-10">
                   <form method="get">
               <div class="input-group">
 
@@ -27,14 +27,14 @@
                 </div>
                       </form>
             </div>
-              <div class="col-sm-9">
-                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne"><span class="glyphicon glyphicon-plus-sign"></span> advanced search </a>
+              <div class="col-sm-9 col-xs-2 text-right">
+                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne"><span class="glyphicon glyphicon-plus-sign"></span> <span class="hidden-xs">advanced search </span></a>
               </div>
           </div>
 
     </div>
     <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-      <div class="panel-body row">
+      <div class="panel-body">
             {% crispy search_form %}
       </div>
     </div>

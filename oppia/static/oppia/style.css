@@ -201,6 +201,7 @@ tr.hover:hover {
 div.date-picker-row-fluid {
 	float:left;
 }
+div.date-picker-row-fluid .controls{ width: 100%;}
 
 .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
     background-color: #77A240;
