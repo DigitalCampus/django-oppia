@@ -18,6 +18,9 @@ Rename package
 Update the package attribute on manifest tag in AndroidManifest.xml (keeping with the 'reverse url' type notation), so 
 for example, replace ``org.digitalcampus.mobile.learning`` with ``org.myorgname.myproject.oppia``
 
+Also update the ``build.gradle`` file to update the ``applicationId`` to be the same as you've used in the 
+AndroidManifest.xml.
+
 Classes to update 
 ----------------------------
 
