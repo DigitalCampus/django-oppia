@@ -293,8 +293,10 @@ class UploadProfileForm(forms.Form):
             ) 
 
 class UserSearchForm(forms.Form):
+    username = forms.CharField(max_length=100,min_length=2,required=False)
     first_name = forms.CharField(max_length=100,min_length=2,required=False)
     last_name = forms.CharField(max_length=100,min_length=2,required=False)
+    email = forms.CharField(max_length=100,min_length=2,required=False)
     is_active = forms.BooleanField(initial=False,required=False)
     is_staff = forms.BooleanField(initial=False,required=False)
 
@@ -309,7 +311,7 @@ class UserSearchForm(forms.Form):
         self.helper.field_class = 'col-sm-8 col-md-5 col-lg-5'
         self.helper.form_method = 'GET'
         self.helper.layout = Layout(
-                'first_name','last_name',
+                'username','first_name','last_name','email',
                 Row(Div('is_active', css_class='col-sm-4'),Div('is_staff',css_class='col-sm-4')),
                 Row(
                     Column(HTML('<label>Register date</label>'), css_class=self.helper.label_class),
