@@ -294,8 +294,8 @@ class UploadProfileForm(forms.Form):
 class UserSearchForm(forms.Form):
     first_name = forms.CharField(max_length=100,min_length=2,required=False)
     last_name = forms.CharField(max_length=100,min_length=2,required=False)
-    is_active = forms.BooleanField(initial=False)
-    is_staff = forms.BooleanField(initial=False)
+    is_active = forms.BooleanField(initial=False,required=False)
+    is_staff = forms.BooleanField(initial=False,required=False)
 
     register_start_date = forms.CharField(required=False,label=False)
     register_end_date = forms.CharField(required=False,label=False)

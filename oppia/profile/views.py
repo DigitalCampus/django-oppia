@@ -3,6 +3,7 @@ import csv
 import datetime
 from itertools import chain
 
+from django import forms
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import (authenticate, login)
@@ -411,14 +412,38 @@ def search_users(request):
     if not request.user.is_staff:
         return HttpResponse('Unauthorized', status=401)
 
+    users = User.objects
+
+    filtered = False
+    search_form = UserSearchForm(request.GET,request.FILES)
+    if search_form.is_valid():
+        filters = {}
+        for row in search_form.cleaned_data:
+            if search_form.cleaned_data[row]:
+                if row is 'register_start_date':
+                    filters['date_joined__gte'] = search_form.cleaned_data[row]
+                elif row is 'register_end_date':
+                    filters['date_joined__lte'] = search_form.cleaned_data[row]
+                elif isinstance(search_form.fields[row], forms.CharField):
+                    filters["%s__icontains" % row] = search_form.cleaned_data[row]
+                else:
+                    filters[row] = search_form.cleaned_data[row]
+
+        if filters:
+            print filters
+            users = users.filter(**filters)
+            filtered = True
+
+    if not filtered:
+        users = users.all()
+
     ordering = request.GET.get('order_by', None)
     if ordering is None:
         ordering = 'first_name'
 
-    users = User.objects.all().order_by(ordering)
+    users.order_by(ordering)
     paginator = Paginator(users, 10) # Show 25 per page
 
-    search_form = UserSearchForm()
 
     # Make sure page request is an int. If not, deliver first page.
     try:
@@ -434,6 +459,7 @@ def search_users(request):
     return render_to_response('oppia/profile/search_user.html',
                               {
                                 'search_form':search_form,
+                                'advanced_search':filtered,
                                 'page': users,
                                 'page_ordering':ordering
                               },
