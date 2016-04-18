@@ -13,19 +13,20 @@
 
 <div class="search-block">
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    <form method="get" class="form-horizontal">
   <div class="panel panel-default">
 
     <div class="panel-heading" role="tab" id="headingOne">
           <div class="row">
               <div class="col-sm-3 col-xs-10">
-                  <form method="get">
+
               <div class="input-group">
 
-                  <input type="text" name="quicksearch" class="form-control" aria-label="{% trans 'Search' %}" placeholder="{% trans 'Search...' %}">
+                  <input type="text" name="q" {% if quicksearch %}value="{{ quicksearch }}" {% endif %}class="form-control" aria-label="{% trans 'Search' %}" placeholder="{% trans 'Search...' %}">
                   <span class="input-group-btn"><button class="btn" type="submit" ><span class="glyphicon glyphicon-search"></button></span></span>
 
                 </div>
-                      </form>
+
             </div>
               <div class="col-sm-9 col-xs-2 text-right">
                   <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne"><span class="glyphicon glyphicon-plus-sign"></span> <span class="hidden-xs">advanced search </span></a>
@@ -33,14 +34,14 @@
           </div>
 
     </div>
-    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+    <div id="collapseOne" class="panel-collapse {% if not advanced_search %}collapse{% endif %}" role="tabpanel" aria-labelledby="headingOne">
       <div class="panel-body">
             {% crispy search_form %}
       </div>
     </div>
-        </form>
-  </div>
 
+  </div>
+    </form>
 </div>
 
 {% include "oppia/profile/users_paginated_list.html" %}

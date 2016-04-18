@@ -12,7 +12,7 @@ from django.core.mail import send_mail
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
-from django.db.models import Count, Max, Min, Avg
+from django.db.models import Count, Max, Min, Avg, Q
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -407,6 +407,18 @@ def upload_view(request):
                                'results': results},
                               context_instance=RequestContext(request),)
 
+def get_query(query_string, search_fields):
+    ''' Returns a query, that is a combination of Q objects. That combination
+        aims to search keywords within a model by testing the given search fields.
+
+    '''
+    query = None # Query to search in every field
+    for field_name in search_fields:
+        q = Q(**{"%s__icontains" % field_name: query_string})
+        query = q if query is None else (query | q)
+
+    return query
+
 def search_users(request):
 
     if not request.user.is_staff:
@@ -428,7 +440,6 @@ def search_users(request):
                     filters["%s__icontains" % row] = search_form.cleaned_data[row]
                 else:
                     filters[row] = search_form.cleaned_data[row]
-
         if filters:
             print filters
             users = users.filter(**filters)
@@ -436,6 +447,12 @@ def search_users(request):
 
     if not filtered:
         users = users.all()
+
+    query_string = None
+    if ('q' in request.GET) and request.GET['q'].strip():
+        query_string = request.GET['q']
+        filter_query = get_query(query_string, ['username','first_name', 'last_name','email',])
+        users = users.filter(filter_query)
 
     ordering = request.GET.get('order_by', None)
     if ordering is None:
@@ -458,6 +475,7 @@ def search_users(request):
 
     return render_to_response('oppia/profile/search_user.html',
                               {
+                                'quicksearch':query_string,
                                 'search_form':search_form,
                                 'advanced_search':filtered,
                                 'page': users,
