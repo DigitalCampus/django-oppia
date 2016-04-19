@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load display_functions %} 
+
+{% block extra_head_title %}
+	{{ course.title|title_lang:LANGUAGE_CODE }}
+{% endblock extra_head_title %}
+
+
 {% block content %}
 
 <h2><a href="{% url 'oppia_recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a></h2>
@@ -19,7 +25,7 @@
 	
 {% for q in quizzes %}
 	<tr id='{{ t.id }}' name="trackerlist" class="hover">
-		<td><a href="{% url 'oppia_course_quiz_attempts' course.id q.id%}">{{ q.title|title_lang:LANGUAGE_CODE }}</a></td>
+		<td><a href="{% url 'oppia_course_quiz_attempts' course.id q.id%}">{{ q.title|title_lang:LANGUAGE_CODE }} ({{ q.section_name|title_lang:LANGUAGE_CODE }})</a></td>
 		<td>{{ q.no_attempts }}</td>		
 	</tr>
 {% endfor %}

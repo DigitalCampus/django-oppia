@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load display_functions %}
+{% load staticfiles %}
 {% block content %}
 <div class="container-fluid">
 	  <div class="navbar-header">
@@ -9,7 +10,7 @@
 	      <span class="icon-bar"></span>
 	      <span class="icon-bar"></span>
 	    </button>
-	    <a class="navbar-brand" href="{% url 'oppia_preview_home' %}"><img src="{{ STATIC_URL }}oppia/images/dc_logo.png" height="24"/>{% trans 'app_name' %}</a>
+	    <a class="navbar-brand" href="{% url 'oppia_preview_home' %}"><img src="{% static "oppia/images/dc_logo.png" %}" height="24"/>{% trans 'app_name' %}</a>
 	  </div>
 	  <div class="navbar-collapse collapse">
 		    <ul class="nav navbar-nav navbar-right">

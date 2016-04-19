@@ -2,56 +2,23 @@
 {% load i18n %} 
 {% load display_functions %} 
 {% load crispy_forms_tags %}
+{% load staticfiles %}
+
+{% block extra_head_title %}
+	{% trans 'Home' %}
+{% endblock extra_head_title %}
 
 {% if user.is_authenticated %}
 	{% block extra_body %}
 		onload="setUpDatePicker();"
 	{% endblock extra_body %}
-
-	{% block extra_scripts %}
-	<script type='text/javascript' src='https://www.google.com/jsapi'></script>
-	<script type="text/javascript">
-	
-		{% include "oppia/includes/init-date-picker-js.html" %}	
-		
-		// Load the Visualization API and the piechart package.
-		google.load('visualization', '1.0', {'packages':['corechart']});
-	
-		// Set a callback to run when the Google Visualization API is loaded.
-		google.setOnLoadCallback(drawChart);
-		function drawChart() {
-	
-			var data = new google.visualization.DataTable();
-			data.addColumn('string', "{% trans 'Date' %}");
-			data.addColumn('number', "{% trans 'Total' %}");
-			
-			data.addRows( {{ recent_activity|length }} );
-			
-			{% for date,count in recent_activity %}
-				data.setValue({{ forloop.counter0 }},0,'{{ date }}');
-				data.setValue({{ forloop.counter0 }},1,{{ count }});
-			{% endfor %}
-	
-	        var chart = new google.visualization.AreaChart(document.getElementById('activity_chart_div'));
-	        chart.draw(data, {	width: "100%", 
-	                			height: 400,
-	                			vAxis: {minValue:0},
-	                			pointSize:3,
-	                			chartArea: {left:45,top:10,width:"90%",height:"75%"},
-	                			backgroundColor: 'transparent',
-	                			legend: 'none',
-	                			series: [{areaOpacity:0.2}]
-	                			});
-	      }
-	</script>
-	{% endblock extra_scripts %}
 {% endif %} 
 {% block content %}
 
 {% if user.is_authenticated %}
 	<div>
 		<h3>{% trans 'courses_recent_activity' %}</h3>
-		<div id="activity_chart_div" class="graph"><img src="{{ STATIC_URL }}oppia/images/ajax-loader.gif" alt="{% trans 'graph_generating'%}"/></div>
+		{% include "oppia/includes/activity-graph.html" %}	
 	</div>
 	{% include "includes/messages.html" %}	
 	{% crispy form %}
@@ -60,12 +27,15 @@
 	{% include "oppia/includes/leaderboard.html" %}
 	<div><a href="{% url 'oppia_leaderboard' %}">{% trans "more..." %}</a></div>
 {% else %}
+    {% static "oppia/images/dc-logo-150x150.png" as oppia_logo %}
 	{% blocktrans %} 
-	<p align="center"><iframe width="400" height="315" src="http://www.youtube.com/embed/wHo5R_RgkG0" frameborder="0" allowfullscreen></iframe></p>
-	<div style="text-align:center; width:50%; margin:auto;">
-	<p><a href="http://oppia-mobile.org">OppiaMobile</a> is the mobile learning platform from <a href="http://digital-campus.org">Digital Campus</a> to deliver learning content, multimedia and quizzes on your smartphone. All the content and activities can
+	<div style="text-align:center; margin-top:20px;">
+		<img src="{{ oppia_logo }}" alt="OppiaMobile logo"/>
+	</div>
+	<div style="max-width:350px; text-align:center; margin: 10px auto ">
+	<p><a href="https://digital-campus.org/oppiamobile/overview/">OppiaMobile</a> is the mobile learning platform from <a href="https://digital-campus.org">Digital Campus</a> to deliver learning content, multimedia and quizzes on your smartphone. All the content and activities can
 	be accessed and used even when you don't have an internet connection available on your mobile.</p>
-	<p>To get started with our courses, <a href="https://play.google.com/store/apps/details?id=org.digitalcampus.mobile.learning">download the OppiaMobile app</a>. 
+	<div class="btn-primary btn btn-default"><a href="https://play.google.com/store/apps/details?id=org.digitalcampus.mobile.learning">Download OppiaMobile app</a></div> 
 	</div>
 	{% endblocktrans %}
 

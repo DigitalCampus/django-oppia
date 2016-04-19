@@ -11,11 +11,13 @@ import urllib2
 import json 
 import argparse, hashlib, subprocess
 from django.db.models import Count
-from oppia.models import Tracker
-from oppia.viz.models import UserLocationVisualization
+
 
 def run():
   
+    from oppia.models import Tracker
+    from oppia.viz.models import UserLocationVisualization
+
     tracker_ip_hits = Tracker.objects.filter(user__is_staff=False).values('ip').annotate(count_hits=Count('ip'))
     
     for t in tracker_ip_hits:
@@ -29,6 +31,9 @@ def run():
             update_via_freegeoip(t)
 
 def update_via_freegeoip(t):
+    
+    from oppia.viz.models import UserLocationVisualization
+    
     url = 'https://freegeoip.net/json/%s' % (t['ip'])
     print t['ip'] + " : "+ url
     try:
@@ -39,24 +44,24 @@ def update_via_freegeoip(t):
     except:
         return
     
-    try:
-        if dataJSON['latitude'] != 0 and dataJSON['longitude'] != 0:
-            viz = UserLocationVisualization()
-            viz.ip = t['ip']
-            viz.lat = dataJSON['latitude']
-            viz.lng = dataJSON['longitude']
-            viz.hits = t['count_hits']
-            viz.region = dataJSON['city'] + " " + dataJSON['region_name'] 
-            viz.country_code = dataJSON['country_code']
-            viz.country_name = dataJSON['country_name']
-            viz.geonames_data = dataJSON
-            viz.save()
-    except:
-        pass
+    if dataJSON['latitude'] != 0 and dataJSON['longitude'] != 0:
+        viz = UserLocationVisualization()
+        viz.ip = t['ip']
+        viz.lat = dataJSON['latitude']
+        viz.lng = dataJSON['longitude']
+        viz.hits = t['count_hits']
+        viz.region = dataJSON['city'] + " " + dataJSON['region_name'] 
+        viz.country_code = dataJSON['country_code']
+        viz.country_name = dataJSON['country_name']
+        viz.geonames_data = dataJSON
+        viz.save()
+
     time.sleep(1) 
                                          
 
 if __name__ == "__main__":
+    import django
+    django.setup()
     run()  
     
     

@@ -1,0 +1,65 @@
+{% extends "base.html" %} 
+{% load i18n %} 
+{% load staticfiles %}
+{% block extra_head_title %}
+	{% trans 'About' %}
+{% endblock extra_head_title %}
+
+{% block content %}
+<h2>{% trans 'About' %}</h2>
+
+{% blocktrans %} 
+	<p><a href="https://digital-campus.org/oppiamobile/overview/">OppiaMobile</a> is the mobile learning platform from <a href="https://digital-campus.org">Digital Campus</a> to deliver learning content, multimedia and quizzes on your smartphone. All the content and activities can
+	be accessed and used even when you don't have an internet connection available on your mobile.</p>
+	<p>To get started with our courses, <a href="https://play.google.com/store/apps/details?id=org.digitalcampus.mobile.learning">download the OppiaMobile app</a>. 
+{% endblocktrans %}
+
+<h3>{% trans 'Video demo' %}</h3>
+<iframe width="400" height="315" src="http://www.youtube.com/embed/wHo5R_RgkG0?html5=1" frameborder="0" allowfullscreen></iframe>
+
+<h3>{% trans 'Acknowledgements' %}</h3>
+{% static "oppia/images/UK-AID-Standard-RGB.jpg" as ukaid_logo%}
+{% blocktrans %} 
+	<p>The development of OppiaMobile has been made possible by funding from:</p>
+	
+	<img src="{{ ukaid_logo }}"/>
+	
+	<p>Acknowledgements and contributors to the code include:</p>
+		<ul>
+		<li><a href="https://github.com/thest1/LazyList">Fedor</a> - for lazy list</li>
+		<li><a href="http://www.brightec.co.uk/blog/custom-android-media-controller">Brightec</a> - video controller</li>
+		<li><a href="http://androidplot.com/">AndroidPlot</a> - for graphing library</li>
+		<li>Safdar Ali & Durba Gogia - Hindi translation</li>
+		<li>Roman Blanco - Spanish translation</li>
+		<li>Marijs Carrin - for testing and development</li>
+		<li>Joseba and Adrián (<a href="http://www.chaotic-kingdoms.com">Chaotic Kingdoms</a>) - technical development, performance improvements and bug fixes</li>
+		<li><a href="https://github.com/square/picasso">Picasso (by SquareUp)</a> - image caching library</li>
+		<li><a href="https://github.com/lucasr/twoway-view">TwoWayView</a> - adapter view</li>
+		<li>Laila Hussain - Urdu translation</li>
+	</ul>
+	
+{% endblocktrans %}
+
+<a name="terms"></a>
+<h3>{% trans 'Terms and License' %}</h3>
+{% blocktrans with settings.SERVER_EMAIL as email %}
+<p>OppiaMobile is a work in progress and is provided as-is. Not everything may work 100%, so if you find anything wrong, then <a href="mailto:{{ email }}">please let us know</a>.</p>
+
+<h3>License</h3>
+<p>OppiaMobile is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.</p>
+
+<p>OppiaMobile is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.</p>
+
+<p>You should have received a copy of the GNU General Public License
+along with OppiaMobile.  If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>
+
+<p>OppiaMobile server uses <a href="http://getbootstrap.com/">Bootstrap v3</a> which is released under the <a href="http://getbootstrap.com/getting-started/#license-faqs">MIT license and is copyright 2014 Twitter</a>.</p>
+{% endblocktrans %}
+
+{% endblock %}

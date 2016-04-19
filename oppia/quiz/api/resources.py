@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator, InvalidPage
 from django.db import IntegrityError
 from django.db.models import Q
+from django.http.response import Http404
 from django.utils.translation import ugettext as _
 
 from tastypie import fields, bundle, http
@@ -257,6 +258,12 @@ class QuizAttemptResource(ModelResource):
             bundle.obj.quiz = Quiz.objects.get(pk = bundle.data['quiz_id'])
         except Quiz.DoesNotExist:
             raise BadRequest(_(u'Quiz does not exist'))    
+        
+        # see if instance id already submitted
+        attempts = QuizAttempt.objects.filter(instance_id = bundle.data['instance_id']).count()
+        
+        if attempts > 0:
+            raise BadRequest(_(u'QuizAttempt already submitted')) 
         
         #check that all the questions exist and are part of this quiz
         for response in bundle.data['responses']:

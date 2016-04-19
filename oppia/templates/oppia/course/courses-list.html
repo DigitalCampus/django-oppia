@@ -1,0 +1,82 @@
+{% extends "base.html" %} 
+{% load i18n %} 
+{% load display_functions %} 
+
+{% block extra_head_title %}
+	{% trans 'Courses' %}
+{% endblock extra_head_title %}
+
+
+{% if course_list %}
+	{% block extra_scripts %}
+	<script type="text/javascript">
+		function OnTagChange(dropdown) {
+			    var myindex  = dropdown.selectedIndex;
+			    var selValue = dropdown.options[myindex].value;
+			    top.location.href = selValue;
+			    return true;
+			}
+	</script>
+	{% endblock extra_scripts %}
+{% endif %}	
+{% block content %}
+<h2>{% trans 'Courses' %}</h2>
+
+{% if tag_list %}
+	<form method="post">
+	{% trans 'Filter by tag: ' %}
+	<select name="tag" onchange="OnTagChange(this.form.tag);">
+		<option value="{% url 'oppia_course' %}">{% trans 'All courses' %}</option>
+		{% for tag in tag_list %}
+		 		<option value="{% url 'oppia_tag_courses' tag.id %}" {% if current_tag == tag.id %}selected="selected"{% endif %}>
+		 			{{ tag.name }}
+		 		</option>
+		{% endfor %}
+	</select>
+	</form>
+{% endif %}
+
+{% if courses_list %}
+
+	 <div class="table-responsive">
+         <table class="table table-striped-expandable">
+         	 <thead>
+                <tr>
+                  <th>{% trans 'Course' %}</th>
+                  <th>{% trans 'Last updated' %}</th>
+                  <th>{% trans 'Downloads' %}</th>
+                </tr>
+              </thead>
+              <tbody>
+	{% for cl in courses_list %}
+		<tr>
+				<td>
+					{% if cl.access_detail %}
+						<a href="{% url 'oppia_recent_activity' cl.course.id %}"><strong>{{ cl.course.title|title_lang:LANGUAGE_CODE }}</strong></a>
+					{% else %}
+						<strong>{{ cl.course.title|title_lang:LANGUAGE_CODE }}</strong>
+					{% endif %}	
+				{% if cl.course.is_draft %}
+					- <i>{% trans 'draft' %}</i>
+				{% endif %}	
+				{% if cl.course.is_archived %}
+					- <i>{% trans 'archived' %}</i>
+				{% endif %}<br/>
+				<small>{% trans 'Tags:' %} {{ cl.course.get_tags }}</small></td>
+				<td>{{ cl.course.lastupdated_date }} </td>
+				<td>{{ cl.course.no_downloads }} downloads by {{ cl.course.no_distinct_downloads }} users<br/>
+					<a href="{% url 'oppia_course_download' cl.course.id %}">{% trans 'download course' %}</a>
+				</td>
+			</tr>
+	{% endfor %}
+			</tbody>
+ 		</table>
+	</div>
+{% else %}
+	{% url 'oppia_upload' as url_upload %}
+	{% blocktrans %}
+		<p>You don't yet have any courses uploaded, why not <a href="{{ url_upload }}">upload one now</a>?</p>
+	{% endblocktrans %}
+{% endif %}
+
+{% endblock %}

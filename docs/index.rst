@@ -15,16 +15,13 @@ Contents:
 .. toctree::
    :maxdepth: 1
    
-   install
-   aws
-   virtualbox
-   settings
-   upgrade
-   api
-   utilities
-   custom/index
+   dev/index
+   author/author
+   permissions
+   dashboard/index
+   gamification
    viz/index
-   changelog
-   author
+   training/index
+   help
    acknowledgements
    

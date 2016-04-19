@@ -1,57 +1,26 @@
 {% extends "base.html" %} 
 {% load i18n %} 
 {% load display_functions %} 
+{% load crispy_forms_tags %}
+
+{% block extra_scripts %}
+	<script type="text/javascript">
+	{% include "oppia/includes/init-date-picker-js.html" %}	
+	</script>
+{% endblock extra_scripts %}
+
+{% block extra_body %}
+		onload="setUpDatePicker();"
+{% endblock extra_body %}
+
+{% block extra_head_title %}
+	{% trans 'Cohort' %}
+{% endblock extra_head_title %}
+
 {% block content %}
 
-<h2>
-	<a href="{% url 'oppia_recent_activity' course.id %}">
-	{{ course.title|title_lang:LANGUAGE_CODE }}</a> > {% trans 'cohort' %}
-</h2>
+<h2>{% trans 'Cohort' %}</h2>
 
-<form method="post" id="cohortform" action=".">
-
-	{% csrf_token %}
-
-	<div class="fieldWrapper">
-		<div class="fieldErrorWrapper">{{ form.description.errors }}</div>
-		<div class="fieldLabelWrapper">
-			<strong>{% trans 'form_field_cohort_description' %}</strong>
-		</div>
-		<div class="fieldInputWrapper">{{ form.description }}</div>
-	</div>
-	<div class="fieldWrapper">
-		<div class="fieldErrorWrapper">{{ form.start_date.errors }}</div>
-		<div class="fieldLabelWrapper">{% trans 'form_field_activityschedule_start_date' %}</div>
-		<div class="fieldInputWrapper">{{ form.start_date }}</div>
-	</div>
-	<div class="fieldWrapper">
-		<div class="fieldErrorWrapper">{{ form.end_date.errors }}</div>
-		<div class="fieldLabelWrapper">{% trans 'form_field_activityschedule_end_date' %}</div>
-		<div class="fieldInputWrapper">{{ form.end_date }}</div>
-	</div>
-
-	<div class="fieldWrapper">
-		<div class="fieldErrorWrapper">{{ form.teachers.errors }}</div>
-		<div class="fieldLabelWrapper">
-			<strong>{% trans 'form_field_cohort_teachers' %}</strong>
-		</div>
-		<div class="fieldInputWrapper">{{ form.teachers }}</div>
-	</div>
-
-	<div class="fieldWrapper">
-		<div class="fieldErrorWrapper">{{ form.students.errors }}</div>
-		<div class="fieldLabelWrapper">
-			<strong>{% trans 'form_field_cohort_students' %}</strong>
-		</div>
-		<div class="fieldInputWrapper">{{ form.students }}</div>
-	</div>
-
-	<div class="fieldWrapper">
-		<div class="fieldLabelWrapper">&nbsp;</div>
-		<div class="fieldInputWrapper">
-			<input type="submit" value="{% trans 'button_cohort_save' %}" />
-		</div>
-	</div>
-</form>
+{% crispy form %}
 
 {% endblock %}

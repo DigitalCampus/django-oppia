@@ -20,11 +20,13 @@ def run(hours):
                 os.remove(f)
     
 
-    courses_completed(hours)           
+    courses_completed(int(hours))           
     print 'cron completed'
 
 
 if __name__ == "__main__":
+    import django
+    django.setup()
     parser = argparse.ArgumentParser()
     parser.add_argument("hours", help="", default=0, nargs="?")
     args = parser.parse_args()

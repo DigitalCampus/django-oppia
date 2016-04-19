@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+{% load crispy_forms_tags %}
+
+{% block extra_head_title %}
+	{% trans 'Video Embed Helper' %}
+{% endblock extra_head_title %}
+
+{% block content %}
+<h2>{% trans 'Video Embed Helper' %}</h2>
+
+{% crispy form %}
+
+<div style="clear:both; margin-bottom: 20px"></div>
+
+{% if processed_video %}
+	<h3>{% trans 'Results' %}</h3>
+
+    {% if processed_video.success == True %}
+        {% blocktrans %}
+        <p>Please copy and paste the code below into your Moodle HTML page to embed the video in your course: </p>
+        {% endblocktrans %}
+
+        <pre>{{ processed_video.embed_code }}</pre>
+
+        {% if processed_video.image_files %}
+            {% blocktrans %}
+            <p>The script has also generated the following screenshots from the video that you may wish to use (right click over the image and select 'save as' to save to your computer for uploading into Moodle):</p>
+            {% endblocktrans %}
+            {% for im in processed_video.image_files %}
+                <img src="{{ processed_video.image_url_root }}{{ im }}" style="margin:20px;"/>
+            {% endfor %}
+        {% endif %}
+    {% else %}
+        {% if processed_video.error %}
+            <p><div class="alert alert-danger" role="alert"><strong>Error:</strong> {% trans processed_video.error %}</div></p>
+        {% endif %}
+    {% endif %}
+	
+{% endif %}
+
+
+{% endblock %}

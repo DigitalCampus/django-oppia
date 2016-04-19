@@ -9,19 +9,13 @@ from django.db.models import Max, Sum, Q, F
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
+from oppia.quiz.models import Quiz, QuizAttempt
+
 from tastypie.models import create_api_key
 
 from xml.dom.minidom import *
 
 models.signals.post_save.connect(create_api_key, sender=User)
-
-class UserProfile (models.Model):
-    user = models.OneToOneField(User)
-    about = models.TextField(blank=True, null=True, default=None)
-    can_upload = models.BooleanField(default=False)
-    job_title = models.TextField(blank=True, null=True, default=None)
-    organisation = models.TextField(blank=True, null=True, default=None)
-    phone_number = models.TextField(blank=True, null=True, default=None)
     
 class Course(models.Model):
     user = models.ForeignKey(User)
@@ -30,7 +24,7 @@ class Course(models.Model):
     version = models.BigIntegerField()
     title = models.TextField(blank=False)
     description = models.TextField(blank=True, null=True, default=None)
-    shortname = models.CharField(max_length=20)
+    shortname = models.CharField(max_length=200)
     filename = models.CharField(max_length=200)
     badge_icon = models.FileField(upload_to="badges",blank=True, default=None)
     is_draft = models.BooleanField(default=False)
@@ -93,7 +87,7 @@ class Course(models.Model):
                                       tracker_date__gte=last_week).count()
                                       
     def has_quizzes(self):
-        quiz_count = Activity.objects.filter(section__course=self,type='quiz').count()
+        quiz_count = Activity.objects.filter(section__course=self,type=Activity.QUIZ).count()
         if quiz_count > 0:
             return True
         else:
@@ -116,6 +110,47 @@ class Course(models.Model):
     def sections(self):
         sections = Section.objects.filter(course=self).order_by('order')
         return sections
+    
+    def get_no_activities(self):
+        return Activity.objects.filter(section__course=self, baseline=False).count()
+    
+    def get_no_quizzes(self):
+        return Activity.objects.filter(section__course=self,type=Activity.QUIZ,baseline=False).count()
+    
+    @staticmethod
+    def get_pre_test_score(course,user):
+        try:
+            baseline = Activity.objects.get(section__course=course,type=Activity.QUIZ,section__order=0)
+        except Activity.DoesNotExist:
+            return None
+        
+        quiz = Quiz.objects.get(quizprops__value=baseline.digest, quizprops__name="digest")
+        attempts = QuizAttempt.objects.filter(quiz=quiz, user=user)
+        if attempts.count() != 0:
+            max_score = 100*float(attempts.aggregate(max=Max('score'))['max']) / float(attempts[0].maxscore)
+            return max_score
+        else:
+            return None
+    
+    @staticmethod
+    def get_no_quizzes_completed(course,user):
+        acts = Activity.objects.filter(section__course=course,baseline=False, type=Activity.QUIZ).values_list('digest')
+        return Tracker.objects.filter(course=course,user=user,completed=True,digest__in=acts).values_list('digest').distinct().count()
+    
+    @staticmethod
+    def get_activities_completed(course,user):
+        acts = Activity.objects.filter(section__course=course,baseline=False).values_list('digest')
+        return Tracker.objects.filter(course=course,user=user,completed=True,digest__in=acts).values_list('digest').distinct().count()
+    
+    @staticmethod
+    def get_points(course,user):
+        points = Points.objects.filter(course=course,user=user).aggregate(total=Sum('points'))
+        return points['total']
+    
+    @staticmethod
+    def get_badges(course,user):
+        return Award.objects.filter(user=user,awardcourse__course=course).count()
+        
  
 class CourseManager(models.Model):
     course = models.ForeignKey(Course)
@@ -218,6 +253,17 @@ class Section(models.Model):
         return activities
     
 class Activity(models.Model):
+    QUIZ = 'quiz'
+    MEDIA = 'media'
+    PAGE = 'page'
+    FEEDBACK = 'feedback'
+    ACTIVITY_TYPES = (
+        (QUIZ, 'Quiz'),
+        (MEDIA, 'Media'),
+        (PAGE, 'Page'),
+        (FEEDBACK, 'Feedback')
+    )
+    
     section = models.ForeignKey(Section)
     order = models.IntegerField()
     title = models.TextField(blank=False)
@@ -299,11 +345,11 @@ class Tracker(models.Model):
     user = models.ForeignKey(User)
     submitted_date = models.DateTimeField('date submitted',default=timezone.now)
     tracker_date = models.DateTimeField('date tracked',default=timezone.now)
-    ip = models.IPAddressField()
+    ip = models.GenericIPAddressField()
     agent = models.TextField(blank=True)
     digest = models.CharField(max_length=100)
     data = models.TextField(blank=True)
-    course = models.ForeignKey(Course,null=True, blank=True, default=None)
+    course = models.ForeignKey(Course,null=True, blank=True, default=None, on_delete=models.SET_NULL)
     type = models.CharField(max_length=10,null=True, blank=True, default=None)
     completed = models.BooleanField(default=False)
     time_taken = models.IntegerField(default=0)
@@ -344,15 +390,19 @@ class Tracker(models.Model):
            
     def get_activity_title(self, lang='en'):
         media = Media.objects.filter(digest=self.digest)
+        print media
         for m in media:
             return m.filename
         try:
-            titles = json.loads(self.activity_title)
-            if lang in titles:
-                return titles[lang]
-            else:
-                for l in titles:
-                    return titles[l]
+            activity = Activity.objects.filter(digest=self.digest)
+            for a in activity:
+                print a.title
+                titles = json.loads(a.title)
+                if lang in titles:
+                    return titles[lang]
+                else:
+                    for l in titles:
+                        return titles[l]
         except:
             pass
         return self.activity_title
@@ -390,11 +440,28 @@ class Tracker(models.Model):
         doc = Document();
         trackerXML = doc.createElement('trackers')
         doc.appendChild(trackerXML)
-        trackers = Tracker.objects.filter(user=user, course=course,completed=True).values('digest').annotate(max_tracker=Max('submitted_date'))
+        trackers = Tracker.objects.filter(user=user, course=course)
         for t in trackers:
             track = doc.createElement('tracker')
-            track.setAttribute('digest',t['digest'])
-            track.setAttribute('submitteddate',t['max_tracker'].strftime('%Y-%m-%d %H:%M:%S'))
+            track.setAttribute('digest', t.digest)
+            track.setAttribute('submitteddate', t.submitted_date.strftime('%Y-%m-%d %H:%M:%S'))
+            track.setAttribute('completed', str(t.completed))
+            track.setAttribute('type', t.type)
+            if t.type == 'quiz':
+                try:
+                    quiz = doc.createElement('quiz')
+                    data = json.loads(t.data)
+                    quiz_attempt = QuizAttempt.objects.filter(instance_id=data['instance_id'],user=user).order_by('-submitted_date')[:1]
+                    quiz.setAttribute('score', str(quiz_attempt[0].score))
+                    quiz.setAttribute('maxscore', str(quiz_attempt[0].maxscore))
+                    quiz.setAttribute('submitteddate', quiz_attempt[0].submitted_date.strftime('%Y-%m-%d %H:%M:%S'))
+                    quiz.setAttribute('passed', str(t.completed))
+                    quiz.setAttribute("course", course.shortname)
+                    track.appendChild(quiz)
+                except ValueError:
+                    pass  
+                except IndexError:
+                    pass  
             trackerXML.appendChild(track)
         return doc.toxml() 
     
@@ -433,12 +500,11 @@ class Tracker(models.Model):
             return json_data['lang']
         
  
-class Cohort(models.Model):
-    course = models.ForeignKey(Course)  
+class Cohort(models.Model): 
     description = models.CharField(max_length=100)
     start_date = models.DateTimeField(default=timezone.now)
     end_date = models.DateTimeField(default=timezone.now)
-    schedule = models.ForeignKey(Schedule,null=True, blank=True, default=None)
+    schedule = models.ForeignKey(Schedule,null=True, blank=True, default=None, on_delete=models.SET_NULL)
     
     class Meta:
         verbose_name = _('Cohort')
@@ -457,7 +523,7 @@ class Cohort(models.Model):
     @staticmethod
     def student_member_now(course,user):
         now = timezone.now()
-        cohorts = Cohort.objects.filter(course=course,start_date__lte=now,end_date__gte=now)
+        cohorts = Cohort.objects.filter(coursecohort__course=course,start_date__lte=now,end_date__gte=now)
         for c in cohorts:
             participants = c.participant_set.filter(user=user,role=Participant.STUDENT)
             for p in participants:
@@ -467,7 +533,7 @@ class Cohort(models.Model):
     @staticmethod
     def teacher_member_now(course,user):
         now = timezone.now()
-        cohorts = Cohort.objects.filter(course=course,start_date__lte=now,end_date__gte=now)
+        cohorts = Cohort.objects.filter(coursecohort__course=course,start_date__lte=now,end_date__gte=now)
         for c in cohorts:
             participants = c.participant_set.filter(user=user,role=Participant.TEACHER)
             for p in participants:
@@ -477,12 +543,40 @@ class Cohort(models.Model):
     @staticmethod
     def member_now(course,user):
         now = timezone.now()
-        cohorts = Cohort.objects.filter(course=course,start_date__lte=now,end_date__gte=now)
+        cohorts = Cohort.objects.filter(coursecohort__course=course,start_date__lte=now,end_date__gte=now)
         for c in cohorts:
             participants = c.participant_set.filter(user=user)
             for p in participants:
                 return c
         return None
+
+    def get_courses(self):
+        courses = Course.objects.filter(coursecohort__cohort = self).order_by('title')
+        return courses
+
+    def get_leaderboard(self, count=0):
+        users = User.objects.filter(participant__cohort=self, 
+                                    participant__role=Participant.STUDENT, 
+                                    points__course__coursecohort__cohort=self) \
+                            .annotate(total=Sum('points__points')) \
+                            .order_by('-total')
+         
+        if count != 0:
+            users = users[:count]
+   
+        for u in users:
+            u.badges = Award.objects.filter(user=u, awardcourse__course__coursecohort__cohort=self).count()
+            if u.total is None:
+                u.total = 0
+        return users
+    
+class CourseCohort(models.Model):
+    course = models.ForeignKey(Course) 
+    cohort = models.ForeignKey(Cohort)  
+  
+    class Meta:
+        unique_together = ("course", "cohort")
+ 
     
 class Participant(models.Model):
     TEACHER = 'teacher'
@@ -579,8 +673,7 @@ class Points(models.Model):
         ('coursedownloaded', 'Course downloaded'),
     )
     user = models.ForeignKey(User)
-    course = models.ForeignKey(Course,null=True)
-    cohort = models.ForeignKey(Cohort,null=True)
+    course = models.ForeignKey(Course,null=True, default=None, on_delete=models.SET_NULL)
     points = models.IntegerField()
     date = models.DateTimeField('date created',default=timezone.now)
     description = models.TextField(blank=False)
@@ -595,14 +688,11 @@ class Points(models.Model):
         return self.description
     
     @staticmethod
-    def get_leaderboard(count=0, course=None, cohort=None):
+    def get_leaderboard(count=0, course=None):
         users = User.objects.all()
         
         if course is not None:
             users = users.filter(points__course=course)
-        
-        if cohort is not None:
-            users = users.filter(points__cohort=cohort)
                
         if count == 0:
             users = users.annotate(total=Sum('points__points')).order_by('-total')
@@ -614,6 +704,7 @@ class Points(models.Model):
             if u.total is None:
                 u.total = 0
         return users
+    
     
     @staticmethod
     def get_userscore(user):

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{{ cohort.description }}
+{% endblock extra_head_title %}
+
+{% block content %}
+<h2>{{ cohort.description }}</h2>
+
+<h3>{% trans 'Recent Activity' %}</h3>
+
+{% include "oppia/includes/activity-graph.html" %}	
+
+<h3>{% trans 'Leaderboard' %}</h3>
+
+{% include "oppia/includes/leaderboard.html" %}
+
+<div><a href="{% url 'oppia_cohort_leaderboard' cohort.id %}">{% trans "more..." %}</a></div>
+
+<h3>{% trans 'Courses' %}</h3>
+<div class="table-responsive">
+         <table class="table table-striped">
+         	 <thead>
+                <tr>
+                  <th>#</th>
+                  <th>{% trans 'Course' %}</th>
+                </tr>
+              </thead>
+              <tbody>
+
+			{% for course in cohort.get_courses %}
+				<tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td><a href="{% url 'oppia_cohort_course_view' cohort.id course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a></td>
+                 </tr>
+			{% endfor %}
+			</tbody>
+ 		</table>
+</div>
+{% endblock %}

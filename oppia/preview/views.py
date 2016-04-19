@@ -10,7 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
 from oppia.models import Course, Activity, Tracker
-from oppia.views import check_can_view
+from oppia.permissions import can_view_course
 from oppia.course_xml_reader import CourseXML
 
 def home_view(request):
@@ -32,13 +32,13 @@ def home_view(request):
                               context_instance=RequestContext(request))
 
 def course_home_view(request, id):
-    course = check_can_view(request, id)
+    course = can_view_course(request, id)
     return render_to_response('oppia/preview/course_home.html',
                               {'course': course }, 
                               context_instance=RequestContext(request))
     
 def course_activity_view(request, course_id, activity_id):
-    course = check_can_view(request, course_id)
+    course = can_view_course(request, course_id)
     activity = Activity.objects.get(pk=activity_id)
     
     # log the activity in the tracker

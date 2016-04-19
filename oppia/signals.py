@@ -44,16 +44,7 @@ def quizattempt_callback(sender, **kwargs):
         return
     
     if not apply_points(quiz_attempt.user):
-        return
-    
-    # give points to quiz owner
-    if quiz_attempt.is_first_attempt_today():
-        p = Points()
-        p.points = settings.OPPIA_POINTS['QUIZ_ATTEMPT_OWNER']
-        p.user = quiz.owner
-        p.type = 'userquizattempt'
-        p.description = quiz_attempt.user.username + " attempted your quiz: " + quiz.title
-        p.save()  
+        return 
     
     # find out if this quiz is part of a course
     course = None
@@ -65,14 +56,9 @@ def quizattempt_callback(sender, **kwargs):
             course = a.section.course
         
     # find out is user is part of the cohort for this course
-    cohort = None
     if course is not None:
         if course.user == quiz_attempt.user and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
             return
-        cohort_teacher = Cohort.teacher_member_now(course, quiz_attempt.user)
-        if cohort_teacher is not None and settings.OPPIA_TEACHERS_EARN_POINTS is False:
-            return
-        cohort = Cohort.student_member_now(course,quiz_attempt.user)
               
     if quiz_attempt.is_first_attempt():
         # If it's the first time they've attempted this quiz award points
@@ -82,7 +68,6 @@ def quizattempt_callback(sender, **kwargs):
         p.user = quiz_attempt.user
         p.description = "Bonus points for your first attempt at: " + quiz.title
         p.course = course
-        p.cohort = cohort
         p.save()
     
         # add percentage points for their first attempt
@@ -93,7 +78,6 @@ def quizattempt_callback(sender, **kwargs):
             p.description = "Score for first attempt at quiz: " + quiz.title
             p.user = quiz_attempt.user
             p.course = course
-            p.cohort = cohort
             p.save()
         
         # if you get 100% on first attempt get bonus of 50 points
@@ -104,7 +88,6 @@ def quizattempt_callback(sender, **kwargs):
             p.description = "Bonus points for getting 100% in first attempt at quiz: " + quiz.title
             p.user = quiz_attempt.user
             p.course = course
-            p.cohort = cohort
             p.save()
             
     elif quiz_attempt.is_first_attempt_today():
@@ -115,7 +98,6 @@ def quizattempt_callback(sender, **kwargs):
         p.user = quiz_attempt.user
         p.description = "Quiz attempt at: " + quiz.title
         p.course = course
-        p.cohort = cohort
         p.save()
     
     return
@@ -147,10 +129,6 @@ def tracker_callback(sender, **kwargs):
     if tracker.course is not None and tracker.course.user == tracker.user and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
         return
     
-    cohort_teacher = Cohort.teacher_member_now(tracker.course, tracker.user)
-    if cohort_teacher is not None and settings.OPPIA_TEACHERS_EARN_POINTS is False:
-        return
-    
     if tracker.get_activity_type() is not "media":
         if not tracker.is_first_tracker_today():
             return
@@ -166,11 +144,11 @@ def tracker_callback(sender, **kwargs):
             points = settings.OPPIA_POINTS['MEDIA_STARTED']
         else:
             points = 0
-        points =  (settings.OPPIA_POINTS['MEDIA_PLAYING_POINTS_PER_INTERVAL'] * math.floor(tracker.time_taken/settings.OPPIA_POINTS['MEDIA_PLAYING_INTERVAL']))
+        points += (settings.OPPIA_POINTS['MEDIA_PLAYING_POINTS_PER_INTERVAL'] * math.floor(tracker.time_taken/settings.OPPIA_POINTS['MEDIA_PLAYING_INTERVAL']))
         if points > settings.OPPIA_POINTS['MEDIA_MAX_POINTS']:
             points = settings.OPPIA_POINTS['MEDIA_MAX_POINTS']
     else:
-        description = "Activity completed: " + tracker.activity_title    
+        description = "Activity completed: " + tracker.get_activity_title()    
        
     p = Points()
     p.points = points
@@ -178,7 +156,6 @@ def tracker_callback(sender, **kwargs):
     p.description = description
     p.user = tracker.user
     p.course = tracker.course
-    p.cohort = Cohort.student_member_now(tracker.course,tracker.user)
     p.save()
     
     # @TODO test if tracker submitted on time
@@ -193,9 +170,6 @@ def course_download_callback(sender, **kwargs):
     
     if course.user == user and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
         return
-    cohort_teacher = Cohort.teacher_member_now(course, user)
-    if cohort_teacher is not None and settings.OPPIA_TEACHERS_EARN_POINTS is False:
-        return
     
     if not course.is_first_download(user):
         return 
@@ -206,7 +180,6 @@ def course_download_callback(sender, **kwargs):
     p.description = "Course downloaded: " + course.get_title()
     p.user = user
     p.course = course
-    p.cohort = Cohort.student_member_now(course,user)
     p.save()
     return
 

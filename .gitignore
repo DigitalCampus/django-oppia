@@ -7,3 +7,5 @@
 /dist
 /django_oppia.egg-info
 /src
+/.idea
+/.eggs

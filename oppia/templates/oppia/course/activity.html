@@ -3,6 +3,10 @@
 {% load display_functions %}
 {% load crispy_forms_tags %}
 
+{% block extra_head_title %}
+	{{ course.title|title_lang:LANGUAGE_CODE }}
+{% endblock extra_head_title %}
+
 {% block extra_body %}
 	onload="setUpDatePicker();"
 {% endblock extra_body %}
@@ -43,7 +47,7 @@
                 			height: 400,
                 			vAxis: {title: "{% trans 'No. attempts' %}"},
                 			pointSize:5,
-                			chartArea:{left:50,top:50,width:"70%",height:"70%"},
+                			chartArea: {left:100,width:"70%",height:"75%"},
                 			backgroundColor: 'transparent',
                 			legend: {position:'right'}
 							});

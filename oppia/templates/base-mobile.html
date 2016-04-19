@@ -1,16 +1,17 @@
 {% load i18n %}
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>{% trans 'app_name' %}</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-    <link href="{{ STATIC_URL }}oppia/style-mobile.css" rel="stylesheet" type="text/css"/>
-    <link href="{{ STATIC_URL }}oppia/ui-lightness/jquery-ui.min.css" rel="stylesheet"/>
-    <link href="{{ STATIC_URL }}oppia/ui-lightness/jquery-ui.structure.min.css" rel="stylesheet"/>
-    <link href="{{ STATIC_URL }}oppia/ui-lightness/jquery-ui.theme.min.css" rel="stylesheet"/>
-    <link rel="shortcut icon" href="{{ STATIC_URL }}oppia/images/favicon.ico"/>	
-    <script src="{{ STATIC_URL }}oppia/js/jquery-1.11.0.min.js"></script>
-    <script src="{{ STATIC_URL }}oppia/ui-lightness/jquery-ui.min.js"></script>
+    <link href="{% static "oppia/style-mobile.css" %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static "oppia/ui-lightness/jquery-ui.min.css" %}" rel="stylesheet" %}"/>
+    <link href="{% static "oppia/ui-lightness/jquery-ui.structure.min.css" %}" rel="stylesheet" %}"/>
+    <link href="{% static "oppia/ui-lightness/jquery-ui.theme.min.css" %}" rel="stylesheet" %}"/>
+    <link rel="shortcut icon" href="{% static "oppia/images/favicon.ico" %}"/>
+    <script src="{% static "oppia/js/jquery-1.11.0.min.js" %}"></script>
+    <script src="{% static "oppia/ui-lightness/jquery-ui.min.js" %}"></script>
     {% block extra_styles %}{% endblock extra_styles %}
 	{% block extra_scripts %}{% endblock extra_scripts %}  
 </head>

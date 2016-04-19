@@ -1,0 +1,59 @@
+{% extends "base.html" %} 
+{% load i18n %} 
+{% load display_functions %} 
+{% load crispy_forms_tags %}
+
+{% block extra_head_title %}
+	{% trans 'Upload users' %}
+{% endblock extra_head_title %}
+
+{% block content %}
+
+<h2>{% trans 'Upload users' %}</h2>
+
+{% blocktrans %}
+<p>You may only upload a 'CSV' file.</p>
+<p>The following columns/fields are required:</p>
+<ul>
+	<li>username</li>
+	<li>email</li>
+	<li>firstname</li>
+	<li>lastname</li>
+</ul>
+
+<p>You may also optionally add the following columns/fields:</p>
+<ul>
+	<li>password (note: if you do not add a password, one will be randomly generated)</li>
+	<li>organisation</li>
+	<li>phone_no</li>
+	<li>other columns that match your user profile definition</li>
+</ul>
+
+{% endblocktrans %}
+
+{% if results %}
+	<h3>{% trans 'Upload results' %}</h3>
+	<div class="table-responsive">
+         <table class="table table-striped-expandable">
+         	 <thead>
+                <tr>
+                  <th>{% trans 'Username' %}</th>
+                  <th>{% trans 'Results' %}</th>
+                </tr>
+              </thead>
+              <tbody>
+	{% for r in results %}
+				<tr>
+					<td>{{ r.username }}</td>
+					<td>{{ r.message }}</td>
+				</tr>
+	{% endfor %}
+			</tbody>
+ 		</table>
+ 	</div>
+{% endif %}
+
+<h3>{% trans 'Upload user file ' %}</h3>
+{% crispy form %}
+
+{% endblock %}

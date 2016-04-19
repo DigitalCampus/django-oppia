@@ -31,7 +31,7 @@ virtualenv $DEV_ROOT/oppia_$PROJ_NAME/env
 cd $DEV_ROOT/oppia_$PROJ_NAME
 source env/bin/activate
 
-pip install django==1.6.6 south django-tastypie django-tablib django-crispy-forms mysql-python
+pip install django==1.7.7 django-tastypie django-tablib django-crispy-forms mysql-python
 
 deactivate
 
