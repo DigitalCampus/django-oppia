@@ -492,7 +492,7 @@ def search_users(request):
     if ordering is None:
         ordering = 'first_name'
 
-    users.order_by(ordering)
+    users = users.order_by(ordering)
     paginator = Paginator(users, 10) # Show 25 per page
 
 

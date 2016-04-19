@@ -34,7 +34,7 @@
           </div>
 
     </div>
-    <div id="collapseOne" class="panel-collapse {% if not advanced_search %}collapse{% endif %}" role="tabpanel" aria-labelledby="headingOne">
+    <div id="collapseOne" class="panel-collapse collapse {% if advanced_search %}in{% endif %}" role="tabpanel" aria-labelledby="headingOne">
       <div class="panel-body">
             {% crispy search_form %}
       </div>
