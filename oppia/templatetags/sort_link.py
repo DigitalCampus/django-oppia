@@ -13,6 +13,7 @@ def sort_link(context, attr_name, attr_title):
         ordering = ordering[1:]
 
     return {
+        'request':context['request'],
         'title': ugettext(attr_title),
         'orderby': attr_name,
         'ordered_ascending': (ordering == attr_name and not inverse_order),
