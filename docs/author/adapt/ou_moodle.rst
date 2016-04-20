@@ -28,10 +28,14 @@ the next script. In Moodle you may need to purge the cache and/or save the cours
    
 The scripts should be run from the command line - there is no user/web interface - and directly manipulate the Moodle 
 database. They ought to work for all versions of Moodle v2.4.x - v2.9.x.
+
+Firstly make a copy of `settings.php` named `local_settings.php` and update the information for your Moodle instance.
    
 #. 01-restructure-course.php - the original Moodle courses have all the activities in a single Moodle topic. This 
    script uses the activity numbering to determine which section a course will appear in.
-#. 02-order-topics.php  -
+#. 02-order-topics.php - 
+#. 03-clean-course.php - 
+
 
 
 3. Apply styles
@@ -39,21 +43,28 @@ database. They ought to work for all versions of Moodle v2.4.x - v2.9.x.
 
 Apply more general stylesheet, for example for the in-text questions, notes, warnings - using the same icons etc used 
 for the mobile adapted HEAT content.
+
+Refer to `helper/cleaning.php`
+
    
 4. Review of image and table content
 -----------------------------------------
+
 Review of images and tables - to ensure they are resized/styled appropriately for display on mobile
+
 
 5. Add activity icons/images
 ------------------------------------
 
 Adding activity icons/images
 
+
 6. Adapt SAQs into Moodle quiz format
 -------------------------------------------
 
 Adapt SAQs into Moodle quiz format - not all SAQ questions may be able to be adapted (depends on the complexity and 
 type of question)
+
 
 7. Quality Assurance and Review
 -----------------------------------
