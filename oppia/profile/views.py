@@ -293,7 +293,11 @@ def user_course_activity_view(request, user_id, course_id):
     act_quizzes = Activity.objects.filter(section__course=course,type=Activity.QUIZ).order_by('section__order','order')
     quizzes = []
     for aq in act_quizzes:
-        quiz = Quiz.objects.get(quizprops__value=aq.digest, quizprops__name="digest")
+        try:
+            quiz = Quiz.objects.get(quizprops__value=aq.digest, quizprops__name="digest")
+        except Quiz.DoesNotExist:
+            quiz = None
+            
         attempts = QuizAttempt.objects.filter(quiz=quiz, user=view_user)
         num_attempts = attempts.count()
         if num_attempts > 0:
