@@ -3,6 +3,7 @@ import csv
 import datetime
 from itertools import chain
 
+import operator
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import (authenticate, login)
@@ -236,10 +237,24 @@ def user_activity(request, user_id):
                 'no_quizzes_completed': course.get_no_quizzes_completed(course,view_user),
                 'pretest_score': course.get_pre_test_score(course,view_user),
                 'no_activities_completed': course.get_activities_completed(course,view_user),
-                'no_quizzes_completed': course.get_no_quizzes_completed(course,view_user),
                 'no_points': course.get_points(course,view_user),
                 'no_badges': course.get_badges(course,view_user),}
         courses.append(data)
+
+    order_options = ['course', 'no_quizzes_completed', 'pretest_score',
+                     'no_activities_completed','no_points', 'no_badges']
+    default_order = 'course'
+
+    ordering = request.GET.get('order_by', default_order)
+    inverse_order = ordering.startswith('-')
+    if inverse_order:
+        ordering = ordering[1:]
+
+    if ordering not in order_options:
+        ordering = default_order
+        inverse_order = False
+
+    courses.sort(key=operator.itemgetter(ordering), reverse=inverse_order)
 
     activity = []
     start_date = timezone.now() - datetime.timedelta(days=31)
@@ -262,6 +277,7 @@ def user_activity(request, user_id):
     return render_to_response('oppia/profile/user-scorecard.html',
                               {'view_user': view_user,
                                'courses': courses,
+                               'page_ordering': ('-' if inverse_order else '') + ordering,
                                'activity_graph_data': activity },
                               context_instance=RequestContext(request))
 
@@ -277,16 +293,23 @@ def user_course_activity_view(request, user_id, course_id):
     act_quizzes = Activity.objects.filter(section__course=course,type=Activity.QUIZ).order_by('section__order','order')
     quizzes = []
     for aq in act_quizzes:
-        quiz = Quiz.objects.get(quizprops__value=aq.digest, quizprops__name="digest")
+        try:
+            quiz = Quiz.objects.get(quizprops__value=aq.digest, quizprops__name="digest")
+        except Quiz.DoesNotExist:
+            quiz = None
+            
         attempts = QuizAttempt.objects.filter(quiz=quiz, user=view_user)
-        if attempts.count() > 0:
-            max_score = 100*float(attempts.aggregate(max=Max('score'))['max']) / float(attempts[0].maxscore)
-            min_score = 100*float(attempts.aggregate(min=Min('score'))['min']) / float(attempts[0].maxscore)
-            avg_score = 100*float(attempts.aggregate(avg=Avg('score'))['avg']) / float(attempts[0].maxscore)
+        num_attempts = attempts.count()
+        if num_attempts > 0:
+            quiz_maxscore = float(attempts[0].maxscore)
+            attemps_stats = attempts.aggregate(max=Max('score'), min=Min('score'), avg=Avg('score'))
+            max_score = 100*float(attemps_stats['max']) / quiz_maxscore
+            min_score = 100*float(attemps_stats['min']) / quiz_maxscore
+            avg_score = 100*float(attemps_stats['avg']) / quiz_maxscore
             first_date = attempts.aggregate(date=Min('attempt_date'))['date']
             recent_date = attempts.aggregate(date=Max('attempt_date'))['date']
-            first_score = 100*float(attempts.filter(attempt_date = first_date)[0].score) / float(attempts[0].maxscore)
-            latest_score = 100*float(attempts.filter(attempt_date = recent_date)[0].score) / float(attempts[0].maxscore)
+            first_score = 100*float(attempts.filter(attempt_date = first_date)[0].score) / quiz_maxscore
+            latest_score = 100*float(attempts.filter(attempt_date = recent_date)[0].score) / quiz_maxscore
         else:
             max_score = None
             min_score = None
@@ -295,14 +318,15 @@ def user_course_activity_view(request, user_id, course_id):
             latest_score = None
 
         quiz = {'quiz': aq,
-                'no_attempts': attempts.count(),
+                'quiz_order': aq.order,
+                'no_attempts': num_attempts,
                 'max_score': max_score,
                 'min_score': min_score,
                 'first_score': first_score,
                 'latest_score': latest_score,
                 'avg_score': avg_score,
                  }
-        quizzes.append(quiz);
+        quizzes.append(quiz)
 
     activity = []
     start_date = timezone.now() - datetime.timedelta(days=31)
@@ -321,10 +345,24 @@ def user_course_activity_view(request, user_id, course_id):
         count = next((dct['count'] for dct in trackers if dct['activity_date'] == temp.date()), 0)
         activity.append([temp.strftime("%d %b %Y"),count])
 
+    order_options = ['quiz_order', 'no_attempts', 'max_score', 'min_score',
+                     'first_score', 'latest_score', 'avg_score']
+    default_order = 'quiz_order'
+    ordering = request.GET.get('order_by', default_order)
+    inverse_order = ordering.startswith('-')
+    if inverse_order:
+        ordering = ordering[1:]
+    if ordering not in order_options:
+        ordering = default_order
+        inverse_order = False
+
+    quizzes.sort(key=operator.itemgetter(ordering), reverse=inverse_order)
+
     return render_to_response('oppia/profile/user-course-scorecard.html',
                               {'view_user': view_user,
                                'course': course,
                                'quizzes': quizzes,
+                               'page_ordering': ('-' if inverse_order else '') + ordering,
                                'activity_graph_data': activity },
                               context_instance=RequestContext(request))
 
@@ -403,4 +441,36 @@ def upload_view(request):
     return render_to_response('oppia/profile/upload.html',
                               {'form': form,
                                'results': results},
+                              context_instance=RequestContext(request),)
+
+def export_users(request):
+
+    if not request.user.is_staff:
+        raise Http404
+
+    default_order = 'date_joined'
+    ordering = request.GET.get('order_by', None)
+    if ordering is None:
+        ordering = default_order
+
+    users = User.objects.all().order_by(ordering).select_related('api_key__key')
+    paginator = Paginator(users, 5)
+
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+
+    users = paginator.page(page)
+    for user in users:
+        userObj = {}
+        try:
+            apiKey = user.api_key.key
+        except ApiKey.DoesNotExist:
+            #if the user doesn't have an apiKey yet, generate it
+            ApiKey.objects.create(user=user)
+
+    template = 'export_users_table.html' if request.is_ajax() else 'export_users.html'
+    return render_to_response('oppia/profile/' + template,
+                              {'page': users, 'page_ordering':ordering},
                               context_instance=RequestContext(request),)

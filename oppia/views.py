@@ -3,6 +3,7 @@ import datetime
 import json
 from wsgiref.util import FileWrapper
 
+import operator
 import os
 import oppia
 import tablib
@@ -798,15 +799,30 @@ def cohort_course_view(request, cohort_id, course_id):
                 'no_quizzes_completed': course.get_no_quizzes_completed(course,user),
                 'pretest_score': course.get_pre_test_score(course,user),
                 'no_activities_completed': course.get_activities_completed(course,user),
-                'no_quizzes_completed': course.get_no_quizzes_completed(course,user),
                 'no_points': course.get_points(course,user),
                 'no_badges': course.get_badges(course,user),}
         students.append(data)
+
+    order_options = ['user', 'no_quizzes_completed', 'pretest_score',
+                     'no_activities_completed','no_points', 'no_badges']
+    default_order = 'user'
+
+    ordering = request.GET.get('order_by', default_order)
+    inverse_order = ordering.startswith('-')
+    if inverse_order:
+        ordering = ordering[1:]
+
+    if ordering not in order_options:
+        ordering = default_order
+        inverse_order = False
+
+    students.sort(key=operator.itemgetter(ordering), reverse=inverse_order)
        
     return render_to_response('oppia/course/cohort-course-activity.html',
                               {'course': course,
                                'cohort': cohort, 
                                'activity_graph_data': student_activity,
+                               'page_ordering': ('-' if inverse_order else '') + ordering,
                                'students': students }, 
                               context_instance=RequestContext(request))
        
