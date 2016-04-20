@@ -16,6 +16,7 @@ v0.9.4 - not yet released
 * 339: Quiz matching query does not exist - http://github.com/DigitalCampus/django-oppia/issues/issue/339
 * 303: Add option to reorder the columns in the tables - http://github.com/DigitalCampus/django-oppia/issues/issue/303
 * 284: Facilty to export list of users for loading into the app - http://github.com/DigitalCampus/django-oppia/issues/issue/284
+* 207: Fix issue where activities may not have descriptions entered - http://github.com/DigitalCampus/django-oppia/issues/issue/207
 
 .. note::
  	Make sure that django.contrib.staticfiles is included in your INSTALLED_APPS setting (for issue #305 above)
