@@ -36,6 +36,7 @@
 		       		<li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">{% trans 'Admin' %}<b class="caret"></b></a>
 		       		<ul class="dropdown-menu">
 		       			<li><a href="{% url 'profile_upload' %}">{% trans 'Upload users' %}</a></li>
+                        <li><a href="{% url 'profile_export' %}">{% trans 'Export users' %}</a></li>
 		       			<li><a href="{% url 'admin:index' %}">{% trans 'Django Admin' %}</a></li>
                         {% if OPPIA_DEVICEADMIN_ENABLED %}
                             <li><a href="{% url 'deviceadmin_devices_list' %}">{% trans 'Remote Device Administration' %}</a></li>
