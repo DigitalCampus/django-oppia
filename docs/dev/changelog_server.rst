@@ -14,6 +14,7 @@ v0.9.4 - not yet released
 * 313: Add architecture/workflow to docs - http://github.com/DigitalCampus/django-oppia/issues/issue/313
 * 305: Refactor usage of staticfiles - using django 1.8 method - http://github.com/DigitalCampus/django-oppia/issues/issue/305
 * 339: Quiz matching query does not exist - http://github.com/DigitalCampus/django-oppia/issues/issue/339
+* 303: Add option to reorder the columns in the tables - http://github.com/DigitalCampus/django-oppia/issues/issue/303
 
 .. note::
  	Make sure that django.contrib.staticfiles is included in your INSTALLED_APPS setting (for issue #305 above)
