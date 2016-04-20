@@ -295,7 +295,11 @@ def user_course_activity_view(request, user_id, course_id):
     act_quizzes = Activity.objects.filter(section__course=course,type=Activity.QUIZ).order_by('section__order','order')
     quizzes = []
     for aq in act_quizzes:
-        quiz = Quiz.objects.get(quizprops__value=aq.digest, quizprops__name="digest")
+        try:
+            quiz = Quiz.objects.get(quizprops__value=aq.digest, quizprops__name="digest")
+        except Quiz.DoesNotExist:
+            quiz = None
+            
         attempts = QuizAttempt.objects.filter(quiz=quiz, user=view_user)
         num_attempts = attempts.count()
         if num_attempts > 0:
@@ -515,4 +519,36 @@ def search_users(request):
                                 'page': users,
                                 'page_ordering':ordering
                               },
+                              context_instance=RequestContext(request),)
+
+def export_users(request):
+
+    if not request.user.is_staff:
+        raise Http404
+
+    default_order = 'date_joined'
+    ordering = request.GET.get('order_by', None)
+    if ordering is None:
+        ordering = default_order
+
+    users = User.objects.all().order_by(ordering).select_related('api_key__key')
+    paginator = Paginator(users, 5)
+
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+
+    users = paginator.page(page)
+    for user in users:
+        userObj = {}
+        try:
+            apiKey = user.api_key.key
+        except ApiKey.DoesNotExist:
+            #if the user doesn't have an apiKey yet, generate it
+            ApiKey.objects.create(user=user)
+
+    template = 'export_users_table.html' if request.is_ajax() else 'export_users.html'
+    return render_to_response('oppia/profile/' + template,
+                              {'page': users, 'page_ordering':ordering},
                               context_instance=RequestContext(request),)
