@@ -499,7 +499,6 @@ def search_users(request):
     users = users.order_by(ordering)
     paginator = Paginator(users, 10) # Show 25 per page
 
-
     # Make sure page request is an int. If not, deliver first page.
     try:
         page = int(request.GET.get('page', '1'))
@@ -541,14 +540,17 @@ def export_users(request):
 
     users = paginator.page(page)
     for user in users:
-        userObj = {}
         try:
             apiKey = user.api_key.key
         except ApiKey.DoesNotExist:
             #if the user doesn't have an apiKey yet, generate it
             ApiKey.objects.create(user=user)
 
-    template = 'export_users_table.html' if request.is_ajax() else 'export_users.html'
+    template = 'users-paginated-list.html' if request.is_ajax() else 'export-users.html'
     return render_to_response('oppia/profile/' + template,
-                              {'page': users, 'page_ordering':ordering},
+                              {
+                                  'page': users,
+                                  'page_ordering':ordering,
+                                  'users_list_template':'export'
+                              },
                               context_instance=RequestContext(request),)

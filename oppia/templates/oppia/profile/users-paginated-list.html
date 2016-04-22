@@ -6,7 +6,7 @@
      <thead>
         <tr>
         {% if users_list_template %}
-            {% with "oppia/profile/header-user-"|add:users_list_template|add:".html" as header_template_path %}
+            {% with "oppia/profile/list/header-user-"|add:users_list_template|add:".html" as header_template_path %}
                 {% include header_template_path %}
             {% endwith %}
         {% else %}
@@ -14,10 +14,10 @@
         {% endif %}
         </tr>
       </thead>
-      <tbody {% if users_list_template %} id="users_list_template" {% endif %}>
+      <tbody {% if users_list_template %} id="{{ users_list_template }}" {% endif %}>
 
     {% if users_list_template %}
-        {% with "oppia/profile/row-user-"|add:users_list_template|add:".html" as row_template_path %}
+        {% with "oppia/profile/list/row-user-"|add:users_list_template|add:".html" as row_template_path %}
             {% for user in page.object_list %}
                 {% include row_template_path %}
             {% endfor %}
