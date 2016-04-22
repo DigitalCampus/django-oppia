@@ -4,7 +4,7 @@
 <tr id="{{ user.username }}">
     <td class="col-xs-7 col-sm-7 ">{% if OPPIA_SHOW_GRAVATARS %} {{ user|gravatar:24 }} {% endif %}
         {{ user.first_name }} {{ user.last_name }}
-        <input type="hidden" name="apikey" value="{{ user.apikey }}" />
+        <input type="hidden" name="apikey" value="{{ user.apiKey }}" />
         <input type="hidden" name="email" value="{{ user.email }}" />
         <input type="hidden" name="username" value="{{ user.username }}" />
         <input type="hidden" name="first_name" value="{{ user.first_name }}" />

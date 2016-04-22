@@ -541,10 +541,10 @@ def export_users(request):
     users = paginator.page(page)
     for user in users:
         try:
-            apiKey = user.api_key.key
+            user.apiKey = user.api_key.key
         except ApiKey.DoesNotExist:
             #if the user doesn't have an apiKey yet, generate it
-            ApiKey.objects.create(user=user)
+            user.apiKey = ApiKey.objects.create(user=user).key
 
     template = 'users-paginated-list.html' if request.is_ajax() else 'export-users.html'
     return render_to_response('oppia/profile/' + template,
