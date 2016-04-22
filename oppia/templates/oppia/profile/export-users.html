@@ -10,17 +10,17 @@
 {% block content %}
 <h2>{% trans 'Export users' %}</h2>
 
-    <div class="row">
+    <div class="row export-users-block">
          <div class="col-sm-6">
          <h3>Available users</h3>
-             <div id="available-users">
+             <div id="available-users" class="available-items">
              {% include "oppia/profile/users-paginated-list.html" %}
              </div>
         </div>
 
         <div class="table-responsive col-sm-6">
         <h3>Selected users</h3>
-             <div class="panel panel-default" id="explanation">
+             <div class="panel panel-default explanation" id="explanation">
                  <div class="panel-heading"></div>
                  <div class="panel-body">
                  Add users from the "Available users" lists by clicking the button with the <i class="glyphicon glyphicon-plus"></i> sign.
@@ -29,14 +29,14 @@
                  If you want to remove one selected user, press the button with the <i class="glyphicon glyphicon-remove"></i> sign by its side.
                  </div>
              </div>
-             <table class="table table-fixed" id="selected-users-table">
+             <table class="table table-fixed selected-items-table" id="selected-users-table">
                  <thead>
                     <tr>
                       <th>{% trans 'User' %}</th>
                       <th></th>
                     </tr>
                   </thead>
-                  <tbody id="selected-users" style="max-height:400px;">
+                  <tbody class="selected-items" id="selected-users" style="max-height:400px;">
                 </tbody>
             </table>
         </div>
@@ -60,58 +60,10 @@
     <script type="text/javascript">
 
     $(function(){
-        var explanation = $('#explanation');
-        var allUsers = $('#available-users');
-        var selUsersTable = $('#selected-users-table').hide();
+
+        $('.export-users-block').each(applySelectableBehaviour);
+
         var selectedUsers = $('#selected-users');
-
-        allUsers.on('click', '.btn-add', function(e){
-            e.preventDefault();
-            var btn = $(this);
-            var user = btn.parents('tr').first();
-            if (btn.hasClass('disabled')) return;
-
-            user.clone().attr('data-username', user.attr('id'))
-                .removeAttr('id')
-                .appendTo(selectedUsers)
-                .find('.btn-add').hide().end()
-                .find('.removing').show();
-
-            updateUserBtn(btn, true);
-            selUsersTable.show();
-            explanation.hide();
-        });
-
-        allUsers.on('click', '.pagination a', function(e){
-            e.preventDefault();
-            $.get(this.href, function(page){
-                allUsers.html($(page));
-                //Update any user that is already added
-                selectedUsers.children().each(function(i, user){
-                    updateUserBtn($(user).attr('data-username'), true);
-                });
-            });
-        });
-
-        function updateUserBtn(username_or_btn, enable){
-            var btn;
-            if (username_or_btn instanceof jQuery)
-                btn = username_or_btn;
-            else
-                btn = allUsers.find('#'+username_or_btn+' .btn-add');
-            btn.toggleClass('disabled', enable)
-                .find('.glyphicon-ok').toggleClass('hidden', (!enable)).end()
-                .find('.glyphicon-plus').toggleClass('hidden', enable).end();
-        }
-
-        $(selectedUsers).on('click', '.btn-remove', function(){
-            var user = $(this).parents('tr').first().remove();
-            updateUserBtn(user.attr('data-username'), false);
-            if (selectedUsers.children().size() == 0){
-                explanation.show();
-                selUsersTable.hide();
-            }
-        });
 
         function inputVal($user, field){
             return $user.find('[name="'+field+'"]').val();
