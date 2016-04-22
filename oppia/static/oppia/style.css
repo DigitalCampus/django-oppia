@@ -245,9 +245,11 @@ div.date-picker-row-fluid .controls{ width: 100%;}
 .table-fixed tr {
     clear:left;
 }
-.hidden-fields{ display:none; }
-
-}
+.hidden-fields .form-group{ display:none; }
+.hidden-fields .form-group.has-error{ display:block; }
+.hidden-fields .form-group.has-error input,
+.hidden-fields .form-group.has-error textarea,
+.hidden-fields .form-group.has-error p.help-block{ display:none; }
 
 .search-block{
     border:1px solid #DDD;

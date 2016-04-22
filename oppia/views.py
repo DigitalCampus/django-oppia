@@ -628,7 +628,8 @@ def cohort_add(request):
            
     else:
         form = CohortForm() # An unbound form
-        ordering, users = get_paginated_users(request)
+
+    ordering, users = get_paginated_users(request)
 
     return render(request, 'oppia/cohort-form.html',{
                                 'form': form,
