@@ -573,7 +573,24 @@ def cohort_list_view(request):
     return render_to_response('oppia/course/cohorts-list.html',
                               {'cohorts':cohorts,}, 
                               context_instance=RequestContext(request))
-  
+
+
+def get_paginated_users(request):
+    default_order = 'date_joined'
+    ordering = request.GET.get('order_by', None)
+    if ordering is None:
+        ordering = default_order
+
+    users = User.objects.all().order_by(ordering).select_related('api_key__key')
+    paginator = Paginator(users, 5)
+
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+
+    return ordering, paginator.page(page)
+
 def cohort_add(request):
     if not can_add_cohort(request):
         return HttpResponse('Unauthorized', status=401)   
@@ -626,8 +643,15 @@ def cohort_add(request):
            
     else:
         form = CohortForm() # An unbound form
+        ordering, users = get_paginated_users(request)
 
-    return render(request, 'oppia/cohort-form.html',{'form': form,})  
+    print ordering
+    return render(request, 'oppia/cohort-form.html',{
+                                'form': form,
+                                'page': users,
+                                'page_ordering':ordering,
+                                'users_list_template':'default'
+                             },context_instance=RequestContext(request))
 
 def cohort_view(request,cohort_id):
     cohort, response = can_view_cohort(request,cohort_id)

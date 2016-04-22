@@ -130,6 +130,7 @@ class CohortForm(forms.Form):
         super(CohortForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
+        self.helper.form_tag = False
         self.helper.label_class = 'col-sm-3 col-md-2'
         self.helper.field_class = 'col-sm-9 col-md-10 col-lg-9'
         self.helper.layout = Layout(
@@ -141,11 +142,6 @@ class CohortForm(forms.Form):
                     'teachers',
                     'students',
                     css_class='hidden-fields'
-                ),
-                CohortHelperDiv(),
-                Div(
-                   Submit('submit', _(u'Save'), css_class='btn btn-default'),
-                   css_class='col-lg-offset-2 col-lg-4',
                 ),
             )  
         

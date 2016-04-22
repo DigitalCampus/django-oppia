@@ -16,7 +16,22 @@
 
 <h2>{% trans 'Cohort' %}</h2>
 
+
+
+<form class="form-horizontal" method="post">
+
 {% crispy form %}
+
+    {% include "oppia/includes/cohort-helper.html" %}
+
+<div class="col-lg-offset-2 col-lg-4">
+    <input type="submit" name="submit" value="Save" class="btn btn-primary btn btn-default" id="submit-id-submit">
+</div>
+
+</form>
+
+
+
 
 {% endblock %}
 {% block extra_scripts %}
