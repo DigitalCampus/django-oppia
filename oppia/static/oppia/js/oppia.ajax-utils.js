@@ -66,7 +66,7 @@ function applySelectableBehaviour(selectable){
         explanation.hide();
     });
 
-    availableItems.on('click', '.pagination a', function(e){
+    availableItems.on('click', '.pagination a, thead a', function(e){
         e.preventDefault();
         $.get(this.href, function(page){
             availableItems.html($(page));

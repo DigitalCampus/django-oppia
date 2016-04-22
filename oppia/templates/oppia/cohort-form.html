@@ -46,9 +46,11 @@
         $('#cohort-form').on('submit', function(e){
             var teachersList = getSelectableItemsSelected($('#selected-teachers')).join(',');
             var studentsList = getSelectableItemsSelected($('#selected-students')).join(',');
+            var coursesList = getSelectableItemsSelected($('#selected-courses')).join(',');
 
             $('[name="teachers"]').val(teachersList);
             $('[name="students"]').val(studentsList);
+            $('[name="courses"]').val(coursesList);
         });
 
     });

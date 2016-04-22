@@ -2,6 +2,8 @@
 {% load display_functions %}
 
 {% url 'list_users' as users_list_url %}
+{% url 'oppia_course' as courses_list_url %}
+
 <hr>
 <div class="row selectable-group">
     <div class="table-responsive col-sm-6">
@@ -37,7 +39,7 @@
      <div class="col-sm-6" id="add-courses-block" style="display:none;">
      <h4>{% trans 'Available courses' %}</h4>
          <div id="available-courses" class="available-items">
-
+            {% include "oppia/course/courses-paginated-list.html" with ajax_url=courses_list_url page=courses_page page_ordering=c_ordering %}
          </div>
     </div>
 </div>
