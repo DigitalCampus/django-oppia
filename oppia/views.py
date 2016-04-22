@@ -634,7 +634,7 @@ def cohort_add(request):
                                 'form': form,
                                 'page': users,
                                 'page_ordering':ordering,
-                                'users_list_template':'default'
+                                'users_list_template':'select'
                              },context_instance=RequestContext(request))
 
 def cohort_view(request,cohort_id):

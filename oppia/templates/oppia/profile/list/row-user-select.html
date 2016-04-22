@@ -1,0 +1,13 @@
+{% load i18n %}
+{% load display_functions %}
+
+<tr id="{{ user.username }}">
+    <td class="col-xs-2 col-sm-1">
+        <button class="btn btn-sm btn-primary btn-add"><i class="glyphicon glyphicon-plus"></i> <i class="glyphicon glyphicon-ok hidden"></i> </button>
+        <button class="btn btn-sm btn-primary btn-remove removing" style="display: none;"><i class="glyphicon glyphicon-remove"></i> </button>
+    </td>
+    <td class="col-xs-7 col-sm-7 ">{% if OPPIA_SHOW_GRAVATARS %} {{ user|gravatar:24 }} {% endif %}
+        {{ user.first_name }} {{ user.last_name }}
+    </td>
+    <td class="col-xs-3 col-sm-4 ">{{ user.date_joined|date:"d/m/Y" }}</td>
+</tr>

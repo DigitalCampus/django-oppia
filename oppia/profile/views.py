@@ -566,7 +566,7 @@ def list_users(request):
                               {
                                   'page': users,
                                   'page_ordering':ordering,
-                                  'users_list_template':'export',
+                                  'users_list_template':'select',
                                   'ajax_url':request.path
                               },
                               context_instance=RequestContext(request),)

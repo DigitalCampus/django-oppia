@@ -242,7 +242,9 @@ div.date-picker-row-fluid .controls{ width: 100%;}
   float: left;
   border-bottom-width: 0;
 }
-
+.table-fixed tr {
+    clear:left;
+}
 .hidden-fields{ display:none; }
 
 }
