@@ -41,6 +41,21 @@ def filterRedirect(requestContent):
         print "Hola!!!"
         return redirection
 
+def get_paginated_users(request):
+    default_order = 'date_joined'
+    ordering = request.GET.get('order_by', None)
+    if ordering is None:
+        ordering = default_order
+
+    users = User.objects.all().order_by(ordering).select_related('api_key__key')
+    paginator = Paginator(users, 5)
+
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+
+    return ordering, paginator.page(page)
 
 def login_view(request):
     username = password = ''
@@ -525,20 +540,7 @@ def export_users(request):
     if not request.user.is_staff:
         raise Http404
 
-    default_order = 'date_joined'
-    ordering = request.GET.get('order_by', None)
-    if ordering is None:
-        ordering = default_order
-
-    users = User.objects.all().order_by(ordering).select_related('api_key__key')
-    paginator = Paginator(users, 5)
-
-    try:
-        page = int(request.GET.get('page', '1'))
-    except ValueError:
-        page = 1
-
-    users = paginator.page(page)
+    ordering, users = get_paginated_users(request)
     for user in users:
         try:
             user.apiKey = user.api_key.key
@@ -546,11 +548,25 @@ def export_users(request):
             #if the user doesn't have an apiKey yet, generate it
             user.apiKey = ApiKey.objects.create(user=user).key
 
-    template = 'users-paginated-list.html' if request.is_ajax() else 'export-users.html'
+    template = 'export-users.html'
+    if request.is_ajax():
+        template = 'users-paginated-list.html'
+
     return render_to_response('oppia/profile/' + template,
                               {
                                   'page': users,
                                   'page_ordering':ordering,
                                   'users_list_template':'export'
+                              },
+                              context_instance=RequestContext(request),)
+
+def list_users(request):
+    ordering, users = get_paginated_users(request)
+    return render_to_response('oppia/profile/users-paginated-list.html',
+                              {
+                                  'page': users,
+                                  'page_ordering':ordering,
+                                  'users_list_template':'export',
+                                  'ajax_url':request.path
                               },
                               context_instance=RequestContext(request),)

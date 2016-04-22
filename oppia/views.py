@@ -23,6 +23,7 @@ from oppia.models import ActivitySchedule, Activity, Points
 from oppia.models import Tracker, Tag, CourseTag, Schedule, CourseCohort
 from oppia.permissions import *
 from oppia.profile.models import UserProfile
+from oppia.profile.views import get_paginated_users
 from oppia.quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
 from oppia.reports.signals import dashboard_accessed
 from uploader import handle_uploaded_file
@@ -575,22 +576,6 @@ def cohort_list_view(request):
                               context_instance=RequestContext(request))
 
 
-def get_paginated_users(request):
-    default_order = 'date_joined'
-    ordering = request.GET.get('order_by', None)
-    if ordering is None:
-        ordering = default_order
-
-    users = User.objects.all().order_by(ordering).select_related('api_key__key')
-    paginator = Paginator(users, 5)
-
-    try:
-        page = int(request.GET.get('page', '1'))
-    except ValueError:
-        page = 1
-
-    return ordering, paginator.page(page)
-
 def cohort_add(request):
     if not can_add_cohort(request):
         return HttpResponse('Unauthorized', status=401)   
@@ -645,7 +630,6 @@ def cohort_add(request):
         form = CohortForm() # An unbound form
         ordering, users = get_paginated_users(request)
 
-    print ordering
     return render(request, 'oppia/cohort-form.html',{
                                 'form': form,
                                 'page': users,

@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load display_functions %}
 
-
+{% url 'list_users' as users_list_url %}
 <hr>
 <div class="row">
     <div class="table-responsive col-sm-6">
@@ -77,7 +77,7 @@
      <div class="col-sm-6" id="add-teachers-block" style="display:none;">
      <h4>{% trans 'Available students' %}</h4>
          <div id="available-teachers">
-         {% include "oppia/profile/users-paginated-list.html" %}
+         {% include "oppia/profile/users-paginated-list.html" with ajax_url=users_list_url %}
          </div>
     </div>
 </div>
@@ -117,7 +117,7 @@
      <div class="col-sm-6" id="add-students-block" style="display:none;">
      <h4>{% trans 'Available students' %}</h4>
          <div id="available-students">
-         {% include "oppia/profile/users-paginated-list.html" %}
+         {% include "oppia/profile/users-paginated-list.html" with ajax_url=users_list_url %}
          </div>
     </div>
 </div>

@@ -20,4 +20,5 @@ urlpatterns = patterns('',
     url(r'^upload/$', 'oppia.profile.views.upload_view', name="profile_upload"),
     url(r'^search/$', 'oppia.profile.views.search_users', name="search_users"),
     url(r'^export/$', 'oppia.profile.views.export_users', name="profile_export"),
+    url(r'^list/$', 'oppia.profile.views.list_users', name="list_users"),
 )
