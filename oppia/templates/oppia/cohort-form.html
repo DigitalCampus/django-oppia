@@ -42,8 +42,14 @@
             var target = $(this).hide().attr('data-show');
             $(target).show();
         });
-
         $('.selectable-group').each(applySelectableBehaviour);
+        $('#cohort-form').on('submit', function(e){
+            var teachersList = getSelectableItemsSelected($('#selected-teachers')).join(',');
+            var studentsList = getSelectableItemsSelected($('#selected-students')).join(',');
+
+            $('[name="teachers"]').val(teachersList);
+            $('[name="students"]').val(studentsList);
+        });
 
     });
 

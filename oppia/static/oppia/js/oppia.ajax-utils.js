@@ -42,7 +42,7 @@ function applySelectableBehaviour(selectable){
     var group;
     if (selectable instanceof HTMLElement) group = $(selectable);
     else if (selectable instanceof jQuery) group = selectable;
-    else if (this instanceof HTMLElement) group = $(this);
+    else group = $(this);
     if(!group) return;
 
     var explanation = group.find('.explanation');
@@ -87,4 +87,21 @@ function applySelectableBehaviour(selectable){
             selectedTable.hide();
         }
     });
+}
+
+function getSelectableItemsSelected(selectable){
+    var group;
+    var results = [];
+    if (selectable instanceof HTMLElement) group = $(selectable);
+    else if (selectable instanceof jQuery) group = selectable;
+    else group = $(this);
+    if(!group) return results;
+
+    var selectedItems = group.find('.selected-items');
+    if (selectedItems.length > 0) group = selectedItems;
+
+    return group
+        .find('[data-selectable-id]')
+        .map(function(){ return $(this).attr('data-selectable-id')}).get();
+
 }
