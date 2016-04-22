@@ -9,4 +9,9 @@ function setUpDatePicker(){
     if (endDate.length) //Check if not empty jQuery object
         endDate.datepicker({dateFormat: "yy-mm-dd", defaultDate: "-1d"})
                .datepicker('setDate', endDate.val());
+
+    genericDatePicker = $('.date-picker-input').each(function(){
+        var picker = $(this);
+        picker.datepicker({dateFormat: "yy-mm-dd"}).datepicker('setDate', picker.val());
+    });
 }

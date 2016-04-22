@@ -1,0 +1,6 @@
+{% load i18n %}
+{% load sort_link %}
+
+<th class="col-xs-7 col-sm-7">{% sort_link 'first_name' 'User' %}</th>
+<th class="col-xs-3 col-sm-3">{% sort_link 'date_joined' 'Registration date' %}</th>
+<th class="col-xs-2 col-sm-2 text-right">{% sort_link 'last_login' 'Last login' %}</th>
