@@ -3,10 +3,10 @@
 
 {% url 'list_users' as users_list_url %}
 <hr>
-<div class="row">
+<div class="row selectable-group">
     <div class="table-responsive col-sm-6">
     <h4>{% trans 'Selected courses' %}</h4>
-         <div class="panel panel-default" id="explanation">
+         <div class="panel panel-default explanation">
              <div class="panel-heading"></div>
              <div class="panel-body">
                  <div class="text-center" >
@@ -19,14 +19,14 @@
                  </div>
              </div>
          </div>
-         <table class="table table-fixed" id="selected-courses-table" style="display:none;">
+         <table class="table table-fixed selected-items-table" id="selected-courses-table" style="display:none;">
              <thead>
                 <tr>
                   <th>{% trans 'Course' %}</th>
                   <th></th>
                 </tr>
               </thead>
-              <tbody id="selected-courses" style="max-height:400px;">
+              <tbody class="selected-items" id="selected-courses" style="max-height:400px;">
             </tbody>
         </table>
 
@@ -36,17 +36,17 @@
 
      <div class="col-sm-6" id="add-courses-block" style="display:none;">
      <h4>{% trans 'Available courses' %}</h4>
-         <div id="available-courses">
+         <div id="available-courses" class="available-items">
 
          </div>
     </div>
 </div>
 
 <hr>
-<div class="row">
+<div class="row selectable-group">
     <div class="table-responsive col-sm-6">
     <h4>{% trans 'Selected teachers' %}</h4>
-         <div class="panel panel-default" id="explanation">
+         <div class="panel panel-default explanation">
              <div class="panel-heading"></div>
              <div class="panel-body">
                  <div class="text-center" >
@@ -59,14 +59,14 @@
                  </div>
              </div>
          </div>
-         <table class="table table-fixed" id="selected-teachers-table" style="display:none;">
+         <table class="table table-fixed selected-items-table" id="selected-teachers-table" style="display:none;">
              <thead>
                 <tr>
                   <th>{% trans 'Teacher' %}</th>
                   <th></th>
                 </tr>
               </thead>
-              <tbody id="selected-teachers" style="max-height:400px;">
+              <tbody class="selected-items" id="selected-teachers" style="max-height:400px;">
             </tbody>
         </table>
 
@@ -75,18 +75,18 @@
 
 
      <div class="col-sm-6" id="add-teachers-block" style="display:none;">
-     <h4>{% trans 'Available students' %}</h4>
-         <div id="available-teachers">
+     <h4>{% trans 'Available teachers' %}</h4>
+         <div id="available-teachers" class="available-items">
          {% include "oppia/profile/users-paginated-list.html" with ajax_url=users_list_url %}
          </div>
     </div>
 </div>
 
 <hr>
-<div class="row">
+<div class="row selectable-group">
     <div class="table-responsive col-sm-6">
     <h4>{% trans 'Selected students' %}</h4>
-         <div class="panel panel-default" id="explanation">
+         <div class="panel panel-default explanation">
              <div class="panel-heading"></div>
              <div class="panel-body">
                  <div class="text-center" >
@@ -99,14 +99,14 @@
                  </div>
              </div>
          </div>
-         <table class="table table-fixed" id="selected-students-table" style="display:none;">
+         <table class="table table-fixed selected-items-table" id="selected-students-table" style="display:none;">
              <thead>
                 <tr>
                   <th>{% trans 'User' %}</th>
                   <th></th>
                 </tr>
               </thead>
-              <tbody id="selected-students" style="max-height:400px;">
+              <tbody class="selected-items" id="selected-students" style="max-height:400px;">
             </tbody>
         </table>
 
@@ -116,7 +116,7 @@
 
      <div class="col-sm-6" id="add-students-block" style="display:none;">
      <h4>{% trans 'Available students' %}</h4>
-         <div id="available-students">
+         <div id="available-students" class="available-items">
          {% include "oppia/profile/users-paginated-list.html" with ajax_url=users_list_url %}
          </div>
     </div>

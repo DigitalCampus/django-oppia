@@ -65,7 +65,8 @@
         var selUsersTable = $('#selected-users-table').hide();
         var selectedUsers = $('#selected-users');
 
-        allUsers.on('click', '.btn-add', function(){
+        allUsers.on('click', '.btn-add', function(e){
+            e.preventDefault();
             var btn = $(this);
             var user = btn.parents('tr').first();
             if (btn.hasClass('disabled')) return;
