@@ -46,7 +46,7 @@ function applySelectableBehaviour(selectable){
     if(!group) return;
 
     var explanation = group.find('.explanation');
-    var selectedTable = group.find('.selected-items-table').hide();
+    var selectedTable = group.find('.selected-items-table');
     var availableItems = group.find('.available-items');
     var selectedItems = group.find('.selected-items');
 
