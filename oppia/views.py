@@ -791,28 +791,28 @@ def cohort_edit(request,cohort_id):
             return HttpResponseRedirect('../../')
            
     else:
-        teachers_selected = User.objects.filter(participant__role=Participant.TEACHER, participant__cohort=cohort)
-        students_selected = User.objects.filter(participant__role=Participant.STUDENT, participant__cohort=cohort)
-        courses_selected = Course.objects.filter(coursecohort__cohort=cohort)
-
-        ordering, users = get_paginated_users(request)
-        c_ordering, courses = get_paginated_courses(request)
-
         form = CohortForm(initial={'description': cohort.description,
                                    'start_date': cohort.start_date,
                                    'end_date': cohort.end_date,
                                    })
 
-        return render(request, 'oppia/cohort-form.html',{
-                                'form': form,
-                                'page': users,
-                                'selected_teachers': teachers_selected,
-                                'selected_students': students_selected,
-                                'selected_courses': courses_selected,
-                                'courses_page': courses,
-                                'courses_ordering': c_ordering,
-                                'page_ordering':ordering,
-                                'users_list_template':'select'})
+    teachers_selected = User.objects.filter(participant__role=Participant.TEACHER, participant__cohort=cohort)
+    students_selected = User.objects.filter(participant__role=Participant.STUDENT, participant__cohort=cohort)
+    courses_selected = Course.objects.filter(coursecohort__cohort=cohort)
+
+    ordering, users = get_paginated_users(request)
+    c_ordering, courses = get_paginated_courses(request)
+
+    return render(request, 'oppia/cohort-form.html',{
+                            'form': form,
+                            'page': users,
+                            'selected_teachers': teachers_selected,
+                            'selected_students': students_selected,
+                            'selected_courses': courses_selected,
+                            'courses_page': courses,
+                            'courses_ordering': c_ordering,
+                            'page_ordering':ordering,
+                            'users_list_template':'select'})
 
 def cohort_course_view(request, cohort_id, course_id): 
     cohort, response = can_view_cohort(request,cohort_id)

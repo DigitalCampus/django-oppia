@@ -33,10 +33,26 @@ function applySelectableBehaviour(selectable){
         if (username_or_btn instanceof jQuery)
             btn = username_or_btn;
         else
-            btn = container.find('#'+username_or_btn+' .btn-add');
+            btn = container.find('[data-selectable-id="'+username_or_btn+'"] .btn-add');
         btn.toggleClass('disabled', enable)
             .find('.glyphicon-ok').toggleClass('hidden', (!enable)).end()
             .find('.glyphicon-plus').toggleClass('hidden', enable).end();
+    }
+
+    function updateSelectableItems(){
+
+        var items = selectedItems.children();
+        if (items.length > 0)
+            //Update any user that is already added
+            items.each(function(i, user){
+                var selected = $(user).attr('data-selectable-id');
+                updateUserBtn(availableItems, selected, true);
+            });
+        else{
+            selectedTable.hide();
+            explanation.show();
+        }
+
     }
 
     var group;
@@ -49,6 +65,8 @@ function applySelectableBehaviour(selectable){
     var selectedTable = group.find('.selected-items-table');
     var availableItems = group.find('.available-items');
     var selectedItems = group.find('.selected-items');
+
+    updateSelectableItems();
 
     availableItems.on('click', '.btn-add', function(){
         var btn = $(this);
@@ -70,22 +88,14 @@ function applySelectableBehaviour(selectable){
         e.preventDefault();
         $.get(this.href, function(page){
             availableItems.html($(page));
-            //Update any user that is already added
-            selectedItems.children().each(function(i, user){
-                var selected = $(user).attr('data-selectable-id');
-                console.log(selected);
-                updateUserBtn(availableItems, selected, true);
-            });
+            updateSelectableItems();
         });
     });
 
     selectedItems.on('click', '.btn-remove', function(){
         var selectedItem = $(this).parents('tr').first().remove();
         updateUserBtn(availableItems, selectedItem.attr('data-selectable-id'), false);
-        if (selectedItems.children().size() == 0){
-            explanation.show();
-            selectedTable.hide();
-        }
+        updateSelectableItems();
     });
 }
 
