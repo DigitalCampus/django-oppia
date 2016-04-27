@@ -1,4 +1,4 @@
-{% load i18n %}{'version':'{{ version }}',
-	'name':'{% trans 'app_name' %}',
-	'admin_email':'{% blocktrans with settings.SERVER_EMAIL as email %}{{email}}{% endblocktrans %}',
-	'max_upload':{{ settings.OPPIA_MAX_UPLOAD_SIZE }}}
+{% load i18n %}{"version":"{{ version }}",
+	"name":"{% trans 'app_name' %}",
+	"admin_email":"{% blocktrans with settings.SERVER_EMAIL as email %}{{email}}{% endblocktrans %}",
+	"max_upload":{{ settings.OPPIA_MAX_UPLOAD_SIZE }}}
