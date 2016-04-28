@@ -18,7 +18,7 @@ Rename package
 Update the package attribute on manifest tag in AndroidManifest.xml (keeping with the 'reverse url' type notation), so 
 for example, replace ``org.digitalcampus.mobile.learning`` with ``org.myorgname.myproject.oppia``
 
-Also update the ``build.gradle`` file to update the ``applicationId`` to be the same as you've used in the 
+Also update the ``app/build.gradle`` file to update the ``applicationId`` to be the same as you've used in the 
 AndroidManifest.xml.
 
 Classes to update 
@@ -46,3 +46,25 @@ have your version of the app automatically point to your server:
 
 * Open the ``/res/values/untranslated.xml`` file
 * Change the ``prefServerDefault`` string to be the url to your server
+
+App title and welcome message
+------------------------------------
+
+To update your app title, you just need to update the strings in ``app/res/values/strings.xml`` and 
+``app/res/values/untranslated.xml``
+
+For the app title, you'll need to update:
+
+* ``app_name`` string in ``app/res/values/untranslated.xml``
+* ``title_welcome`` string in ``app/res/values/strings.xml``
+
+For updating the welcome message, you'll need to update:
+
+* strings ``fragment_welcome_title``, ``fragment_welcome_desc`` and ``fragment_welcome_login_info`` in 
+  ``app/res/values/strings.xml``
+
+App logo
+---------------
+
+To use a different logo for your app, place your app logo in the drawable folder
+

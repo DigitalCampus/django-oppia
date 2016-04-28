@@ -1,6 +1,14 @@
 OppiaMobile Moodle Block Change Log
 =====================================
 
+.. _blockv2016xxxxxx:
+
+v2016xxxxxx - Not yet released
+-------------------------------------
+
+* 160: Replace some text in quiz questions and responses - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/160
+
+
 
 .. _blockv2016041301:
 
