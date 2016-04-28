@@ -34,11 +34,8 @@ def filterRedirect(requestContent):
     redirection = requestContent.get('next')
     # Avoid redirecting to logout after login
     if redirection == reverse('profile_logout'):
-        print "Adios!!!"
         return None
-
     else:
-        print "Hola!!!"
         return redirection
 
 def get_paginated_users(request):
