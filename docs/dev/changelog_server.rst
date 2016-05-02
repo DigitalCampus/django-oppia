@@ -17,6 +17,9 @@ v0.9.4 - not yet released
 * 303: Add option to reorder the columns in the tables - http://github.com/DigitalCampus/django-oppia/issues/issue/303
 * 284: Facilty to export list of users for loading into the app - http://github.com/DigitalCampus/django-oppia/issues/issue/284
 * 207: Fix issue where activities may not have descriptions entered - http://github.com/DigitalCampus/django-oppia/issues/issue/207
+* 280: Improved error checking for video embed helper - http://github.com/DigitalCampus/django-oppia/issues/issue/280
+* 286: Implement the server side part of device admin API into the core - http://github.com/DigitalCampus/django-oppia/issues/issue/286
+* 284: Facilty to export list of users for loading into the app - http://github.com/DigitalCampus/django-oppia/issues/issue/284
 
 .. note::
  	Make sure that django.contrib.staticfiles is included in your INSTALLED_APPS setting (for issue #305 above)
