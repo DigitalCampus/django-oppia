@@ -15,6 +15,9 @@ v57 (6.0.0) - not yet released
 * 421: context menu of the main activity into a drawer - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/421
 * 360: Look at how to reorganise menu options - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/360
 * 538: Add mp3 as supported file type - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/538
+* 338: On download courses page if no connection then close activity too - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/338
+* 533: Update drawer header so the logo is pulled from the one specified for the app - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/533 
+* 529: Show message when no tags/courses are available - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/529
 
 .. _appv56:
 
