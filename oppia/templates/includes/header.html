@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load display_functions %}
+{% load staticfiles %}
 {% block content %}
 <div class="container-fluid">
 	  <div class="navbar-header">
@@ -9,7 +10,7 @@
 	      <span class="icon-bar"></span>
 	      <span class="icon-bar"></span>
 	    </button>
-	    <a class="navbar-brand" href="{% url 'oppia_home' %}"><img src="{{ STATIC_URL }}oppia/images/dc_logo.png" height="24"/>{% trans 'app_name' %}</a>
+	    <a class="navbar-brand" href="{% url 'oppia_home' %}"><img src="{% static "oppia/images/dc_logo.png" %}" height="24"/>{% trans 'app_name' %}</a>
 	  </div>
 	  <div class="navbar-collapse collapse">
 		    <ul class="nav navbar-nav navbar-right">
@@ -34,8 +35,13 @@
 		       {% if user.is_superuser %}
 		       		<li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">{% trans 'Admin' %}<b class="caret"></b></a>
 		       		<ul class="dropdown-menu">
+                        <li><a href="{% url 'search_users' %}">{% trans 'Search users' %}</a></li>
 		       			<li><a href="{% url 'profile_upload' %}">{% trans 'Upload users' %}</a></li>
+                        <li><a href="{% url 'profile_export' %}">{% trans 'Export users' %}</a></li>
 		       			<li><a href="{% url 'admin:index' %}">{% trans 'Django Admin' %}</a></li>
+                        {% if OPPIA_DEVICEADMIN_ENABLED %}
+                            <li><a href="{% url 'deviceadmin_devices_list' %}">{% trans 'Remote Device Administration' %}</a></li>
+                        {% endif %}
 		       		</ul>
 					</li>
 		       {% endif %}

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+{% load crispy_forms_tags %}
+
+{% block extra_head_title %}
+	{{ course.title|title_lang:LANGUAGE_CODE }}
+{% endblock extra_head_title %}
+
+{% block content %}
+
+<h2><a href="{% url 'oppia_completion_rates' %}">{% trans 'Completion Rates' %}</a> &gt; {{ course.title|title_lang:LANGUAGE_CODE }}</h2>
+
+<p><i>{% trans 'Tags:' %} {{ course.get_tags}}</i></p>
+	
+<h3>{% trans 'Course completion rates' %}</h3>
+<p>{% trans 'Users enroled:' %} {{ users_enroled_count }}</p>
+
+<div class="table-responsive">
+     <table class="table table-striped">
+         <thead>
+            <tr>
+              <th>{% trans 'User' %}</th>
+              <th>{% trans 'Activities completed' %}</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% if users_completed %}
+          <tr>
+              <th colspan="2">{% trans 'Users completed:' %} {{ users_completed|length }}</th>
+          </tr>
+          {% endif %}
+    {% for u in users_completed %}
+         <tr>
+              <td>
+                {% if OPPIA_SHOW_GRAVATARS %}{{ u.user|gravatar:24 }} {% endif %}
+                <a href="{% url 'profile_user_activity' u.user.id %}">{{ u.user.first_name }} {{ u.user.last_name }}</a>
+              </td>
+         <td>
+            <span> {{ u.activities_completed }} ({{ u.completion_percent|floatformat:2 }}%)</span></td>
+            </tr>
+    {% endfor %}
+         {% if users_incompleted %}
+        <tr>
+              <th colspan="2">{% trans 'Users in progress:' %} {{ users_incompleted|length }}</th>
+          </tr>
+          {% endif %}
+    {% for u in users_incompleted %}
+        <tr>
+          <td>
+            {% if OPPIA_SHOW_GRAVATARS %} {{ u.user|gravatar:24 }} {% endif %}
+            <a href="{% url 'profile_user_activity' u.user.id %}">{{ u.user.first_name }} {{ u.user.last_name }}</a>
+          </td>
+          <td>{{ u.activities_completed }} ({{ u.completion_percent|floatformat:2 }}%)</td>
+        </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock  %}

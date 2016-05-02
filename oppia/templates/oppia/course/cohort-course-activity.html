@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load display_functions %}
+{% load sort_link %}
+{% load staticfiles %}
 
 {% block extra_head_title %}
 	{{ cohort.description }} &gt; {{ course.title|title_lang:LANGUAGE_CODE}}
@@ -20,12 +22,12 @@
          <table class="table table-striped-expandable">
          	<thead>
                 <tr>
-                  <th>{% trans 'Student' %}</th>
-                  <th>{% trans 'Pre-test Score' %}</th>
-                  <th>{% trans 'Activities Completed' %}</th>
-                  <th>{% trans 'Quizzes Completed' %}</th>
-                  <th>{% trans 'Points' %}</th>
-                  <th>{% trans 'Badges' %}</th>
+                  <th>{% sort_link 'user' 'Student' %}</th>
+                  <th>{% sort_link 'pretest_score' 'Pre-test Score' %}</th>
+                  <th>{% sort_link 'no_activities_completed' 'Activities Completed' %}</th>
+                  <th>{% sort_link 'no_quizzes_completed' 'Quizzes Completed' %}</th>
+                  <th>{% sort_link 'no_points' 'Points' %}</th>
+                  <th>{% sort_link 'no_badges' 'Badges' %}</th>
                 </tr>
               </thead>
              <tbody>
@@ -46,7 +48,7 @@
 							{% if student.no_badges > 0 %}
 								<span class="badges"
 									title="{% trans 'Badge' %}"><img
-									src="{{ STATIC_URL }}oppia/images/badge.png"
+									src="{% static "oppia/images/badge.png" %}"
 									alt="{% trans 'Badge' %}" /></span>
 							{% else %}
 								&nbsp;

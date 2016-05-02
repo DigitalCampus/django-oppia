@@ -1,6 +1,6 @@
 {% extends "base.html" %} 
 {% load i18n %} 
-
+{% load staticfiles %}
 {% block extra_head_title %}
 	{% trans 'About' %}
 {% endblock extra_head_title %}
@@ -18,10 +18,11 @@
 <iframe width="400" height="315" src="http://www.youtube.com/embed/wHo5R_RgkG0?html5=1" frameborder="0" allowfullscreen></iframe>
 
 <h3>{% trans 'Acknowledgements' %}</h3>
+{% static "oppia/images/UK-AID-Standard-RGB.jpg" as ukaid_logo%}
 {% blocktrans %} 
 	<p>The development of OppiaMobile has been made possible by funding from:</p>
 	
-	<img src="{{ STATIC_URL }}oppia/images/UK-AID-Standard-RGB.jpg"/>
+	<img src="{{ ukaid_logo }}"/>
 	
 	<p>Acknowledgements and contributors to the code include:</p>
 		<ul>

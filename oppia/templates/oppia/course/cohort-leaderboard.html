@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load display_functions %}
+{% load staticfiles %}
 
 {% block extra_head_title %}
 	{% trans 'Leaderboard' %}
@@ -34,7 +35,7 @@
 					{{ user.total }}</span></td>
 				<td>{% if user.badges > 0 %} <span class="badges"
 					title="{{ user.badges }} {% trans 'badges' %}"><img
-						src="{{ STATIC_URL }}oppia/images/badge.png"
+						src="{% static "oppia/images/badge.png" %}"
 						alt="{{ user.badges }} {% trans 'badges' %}" /> x {{ user.badges }}</span> {% endif %}
 				</td>
 			</tr>

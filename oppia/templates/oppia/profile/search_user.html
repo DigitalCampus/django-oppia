@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+{% load crispy_forms_tags %}
+
+{% block extra_head_title %}
+	{% trans 'Search users' %}
+{% endblock extra_head_title %}
+
+{% block content %}
+    <div class="container">
+<h2>{% trans 'Search users' %}</h2>
+
+<div class="search-block">
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    <form method="get" class="form-horizontal">
+  <div class="panel panel-default">
+
+    <div class="panel-heading" role="tab" id="headingOne">
+          <div class="row">
+              <div class="col-sm-3 col-xs-10">
+
+              <div class="input-group">
+
+                  <input type="text" name="q" {% if quicksearch %}value="{{ quicksearch }}" {% endif %}class="form-control" aria-label="{% trans 'Search' %}" placeholder="{% trans 'Search...' %}">
+                  <span class="input-group-btn"><button class="btn" type="submit" ><span class="glyphicon glyphicon-search"></button></span></span>
+
+                </div>
+
+            </div>
+              <div class="col-sm-9 col-xs-2 text-right">
+                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne"><span class="glyphicon glyphicon-plus-sign"></span> <span class="hidden-xs">advanced search </span></a>
+              </div>
+          </div>
+
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse {% if advanced_search %}in{% endif %}" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+            {% crispy search_form %}
+      </div>
+    </div>
+
+  </div>
+    </form>
+</div>
+
+{% include "oppia/profile/users-paginated-list.html" %}
+</div>
+</div>
+{% endblock content %}
+
+{% block extra_scripts %}
+	<script type="text/javascript">
+        {% include "oppia/includes/init-date-picker-js.html" %}
+        $(setUpDatePicker);
+    </script>
+{% endblock extra_scripts %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %} 
+{% load i18n %} 
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{% trans 'Completion rates' %}
+{% endblock extra_head_title %}
+
+{% block content %}
+<h2>{% trans 'Completion Rates' %}</h2>
+
+{% if courses_list %}
+
+	 <div class="table-responsive">
+         <table class="table table-striped-expandable">
+         	 <thead>
+                <tr>
+                  <th>{% trans 'Course' %}</th>
+                  <th>{% trans 'Users enroled' %}</th>
+                  <th>{% trans 'Completion rate (badge awarded)' %}</th>
+                </tr>
+              </thead>
+              <tbody>
+	{% for cl in courses_list %}
+		<tr>
+				<td>
+                <a href="{% url 'course_completion_rates' cl.course.id %}"><strong>{{ cl.course.title|title_lang:LANGUAGE_CODE }}</strong></a>
+				{% if cl.course.is_draft %}
+					- <i>{% trans 'draft' %}</i>
+				{% endif %}
+				{% if cl.course.is_archived %}
+					- <i>{% trans 'archived' %}</i>
+				{% endif %}<br/>
+				<small>{% trans 'Tags:' %} {{ cl.course.get_tags }}</small></td>
+				<td>{{ cl.enroled }} </td>
+				<td>{{ cl.completion|floatformat:1 }}%</td>
+			</tr>
+	{% endfor %}
+			</tbody>
+ 		</table>
+	</div>
+{% else %}
+	{% url 'oppia_upload' as url_upload %}
+	{% blocktrans %}
+		<p>You don't yet have any courses uploaded, why not <a href="{{ url_upload }}">upload one now</a>?</p>
+	{% endblocktrans %}
+{% endif %}
+
+{% endblock content %}

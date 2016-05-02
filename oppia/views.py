@@ -1,36 +1,33 @@
 # oppia/views.py
 import datetime
 import json
+from wsgiref.util import FileWrapper
+
+import operator
 import os
-import oppia
 import tablib
-
 from dateutil.relativedelta import relativedelta
-
-from django import forms
-from django.conf import settings
-from django.contrib.auth import (authenticate, logout, views)
-from django.contrib.auth.models import User
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from django.core.servers.basehttp import FileWrapper
 from django.core.urlresolvers import reverse
-from django.db.models import Q, Count
+from django.db.models import Count
 from django.forms.formsets import formset_factory
-from django.http import HttpResponseRedirect, Http404, HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render,render_to_response
 from django.template import RequestContext
-from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 
-from oppia.forms import UploadCourseStep1Form, UploadCourseStep2Form, ScheduleForm, DateRangeForm, DateRangeIntervalForm
 from oppia.forms import ActivityScheduleForm, CohortForm
-from oppia.models import Course, Tracker, Tag, CourseTag, Schedule, CourseManager, CourseCohort
-from oppia.models import ActivitySchedule, Activity, Cohort, Participant, Points, UserProfile
+from oppia.forms import UploadCourseStep1Form, UploadCourseStep2Form, ScheduleForm, DateRangeForm, DateRangeIntervalForm
+from oppia.models import ActivitySchedule, Activity, Points
+from oppia.models import Tracker, Tag, CourseTag, Schedule, CourseCohort
 from oppia.permissions import *
+from oppia.profile.models import UserProfile
+from oppia.profile.views import get_paginated_users
 from oppia.quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
 from oppia.reports.signals import dashboard_accessed
-
 from uploader import handle_uploaded_file
+
 
 def server_view(request):
     return render_to_response('oppia/server.html',  
@@ -152,25 +149,37 @@ def teacher_home_view(request):
                               context_instance=RequestContext(request))
 
 def courses_list_view(request):
-    courses, response = can_view_courses_list(request) 
-    if response is not None:
-        return response
-    
-    dashboard_accessed.send(sender=None, request=request, data=None)
-           
-    tag_list = Tag.objects.all().exclude(coursetag=None).order_by('name')
-    courses_list = []
-    for course in courses:
-        obj = {}
-        obj['course'] = course
-        access_detail, response = can_view_course_detail(request,course.id)
-        if access_detail is not None:
-            obj['access_detail'] = True
-        else:
-            obj['access_detail'] = False
-        courses_list.append(obj)
-        
-    return render_to_response('oppia/course/courses-list.html',
+
+    if request.is_ajax():
+        #if we are requesting via ajax, just show the course list
+        ordering, courses = get_paginated_courses(request)
+        return render_to_response('oppia/course/courses-paginated-list.html',
+                              {
+                                  'page': courses,
+                                  'page_ordering':ordering,
+                                  'ajax_url':request.path
+                              },
+                              context_instance=RequestContext(request),)
+    else:
+        courses, response = can_view_courses_list(request)
+        if response is not None:
+            return response
+
+        dashboard_accessed.send(sender=None, request=request, data=None)
+
+        tag_list = Tag.objects.all().exclude(coursetag=None).order_by('name')
+        courses_list = []
+        for course in courses:
+            obj = {}
+            obj['course'] = course
+            access_detail, response = can_view_course_detail(request,course.id)
+            if access_detail is not None:
+                obj['access_detail'] = True
+            else:
+                obj['access_detail'] = False
+            courses_list.append(obj)
+
+        return render_to_response('oppia/course/courses-list.html',
                               {'courses_list': courses_list, 
                                'tag_list': tag_list}, 
                               context_instance=RequestContext(request))
@@ -188,13 +197,13 @@ def course_download_view(request, course_id):
     return response
 
 def tag_courses_view(request, tag_id):
-    courses, response = can_view_courses_list(request) 
+    courses, response = can_view_courses_list(request)
     if response is not None:
         return response
     courses = courses.filter(coursetag__tag__pk=tag_id)
-    
+
     dashboard_accessed.send(sender=None, request=request, data=None)
-    
+
     courses_list = []
     for course in courses:
         obj = {}
@@ -207,9 +216,9 @@ def tag_courses_view(request, tag_id):
         courses_list.append(obj)
     tag_list = Tag.objects.all().order_by('name')
     return render_to_response('oppia/course/courses-list.html',
-                              {'courses_list': courses_list, 
-                               'tag_list': tag_list, 
-                               'current_tag': id}, 
+                              {'courses_list': courses_list,
+                               'tag_list': tag_list,
+                               'current_tag': id},
                               context_instance=RequestContext(request))
         
 def upload_step1(request):
@@ -577,13 +586,30 @@ def cohort_list_view(request):
     return render_to_response('oppia/course/cohorts-list.html',
                               {'cohorts':cohorts,}, 
                               context_instance=RequestContext(request))
-  
+
+
+def get_paginated_courses(request):
+    default_order = 'lastupdated_date'
+    ordering = request.GET.get('order_by', None)
+    if ordering is None:
+        ordering = default_order
+
+    courses = Course.objects.all().order_by(ordering)
+    paginator = Paginator(courses, 5)
+
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+
+    return ordering, paginator.page(page)
+
 def cohort_add(request):
     if not can_add_cohort(request):
         return HttpResponse('Unauthorized', status=401)   
     
     if request.method == 'POST':
-        form = CohortForm(request.POST)
+        form = CohortForm(request.POST.copy())
         if form.is_valid(): # All validation rules pass
             cohort = Cohort()
             cohort.start_date = form.cleaned_data.get("start_date")
@@ -627,11 +653,26 @@ def cohort_add(request):
                         pass
                            
             return HttpResponseRedirect('../') # Redirect after POST
+        else:
+            #If form is not valid, clean the groups data
+            form.data['teachers'] = None
+            form.data['courses'] = None
+            form.data['students'] = None
            
     else:
         form = CohortForm() # An unbound form
 
-    return render(request, 'oppia/cohort-form.html',{'form': form,})  
+    ordering, users = get_paginated_users(request)
+    c_ordering, courses = get_paginated_courses(request)
+
+    return render(request, 'oppia/cohort-form.html',{
+                                'form': form,
+                                'page': users,
+                                'courses_page': courses,
+                                'courses_ordering': c_ordering,
+                                'page_ordering':ordering,
+                                'users_list_template':'select'
+                             },context_instance=RequestContext(request))
 
 def cohort_view(request,cohort_id):
     cohort, response = can_view_cohort(request,cohort_id)
@@ -700,6 +741,10 @@ def cohort_edit(request,cohort_id):
     if not can_edit_cohort(request, cohort_id):
         return HttpResponse('Unauthorized', status=401)  
     cohort = Cohort.objects.get(pk=cohort_id)
+    teachers_selected = []
+    students_selected = []
+    courses_selected = []
+
     if request.method == 'POST':
         form = CohortForm(request.POST)
         if form.is_valid(): 
@@ -746,32 +791,28 @@ def cohort_edit(request,cohort_id):
             return HttpResponseRedirect('../../')
            
     else:
-        participant_teachers = Participant.objects.filter(cohort=cohort,role=Participant.TEACHER)
-        teacher_list = []
-        for pt in participant_teachers:
-            teacher_list.append(pt.user.username)
-        teachers = ", ".join(teacher_list)
-        
-        participant_students = Participant.objects.filter(cohort=cohort,role=Participant.STUDENT)
-        student_list = []
-        for ps in participant_students:
-            student_list.append(ps.user.username)
-        students = ", ".join(student_list)
-        
-        cohort_courses = Course.objects.filter(coursecohort__cohort=cohort)
-        course_list = []
-        for c in cohort_courses:
-            course_list.append(c.shortname)
-        courses = ", ".join(course_list)
-        
         form = CohortForm(initial={'description': cohort.description,
-                                   'teachers': teachers,
-                                   'students': students,
                                    'start_date': cohort.start_date,
                                    'end_date': cohort.end_date,
-                                   'courses': courses}) 
+                                   })
 
-    return render(request, 'oppia/cohort-form.html',{'form': form,}) 
+    teachers_selected = User.objects.filter(participant__role=Participant.TEACHER, participant__cohort=cohort)
+    students_selected = User.objects.filter(participant__role=Participant.STUDENT, participant__cohort=cohort)
+    courses_selected = Course.objects.filter(coursecohort__cohort=cohort)
+
+    ordering, users = get_paginated_users(request)
+    c_ordering, courses = get_paginated_courses(request)
+
+    return render(request, 'oppia/cohort-form.html',{
+                            'form': form,
+                            'page': users,
+                            'selected_teachers': teachers_selected,
+                            'selected_students': students_selected,
+                            'selected_courses': courses_selected,
+                            'courses_page': courses,
+                            'courses_ordering': c_ordering,
+                            'page_ordering':ordering,
+                            'users_list_template':'select'})
 
 def cohort_course_view(request, cohort_id, course_id): 
     cohort, response = can_view_cohort(request,cohort_id)
@@ -804,15 +845,30 @@ def cohort_course_view(request, cohort_id, course_id):
                 'no_quizzes_completed': course.get_no_quizzes_completed(course,user),
                 'pretest_score': course.get_pre_test_score(course,user),
                 'no_activities_completed': course.get_activities_completed(course,user),
-                'no_quizzes_completed': course.get_no_quizzes_completed(course,user),
                 'no_points': course.get_points(course,user),
                 'no_badges': course.get_badges(course,user),}
         students.append(data)
+
+    order_options = ['user', 'no_quizzes_completed', 'pretest_score',
+                     'no_activities_completed','no_points', 'no_badges']
+    default_order = 'user'
+
+    ordering = request.GET.get('order_by', default_order)
+    inverse_order = ordering.startswith('-')
+    if inverse_order:
+        ordering = ordering[1:]
+
+    if ordering not in order_options:
+        ordering = default_order
+        inverse_order = False
+
+    students.sort(key=operator.itemgetter(ordering), reverse=inverse_order)
        
     return render_to_response('oppia/course/cohort-course-activity.html',
                               {'course': course,
                                'cohort': cohort, 
                                'activity_graph_data': student_activity,
+                               'page_ordering': ('-' if inverse_order else '') + ordering,
                                'students': students }, 
                               context_instance=RequestContext(request))
        
