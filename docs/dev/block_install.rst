@@ -23,6 +23,17 @@ Local rights for your Moodle installation (e.g. on shared hosting)
 * In your Moodle server  under the site admin -> plugins, select 'install plugins'
 * Upload your new zip file as a new block
 
+Adding the block to your course
+---------------------------------
+
+Even once you have installed the block, you may not see it appearing in the your Moodle server. This is because we 
+haven't yet added it for display. You can either add the block for individual courses or have it appear on all the 
+courses on your Moodle server:
+
+* Adding to a single course: on the course homepage, turn editing on, then in the 'Add a block' block, select the Oppia 
+  Export Block to add to your course.
+* Adding to all courses, see the `Moodle Block Settings documentation <https://docs.moodle.org/en/Block_settings>`_
+
 Block configuration to connect to an OppiaMobile server
 ---------------------------------------------------------
 Once the block is installed you will need to provide some settings to connect your Moodle server to an OppiaMobile server.
