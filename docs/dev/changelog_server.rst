@@ -21,7 +21,7 @@ v0.9.4 - not yet released
 * 286: Implement the server side part of device admin API into the core - http://github.com/DigitalCampus/django-oppia/issues/issue/286
 * 284: Facility to export list of users for loading into the app - http://github.com/DigitalCampus/django-oppia/issues/issue/284
 * 300: Improve interface for managing cohorts - http://github.com/DigitalCampus/django-oppia/issues/issue/300
-
+* 302: Add option to search for users to get their activity - http://github.com/DigitalCampus/django-oppia/issues/issue/302
 
 .. note::
  	Make sure that django.contrib.staticfiles is included in your INSTALLED_APPS setting (for issue #305 above)
