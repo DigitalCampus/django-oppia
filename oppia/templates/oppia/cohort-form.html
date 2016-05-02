@@ -2,12 +2,7 @@
 {% load i18n %} 
 {% load display_functions %} 
 {% load crispy_forms_tags %}
-
-{% block extra_scripts %}
-	<script type="text/javascript">
-	{% include "oppia/includes/init-date-picker-js.html" %}	
-	</script>
-{% endblock extra_scripts %}
+{% load staticfiles %}
 
 {% block extra_body %}
 		onload="setUpDatePicker();"
@@ -21,6 +16,44 @@
 
 <h2>{% trans 'Cohort' %}</h2>
 
+
+
+<form id="cohort-form" class="form-horizontal" method="post">
+
 {% crispy form %}
 
+    {% include "oppia/includes/cohort-helper.html" %}
+
+<div class="col-lg-offset-2 col-lg-4">
+    <input type="submit" name="submit" value="Save" class="btn btn-primary btn btn-default" id="submit-id-submit">
+</div>
+
+</form>
+
 {% endblock %}
+{% block extra_scripts %}
+    <script src="{% static "oppia/js/oppia.chart-utils.js" %}"></script>
+    <script src="{% static "oppia/js/oppia.ajax-utils.js" %}"></script>
+    <script type="text/javascript">
+    {% include "oppia/includes/init-date-picker-js.html" %}
+
+    $(function() {
+        $('.btn-table-toggle').on('click', function(){
+            var target = $(this).hide().attr('data-show');
+            $(target).show();
+        });
+        $('.selectable-group').each(applySelectableBehaviour);
+        $('#cohort-form').on('submit', function(e){
+            var teachersList = getSelectableItemsSelected($('#selected-teachers')).join(',');
+            var studentsList = getSelectableItemsSelected($('#selected-students')).join(',');
+            var coursesList = getSelectableItemsSelected($('#selected-courses')).join(',');
+
+            $('[name="teachers"]').val(teachersList);
+            $('[name="students"]').val(studentsList);
+            $('[name="courses"]').val(coursesList);
+        });
+
+    });
+
+    </script>
+{% endblock extra_scripts %}
