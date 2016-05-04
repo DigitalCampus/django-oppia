@@ -253,8 +253,11 @@ def upload_step1(request):
                                'title':_(u'Upload Course - step 1')},
                               context_instance=RequestContext(request))
 
-def upload_step2(request, course_id):
-    if not request.user.userprofile.get_can_upload():
+def upload_step2(request, course_id, editing=False):
+
+    if editing and not can_edit_course(request, course_id):
+        return HttpResponse('Unauthorized', status=401)
+    elif not request.user.userprofile.get_can_upload():
         return HttpResponse('Unauthorized', status=401)
         
     course = Course.objects.get(pk=course_id)
@@ -291,9 +294,12 @@ def upload_step2(request, course_id):
         form = UploadCourseStep2Form(initial={'tags':course.get_tags(),
                                     'is_draft':course.is_draft,}) # An unbound form
 
+    page_title = _(u'Upload Course - step 2') if not editing else _(u'Edit course')
     return render_to_response('oppia/upload.html', 
                               {'form': form,
-                               'title':_(u'Upload Course - step 2')},
+                               'course_title':course.title,
+                               'editing':editing,
+                               'title':page_title},
                               context_instance=RequestContext(request))
 
 

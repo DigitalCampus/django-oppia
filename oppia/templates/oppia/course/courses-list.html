@@ -63,13 +63,13 @@
 				{% if course.is_archived %}
 					- <i>{% trans 'archived' %}</i>
 				{% endif %}<br/>
-				<small>{% trans 'Tags:' %} {{ cl.course.get_tags }}</small></td>
+				<small>{% trans 'Tags:' %} {{ course.get_tags }}</small></td>
 				<td>{{ course.lastupdated_date }} </td>
 				<td>{{ course.no_downloads }} downloads by {{ course.no_distinct_downloads }} users<br/>
 					<a href="{% url 'oppia_course_download' course.id %}">{% trans 'download course' %}</a>
 				</td>
                 <td>
-                    {% if course.can_edit %} <a href="{% url 'oppia_cohort_edit' course.id %}" class="btn btn-default btn-primary">{% trans 'Edit' %}</a> {% endif %}
+                    {% if course.can_edit %} <a href="{% url 'oppia_course_edit' course.id %}" class="btn btn-default btn-primary">{% trans 'Edit' %}</a> {% endif %}
                 </td>
 			</tr>
 	{% endfor %}
