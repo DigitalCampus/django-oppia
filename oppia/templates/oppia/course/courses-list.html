@@ -36,7 +36,7 @@
 	</form>
 {% endif %}
 
-{% if courses_list %}
+{% if page.object_list %}
 
 	 <div class="table-responsive">
          <table class="table table-striped-expandable">
@@ -48,30 +48,31 @@
                 </tr>
               </thead>
               <tbody>
-	{% for cl in courses_list %}
+	{% for course in page.object_list %}
 		<tr>
 				<td>
-					{% if cl.access_detail %}
-						<a href="{% url 'oppia_recent_activity' cl.course.id %}"><strong>{{ cl.course.title|title_lang:LANGUAGE_CODE }}</strong></a>
+					{% if course.access_detail %}
+						<a href="{% url 'oppia_recent_activity' course.id %}"><strong>{{ course.title|title_lang:LANGUAGE_CODE }}</strong></a>
 					{% else %}
-						<strong>{{ cl.course.title|title_lang:LANGUAGE_CODE }}</strong>
+						<strong>{{ course.title|title_lang:LANGUAGE_CODE }}</strong>
 					{% endif %}	
-				{% if cl.course.is_draft %}
+				{% if course.is_draft %}
 					- <i>{% trans 'draft' %}</i>
 				{% endif %}	
-				{% if cl.course.is_archived %}
+				{% if course.is_archived %}
 					- <i>{% trans 'archived' %}</i>
 				{% endif %}<br/>
 				<small>{% trans 'Tags:' %} {{ cl.course.get_tags }}</small></td>
-				<td>{{ cl.course.lastupdated_date }} </td>
-				<td>{{ cl.course.no_downloads }} downloads by {{ cl.course.no_distinct_downloads }} users<br/>
-					<a href="{% url 'oppia_course_download' cl.course.id %}">{% trans 'download course' %}</a>
+				<td>{{ course.lastupdated_date }} </td>
+				<td>{{ course.no_downloads }} downloads by {{ course.no_distinct_downloads }} users<br/>
+					<a href="{% url 'oppia_course_download' course.id %}">{% trans 'download course' %}</a>
 				</td>
 			</tr>
 	{% endfor %}
 			</tbody>
  		</table>
 	</div>
+    {% include "oppia/includes/pagination.html" %}
 {% else %}
 	{% url 'oppia_upload' as url_upload %}
 	{% blocktrans %}

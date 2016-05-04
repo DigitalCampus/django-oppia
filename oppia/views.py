@@ -168,19 +168,29 @@ def courses_list_view(request):
         dashboard_accessed.send(sender=None, request=request, data=None)
 
         tag_list = Tag.objects.all().exclude(coursetag=None).order_by('name')
-        courses_list = []
+
+        paginator = Paginator(courses, 25) # Show 25 per page
+         # Make sure page request is an int. If not, deliver first page.
+        try:
+            page = int(request.GET.get('page', '1'))
+        except ValueError:
+            page = 1
+
+        try:
+            courses = paginator.page(page)
+        except (EmptyPage, InvalidPage):
+            courses = paginator.page(paginator.num_pages)
+
         for course in courses:
-            obj = {}
-            obj['course'] = course
             access_detail, response = can_view_course_detail(request,course.id)
             if access_detail is not None:
-                obj['access_detail'] = True
+                course.access_detail = True
             else:
-                obj['access_detail'] = False
-            courses_list.append(obj)
+                course.access_detail = False
 
         return render_to_response('oppia/course/courses-list.html',
-                              {'courses_list': courses_list, 
+                              {
+                               'page': courses,
                                'tag_list': tag_list}, 
                               context_instance=RequestContext(request))
 
