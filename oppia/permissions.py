@@ -145,6 +145,8 @@ def can_view_course_detail(request,course_id):
     else:
         return None, HttpResponse('Unauthorized', status=401)
 
+def can_edit_course(request, course_id):
+    return request.user.is_staff
 
 def can_view_courses_list(request):
     if request.user.is_staff:
@@ -152,3 +154,5 @@ def can_view_courses_list(request):
     else:
         courses = Course.objects.filter(is_draft=False,is_archived=False).order_by('title')
     return courses, None
+
+

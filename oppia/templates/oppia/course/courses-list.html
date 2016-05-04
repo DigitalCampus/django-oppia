@@ -45,6 +45,7 @@
                   <th>{% trans 'Course' %}</th>
                   <th>{% trans 'Last updated' %}</th>
                   <th>{% trans 'Downloads' %}</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -67,6 +68,9 @@
 				<td>{{ course.no_downloads }} downloads by {{ course.no_distinct_downloads }} users<br/>
 					<a href="{% url 'oppia_course_download' course.id %}">{% trans 'download course' %}</a>
 				</td>
+                <td>
+                    {% if course.can_edit %} <a href="{% url 'oppia_cohort_edit' course.id %}" class="btn btn-default btn-primary">{% trans 'Edit' %}</a> {% endif %}
+                </td>
 			</tr>
 	{% endfor %}
 			</tbody>

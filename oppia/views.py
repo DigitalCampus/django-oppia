@@ -183,6 +183,7 @@ def courses_list_view(request):
 
         for course in courses:
             access_detail, response = can_view_course_detail(request,course.id)
+            course.can_edit = can_edit_course(request,course.id)
             if access_detail is not None:
                 course.access_detail = True
             else:
