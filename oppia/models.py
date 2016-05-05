@@ -116,6 +116,9 @@ class Course(models.Model):
     
     def get_no_quizzes(self):
         return Activity.objects.filter(section__course=self,type=Activity.QUIZ,baseline=False).count()
+
+    def get_no_media(self):
+        return Media.objects.filter(course=self).count()
     
     @staticmethod
     def get_pre_test_score(course,user):
@@ -158,7 +161,6 @@ class Course(models.Model):
     @staticmethod
     def get_media_viewed(course,user):
         acts = Media.objects.filter(course=course).values_list('digest')
-        print acts
         return Tracker.objects.filter(course=course,user=user,digest__in=acts).values_list('digest').distinct().count()
 
         

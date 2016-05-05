@@ -55,7 +55,7 @@
 								&nbsp;
 							{% endif %}
 						</td>
-                        <td>{{ c.no_media_viewed }}</td>
+                        <td>{{ c.no_media_viewed }}/{{ c.course.get_no_media }}</td>
 					</tr>
 				{% endfor %}
 			</tbody>
