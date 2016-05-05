@@ -154,6 +154,12 @@ class Course(models.Model):
     @staticmethod
     def get_badges(course,user):
         return Award.objects.filter(user=user,awardcourse__course=course).count()
+
+    @staticmethod
+    def get_media_viewed(course,user):
+        acts = Activity.objects.filter(section__course=course,baseline=False, type=Activity.MEDIA).values_list('digest')
+        return Tracker.objects.filter(course=course,user=user,completed=True,digest__in=acts).values_list('digest').distinct().count()
+
         
  
 class CourseManager(models.Model):
