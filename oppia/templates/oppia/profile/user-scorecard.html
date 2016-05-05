@@ -56,11 +56,11 @@
 							{% endif %}
 						</td>
                         <td>
-                                {% if c.course.get_no_media > 0 %}
-                                    {{ c.no_media_viewed }}/{{ c.course.get_no_media }}
-                                {% else %}
-                                    -
-                                {% endif %}
+                            {% if c.course.get_no_media > 0 %}
+                                {{ c.no_media_viewed }}/{{ c.course.get_no_media }}
+                            {% else %}
+                                -
+                            {% endif %}
                         </td>
 					</tr>
 				{% endfor %}
