@@ -251,12 +251,14 @@ def user_activity(request, user_id):
                 'no_quizzes_completed': course.get_no_quizzes_completed(course,view_user),
                 'pretest_score': course.get_pre_test_score(course,view_user),
                 'no_activities_completed': course.get_activities_completed(course,view_user),
+                'no_media_viewed': course.get_media_viewed(course,view_user),
                 'no_points': course.get_points(course,view_user),
                 'no_badges': course.get_badges(course,view_user),}
+        print data
         courses.append(data)
 
     order_options = ['course', 'no_quizzes_completed', 'pretest_score',
-                     'no_activities_completed','no_points', 'no_badges']
+                     'no_activities_completed','no_points', 'no_badges', 'no_media_viewed']
     default_order = 'course'
 
     ordering = request.GET.get('order_by', default_order)

@@ -28,6 +28,7 @@
                   <th>{% sort_link 'no_quizzes_completed' 'Quizzes Completed' %}</th>
                   <th>{% sort_link 'no_points' 'Points' %}</th>
                   <th>{% sort_link 'no_badges' 'Badges' %}</th>
+                  <th>{% sort_link 'no_media_viewed' 'Media viewed' %}</th>
                 </tr>
               </thead>
              <tbody>
@@ -54,6 +55,7 @@
 								&nbsp;
 							{% endif %}
 						</td>
+                        <td>{{ c.no_media_viewed }}</td>
 					</tr>
 				{% endfor %}
 			</tbody>
