@@ -254,7 +254,6 @@ def user_activity(request, user_id):
                 'no_media_viewed': course.get_media_viewed(course,view_user),
                 'no_points': course.get_points(course,view_user),
                 'no_badges': course.get_badges(course,view_user),}
-        print data
         courses.append(data)
 
     order_options = ['course', 'no_quizzes_completed', 'pretest_score',

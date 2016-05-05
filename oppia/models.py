@@ -157,8 +157,9 @@ class Course(models.Model):
 
     @staticmethod
     def get_media_viewed(course,user):
-        acts = Activity.objects.filter(section__course=course,baseline=False, type=Activity.MEDIA).values_list('digest')
-        return Tracker.objects.filter(course=course,user=user,completed=True,digest__in=acts).values_list('digest').distinct().count()
+        acts = Media.objects.filter(course=course).values_list('digest')
+        print acts
+        return Tracker.objects.filter(course=course,user=user,digest__in=acts).values_list('digest').distinct().count()
 
         
  
