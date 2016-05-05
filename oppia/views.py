@@ -289,7 +289,9 @@ def upload_step2(request, course_id, editing=False):
                             ct.course = course
                             ct.tag = tag
                             ct.save()
-                return HttpResponseRedirect('success/') # Redirect after POST
+
+                redirect = 'oppia_course' if editing else 'oppia_upload_success'
+                return HttpResponseRedirect(reverse(redirect)) # Redirect after POST
     else:
         form = UploadCourseStep2Form(initial={'tags':course.get_tags(),
                                     'is_draft':course.is_draft,}) # An unbound form
