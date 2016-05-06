@@ -2,13 +2,10 @@ OppiaMobile Android App Change Log
 ====================================
 
 
-.. note:: 
-	Starting with the release of the OppiaMobile Android App v57 (6.0.0), we will be moving to using Android Studio as the 
-	supported development environment. This is an important note since the project structure will change significantly.
 
-.. _appv57:
+.. _appv58:
 
-v57 (6.0.0) - not yet released
+v58 (6.0.1) - Released 6 May 2016
 --------------------------------------
 
 * 490: Add option to show the logged in user - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/490
@@ -22,6 +19,20 @@ v57 (6.0.0) - not yet released
 * 540: Occassional Null Pointer Exception on UIUtils.java:155 - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/540
 * 514: Copy in the mquiz-jar classes - rather than having as separate jar - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/514
 * 531: Permissions management in Android M - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/531
+
+.. note:: 
+	Starting with the release of the OppiaMobile Android App v57 (6.0.0), we will be moving to using Android Studio as the 
+	supported development environment. This is an important note since the project structure will change significantly.
+
+
+.. _appv57:
+
+v57 (6.0.0) - Released skipped
+--------------------------------------
+
+Release skipped since we found some more issues with supporting SD cards in Android v4.4.2, this has been fixed in 
+release v58 above.
+
 
 .. _appv56:
 
