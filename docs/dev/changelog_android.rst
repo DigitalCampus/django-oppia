@@ -1,7 +1,12 @@
 OppiaMobile Android App Change Log
 ====================================
 
+.. _appv59:
 
+v59 (6.0.7) - Released 7 May 2016
+--------------------------------------
+
+* Hotfix for video player
 
 .. _appv58:
 
