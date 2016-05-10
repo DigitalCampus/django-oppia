@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 # Create your models here.
 from oppia.models import Course
@@ -18,6 +19,11 @@ class UserCourseSummary (models.Model):
     media_viewed    = models.IntegerField(blank=False, null=False, default=0)
     completed_activities = models.IntegerField(blank=False, null=False, default=0)
 
+    class Meta:
+        verbose_name = _('UserCourseSummary')
+        unique_together = ("user", "course")
+        index_together  = ["user", "course"]
+
 
 
 class CourseDailyStats (models.Model):
@@ -31,4 +37,7 @@ class CourseDailyStats (models.Model):
     media_viewed = models.IntegerField(blank=False, null=False, default=0)
     resources_viewed = models.IntegerField(blank=False, null=False, default=0)
 
-
+    class Meta:
+        verbose_name = _('CourseDailyStats')
+        unique_together = ("course", "day")
+        index_together  = ["course", "day"]
