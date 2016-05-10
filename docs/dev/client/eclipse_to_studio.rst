@@ -1,5 +1,5 @@
-Setting up in Eclipse
-=========================
+Moving from Eclipse to Android Studio
+==========================================
 
 
 # android-support-v7-appcompat

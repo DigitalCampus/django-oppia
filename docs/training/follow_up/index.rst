@@ -171,7 +171,8 @@ Objectives
 To review to know the current postnatal (PNC) and antenatal (ANC) coverage, challenges and barriers in Tigray and Ethiopia
 To review how HEWs can effectively contribute to improve PNC.
 To understand how MHealth can help improving maternal and child health
-         Activities
+
+Activities
 Participants will fill-out a survey on their PNC skills and attitudes 
 The facilitator will review the latest  EDHS data on PNC in Tigray
 Small Group activity. 10 minutes. Discuss and write down what are the main PNC challenges and barriers in their districts 

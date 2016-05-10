@@ -3,11 +3,21 @@ OppiaMobile Moodle Block Change Log
 
 .. _blockv2016xxxxxx:
 
-v2016xxxxxx - not yet released
+v2016xxxxxx - Not yet released
+-------------------------------------
+
+* 160: Replace some text in quiz questions and responses - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/160
+
+
+
+.. _blockv2016041301:
+
+v2016041301 - Released: 13 Apr 2016
 -------------------------------------
 
 * 135: Add course tags to the course XML file - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/135
-
+* 131: Error when exporting file activity when no description entered - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/131
+* 148: On export check the course shortname used - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/issue/148
 
 .. _blockv2016030400:
 

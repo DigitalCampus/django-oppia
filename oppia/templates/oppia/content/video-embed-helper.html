@@ -22,7 +22,11 @@
         <p>Please copy and paste the code below into your Moodle HTML page to embed the video in your course: </p>
         {% endblocktrans %}
 
-        <pre>{{ processed_video.embed_code }}</pre>
+		<div style="padding:20px;">
+        {{ processed_video.embed_code }}
+        </div>
+        
+        
 
         {% if processed_video.image_files %}
             {% blocktrans %}

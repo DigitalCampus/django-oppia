@@ -55,6 +55,7 @@ def run(input_dir, output_dir, image_width=DEFAULT_WIDTH, image_height=DEFAULT_H
 
                 if not os.path.exists(os.path.join(output_dir, filename + ".images")):
                     os.makedirs(os.path.join(output_dir, filename + ".images"))
+                    
                 print "  > Created output dir " + os.path.join(output_dir, filename + ".images")
 
                 print "  > Generating miniatures... \r",
@@ -105,8 +106,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("input_directory", help="Input directory")
     parser.add_argument("output_directory", help="Output directory")
-    parser.add_argument("-W","--image_width", help="width of image file to create",type=int)
-    parser.add_argument("-H","--image_height", help="height of image file to create",type=int)
+    parser.add_argument("-W","--image_width", help="width of image file to create",type=int, default=360)
+    parser.add_argument("-H","--image_height", help="height of image file to create",type=int, default=240)
     args = parser.parse_args()
     if args.image_height is None:
         args.image_height = DEFAULT_HEIGHT

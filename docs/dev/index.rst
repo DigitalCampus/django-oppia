@@ -6,6 +6,7 @@ For installing OppiaMobile server and Moodle block please refer to:
 .. toctree::
    :maxdepth: 1
 
+   architecture
    install
    block_install
    upgrade
@@ -42,5 +43,4 @@ about the platform, then please post on our `OppiaMobile Google Groups forum
    moodle-block/index
    style/index
    client/index
-   manage
    
