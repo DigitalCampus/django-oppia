@@ -87,3 +87,8 @@ class CourseDailyStats (models.Model):
             stats, created = CourseDailyStats.objects.get_or_create(course=course, day=day, type=type_stats.type)
             stats.total = (0 if last_tracker_pk == 0 else stats.total) + type_stats.total
             stats.save()
+
+class SettingProperties(models.Model):
+    key = models.CharField(max_length=30, null=False, primary_key=True)
+    str_value = models.CharField(max_length=50,blank=True, null=True)
+    int_value = models.IntegerField()
