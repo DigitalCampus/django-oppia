@@ -1,8 +1,9 @@
 import time
 
+import datetime
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Sum
+from django.db.models import Sum, Count
 from django.utils.translation import ugettext_lazy as _
 
 from oppia.models import Course, Tracker, Points
@@ -32,19 +33,19 @@ class UserCourseSummary (models.Model):
                        last_points_pk=0, newest_points_pk=0     # range of points ids to process
                        ):
 
-        ltpk = last_tracker_pk
-        lppk = last_points_pk
+        first_tracker = (last_tracker_pk == 0)
+        first_points = (last_points_pk == 0)
 
-        t = time.clock()
-        selfTrackers = Tracker.objects.filter(user=self.user, course=self.course, pk__gt=last_tracker_pk)
+        t = time.time()
+        selfTrackers = Tracker.objects.filter(user=self.user, course=self.course, pk__gt=last_tracker_pk, pk__lte=newest_tracker_pk)
 
         ### Add the values that are directly obtained from the last pks
-        self.total_activity  = (0 if ltpk == 0 else self.total_activity) + selfTrackers.count()
-        self.total_downloads = (0 if ltpk == 0 else self.total_activity) + selfTrackers.filter(type='download').count()
-        new_points = Points.objects.filter(pk__gt=last_points_pk, course=self.course,user=self.user)\
+        self.total_activity  = (0 if first_tracker else self.total_activity) + selfTrackers.count()
+        self.total_downloads = (0 if first_tracker else self.total_activity) + selfTrackers.filter(type='download').count()
+        new_points = Points.objects.filter(pk__gt=last_points_pk, pk__lte=newest_points_pk, course=self.course,user=self.user)\
                                      .aggregate(total=Sum('points'))['total']
         if new_points:
-            self.points += (0 if lppk == 0 else self.points) + new_points
+            self.points += (0 if first_points else self.points) + new_points
         ### Values that need to be recalculated (as the course digests may vary)
         self.pretest_score = Course.get_pre_test_score(self.course, self.user)
         self.quizzes_passed = Course.get_no_quizzes_completed(self.course, self.user)
@@ -54,7 +55,7 @@ class UserCourseSummary (models.Model):
         ### Update the data in the database
         self.save()
 
-        elapsed_time = time.clock() - t
+        elapsed_time = time.time() - t
         print(self)
         print('took %.2f seconds' % elapsed_time)
 
@@ -63,15 +64,26 @@ class UserCourseSummary (models.Model):
 class CourseDailyStats (models.Model):
     course = models.ForeignKey(Course, blank=False, null=False)
     day = models.DateField(blank=False, null=False)
-
     type = models.CharField(max_length=10,null=True, blank=True, default=None)
     total = models.IntegerField(blank=False, null=False, default=0)
-    quizzes_passed  = models.IntegerField(blank=False, null=False, default=0)
-    completed_activities = models.IntegerField(blank=False, null=False, default=0)
-    media_viewed = models.IntegerField(blank=False, null=False, default=0)
-    resources_viewed = models.IntegerField(blank=False, null=False, default=0)
 
     class Meta:
         verbose_name = _('CourseDailyStats')
-        unique_together = ("course", "day")
-        index_together  = ["course", "day"]
+        unique_together = ("course", "day", "type")
+        index_together  = ["course", "day", "type"]
+
+    @staticmethod
+    def update_daily_summary(course, day, last_tracker_pk=0, newest_tracker_pk=0):  # range of tracker ids to process
+
+        dayStart = datetime.datetime.strptime(day + " 00:00:00","%Y-%m-%d %H:%M:%S")
+        dayEnd   = datetime.datetime.strptime(day + " 23:59:59","%Y-%m-%d %H:%M:%S")
+
+        trackers = Tracker.objects.filter(course=course,
+                                              tracker_date__gte=dayStart, tracker_date__lte=dayEnd,
+                                              pk__gt=last_tracker_pk, pk__lte=newest_tracker_pk)\
+                                    .values('type').annotate(total=Count('type'))
+
+        for type_stats in trackers:
+            stats, created = CourseDailyStats.objects.get_or_create(course=course, day=day, type=type_stats.type)
+            stats.total = (0 if last_tracker_pk == 0 else stats.total) + type_stats.total
+            stats.save()
