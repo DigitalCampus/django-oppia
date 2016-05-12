@@ -1,9 +1,19 @@
 OppiaMobile Android App Change Log
 ====================================
 
+.. _appv60:
+
+v60 (6.1.0) - Not yet released 
+--------------------------------------
+
+* 527: Improved error messages when connecting to Oppia server - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/527
+* 510: Invalidate user apiKey? - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/510
+* 526: In quiz activity - if user has passed then show option to continue rather than retake - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/526
+
+
 .. _appv59:
 
-v59 (6.0.7) - Released 7 May 2016
+v59 (6.0.2) - Released 7 May 2016
 --------------------------------------
 
 * Hotfix for video player

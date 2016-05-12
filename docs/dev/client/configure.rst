@@ -18,8 +18,16 @@ Rename package
 Update the package attribute on manifest tag in AndroidManifest.xml (keeping with the 'reverse url' type notation), so 
 for example, replace ``org.digitalcampus.mobile.learning`` with ``org.myorgname.myproject.oppia``
 
-Also update the ``app/build.gradle`` file to update the ``applicationId`` to be the same as you've used in the 
+Also in AndroidManifest.xml, update the GCM permissions class names:
+
+* update ``<permission android:name="org.digitalcampus.mobile.learning.C2D_MESSAGE" android:protectionLevel="signature" />`` 
+  to ``<permission android:name="org.myorgname.myproject.oppia.C2D_MESSAGE" android:protectionLevel="signature" />`` with ``org.myorgname.myproject.oppia`` being the same as you used above.
+* update ``<uses-permission android:name="org.digitalcampus.mobile.learning.C2D_MESSAGE" />`` 
+  to ``<uses-permission android:name="org.myorgname.myproject.oppia.C2D_MESSAGE" />`` with ``org.myorgname.myproject.oppia`` being the same as you used above.
+
+Update the ``app/build.gradle`` file to update the ``applicationId`` to be the same as you've used in the 
 AndroidManifest.xml.
+
 
 Classes to update 
 ----------------------------
@@ -66,5 +74,8 @@ For updating the welcome message, you'll need to update:
 App logo
 ---------------
 
-To use a different logo for your app, place your app logo in the drawable folder
+To use a different logo for your app, place your app logo in the drawable folder and update the following:
+
+* In ``AndroidManifest.xml`` update ``android:icon="@drawable/dc_logo"`` to point to your logo (eg @drawable/my_logo)
+* In ``org.digitalcampus.mobile.learning.application.MobileLearning`` class update ``public static final int APP_LOGO = R.drawable.dc_logo;`` to point to you logo (eg R.drawable.my_logo)
 
