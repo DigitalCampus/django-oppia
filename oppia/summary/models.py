@@ -41,7 +41,7 @@ class UserCourseSummary (models.Model):
 
         ### Add the values that are directly obtained from the last pks
         self.total_activity  = (0 if first_tracker else self.total_activity) + selfTrackers.count()
-        self.total_downloads = (0 if first_tracker else self.total_activity) + selfTrackers.filter(type='download').count()
+        self.total_downloads = (0 if first_tracker else self.total_downloads) + selfTrackers.filter(type='download').count()
         new_points = Points.objects.filter(pk__gt=last_points_pk, pk__lte=newest_points_pk, course=self.course,user=self.user)\
                                      .aggregate(total=Sum('points'))['total']
         if new_points:
@@ -56,7 +56,6 @@ class UserCourseSummary (models.Model):
         self.save()
 
         elapsed_time = time.time() - t
-        print(self)
         print('took %.2f seconds' % elapsed_time)
 
 
@@ -92,3 +91,16 @@ class SettingProperties(models.Model):
     key = models.CharField(max_length=30, null=False, primary_key=True)
     str_value = models.CharField(max_length=50,blank=True, null=True)
     int_value = models.IntegerField()
+
+    @staticmethod
+    def get_property(propertyKey, defaultValue):
+        try:
+            prop = SettingProperties.objects.get(key=propertyKey)
+            value = prop.str_value if prop.str_value is not None else prop.int_value
+            if value is not None:
+                return value
+
+        except SettingProperties.DoesNotExist:
+            pass
+
+        return defaultValue
