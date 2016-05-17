@@ -74,17 +74,18 @@ class CourseDailyStats (models.Model):
     @staticmethod
     def update_daily_summary(course, day, last_tracker_pk=0, newest_tracker_pk=0):  # range of tracker ids to process
 
-        dayStart = datetime.datetime.strptime(day + " 00:00:00","%Y-%m-%d %H:%M:%S")
-        dayEnd   = datetime.datetime.strptime(day + " 23:59:59","%Y-%m-%d %H:%M:%S")
+        dayStart = datetime.datetime.strptime(day.strftime("%Y-%m-%d") + " 00:00:00","%Y-%m-%d %H:%M:%S")
+        dayEnd   = datetime.datetime.strptime(day.strftime("%Y-%m-%d") + " 23:59:59","%Y-%m-%d %H:%M:%S")
 
+        course = Course.objects.get(pk=course)
         trackers = Tracker.objects.filter(course=course,
                                               tracker_date__gte=dayStart, tracker_date__lte=dayEnd,
                                               pk__gt=last_tracker_pk, pk__lte=newest_tracker_pk)\
                                     .values('type').annotate(total=Count('type'))
 
         for type_stats in trackers:
-            stats, created = CourseDailyStats.objects.get_or_create(course=course, day=day, type=type_stats.type)
-            stats.total = (0 if last_tracker_pk == 0 else stats.total) + type_stats.total
+            stats, created = CourseDailyStats.objects.get_or_create(course=course, day=day, type=type_stats['type'])
+            stats.total = (0 if last_tracker_pk == 0 else stats.total) + type_stats['total']
             stats.save()
 
 class SettingProperties(models.Model):
