@@ -9,7 +9,7 @@ import tablib
 from dateutil.relativedelta import relativedelta
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core.urlresolvers import reverse
-from django.db.models import Count
+from django.db.models import Count, Sum
 from django.forms.formsets import formset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render,render_to_response
@@ -26,6 +26,7 @@ from oppia.profile.models import UserProfile
 from oppia.profile.views import get_paginated_users
 from oppia.quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
 from oppia.reports.signals import dashboard_accessed
+from oppia.summary.models import UserCourseSummary, CourseDailyStats
 from uploader import handle_uploaded_file
 
 
@@ -41,7 +42,10 @@ def about_view(request):
                               context_instance=RequestContext(request))
     
 def home_view(request):
+
     activity = []
+    leaderboard = None
+
     if request.user.is_authenticated():
         # create profile if none exists (historical for very old users)
         try:
@@ -81,7 +85,8 @@ def home_view(request):
         
         if interval == 'days':
             no_days = (end_date-start_date).days + 1
-            trackers = Tracker.objects.filter(course__isnull=False, 
+            tracker_stats = CourseDailyStats.objects.filter(day__gte=start_date, day__lte=end_date).values('day').annotate(count=Sum('total'))
+            trackers = Tracker.objects.filter(course__isnull=False,
                                               course__is_draft=False, 
                                               user__is_staff=False, 
                                               course__is_archived=False,
@@ -89,7 +94,7 @@ def home_view(request):
                                               tracker_date__lte=end_date).extra({'activity_date':"date(tracker_date)"}).values('activity_date').annotate(count=Count('id'))
             for i in range(0,no_days,+1):
                 temp = start_date + datetime.timedelta(days=i)
-                count = next((dct['count'] for dct in trackers if dct['activity_date'] == temp.date()), 0)
+                count = next((dct['count'] for dct in tracker_stats if dct['day'] == temp.date()), 0)
                 activity.append([temp.strftime("%d %b %Y"),count])
         else:
             delta = relativedelta(months=+1)
@@ -105,16 +110,16 @@ def home_view(request):
                 temp = start_date + relativedelta(months=+i)
                 month = temp.strftime("%m")
                 year = temp.strftime("%Y")
-                count = Tracker.objects.filter(course__isnull=False,
-                                               course__is_draft=False,
-                                               user__is_staff=False,
-                                               course__is_archived=False,
-                                               tracker_date__month=month,
-                                               tracker_date__year=year).count()
-                activity.append([temp.strftime("%b %Y"),count])
+                count = CourseDailyStats.objects.filter(day__month=month, day__year=year).aggregate(total=Sum('total'))
+                activity.append([temp.strftime("%b %Y"), 0 if count is None else count])
+
+            print activity
+
+        leaderboard = Points.get_leaderboard(10)
+
     else:
         form = None
-    leaderboard = Points.get_leaderboard(10)
+
     return render_to_response('oppia/home.html',
                               {'form': form,
                                'activity_graph_data': activity, 
@@ -168,15 +173,22 @@ def courses_list_view(request):
         dashboard_accessed.send(sender=None, request=request, data=None)
 
         tag_list = Tag.objects.all().exclude(coursetag=None).order_by('name')
+        course_stats = list (UserCourseSummary.objects.filter(course__in=courses).values('course').annotate(distinct=Count('user'), total=Sum('total_downloads') ))
         courses_list = []
+
         for course in courses:
             obj = {}
             obj['course'] = course
             access_detail, response = can_view_course_detail(request,course.id)
-            if access_detail is not None:
-                obj['access_detail'] = True
-            else:
-                obj['access_detail'] = False
+            obj['access_detail'] = access_detail is not None
+
+            for stats in course_stats:
+                if stats['course'] == course.id:
+                    obj['distinct_downloads'] = stats['distinct']
+                    obj['total_downloads'] = stats['total']
+                    course_stats.remove(stats) #remove the element to optimize next searchs
+                    continue
+
             courses_list.append(obj)
 
         return render_to_response('oppia/course/courses-list.html',
@@ -836,14 +848,27 @@ def cohort_course_view(request, cohort_id, course_id):
     students = []
     media_count = course.get_no_media()
     for user in users:
-        data = {'user': user,
-                'no_quizzes_completed': course.get_no_quizzes_completed(course,user),
-                'pretest_score': course.get_pre_test_score(course,user),
-                'no_activities_completed': course.get_activities_completed(course,user),
-                'no_points': course.get_points(course,user),
-                'no_badges': course.get_badges(course,user),}
-        if media_count > 0:
-            data['no_media_viewed'] = course.get_media_viewed(course,user)
+        print user
+        course_stats = UserCourseSummary.objects.filter(user=user, course=course_id)
+        if course_stats:
+            course_stats = course_stats[0]
+            data = {'user': user,
+                'no_quizzes_completed': course_stats.quizzes_passed ,
+                'pretest_score': course_stats.pretest_score,
+                'no_activities_completed': course_stats.completed_activities,
+                'no_points': course_stats.points,
+                'no_badges': course_stats.badges_achieved,
+                'no_media_viewed': course_stats.media_viewed,}
+        else:
+            #The user has no activity registered
+            data = {'user': user,
+                'no_quizzes_completed': 0,
+                'pretest_score': 0,
+                'no_activities_completed': 0,
+                'no_points': 0,
+                'no_badges': 0,
+                'no_media_viewed': 0,}
+
         students.append(data)
 
     order_options = ['user', 'no_quizzes_completed', 'pretest_score',
