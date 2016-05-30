@@ -33,7 +33,9 @@
              <tbody>
 				{% for c in courses %}
 					<tr>
-						<td><a href="{% url 'profile_user_course_activity' view_user.id c.course.id%}">{{ c.course.title|title_lang:LANGUAGE_CODE }}</a></td>
+						<td>
+                            <div class="list-pie" data-total="{{ c.course.get_no_activities }}" data-completed="{{ c.no_activities_completed }}" ></div>
+                            <a href="{% url 'profile_user_course_activity' view_user.id c.course.id%}">{{ c.course.title|title_lang:LANGUAGE_CODE }}</a></td>
 						<td>
 							{% if c.pretest_score %}
 								{{ c.pretest_score }}%
@@ -41,7 +43,9 @@
 								--
 							{% endif %}
 						</td>
-						<td>{{ c.no_activities_completed }}/{{ c.course.get_no_activities }}</td>
+						<td>
+                            {{ c.no_activities_completed }}/{{ c.course.get_no_activities }}
+                        </td>
 						<td>{{ c.no_quizzes_completed }}/{{ c.course.get_no_quizzes }}</td>
 						<td>{{ c.no_points }}</td>
 						<td>
@@ -65,3 +69,21 @@
 
 
 {% endblock %}
+
+{% block extra_styles %}
+    <link href="{% static "oppia/circliful/circliful.css" %}" rel="stylesheet"/>
+{% endblock extra_styles %}
+
+{% block extra_scripts %}
+	<script src="{% static "oppia/circliful/circliful.min.js" %}"></script>
+	<script type="text/javascript">
+	    $(function(){
+            $('.list-pie').each(function(){
+                var pie = $(this);
+                percent = pie.data('completed') * 100 / pie.data('total');
+                pie.circliful({ percent: percent, foregroundColor:"#77A240", backgroundColor:"#fff" });
+            });
+        });
+
+	</script>
+{% endblock extra_scripts %}
