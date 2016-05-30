@@ -291,3 +291,26 @@ table.sortable .sorted:hover{
     width:35px !important;
     margin: -7px auto;
 }
+
+.course-scorecard{
+    background-color: #fff;
+    max-width: 500px;
+    margin: 2em auto;
+    padding: 20px;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    overflow: auto;
+}
+.quizzes .quiz{
+    width: 14%;
+    margin:1.3%;
+    background-color:#c8c8c8;
+    min-height: 30px;
+    float: left;
+    border-radius: 8px;
+    font-size:11px;
+    overflow: hidden;
+    text-align: center;
+}
+.quizzes .quiz.attempted{ background-color: #74B042; }
+.quizzes .quiz.passed{ background-color: #9aca3c; }

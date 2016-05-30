@@ -311,7 +311,8 @@ def user_course_activity_view(request, user_id, course_id):
             quiz = Quiz.objects.get(quizprops__value=aq.digest, quizprops__name="digest")
         except Quiz.DoesNotExist:
             quiz = None
-            
+
+
         attempts = QuizAttempt.objects.filter(quiz=quiz, user=view_user)
         num_attempts = attempts.count()
         if num_attempts > 0:
@@ -339,6 +340,7 @@ def user_course_activity_view(request, user_id, course_id):
                 'first_score': first_score,
                 'latest_score': latest_score,
                 'avg_score': avg_score,
+                'passed': (max_score is not None and max_score > 75)
                  }
         quizzes.append(quiz)
 
