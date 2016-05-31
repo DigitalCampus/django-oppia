@@ -360,6 +360,8 @@ def user_course_activity_view(request, user_id, course_id):
         quizzes.append(quiz)
 
     activities_completed = course.get_activities_completed(course,view_user)
+    activities_total = course.get_no_activities()
+    activities_percent = (activities_completed * 100) / activities_total
 
     activity = []
     start_date = timezone.now() - datetime.timedelta(days=31)
@@ -399,6 +401,8 @@ def user_course_activity_view(request, user_id, course_id):
                                'quizzes_attempted':quizzes_attempted,
                                'pretest_score': course_pretest,
                                'activities_completed': activities_completed,
+                               'activities_total': activities_total,
+                               'activities_percent': activities_percent,
                                'page_ordering': ('-' if inverse_order else '') + ordering,
                                'activity_graph_data': activity },
                               context_instance=RequestContext(request))

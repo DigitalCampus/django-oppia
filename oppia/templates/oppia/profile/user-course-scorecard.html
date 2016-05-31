@@ -15,15 +15,15 @@
 <div class="row">
 
 <div class="col-md-5 col-lg-4">
-    <div class="course-scorecard" style="visibility: hidden;">
-        <div class="piechart">
+    <div class="course-scorecard" data-percent="{{ activities_percent }}" style="visibility: hidden;">
+        <div class="piechart" >
             <div class="pie-activity">
                 <div class="pie-label">
                     {{ activities_completed }}
                 <span>completed</span>
                 </div>
                 <div class="pie-label">
-                    {{ course.get_no_activities }}
+                    {{ activities_total }}
                 <span>total</span>
                 </div>
                 </div>
@@ -95,7 +95,7 @@
             var quizzes = scorecard.find('.quizzes .quiz');
             var size = quizzes.first().width() + 'px';
             quizzes.each(function(){ $(this).tooltip().css({height:size, lineHeight:size}); });
-            scorecard.find('.piechart').circliful({ percent: 48, foregroundColor:"#77A240", backgroundColor:"#eee", backgroundBorderWidth:14, foregroundBorderWidth:14 });
+            scorecard.find('.piechart').circliful({ percent: scorecard.data('percent'), foregroundColor:"#77A240", backgroundColor:"#eee", backgroundBorderWidth:14, foregroundBorderWidth:14 });
             scorecard.css('visibility', 'visible');
         });
 	</script>
