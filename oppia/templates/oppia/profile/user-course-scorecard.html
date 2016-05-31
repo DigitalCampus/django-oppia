@@ -12,31 +12,46 @@
 
 <h2><a href="{% url 'profile_user_activity' view_user.id %}">{{ view_user.first_name }} {{ view_user.last_name }}</a> &gt; {{ course.title|title_lang:LANGUAGE_CODE }}</h2>
 
-<h3>{% trans 'Recent activity' %}</h3>
-{% include "oppia/includes/activity-graph.html" %}	
-
 <div class="row">
-<div class="col-md-6">
-    <div class="course-scorecard">
-        <div class="piechart"></div>
-        <div class="row">
-            <div class="col-xs-4"><span>Pre-test</span></div>
-            <div class="col-xs-4"><span>Attempted</span></div>
-            <div class="col-xs-4"><span>Passed</span></div>
+
+<div class="col-md-5 col-lg-4">
+    <div class="course-scorecard" style="visibility: hidden;">
+        <div class="piechart">
+            <div class="pie-activity">
+                <div class="pie-label">
+                    {{ activities_completed }}
+                <span>completed</span>
+                </div>
+                <div class="pie-label">
+                    {{ course.get_no_activities }}
+                <span>total</span>
+                </div>
+                </div>
+        </div>
+        <div class="row summary">
+            <div class="col-xs-4">{% if pretest_score %} {{ pretest_score|floatformat:0 }}%{% else %}-{% endif %}<span>Pre-test</span></div>
+            <div class="col-xs-4 attempted">{{ quizzes_attempted }}<span>Attempted</span></div>
+            <div class="col-xs-4 passed"> {{ quizzes_passed }}<span>Passed</span></div>
         </div>
         <h3>{% trans 'Quizzes' %}</h3>
         <div class="quizzes">
             {% for q in quizzes %}
+                {% if q.quiz.section.order %}
                 <div class="quiz {% if q.no_attempts %}attempted{% endif %} {% if q.passed %}passed{% endif %}"
                     data-toggle="tooltip" title="{{ q.quiz.section.title|title_lang:LANGUAGE_CODE }}" data-placement="bottom">
                 {% if q.max_score %}{{ q.max_score|floatformat:0 }}% {% endif %}
                 </div>
+                {% endif %}
             {% endfor %}
         </div>
     </div>
 </div>
-<div class="col-md-6">
 
+<div class="col-md-7 col-lg-8">
+<h3>{% trans 'Recent activity' %}</h3>
+{% include "oppia/includes/activity-graph.html" %}
+</div>
+</div>
     <div class="table-responsive">
         <table class="table table-striped sortable">
             <thead>
@@ -65,8 +80,7 @@
             </tbody>
         </table>
     </div>
-</div>
-</div>
+
 {% endblock %}
 
 {% block extra_styles %}
@@ -77,8 +91,12 @@
 	<script src="{% static "oppia/circliful/circliful.min.js" %}"></script>
 	<script type="text/javascript">
 	    $(function(){
-            $('.quizzes .quiz').each(function(){ var size = $(this).width()+'px'; $(this).tooltip().css({height:size, lineHeight:size}); });
+            var scorecard = $('.course-scorecard')
+            var quizzes = scorecard.find('.quizzes .quiz');
+            var size = quizzes.first().width() + 'px';
+            quizzes.each(function(){ $(this).tooltip().css({height:size, lineHeight:size}); });
+            scorecard.find('.piechart').circliful({ percent: 48, foregroundColor:"#77A240", backgroundColor:"#eee", backgroundBorderWidth:14, foregroundBorderWidth:14 });
+            scorecard.css('visibility', 'visible');
         });
-
 	</script>
 {% endblock extra_scripts %}
