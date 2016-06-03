@@ -350,16 +350,19 @@ def recent_activity(request,course_id):
 
     dates = []
     if interval == 'days':
-        daily_stats = Tracker.objects\
-            .filter(course=course,tracker_date__gte=start_date, tracker_date__lte=end_date)\
-            .extra({'day':"date(tracker_date)"}).values('day','type').annotate(total=Count('type'))
+        daily_stats = CourseDailyStats.objects.filter(course=course, day__gte=start_date, day__lte=end_date)\
+                        .values('day','type')\
+                        .annotate(total=Sum('total'))
+    
         dates = generate_graph_data(daily_stats, False)
 
     else:
-        monthly_stats = Tracker.objects\
-            .filter(course=course,tracker_date__gte=start_date, tracker_date__lte=end_date)\
-            .extra({'month':"month(tracker_date)", 'year':"year(tracker_date)"})\
-            .values('month','year','type').order_by('year','month').annotate(total=Count('type'))
+        monthly_stats = CourseDailyStats.objects.filter(course=course, day__gte=start_date, day__lte=end_date)\
+                        .extra({'month':'month(day)', 'year':'year(day)'})\
+                        .values('month','year','type')\
+                        .annotate(total=Sum('total'))\
+                        .order_by('year','month')
+
         dates = generate_graph_data(monthly_stats, True)
 
     leaderboard = Points.get_leaderboard(10, course)
