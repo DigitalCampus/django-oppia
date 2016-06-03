@@ -14,6 +14,7 @@ from django.utils import timezone
 
 from oppia.forms import DateDiffForm
 from oppia.models import Tracker, Course
+from oppia.summary.models import CourseDailyStats
 from oppia.viz.models import UserLocationVisualization
 
 
@@ -78,49 +79,59 @@ def summary_view(request):
         languages.append({'lang':_('Other'),'hits_percent':hits_percent })
         
     # Course Downloads
-    course_downloads = Tracker.objects.filter(user__is_staff=False, submitted_date__gte=start_date, type='download' ).\
-                        extra(select={'month':'extract( month from submitted_date )',
-                                      'year':'extract( year from submitted_date )'}).\
-                        values('month','year').\
-                        annotate(count=Count('id')).order_by('year','month')
-                        
-    previous_course_downloads = Tracker.objects.filter(user__is_staff=False, submitted_date__lt=start_date, type='download' ).count()
-    
+    course_downloads = CourseDailyStats.objects.filter(day__gte=start_date, type='download')\
+                        .extra({'month':'month(day)', 'year':'year(day)'})\
+                        .values('month','year')\
+                        .annotate(count=Sum('total'))\
+                        .order_by('year','month')
+    previous_course_downloads = CourseDailyStats.objects.filter(day__lt=start_date, type='download').aggregate(total=Sum('total')).get('total',0)
+    if previous_course_downloads is None:
+        previous_course_downloads = 0
+
     # Course Activity
-    course_activity = Tracker.objects.filter(user__is_staff=False, submitted_date__gte=start_date).\
-                        extra(select={'month':'extract( month from submitted_date )',
-                                      'year':'extract( year from submitted_date )'}).\
-                        values('month','year').\
-                        annotate(count=Count('id')).order_by('year','month')
-    
-    previous_course_activity = Tracker.objects.filter(user__is_staff=False, submitted_date__lt=start_date).count()
-                        
-    last_month = timezone.now() - datetime.timedelta(days=31)
-    hit_by_course = Tracker.objects.filter(user__is_staff=False, submitted_date__gte=last_month).exclude(course_id=None).values('course_id').annotate(total_hits=Count('id')).order_by('-total_hits')
-    total_hits = Tracker.objects.filter(user__is_staff=False, submitted_date__gte=last_month).exclude(course_id=None).aggregate(total_hits=Count('id'))
-    
+    course_activity = CourseDailyStats.objects.filter(day__gte=start_date)\
+                        .extra({'month':'month(day)', 'year':'year(day)'})\
+                        .values('month','year')\
+                        .annotate(count=Sum('total'))\
+                        .order_by('year','month')
+
+    previous_course_activity = CourseDailyStats.objects.filter(day__lt=start_date).aggregate(total=Sum('total')).get('total',0)
+    if previous_course_activity is None:
+        previous_course_activity = 0
+
+    last_month = timezone.now() - datetime.timedelta(days=131)
+    #hit_by_course = Tracker.objects.filter(user__is_staff=False, submitted_date__gte=last_month).exclude(course_id=None).values('course_id').annotate(total_hits=Count('id')).order_by('-total_hits')
+    #total_hits = Tracker.objects.filter(user__is_staff=False, submitted_date__gte=last_month).exclude(course_id=None).aggregate(total_hits=Count('id'))
+
+    hit_by_course = CourseDailyStats.objects\
+                        .filter(day__gte=last_month, course__isnull=False).values('course_id')\
+                        .annotate(total_hits=Sum('total')).order_by('-total_hits')
+    total_hits = sum(cstats['total_hits'] for cstats in hit_by_course)
+
     i = 0
     hot_courses = []
     other_course_activity = 0
     for hbc in hit_by_course:
         if i < 10:
-            hits_percent = float(hbc['total_hits'] * 100.0/total_hits['total_hits'])
+            hits_percent = float(hbc['total_hits'] * 100.0/total_hits)
             course = Course.objects.get(id=hbc['course_id'])
             hot_courses.append({'course':course,'hits_percent':hits_percent })
         else:
             other_course_activity += hbc['total_hits']
         i += 1
     if i > 10:
-        hits_percent = float(other_course_activity * 100.0/total_hits['total_hits'])
+        hits_percent = float(other_course_activity * 100.0/total_hits)
         hot_courses.append({'course':_('Other'),'hits_percent':hits_percent })
 
-    searches = Tracker.objects.filter(user__is_staff=False, submitted_date__gte=start_date, type='search' ).\
-                        extra(select={'month':'extract( month from submitted_date )',
-                                      'year':'extract( year from submitted_date )'}).\
-                        values('month','year').\
-                        annotate(count=Count('id')).order_by('year','month')
+    searches = CourseDailyStats.objects.filter(day__gte=start_date, type='search')\
+                        .extra({'month':'month(day)', 'year':'year(day)'})\
+                        .values('month','year')\
+                        .annotate(count=Sum('total'))\
+                        .order_by('year','month')
 
-    previous_searches = Tracker.objects.filter(user__is_staff=False, submitted_date__lt=start_date, type='search' ).count()
+    previous_searches = CourseDailyStats.objects.filter(day__lt=start_date, type='search').aggregate(total=Sum('total')).get('total',0)
+    if previous_searches is None:
+        previous_searches = 0
 
     return render_to_response('oppia/viz/summary.html',
                               {'form': form, 
