@@ -61,7 +61,7 @@ class UserCourseSummary (models.Model):
 
 
 class CourseDailyStats (models.Model):
-    course = models.ForeignKey(Course, blank=False, null=False)
+    course = models.ForeignKey(Course, blank=True, null=True, default=None)
     day = models.DateField(blank=False, null=False)
     type = models.CharField(max_length=10,null=True, blank=True, default=None)
     total = models.IntegerField(blank=False, null=False, default=0)

@@ -105,7 +105,7 @@ def home_view(request):
                 temp = start_date + relativedelta(months=+i)
                 month = temp.strftime("%m")
                 year = temp.strftime("%Y")
-                count = CourseDailyStats.objects.filter(day__month=month, day__year=year).aggregate(total=Sum('total'))
+                count = CourseDailyStats.objects.filter(day__month=month, day__year=year).aggregate(total=Sum('total')).get('total',0)
                 activity.append([temp.strftime("%b %Y"), 0 if count is None else count])
 
             print activity

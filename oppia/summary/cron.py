@@ -55,7 +55,7 @@ def run():
 
     #get different (distinct) courses/dates involved
     courseDailyTypeLogs = Tracker.objects\
-            .filter(pk__gt=last_tracker_pk, pk__lte=newest_tracker_pk)\
+            .filter(pk__gt=last_tracker_pk, pk__lte=newest_tracker_pk, user__is_staff=False)\
             .exclude(course__isnull=True)\
             .extra({'day':"day(tracker_date)",'month':"month(tracker_date)", 'year':"year(tracker_date)"})\
             .values('course', 'day','month','year', 'type')\
@@ -67,16 +67,28 @@ def run():
     count = 0
     for typeLog in courseDailyTypeLogs:
         day = date(typeLog['year'], typeLog['month'], typeLog['day'])
-        print str(day) + ':' + str(typeLog['total'])
         course = Course.objects.get(pk=typeLog['course'])
         stats, created = CourseDailyStats.objects.get_or_create(course=course, day=day, type=typeLog['type'])
         stats.total = (0 if last_tracker_pk == 0 else stats.total) + typeLog['total']
         stats.save()
 
-
-
         count+=1
         print count
+
+    
+    searchDailyLogs = Tracker.objects\
+            .filter(pk__gt=last_tracker_pk, pk__lte=newest_tracker_pk, user__is_staff=False, type='search')\
+            .extra({'day':"day(tracker_date)",'month':"month(tracker_date)", 'year':"year(tracker_date)"})\
+            .values('day','month','year')\
+            .annotate(total=Count('id'))\
+            .order_by('day')
+
+    print ('%d different search/dates to process.' % searchDailyLogs.count())
+    for searchLog in searchDailyLogs:
+        day = date(searchLog['year'], searchLog['month'], searchLog['day'])
+        stats, created = CourseDailyStats.objects.get_or_create(course=None, day=day, type='search')
+        stats.total = (0 if last_tracker_pk == 0 else stats.total) + searchLog['total']
+        stats.save()
 
     #update last tracker and points PKs with the last one processed
     SettingProperties.objects.update_or_create(key='last_tracker_pk', defaults={"int_value":newest_tracker_pk})
