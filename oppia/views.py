@@ -86,12 +86,7 @@ def home_view(request):
         if interval == 'days':
             no_days = (end_date-start_date).days + 1
             tracker_stats = CourseDailyStats.objects.filter(day__gte=start_date, day__lte=end_date).values('day').annotate(count=Sum('total'))
-            trackers = Tracker.objects.filter(course__isnull=False,
-                                              course__is_draft=False, 
-                                              user__is_staff=False, 
-                                              course__is_archived=False,
-                                              tracker_date__gte=start_date,
-                                              tracker_date__lte=end_date).extra({'activity_date':"date(tracker_date)"}).values('activity_date').annotate(count=Count('id'))
+
             for i in range(0,no_days,+1):
                 temp = start_date + datetime.timedelta(days=i)
                 count = next((dct['count'] for dct in tracker_stats if dct['day'] == temp.date()), 0)
