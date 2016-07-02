@@ -6,35 +6,24 @@
 	{% trans 'Courses' %}
 {% endblock extra_head_title %}
 
-
-{% if course_list %}
-	{% block extra_scripts %}
-	<script type="text/javascript">
-		function OnTagChange(dropdown) {
-			    var myindex  = dropdown.selectedIndex;
-			    var selValue = dropdown.options[myindex].value;
-			    top.location.href = selValue;
-			    return true;
-			}
-	</script>
-	{% endblock extra_scripts %}
-{% endif %}	
 {% block content %}
 <h2>{% trans 'Courses' %}</h2>
 
 {% if tag_list %}
 	<form method="post">
 	{% trans 'Filter by tag: ' %}
-	<select name="tag" onchange="OnTagChange(this.form.tag);">
+	<select name="tag" id="course-tag-filter">
 		<option value="{% url 'oppia_course' %}">{% trans 'All courses' %}</option>
 		{% for tag in tag_list %}
-		 		<option value="{% url 'oppia_tag_courses' tag.id %}" {% if current_tag == tag.id %}selected="selected"{% endif %}>
+		 		<option value="{% url 'oppia_tag_courses' tag.id %}" {% if current_tag|slugify == tag.id|slugify %}selected="selected"{% endif %}>
 		 			{{ tag.name }}
 		 		</option>
 		{% endfor %}
 	</select>
 	</form>
 {% endif %}
+
+
 
 {% if page.object_list %}
 
@@ -84,4 +73,16 @@
 	{% endblocktrans %}
 {% endif %}
 
+{% endblock %}
+
+{% block extra_scripts %}
+	<script type="text/javascript">
+        $(function(){
+            $('#course-tag-filter').on('change', function(){
+                var tagURL = $(this).val();
+                if (tagURL && tagURL!="") top.location.href = tagURL;
+                return true;
+            })
+        });
+    </script>
 {% endblock %}
