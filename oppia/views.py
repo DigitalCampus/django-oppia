@@ -148,6 +148,40 @@ def teacher_home_view(request):
                                'activity_graph_data': activity, }, 
                               context_instance=RequestContext(request))
 
+def render_courses_list(request, courses, params=None):
+
+    if params is None:
+        params = {}
+
+    tag_list = Tag.objects.all().exclude(coursetag=None).order_by('name')
+    paginator = Paginator(courses, 25) # Show 25 per page
+    # Make sure page request is an int. If not, deliver first page.
+    try:
+        page = int(request.GET. get('page', '1'))
+    except ValueError:
+        page = 1
+
+    try:
+        courses = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        courses = paginator.page(paginator.num_pages)
+
+    for course in courses:
+        access_detail, response = can_view_course_detail(request,course.id)
+        course.can_edit = can_edit_course(request,course.id)
+        if access_detail is not None:
+            course.access_detail = True
+        else:
+            course.access_detail = False
+
+
+    params['page'] = courses
+    params['tag_list'] = tag_list
+
+    return render_to_response('oppia/course/courses-list.html', params,
+                          context_instance=RequestContext(request))
+
+
 def courses_list_view(request):
 
     if request.is_ajax():
@@ -167,33 +201,8 @@ def courses_list_view(request):
 
         dashboard_accessed.send(sender=None, request=request, data=None)
 
-        tag_list = Tag.objects.all().exclude(coursetag=None).order_by('name')
+        return render_courses_list(request, courses)
 
-        paginator = Paginator(courses, 25) # Show 25 per page
-         # Make sure page request is an int. If not, deliver first page.
-        try:
-            page = int(request.GET.get('page', '1'))
-        except ValueError:
-            page = 1
-
-        try:
-            courses = paginator.page(page)
-        except (EmptyPage, InvalidPage):
-            courses = paginator.page(paginator.num_pages)
-
-        for course in courses:
-            access_detail, response = can_view_course_detail(request,course.id)
-            course.can_edit = can_edit_course(request,course.id)
-            if access_detail is not None:
-                course.access_detail = True
-            else:
-                course.access_detail = False
-
-        return render_to_response('oppia/course/courses-list.html',
-                              {
-                               'page': courses,
-                               'tag_list': tag_list}, 
-                              context_instance=RequestContext(request))
 
 def course_download_view(request, course_id):
     try:
@@ -214,23 +223,8 @@ def tag_courses_view(request, tag_id):
     courses = courses.filter(coursetag__tag__pk=tag_id)
 
     dashboard_accessed.send(sender=None, request=request, data=None)
+    return render_courses_list(request, courses, {'current_tag': tag_id})
 
-    courses_list = []
-    for course in courses:
-        obj = {}
-        obj['course'] = course
-        access_detail, response = can_view_course_detail(request,course.id)
-        if access_detail is not None:
-            obj['access_detail'] = True
-        else:
-            obj['access_detail'] = False
-        courses_list.append(obj)
-    tag_list = Tag.objects.all().order_by('name')
-    return render_to_response('oppia/course/courses-list.html',
-                              {'courses_list': courses_list,
-                               'tag_list': tag_list,
-                               'current_tag': id},
-                              context_instance=RequestContext(request))
         
 def upload_step1(request):
     if not request.user.userprofile.get_can_upload():
