@@ -153,6 +153,12 @@ def render_courses_list(request, courses, params=None):
     if params is None:
         params = {}
 
+    course_filter = request.GET.get('visibility', '')
+    if course_filter == 'draft':
+        courses = courses.filter(is_draft=True)
+    elif course_filter == 'archived':
+        courses = courses.filter(is_archived=True)
+
     tag_list = Tag.objects.all().exclude(coursetag=None).order_by('name')
     paginator = Paginator(courses, 25) # Show 25 per page
     # Make sure page request is an int. If not, deliver first page.

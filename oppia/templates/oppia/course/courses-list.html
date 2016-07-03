@@ -23,7 +23,15 @@
 	</form>
 {% endif %}
 
+    <form method="get">
+	{% trans 'Filter by visibility: ' %}
+	<select name="visibility" id="course-visibility-filter">
+        <option value="">{% trans 'All' %}</option>
+        <option value="draft">{% trans 'Draft' %}</option>
+		<option value="archived">{% trans 'Archived' %}</option>
 
+	</select>
+	</form>
 
 {% if page.object_list %}
 
@@ -82,6 +90,10 @@
                 var tagURL = $(this).val();
                 if (tagURL && tagURL!="") top.location.href = tagURL;
                 return true;
+            });
+
+            $('#course-visibility-filter').on('change', function(){
+                $(this).parent().submit();
             })
         });
     </script>
