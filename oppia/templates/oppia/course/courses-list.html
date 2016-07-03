@@ -9,9 +9,10 @@
 {% block content %}
 <h2>{% trans 'Courses' %}</h2>
 
+
 {% if tag_list %}
-	<form method="post">
-	{% trans 'Filter by tag: ' %}
+	<form method="post" class="inline-form">
+    <span class="glyphicon glyphicon-tag" aria-hidden="true"></span> {% trans 'Filter by tag: ' %}
 	<select name="tag" id="course-tag-filter">
 		<option value="{% url 'oppia_course' %}">{% trans 'All courses' %}</option>
 		{% for tag in tag_list %}
@@ -21,16 +22,18 @@
 		{% endfor %}
 	</select>
 	</form>
+
 {% endif %}
 
-    <form method="get">
-	{% trans 'Filter by visibility: ' %}
+    <form method="get" class="inline-form">
+	<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> {% trans 'Filter by visibility: ' %}
 	<select name="visibility" id="course-visibility-filter">
         <option value="">{% trans 'All' %}</option>
         <option value="draft" {% ifequal course_filter "draft" %} selected="selected"{% endifequal %}>{% trans 'Draft' %}</option>
 		<option value="archived" {% ifequal course_filter "archived" %} selected="selected"{% endifequal %}>{% trans 'Archived' %}</option>
 	</select>
 	</form>
+
 
 {% if page.object_list %}
 
