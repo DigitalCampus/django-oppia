@@ -183,6 +183,7 @@ def render_courses_list(request, courses, params=None):
 
     params['page'] = courses
     params['tag_list'] = tag_list
+    params['course_filter'] = course_filter
 
     return render_to_response('oppia/course/courses-list.html', params,
                           context_instance=RequestContext(request))
