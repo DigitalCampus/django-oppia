@@ -9,7 +9,9 @@ v60 (6.1.0) - Not yet released
 * 527: Improved error messages when connecting to Oppia server - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/527
 * 510: Invalidate user apiKey? - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/510
 * 526: In quiz activity - if user has passed then show option to continue rather than retake - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/526
-
+* 459: Allow max no attempts for quizzes - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/459
+* 555: ListPreference requires an entries array and an entryValues array - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/555
+* 552: Error on logging in : android.view.WindowLeaked - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/552
 
 .. _appv59:
 
