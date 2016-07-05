@@ -7,7 +7,8 @@ may have of Android and also how much specific information is needed to introduc
 to your project/implementation.
 
 .. toctree::
-   	:maxdepth: 1
+    :maxdepth: 1
+
 
     00_setup 
     01_intro  

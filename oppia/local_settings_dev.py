@@ -10,9 +10,17 @@ def modify(settings):
                                    'crispy_forms',
                                    'tastypie',)
     settings['MIDDLEWARE_CLASSES'] += ('oppia.middleware.LoginRequiredMiddleware',)
-    settings['TEMPLATE_CONTEXT_PROCESSORS'] += ('oppia.context_processors.get_points',)
-    settings['TEMPLATE_CONTEXT_PROCESSORS'] += ('oppia.context_processors.get_version',)
-    settings['TEMPLATE_CONTEXT_PROCESSORS'] += ('oppia.context_processors.get_settings',)
+
+    context_processors = (
+            'oppia.context_processors.get_points',
+            'oppia.context_processors.get_version',
+            'oppia.context_processors.get_settings',)
+
+    if 'TEMPLATES' in settings and settings['TEMPLATES'][0]: #Django 1.8+ template settings
+        settings['TEMPLATES'][0]['OPTIONS']['context_processors'] += context_processors
+    elif 'TEMPLATE_CONTEXT_PROCESSORS' in settings: #Fallback for the old template settings
+        settings['TEMPLATE_CONTEXT_PROCESSORS'] += context_processors
+
     settings['LOGIN_EXEMPT_URLS'] = (
          r'^server/$',
          r'^profile/login/$',

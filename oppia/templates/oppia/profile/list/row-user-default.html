@@ -1,0 +1,12 @@
+{% load i18n %}
+{% load display_functions %}
+
+<tr id="{{ user.username }}">
+    <td class="col-xs-7 col-sm-7 ">{% if OPPIA_SHOW_GRAVATARS %} {{ user|gravatar:24 }} {% endif %}
+        <a href="{% url 'profile_user_activity' user.id %}">{{ user.first_name }} {{ user.last_name }}</a>
+    </td>
+    <td class="col-xs-3 col-sm-3 ">{{ user.date_joined|date:"d/m/Y" }}</td>
+    <td class="col-xs-2 col-sm-2 text-right">
+        {{ user.last_login|date:"d/m/Y" }}
+    </td>
+</tr>

@@ -3,6 +3,7 @@ import csv
 import datetime
 from itertools import chain
 
+from django import forms
 import operator
 from django.conf import settings
 from django.contrib import messages
@@ -12,7 +13,7 @@ from django.core.mail import send_mail
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
-from django.db.models import Count, Max, Min, Avg
+from django.db.models import Count, Max, Min, Avg, Q
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -22,7 +23,8 @@ from tastypie.models import ApiKey
 
 from oppia.models import Points, Award, Tracker, Activity
 from oppia.permissions import get_user, get_user_courses, can_view_course, can_edit_user
-from oppia.profile.forms import LoginForm, RegisterForm, ResetForm, ProfileForm, UploadProfileForm
+from oppia.profile.forms import LoginForm, RegisterForm, ResetForm, ProfileForm, UploadProfileForm, \
+    UserSearchForm
 from oppia.profile.models import UserProfile
 from oppia.quiz.models import Quiz, QuizAttempt
 from oppia.reports.signals import dashboard_accessed
@@ -32,13 +34,25 @@ def filterRedirect(requestContent):
     redirection = requestContent.get('next')
     # Avoid redirecting to logout after login
     if redirection == reverse('profile_logout'):
-        print "Adios!!!"
         return None
-
     else:
-        print "Hola!!!"
         return redirection
 
+def get_paginated_users(request):
+    default_order = 'date_joined'
+    ordering = request.GET.get('order_by', None)
+    if ordering is None:
+        ordering = default_order
+
+    users = User.objects.all().order_by(ordering).select_related('api_key__key')
+    paginator = Paginator(users, 5)
+
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+
+    return ordering, paginator.page(page)
 
 def login_view(request):
     username = password = ''
@@ -237,12 +251,13 @@ def user_activity(request, user_id):
                 'no_quizzes_completed': course.get_no_quizzes_completed(course,view_user),
                 'pretest_score': course.get_pre_test_score(course,view_user),
                 'no_activities_completed': course.get_activities_completed(course,view_user),
+                'no_media_viewed': course.get_media_viewed(course,view_user),
                 'no_points': course.get_points(course,view_user),
                 'no_badges': course.get_badges(course,view_user),}
         courses.append(data)
 
     order_options = ['course', 'no_quizzes_completed', 'pretest_score',
-                     'no_activities_completed','no_points', 'no_badges']
+                     'no_activities_completed','no_points', 'no_badges', 'no_media_viewed']
     default_order = 'course'
 
     ordering = request.GET.get('order_by', default_order)
@@ -443,34 +458,113 @@ def upload_view(request):
                                'results': results},
                               context_instance=RequestContext(request),)
 
-def export_users(request):
+def get_query(query_string, search_fields):
+    ''' Returns a query, that is a combination of Q objects. That combination
+        aims to search keywords within a model by testing the given search fields.
+
+    '''
+    query = None # Query to search in every field
+    for field_name in search_fields:
+        q = Q(**{"%s__icontains" % field_name: query_string})
+        query = q if query is None else (query | q)
+
+    return query
+
+def search_users(request):
 
     if not request.user.is_staff:
-        raise Http404
+        return HttpResponse('Unauthorized', status=401)
 
-    default_order = 'date_joined'
+    users = User.objects
+
+    filtered = False
+    search_form = UserSearchForm(request.GET,request.FILES)
+    if search_form.is_valid():
+        filters = {}
+        for row in search_form.cleaned_data:
+            if search_form.cleaned_data[row]:
+                if row is 'register_start_date':
+                    filters['date_joined__gte'] = search_form.cleaned_data[row]
+                elif row is 'register_end_date':
+                    filters['date_joined__lte'] = search_form.cleaned_data[row]
+                elif isinstance(search_form.fields[row], forms.CharField):
+                    filters["%s__icontains" % row] = search_form.cleaned_data[row]
+                else:
+                    filters[row] = search_form.cleaned_data[row]
+        if filters:
+            print filters
+            users = users.filter(**filters)
+            filtered = True
+
+    if not filtered:
+        users = users.all()
+
+    query_string = None
+    if ('q' in request.GET) and request.GET['q'].strip():
+        query_string = request.GET['q']
+        filter_query = get_query(query_string, ['username','first_name', 'last_name','email',])
+        users = users.filter(filter_query)
+
     ordering = request.GET.get('order_by', None)
     if ordering is None:
-        ordering = default_order
+        ordering = 'first_name'
 
-    users = User.objects.all().order_by(ordering).select_related('api_key__key')
-    paginator = Paginator(users, 5)
+    users = users.order_by(ordering)
+    paginator = Paginator(users, 10) # Show 25 per page
 
+    # Make sure page request is an int. If not, deliver first page.
     try:
         page = int(request.GET.get('page', '1'))
     except ValueError:
         page = 1
 
-    users = paginator.page(page)
+    try:
+        users = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        users = paginator.page(paginator.num_pages)
+
+    return render_to_response('oppia/profile/search_user.html',
+                              {
+                                'quicksearch':query_string,
+                                'search_form':search_form,
+                                'advanced_search':filtered,
+                                'page': users,
+                                'page_ordering':ordering
+                              },
+                              context_instance=RequestContext(request),)
+
+def export_users(request):
+
+    if not request.user.is_staff:
+        raise Http404
+
+    ordering, users = get_paginated_users(request)
     for user in users:
-        userObj = {}
         try:
-            apiKey = user.api_key.key
+            user.apiKey = user.api_key.key
         except ApiKey.DoesNotExist:
             #if the user doesn't have an apiKey yet, generate it
-            ApiKey.objects.create(user=user)
+            user.apiKey = ApiKey.objects.create(user=user).key
 
-    template = 'export_users_table.html' if request.is_ajax() else 'export_users.html'
+    template = 'export-users.html'
+    if request.is_ajax():
+        template = 'users-paginated-list.html'
+
     return render_to_response('oppia/profile/' + template,
-                              {'page': users, 'page_ordering':ordering},
+                              {
+                                  'page': users,
+                                  'page_ordering':ordering,
+                                  'users_list_template':'export'
+                              },
+                              context_instance=RequestContext(request),)
+
+def list_users(request):
+    ordering, users = get_paginated_users(request)
+    return render_to_response('oppia/profile/users-paginated-list.html',
+                              {
+                                  'page': users,
+                                  'page_ordering':ordering,
+                                  'users_list_template':'select',
+                                  'ajax_url':request.path
+                              },
                               context_instance=RequestContext(request),)

@@ -1,14 +1,37 @@
 OppiaMobile Server Change Log
 ================================
 
+.. _serverv0.9.5:
+
+v0.9.5 - not yet released
+--------------------------------
+
+* 304: Deprecation warning for Django 1.8 - http://github.com/DigitalCampus/django-oppia/issues/issue/304
+* 269: Add display of media/videos to the course and user views - http://github.com/DigitalCampus/django-oppia/issues/issue/269
 
 .. _serverv0.9.4:
 
-v0.9.4 - not yet released
+v0.9.4 - Released 2 May 2016
 --------------------------------
 
 * 289: Add default report for no badges (course completion rates) - http://github.com/DigitalCampus/django-oppia/issues/issue/289
 * 273: Refactor UserProfile model - http://github.com/DigitalCampus/django-oppia/issues/issue/273
+* 314: After logout, then logging in again the page redirects to logout again - http://github.com/DigitalCampus/django-oppia/issues/issue/314
+* 276: Add content development training course to docs - http://github.com/DigitalCampus/django-oppia/issues/issue/276
+* 313: Add architecture/workflow to docs - http://github.com/DigitalCampus/django-oppia/issues/issue/313
+* 305: Refactor usage of staticfiles - using django 1.8 method - http://github.com/DigitalCampus/django-oppia/issues/issue/305
+* 339: Quiz matching query does not exist - http://github.com/DigitalCampus/django-oppia/issues/issue/339
+* 303: Add option to reorder the columns in the tables - http://github.com/DigitalCampus/django-oppia/issues/issue/303
+* 284: Facility to export list of users for loading into the app - http://github.com/DigitalCampus/django-oppia/issues/issue/284
+* 207: Fix issue where activities may not have descriptions entered - http://github.com/DigitalCampus/django-oppia/issues/issue/207
+* 280: Improved error checking for video embed helper - http://github.com/DigitalCampus/django-oppia/issues/issue/280
+* 286: Implement the server side part of device admin API into the core - http://github.com/DigitalCampus/django-oppia/issues/issue/286
+* 284: Facility to export list of users for loading into the app - http://github.com/DigitalCampus/django-oppia/issues/issue/284
+* 300: Improve interface for managing cohorts - http://github.com/DigitalCampus/django-oppia/issues/issue/300
+* 302: Add option to search for users to get their activity - http://github.com/DigitalCampus/django-oppia/issues/issue/302
+
+.. note::
+ 	Make sure that django.contrib.staticfiles is included in your INSTALLED_APPS setting (for issue #305 above)
 
 .. _serverv0.9.3:
 

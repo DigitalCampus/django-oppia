@@ -1,10 +1,60 @@
 OppiaMobile Android App Change Log
 ====================================
 
+.. _appv60:
+
+v60 (6.1.0) - Not yet released 
+--------------------------------------
+
+* 527: Improved error messages when connecting to Oppia server - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/527
+* 510: Invalidate user apiKey? - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/510
+* 526: In quiz activity - if user has passed then show option to continue rather than retake - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/526
+* 459: Allow max no attempts for quizzes - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/459
+* 555: ListPreference requires an entries array and an entryValues array - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/555
+* 552: Error on logging in : android.view.WindowLeaked - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/552
+
+.. _appv59:
+
+v59 (6.0.2) - Released 7 May 2016
+--------------------------------------
+
+* Hotfix for video player
+
+.. _appv58:
+
+v58 (6.0.1) - Released 6 May 2016
+--------------------------------------
+
+* 490: Add option to show the logged in user - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/490
+* 421: context menu of the main activity into a drawer - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/421
+* 360: Look at how to reorganise menu options - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/360
+* 538: Add mp3 as supported file type - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/538
+* 338: On download courses page if no connection then close activity too - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/338
+* 533: Update drawer header so the logo is pulled from the one specified for the app - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/533 
+* 529: Show message when no tags/courses are available - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/529
+* 534: Display message in scorecard if no courses installed - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/534
+* 540: Occassional Null Pointer Exception on UIUtils.java:155 - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/540
+* 514: Copy in the mquiz-jar classes - rather than having as separate jar - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/514
+* 531: Permissions management in Android M - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/531
+
+.. note:: 
+	Starting with the release of the OppiaMobile Android App v57 (6.0.0), we will be moving to using Android Studio as the 
+	supported development environment. This is an important note since the project structure will change significantly.
+
+
+.. _appv57:
+
+v57 (6.0.0) - Released skipped
+--------------------------------------
+
+Release skipped since we found some more issues with supporting SD cards in Android v4.4.2, this has been fixed in 
+release v58 above.
+
+
 .. _appv56:
 
-v56 (5.5.0) - not yet released
------------------------------------
+v56 (5.5.0) - released 21 March 2016
+--------------------------------------
 
 * 473: Add options for display or not for the menu options - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/473
 * 418: Not connecting to get course download list - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/418

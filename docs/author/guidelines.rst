@@ -1,7 +1,14 @@
 General guidelines for course content
 =======================================
 
-These are some general rules of thumb that we have found useful when developing courses so they ‘look good’ on the mobile device, although clearly much depends on the screen size of the devices your learners are using:
+
+.. note::
+	If you are copying and pasting content over from a Word or PDF document, you may find that extra (unnecessary) 
+	styling is also	copied over into the HTML editor field in Moodle. To remove this use the 'clear formatting' option 
+	in the Moodle editor.
+
+These are some general rules of thumb that we have found useful when developing courses so they ‘look good’ on the 
+mobile device, although clearly much depends on the screen size of the devices your learners are using:
 
 * Number of sections/topics per course module: up to 10 sections/topics.
 * Activity titles: we’ve found that about 4-6 words max will work best when 
@@ -17,7 +24,7 @@ These are some general rules of thumb that we have found useful when developing 
   the course/activity icons are automatically resized on export, other images 
   contained within the activities are not. Best to keep an image files below 
   about 400px wide.
-* Video content: long videos may be uncomfortable to view on a small screen, we 
+* Media content: long videos may be uncomfortable to view on a small screen, we 
   suggest keeping videos quite short (less than 3-5 mins). Consider splitting 
   you videos into different parts if you really need to include long video 
   content. As with images, try to keep the video filesize as low as possible, 
