@@ -285,82 +285,76 @@ def upload_step2(request, course_id):
                                'title':_(u'Upload Course - step 2')},
                               context_instance=RequestContext(request))
 
+def generate_graph_data(dates_types_stats, is_monthly=False):
+    dates = []
+
+    current_date = None
+    current_stats = {}
+
+    for date in dates_types_stats:
+        if is_monthly:
+            #depending if it is monthly or daily, we parse differently the day "tag"
+            day = datetime.date(month=date['month'], year=date['year'], day=1).strftime("%b %y")
+        else:
+            day = date['day'].strftime("%d %b %y")
+
+        if current_date is None or day != current_date:
+            if current_date != None:
+                dates.append([current_date, current_stats])
+            current_date = day  
+            current_stats = {'page':0, 'quiz':0, 'media':0, 'resource':0, 'monitor': 0, 'total':0}
+
+        current_stats[date['type']] = date['total']
+        current_stats['total'] += date['total']
+
+    if current_date is not None:
+        dates.append([current_date, current_stats])
+
+    return dates
+
 
 def recent_activity(request,course_id):
+
     course, response = can_view_course_detail(request, course_id)
-    
+
     if response is not None:
         return response
-    
+
     dashboard_accessed.send(sender=None, request=request, data=course)
-    
+
     start_date = datetime.datetime.now() - datetime.timedelta(days=31)
     end_date = datetime.datetime.now()
     interval = 'days'
-    
+
     if request.method == 'POST':
         form = DateRangeIntervalForm(request.POST)
         if form.is_valid():
-            start_date = form.cleaned_data.get("start_date")  
-            start_date = datetime.datetime.strptime(start_date,"%Y-%m-%d")
+            start_date = form.cleaned_data.get("start_date")
+            start_date = datetime.datetime.strptime(start_date + " 00:00:00","%Y-%m-%d %H:%M:%S")
             end_date = form.cleaned_data.get("end_date")
-            end_date = datetime.datetime.strptime(end_date,"%Y-%m-%d") 
-            interval =  form.cleaned_data.get("interval")               
+            end_date = datetime.datetime.strptime(end_date + " 23:59:59","%Y-%m-%d %H:%M:%S")
+            interval =  form.cleaned_data.get("interval")
     else:
         data = {}
         data['start_date'] = start_date
         data['end_date'] = end_date
         data['interval'] = interval
         form = DateRangeIntervalForm(initial=data)
-    
+
     dates = []
     if interval == 'days':
-        no_days = (end_date-start_date).days + 1
-        
-        for i in range(0,no_days,+1):
-            temp = start_date + datetime.timedelta(days=i)
-            day = temp.strftime("%d")
-            month = temp.strftime("%m")
-            year = temp.strftime("%Y")
-            count_objs = Tracker.objects.filter(course=course,tracker_date__day=day,tracker_date__month=month,tracker_date__year=year).values('type').annotate(total=Count('type'))
-            count_activity = {'page':0, 'quiz':0, 'media':0, 'resource':0, 'monitor': 0, 'total':0}
-            for co in count_objs:
-                if co['type'] in count_activity:
-                    count_activity[co['type']] = count_activity[co['type']] + co['total']
-                    count_activity['total'] = count_activity['total'] + co['total']
-                else:
-                    count_activity[co['type']] = 0
-                    count_activity[co['type']] = count_activity[co['type']] + co['total']
-                    count_activity['total'] = count_activity['total'] + co['total']
-            
-            dates.append([temp.strftime("%d %b %y"),count_activity])
+        daily_stats = Tracker.objects\
+            .filter(course=course,tracker_date__gte=start_date, tracker_date__lte=end_date)\
+            .extra({'day':"date(tracker_date)"}).values('day','type').annotate(total=Count('type'))
+        dates = generate_graph_data(daily_stats, False)
+
     else:
-        delta = relativedelta(months=+1)  
-        no_months = 0
-        tmp_date = start_date
-        while tmp_date <= end_date:
-            print tmp_date
-            tmp_date += delta
-            no_months += 1
-            
-        for i in range(0,no_months,+1):
-            temp = start_date + relativedelta(months=+i)
-            month = temp.strftime("%m")
-            year = temp.strftime("%Y")
-            count_objs = Tracker.objects.filter(course=course,tracker_date__month=month,tracker_date__year=year).values('type').annotate(total=Count('type'))
-            count_activity = {'page':0, 'quiz':0, 'media':0, 'resource':0, 'monitor': 0, 'total':0}
-            for co in count_objs:
-                if co['type'] in count_activity:
-                    count_activity[co['type']] = count_activity[co['type']] + co['total']
-                    count_activity['total'] = count_activity['total'] + co['total']
-                else:
-                    count_activity[co['type']] = 0
-                    count_activity[co['type']] = count_activity[co['type']] + co['total']
-                    count_activity['total'] = count_activity['total'] + co['total']
-            
-            dates.append([temp.strftime("%b %y"),count_activity])
-        
-        
+        monthly_stats = Tracker.objects\
+            .filter(course=course,tracker_date__gte=start_date, tracker_date__lte=end_date)\
+            .extra({'month':"month(tracker_date)", 'year':"year(tracker_date)"})\
+            .values('month','year','type').order_by('year','month').annotate(total=Count('type'))
+        dates = generate_graph_data(monthly_stats, True)
+
     leaderboard = Points.get_leaderboard(10, course)
     return render_to_response('oppia/course/activity.html',
                               {'course': course,
@@ -840,6 +834,7 @@ def cohort_course_view(request, cohort_id, course_id):
         student_activity.append([temp.strftime("%d %b %Y"),count])
      
     students = []
+    media_count = course.get_no_media()
     for user in users:
         data = {'user': user,
                 'no_quizzes_completed': course.get_no_quizzes_completed(course,user),
@@ -847,10 +842,12 @@ def cohort_course_view(request, cohort_id, course_id):
                 'no_activities_completed': course.get_activities_completed(course,user),
                 'no_points': course.get_points(course,user),
                 'no_badges': course.get_badges(course,user),}
+        if media_count > 0:
+            data['no_media_viewed'] = course.get_media_viewed(course,user)
         students.append(data)
 
     order_options = ['user', 'no_quizzes_completed', 'pretest_score',
-                     'no_activities_completed','no_points', 'no_badges']
+                     'no_activities_completed','no_points', 'no_badges', 'no_media_viewed']
     default_order = 'user'
 
     ordering = request.GET.get('order_by', default_order)
@@ -866,7 +863,8 @@ def cohort_course_view(request, cohort_id, course_id):
        
     return render_to_response('oppia/course/cohort-course-activity.html',
                               {'course': course,
-                               'cohort': cohort, 
+                               'cohort': cohort,
+                               'course_media_count':media_count,
                                'activity_graph_data': student_activity,
                                'page_ordering': ('-' if inverse_order else '') + ordering,
                                'students': students }, 
