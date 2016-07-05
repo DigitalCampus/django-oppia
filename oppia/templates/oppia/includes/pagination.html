@@ -20,7 +20,11 @@
         <li class="active"><a href="{{ ajax_url }}{% query_string "" "page" %}&page={{ page.number }}"> {{ page.number }} <span class="sr-only"> {{ page.number }}</span></a></li>
         {% if page.next_page_number != page.paginator.num_pages %}
             <li><a href="{{ ajax_url }}{% query_string "" "page" %}&page={{ page.next_page_number }}"> {{ page.next_page_number }} <span class="sr-only"> {{ page.next_page_number }}</span></a></li>
-            <li><span>...</span></li>
+            {% with page.next_page_number|add:"1" as secondnext_page %}
+                {% if secondnext_page != page.paginator.num_pages %}
+                    <li><span>...</span></li>
+                {% endif %}
+            {% endwith %}
         {% endif %}
 
       {% if page.has_next %}<li><a href="{{ ajax_url }}{% query_string "" "page" %}&page={{ page.paginator.num_pages }}"> {{ page.paginator.num_pages }} <span class="sr-only"> {{ page.paginator.num_pages }}</span></a></li>{% endif %}
