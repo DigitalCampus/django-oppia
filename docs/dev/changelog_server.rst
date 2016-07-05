@@ -6,6 +6,7 @@ OppiaMobile Server Change Log
 v0.9.5 - not yet released
 --------------------------------
 
+* 304: Deprecation warning for Django 1.8 - http://github.com/DigitalCampus/django-oppia/issues/issue/304
 
 .. _serverv0.9.4:
 
