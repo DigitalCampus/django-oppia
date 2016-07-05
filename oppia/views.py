@@ -840,6 +840,7 @@ def cohort_course_view(request, cohort_id, course_id):
         student_activity.append([temp.strftime("%d %b %Y"),count])
      
     students = []
+    media_count = course.get_no_media()
     for user in users:
         data = {'user': user,
                 'no_quizzes_completed': course.get_no_quizzes_completed(course,user),
@@ -847,10 +848,12 @@ def cohort_course_view(request, cohort_id, course_id):
                 'no_activities_completed': course.get_activities_completed(course,user),
                 'no_points': course.get_points(course,user),
                 'no_badges': course.get_badges(course,user),}
+        if media_count > 0:
+            data['no_media_viewed'] = course.get_media_viewed(course,user)
         students.append(data)
 
     order_options = ['user', 'no_quizzes_completed', 'pretest_score',
-                     'no_activities_completed','no_points', 'no_badges']
+                     'no_activities_completed','no_points', 'no_badges', 'no_media_viewed']
     default_order = 'user'
 
     ordering = request.GET.get('order_by', default_order)
@@ -866,7 +869,8 @@ def cohort_course_view(request, cohort_id, course_id):
        
     return render_to_response('oppia/course/cohort-course-activity.html',
                               {'course': course,
-                               'cohort': cohort, 
+                               'cohort': cohort,
+                               'course_media_count':media_count,
                                'activity_graph_data': student_activity,
                                'page_ordering': ('-' if inverse_order else '') + ordering,
                                'students': students }, 
