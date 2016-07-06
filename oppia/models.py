@@ -15,6 +15,7 @@ from tastypie.models import create_api_key
 
 from xml.dom.minidom import *
 
+
 models.signals.post_save.connect(create_api_key, sender=User)
     
 class Course(models.Model):
@@ -702,19 +703,25 @@ class Points(models.Model):
     
     @staticmethod
     def get_leaderboard(count=0, course=None):
-        users = User.objects.all()
+
+        from oppia.summary.models import UserCourseSummary
+        users = UserCourseSummary.objects
         if course is not None:
-            users = users.filter(points__course=course)
-        users = users.annotate(total=Sum('points__points')).order_by('-total')
+            users = users.filter(course=course)
+
+        usersPoints = users.values('user').annotate(total=Sum('points'), badges=Sum('badges_achieved')).order_by('-total')
+
         if count > 0:
-            users = users[:count]
+            usersPoints = usersPoints[:count]
 
-        for u in users:
-            u.badges = Award.get_userawards(u,course)
-            if u.total is None:
-                u.total = 0
+        leaderboard = []
+        for u in usersPoints:
+            user = User.objects.get(pk=u['user'])
+            user.badges = 0 if u['badges'] is None else u['badges']
+            user.total = 0 if u['total'] is None else u['total']
+            leaderboard.append(user)
 
-        return users
+        return leaderboard
     
     
     @staticmethod
