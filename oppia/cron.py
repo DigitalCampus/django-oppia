@@ -11,14 +11,17 @@ def run(hours):
     print 'Starting OppiaMobile cron...'
     now = time.time()
     path = settings.COURSE_UPLOAD_DIR + "temp"
-    print 'Cleaning up: ' + path
-    for f in os.listdir(path):
-        f = os.path.join(path, f)
-        if os.stat(f).st_mtime < now - 3600*6:
-            print f
-            if os.path.isfile(f):
-                os.remove(f)
-    
+
+    if os.path.exists(path):
+        print 'Cleaning up: ' + path
+        for f in os.listdir(path):
+            f = os.path.join(path, f)
+            if os.stat(f).st_mtime < now - 3600*6:
+                print f
+                if os.path.isfile(f):
+                    os.remove(f)
+    else:
+        print '{path} does not exist. Don\'t need to clean it'.format(path=path)
 
     courses_completed(int(hours))           
     print 'cron completed'
