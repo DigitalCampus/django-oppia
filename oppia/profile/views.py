@@ -28,6 +28,7 @@ from oppia.profile.forms import LoginForm, RegisterForm, ResetForm, ProfileForm,
 from oppia.profile.models import UserProfile
 from oppia.quiz.models import Quiz, QuizAttempt
 from oppia.reports.signals import dashboard_accessed
+from oppia.summary.models import UserCourseSummary
 
 
 def filterRedirect(requestContent):
@@ -247,13 +248,14 @@ def user_activity(request, user_id):
 
     courses = []
     for course in all_courses:
+        course_stats = UserCourseSummary.objects.filter(user=view_user, course=course)[0]
         data = {'course': course,
-                'no_quizzes_completed': course.get_no_quizzes_completed(course,view_user),
-                'pretest_score': course.get_pre_test_score(course,view_user),
-                'no_activities_completed': course.get_activities_completed(course,view_user),
-                'no_media_viewed': course.get_media_viewed(course,view_user),
-                'no_points': course.get_points(course,view_user),
-                'no_badges': course.get_badges(course,view_user),}
+                'no_quizzes_completed': course_stats.quizzes_passed ,
+                'pretest_score': course_stats.pretest_score,
+                'no_activities_completed': course_stats.completed_activities,
+                'no_media_viewed': course_stats.media_viewed,
+                'no_points': course_stats.points,
+                'no_badges': course_stats.badges_achieved,}
         courses.append(data)
 
     order_options = ['course', 'no_quizzes_completed', 'pretest_score',

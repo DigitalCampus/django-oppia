@@ -1,12 +1,14 @@
 # oppia/reports/views.py
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.db.models import Sum, Count
 from django.http.response import HttpResponse, Http404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
 
 from oppia.models import Course, Badge, Award, AwardCourse
+from oppia.summary.models import UserCourseSummary
 
 
 def menu_reports(request):
@@ -21,21 +23,23 @@ def completion_rates(request):
         return response
 
     courses_list = []
+    course_stats = list (UserCourseSummary.objects.filter(course__in=courses).values('course').annotate(users=Count('user'), completed=Sum('badges_achieved') ))
+
     for course in courses:
         obj = {}
         obj['course'] = course
 
-        courseActivities = course.get_no_activities()
-        no_users = User.objects.filter(tracker__course=course).distinct().count()
+        for stats in course_stats:
+            if stats['course'] == course.id:
+                no_users = stats['users']
+                obj['enroled'] = no_users
+                if no_users > 0:
+                    obj['completion'] = (float(stats['completed']) / float(no_users)) * 100
+                else:
+                    obj['completion'] = 0
+                course_stats.remove(stats) #remove the element to optimize next searchs
+                continue
 
-        awards_given = AwardCourse.objects.filter(course=course).count()
-
-        obj['enroled'] = no_users
-        if no_users > 0:
-            obj['completion'] = (float(awards_given) / float(no_users)) * 100
-        else:
-            obj['completion'] = 0
-            
         courses_list.append(obj)
 
     return render_to_response('oppia/reports/completion_rates.html',
@@ -56,10 +60,11 @@ def course_completion_rates(request,course_id):
     users_incompleted = []
 
     courseActivities = course.get_no_activities()
-    users = User.objects.filter(tracker__course=course).distinct()
-    for user in users:
-        userActivities = Course.get_activities_completed(course, user)
-        userObj = {'user': user}
+    users_stats = UserCourseSummary.objects.filter(course=course_id).order_by('user')
+
+    for user_stats in users_stats:
+        userActivities = user_stats.completed_activities
+        userObj = {'user': user_stats.user}
         userObj['activities_completed'] = userActivities
         userObj['completion_percent'] = (userActivities * 100 / courseActivities)
         if (userActivities >= courseActivities):
