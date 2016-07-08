@@ -1,14 +1,31 @@
 OppiaMobile Server Change Log
 ================================
 
+.. _serverv0.9.6:
+
+v0.9.6 - not yet released
+--------------------------------
+
+
+
 .. _serverv0.9.5:
 
-v0.9.5 - not yet released
+v0.9.5 - Released 8 Jul 2016
 --------------------------------
+
+.. note::
+ 	This release implements significant performance improvements on the server dashboard and has been achieved by 
+ 	caching a lot of the data needed to generate the activity graphs and progress. After updating to this version, you 
+ 	will need to check that a regular cron task is set up to run the `oppia/summary/cron.py` script. It may take some 
+ 	time (10 mins+) to run the first time if you have a lot of existing data, but after that each time the cron task is 
+ 	run should take only a few seconds. If the cron task is not set up to run, then you will not see any activity in the 
+ 	dashboard graphs.
 
 * 304: Deprecation warning for Django 1.8 - http://github.com/DigitalCampus/django-oppia/issues/issue/304
 * 269: Add display of media/videos to the course and user views - http://github.com/DigitalCampus/django-oppia/issues/issue/269
 * 331: Cron task gives error if `uploads/temp` dir doesn't exist - http://github.com/DigitalCampus/django-oppia/issues/issue/331
+* 323: Performance issues when loading dashboard with a lot of data - http://github.com/DigitalCampus/django-oppia/issues/issue/323
+* 243: Dashboard homepage and course pages very slow - http://github.com/DigitalCampus/django-oppia/issues/issue/243
 
 .. _serverv0.9.4:
 
