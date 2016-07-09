@@ -14,8 +14,8 @@ there to help get you started and demonstrate some of the features available.
 You can either update or remove these if you don't need them.
 
 When you're on the course homepage press the 'turn editing on' button in the top
-right then you get the options to add/edit activities/resources etc - for the 
-videos essentially you'll need to just to create "page resources". 
+right then you get the options to add/edit activities/resources etc - for media 
+essentially you'll need to just to create "page resources". 
 
 For information about specific aspects of course creation for OppiaMobile, see:
 

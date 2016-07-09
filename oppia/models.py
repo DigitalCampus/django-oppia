@@ -5,7 +5,7 @@ import json
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Max, Sum, Q, F
+from django.db.models import Max, Sum, Q, F, Count
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
@@ -14,6 +14,7 @@ from oppia.quiz.models import Quiz, QuizAttempt
 from tastypie.models import create_api_key
 
 from xml.dom.minidom import *
+
 
 models.signals.post_save.connect(create_api_key, sender=User)
     
@@ -116,6 +117,9 @@ class Course(models.Model):
     
     def get_no_quizzes(self):
         return Activity.objects.filter(section__course=self,type=Activity.QUIZ,baseline=False).count()
+
+    def get_no_media(self):
+        return Media.objects.filter(course=self).count()
     
     @staticmethod
     def get_pre_test_score(course,user):
@@ -154,6 +158,12 @@ class Course(models.Model):
     @staticmethod
     def get_badges(course,user):
         return Award.objects.filter(user=user,awardcourse__course=course).count()
+
+    @staticmethod
+    def get_media_viewed(course,user):
+        acts = Media.objects.filter(course=course).values_list('digest')
+        return Tracker.objects.filter(course=course,user=user,digest__in=acts).values_list('digest').distinct().count()
+
         
  
 class CourseManager(models.Model):
@@ -693,21 +703,25 @@ class Points(models.Model):
     
     @staticmethod
     def get_leaderboard(count=0, course=None):
-        users = User.objects.all()
-        
+
+        from oppia.summary.models import UserCourseSummary
+        users = UserCourseSummary.objects
         if course is not None:
-            users = users.filter(points__course=course)
-               
-        if count == 0:
-            users = users.annotate(total=Sum('points__points')).order_by('-total')
-        else:
-            users = users.annotate(total=Sum('points__points')).order_by('-total')[:count]
-            
-        for u in users:
-            u.badges = Award.get_userawards(u,course)
-            if u.total is None:
-                u.total = 0
-        return users
+            users = users.filter(course=course)
+
+        usersPoints = users.values('user').annotate(total=Sum('points'), badges=Sum('badges_achieved')).order_by('-total')
+
+        if count > 0:
+            usersPoints = usersPoints[:count]
+
+        leaderboard = []
+        for u in usersPoints:
+            user = User.objects.get(pk=u['user'])
+            user.badges = 0 if u['badges'] is None else u['badges']
+            user.total = 0 if u['total'] is None else u['total']
+            leaderboard.append(user)
+
+        return leaderboard
     
     
     @staticmethod
