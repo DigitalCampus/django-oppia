@@ -167,19 +167,25 @@ def render_courses_list(request, courses, params=None):
     except ValueError:
         page = 1
 
+    course_stats = list (UserCourseSummary.objects.filter(course__in=courses).values('course').annotate(distinct=Count('user'), total=Sum('total_downloads') ))
+
     try:
         courses = paginator.page(page)
     except (EmptyPage, InvalidPage):
         courses = paginator.page(paginator.num_pages)
 
+
     for course in courses:
         access_detail, response = can_view_course_detail(request,course.id)
         course.can_edit = can_edit_course(request,course.id)
-        if access_detail is not None:
-            course.access_detail = True
-        else:
-            course.access_detail = False
+        course.access_detail = access_detail is not None
 
+        for stats in course_stats:
+            if stats['course'] == course.id:
+                course.distinct_downloads = stats['distinct']
+                course.total_downloads = stats['total']
+                course_stats.remove(stats) #remove the element to optimize next searchs
+                continue
 
     params['page'] = courses
     params['tag_list'] = tag_list
@@ -207,29 +213,7 @@ def courses_list_view(request):
             return response
 
         dashboard_accessed.send(sender=None, request=request, data=None)
-
-        tag_list = Tag.objects.all().exclude(coursetag=None).order_by('name')
-        course_stats = list (UserCourseSummary.objects.filter(course__in=courses).values('course').annotate(distinct=Count('user'), total=Sum('total_downloads') ))
-        courses_list = []
-
-        for course in courses:
-            obj = {}
-            obj['course'] = course
-            access_detail, response = can_view_course_detail(request,course.id)
-            obj['access_detail'] = access_detail is not None
-
-            for stats in course_stats:
-                if stats['course'] == course.id:
-                    obj['distinct_downloads'] = stats['distinct']
-                    obj['total_downloads'] = stats['total']
-                    course_stats.remove(stats) #remove the element to optimize next searchs
-                    continue
-
-            courses_list.append(obj)
-
-        return render_to_response('oppia/course/courses-list.html',
-                              {'courses_list': courses_list, 
-                               'tag_list': tag_list}, 
+        return render_courses_list(request, courses)
 
 
 def course_download_view(request, course_id):
