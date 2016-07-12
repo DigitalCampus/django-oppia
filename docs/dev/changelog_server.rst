@@ -6,7 +6,10 @@ OppiaMobile Server Change Log
 v0.9.6 - not yet released
 --------------------------------
 
-
+* 177: Add previous/next options for courses - now getting to be long list - http://github.com/DigitalCampus/django-oppia/issues/issue/177
+* 306: Display course progress graphically - http://github.com/DigitalCampus/django-oppia/issues/issue/306
+* 327: On courses list page add option to filter by draft and archived courses - http://github.com/DigitalCampus/django-oppia/issues/issue/327
+* 337: On courses list page add option to edit the course - http://github.com/DigitalCampus/django-oppia/issues/issue/337
 
 .. _serverv0.9.5:
 
