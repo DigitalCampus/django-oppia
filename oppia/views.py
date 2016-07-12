@@ -148,6 +148,53 @@ def teacher_home_view(request):
                                'activity_graph_data': activity, }, 
                               context_instance=RequestContext(request))
 
+def render_courses_list(request, courses, params=None):
+
+    if params is None:
+        params = {}
+
+    course_filter = request.GET.get('visibility', '')
+    if course_filter == 'draft':
+        courses = courses.filter(is_draft=True)
+    elif course_filter == 'archived':
+        courses = courses.filter(is_archived=True)
+
+    tag_list = Tag.objects.all().exclude(coursetag=None).order_by('name')
+    paginator = Paginator(courses, 25) # Show 25 per page
+    # Make sure page request is an int. If not, deliver first page.
+    try:
+        page = int(request.GET. get('page', '1'))
+    except ValueError:
+        page = 1
+
+    course_stats = list (UserCourseSummary.objects.filter(course__in=courses).values('course').annotate(distinct=Count('user'), total=Sum('total_downloads') ))
+
+    try:
+        courses = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        courses = paginator.page(paginator.num_pages)
+
+
+    for course in courses:
+        access_detail, response = can_view_course_detail(request,course.id)
+        course.can_edit = can_edit_course(request,course.id)
+        course.access_detail = access_detail is not None
+
+        for stats in course_stats:
+            if stats['course'] == course.id:
+                course.distinct_downloads = stats['distinct']
+                course.total_downloads = stats['total']
+                course_stats.remove(stats) #remove the element to optimize next searchs
+                continue
+
+    params['page'] = courses
+    params['tag_list'] = tag_list
+    params['course_filter'] = course_filter
+
+    return render_to_response('oppia/course/courses-list.html', params,
+                          context_instance=RequestContext(request))
+
+
 def courses_list_view(request):
 
     if request.is_ajax():
@@ -166,30 +213,8 @@ def courses_list_view(request):
             return response
 
         dashboard_accessed.send(sender=None, request=request, data=None)
+        return render_courses_list(request, courses)
 
-        tag_list = Tag.objects.all().exclude(coursetag=None).order_by('name')
-        course_stats = list (UserCourseSummary.objects.filter(course__in=courses).values('course').annotate(distinct=Count('user'), total=Sum('total_downloads') ))
-        courses_list = []
-
-        for course in courses:
-            obj = {}
-            obj['course'] = course
-            access_detail, response = can_view_course_detail(request,course.id)
-            obj['access_detail'] = access_detail is not None
-
-            for stats in course_stats:
-                if stats['course'] == course.id:
-                    obj['distinct_downloads'] = stats['distinct']
-                    obj['total_downloads'] = stats['total']
-                    course_stats.remove(stats) #remove the element to optimize next searchs
-                    continue
-
-            courses_list.append(obj)
-
-        return render_to_response('oppia/course/courses-list.html',
-                              {'courses_list': courses_list, 
-                               'tag_list': tag_list}, 
-                              context_instance=RequestContext(request))
 
 def course_download_view(request, course_id):
     try:
@@ -210,23 +235,8 @@ def tag_courses_view(request, tag_id):
     courses = courses.filter(coursetag__tag__pk=tag_id)
 
     dashboard_accessed.send(sender=None, request=request, data=None)
+    return render_courses_list(request, courses, {'current_tag': tag_id})
 
-    courses_list = []
-    for course in courses:
-        obj = {}
-        obj['course'] = course
-        access_detail, response = can_view_course_detail(request,course.id)
-        if access_detail is not None:
-            obj['access_detail'] = True
-        else:
-            obj['access_detail'] = False
-        courses_list.append(obj)
-    tag_list = Tag.objects.all().order_by('name')
-    return render_to_response('oppia/course/courses-list.html',
-                              {'courses_list': courses_list,
-                               'tag_list': tag_list,
-                               'current_tag': id},
-                              context_instance=RequestContext(request))
         
 def upload_step1(request):
     if not request.user.userprofile.get_can_upload():
@@ -249,8 +259,11 @@ def upload_step1(request):
                                'title':_(u'Upload Course - step 1')},
                               context_instance=RequestContext(request))
 
-def upload_step2(request, course_id):
-    if not request.user.userprofile.get_can_upload():
+def upload_step2(request, course_id, editing=False):
+
+    if editing and not can_edit_course(request, course_id):
+        return HttpResponse('Unauthorized', status=401)
+    elif not request.user.userprofile.get_can_upload():
         return HttpResponse('Unauthorized', status=401)
         
     course = Course.objects.get(pk=course_id)
@@ -282,14 +295,19 @@ def upload_step2(request, course_id):
                             ct.course = course
                             ct.tag = tag
                             ct.save()
-                return HttpResponseRedirect('success/') # Redirect after POST
+
+                redirect = 'oppia_course' if editing else 'oppia_upload_success'
+                return HttpResponseRedirect(reverse(redirect)) # Redirect after POST
     else:
         form = UploadCourseStep2Form(initial={'tags':course.get_tags(),
                                     'is_draft':course.is_draft,}) # An unbound form
 
+    page_title = _(u'Upload Course - step 2') if not editing else _(u'Edit course')
     return render_to_response('oppia/upload.html', 
                               {'form': form,
-                               'title':_(u'Upload Course - step 2')},
+                               'course_title':course.title,
+                               'editing':editing,
+                               'title':page_title},
                               context_instance=RequestContext(request))
 
 def generate_graph_data(dates_types_stats, is_monthly=False):
