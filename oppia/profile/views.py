@@ -308,16 +308,24 @@ def user_course_activity_view(request, user_id, course_id):
     course = can_view_course(request, course_id)
 
     act_quizzes = Activity.objects.filter(section__course=course,type=Activity.QUIZ).order_by('section__order','order')
+
+    quizzes_attempted = 0
+    quizzes_passed = 0
+    course_pretest = None
+
     quizzes = []
     for aq in act_quizzes:
         try:
             quiz = Quiz.objects.get(quizprops__value=aq.digest, quizprops__name="digest")
         except Quiz.DoesNotExist:
             quiz = None
-            
+
+
         attempts = QuizAttempt.objects.filter(quiz=quiz, user=view_user)
         num_attempts = attempts.count()
+        passed = False
         if num_attempts > 0:
+
             quiz_maxscore = float(attempts[0].maxscore)
             attemps_stats = attempts.aggregate(max=Max('score'), min=Min('score'), avg=Avg('score'))
             max_score = 100*float(attemps_stats['max']) / quiz_maxscore
@@ -327,6 +335,14 @@ def user_course_activity_view(request, user_id, course_id):
             recent_date = attempts.aggregate(date=Max('attempt_date'))['date']
             first_score = 100*float(attempts.filter(attempt_date = first_date)[0].score) / quiz_maxscore
             latest_score = 100*float(attempts.filter(attempt_date = recent_date)[0].score) / quiz_maxscore
+
+            passed = max_score is not None and max_score > 75
+            if aq.section.order == 0:
+                course_pretest = first_score
+            else:
+                quizzes_attempted += 1
+                quizzes_passed = (quizzes_passed + 1) if passed else quizzes_passed
+
         else:
             max_score = None
             min_score = None
@@ -342,8 +358,13 @@ def user_course_activity_view(request, user_id, course_id):
                 'first_score': first_score,
                 'latest_score': latest_score,
                 'avg_score': avg_score,
+                'passed': passed
                  }
         quizzes.append(quiz)
+
+    activities_completed = course.get_activities_completed(course,view_user)
+    activities_total = course.get_no_activities()
+    activities_percent = (activities_completed * 100) / activities_total
 
     activity = []
     start_date = timezone.now() - datetime.timedelta(days=31)
@@ -379,6 +400,12 @@ def user_course_activity_view(request, user_id, course_id):
                               {'view_user': view_user,
                                'course': course,
                                'quizzes': quizzes,
+                               'quizzes_passed':quizzes_passed,
+                               'quizzes_attempted':quizzes_attempted,
+                               'pretest_score': course_pretest,
+                               'activities_completed': activities_completed,
+                               'activities_total': activities_total,
+                               'activities_percent': activities_percent,
                                'page_ordering': ('-' if inverse_order else '') + ordering,
                                'activity_graph_data': activity },
                               context_instance=RequestContext(request))
