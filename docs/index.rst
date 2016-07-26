@@ -18,7 +18,7 @@ Contents:
    features
    dev/index
    author/author
-   permissions
+   permissions/index
    dashboard/index
    gamification
    viz/index

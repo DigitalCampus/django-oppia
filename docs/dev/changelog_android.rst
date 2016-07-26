@@ -18,6 +18,8 @@ v60 (6.1.0) - Not yet released
 * 480: How to pre-load accounts onto the device - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/480
 * 559: java.lang.IllegalStateException: Activity has been destroyed - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/559
 * 477: Look at what would be needed to allow categories of courses - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/477
+* 564: App shuts down when having installed a course by copying onto the sd card - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/564
+* 549: Adding BugSense/Mint API key in non-Git file - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/549
 
 .. _appv59:
 
