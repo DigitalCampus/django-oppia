@@ -23,7 +23,8 @@ class UserCourseSummaryAdmin(admin.ModelAdmin):
 
 class CourseDailyStatsAdmin(admin.ModelAdmin):
     list_display = ('course', 'day', 'type', 'total')
-
+    date_hierarchy = 'day'
+    ordering = '-day',
     actions = ['update_summary']
 
     def update_summary(self, request, queryset):
