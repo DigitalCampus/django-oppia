@@ -4,6 +4,10 @@
 import time
 
 from datetime import date
+
+from django.db import models
+
+import oppia
 from django.contrib.auth.models import User
 from django.db.models import Count
 
@@ -21,8 +25,14 @@ def run():
 
     #get last tracker and points PKs to be processed
     # (to avoid leaving some out if new trackers arrive while processing)
-    newest_tracker_pk = Tracker.objects.latest('id').id
-    newest_points_pk  = Points.objects.latest('id').id
+    try:
+        newest_tracker_pk = Tracker.objects.latest('id').id
+        newest_points_pk  = Points.objects.latest('id').id
+    except oppia.models.Tracker.DoesNotExist:
+        print "Tracker table is empty. Aborting cron..."
+        return
+    except oppia.models.Points.DoesNotExist:
+        newest_points_pk = last_points_pk
 
     print ('Last tracker processed: %d\nNewest tracker: %d\n' % (last_tracker_pk, newest_tracker_pk))
     if last_tracker_pk >= newest_tracker_pk:
