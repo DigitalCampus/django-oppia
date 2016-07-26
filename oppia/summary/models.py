@@ -42,10 +42,16 @@ class UserCourseSummary (models.Model):
         ### Add the values that are directly obtained from the last pks
         self.total_activity  = (0 if first_tracker else self.total_activity) + selfTrackers.count()
         self.total_downloads = (0 if first_tracker else self.total_downloads) + selfTrackers.filter(type='download').count()
-        new_points = Points.objects.filter(pk__gt=last_points_pk, pk__lte=newest_points_pk, course=self.course,user=self.user)\
-                                     .aggregate(total=Sum('points'))['total']
+
+        new_points = Points.objects
+        if newest_points_pk > 0:
+            new_points = new_points.filter(pk__gt=last_points_pk, pk__lte=newest_points_pk, course=self.course,user=self.user)
+        else:
+            new_points = new_points.filter(pk__gt=last_points_pk, course=self.course,user=self.user)
+        new_points = new_points.aggregate(total=Sum('points'))['total']
+
         if new_points:
-            self.points += (0 if first_points else self.points) + new_points
+            self.points = (0 if first_points else self.points) + new_points
         ### Values that need to be recalculated (as the course digests may vary)
         self.pretest_score = Course.get_pre_test_score(self.course, self.user)
         self.quizzes_passed = Course.get_no_quizzes_completed(self.course, self.user)
