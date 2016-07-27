@@ -121,10 +121,10 @@ class UserPointsSummary(models.Model):
         if not new_points:
             return
 
-        self.points = (0 if first_points else self.points) + new_points
+        # If we update the user points, we need to recalculate his badges as well
         badges = UserCourseSummary.objects.filter(user=self.user).aggregate(badges=Sum('badges_achieved'))['badges']
-        if badges:
-            self.badges = badges
+        self.badges = badges if badges else 0
+        self.points = (0 if first_points else self.points) + new_points
 
         self.save()
 
