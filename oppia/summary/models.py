@@ -50,7 +50,7 @@ class UserCourseSummary (models.Model):
         }
         if newest_points_pk > 0:
             filters['pk__lte'] = newest_points_pk
-        new_points = Points.objects.filter(filters).aggregate(total=Sum('points'))['total']
+        new_points = Points.objects.filter(**filters).aggregate(total=Sum('points'))['total']
 
         if new_points:
             self.points = (0 if first_points else self.points) + new_points
@@ -115,7 +115,7 @@ class UserPointsSummary(models.Model):
         if newest_points_pk > 0:
             filters['pk__lte'] = newest_points_pk
 
-        new_points = Points.objects.filter(filters).aggregate(total=Sum('points'))['total']
+        new_points = Points.objects.filter(**filters).aggregate(total=Sum('points'))['total']
 
         if new_points:
             self.points = (0 if first_points else self.points) + new_points

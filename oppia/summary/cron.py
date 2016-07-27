@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 from django.db.models import Count
 
 from oppia.models import Tracker, Points, Course
-from oppia.summary.models import SettingProperties, UserCourseSummary, CourseDailyStats
+from oppia.summary.models import SettingProperties, UserCourseSummary, CourseDailyStats, UserPointsSummary
 
 
 def run():
@@ -48,9 +48,8 @@ def run():
 
     totalUsers = userCourses.count()
     print ('%d different user/courses to process.' % totalUsers)
+
     count = 1
-
-
     for ucTracker in userCourses:
         print ('processing user/course trackers... (%d/%d)' % (count, totalUsers))
         print ucTracker
@@ -99,6 +98,19 @@ def run():
         stats, created = CourseDailyStats.objects.get_or_create(course=None, day=day, type='search')
         stats.total = (0 if last_tracker_pk == 0 else stats.total) + searchLog['total']
         stats.save()
+
+
+    #get different (distinct) user/points involved
+    usersPoints = Points.objects\
+            .filter(pk__gt=last_points_pk, pk__lte=newest_points_pk)\
+            .values('user').distinct()
+
+    totalUsers = usersPoints.count()
+    print ('%d different user/points to process.' % totalUsers)
+    for userPoints in usersPoints:
+        user = User.objects.get(pk=userPoints['user'])
+        points, created = UserPointsSummary.objects.get_or_create(user=user)
+        points.update_points(last_points_pk=last_points_pk, newest_points_pk=newest_points_pk)
 
     #update last tracker and points PKs with the last one processed
     SettingProperties.objects.update_or_create(key='last_tracker_pk', defaults={"int_value":newest_tracker_pk})
