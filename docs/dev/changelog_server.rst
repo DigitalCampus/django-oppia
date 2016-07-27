@@ -1,6 +1,8 @@
 OppiaMobile Server Change Log
 ================================
 
+To see the upcoming feature developments and bug fixes, please refer to the `monthly milestones on GitHub <https://github.com/DigitalCampus/django-oppia/milestones>`_
+
 .. _serverv0.9.7:
 
 v0.9.7 - not yet released

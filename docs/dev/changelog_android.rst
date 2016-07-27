@@ -1,6 +1,9 @@
 OppiaMobile Android App Change Log
 ====================================
 
+To see the upcoming feature developments and bug fixes, please refer to the `monthly milestones on GitHub <https://github.com/DigitalCampus/oppia-mobile-android/milestones>`_
+
+
 .. _appv60:
 
 v60 (6.1.0) - Not yet released 
