@@ -35,7 +35,7 @@ class CourseDailyStatsAdmin(admin.ModelAdmin):
     update_summary.short_description = "Update summary"
 
 class UserPointsAdmin(admin.ModelAdmin):
-    list_display = ('user', 'points')
+    list_display = ('user', 'points', 'badges')
     ordering = '-points',
     actions = ['update_summary']
 

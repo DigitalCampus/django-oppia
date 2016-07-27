@@ -101,6 +101,7 @@ class CourseDailyStats (models.Model):
 class UserPointsSummary(models.Model):
     user = models.OneToOneField(User)
     points = models.IntegerField(blank=False, null=False, default=0)
+    badges = models.IntegerField(blank=False, null=False, default=0)
 
     class Meta:
         verbose_name = _('UserPointsSummary')
@@ -117,9 +118,15 @@ class UserPointsSummary(models.Model):
 
         new_points = Points.objects.filter(**filters).aggregate(total=Sum('points'))['total']
 
-        if new_points:
-            self.points = (0 if first_points else self.points) + new_points
-            self.save()
+        if not new_points:
+            return
+
+        self.points = (0 if first_points else self.points) + new_points
+        badges = UserCourseSummary.objects.filter(user=self.user).aggregate(badges=Sum('badges_achieved'))['badges']
+        if badges:
+            self.badges = badges
+
+        self.save()
 
 
 class SettingProperties(models.Model):
