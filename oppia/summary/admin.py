@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from oppia.summary.models import UserCourseSummary, CourseDailyStats, SettingProperties
+from oppia.summary.models import UserCourseSummary, CourseDailyStats, SettingProperties, UserPointsSummary
 
 
 def message_user(model, request, model_name, query_count):
@@ -34,7 +34,19 @@ class CourseDailyStatsAdmin(admin.ModelAdmin):
 
     update_summary.short_description = "Update summary"
 
+class UserPointsAdmin(admin.ModelAdmin):
+    list_display = ('user', 'points', 'badges')
+    ordering = '-points',
+    actions = ['update_summary']
+
+    def update_summary(self, request, queryset):
+        for userPoints in queryset:
+            userPoints.update_points()
+        message_user(self, request, "User points", queryset.count())
+
+    update_summary.short_description = "Update summary"
 
 admin.site.register(UserCourseSummary, UserCourseSummaryAdmin)
 admin.site.register(CourseDailyStats, CourseDailyStatsAdmin)
+admin.site.register(UserPointsSummary, UserPointsAdmin)
 admin.site.register(SettingProperties)
