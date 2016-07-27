@@ -8,6 +8,7 @@ To see the upcoming feature developments and bug fixes, please refer to the `mon
 v0.9.7 - not yet released
 --------------------------------
 
+* 370: New points summary is ignoring non-course points - http://github.com/DigitalCampus/django-oppia/issues/issue/370
 
 .. _serverv0.9.6:
 
