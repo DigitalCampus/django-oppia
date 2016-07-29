@@ -6,4 +6,4 @@ These pages describe the process and scripts Digital Campus has used to adapt co
 .. toctree::
    :maxdepth: 2
    
-   ou_moodle
+   openwash
