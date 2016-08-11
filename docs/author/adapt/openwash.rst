@@ -78,7 +78,46 @@ other countries.
 Copies of each course were made and a database scan performed to identify the pages which include Ethiopia specific 
 references. These pages were then updated to provide more general references, the references updated include:
 
-* To be completed.
+* Ethiopia
+* woreda
+* kebele						
+* health extension worker
+* HEW
+* health development army
+* HDA
+* health promotion worker
+* Addis
+* Oromo
+* Oromia
+* tigray
+* amhara
+* health post
+* MoH
+* FMoH
+* Adama
+* korales
+* Ministry of Water and Energy
+* Mekelle University
+* Bahir Dar
+* Regional Health Bureau
+* Ministry of Works and Urban Development
+* MoWE
+* MoWUD
+* MFSH
+* CLTSH
+* Town Water Board
+* Hawassa
+* Wechale
+* birr
+* gondar
+* Operation and Maintenance Department
+* Wuha Agar
+* National Fluorosis Mitigation Project
+* debo
+
+The script used to scan the content for these terms can be found here: 
+https://github.com/DigitalCampus/ou-content-adaptation-scripts/blob/master/helper/OpenWASH-global-editing-links.php
+
 
 6. Final QA
 ---------------
