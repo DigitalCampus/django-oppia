@@ -23,6 +23,7 @@ Contents:
    gamification
    viz/index
    training/index
+   author/adapt/index
    help
    acknowledgements
    
