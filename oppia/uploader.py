@@ -16,33 +16,33 @@ from oppia.models import Course, Section, Activity, Media
 
 def handle_uploaded_file(f, extract_path, request, user):
     zipfilepath = settings.COURSE_UPLOAD_DIR + f.name
-    
+
     with open(zipfilepath, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
-            
+
     zip = zipfile.ZipFile(zipfilepath)
-    zip.extractall(path=extract_path)      
-    
+    zip.extractall(path=extract_path)
+
     mod_name = ''
     for dir in os.listdir(extract_path)[:1]:
         mod_name = dir
-       
-    # check there is at least a sub dir 
+
+    # check there is at least a sub dir
     if mod_name == '':
         messages.info(request, _("Invalid course zip file"))
         return False
-    
-    # check that the 
+
+    # check that the
     if not os.path.isfile(os.path.join(extract_path, mod_name, "module.xml")):
         messages.info(request, _("Zip file does not contain a module.xml file"))
         return False
-      
+
     # parse the module.xml file
     print extract_path
     print mod_name
-    
-    doc = xml.dom.minidom.parse(os.path.join(extract_path, mod_name, "module.xml")) 
+
+    doc = xml.dom.minidom.parse(os.path.join(extract_path, mod_name, "module.xml"))
     for meta in doc.getElementsByTagName("meta")[:1]:
         versionid = 0
         for v in meta.getElementsByTagName("versionid")[:1]:
@@ -52,7 +52,7 @@ def handle_uploaded_file(f, extract_path, request, user):
             if t.nodeName == "title":
                 temp_title[t.getAttribute('lang')] = t.firstChild.nodeValue
         title = json.dumps(temp_title)
-        
+
         temp_description = {}
         for t in meta.childNodes:
             if t.nodeName == "description":
@@ -61,17 +61,17 @@ def handle_uploaded_file(f, extract_path, request, user):
                 else:
                     temp_description[t.getAttribute('lang')] = None
         description = json.dumps(temp_description)
-        
+
         shortname = ''
         for sn in meta.getElementsByTagName("shortname")[:1]:
             shortname = sn.firstChild.nodeValue
-    
+
     old_course_filename = None
     # Find if course already exists
-    try: 
-        
+    try:
+
         print shortname
-        
+
         course = Course.objects.get(shortname=shortname)
         old_course_filename = course.filename
 
@@ -79,7 +79,7 @@ def handle_uploaded_file(f, extract_path, request, user):
         if course.user != user:
             messages.info(request, _("Sorry, only the original owner may update this course"))
             return False
-        
+
         # check if course version is older
         if course.version > versionid:
             messages.info(request, _("A newer version of this course already exists"))
@@ -89,7 +89,7 @@ def handle_uploaded_file(f, extract_path, request, user):
         oldsections.delete()
         oldmedia = Media.objects.filter(course=course)
         oldmedia.delete()
-        
+
         course.shortname = shortname
         course.title = title
         course.description = description
@@ -108,7 +108,7 @@ def handle_uploaded_file(f, extract_path, request, user):
         course.filename = f.name
         course.is_draft = True
         course.save()
-       
+
     # add in any baseline activities
     for meta in doc.getElementsByTagName("meta")[:1]:
         if meta.getElementsByTagName("activity").length > 0:
@@ -119,16 +119,23 @@ def handle_uploaded_file(f, extract_path, request, user):
             section.save()
             for a in meta.getElementsByTagName("activity"):
                 parse_and_save_activity(section, a, True)
-                    
+
     # add all the sections
     for structure in doc.getElementsByTagName("structure")[:1]:
-        
+
         if structure.getElementsByTagName("section").length == 0:
             messages.info(request, _("There don't appear to be any activities in this upload file."))
             course.delete()
             return False
-        
+
         for s in structure.getElementsByTagName("section"):
+
+            # Check if the section contains any activity
+            activities = s.getElementsByTagName("activities")[:1]
+            if not activities or activities[0].getElementsByTagName("activity").length == 0:
+                print "The section does not contain any activity"
+                continue
+
             temp_title = {}
             for t in s.childNodes:
                 if t.nodeName == 'title':
@@ -139,12 +146,12 @@ def handle_uploaded_file(f, extract_path, request, user):
             section.title = title
             section.order = s.getAttribute("order")
             section.save()
-            
+
             # add all the activities
             for activities in s.getElementsByTagName("activities")[:1]:
                 for a in activities.getElementsByTagName("activity"):
                     parse_and_save_activity(section, a, False)
-                    
+
     # add all the media
     for file in doc.lastChild.lastChild.childNodes:
         if file.nodeName == 'file':
@@ -153,7 +160,7 @@ def handle_uploaded_file(f, extract_path, request, user):
             media.filename = file.getAttribute("filename")
             media.download_url = file.getAttribute("download_url")
             media.digest = file.getAttribute("digest")
-            
+
             # get any optional attributes
             for attrName, attrValue in file.attributes.items():
                 if attrName == "length":
@@ -162,28 +169,28 @@ def handle_uploaded_file(f, extract_path, request, user):
                     media.filesize = attrValue
 
             media.save()
-    
+
     if old_course_filename is not None and old_course_filename != course.filename:
         try:
             os.remove(settings.COURSE_UPLOAD_DIR + old_course_filename)
         except OSError:
             pass
-    
+
     # Extract the final file into the courses area for preview
     zipfilepath = settings.COURSE_UPLOAD_DIR + f.name
-    
+
     with open(zipfilepath, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
-            
+
     zip = zipfile.ZipFile(zipfilepath)
     course_preview_path = settings.MEDIA_ROOT + "courses/"
-    zip.extractall(path=course_preview_path)      
-    
+    zip.extractall(path=course_preview_path)
+
     # remove the temp upload files
     shutil.rmtree(extract_path, ignore_errors=True)
-        
-    return course       
+
+    return course
 
 
 def parse_and_save_activity(section, act, is_baseline=False):
@@ -200,22 +207,23 @@ def parse_and_save_activity(section, act, is_baseline=False):
     title = json.dumps(temp_title)
 
     content = ""
-    if act.getAttribute("type") == "page":
+    act_type = act.getAttribute("type")
+    if act_type == "page":
         temp_content = {}
         for t in act.getElementsByTagName("location"):
             if t.firstChild and t.getAttribute('lang'):
                 temp_content[t.getAttribute('lang')] = t.firstChild.nodeValue
         content = json.dumps(temp_content)
-    elif act.getAttribute("type") == "quiz":
+    elif act_type == "quiz":
         for c in act.getElementsByTagName("content"):
             content = c.firstChild.nodeValue
-    elif act.getAttribute("type") == "feedback":
+    elif act_type == "feedback":
         for c in act.getElementsByTagName("content"):
             content = c.firstChild.nodeValue
-    elif act.getAttribute("type") == "resource":
+    elif act_type == "resource":
         for c in act.getElementsByTagName("location"):
             content = c.firstChild.nodeValue
-    elif act.getAttribute("type") == "url":
+    elif act_type == "url":
         temp_content = {}
         for t in act.getElementsByTagName("location"):
             if t.firstChild and t.getAttribute('lang'):
@@ -223,11 +231,11 @@ def parse_and_save_activity(section, act, is_baseline=False):
         content = json.dumps(temp_content)
     else:
         content = None
-    
+
     image = None
     if act.getElementsByTagName("image"):
         for i in act.getElementsByTagName("image"):
-            image = i.getAttribute('filename') 
+            image = i.getAttribute('filename')
 
     if act.getElementsByTagName("description"):
         description = {}
@@ -237,15 +245,16 @@ def parse_and_save_activity(section, act, is_baseline=False):
         description = json.dumps(description)
     else:
         description = None
-          
+
     activity = Activity()
     activity.section = section
     activity.order = act.getAttribute("order")
     activity.title = title
-    activity.type = act.getAttribute("type")
+    activity.type = act_type
     activity.digest = act.getAttribute("digest")
     activity.baseline = is_baseline
     activity.image = image
     activity.content = content
     activity.description = description
-    activity.save()           
+    activity.save()
+
