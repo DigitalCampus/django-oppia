@@ -12,6 +12,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from oppia.models import Course, Section, Activity, Media
+from oppia.quiz.models import Quiz, Question, QuizQuestion, Response, ResponseProps, QuestionProps, QuizProps
 
 
 def handle_uploaded_file(f, extract_path, request, user):
@@ -118,7 +119,7 @@ def handle_uploaded_file(f, extract_path, request, user):
             section.order = 0
             section.save()
             for a in meta.getElementsByTagName("activity"):
-                parse_and_save_activity(section, a, True)
+                parse_and_save_activity(user, section, a, True)
 
     # add all the sections
     for structure in doc.getElementsByTagName("structure")[:1]:
@@ -150,7 +151,7 @@ def handle_uploaded_file(f, extract_path, request, user):
             # add all the activities
             for activities in s.getElementsByTagName("activities")[:1]:
                 for a in activities.getElementsByTagName("activity"):
-                    parse_and_save_activity(section, a, False)
+                    parse_and_save_activity(user, section, a, False)
 
     # add all the media
     for file in doc.lastChild.lastChild.childNodes:
@@ -193,7 +194,7 @@ def handle_uploaded_file(f, extract_path, request, user):
     return course
 
 
-def parse_and_save_activity(section, act, is_baseline=False):
+def parse_and_save_activity(user, section, act, is_baseline=False):
     """
     Parses an Activity XML and saves it to the DB
     :param section: section the activity belongs to
@@ -258,3 +259,64 @@ def parse_and_save_activity(section, act, is_baseline=False):
     activity.description = description
     activity.save()
 
+    if act_type == "quiz":
+        parse_and_save_quiz(user, activity)
+
+
+def parse_and_save_quiz(user, activity):
+    quiz_obj = json.loads(activity.content)
+
+    print quiz_obj['title']
+
+    quiz = Quiz()
+    quiz.owner = user
+    quiz.title = quiz_obj['title']
+    quiz.description = quiz_obj['description']
+    quiz.save()
+
+    for prop in quiz_obj['props']:
+        if prop is not 'id':
+            quizProp = QuizProps()
+            quizProp.quiz = quiz
+            quizProp.name = prop
+            quizProp.value = quiz_obj['props'][prop]
+            quizProp.save()
+
+    for q in quiz_obj['questions']:
+
+        question = Question()
+        question.owner = user
+        question.type = q['question']['type']
+        question.title = q['question']['title']
+        question.save()
+
+        quizQuestion = QuizQuestion()
+        quizQuestion.quiz = quiz
+        quizQuestion.question = question
+        quizQuestion.order = q['order']
+        quizQuestion.save()
+
+        for prop in q['question']['props']:
+            if prop is not 'id':
+                questionProp = QuestionProps()
+                questionProp.name = prop
+                questionProp.value = q['question']['props'][prop]
+                questionProp.question = question
+                questionProp.save()
+
+        for r in q['question']['responses']:
+            response = Response()
+            response.owner = user
+            response.question = question
+            response.title = r['title']
+            response.score = r['score']
+            response.order = r['order']
+            response.save()
+
+            for prop in r['props']:
+                if prop is not 'id':
+                    responseProp = ResponseProps()
+                    responseProp.name = prop
+                    responseProp.value = r['props'][prop]
+                    responseProp.response = response
+                    responseProp.save()
