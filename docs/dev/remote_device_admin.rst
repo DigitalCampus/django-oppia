@@ -89,4 +89,9 @@ For the app, there are two possible options:
 
 Setting up the server side for managing
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-//TO-DO
+
+For the server side, the process is very straight forward: it is done in the settings file for each state (local, staging, live) configuring the following properties:
+
+* update the ``DEVICE_ADMIN_ENABLED`` property to ``True``
+
+* set the ``GCM_APIKEY`` property with the "Server API Key" generated in the Google Cloud Messaging platform.
