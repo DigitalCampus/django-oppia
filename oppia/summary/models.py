@@ -43,15 +43,18 @@ class UserCourseSummary (models.Model):
         self.total_activity  = (0 if first_tracker else self.total_activity) + selfTrackers.count()
         self.total_downloads = (0 if first_tracker else self.total_downloads) + selfTrackers.filter(type='download').count()
 
-        new_points = Points.objects
+        filters = {
+            'user': self.user,
+            'course': self.course,
+            'pk__gt': last_points_pk
+        }
         if newest_points_pk > 0:
-            new_points = new_points.filter(pk__gt=last_points_pk, pk__lte=newest_points_pk, course=self.course,user=self.user)
-        else:
-            new_points = new_points.filter(pk__gt=last_points_pk, course=self.course,user=self.user)
-        new_points = new_points.aggregate(total=Sum('points'))['total']
+            filters['pk__lte'] = newest_points_pk
+        new_points = Points.objects.filter(**filters).aggregate(total=Sum('points'))['total']
 
         if new_points:
             self.points = (0 if first_points else self.points) + new_points
+
         ### Values that need to be recalculated (as the course digests may vary)
         self.pretest_score = Course.get_pre_test_score(self.course, self.user)
         self.quizzes_passed = Course.get_no_quizzes_completed(self.course, self.user)
@@ -93,6 +96,38 @@ class CourseDailyStats (models.Model):
             stats, created = CourseDailyStats.objects.get_or_create(course=course, day=day, type=type_stats['type'])
             stats.total = (0 if last_tracker_pk == 0 else stats.total) + type_stats['total']
             stats.save()
+
+
+class UserPointsSummary(models.Model):
+    user = models.OneToOneField(User)
+    points = models.IntegerField(blank=False, null=False, default=0)
+    badges = models.IntegerField(blank=False, null=False, default=0)
+
+    class Meta:
+        verbose_name = _('UserPointsSummary')
+
+    def update_points(self, last_points_pk=0, newest_points_pk=0):  # range of points ids to process
+
+        first_points = (last_points_pk == 0)
+        filters = {
+            'pk__gt': last_points_pk,
+            'user': self.user
+        }
+        if newest_points_pk > 0:
+            filters['pk__lte'] = newest_points_pk
+
+        new_points = Points.objects.filter(**filters).aggregate(total=Sum('points'))['total']
+
+        if not new_points:
+            return
+
+        # If we update the user points, we need to recalculate his badges as well
+        badges = UserCourseSummary.objects.filter(user=self.user).aggregate(badges=Sum('badges_achieved'))['badges']
+        self.badges = badges if badges else 0
+        self.points = (0 if first_points else self.points) + new_points
+
+        self.save()
+
 
 class SettingProperties(models.Model):
     key = models.CharField(max_length=30, null=False, primary_key=True)

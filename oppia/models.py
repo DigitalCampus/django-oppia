@@ -704,12 +704,13 @@ class Points(models.Model):
     @staticmethod
     def get_leaderboard(count=0, course=None):
 
-        from oppia.summary.models import UserCourseSummary
-        users = UserCourseSummary.objects
-        if course is not None:
-            users = users.filter(course=course)
+        from oppia.summary.models import UserCourseSummary, UserPointsSummary
 
-        usersPoints = users.values('user').annotate(total=Sum('points'), badges=Sum('badges_achieved')).order_by('-total')
+        if course is not None:
+            users = UserCourseSummary.objects.filter(course=course)
+            usersPoints = users.values('user').annotate(points=Sum('points'), badges=Sum('badges_achieved')).order_by('-points')
+        else:
+            usersPoints = UserPointsSummary.objects.all().values('user','points','badges').order_by('-points')
 
         if count > 0:
             usersPoints = usersPoints[:count]
@@ -718,7 +719,7 @@ class Points(models.Model):
         for u in usersPoints:
             user = User.objects.get(pk=u['user'])
             user.badges = 0 if u['badges'] is None else u['badges']
-            user.total = 0 if u['total'] is None else u['total']
+            user.total = 0 if u['points'] is None else u['points']
             leaderboard.append(user)
 
         return leaderboard
