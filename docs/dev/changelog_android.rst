@@ -25,6 +25,8 @@ v60 (6.1.0) - Not yet released
 * 549: Adding BugSense/Mint API key in non-Git file - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/549
 * 526: In quiz activity - if user has passed then show option to continue rather than retake - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/526
 * 574: Restricting no attempts at quiz - unlimited attempts still possible - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/574
+* 565: Show message when all video files downloaded and no more to get - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/565
+* 566: Media download page - ordering & add some extra info - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/566
 
 .. _appv59:
 
