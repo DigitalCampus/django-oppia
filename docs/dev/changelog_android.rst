@@ -23,6 +23,8 @@ v60 (6.1.0) - Not yet released
 * 477: Look at what would be needed to allow categories of courses - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/477
 * 564: App shuts down when having installed a course by copying onto the sd card - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/564
 * 549: Adding BugSense/Mint API key in non-Git file - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/549
+* 526: In quiz activity - if user has passed then show option to continue rather than retake - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/526
+* 574: Restricting no attempts at quiz - unlimited attempts still possible - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/574
 
 .. _appv59:
 
