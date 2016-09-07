@@ -27,6 +27,10 @@ v60 (6.1.0) - Not yet released
 * 574: Restricting no attempts at quiz - unlimited attempts still possible - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/574
 * 565: Show message when all video files downloaded and no more to get - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/565
 * 566: Media download page - ordering & add some extra info - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/566
+* 573: In course download list show information about who published the course - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/573
+* 575: Course download page - allow text overflow/wrapping - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/575
+* 562: java.lang.IllegalStateException: setSelectedNavigationIndex not valid for current navigation mode - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/562
+
 
 .. _appv59:
 
