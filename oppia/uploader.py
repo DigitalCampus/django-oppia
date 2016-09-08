@@ -114,7 +114,7 @@ def handle_uploaded_file(f, extract_path, request, user):
         course.is_draft = True
         course.save()
 
-    errors = parse_course_contents(doc, course, user)
+    errors = parse_course_contents(request, doc, course, user)
     if errors is not None:
         messages.info(request, errors)
         return False
@@ -151,7 +151,7 @@ def handle_uploaded_file(f, extract_path, request, user):
     return course
 
 
-def parse_course_contents(xml_doc, course, user):
+def parse_course_contents(req, xml_doc, course, user):
     # add in any baseline activities
     for meta in xml_doc.getElementsByTagName("meta")[:1]:
         if meta.getElementsByTagName("activity").length > 0:
@@ -162,21 +162,22 @@ def parse_course_contents(xml_doc, course, user):
             )
             section.save()
             for a in meta.getElementsByTagName("activity"):
-                parse_and_save_activity(user, section, a, True)
+                parse_and_save_activity(req, user, section, a, True)
 
     # add all the sections
     for structure in xml_doc.getElementsByTagName("structure")[:1]:
 
         if structure.getElementsByTagName("section").length == 0:
             course.delete()
-            return _("There don't appear to be any activities in this upload file.")
+            messages.info(req, _("There don't appear to be any activities in this upload file."))
+            return
 
-        for s in structure.getElementsByTagName("section"):
+        for idx, s in enumerate(structure.getElementsByTagName("section")):
 
             # Check if the section contains any activity (to avoid saving an empty one)
             activities = s.getElementsByTagName("activities")[:1]
             if not activities or activities[0].getElementsByTagName("activity").length == 0:
-                print "The section does not contain any activity"
+                messages.info(req, _("Section ") + str(idx+1) + _(" does not contain any activity."))
                 continue
 
             title = {}
@@ -193,7 +194,7 @@ def parse_course_contents(xml_doc, course, user):
             # add all the activities
             for activities in s.getElementsByTagName("activities")[:1]:
                 for a in activities.getElementsByTagName("activity"):
-                    parse_and_save_activity(user, section, a, False)
+                    parse_and_save_activity(req, user, section, a, False)
 
     # add all the media
     for file in xml_doc.lastChild.lastChild.childNodes:
@@ -215,7 +216,7 @@ def parse_course_contents(xml_doc, course, user):
 
     return None
 
-def parse_and_save_activity(user, section, act, is_baseline=False):
+def parse_and_save_activity(req, user, section, act, is_baseline=False):
     """
     Parses an Activity XML and saves it to the DB
     :param section: section the activity belongs to
@@ -268,27 +269,28 @@ def parse_and_save_activity(user, section, act, is_baseline=False):
     else:
         description = None
 
-    activity = Activity()
-    activity.section = section
-    activity.order = act.getAttribute("order")
-    activity.title = title
-    activity.type = act_type
-    activity.digest = act.getAttribute("digest")
-    activity.baseline = is_baseline
-    activity.image = image
-    activity.content = content
-    activity.description = description
+    activity = Activity(
+        section = section,
+        title = title,
+        type = act_type,
+        order = act.getAttribute("order"),
+        digest = act.getAttribute("digest"),
+        baseline = is_baseline,
+        image = image,
+        content = content,
+        description = description
+    )
     activity.save()
 
     if act_type == "quiz":
-        updated_json = parse_and_save_quiz(user, activity)
+        updated_json = parse_and_save_quiz(req, user, activity)
         # we need to update the JSON contents both in the XML and in the activity data
         act.getElementsByTagName("content")[0].firstChild.nodeValue = updated_json
         activity.content = updated_json
         activity.save()
 
 
-def parse_and_save_quiz(user, activity):
+def parse_and_save_quiz(req, user, activity):
     """
     Parses an Activity XML that is a Quiz and saves it to the DB
     :parm user: the user that uploaded the course
@@ -306,9 +308,10 @@ def parse_and_save_quiz(user, activity):
             quiz = None
 
     if quiz is not None:
-        print "Quiz already exists!"
+
         quiz_act = Activity.objects.get(digest=quiz_digest)
         updated_content = quiz_act.content
+        messages.info(req, _('Quiz "%(quiz)s" already exists. Reusing it.') % {'quiz': quiz_act.title})
     else:
         updated_content = create_quiz(user, quiz_obj)
 
@@ -329,8 +332,8 @@ def create_quiz(user, quiz_obj):
         if prop is not 'id':
             QuizProps(
                 quiz=quiz, name=prop,
-                value=quiz_obj['props'][prop])\
-                .save()
+                value=quiz_obj['props'][prop]
+            ).save()
 
     for q in quiz_obj['questions']:
 
@@ -352,8 +355,8 @@ def create_quiz(user, quiz_obj):
             if prop is not 'id':
                 QuestionProps(
                     question=question, name=prop,
-                    value = q['question']['props'][prop])\
-                    .save()
+                    value = q['question']['props'][prop]
+                ).save()
 
         for r in q['question']['responses']:
             response = Response(
@@ -368,10 +371,9 @@ def create_quiz(user, quiz_obj):
 
             for prop in r['props']:
                 if prop is not 'id':
-                    responseProp = ResponseProps()
-                    responseProp.name = prop
-                    responseProp.value = r['props'][prop]
-                    responseProp.response = response
-                    responseProp.save()
+                    ResponseProps(
+                        response= response, name = prop,
+                        value = r['props'][prop]
+                    ).save()
 
     return json.dumps(quiz_obj)
