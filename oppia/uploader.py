@@ -155,10 +155,11 @@ def parse_course_contents(xml_doc, course, user):
     # add in any baseline activities
     for meta in xml_doc.getElementsByTagName("meta")[:1]:
         if meta.getElementsByTagName("activity").length > 0:
-            section = Section()
-            section.course = course
-            section.title = '{"en": "Baseline"}'
-            section.order = 0
+            section = Section(
+                course = course,
+                title = '{"en": "Baseline"}',
+                order = 0
+            )
             section.save()
             for a in meta.getElementsByTagName("activity"):
                 parse_and_save_activity(user, section, a, True)
@@ -182,10 +183,11 @@ def parse_course_contents(xml_doc, course, user):
             for t in s.childNodes:
                 if t.nodeName == 'title':
                     title[t.getAttribute('lang')] = t.firstChild.nodeValue
-            section = Section()
-            section.course = course
-            section.title = json.dumps(title)
-            section.order = s.getAttribute("order")
+            section = Section(
+                course = course,
+                title = json.dumps(title),
+                order = s.getAttribute("order")
+            )
             section.save()
 
             # add all the activities
@@ -280,7 +282,9 @@ def parse_and_save_activity(user, section, act, is_baseline=False):
 
     if act_type == "quiz":
         updated_json = parse_and_save_quiz(user, activity)
+        # we need to update the JSON contents both in the XML and in the activity data
         act.getElementsByTagName("content")[0].firstChild.nodeValue = updated_json
+        activity.content = updated_json
         activity.save()
 
 
@@ -291,9 +295,8 @@ def parse_and_save_quiz(user, activity):
     :param activity: a XML DOM element containing the activity
     :return: None
     """
-    quiz_obj = json.loads(activity.content)
 
-    quiz = None
+    quiz_obj = json.loads(activity.content)
     # first of all, we find the quiz digest to see if it is already saved
     if quiz_obj['props']['digest']:
         quiz_digest = quiz_obj['props']['digest']
@@ -305,11 +308,11 @@ def parse_and_save_quiz(user, activity):
     if quiz is not None:
         print "Quiz already exists!"
         quiz_act = Activity.objects.get(digest=quiz_digest)
-        activity.content = quiz_act.content
+        updated_content = quiz_act.content
     else:
-        activity.content = create_quiz(user, quiz_obj)
+        updated_content = create_quiz(user, quiz_obj)
 
-    return activity.content
+    return updated_content
 
 
 def create_quiz(user, quiz_obj):
@@ -324,18 +327,16 @@ def create_quiz(user, quiz_obj):
 
     for prop in quiz_obj['props']:
         if prop is not 'id':
-            quizProp = QuizProps()
-            quizProp.quiz = quiz
-            quizProp.name = prop
-            quizProp.value = quiz_obj['props'][prop]
-            quizProp.save()
+            QuizProps(
+                quiz=quiz, name=prop,
+                value=quiz_obj['props'][prop])\
+                .save()
 
     for q in quiz_obj['questions']:
 
-        question = Question()
-        question.owner = user
-        question.type = q['question']['type']
-        question.title = q['question']['title']
+        question = Question(owner=user,
+                type= q['question']['type'],
+                title=q['question']['title'])
         question.save()
 
         quizQuestion = QuizQuestion()
@@ -349,21 +350,20 @@ def create_quiz(user, quiz_obj):
 
         for prop in q['question']['props']:
             if prop is not 'id':
-                questionProp = QuestionProps()
-                questionProp.name = prop
-                questionProp.value = q['question']['props'][prop]
-                questionProp.question = question
-                questionProp.save()
+                QuestionProps(
+                    question=question, name=prop,
+                    value = q['question']['props'][prop])\
+                    .save()
 
         for r in q['question']['responses']:
-            response = Response()
-            response.owner = user
-            response.question = question
-            response.title = r['title']
-            response.score = r['score']
-            response.order = r['order']
+            response = Response(
+                owner = user,
+                question = question,
+                title = r['title'],
+                score = r['score'],
+                order = r['order']
+            )
             response.save()
-
             r['id'] = response.pk
 
             for prop in r['props']:
