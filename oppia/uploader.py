@@ -1,4 +1,6 @@
 # oppia/uploader.py
+
+import codecs
 import json
 import shutil
 import xml.dom.minidom
@@ -43,7 +45,9 @@ def handle_uploaded_file(f, extract_path, request, user):
     print extract_path
     print mod_name
 
-    doc = xml.dom.minidom.parse(os.path.join(extract_path, mod_name, "module.xml"))
+    xml_path = os.path.join(extract_path, mod_name, "module.xml")
+
+    doc = xml.dom.minidom.parse(xml_path)
     for meta in doc.getElementsByTagName("meta")[:1]:
         versionid = 0
         for v in meta.getElementsByTagName("versionid")[:1]:
@@ -110,8 +114,46 @@ def handle_uploaded_file(f, extract_path, request, user):
         course.is_draft = True
         course.save()
 
+    errors = parse_course_contents(doc, course, user)
+    if errors is not None:
+        messages.info(request, errors)
+        return False
+
+    fh = codecs.open(xml_path, mode="w", encoding="utf-8")
+    new_xml = doc.toxml("utf-8").decode('utf-8').replace("&amp;", "&").replace("&quot;","\"")
+    fh.write(new_xml)
+    fh.close()
+
+    tmp_zipfilepath = os.path.join(extract_path, 'tmp_course')
+    shutil.make_archive(tmp_zipfilepath, 'zip', extract_path, base_dir=mod_name)
+
+    if old_course_filename is not None and old_course_filename != course.filename:
+        try:
+            os.remove(settings.COURSE_UPLOAD_DIR + old_course_filename)
+        except OSError:
+            pass
+
+    # Extract the final file into the courses area for preview
+    zipfilepath = settings.COURSE_UPLOAD_DIR + f.name
+    shutil.copy(tmp_zipfilepath+".zip", zipfilepath)
+
+    #with open(zipfilepath, 'wb+') as destination:
+    #    for chunk in f.chunks():
+    #        destination.write(chunk)
+
+    zip = zipfile.ZipFile(zipfilepath)
+    course_preview_path = settings.MEDIA_ROOT + "courses/"
+    zip.extractall(path=course_preview_path)
+
+    # remove the temp upload files
+    shutil.rmtree(extract_path, ignore_errors=True)
+
+    return course
+
+
+def parse_course_contents(xml_doc, course, user):
     # add in any baseline activities
-    for meta in doc.getElementsByTagName("meta")[:1]:
+    for meta in xml_doc.getElementsByTagName("meta")[:1]:
         if meta.getElementsByTagName("activity").length > 0:
             section = Section()
             section.course = course
@@ -122,29 +164,27 @@ def handle_uploaded_file(f, extract_path, request, user):
                 parse_and_save_activity(user, section, a, True)
 
     # add all the sections
-    for structure in doc.getElementsByTagName("structure")[:1]:
+    for structure in xml_doc.getElementsByTagName("structure")[:1]:
 
         if structure.getElementsByTagName("section").length == 0:
-            messages.info(request, _("There don't appear to be any activities in this upload file."))
             course.delete()
-            return False
+            return _("There don't appear to be any activities in this upload file.")
 
         for s in structure.getElementsByTagName("section"):
 
-            # Check if the section contains any activity
+            # Check if the section contains any activity (to avoid saving an empty one)
             activities = s.getElementsByTagName("activities")[:1]
             if not activities or activities[0].getElementsByTagName("activity").length == 0:
                 print "The section does not contain any activity"
                 continue
 
-            temp_title = {}
+            title = {}
             for t in s.childNodes:
                 if t.nodeName == 'title':
-                    temp_title[t.getAttribute('lang')] = t.firstChild.nodeValue
-            title = json.dumps(temp_title)
+                    title[t.getAttribute('lang')] = t.firstChild.nodeValue
             section = Section()
             section.course = course
-            section.title = title
+            section.title = json.dumps(title)
             section.order = s.getAttribute("order")
             section.save()
 
@@ -154,7 +194,7 @@ def handle_uploaded_file(f, extract_path, request, user):
                     parse_and_save_activity(user, section, a, False)
 
     # add all the media
-    for file in doc.lastChild.lastChild.childNodes:
+    for file in xml_doc.lastChild.lastChild.childNodes:
         if file.nodeName == 'file':
             media = Media()
             media.course = course
@@ -171,28 +211,7 @@ def handle_uploaded_file(f, extract_path, request, user):
 
             media.save()
 
-    if old_course_filename is not None and old_course_filename != course.filename:
-        try:
-            os.remove(settings.COURSE_UPLOAD_DIR + old_course_filename)
-        except OSError:
-            pass
-
-    # Extract the final file into the courses area for preview
-    zipfilepath = settings.COURSE_UPLOAD_DIR + f.name
-
-    with open(zipfilepath, 'wb+') as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
-
-    zip = zipfile.ZipFile(zipfilepath)
-    course_preview_path = settings.MEDIA_ROOT + "courses/"
-    zip.extractall(path=course_preview_path)
-
-    # remove the temp upload files
-    shutil.rmtree(extract_path, ignore_errors=True)
-
-    return course
-
+    return None
 
 def parse_and_save_activity(user, section, act, is_baseline=False):
     """
@@ -260,10 +279,18 @@ def parse_and_save_activity(user, section, act, is_baseline=False):
     activity.save()
 
     if act_type == "quiz":
-        parse_and_save_quiz(user, activity)
+        updated_json = parse_and_save_quiz(user, activity)
+        act.getElementsByTagName("content")[0].firstChild.nodeValue = updated_json
+        activity.save()
 
 
 def parse_and_save_quiz(user, activity):
+    """
+    Parses an Activity XML that is a Quiz and saves it to the DB
+    :parm user: the user that uploaded the course
+    :param activity: a XML DOM element containing the activity
+    :return: None
+    """
     quiz_obj = json.loads(activity.content)
 
     print quiz_obj['title']
@@ -273,6 +300,8 @@ def parse_and_save_quiz(user, activity):
     quiz.title = quiz_obj['title']
     quiz.description = quiz_obj['description']
     quiz.save()
+
+    quiz_obj['id'] = quiz.pk
 
     for prop in quiz_obj['props']:
         if prop is not 'id':
@@ -296,6 +325,9 @@ def parse_and_save_quiz(user, activity):
         quizQuestion.order = q['order']
         quizQuestion.save()
 
+        q['id'] = quizQuestion.pk
+        q['question']['id'] = question.pk
+
         for prop in q['question']['props']:
             if prop is not 'id':
                 questionProp = QuestionProps()
@@ -313,6 +345,8 @@ def parse_and_save_quiz(user, activity):
             response.order = r['order']
             response.save()
 
+            r['id'] = response.pk
+
             for prop in r['props']:
                 if prop is not 'id':
                     responseProp = ResponseProps()
@@ -320,3 +354,6 @@ def parse_and_save_quiz(user, activity):
                     responseProp.value = r['props'][prop]
                     responseProp.response = response
                     responseProp.save()
+
+    activity.content = json.dumps(quiz_obj)
+    return activity.content
