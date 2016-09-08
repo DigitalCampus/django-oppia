@@ -293,7 +293,26 @@ def parse_and_save_quiz(user, activity):
     """
     quiz_obj = json.loads(activity.content)
 
-    print quiz_obj['title']
+    quiz = None
+    # first of all, we find the quiz digest to see if it is already saved
+    if quiz_obj['props']['digest']:
+        quiz_digest = quiz_obj['props']['digest']
+        try:
+            quiz = Quiz.objects.get(quizprops__value=quiz_digest, quizprops__name="digest")
+        except Quiz.DoesNotExist:
+            quiz = None
+
+    if quiz is not None:
+        print "Quiz already exists!"
+        quiz_act = Activity.objects.get(digest=quiz_digest)
+        activity.content = quiz_act.content
+    else:
+        activity.content = create_quiz(user, quiz_obj)
+
+    return activity.content
+
+
+def create_quiz(user, quiz_obj):
 
     quiz = Quiz()
     quiz.owner = user
@@ -355,5 +374,4 @@ def parse_and_save_quiz(user, activity):
                     responseProp.response = response
                     responseProp.save()
 
-    activity.content = json.dumps(quiz_obj)
-    return activity.content
+    return json.dumps(quiz_obj)
