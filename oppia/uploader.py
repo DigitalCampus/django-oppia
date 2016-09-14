@@ -291,7 +291,6 @@ def parse_and_save_activity(req, user, section, act, is_baseline=False):
     activity.image = image
     activity.content = content
     activity.description = description
-    activity.save()
 
     if not existed:
         messages.warning(req, _('Activity "%(act)s"(%(digest)s) did not exist previously.') % {'act': activity, 'digest':activity.digest})
@@ -306,7 +305,8 @@ def parse_and_save_activity(req, user, section, act, is_baseline=False):
         # we need to update the JSON contents both in the XML and in the activity data
         act.getElementsByTagName("content")[0].firstChild.nodeValue = updated_json
         activity.content = updated_json
-        activity.save()
+
+    activity.save()
 
 
 def parse_and_save_quiz(req, user, activity):
@@ -327,12 +327,8 @@ def parse_and_save_quiz(req, user, activity):
             quiz = None
 
     if quiz is not None:
-
         quiz_act = Activity.objects.get(digest=quiz_digest)
-        print quiz_act
-        print quiz_act.content
         updated_content = quiz_act.content
-        messages.info(req, _('Quiz "%(quiz)s" already exists. Reusing it.') % {'quiz': quiz_act.title})
     else:
         updated_content = create_quiz(user, quiz_obj)
 
