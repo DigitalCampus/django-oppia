@@ -33,119 +33,64 @@ def handle_uploaded_file(f, extract_path, request, user):
 
     # check there is at least a sub dir
     if mod_name == '':
-        messages.info(request, _("Invalid course zip file"))
+        messages.info(request, _("Invalid course zip file"), extra_tags="danger")
         return False
 
-    # check that the
+    # check that the module.xml file exists
     if not os.path.isfile(os.path.join(extract_path, mod_name, "module.xml")):
-        messages.info(request, _("Zip file does not contain a module.xml file"))
+        messages.info(request, _("Zip file does not contain a module.xml file"), extra_tags="danger")
         return False
 
     # parse the module.xml file
-    print extract_path
-    print mod_name
-
     xml_path = os.path.join(extract_path, mod_name, "module.xml")
-
     doc = xml.dom.minidom.parse(xml_path)
-    for meta in doc.getElementsByTagName("meta")[:1]:
-        versionid = 0
-        for v in meta.getElementsByTagName("versionid")[:1]:
-            versionid = int(v.firstChild.nodeValue)
-        temp_title = {}
-        for t in meta.childNodes:
-            if t.nodeName == "title":
-                temp_title[t.getAttribute('lang')] = t.firstChild.nodeValue
-        title = json.dumps(temp_title)
+    meta_info = parse_course_meta(doc)
 
-        temp_description = {}
-        for t in meta.childNodes:
-            if t.nodeName == "description":
-                if t.firstChild is not None:
-                    temp_description[t.getAttribute('lang')] = t.firstChild.nodeValue
-                else:
-                    temp_description[t.getAttribute('lang')] = None
-        description = json.dumps(temp_description)
-
-        shortname = ''
-        for sn in meta.getElementsByTagName("shortname")[:1]:
-            shortname = sn.firstChild.nodeValue
-
+    course_existed = False
     oldsections = []
     old_course_filename = None
+
     # Find if course already exists
     try:
-
-        print shortname
-
-        course = Course.objects.get(shortname=shortname)
-        old_course_filename = course.filename
-
+        course = Course.objects.get(shortname=meta_info['shortname'])
         # check that the current user is allowed to wipe out the other course
         if course.user != user:
             messages.info(request, _("Sorry, only the original owner may update this course"))
             return False
-
         # check if course version is older
-        if course.version > versionid:
+        if course.version > meta_info['versionid']:
             messages.info(request, _("A newer version of this course already exists"))
             return False
 
         # obtain the old sections
         oldsections = list(Section.objects.filter(course=course).values_list('pk', flat=True))
-
         # wipe out old media
         oldmedia = Media.objects.filter(course=course)
         oldmedia.delete()
 
-        course.shortname = shortname
-        course.title = title
-        course.description = description
-        course.version = versionid
-        course.user = user
-        course.filename = f.name
+        old_course_filename = course.filename
         course.lastupdated_date = timezone.now()
-        course.save()
+        course_exists = True
+
     except Course.DoesNotExist:
         course = Course()
-        course.shortname = shortname
-        course.title = title
-        course.description = description
-        course.version = versionid
-        course.user = user
-        course.filename = f.name
         course.is_draft = True
-        course.save()
+
+    course.shortname = meta_info['shortname']
+    course.title = meta_info['title']
+    course.description = meta_info['description']
+    course.version = meta_info['versionid']
+    course.user = user
+    course.filename = f.name
+    course.save()
 
     parse_course_contents(request, doc, course, user)
+    clean_old_course(request, oldsections, old_course_filename, course)
 
-    for section in oldsections:
-        sec = Section.objects.get(pk=section)
-        for act in sec.activities():
-            messages.info(request, _('Activity "%(act)s"(%(digest)s) is no longer in the course.') % {'act': act, 'digest':act.digest})
-        sec.delete()
-
-    fh = codecs.open(xml_path, mode="w", encoding="utf-8")
-    new_xml = doc.toxml("utf-8").decode('utf-8').replace("&amp;", "&").replace("&quot;","\"")
-    fh.write(new_xml)
-    fh.close()
-
-    tmp_zipfilepath = os.path.join(extract_path, 'tmp_course')
-    shutil.make_archive(tmp_zipfilepath, 'zip', extract_path, base_dir=mod_name)
-
-    if old_course_filename is not None and old_course_filename != course.filename:
-        try:
-            os.remove(settings.COURSE_UPLOAD_DIR + old_course_filename)
-        except OSError:
-            pass
-
+    tmp_path = replace_xml_contents(xml_path, doc, mod_name, extract_path)
     # Extract the final file into the courses area for preview
     zipfilepath = settings.COURSE_UPLOAD_DIR + f.name
-    shutil.copy(tmp_zipfilepath+".zip", zipfilepath)
-
-    #with open(zipfilepath, 'wb+') as destination:
-    #    for chunk in f.chunks():
-    #        destination.write(chunk)
+    shutil.copy(tmp_path+".zip", zipfilepath)
 
     zip = zipfile.ZipFile(zipfilepath)
     course_preview_path = settings.MEDIA_ROOT + "courses/"
@@ -394,3 +339,53 @@ def create_quiz(user, quiz_obj):
                     ).save()
 
     return json.dumps(quiz_obj)
+
+def parse_course_meta(xml_doc):
+
+    meta_info = { 'versionid': 0, 'shortname':'' }
+    for meta in xml_doc.getElementsByTagName("meta")[:1]:
+        for v in meta.getElementsByTagName("versionid")[:1]:
+            meta_info['versionid'] = int(v.firstChild.nodeValue)
+
+        temp_title = {}
+        for t in meta.childNodes:
+            if t.nodeName == "title":
+                temp_title[t.getAttribute('lang')] = t.firstChild.nodeValue
+        meta_info['title'] = json.dumps(temp_title)
+
+        temp_description = {}
+        for t in meta.childNodes:
+            if t.nodeName == "description":
+                if t.firstChild is not None:
+                    temp_description[t.getAttribute('lang')] = t.firstChild.nodeValue
+                else:
+                    temp_description[t.getAttribute('lang')] = None
+        meta_info['description'] = json.dumps(temp_description)
+
+        for sn in meta.getElementsByTagName("shortname")[:1]:
+            meta_info['shortname'] = sn.firstChild.nodeValue
+
+    return meta_info
+
+def replace_xml_contents(xml_path, xml_doc, mod_name, dest):
+    fh = codecs.open(xml_path, mode="w", encoding="utf-8")
+    new_xml = xml_doc.toxml("utf-8").decode('utf-8').replace("&amp;", "&").replace("&quot;","\"")
+    fh.write(new_xml)
+    fh.close()
+
+    tmp_zipfilepath = os.path.join(dest, 'tmp_course')
+    shutil.make_archive(tmp_zipfilepath, 'zip', dest, base_dir=mod_name)
+    return tmp_zipfilepath
+
+def clean_old_course(req, oldsections, old_course_filename, course):
+    for section in oldsections:
+        sec = Section.objects.get(pk=section)
+        for act in sec.activities():
+            messages.info(req, _('Activity "%(act)s"(%(digest)s) is no longer in the course.') % {'act': act, 'digest':act.digest})
+        sec.delete()
+
+    if old_course_filename is not None and old_course_filename != course.filename:
+        try:
+            os.remove(settings.COURSE_UPLOAD_DIR + old_course_filename)
+        except OSError:
+            pass
