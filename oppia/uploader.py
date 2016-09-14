@@ -71,6 +71,7 @@ def handle_uploaded_file(f, extract_path, request, user):
         for sn in meta.getElementsByTagName("shortname")[:1]:
             shortname = sn.firstChild.nodeValue
 
+    oldsections = []
     old_course_filename = None
     # Find if course already exists
     try:
@@ -89,9 +90,11 @@ def handle_uploaded_file(f, extract_path, request, user):
         if course.version > versionid:
             messages.info(request, _("A newer version of this course already exists"))
             return False
-        # wipe out the old sections/activities/media
-        oldsections = Section.objects.filter(course=course)
-        oldsections.delete()
+
+        # obtain the old sections
+        oldsections = list(Section.objects.filter(course=course).values_list('pk', flat=True))
+
+        # wipe out old media
         oldmedia = Media.objects.filter(course=course)
         oldmedia.delete()
 
@@ -114,10 +117,13 @@ def handle_uploaded_file(f, extract_path, request, user):
         course.is_draft = True
         course.save()
 
-    errors = parse_course_contents(request, doc, course, user)
-    if errors is not None:
-        messages.info(request, errors)
-        return False
+    parse_course_contents(request, doc, course, user)
+
+    for section in oldsections:
+        sec = Section.objects.get(pk=section)
+        for act in sec.activities():
+            messages.info(request, _('Activity "%(act)s"(%(digest)s) is no longer in the course.') % {'act': act, 'digest':act.digest})
+        sec.delete()
 
     fh = codecs.open(xml_path, mode="w", encoding="utf-8")
     new_xml = doc.toxml("utf-8").decode('utf-8').replace("&amp;", "&").replace("&quot;","\"")
@@ -214,7 +220,6 @@ def parse_course_contents(req, xml_doc, course, user):
 
             media.save()
 
-    return None
 
 def parse_and_save_activity(req, user, section, act, is_baseline=False):
     """
@@ -269,18 +274,31 @@ def parse_and_save_activity(req, user, section, act, is_baseline=False):
     else:
         description = None
 
-    activity = Activity(
-        section = section,
-        title = title,
-        type = act_type,
-        order = act.getAttribute("order"),
-        digest = act.getAttribute("digest"),
-        baseline = is_baseline,
-        image = image,
-        content = content,
-        description = description
-    )
+    digest = act.getAttribute("digest")
+    existed = False
+    try:
+        activity = Activity.objects.get(digest=digest)
+        existed = True
+    except Activity.DoesNotExist:
+        activity = Activity()
+
+    activity.section = section
+    activity.title = title
+    activity.type = act_type
+    activity.order = act.getAttribute("order")
+    activity.digest = act.getAttribute("digest")
+    activity.baseline = is_baseline
+    activity.image = image
+    activity.content = content
+    activity.description = description
     activity.save()
+
+    if not existed:
+        messages.warning(req, _('Activity "%(act)s"(%(digest)s) did not exist previously.') % {'act': activity, 'digest':activity.digest})
+
+    else:
+        messages.info(req, _('Activity "%(act)s"(%(digest)s) previously existed. Updated with new information') % {'act': activity, 'digest':activity.digest})
+    
 
     if act_type == "quiz":
         updated_json = parse_and_save_quiz(req, user, activity)
@@ -310,6 +328,8 @@ def parse_and_save_quiz(req, user, activity):
     if quiz is not None:
 
         quiz_act = Activity.objects.get(digest=quiz_digest)
+        print quiz_act
+        print quiz_act.content
         updated_content = quiz_act.content
         messages.info(req, _('Quiz "%(quiz)s" already exists. Reusing it.') % {'quiz': quiz_act.title})
     else:
