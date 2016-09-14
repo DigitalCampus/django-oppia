@@ -295,10 +295,11 @@ def parse_and_save_activity(req, user, section, act, is_baseline=False):
 
     if not existed:
         messages.warning(req, _('Activity "%(act)s"(%(digest)s) did not exist previously.') % {'act': activity, 'digest':activity.digest})
-
+    '''
+    If we also want to show the activities that previously existed, uncomment this block
     else:
         messages.info(req, _('Activity "%(act)s"(%(digest)s) previously existed. Updated with new information') % {'act': activity, 'digest':activity.digest})
-    
+    '''
 
     if act_type == "quiz":
         updated_json = parse_and_save_quiz(req, user, activity)
