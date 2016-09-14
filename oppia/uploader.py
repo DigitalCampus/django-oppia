@@ -4,8 +4,8 @@ import codecs
 import json
 import shutil
 import xml.dom.minidom
-import zipfile
 from xml.dom.minidom import Node
+from zipfile import ZipFile
 
 import os
 from django.conf import settings
@@ -24,8 +24,7 @@ def handle_uploaded_file(f, extract_path, request, user):
         for chunk in f.chunks():
             destination.write(chunk)
 
-    zip = zipfile.ZipFile(zipfilepath)
-    zip.extractall(path=extract_path)
+    ZipFile(zipfilepath).extractall(path=extract_path)
 
     mod_name = ''
     for dir in os.listdir(extract_path)[:1]:
@@ -46,7 +45,7 @@ def handle_uploaded_file(f, extract_path, request, user):
     doc = xml.dom.minidom.parse(xml_path)
     meta_info = parse_course_meta(doc)
 
-    course_existed = False
+    new_course = False
     oldsections = []
     old_course_filename = None
 
@@ -70,11 +69,11 @@ def handle_uploaded_file(f, extract_path, request, user):
 
         old_course_filename = course.filename
         course.lastupdated_date = timezone.now()
-        course_exists = True
 
     except Course.DoesNotExist:
         course = Course()
         course.is_draft = True
+        new_course = True
 
     course.shortname = meta_info['shortname']
     course.title = meta_info['title']
@@ -84,17 +83,16 @@ def handle_uploaded_file(f, extract_path, request, user):
     course.filename = f.name
     course.save()
 
-    parse_course_contents(request, doc, course, user)
+    parse_course_contents(request, doc, course, user, new_course)
     clean_old_course(request, oldsections, old_course_filename, course)
 
-    tmp_path = replace_xml_contents(xml_path, doc, mod_name, extract_path)
+    tmp_path = replace_zip_contents(xml_path, doc, mod_name, extract_path)
     # Extract the final file into the courses area for preview
     zipfilepath = settings.COURSE_UPLOAD_DIR + f.name
     shutil.copy(tmp_path+".zip", zipfilepath)
 
-    zip = zipfile.ZipFile(zipfilepath)
     course_preview_path = settings.MEDIA_ROOT + "courses/"
-    zip.extractall(path=course_preview_path)
+    ZipFile(zipfilepath).extractall(path=course_preview_path)
 
     # remove the temp upload files
     shutil.rmtree(extract_path, ignore_errors=True)
@@ -102,7 +100,7 @@ def handle_uploaded_file(f, extract_path, request, user):
     return course
 
 
-def parse_course_contents(req, xml_doc, course, user):
+def parse_course_contents(req, xml_doc, course, user, new_course):
     # add in any baseline activities
     for meta in xml_doc.getElementsByTagName("meta")[:1]:
         if meta.getElementsByTagName("activity").length > 0:
@@ -113,9 +111,9 @@ def parse_course_contents(req, xml_doc, course, user):
             )
             section.save()
             for a in meta.getElementsByTagName("activity"):
-                parse_and_save_activity(req, user, section, a, True)
+                parse_and_save_activity(req, user, section, a, new_course, is_baseline=True)
 
-    # add all the sections
+    # add all the sections and activities
     for structure in xml_doc.getElementsByTagName("structure")[:1]:
 
         if structure.getElementsByTagName("section").length == 0:
@@ -142,10 +140,9 @@ def parse_course_contents(req, xml_doc, course, user):
             )
             section.save()
 
-            # add all the activities
             for activities in s.getElementsByTagName("activities")[:1]:
                 for a in activities.getElementsByTagName("activity"):
-                    parse_and_save_activity(req, user, section, a, False)
+                    parse_and_save_activity(req, user, section, a, new_course)
 
     # add all the media
     for file in xml_doc.lastChild.lastChild.childNodes:
@@ -166,7 +163,7 @@ def parse_course_contents(req, xml_doc, course, user):
             media.save()
 
 
-def parse_and_save_activity(req, user, section, act, is_baseline=False):
+def parse_and_save_activity(req, user, section, act, new_course, is_baseline=False):
     """
     Parses an Activity XML and saves it to the DB
     :param section: section the activity belongs to
@@ -238,7 +235,9 @@ def parse_and_save_activity(req, user, section, act, is_baseline=False):
     activity.description = description
 
     if not existed:
-        messages.warning(req, _('Activity "%(act)s"(%(digest)s) did not exist previously.') % {'act': activity, 'digest':activity.digest})
+        # Only show the message if the course existed previously
+        if not new_course:
+            messages.warning(req, _('Activity "%(act)s"(%(digest)s) did not exist previously.') % {'act': activity, 'digest':activity.digest})
     '''
     If we also want to show the activities that previously existed, uncomment this block
     else:
@@ -304,10 +303,8 @@ def create_quiz(user, quiz_obj):
                 title=q['question']['title'])
         question.save()
 
-        quizQuestion = QuizQuestion()
-        quizQuestion.quiz = quiz
-        quizQuestion.question = question
-        quizQuestion.order = q['order']
+        quizQuestion = QuizQuestion( quiz = quiz,
+            question = question, order = q['order'])
         quizQuestion.save()
 
         q['id'] = quizQuestion.pk
@@ -367,7 +364,7 @@ def parse_course_meta(xml_doc):
 
     return meta_info
 
-def replace_xml_contents(xml_path, xml_doc, mod_name, dest):
+def replace_zip_contents(xml_path, xml_doc, mod_name, dest):
     fh = codecs.open(xml_path, mode="w", encoding="utf-8")
     new_xml = xml_doc.toxml("utf-8").decode('utf-8').replace("&amp;", "&").replace("&quot;","\"")
     fh.write(new_xml)

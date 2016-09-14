@@ -387,6 +387,9 @@ table.sortable .sorted:hover{
     border-bottom: 1px solid #333;
     padding-bottom: 7px;
 }
+.glob-messages{
+    margin: 1em 0;
+}
 .glob-messages .alert{
     padding: 5px 10px;
     margin-bottom: 5px;
