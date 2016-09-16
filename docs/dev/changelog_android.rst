@@ -31,6 +31,8 @@ v60 (6.1.0) - Not yet released
 * 575: Course download page - allow text overflow/wrapping - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/575
 * 562: java.lang.IllegalStateException: setSelectedNavigationIndex not valid for current navigation mode - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/562
 * 560: Option to download all the media - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/560
+* 317: How to include some layout (html) in quiz questions - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/317
+
 
 .. _appv59:
 
