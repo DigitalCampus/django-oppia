@@ -30,7 +30,7 @@ v60 (6.1.0) - Not yet released
 * 573: In course download list show information about who published the course - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/573
 * 575: Course download page - allow text overflow/wrapping - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/575
 * 562: java.lang.IllegalStateException: setSelectedNavigationIndex not valid for current navigation mode - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/562
-
+* 560: Option to download all the media - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/560
 
 .. _appv59:
 
