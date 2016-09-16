@@ -1,8 +1,11 @@
 {% load i18n %}
 {% if messages %}
-<ul class="messages">
+<div class="glob-messages">
     {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            {{ message }}
+        </div>
     {% endfor %}
-</ul>
+</div>
 {% endif %}
