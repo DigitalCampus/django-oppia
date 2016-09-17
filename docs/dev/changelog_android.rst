@@ -6,12 +6,20 @@ OppiaMobile Android App Change Log
 v60 (6.1.0) - Not yet released 
 --------------------------------------
 
+.. note:: 
+	This releases implements a properties configuration file, eg for the Mint API key and other settings for the app. 
+	
 * 527: Improved error messages when connecting to Oppia server - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/527
 * 510: Invalidate user apiKey? - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/510
 * 526: In quiz activity - if user has passed then show option to continue rather than retake - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/526
 * 459: Allow max no attempts for quizzes - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/459
 * 555: ListPreference requires an entries array and an entryValues array - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/555
 * 552: Error on logging in : android.view.WindowLeaked - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/552
+* 480: How to pre-load accounts onto the device - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/480
+* 559: java.lang.IllegalStateException: Activity has been destroyed - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/559
+* 477: Look at what would be needed to allow categories of courses - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/477
+* 564: App shuts down when having installed a course by copying onto the sd card - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/564
+* 549: Adding BugSense/Mint API key in non-Git file - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/549
 
 .. _appv59:
 
