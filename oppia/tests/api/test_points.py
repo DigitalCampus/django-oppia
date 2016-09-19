@@ -18,9 +18,22 @@ class PointsResourceTest(ResourceTestCaseMixin, TestCase):
         self.url = '/api/v1/points/'
 
     # check get not allowed
-    def test_get_not_found(self):
-        self.assertHttpNotFound(self.api_client.get(self.url, format='json'))
+    def test_get_unauthorized(self):
+        self.assertHttpUnauthorized(self.api_client.get(self.url, format='json'))
 
     # check post not allowed
-    def test_post_not_found(self):
-        self.assertHttpNotFound(self.api_client.post(self.url, format='json', data={}))
+    def test_post_not_allowed(self):
+        self.assertHttpMethodNotAllowed(self.api_client.post(self.url, format='json', data={}))
+
+    # check get with an invalid apiKey
+    def test_get_apikeyinvalid(self):
+        auth_header = self.create_apikey(username=self.username, api_key="badbadbad")
+        self.assertHttpUnauthorized(
+            self.api_client.get(self.url, forma='json', authentication=auth_header))
+
+    # check a valid get
+    def test_get_points(self):
+        auth_header = self.create_apikey(username=self.username, api_key=self.api_key)
+        res = self.api_client.get(self.url, format='json', authentication=auth_header)
+        self.assertHttpOK(res)
+        self.assertValidJSON(res.content)
