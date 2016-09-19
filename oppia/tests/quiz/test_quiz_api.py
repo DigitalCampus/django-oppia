@@ -9,6 +9,14 @@ from oppia.quiz.models import QuizAttempt,QuizAttemptResponse
 from tastypie.models import ApiKey
 from tastypie.test import ResourceTestCase
 
+def getApiKey(user):
+    try:
+        api_key = ApiKey.objects.get(user=user)
+    except ApiKey.DoesNotExist:
+        #if the user doesn't have an apiKey yet, generate it
+        api_key = ApiKey.objects.create(user=user)
+    return api_key
+
 # QuizAttemptResource   
 class QuizAttemptResourceTest(ResourceTestCase): 
     fixtures = ['user.json', 'oppia.json', 'quiz.json'] 
@@ -17,7 +25,7 @@ class QuizAttemptResourceTest(ResourceTestCase):
         super(QuizAttemptResourceTest, self).setUp()
         self.username = 'demo'
         user = User.objects.get(username=self.username)
-        api_key = ApiKey.objects.get(user = user)
+        api_key = getApiKey(user)
         self.api_key = api_key.key
         self.url = '/api/v1/quizattempt/'
     

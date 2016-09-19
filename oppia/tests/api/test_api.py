@@ -9,7 +9,15 @@ from oppia.quiz.models import QuizAttempt,QuizAttemptResponse
 from tastypie.models import ApiKey
 from tastypie.test import ResourceTestCase
 
-        
+
+def getApiKey(user):
+    try:
+        api_key = ApiKey.objects.get(user=user)
+    except ApiKey.DoesNotExist:
+        #if the user doesn't have an apiKey yet, generate it
+        api_key = ApiKey.objects.create(user=user)
+    return api_key
+
 class RegisterResourceTest(ResourceTestCase):    
     fixtures = ['user.json']
     
@@ -230,7 +238,7 @@ class AwardsResourceTest(ResourceTestCase):
     def setUp(self):
         super(AwardsResourceTest, self).setUp()
         user = User.objects.get(username='demo')
-        api_key = ApiKey.objects.get(user = user)
+        api_key = getApiKey(user=user)
         self.auth_data = {
             'username': 'demo',
             'api_key': api_key.key,
@@ -270,7 +278,7 @@ class CourseResourceTest(ResourceTestCase):
     def setUp(self):
         super(CourseResourceTest, self).setUp()
         user = User.objects.get(username='demo')
-        api_key = ApiKey.objects.get(user = user)
+        api_key = getApiKey(user=user)
         self.auth_data = {
             'username': 'demo',
             'api_key': api_key.key,
@@ -336,7 +344,23 @@ class CourseTagResourceTest(ResourceTestCase):
     def test_post_not_found(self):
         self.assertHttpNotFound(self.api_client.post(self.url, format='json', data={}))
         
-# TODO PointsResource
+# PointsResource
+class PointsResourceTest(ResourceTestCase):
+    def setUp(self):
+        super(PointsResourceTest, self).setUp()
+        self.username = 'demo'
+        user = User.objects.get(username='demo')
+        api_key = getApiKey(user=user)
+        self.api_key = api_key.key
+        self.url = '/api/v1/points/'
+
+    # check get not allowed
+    def test_get_not_found(self):
+        self.assertHttpNotFound(self.api_client.get(self.url, format='json'))
+
+    # check post not allowed
+    def test_post_not_found(self):
+        self.assertHttpNotFound(self.api_client.post(self.url, format='json', data={}))
 # TODO ScheduleResource
 # TODO ScorecardResource
 
@@ -347,7 +371,7 @@ class TagResourceTest(ResourceTestCase):
     def setUp(self):
         super(TagResourceTest, self).setUp()
         user = User.objects.get(username='demo')
-        api_key = ApiKey.objects.get(user = user)
+        api_key = getApiKey(user=user)
         self.auth_data = {
             'username': 'demo',
             'api_key': api_key.key,
@@ -421,7 +445,7 @@ class TrackerResourceTest(ResourceTestCase):
         super(TrackerResourceTest, self).setUp()
         self.username = 'demo'
         user = User.objects.get(username=self.username)
-        api_key = ApiKey.objects.get(user = user)
+        api_key = getApiKey(user=user)
         self.api_key = api_key.key
         self.url = '/api/v1/tracker/'
      
