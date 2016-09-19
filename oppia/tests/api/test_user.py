@@ -1,6 +1,9 @@
 # UserResource
+from django.contrib.auth.models import User
 from django.test import TestCase
 from tastypie.test import ResourceTestCaseMixin
+
+from oppia.tests.utils import getApiKey
 
 
 class UserResourceTest(ResourceTestCaseMixin, TestCase):
@@ -9,6 +12,8 @@ class UserResourceTest(ResourceTestCaseMixin, TestCase):
     def setUp(self):
         super(UserResourceTest, self).setUp()
         self.url = '/api/v1/user/'
+        user = User.objects.get(username='demo')
+        self.valid_api_key = getApiKey(user=user)
 
     # check get not allowed
     def test_get_invalid(self):
@@ -26,7 +31,12 @@ class UserResourceTest(ResourceTestCaseMixin, TestCase):
 
         # check return data
         response_data = self.deserialize(resp)
+
+        # check that the api key exists and is the correct one
         self.assertTrue('api_key' in response_data)
+        api_key = response_data['api_key']
+        self.assertEqual(api_key, self.valid_api_key.key)
+
         self.assertTrue('points' in response_data)
         self.assertTrue('badges' in response_data)
         # check it doesn't contain the password
