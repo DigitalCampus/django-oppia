@@ -3,7 +3,7 @@ from django.test import TestCase
 
 
 class PermissionsViewTest(TestCase):
-    fixtures = ['user.json', 'oppia.json', 'quiz.json']
+    fixtures = ['user.json', 'oppia.json', 'quiz.json', 'permissions.json']
 
     def setUp(self):
         super(PermissionsViewTest, self).setUp()
@@ -43,12 +43,13 @@ class PermissionsViewTest(TestCase):
     def assert_cannot_view(self, view, user=None):
         route = reverse(view)
         res = self.get_view(route, user)
-        self.assertEqual(res.status_code, 404)
+        self.assertEqual(res.status_code, 401)
         return res
 
     # Permissions tests (based on http://oppiamobile.readthedocs.io/en/latest/permissions/server.html)
 
     ############ Django admin #############
+
     def test_anon_cantview_admin(self):
         self.assert_must_login('admin:index')
 
@@ -64,7 +65,24 @@ class PermissionsViewTest(TestCase):
         res = self.get_view(route, self.normal_user)
         self.assertRedirects(res, route + 'login/?next=' + route)
 
+    ############ Upload courses view #############
+
+    def test_anon_cantview_upload_courses(self):
+        self.assert_must_login('oppia_upload')
+
+    def test_admin_canview_upload_courses(self):
+        self.assert_can_view('oppia_upload', self.admin_user)
+
+    def test_staff_canview_upload_courses(self):
+        self.assert_can_view('oppia_upload', self.staff_user)
+
+    def test_student_cantview_upload_courses(self):
+        self.assert_cannot_view('oppia_upload', self.normal_user)
+
+    #TODO: test normal user with special 'can_upload' permissions
+
     ############ Bulk upload users view #############
+
     def test_anon_cantview_bulk_upload(self):
         self.assert_must_login('profile_upload')
 
@@ -77,7 +95,24 @@ class PermissionsViewTest(TestCase):
     def test_student_cantview_bulk_upload(self):
         self.assert_cannot_view('profile_upload', self.normal_user)
 
+    ############ View cohorts #############
+
+    def test_anon_cantview_cohorts(self):
+        self.assert_must_login('oppia_cohorts')
+
+    def test_admin_canview_cohorts(self):
+        self.assert_can_view('oppia_cohorts', self.admin_user)
+
+    def test_staff_canview_cohorts(self):
+        self.assert_can_view('oppia_cohorts', self.staff_user)
+
+    #TODO: Define a teacher user to test cohort management
+
+    def test_student_cantview_cohorts(self):
+        self.assert_cannot_view('oppia_cohorts', self.normal_user)
+
     ############ courses list view #############
+
     def test_anon_cantview_courses_list(self):
         self.assert_must_login('oppia_course')
 
@@ -97,6 +132,7 @@ class PermissionsViewTest(TestCase):
         self.assertEqual(res.context['page'].paginator.count, 2)
 
     ############ analytics summary overview #############
+
     def test_anon_cantview_summary_overview(self):
         self.assert_must_login('oppia_viz_summary')
 

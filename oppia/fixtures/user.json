@@ -34,23 +34,5 @@
     },
     "model": "auth.user",
     "pk": 2
-},
-{
-    "fields": {
-        "username": "staff",
-        "first_name": "demo",
-        "last_name": "user",
-        "is_active": true,
-        "is_superuser": false,
-        "is_staff": true,
-        "last_login": "2015-06-11T13:20:48Z",
-        "groups": [],
-        "user_permissions": [],
-        "password": "pbkdf2_sha256$15000$7FJfq85aSCtQ$ZT+WV+jOaLPVeLvq5kMlxcX+Js53PeE92mcd/Zm1w7k=",
-        "email": "staff@me.com",
-        "date_joined": "2015-06-11T13:20:47Z"
-    },
-    "model": "auth.user",
-    "pk": 3
 }
 ]
