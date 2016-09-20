@@ -27,21 +27,21 @@ class PermissionsViewTest(TestCase):
             self.client.login(username=user['user'], password=user['password'])
         return self.client.get(route)
 
-    def assert_can_view(self, view, user=None):
-        route = reverse(view)
+    def assert_can_view(self, view, user=None, view_kwargs=None):
+        route = reverse(view, kwargs=view_kwargs)
         res = self.get_view(route, user)
         self.assertEqual(res.status_code, 200)
         return res
 
-    def assert_must_login(self, view, user=None):
-        route = reverse(view)
+    def assert_must_login(self, view, user=None, view_kwargs=None):
+        route = reverse(view, kwargs=view_kwargs)
         res = self.get_view(route, user)
         login_url = self.login_url + '?next=' + route
         self.assertRedirects(res, login_url)
         return res
 
-    def assert_cannot_view(self, view, user=None):
-        route = reverse(view)
+    def assert_cannot_view(self, view, user=None, view_kwargs=None):
+        route = reverse(view, kwargs=view_kwargs)
         res = self.get_view(route, user)
         self.assertEqual(res.status_code, 401)
         return res
@@ -106,10 +106,27 @@ class PermissionsViewTest(TestCase):
     def test_staff_canview_cohorts(self):
         self.assert_can_view('oppia_cohorts', self.staff_user)
 
-    #TODO: Define a teacher user to test cohort management
-
     def test_student_cantview_cohorts(self):
         self.assert_cannot_view('oppia_cohorts', self.normal_user)
+
+    #TODO: Define a teacher user to test cohort management
+
+    # TODO: View concrete cohort
+
+    ############ Add new cohort #############
+
+    def test_anon_cantview_add_cohort(self):
+        self.assert_must_login('oppia_cohort_add')
+
+    def test_admin_canview_add_cohort(self):
+        self.assert_can_view('oppia_cohort_add', self.admin_user)
+
+    def test_staff_canview_add_cohort(self):
+        self.assert_can_view('oppia_cohort_add', self.staff_user)
+
+    def test_student_cantview_add_cohort(self):
+        self.assert_can_view('oppia_cohort_add', self.normal_user)
+
 
     ############ courses list view #############
 
@@ -130,6 +147,27 @@ class PermissionsViewTest(TestCase):
         res = self.assert_can_view('oppia_course', self.normal_user)
         # check that the number of courses dont include the draft ones
         self.assertEqual(res.context['page'].paginator.count, 2)
+
+    ############ View course recent activity #############
+
+    def test_anon_cantview_course_activity(self):
+        self.assert_must_login('oppia_recent_activity', view_kwargs={'course_id':1})
+
+    def test_admin_canview_course_activity(self):
+        self.assert_can_view('oppia_recent_activity', self.admin_user, view_kwargs={'course_id':1})
+
+    def test_staff_canview_course_activity(self):
+        self.assert_can_view('oppia_recent_activity', self.staff_user, view_kwargs={'course_id':1})
+
+    def test_student_canview_course_activity(self):
+        self.assert_cannot_view('oppia_recent_activity', self.normal_user, view_kwargs={'course_id':1})
+
+    #TODO: Teacher view course activity for courses asigned to
+
+    ############ View student activity (all activity) #####
+
+    ############ View student activity (for a course) #####
+
 
     ############ analytics summary overview #############
 
