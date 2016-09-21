@@ -166,7 +166,39 @@ class PermissionsViewTest(TestCase):
 
     ############ View student activity (all activity) #####
 
+    def test_anon_cantview_user_activity(self):
+        self.assert_must_login('profile_user_activity', view_kwargs={'user_id':1})
+
+    def test_admin_canview_user_activity(self):
+        self.assert_can_view('profile_user_activity', self.admin_user, view_kwargs={'user_id':1})
+
+    def test_staff_canview_user_activity(self):
+        self.assert_can_view('profile_user_activity', self.staff_user, view_kwargs={'user_id':1})
+
+    def test_student_cantview_user_activity(self):
+        self.assert_cannot_view('profile_user_activity', self.normal_user, view_kwargs={'user_id':1})
+
+    def test_student_canview_self_activity(self):
+        self.assert_can_view('profile_user_activity', self.normal_user, view_kwargs={'user_id':2})
+
+    #TODO: Teacher view user activity of a user in a cohort he is assigned
+
     ############ View student activity (for a course) #####
+
+    def test_anon_cantview_user_course_activity(self):
+        self.assert_must_login('profile_user_course_activity', view_kwargs={'course_id':1, 'user_id':1})
+
+    def test_admin_canview_user_course_activity(self):
+        self.assert_can_view('profile_user_course_activity', self.admin_user, view_kwargs={'course_id':1, 'user_id':1})
+
+    def test_staff_canview_user_course_activity(self):
+        self.assert_can_view('profile_user_course_activity', self.staff_user, view_kwargs={'course_id':1, 'user_id':1})
+
+    def test_student_cantview_user_course_activity(self):
+        self.assert_cannot_view('profile_user_course_activity', self.normal_user, view_kwargs={'course_id':1, 'user_id':1})
+
+    def test_student_canview_self_course_activity(self):
+        self.assert_can_view('profile_user_course_activity', self.normal_user, view_kwargs={'course_id':1, 'user_id':2})
 
 
     ############ analytics summary overview #############
