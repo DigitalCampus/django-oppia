@@ -7,15 +7,19 @@ from oppia.tests.utils import get_api_key, get_api_url
 
 
 class CourseResourceTest(ResourceTestCaseMixin, TestCase):
-    fixtures = ['user.json', 'oppia.json']
+    fixtures = ['user.json', 'oppia.json', 'permissions.json']
 
     def setUp(self):
         super(CourseResourceTest, self).setUp()
         user = User.objects.get(username='demo')
-        api_key = get_api_key(user=user)
+        admin = User.objects.get(username='admin')
         self.auth_data = {
             'username': 'demo',
-            'api_key': api_key.key,
+            'api_key': get_api_key(user=user).key,
+        }
+        self.admin_auth = {
+            'username': 'admin',
+            'api_key': get_api_key(user=admin).key
         }
         self.url = get_api_url('course')
 
@@ -52,14 +56,77 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
             self.assertTrue('title' in course)
             self.assertTrue('version' in course)
 
-    # TODO test course file found
-    def test_course_download_file_found(self):
-        #resp = self.api_client.get(self.url+"20/download/", format='json', data=self.auth_data)
-        #self.assertHttpOK(resp)
-        pass
 
-    # TODO course file not found
-    def test_course_download_file_not_found(self):
-        #resp = self.api_client.get(self.url+"9999/download/", data=self.auth_data)
-        #self.assertHttpNotFound(resp)
-        pass
+    def test_course_get_single(self):
+        resource_url = get_api_url('course', 1)
+        resp = self.api_client.get(resource_url, format='json', data=self.auth_data)
+        self.assertHttpOK(resp)
+        self.assertValidJSON(resp.content)
+        # check course format
+        course = self.deserialize(resp)
+        self.assertTrue('shortname' in course)
+        self.assertTrue('title' in course)
+        self.assertTrue('description' in course)
+        self.assertTrue('version' in course)
+
+    def test_course_get_single_not_found(self):
+        resource_url = get_api_url('course', 999)
+        resp = self.api_client.get(resource_url, format='json', data=self.auth_data)
+        self.assertHttpNotFound(resp)
+
+    def test_course_get_single_draft_nonvisible(self):
+        resource_url = get_api_url('course', 3)
+        resp = self.api_client.get(resource_url, format='json', data=self.auth_data)
+        self.assertHttpNotFound(resp)
+
+    def test_course_get_single_draft_admin_visible(self):
+        resource_url = get_api_url('course', 3)
+        resp = self.api_client.get(resource_url, format='json', data=self.admin_auth)
+        self.assertHttpOK(resp)
+        self.assertValidJSON(resp.content)
+
+    def test_course_download_file_zip_not_found(self):
+        resource_url = get_api_url('course', 2) + 'download/'
+        resp = self.api_client.get(resource_url, format='json', data=self.auth_data)
+        self.assertHttpNotFound(resp)
+
+    def test_course_download_file_course_not_found(self):
+        resource_url = get_api_url('course', 999) + 'download/'
+        resp = self.api_client.get(resource_url, format='json', data=self.auth_data)
+        self.assertHttpNotFound(resp)
+
+    def test_course_download_draft_nonvisible(self):
+        resource_url = get_api_url('course', 3) + 'download/'
+        resp = self.api_client.get(resource_url, format='json', data=self.auth_data)
+        self.assertHttpNotFound(resp)
+
+    # TODO test course file found
+
+    '''
+    def test_course_download_draft_admin_visible(self):
+        resource_url = get_api_url('course', 3) + 'download/'
+        resp = self.api_client.get(resource_url, format='json', data=self.admin_auth)
+        self.assertHttpOK(resp)
+        self.assertValidJSON(resp.content)
+    '''
+    
+    def test_course_get_activity(self):
+        resource_url = get_api_url('course', 1) + 'activity/'
+        resp = self.api_client.get(resource_url, format='json', data=self.auth_data)
+        self.assertHttpOK(resp)
+
+    def test_course_get_activity_notfound(self):
+        resource_url = get_api_url('course', 999) + 'activity/'
+        resp = self.api_client.get(resource_url, format='json', data=self.auth_data)
+        self.assertHttpNotFound(resp)
+
+    def test_course_get_activity_draft_nonvisible(self):
+        resource_url = get_api_url('course', 3) + 'activity/'
+        resp = self.api_client.get(resource_url, format='json', data=self.auth_data)
+        self.assertHttpNotFound(resp)
+
+    def test_course_get_acitivity_draft_admin_visible(self):
+        resource_url = get_api_url('course', 3) + 'activity/'
+        resp = self.api_client.get(resource_url, format='json', data=self.admin_auth)
+        self.assertHttpOK(resp)
+
