@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from tastypie.test import ResourceTestCaseMixin
 
-from oppia.tests.utils import getApiKey
+from oppia.tests.utils import get_api_key, get_api_url
 
 
 class CourseResourceTest(ResourceTestCaseMixin, TestCase):
@@ -12,12 +12,12 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
     def setUp(self):
         super(CourseResourceTest, self).setUp()
         user = User.objects.get(username='demo')
-        api_key = getApiKey(user=user)
+        api_key = get_api_key(user=user)
         self.auth_data = {
             'username': 'demo',
             'api_key': api_key.key,
         }
-        self.url = '/api/v1/course/'
+        self.url = get_api_url('course')
 
     # Post invalid
     def test_post_invalid(self):

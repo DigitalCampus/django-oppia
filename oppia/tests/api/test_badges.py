@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from tastypie.test import ResourceTestCaseMixin
 
-from oppia.tests.utils import getApiKey
+from oppia.tests.utils import get_api_key, get_api_url
 
 
 class BadgesResourceTest(ResourceTestCaseMixin, TestCase):
@@ -11,12 +11,12 @@ class BadgesResourceTest(ResourceTestCaseMixin, TestCase):
     def setUp(self):
         super(BadgesResourceTest, self).setUp()
         user = User.objects.get(username='demo')
-        api_key = getApiKey(user=user)
+        api_key = get_api_key(user=user)
         self.auth_data = {
             'username': 'demo',
             'api_key': api_key.key,
         }
-        self.url = '/api/v1/badges/'
+        self.url = get_api_url('badges')
 
      # check post not allowed
     def test_post_invalid(self):

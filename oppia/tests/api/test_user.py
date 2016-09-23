@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from tastypie.test import ResourceTestCaseMixin
 
-from oppia.tests.utils import getApiKey
+from oppia.tests.utils import get_api_key
 
 
 class UserResourceTest(ResourceTestCaseMixin, TestCase):
@@ -13,7 +13,7 @@ class UserResourceTest(ResourceTestCaseMixin, TestCase):
         super(UserResourceTest, self).setUp()
         self.url = '/api/v1/user/'
         user = User.objects.get(username='demo')
-        self.valid_api_key = getApiKey(user=user)
+        self.valid_api_key = get_api_key(user=user)
 
     # check get not allowed
     def test_get_invalid(self):

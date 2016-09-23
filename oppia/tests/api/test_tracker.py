@@ -4,7 +4,7 @@ from django.test import TestCase
 from tastypie.test import ResourceTestCaseMixin
 
 from oppia.models import Tracker
-from oppia.tests.utils import getApiKey
+from oppia.tests.utils import get_api_key, get_api_url
 
 
 class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
@@ -14,9 +14,9 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         super(TrackerResourceTest, self).setUp()
         self.username = 'demo'
         user = User.objects.get(username=self.username)
-        api_key = getApiKey(user=user)
+        api_key = get_api_key(user=user)
         self.api_key = api_key.key
-        self.url = '/api/v1/tracker/'
+        self.url = get_api_url('tracker')
 
     def get_credentials(self):
         return self.create_apikey(username=self.username, api_key=self.api_key)
@@ -35,7 +35,8 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
 
     # check put not allowed
     def test_put_invalid(self):
-        self.assertHttpMethodNotAllowed(self.api_client.put(self.url+"1/"))
+        resource_url = get_api_url('tracker', 1)
+        self.assertHttpMethodNotAllowed(self.api_client.put(resource_url))
 
     # test what happens when the digest is not found
     # should still add the record

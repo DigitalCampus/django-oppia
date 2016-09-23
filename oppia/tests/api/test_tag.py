@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from tastypie.test import ResourceTestCaseMixin
 
-from oppia.tests.utils import getApiKey
+from oppia.tests.utils import get_api_key, get_api_url
 
 
 class TagResourceTest(ResourceTestCaseMixin, TestCase):
@@ -13,12 +13,12 @@ class TagResourceTest(ResourceTestCaseMixin, TestCase):
     def setUp(self):
         super(TagResourceTest, self).setUp()
         user = User.objects.get(username='demo')
-        api_key = getApiKey(user=user)
+        api_key = get_api_key(user=user)
         self.auth_data = {
             'username': 'demo',
             'api_key': api_key.key,
         }
-        self.url = '/api/v1/tag/'
+        self.url = get_api_url('tag')
 
     # Post invalid
     def test_post_invalid(self):
@@ -58,7 +58,8 @@ class TagResourceTest(ResourceTestCaseMixin, TestCase):
 
     # test getting a listing of courses for one of the tags
     def test_tag_list(self):
-        resp = self.api_client.get(self.url+"2/", format='json', data=self.auth_data)
+        resource_url = get_api_url('tag', 2)
+        resp = self.api_client.get(resource_url, format='json', data=self.auth_data)
         self.assertHttpOK(resp)
         self.assertValidJSON(resp.content)
         response_data = self.deserialize(resp)
@@ -74,7 +75,8 @@ class TagResourceTest(ResourceTestCaseMixin, TestCase):
 
     # test getting listing of courses for an invalid tag
     def test_tag_not_found(self):
-        resp = self.api_client.get(self.url+"999/", format='json', data=self.auth_data)
+        resource_url = get_api_url('tag', 999)
+        resp = self.api_client.get(resource_url, format='json', data=self.auth_data)
         self.assertHttpNotFound(resp)
 
     #TODO check tags and permissions - so only tags that have course the user is allowed to view will appear

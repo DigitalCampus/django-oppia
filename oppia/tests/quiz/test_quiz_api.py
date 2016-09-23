@@ -9,7 +9,6 @@ from oppia.quiz.models import QuizAttempt,QuizAttemptResponse
 
 from tastypie.test import ResourceTestCase
 
-from oppia.tests.utils import getApiKey
 
         
 # TODO QuizQuestionResource

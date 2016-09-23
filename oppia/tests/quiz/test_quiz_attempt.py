@@ -4,7 +4,7 @@ from django.test import TestCase
 from tastypie.test import ResourceTestCaseMixin
 
 from oppia.quiz.models import QuizAttemptResponse, QuizAttempt
-from oppia.tests.utils import getApiKey
+from oppia.tests.utils import get_api_key, get_api_url
 
 
 class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
@@ -14,9 +14,9 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
         super(QuizAttemptResourceTest, self).setUp()
         self.username = 'demo'
         user = User.objects.get(username=self.username)
-        api_key = getApiKey(user)
+        api_key = get_api_key(user)
         self.api_key = api_key.key
-        self.url = '/api/v1/quizattempt/'
+        self.url = get_api_url('quizattempt')
 
     def get_credentials(self):
         return self.create_apikey(username=self.username, api_key=self.api_key)
@@ -26,10 +26,12 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertHttpMethodNotAllowed(self.api_client.get(self.url, format='json'))
 
     def test_put_invalid(self):
-        self.assertHttpMethodNotAllowed(self.api_client.put(self.url+"1192/", format='json'))
+        resource_url = get_api_url('quizattempt', 1192)
+        self.assertHttpMethodNotAllowed(self.api_client.put(resource_url, format='json'))
 
     def test_delete_invalid(self):
-        self.assertHttpMethodNotAllowed(self.api_client.delete(self.url+"1192/", format='json'))
+        resource_url = get_api_url('quizattempt', 1192)
+        self.assertHttpMethodNotAllowed(self.api_client.delete(resource_url, format='json'))
 
     def test_authorized(self):
         data = {
