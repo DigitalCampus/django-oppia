@@ -11,6 +11,8 @@ v0.9.7 - not yet released
 * 370: New points summary is ignoring non-course points - http://github.com/DigitalCampus/django-oppia/issues/issue/370
 * 365: Docs add info about permissions for publishing courses and app - http://github.com/DigitalCampus/django-oppia/issues/issue/365
 * 367: API course list - show user who published course - http://github.com/DigitalCampus/django-oppia/issues/issue/367
+* 310: Change quiz export method - http://github.com/DigitalCampus/django-oppia/issues/issue/310
+* 262: On course upload indicate if the digests have changed - http://github.com/DigitalCampus/django-oppia/issues/issue/262
 
 .. _serverv0.9.6:
 
