@@ -58,10 +58,7 @@ def publish_view(request):
         return JsonResponse(response_data, status=resp_code)
 
     else:
-        if request.POST['is_draft'] == "False" or request.POST['is_draft'] == "false":
-            course.is_draft = False
-        else:
-            course.is_draft = True
+        course.is_draft = (request.POST['is_draft'] == "False" or request.POST['is_draft'] == "false")
         course.save()
         
         # remove any existing tags
@@ -85,8 +82,12 @@ def publish_view(request):
                 ct.course = course
                 ct.tag = tag
                 ct.save()
-        
-        return HttpResponse(status=201)
+
+        msgs = get_messages_array(request)
+        if len(msgs) > 0:
+            return JsonResponse({'messages': msgs}, status=201)
+        else:
+            return HttpResponse(status=201)
 
 
 def validate_fields(request):
@@ -116,5 +117,4 @@ def get_messages_array(request):
     response = []
     for msg in msgs:
         response.append({'tags': msg.tags, 'message': msg.message })
-    print response
     return response
