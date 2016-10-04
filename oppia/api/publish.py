@@ -3,7 +3,7 @@ import os
 
 from django.conf import settings
 from django.contrib.auth import authenticate
-from django.http import HttpResponseRedirect, Http404, HttpResponse
+from django.http import HttpResponseRedirect, Http404, HttpResponse, JsonResponse
 from django.shortcuts import render,render_to_response
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
@@ -19,17 +19,23 @@ def publish_view(request):
         return HttpResponse(status=405)
     
     required = ['username','password','tags','is_draft']
-   
+    errors = []
+
     for r in required:
         if r not in request.POST:
             print r + " not found"
-            return HttpResponse(status=400)
-   
-    
+            errors.append("required field '%s' not found" % r)
+
     if 'course_file' not in request.FILES:
         print "Course file not found"
-        return HttpResponse(status=400)
-        
+        errors.append("Course file not found")
+
+    if len(errors) > 0:
+        response_data = {}
+        response_data['message'] = 'Validation errors'
+        response_data['errors'] = errors
+        return JsonResponse(response_data, status=400)
+
     # authenticate user
     username = request.POST['username']
     password = request.POST['password']
