@@ -96,6 +96,8 @@ def modify(settings):
 
     settings['OPPIA_MAX_UPLOAD_SIZE'] = 5242880         # max course file upload size - in bytes
 
+    settings['OPPIA_EXPORT_LOCAL_MINVERSION'] = 2016101100 # min version of the export block to process the quizzes locally
+
     settings['API_LIMIT_PER_PAGE'] = 0
 
     settings['DEVICE_ADMIN_ENABLED'] = True

@@ -83,7 +83,12 @@ def handle_uploaded_file(f, extract_path, request, user):
     course.filename = f.name
     course.save()
 
-    parse_course_contents(request, doc, course, user, new_course)
+    process_quizzes_locally = False
+    if 'exportversion' in meta_info and meta_info['exportversion'] >= settings.OPPIA_EXPORT_LOCAL_MINVERSION:
+        process_quizzes_locally = True
+        print 'processing course\'s quizzes locally'
+
+    parse_course_contents(request, doc, course, user, new_course, process_quizzes_locally)
     clean_old_course(request, oldsections, old_course_filename, course)
 
     tmp_path = replace_zip_contents(xml_path, doc, mod_name, extract_path)
@@ -100,7 +105,7 @@ def handle_uploaded_file(f, extract_path, request, user):
     return course
 
 
-def parse_course_contents(req, xml_doc, course, user, new_course):
+def parse_course_contents(req, xml_doc, course, user, new_course, process_quizzes_locally):
     # add in any baseline activities
     for meta in xml_doc.getElementsByTagName("meta")[:1]:
         if meta.getElementsByTagName("activity").length > 0:
@@ -110,8 +115,8 @@ def parse_course_contents(req, xml_doc, course, user, new_course):
                 order = 0
             )
             section.save()
-            for a in meta.getElementsByTagName("activity"):
-                parse_and_save_activity(req, user, section, a, new_course, is_baseline=True)
+            for act in meta.getElementsByTagName("activity"):
+                parse_and_save_activity(req, user, section, act, new_course, process_quizzes_locally, is_baseline=True)
 
     # add all the sections and activities
     for structure in xml_doc.getElementsByTagName("structure")[:1]:
@@ -141,8 +146,8 @@ def parse_course_contents(req, xml_doc, course, user, new_course):
             section.save()
 
             for activities in s.getElementsByTagName("activities")[:1]:
-                for a in activities.getElementsByTagName("activity"):
-                    parse_and_save_activity(req, user, section, a, new_course)
+                for act in activities.getElementsByTagName("activity"):
+                    parse_and_save_activity(req, user, section, act, new_course, process_quizzes_locally)
 
     # add all the media
     for file in xml_doc.lastChild.lastChild.childNodes:
@@ -163,11 +168,13 @@ def parse_course_contents(req, xml_doc, course, user, new_course):
             media.save()
 
 
-def parse_and_save_activity(req, user, section, act, new_course, is_baseline=False):
+def parse_and_save_activity(req, user, section, act, new_course, process_quiz_locally, is_baseline=False):
     """
     Parses an Activity XML and saves it to the DB
     :param section: section the activity belongs to
     :param act: a XML DOM element containing a single activity
+    :param new_course: boolean indicating if it is a new course or existed previously
+    :param process_quiz_locally: should the quiz be created based on the JSON contents?
     :param is_baseline: is the activity part of the baseline?
     :return: None
     """
@@ -244,7 +251,7 @@ def parse_and_save_activity(req, user, section, act, new_course, is_baseline=Fal
         messages.info(req, _('Activity "%(act)s"(%(digest)s) previously existed. Updated with new information') % {'act': activity, 'digest':activity.digest})
     '''
 
-    if act_type == "quiz":
+    if (act_type == "quiz") and process_quiz_locally:
         updated_json = parse_and_save_quiz(req, user, activity)
         # we need to update the JSON contents both in the XML and in the activity data
         act.getElementsByTagName("content")[0].firstChild.nodeValue = updated_json
@@ -361,6 +368,9 @@ def parse_course_meta(xml_doc):
 
         for sn in meta.getElementsByTagName("shortname")[:1]:
             meta_info['shortname'] = sn.firstChild.nodeValue
+
+        for v in meta.getElementsByTagName("exportversion")[:1]:
+            meta_info['exportversion'] = int(v.firstChild.nodeValue)
 
     return meta_info
 
