@@ -5,13 +5,13 @@ import json
 import shutil
 import xml.dom.minidom
 from xml.dom.minidom import Node
-from zipfile import ZipFile
+from zipfile import ZipFile, BadZipfile
 
 import os
 from django.conf import settings
 from django.contrib import messages
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as _
 
 from oppia.models import Course, Section, Activity, Media
 from oppia.quiz.models import Quiz, Question, QuizQuestion, Response, ResponseProps, QuestionProps, QuizProps
@@ -24,7 +24,11 @@ def handle_uploaded_file(f, extract_path, request, user):
         for chunk in f.chunks():
             destination.write(chunk)
 
-    ZipFile(zipfilepath).extractall(path=extract_path)
+    try:
+        ZipFile(zipfilepath).extractall(path=extract_path)
+    except BadZipfile:
+        messages.error(request, _("Invalid zip file"), extra_tags="danger")
+        return False, 500
 
     mod_name = ''
     for dir in os.listdir(extract_path)[:1]:
@@ -33,12 +37,12 @@ def handle_uploaded_file(f, extract_path, request, user):
     # check there is at least a sub dir
     if mod_name == '':
         messages.info(request, _("Invalid course zip file"), extra_tags="danger")
-        return False
+        return False, 400
 
     # check that the module.xml file exists
     if not os.path.isfile(os.path.join(extract_path, mod_name, "module.xml")):
         messages.info(request, _("Zip file does not contain a module.xml file"), extra_tags="danger")
-        return False
+        return False, 400
 
     # parse the module.xml file
     xml_path = os.path.join(extract_path, mod_name, "module.xml")
@@ -55,11 +59,11 @@ def handle_uploaded_file(f, extract_path, request, user):
         # check that the current user is allowed to wipe out the other course
         if course.user != user:
             messages.info(request, _("Sorry, only the original owner may update this course"))
-            return False
+            return False, 401
         # check if course version is older
         if course.version > meta_info['versionid']:
             messages.info(request, _("A newer version of this course already exists"))
-            return False
+            return False, 400
 
         # obtain the old sections
         oldsections = list(Section.objects.filter(course=course).values_list('pk', flat=True))
@@ -102,7 +106,7 @@ def handle_uploaded_file(f, extract_path, request, user):
     # remove the temp upload files
     shutil.rmtree(extract_path, ignore_errors=True)
 
-    return course
+    return course, 200
 
 
 def parse_course_contents(req, xml_doc, course, user, new_course, process_quizzes_locally):
@@ -278,11 +282,14 @@ def parse_and_save_quiz(req, user, activity):
             quiz = None
 
     if quiz is not None:
-        quiz_act = Activity.objects.get(digest=quiz_digest)
-        updated_content = quiz_act.content
-    else:
-        updated_content = create_quiz(user, quiz_obj)
+        try:
+            quiz_act = Activity.objects.get(digest=quiz_digest)
+            updated_content =  quiz_act.content
+            return updated_content
+        except Activity.DoesNotExist:
+            pass
 
+    updated_content = create_quiz(user, quiz_obj)
     return updated_content
 
 
