@@ -10,8 +10,12 @@ v0.9.8 - not yet released
 --------------------------------
 
 * 349: Management command for cleaning up old data - http://github.com/DigitalCampus/django-oppia/issues/issue/349
-
-
+* 219: Add better error messaging/reporting when upload fails - http://github.com/DigitalCampus/django-oppia/issues/issue/219
+* 22: Add unit tests for BadgesResource - http://github.com/DigitalCampus/django-oppia/issues/issue/22
+* 25: Add unit tests for CourseResource - http://github.com/DigitalCampus/django-oppia/issues/issue/25
+* 26: Add unit tests for PointsResource - http://github.com/DigitalCampus/django-oppia/issues/issue/26
+* 47: Add unit test for checking registration done through web form - http://github.com/DigitalCampus/django-oppia/issues/issue/47
+* 359: Add unit tests for permissions - http://github.com/DigitalCampus/django-oppia/issues/issue/359
 
 .. _serverv0.9.7:
 
