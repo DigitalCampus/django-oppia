@@ -3,9 +3,19 @@ OppiaMobile Server Change Log
 
 To see the upcoming feature developments and bug fixes, please refer to the `monthly milestones on GitHub <https://github.com/DigitalCampus/django-oppia/milestones>`_
 
+
+.. _serverv0.9.8:
+
+v0.9.8 - not yet released
+--------------------------------
+
+* 349: Management command for cleaning up old data - http://github.com/DigitalCampus/django-oppia/issues/issue/349
+
+
+
 .. _serverv0.9.7:
 
-v0.9.7 - not yet released
+v0.9.7 - Released 20 Sept 2016
 --------------------------------
 
 * 370: New points summary is ignoring non-course points - http://github.com/DigitalCampus/django-oppia/issues/issue/370
