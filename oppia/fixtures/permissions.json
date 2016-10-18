@@ -1,0 +1,117 @@
+[
+  {
+    "fields": {
+      "username": "staff",
+      "first_name": "demo",
+      "last_name": "user",
+      "is_active": true,
+      "is_superuser": false,
+      "is_staff": true,
+      "last_login": "2015-06-11T13:20:48Z",
+      "groups": [],
+      "user_permissions": [],
+      "password": "pbkdf2_sha256$15000$7FJfq85aSCtQ$ZT+WV+jOaLPVeLvq5kMlxcX+Js53PeE92mcd/Zm1w7k=",
+      "email": "staff@me.com",
+      "date_joined": "2015-06-11T13:20:47Z"
+    },
+    "model": "auth.user",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "phone_number": null,
+      "about": null,
+      "can_upload": false,
+      "organisation": "",
+      "user": 3,
+      "job_title": ""
+    },
+    "model": "profile.userprofile",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "phone_number": null,
+      "about": null,
+      "can_upload": false,
+      "organisation": "",
+      "user": 1,
+      "job_title": ""
+    },
+    "model": "profile.userprofile",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "username": "teacher",
+      "first_name": "teacher",
+      "last_name": "user",
+      "is_active": true,
+      "is_superuser": false,
+      "is_staff": false,
+      "last_login": "2015-06-11T13:20:48Z",
+      "groups": [],
+      "user_permissions": [],
+      "password": "pbkdf2_sha256$15000$7FJfq85aSCtQ$ZT+WV+jOaLPVeLvq5kMlxcX+Js53PeE92mcd/Zm1w7k=",
+      "email": "teacher@me.com",
+      "date_joined": "2015-06-11T13:20:47Z"
+    },
+    "model": "auth.user",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "phone_number": null,
+      "about": null,
+      "can_upload": true,
+      "organisation": "",
+      "user": 4,
+      "job_title": ""
+    },
+    "model": "profile.userprofile",
+    "pk": 5
+  },
+  {
+    "fields": {
+      "description": "{\"en\": \"Draft course, full content, designed for use in all countries\"}",
+      "title": "{\"en\": \"Draft course for testing\"}",
+      "is_draft": true,
+      "is_archived": false,
+      "filename": "draft-20150611100319.zip",
+      "version": 20150611100319,
+      "user": 1,
+      "created_date": "2015-06-12T14:04:36Z",
+      "shortname": "draft-test",
+      "lastupdated_date": "2015-06-12T14:04:36Z",
+      "badge_icon": ""
+    },
+    "model": "oppia.course",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "description": "{\"en\": \"Cohort test 1\"}",
+      "start_date": "2015-06-12T14:04:36Z",
+      "end_date": "2016-06-12T14:04:36Z"
+    },
+    "model": "oppia.cohort",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "description": "{\"en\": \"Cohort test 2\"}",
+      "start_date": "2015-06-12T14:04:36Z",
+      "end_date": "2016-06-12T14:04:36Z"
+    },
+    "model": "oppia.cohort",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "course": 1,
+      "cohort": 1
+    },
+    "model": "oppia.coursecohort",
+    "pk": 1
+  }
+]

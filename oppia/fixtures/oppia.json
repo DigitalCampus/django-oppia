@@ -8,7 +8,7 @@
         "user": 2,
         "job_title": ""
     },
-    "model": "oppia.userprofile",
+    "model": "profile.userprofile",
     "pk": 1
 },
 {
