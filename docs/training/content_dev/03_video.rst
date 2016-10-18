@@ -29,5 +29,5 @@ Follow up and preparation for next session
 
 * Practice adding other videos, exporting the course and running on your device
 * Review the OppiaMobile dashboard guide (:doc:`../../dashboard/index`)
-* Review the OppiaMobile permissions documentation (:doc:`../../permissions`)
+* Review the OppiaMobile permissions documentation (:doc:`../../permissions/index`)
 
