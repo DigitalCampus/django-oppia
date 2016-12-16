@@ -271,8 +271,11 @@ def parse_and_save_quiz(req, user, activity):
             quiz = None
 
     if quiz is not None:
-        quiz_act = Activity.objects.get(digest=quiz_digest)
-        updated_content = quiz_act.content
+        try:
+            quiz_act = Activity.objects.get(digest=quiz_digest)
+            updated_content = quiz_act.content
+        except Activity.DoesNotExist:
+            updated_content = create_quiz(user, quiz_obj)
     else:
         updated_content = create_quiz(user, quiz_obj)
 
