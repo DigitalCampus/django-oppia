@@ -27,6 +27,7 @@ def handle_uploaded_file(f, extract_path, request, user):
     ZipFile(zipfilepath).extractall(path=extract_path)
 
     mod_name = ''
+    print os.listdir(extract_path)
     for dir in os.listdir(extract_path)[:1]:
         mod_name = dir
 
