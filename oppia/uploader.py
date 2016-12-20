@@ -36,6 +36,7 @@ def handle_uploaded_file(f, extract_path, request, user):
         return False
 
     # check that the module.xml file exists
+    print os.path.join(extract_path, mod_name, "module.xml")
     if not os.path.isfile(os.path.join(extract_path, mod_name, "module.xml")):
         messages.info(request, _("Zip file does not contain a module.xml file"), extra_tags="danger")
         return False
