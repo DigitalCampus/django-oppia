@@ -33,6 +33,14 @@ v60 (6.1.0) - Not yet released
 * 560: Option to download all the media - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/560
 * 317: How to include some layout (html) in quiz questions - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/317
 * 274: Add lang pack for Spanish - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/274
+* 590: Downloading an updated course - http://github.com/DigitalCampus/oppia-mobile-android/issues/590
+* 587: Larger margin between quiz response options - http://github.com/DigitalCampus/oppia-mobile-android/issues/587
+* 539: Log when a user tries to open a media file but it's not on the phone - http://github.com/DigitalCampus/oppia-mobile-android/issues/539
+* 589: When changing settings that affects the menu options, they don't update until next open of the app - http://github.com/DigitalCampus/oppia-mobile-android/issues/589
+* 594: Enable logout from homepage should be true by default - http://github.com/DigitalCampus/oppia-mobile-android/issues/594
+* 595: Update logout message as logs no longer lost on logout - http://github.com/DigitalCampus/oppia-mobile-android/issues/595
+
+
 
 .. _appv59:
 
