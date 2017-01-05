@@ -16,7 +16,7 @@ v0.9.8 - not yet released
 * 26: Add unit tests for PointsResource - http://github.com/DigitalCampus/django-oppia/issues/issue/26
 * 47: Add unit test for checking registration done through web form - http://github.com/DigitalCampus/django-oppia/issues/issue/47
 * 359: Add unit tests for permissions - http://github.com/DigitalCampus/django-oppia/issues/issue/359
-* 227: In icons on resource row show extra icons for... - https://github.com/mPowering/django-orb/issues/227
+* 227: Check that the direct course upload via Moodle will reject any files larger than specified for the server - http://github.com/DigitalCampus/django-oppia/issues/issue/227
 
 
 
