@@ -25,7 +25,7 @@ v0.9.8 - Released 5 Jan 2017
 * 359: Add unit tests for permissions - http://github.com/DigitalCampus/django-oppia/issues/issue/359
 * 227: Check that the direct course upload via Moodle will reject any files larger than specified for the server - http://github.com/DigitalCampus/django-oppia/issues/issue/227
 * 310: Change quiz export method - https://github.com/DigitalCampus/django-oppia/issues/310
-
+* 394: Management command to clean uploads dir - https://github.com/DigitalCampus/django-oppia/issues/394
 
 .. _serverv0.9.7:
 
