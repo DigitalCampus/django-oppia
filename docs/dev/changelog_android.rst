@@ -4,9 +4,17 @@ OppiaMobile Android App Change Log
 To see the upcoming feature developments and bug fixes, please refer to the `monthly milestones on GitHub <https://github.com/DigitalCampus/oppia-mobile-android/milestones>`_
 
 
+
+.. _appv61:
+
+v61 (6.2.0) - Not yet released 
+--------------------------------------
+
+
+
 .. _appv60:
 
-v60 (6.1.0) - Not yet released 
+v60 (6.1.0) - Released 6 Jan 2017 
 --------------------------------------
 
 .. note:: 
@@ -23,7 +31,6 @@ v60 (6.1.0) - Not yet released
 * 477: Look at what would be needed to allow categories of courses - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/477
 * 564: App shuts down when having installed a course by copying onto the sd card - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/564
 * 549: Adding BugSense/Mint API key in non-Git file - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/549
-* 526: In quiz activity - if user has passed then show option to continue rather than retake - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/526
 * 574: Restricting no attempts at quiz - unlimited attempts still possible - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/574
 * 565: Show message when all video files downloaded and no more to get - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/565
 * 566: Media download page - ordering & add some extra info - http://github.com/DigitalCampus/oppia-mobile-android/issues/issue/566
@@ -39,7 +46,7 @@ v60 (6.1.0) - Not yet released
 * 589: When changing settings that affects the menu options, they don't update until next open of the app - http://github.com/DigitalCampus/oppia-mobile-android/issues/589
 * 594: Enable logout from homepage should be true by default - http://github.com/DigitalCampus/oppia-mobile-android/issues/594
 * 595: Update logout message as logs no longer lost on logout - http://github.com/DigitalCampus/oppia-mobile-android/issues/595
-
+* 586: Supported media file types - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/586
 
 
 .. _appv59:
