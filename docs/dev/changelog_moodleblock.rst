@@ -1,6 +1,21 @@
 OppiaMobile Moodle Block Change Log
 =====================================
 
+
+.. _blockv2017010600:
+
+v2017010600 - Released: 6 Jan 2017
+-------------------------------------
+
+.. note::
+	To install/update the block you will need to be running a recent version of Moodle (v3.1+). From May 2017, Moodle 
+	versions 3.0 and below will no longer be supported for general issues nor security fixes (see: https://docs.moodle.org/dev/Releases)
+	
+* 142: Change quiz export method - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/142
+* 88: Non latin video filenames - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/88
+* 65: Give overall feedback in Quiz - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/65
+* 125: Check version of PHP and cURL before trying to publish directly - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/125
+
 .. _blockv2016082600:
 
 v2016082600 - Released: 26 Aug 2016
