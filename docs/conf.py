@@ -13,6 +13,8 @@
 
 import sys, os
 
+from datetime import date
+
 sys.path.append(os.path.dirname(__file__))
 sys.path.append(os.path.abspath('../oppia/'))
 
@@ -49,7 +51,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'OppiaMobile'
-copyright = u'2016, Digital Campus'
+copyright = u'%d, Digital Campus' % date.today().year
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
