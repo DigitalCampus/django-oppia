@@ -7,13 +7,12 @@ from django.contrib.auth import authenticate
 from django.http import HttpResponseRedirect, Http404, HttpResponse, JsonResponse
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
 
 from oppia.models import Tag, CourseTag
 from oppia.uploader import handle_uploaded_file
 
 COURSE_FILE_FIELD = 'course_file'
-
-from django.utils.translation import ugettext as _
 
 @csrf_exempt
 def publish_view(request):
