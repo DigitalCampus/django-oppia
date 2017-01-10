@@ -79,7 +79,7 @@ def publish_view(request):
         return JsonResponse(response_data, status=resp_code)
 
     else:
-        course.is_draft = (request.POST['is_draft'] == "False" or request.POST['is_draft'] == "false")
+        course.is_draft = (request.POST['is_draft'] == "True" or request.POST['is_draft'] == "true")
         course.save()
         
         # remove any existing tags
