@@ -275,15 +275,23 @@ def parse_and_save_quiz(req, user, activity):
     """
 
     quiz_obj = json.loads(activity.content)
+
+    quiz_existed = False
     # first of all, we find the quiz digest to see if it is already saved
     if quiz_obj['props']['digest']:
         quiz_digest = quiz_obj['props']['digest']
-        try:
-            quiz = Quiz.objects.get(quizprops__value=quiz_digest, quizprops__name="digest")
-        except Quiz.DoesNotExist:
-            quiz = None
 
-    if quiz is not None:
+        try:
+            quizzes = Quiz.objects.filter(quizprops__value=quiz_digest, quizprops__name="digest").order_by('-id')
+            quiz_existed = len(quizzes) > 0
+            # remove any possible duplicate (possible scenario when transitioning between export versions)
+            for quiz in quizzes[1:]:
+                quiz.delete()
+
+        except Quiz.DoesNotExist:
+            quiz_existed = False
+
+    if quiz_existed:
         try:
             quiz_act = Activity.objects.get(digest=quiz_digest)
             updated_content = quiz_act.content
@@ -292,7 +300,6 @@ def parse_and_save_quiz(req, user, activity):
     else:
         updated_content = create_quiz(user, quiz_obj)
 
-    updated_content = create_quiz(user, quiz_obj)
     return updated_content
 
 
