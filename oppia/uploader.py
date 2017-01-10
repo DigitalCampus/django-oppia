@@ -31,6 +31,7 @@ def handle_uploaded_file(f, extract_path, request, user):
         return False, 500
 
     mod_name = ''
+    print os.listdir(extract_path)
     for dir in os.listdir(extract_path)[:1]:
         mod_name = dir
 
@@ -40,6 +41,7 @@ def handle_uploaded_file(f, extract_path, request, user):
         return False, 400
 
     # check that the module.xml file exists
+    print os.path.join(extract_path, mod_name, "module.xml")
     if not os.path.isfile(os.path.join(extract_path, mod_name, "module.xml")):
         messages.info(request, _("Zip file does not contain a module.xml file"), extra_tags="danger")
         return False, 400
@@ -284,10 +286,11 @@ def parse_and_save_quiz(req, user, activity):
     if quiz is not None:
         try:
             quiz_act = Activity.objects.get(digest=quiz_digest)
-            updated_content =  quiz_act.content
-            return updated_content
+            updated_content = quiz_act.content
         except Activity.DoesNotExist:
-            pass
+            updated_content = create_quiz(user, quiz_obj)
+    else:
+        updated_content = create_quiz(user, quiz_obj)
 
     updated_content = create_quiz(user, quiz_obj)
     return updated_content

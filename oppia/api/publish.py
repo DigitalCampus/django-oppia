@@ -1,16 +1,18 @@
 # This is a workaround since Tastypie doesn't accept file Uploads
-import os
+import math
 
+import os
 from django.conf import settings
 from django.contrib.auth import authenticate
 from django.http import HttpResponseRedirect, Http404, HttpResponse, JsonResponse
+from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
-
-from oppia.uploader import handle_uploaded_file
-from oppia.models import Tag, CourseTag
 from django.contrib import messages
 
-from django.utils.translation import ugettext as _
+from oppia.models import Tag, CourseTag
+from oppia.uploader import handle_uploaded_file
+
+COURSE_FILE_FIELD = 'course_file'
 
 @csrf_exempt
 def publish_view(request):
@@ -20,14 +22,33 @@ def publish_view(request):
 
     if request.method != 'POST':
         return HttpResponse(status=405)
-    
-    # validate request fields
-    if not validate_fields(request):
-        response_data = {
-            'message': _('Validation errors'),
-            'messages': get_messages_array(request)
-        }
-        return JsonResponse(response_data, status=400)
+
+    required = ['username','password','tags','is_draft']
+
+    validationErrors = []
+
+    for field in required:
+        if field not in request.POST:
+            print field + " not found"
+            validationErrors.append("field '{0}' missing".format(field))
+
+
+    if COURSE_FILE_FIELD not in request.FILES:
+        print "Course file not found"
+        validationErrors.append("file '{0}' missing".format(COURSE_FILE_FIELD))
+    else:
+        # check the file size of the course doesnt exceed the max
+        file = request.FILES[COURSE_FILE_FIELD]
+        if file is not None and file._size > settings.OPPIA_MAX_UPLOAD_SIZE:
+            size = int(math.floor(settings.OPPIA_MAX_UPLOAD_SIZE / 1024 / 1024))
+            validationErrors.append((_("Your file is larger than the maximum allowed (%(size)d Mb). You may want to check your course for large includes, such as images etc.") % {'size':size, }))
+
+        if file is not None and file.content_type != 'application/zip' and file.content_type != 'application/x-zip-compressed':
+            validationErrors.append(_("You may only upload a zip file"))
+
+    if validationErrors:
+        return JsonResponse({ 'errors' : validationErrors }, status=400, )
+        
 
     # authenticate user
     username = request.POST['username']

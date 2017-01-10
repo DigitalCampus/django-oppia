@@ -46,6 +46,7 @@ before you start to make any changes to the code.
    	settings
    	theme
    	preloading
+   	eclipse_to_studio
 
 
 

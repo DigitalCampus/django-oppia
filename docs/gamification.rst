@@ -65,4 +65,15 @@ function for the relevant activity widget class in the app code will need to be 
    The badge awarding is performed by the :ref:`Oppia cron task <installcron>`, so for badges to be 
    awarded, please ensure that the cron task is set up to run regularly.
 
+Who can earn points/badges?
+----------------------------
 
+In the default settings:
+
+* Admins and staff users do not earn points or badges for their activity in 
+  courses.
+* Teachers do not earn points or badges in the courses they are teachers on
+* If non admin or staff users are given permissions to upload courses, then they
+  will not earn points or badges in the courses they upload.
+
+These defaults may be changed in the server settings.

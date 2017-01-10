@@ -1,11 +1,42 @@
 OppiaMobile Server Change Log
 ================================
 
-.. _serverv0.9.7:
+To see the upcoming feature developments and bug fixes, please refer to the `monthly milestones on GitHub <https://github.com/DigitalCampus/django-oppia/milestones>`_
 
-v0.9.7 - not yet released
+
+.. _serverv0.9.9:
+
+v0.9.9 - Not yet released
 --------------------------------
 
+
+
+.. _serverv0.9.8:
+
+v0.9.8 - Released 5 Jan 2017
+--------------------------------
+
+* 349: Management command for cleaning up old data - http://github.com/DigitalCampus/django-oppia/issues/issue/349
+* 219: Add better error messaging/reporting when upload fails - http://github.com/DigitalCampus/django-oppia/issues/issue/219
+* 22: Add unit tests for BadgesResource - http://github.com/DigitalCampus/django-oppia/issues/issue/22
+* 25: Add unit tests for CourseResource - http://github.com/DigitalCampus/django-oppia/issues/issue/25
+* 26: Add unit tests for PointsResource - http://github.com/DigitalCampus/django-oppia/issues/issue/26
+* 47: Add unit test for checking registration done through web form - http://github.com/DigitalCampus/django-oppia/issues/issue/47
+* 359: Add unit tests for permissions - http://github.com/DigitalCampus/django-oppia/issues/issue/359
+* 227: Check that the direct course upload via Moodle will reject any files larger than specified for the server - http://github.com/DigitalCampus/django-oppia/issues/issue/227
+* 310: Change quiz export method - https://github.com/DigitalCampus/django-oppia/issues/310
+* 394: Management command to clean uploads dir - https://github.com/DigitalCampus/django-oppia/issues/394
+
+.. _serverv0.9.7:
+
+v0.9.7 - Released 20 Sept 2016
+--------------------------------
+
+* 370: New points summary is ignoring non-course points - http://github.com/DigitalCampus/django-oppia/issues/issue/370
+* 365: Docs add info about permissions for publishing courses and app - http://github.com/DigitalCampus/django-oppia/issues/issue/365
+* 367: API course list - show user who published course - http://github.com/DigitalCampus/django-oppia/issues/issue/367
+* 310: Change quiz export method - http://github.com/DigitalCampus/django-oppia/issues/issue/310
+* 262: On course upload indicate if the digests have changed - http://github.com/DigitalCampus/django-oppia/issues/issue/262
 
 .. _serverv0.9.6:
 

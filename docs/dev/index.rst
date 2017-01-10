@@ -7,6 +7,7 @@ For installing OppiaMobile server and Moodle block please refer to:
    :maxdepth: 1
 
    architecture
+   roadmap
    install
    block_install
    upgrade
@@ -16,6 +17,7 @@ For installing OppiaMobile server and Moodle block please refer to:
    api
    utilities
    code_process
+   testing/index
    remote_device_admin
    changelog
    

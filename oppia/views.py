@@ -303,6 +303,7 @@ def upload_step2(request, course_id, editing=False):
                                     'is_draft':course.is_draft,}) # An unbound form
 
     page_title = _(u'Upload Course - step 2') if not editing else _(u'Edit course')
+    print course.title
     return render_to_response('oppia/upload.html', 
                               {'form': form,
                                'course_title':course.title,

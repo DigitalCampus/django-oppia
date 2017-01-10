@@ -20,7 +20,7 @@ Activities
 * Explanation of the function of the dashboard
 * Walk through of the dashboard structure and navigation
 * How to create new user accounts
-* Permissions levels and how to assign them to users (refer to :doc:`../../permissions`)
+* Permissions levels and how to assign them to users (refer to :doc:`../../permissions/index`)
 * Finding specific activity for a user and/or course
 * Pre-defined reports
 * Custom reporting
