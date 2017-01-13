@@ -271,7 +271,7 @@ def upload_step2(request, course_id, editing=False):
     if request.method == 'POST':
         form = UploadCourseStep2Form(request.POST,request.FILES)
         if form.is_valid(): # All validation rules pass
-            is_draft = form.cleaned_data.get("is_draft")
+
             if course:
                 #add the tags
                 tags = form.cleaned_data.get("tags").strip().split(",")
