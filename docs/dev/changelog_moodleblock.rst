@@ -2,9 +2,9 @@ OppiaMobile Moodle Block Change Log
 =====================================
 
 
-.. _blockv2017010600:
+.. _blockv2017011400:
 
-v2017010600 - Released: 6 Jan 2017
+v2017011400 - Released: 14 Jan 2017
 -------------------------------------
 
 .. note::
