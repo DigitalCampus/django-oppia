@@ -14,7 +14,7 @@ v61 (6.2.0) - Not yet released
 
 .. _appv60:
 
-v60 (6.1.0) - Released 6 Jan 2017 
+v60 (6.1.0) - Released 14 Jan 2017 
 --------------------------------------
 
 .. note:: 
