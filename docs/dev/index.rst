@@ -19,6 +19,7 @@ For installing OppiaMobile server and Moodle block please refer to:
    code_process
    testing/index
    remote_device_admin
+   integration/launch_from_other_app
    changelog
    
 
