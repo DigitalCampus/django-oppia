@@ -4,12 +4,19 @@ OppiaMobile Android App Change Log
 To see the upcoming feature developments and bug fixes, please refer to the `monthly milestones on GitHub <https://github.com/DigitalCampus/oppia-mobile-android/milestones>`_
 
 
+.. _appv62:
+
+v62 (6.2.0) - Not yet released 
+--------------------------------------
+
+
 
 .. _appv61:
 
-v61 (6.2.0) - Not yet released 
+v61 (6.1.1) - Released 30 Jan 2017 
 --------------------------------------
 
+* 607: App crashing on login - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/607
 
 
 .. _appv60:
