@@ -39,8 +39,8 @@ with Django, visit http://gettingstartedwithdjango.com/.
     
     * Add the following code::
 	
-		from oppia import local_settings
-		local_settings.modify(globals())
+		from oppia import local_settings_live
+		local_settings_live.modify(globals())
 		
     * Ensure you have the following standard Django settings configured:
 	
