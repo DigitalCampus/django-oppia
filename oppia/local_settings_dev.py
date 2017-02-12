@@ -5,7 +5,7 @@ def modify(settings):
     settings['INSTALLED_APPS'] += ('oppia.quiz', 
                                    'oppia.viz', 
                                    'oppia.preview',
-                                   'oppia.media',
+                                   'oppia.av',
                                    'oppia.profile',
                                    'oppia.reports',
                                    'oppia.summary',

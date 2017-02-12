@@ -1,4 +1,4 @@
-# oppia/media/models.py
+# oppia/av/models.py
 import datetime
 
 from django.contrib.auth.models import User
