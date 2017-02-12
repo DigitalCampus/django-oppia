@@ -13,6 +13,7 @@ setup(
               'oppia.quiz',
               'oppia.api',
               'oppia.profile',
+              'oppia.media',
               'oppia.quiz.api', 
               'oppia.migrations', 
               'oppia.quiz.migrations', 
@@ -42,7 +43,7 @@ setup(
     ],
     install_requires=[
         "django == 1.8.5",
-	    "django-tastypie >= 0.12.2",
+	    "django-tastypie >= 0.13.3",
         "django-tablib >= 0.9.11",
         "django-crispy-forms >= 1.4.0",
         "pytz",
