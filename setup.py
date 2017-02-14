@@ -13,6 +13,7 @@ setup(
               'oppia.quiz',
               'oppia.api',
               'oppia.profile',
+              'oppia.media',
               'oppia.quiz.api', 
               'oppia.migrations', 
               'oppia.quiz.migrations', 

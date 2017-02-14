@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{{ title }}
+{% endblock extra_head_title %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+	<h2>{{ title }}</h2>
+    <div class="row">
+    	<div class="col-md-11">{% include "includes/messages.html" %}</div>
+    </div>
+	{% crispy form %}
+</div>
+{% endblock %}
+
