@@ -8,6 +8,7 @@ from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
 
 from oppia.av.forms import UploadMediaForm
+from oppia.av.models import UploadedMedia
 
 def upload_view(request):
     if not request.user.userprofile.get_can_upload():

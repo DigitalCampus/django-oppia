@@ -23,6 +23,9 @@ class UploadMediaForm(forms.Form):
     course_shortname = forms.CharField( 
                 help_text=_("Short name of the course this media file is linked to"),
                 required=False)
+    length = forms.IntegerField( 
+                help_text=_("Length (in seconds) of the media file"),
+                required=False)
     
     def __init__(self, *args, **kwargs):
         super(UploadMediaForm, self).__init__(*args, **kwargs)
@@ -35,6 +38,7 @@ class UploadMediaForm(forms.Form):
                 'media_file',
                 'media_image',
                 'course_shortname',
+                'length',
                 Div(
                    Submit('submit', _(u'Upload'), css_class='btn btn-default'),
                    css_class='col-lg-offset-2 col-lg-4',
