@@ -13,6 +13,15 @@ from django.utils.translation import ugettext_lazy as _
 from oppia.av.forms import UploadMediaForm
 from oppia.av.models import UploadedMedia
 
+
+def home_view(request):
+    uploaded_media = UploadedMedia.objects.all().order_by('course_shortname')
+
+    return render_to_response('oppia/av/home.html', 
+                              { 'title':_(u'Uploaded Media'),
+                                'uploaded_media': uploaded_media },
+                              context_instance=RequestContext(request))
+
 def upload_view(request):
     if not request.user.userprofile.get_can_upload():
         return HttpResponse('Unauthorized', status=401)
@@ -34,8 +43,8 @@ def upload_view(request):
                uploaded_media.md5 = hashlib.md5(open(uploaded_media.file.path, 'rb').read()).hexdigest()
                uploaded_media.save()
                
-           if request.FILES.has_key('image_file'):
-               uploaded_media.image = request.FILES["image_file"]
+           if request.FILES.has_key('media_image'):
+               uploaded_media.image = request.FILES["media_image"]
            uploaded_media.save()
            
            return HttpResponseRedirect(reverse('oppia_av_upload_success', args=[uploaded_media.id]))
@@ -55,4 +64,6 @@ def upload_success_view(request,id):
                               {'title':_(u'Upload Media'),
                                'media': media},
                               context_instance=RequestContext(request))
+     
+     
     
