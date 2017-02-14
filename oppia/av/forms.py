@@ -17,10 +17,12 @@ class UploadMediaForm(forms.Form):
                 error_messages={'required': _('Please select a media file to upload')},
                 )
     media_image = forms.FileField(
-                help_text=_('Select an image file for this media'),
+                help_text=_('Select an image file for this media, types accepted: %s' % ', '.join(settings.OPPIA_MEDIA_IMAGE_FILE_TYPES)),
                 required=False,
                 )
-    #course_shortname = forms.
+    course_shortname = forms.CharField( 
+                help_text=_("Short name of the course this media file is linked to"),
+                required=False)
     
     def __init__(self, *args, **kwargs):
         super(UploadMediaForm, self).__init__(*args, **kwargs)
@@ -32,6 +34,7 @@ class UploadMediaForm(forms.Form):
         self.helper.layout = Layout(
                 'media_file',
                 'media_image',
+                'course_shortname',
                 Div(
                    Submit('submit', _(u'Upload'), css_class='btn btn-default'),
                    css_class='col-lg-offset-2 col-lg-4',
@@ -41,8 +44,14 @@ class UploadMediaForm(forms.Form):
     def clean(self):
         cleaned_data = super(UploadMediaForm, self).clean()
         media_file = cleaned_data.get("media_file")
+        media_image = cleaned_data.get("media_image")
         
-        if media_file is not None and file.content_type != 'application/zip' and file.content_type != 'application/x-zip-compressed':
-            raise forms.ValidationError(_("You may only upload a zip file"))
+        if media_file is not None:
+            if media_file.content_type not in settings.OPPIA_MEDIA_FILE_TYPES:
+                raise forms.ValidationError(_("You may only upload a media file which is one of the following types: %s" % ', '.join(settings.OPPIA_MEDIA_FILE_TYPES)))
+        
+        if media_image is not None:
+            if media_image.content_type not in settings.OPPIA_MEDIA_IMAGE_FILE_TYPES:
+                raise forms.ValidationError(_("You may only upload an image file which is one of the following types: %s" % ', '.join(settings.OPPIA_MEDIA_IMAGE_FILE_TYPES)))
         
         return cleaned_data
