@@ -9,6 +9,9 @@ To see the upcoming feature developments and bug fixes, please refer to the `mon
 v62 (6.2.0) - Not yet released 
 --------------------------------------
 
+* 600: Feedback field disappears on Quiz Feedback ListView - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/600
+* 603: Pre-Test quizzes not showing correct title - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/603
+* 610: App crashing issues on password reset and video download - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/610
 
 
 .. _appv61:

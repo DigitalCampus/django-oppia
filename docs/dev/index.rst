@@ -21,7 +21,17 @@ For installing OppiaMobile server and Moodle block please refer to:
    remote_device_admin
    integration/launch_from_other_app
    changelog
-   
+  
+  
+.. _install_faqs
+
+Installation FAQS
+-------------------
+
+.. toctree::
+   :maxdepth: 1
+
+   app_install_faqs
 
 .. _customisation:
 
