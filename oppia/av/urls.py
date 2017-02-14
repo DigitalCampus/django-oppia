@@ -5,4 +5,5 @@ from django.views.generic import TemplateView
 
 urlpatterns = patterns('',
    url(r'^upload/$', 'oppia.av.views.upload_view', name="oppia_av_upload"),
+   url(r'^upload/success/(?P<id>\d+)$', 'oppia.av.views.upload_success_view', name="oppia_av_upload_success"),
 )

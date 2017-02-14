@@ -8,13 +8,14 @@ from django.utils import timezone
 
 class UploadedMedia(models.Model):
     course_shortname = models.CharField(max_length=100)
-    user = models.ForeignKey(User)
+    create_user = models.ForeignKey(User, related_name='media_create_user')
+    update_user = models.ForeignKey(User, related_name='media_update_user')
     created_date = models.DateTimeField('date created',default=timezone.now)
     lastupdated_date = models.DateTimeField('date updated',default=timezone.now)
     file = models.FileField(upload_to="uploaded",blank=False)
     image = models.FileField(upload_to="uploaded",blank=True, default=None)
     md5 = models.CharField(max_length=100)
-    length = models.IntegerField(default=0,blank=True)
+    length = models.IntegerField(default=0, blank=True, null=True)
     
     class Meta:
         verbose_name = _('Uploaded Media')
