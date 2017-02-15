@@ -11,6 +11,10 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class UploadMediaForm(forms.Form):
+    course_shortname = forms.CharField( 
+                help_text=_("Short name of the course this media file is linked to"),
+                required=True)
+    
     media_file = forms.FileField(
                 help_text=_('Media file types accepted: %s' % ', '.join(settings.OPPIA_MEDIA_FILE_TYPES)),
                 required=True,
@@ -20,9 +24,6 @@ class UploadMediaForm(forms.Form):
                 help_text=_('Select an image file for this media, types accepted: %s' % ', '.join(settings.OPPIA_MEDIA_IMAGE_FILE_TYPES)),
                 required=False,
                 )
-    course_shortname = forms.CharField( 
-                help_text=_("Short name of the course this media file is linked to"),
-                required=False)
     length = forms.IntegerField( 
                 help_text=_("Length (in seconds) of the media file"),
                 required=False)
@@ -35,9 +36,9 @@ class UploadMediaForm(forms.Form):
         self.helper.label_class = 'col-lg-2'
         self.helper.field_class = 'col-lg-8'
         self.helper.layout = Layout(
+                'course_shortname',
                 'media_file',
                 'media_image',
-                'course_shortname',
                 'length',
                 Div(
                    Submit('submit', _(u'Upload'), css_class='btn btn-default'),

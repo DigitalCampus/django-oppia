@@ -43,7 +43,8 @@ def media_upload_view(request):
             and user.userprofile.can_upload is False:
         return HttpResponse(status=401)
     
-    uploaded_media = UploadedMedia(create_user = user, update_user = user)
+    course_shortname = request.POST['course_shortname']
+    uploaded_media = UploadedMedia(create_user = user, update_user = user, course_shortname = course_shortname)
     uploaded_media.file = request.FILES["media_file"]
     uploaded_media.save()
     
