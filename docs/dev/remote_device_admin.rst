@@ -60,6 +60,8 @@ Since the app uses the latest version of the Google Cloud Messaging library, we 
 
 In some cases, we can face a DexLoader error when building the project once we have solved all the dependencies. Android APKs contain executable bytecode files in the form of Dalvik Executable (DEX) files, which contain the compiled code used to run the app. The Dalvik Executable specification limits the total number of methods that can be referenced within a single DEX file to 65,536, including Android framework methods, library methods, and methods the app own code. The problem is probably related with the addition of the Google Play Services library, as it contains a huge amount of methods. To solve it, add only the GCM part of the Google Services SDK instead of the whole library, as it causes limit overhead in the Dalvik compile process. 
 
+.. _registering-gcm:
+
 Registering the app in GCM
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 To use a custom OppiaMobile server, each project needs its own Google Cloud Messaging keys, both for the server and client (app) side.
