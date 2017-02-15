@@ -28,4 +28,5 @@ Release Process
    place, to ensure there are no conflicts.
 #. The release branch is then merged into the master branch and the master branch is tagged with the release number
 #. Documentation then reviewed for any changes
+#. Clean up old branches from Github
 
