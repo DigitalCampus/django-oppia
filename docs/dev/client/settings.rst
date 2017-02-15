@@ -17,7 +17,7 @@ General
 * ``DEVICEADMIN_ENABLED`` (boolean): enable de remote admin functionality. False by default
 
 Local admin settings (all false by default)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 * ``ADMIN_PROTECT_SETTINGS`` (boolean): enable the admin password protection functionality
 * ``ADMIN_PROTECT_COURSE_DELETE`` (boolean): protect course deletion by admin password
 * ``ADMIN_PROTECT_COURSE_RESET`` (boolean): protect course reset by admin password
