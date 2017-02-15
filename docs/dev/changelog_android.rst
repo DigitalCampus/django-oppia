@@ -14,7 +14,7 @@ v62 (6.2.0) - Not yet released
 * 610: App crashing issues on password reset and video download - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/610
 * 605: OppiaMobile server setting - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/605
 * 606: Course icons not scaling correctly - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/606
-
+* 272: Add lang pack for French - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/272
 
 .. _appv61:
 
