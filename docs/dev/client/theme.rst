@@ -9,7 +9,7 @@ scheme etc., this should be fairly straightforward and you should look at the
 following files in which to make these changes:
 
 App icons and colors
----------------
+--------------------
 
 To use a different logo for your app, place your app logo in the drawable folder and update the following:
 
