@@ -7,6 +7,7 @@ OppiaMobile Moodle Block Change Log
 v2017xxxx - Not yet released
 -------------------------------------
 
+* 173: Add option to select/enter the default language - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/173
 
 
 .. _blockv2017022000:
