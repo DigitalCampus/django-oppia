@@ -2,6 +2,25 @@ OppiaMobile Moodle Block Change Log
 =====================================
 
 
+.. _blockv2017xxxx:
+
+v2017xxxx - Not yet released
+-------------------------------------
+
+* 173: Add option to select/enter the default language - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/173
+
+
+.. _blockv2017022000:
+
+v2017022000 - Released: 20 Feb 2017
+-------------------------------------
+
+* 136: Don't strip out all the HTML tags from quiz question text - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/136
+* 174: XML parsing error when the section/topic description/summary contains an image - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/174
+* 155: Extracting section title - missing custom name - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/155
+* 78: How to include some layout (html) in quiz questions - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/78
+
+
 .. _blockv2017011400:
 
 v2017011400 - Released: 14 Jan 2017
