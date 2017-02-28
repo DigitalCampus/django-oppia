@@ -3,10 +3,16 @@ OppiaMobile Android App Change Log
 
 To see the upcoming feature developments and bug fixes, please refer to the `monthly milestones on GitHub <https://github.com/DigitalCampus/oppia-mobile-android/milestones>`_
 
+.. _appv63:
+
+v63 (6.3.0) - Not yet released 
+--------------------------------------
+
+
 
 .. _appv62:
 
-v62 (6.2.0) - Not yet released 
+v62 (6.2.0) - Released 28 Feb 2017 
 --------------------------------------
 
 * 600: Feedback field disappears on Quiz Feedback ListView - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/600
