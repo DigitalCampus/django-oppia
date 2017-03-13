@@ -316,11 +316,11 @@ def user_course_activity_view(request, user_id, course_id):
     quizzes = []
     for aq in act_quizzes:
         try:
-            quizzes = Quiz.objects.filter(quizprops__value=aq.digest, quizprops__name="digest")
-            if quizzes.count() <= 0:
+            quizobjs = Quiz.objects.filter(quizprops__value=aq.digest, quizprops__name="digest")
+            if quizobjs.count() <= 0:
                 continue
             else:
-                quiz = quizzes[0]
+                quiz = quizobjs[0]
         except Quiz.DoesNotExist:
             quiz = None
 
