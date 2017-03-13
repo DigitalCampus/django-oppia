@@ -9,6 +9,7 @@ To see the upcoming feature developments and bug fixes, please refer to the `mon
 v0.9.9 - Not yet released
 --------------------------------
 
+* hotfix: multiple quizzes returned - https://github.com/DigitalCampus/django-oppia/pull/408
 
 
 .. _serverv0.9.8:
