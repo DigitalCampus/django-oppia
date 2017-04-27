@@ -8,6 +8,7 @@ To see the upcoming feature developments and bug fixes, please refer to the `mon
 v63 (6.3.0) - Not yet released 
 --------------------------------------
 
+* 616: Display drag and drop questions - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/616
 
 
 .. _appv62:

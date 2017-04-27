@@ -1,13 +1,20 @@
 OppiaMobile Moodle Block Change Log
 =====================================
 
+.. _blockv2017xxxxxx:
 
-.. _blockv2017xxxx:
+v2017xxxxxx - Not yet released
+-------------------------------------
 
-v2017xxxx - Not yet released
+
+.. _blockv2017042700:
+
+v2017042700 - Released 27 Apr 2017
 -------------------------------------
 
 * 173: Add option to select/enter the default language - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/173
+* 171: Exporting Drag and Drop questions - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/171
+* Add option for shuffling responses on multichoice questions
 
 
 .. _blockv2017022000:
