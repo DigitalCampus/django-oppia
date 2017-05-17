@@ -4,9 +4,16 @@ OppiaMobile Server Change Log
 To see the upcoming feature developments and bug fixes, please refer to the `monthly milestones on GitHub <https://github.com/DigitalCampus/django-oppia/milestones>`_
 
 
+.. _serverv0.9.10:
+
+v0.9.10 - not yet released
+--------------------------------
+
+
+
 .. _serverv0.9.9:
 
-v0.9.9 - Not yet released
+v0.9.9 - Released 7 Apr 2017
 --------------------------------
 
 * hotfix: multiple quizzes returned - https://github.com/DigitalCampus/django-oppia/pull/408 and https://github.com/DigitalCampus/django-oppia/pull/409
