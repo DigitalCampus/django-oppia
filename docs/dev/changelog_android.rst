@@ -3,9 +3,15 @@ OppiaMobile Android App Change Log
 
 To see the upcoming feature developments and bug fixes, please refer to the `monthly milestones on GitHub <https://github.com/DigitalCampus/oppia-mobile-android/milestones>`_
 
+.. _appv64:
+
+v64 (6.4.0) - not yet released 
+--------------------------------------
+
+
 .. _appv63:
 
-v63 (6.3.0) - Not yet released 
+v63 (6.3.0) - Released 14 Jun 2017 
 --------------------------------------
 
 * 616: Display drag and drop questions - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/616
