@@ -17,6 +17,7 @@ v63 (6.3.0) - Released 14 Jun 2017
 * 616: Display drag and drop questions - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/616
 * 626: Add new logo - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/626
 * 599: Full-Screen Images - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/599
+* 630: Update info for BIND_DEVICE_ADMIN - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/630
 
 .. _appv62:
 
