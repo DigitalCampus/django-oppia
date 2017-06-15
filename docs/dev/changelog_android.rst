@@ -3,10 +3,25 @@ OppiaMobile Android App Change Log
 
 To see the upcoming feature developments and bug fixes, please refer to the `monthly milestones on GitHub <https://github.com/DigitalCampus/oppia-mobile-android/milestones>`_
 
+.. _appv64:
+
+v64 (6.4.0) - not yet released 
+--------------------------------------
+
+
+.. _appv63:
+
+v63 (6.3.0) - Released 14 Jun 2017 
+--------------------------------------
+
+* 616: Display drag and drop questions - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/616
+* 626: Add new logo - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/626
+* 599: Full-Screen Images - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/599
+* 630: Update info for BIND_DEVICE_ADMIN - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/630
 
 .. _appv62:
 
-v62 (6.2.0) - Not yet released 
+v62 (6.2.0) - Released 28 Feb 2017 
 --------------------------------------
 
 * 600: Feedback field disappears on Quiz Feedback ListView - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/600

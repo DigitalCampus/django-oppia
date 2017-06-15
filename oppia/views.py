@@ -938,9 +938,11 @@ def course_quiz(request,course_id):
     quizzes = []
     for d in digests:
         try:
-            q = Quiz.objects.get(quizprops__name='digest',quizprops__value=d.digest)
-            q.section_name = d.section.title
-            quizzes.append(q)
+            quizobjs = Quiz.objects.filter(quizprops__name='digest',quizprops__value=d.digest)
+            if len(quizobjs) > 0:
+                q = quizobjs[0]
+                q.section_name = d.section.title
+                quizzes.append(q)
         except Quiz.DoesNotExist:
             pass
     return render_to_response('oppia/course/quizzes.html',
@@ -981,12 +983,11 @@ def course_feedback(request,course_id):
     digests = Activity.objects.filter(section__course=course,type='feedback').order_by('section__order').values('digest').distinct()
     feedback = []
     for d in digests:
-        try:
-            q = Quiz.objects.get(quizprops__name='digest',quizprops__value=d['digest'])
+        quizobjs = Quiz.objects.filter(quizprops__name='digest',quizprops__value=d['digest'])
+        if len(quizobjs) > 0:
+            q = quizobjs[0]
             feedback.append(q)
-        except Quiz.DoesNotExist:
-            pass
-        
+
     return render_to_response('oppia/course/feedback.html',
                               {'course': course,
                                'feedback':feedback}, 

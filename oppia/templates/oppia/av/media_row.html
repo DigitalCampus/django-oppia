@@ -1,0 +1,14 @@
+{% load i18n %}
+{% load display_functions %}
+{% load staticfiles %}
+
+<tr>
+	<td>{{ media.course_shortname }}</td>
+	<td>
+		{% if media.image %}
+			<img src="{{ media.image.url }}" width="50px">
+		{% endif %}
+	</td>
+	<td><a href="{{ media.file.url }}" target="_blank">{{ media.file.url }}</a></td>
+	<td>{{ media.md5 }}</td>
+</tr>

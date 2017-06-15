@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{{ title }}
+{% endblock extra_head_title %}
+
+{% block content %}
+<div class="container">
+	<h2>{{ title }}</h2>
+	{% if uploaded_media %}
+		<div class="table-responsive">
+	         <table class="table table-striped">
+				 <thead>
+	                <tr>
+	                  <th>{% trans 'Course' %}</th>
+	                  <th>{% trans 'Image' %}</th>
+	                  <th>{% trans 'Media' %}</th>
+	                  <th>{% trans 'MD5' %}</th>
+	                </tr>
+	              </thead>
+	              <tbody>
+	              {% for media in uploaded_media %}
+	              	  {% include 'oppia/av/media_row.html' %}
+	              {% endfor %}
+	              </tbody>
+	 		</table>
+		</div>	
+	{% endif %}
+</div>
+{% endblock %}
