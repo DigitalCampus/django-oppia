@@ -158,7 +158,6 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
                     parse_and_save_activity(req, user, section, act, new_course, process_quizzes_locally)
 
 
-    max_url_length = Media._meta.get_field('download_url').max_length
     # add all the media
     for file in xml_doc.lastChild.lastChild.childNodes:
         if file.nodeName == 'file':
@@ -168,9 +167,9 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
             url = file.getAttribute("download_url")
             media.digest = file.getAttribute("digest")
 
-            if len(url) > max_url_length:
+            if len(url) > Media.URL_MAX_LENGTH:
                 print url
-                messages.info(req, _('File %(filename)s has an URL larger than the maximum length permitted.') % {'filename': media.filename})
+                messages.info(req, _('File %(filename)s has a download URL larger than the maximum length permitted.') % {'filename': media.filename})
             else:
                 media.download_url = url
                 # get any optional attributes
