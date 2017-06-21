@@ -26,7 +26,6 @@ def handle_uploaded_file(f, extract_path, request, user):
 
     try:
         zip_file = ZipFile(zipfilepath)
-       
         zip_file.extractall(path=extract_path)
     except BadZipfile:
         messages.error(request, _("Invalid zip file"), extra_tags="danger")
@@ -42,14 +41,28 @@ def handle_uploaded_file(f, extract_path, request, user):
         messages.info(request, _("Invalid course zip file"), extra_tags="danger")
         return False, 400
 
+
+    try:
+        course, response = process_course(extract_path, f, mod_name, request, user)
+    except Exception as e:
+        messages.error(request, e.message, extra_tags="danger")
+        return False, 500
+    finally:
+        # remove the temp upload files
+        shutil.rmtree(extract_path, ignore_errors=True)
+
+    return course, 200
+
+
+def process_course(extract_path, f, mod_name, request, user):
+    xml_path = os.path.join(extract_path, mod_name, "module.xml")
     # check that the module.xml file exists
-    print os.path.join(extract_path, mod_name, "module.xml")
-    if not os.path.isfile(os.path.join(extract_path, mod_name, "module.xml")):
+    print xml_path
+    if not os.path.isfile(xml_path):
         messages.info(request, _("Zip file does not contain a module.xml file"), extra_tags="danger")
         return False, 400
 
     # parse the module.xml file
-    xml_path = os.path.join(extract_path, mod_name, "module.xml")
     doc = xml.dom.minidom.parse(xml_path)
     meta_info = parse_course_meta(doc)
 
@@ -102,13 +115,10 @@ def handle_uploaded_file(f, extract_path, request, user):
     tmp_path = replace_zip_contents(xml_path, doc, mod_name, extract_path)
     # Extract the final file into the courses area for preview
     zipfilepath = settings.COURSE_UPLOAD_DIR + f.name
-    shutil.copy(tmp_path+".zip", zipfilepath)
+    shutil.copy(tmp_path + ".zip", zipfilepath)
 
     course_preview_path = settings.MEDIA_ROOT + "courses/"
     ZipFile(zipfilepath).extractall(path=course_preview_path)
-
-    # remove the temp upload files
-    shutil.rmtree(extract_path, ignore_errors=True)
 
     return course, 200
 
