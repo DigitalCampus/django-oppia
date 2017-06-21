@@ -25,7 +25,9 @@ def handle_uploaded_file(f, extract_path, request, user):
             destination.write(chunk)
 
     try:
-        ZipFile(zipfilepath).extractall(path=extract_path)
+        zip_file = ZipFile(zipfilepath)
+       
+        zip_file.extractall(path=extract_path)
     except BadZipfile:
         messages.error(request, _("Invalid zip file"), extra_tags="danger")
         return False, 500
@@ -155,23 +157,30 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
                 for act in activities.getElementsByTagName("activity"):
                     parse_and_save_activity(req, user, section, act, new_course, process_quizzes_locally)
 
+
+    max_url_length = Media._meta.get_field('download_url').max_length
     # add all the media
     for file in xml_doc.lastChild.lastChild.childNodes:
         if file.nodeName == 'file':
             media = Media()
             media.course = course
             media.filename = file.getAttribute("filename")
-            media.download_url = file.getAttribute("download_url")
+            url = file.getAttribute("download_url")
             media.digest = file.getAttribute("digest")
 
-            # get any optional attributes
-            for attrName, attrValue in file.attributes.items():
-                if attrName == "length":
-                    media.media_length = attrValue
-                if attrName == "filesize":
-                    media.filesize = attrValue
+            if len(url) > max_url_length:
+                print url
+                messages.info(req, _('File %(filename)s has an URL larger than the maximum length permitted.') % {'filename': media.filename})
+            else:
+                media.download_url = url
+                # get any optional attributes
+                for attrName, attrValue in file.attributes.items():
+                    if attrName == "length":
+                        media.media_length = attrValue
+                    if attrName == "filesize":
+                        media.filesize = attrValue
 
-            media.save()
+                media.save()
 
 
 def parse_and_save_activity(req, user, section, act, new_course, process_quiz_locally, is_baseline=False):
