@@ -41,7 +41,6 @@ def handle_uploaded_file(f, extract_path, request, user):
         messages.info(request, _("Invalid course zip file"), extra_tags="danger")
         return False, 400
 
-
     try:
         course, response = process_course(extract_path, f, mod_name, request, user)
     except Exception as e:
@@ -179,7 +178,7 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
 
             if len(url) > Media.URL_MAX_LENGTH:
                 print url
-                messages.info(req, _('File %(filename)s has a download URL larger than the maximum length permitted.') % {'filename': media.filename})
+                messages.info(req, _('File %(filename)s has a download URL larger than the maximum length permitted. The media file has not been registered, so it won\'t be tracled. Please, fix this issue and upload the course again.') % {'filename': media.filename})
             else:
                 media.download_url = url
                 # get any optional attributes
