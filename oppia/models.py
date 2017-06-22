@@ -341,10 +341,12 @@ class Activity(models.Model):
         return prev_activity
     
 class Media(models.Model):
+    URL_MAX_LENGTH = 250
+
     course = models.ForeignKey(Course)
     digest = models.CharField(max_length=100)
     filename = models.CharField(max_length=200)
-    download_url = models.URLField()
+    download_url = models.URLField(max_length=URL_MAX_LENGTH)
     filesize = models.BigIntegerField(default=None,blank=True,null=True)
     media_length = models.IntegerField(default=None,blank=True,null=True)
     

@@ -32,14 +32,14 @@ AndroidManifest.xml.
 R class reference
 ----------------------------
 
-The `R.java` is an Android dynamically generated class, created during build process to identify all the assets (from strings to Android widgets and layouts), for usage in Java classes in your Android app. For each type of resource, there is an R subclass (for example, `R.drawable` for all drawable resources), and for each resource of that type, there is a static integer (for example, `R.drawable.icon`). This integer is the resource ID that you can use to retrieve your resource.
+The ``R.java`` is an Android dynamically generated class, created during build process to identify all the assets (from strings to Android widgets and layouts), for usage in Java classes in your Android app. For each type of resource, there is an R subclass (for example, ``R.drawable`` for all drawable resources), and for each resource of that type, there is a static integer (for example, ``R.drawable.icon``). This integer is the resource ID that you can use to retrieve your resource.
 
 To access your app resources, the R class is imported in your code, and it is declared under the app's package name, so we need to change all the references in the code to the R class to with new package name: to do so, replace all instances of ``import org.digitalcampus.mobile.learning.R;`` with ``import org.myorgname.myproject.oppia.R;``.
-This import is used in almost all the classes, so it will be easier to use a search and replace on the whole 
-src/main/java directory.
+
+This import is used in almost all the classes, so it will be easier to use a search and replace on the whole ``src/main/java directory``.
 
 
- Google Cloud Messaging
+Google Cloud Messaging
 ---------------------------
 
 The app uses the Google Cloud Messaging platform to receive push messages. You need to configure your own API key from the Google developers console as explained in the :ref:`registering-gcm` section of the documentation.
