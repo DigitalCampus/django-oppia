@@ -8,7 +8,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-oppia',
-    version='0.9.8',
+    version='0.9.10',
     packages=['oppia',
               'oppia.quiz',
               'oppia.api',

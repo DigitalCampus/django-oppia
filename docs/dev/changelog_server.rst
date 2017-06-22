@@ -4,12 +4,18 @@ OppiaMobile Server Change Log
 To see the upcoming feature developments and bug fixes, please refer to the `monthly milestones on GitHub <https://github.com/DigitalCampus/django-oppia/milestones>`_
 
 
-.. _serverv0.9.10:
+.. _serverv0.9.11:
 
-v0.9.10 - not yet released
+v0.9.11 - not yet released 
 --------------------------------
 
 
+.. _serverv0.9.10:
+
+v0.9.10 - Released 22 Jun 2017
+--------------------------------
+
+* 416: temp upload directory not getting deleted correctly - https://github.com/DigitalCampus/django-oppia/issues/issues/416
 
 .. _serverv0.9.9:
 
