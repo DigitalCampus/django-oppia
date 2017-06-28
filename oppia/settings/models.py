@@ -1,9 +1,14 @@
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 class SettingProperties(models.Model):
     key = models.CharField(max_length=30, null=False, primary_key=True)
     str_value = models.CharField(max_length=50,blank=True, null=True)
-    int_value = models.IntegerField()
+    int_value = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        verbose_name = _('Settings')
+        ordering = ['key']
 
     @staticmethod
     def get_property(propertyKey, defaultValue):
@@ -17,3 +22,6 @@ class SettingProperties(models.Model):
             pass
 
         return defaultValue
+
+    def __unicode__(self):
+        return self.key
