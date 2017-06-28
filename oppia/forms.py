@@ -11,16 +11,21 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from oppia.models import Schedule
+from oppia.settings import constants
+from oppia.settings.models import SettingProperties
 
 
 class UploadCourseStep1Form(forms.Form):
     course_file = forms.FileField(
-                help_text=_('Max size %(size)d Mb') % {'size':int(math.floor(settings.OPPIA_MAX_UPLOAD_SIZE / 1024 / 1024))},
                 required=True,
                 error_messages={'required': _('Please select a file to upload')},)
     
     def __init__(self, *args, **kwargs):
         super(UploadCourseStep1Form, self).__init__(*args, **kwargs)
+
+        max_upload = SettingProperties.get_int(constants.MAX_UPLOAD_SIZE, settings.OPPIA_MAX_UPLOAD_SIZE)
+        self.fields['course_file'].help_text = _('Max size %(size)d Mb') % {'size':int(math.floor(max_upload / 1024 / 1024))}
+
         self.helper = FormHelper()
         self.helper.form_action = reverse('oppia_upload')
         self.helper.form_class = 'form-horizontal'
@@ -37,9 +42,11 @@ class UploadCourseStep1Form(forms.Form):
     def clean(self):
         cleaned_data = super(UploadCourseStep1Form, self).clean()
         file = cleaned_data.get("course_file")
-        
-        if file is not None and file._size > settings.OPPIA_MAX_UPLOAD_SIZE:  
-            size = int(math.floor(settings.OPPIA_MAX_UPLOAD_SIZE / 1024 / 1024))
+
+        max_upload = SettingProperties.get_int(constants.MAX_UPLOAD_SIZE, settings.OPPIA_MAX_UPLOAD_SIZE)
+
+        if file is not None and file._size > max_upload:
+            size = int(math.floor(max_upload / 1024 / 1024))
             raise forms.ValidationError(_("Your file is larger than the maximum allowed (%(size)d Mb). You may want to check your course for large includes, such as images etc.") % {'size':size, })
         
         if file is not None and file.content_type != 'application/zip' and file.content_type != 'application/x-zip-compressed':
