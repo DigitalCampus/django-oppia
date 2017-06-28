@@ -23,5 +23,25 @@ class SettingProperties(models.Model):
 
         return defaultValue
 
+    @staticmethod
+    def get_int(propertyKey, defaultValue):
+        try:
+            prop = SettingProperties.objects.get(key=propertyKey)
+            if prop.int_value is not None:
+                return prop.int_value
+        except SettingProperties.DoesNotExist:
+            pass
+        return defaultValue
+
+    @staticmethod
+    def get_string(propertyKey, defaultValue):
+        try:
+            prop = SettingProperties.objects.get(key=propertyKey)
+            if prop.str_value is not None:
+                return prop.str_value
+        except SettingProperties.DoesNotExist:
+            pass
+        return defaultValue
+
     def __unicode__(self):
         return self.key
