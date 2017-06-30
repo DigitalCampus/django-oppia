@@ -8,6 +8,7 @@ class SettingProperties(models.Model):
 
     class Meta:
         verbose_name = _('Settings')
+        verbose_name_plural = _('Settings')
         ordering = ['key']
 
     @staticmethod
