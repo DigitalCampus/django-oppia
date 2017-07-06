@@ -6,6 +6,7 @@ OppiaMobile Moodle Block Change Log
 v2017xxxxxx - Not yet released
 -------------------------------------
 
+* Hotfix: Remove HTML entities in quiz question titles
 
 .. _blockv2017042700:
 
