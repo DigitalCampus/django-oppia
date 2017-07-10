@@ -9,7 +9,8 @@ from django.contrib.auth.models import User
 from django.db.models import Count
 
 from oppia.models import Tracker, Points, Course
-from oppia.summary.models import SettingProperties, UserCourseSummary, CourseDailyStats, UserPointsSummary
+from oppia.settings.models import SettingProperties
+from oppia.summary.models import UserCourseSummary, CourseDailyStats, UserPointsSummary
 
 
 def run():
