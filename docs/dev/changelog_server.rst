@@ -16,6 +16,7 @@ v0.9.10 - Released 22 Jun 2017
 --------------------------------
 
 * 416: temp upload directory not getting deleted correctly - https://github.com/DigitalCampus/django-oppia/issues/issues/416
+* Replace and scape thoroughly HTML entities in the course XML
 
 .. _serverv0.9.9:
 
