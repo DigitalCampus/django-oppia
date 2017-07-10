@@ -5,6 +5,7 @@ import json
 import shutil
 import xml.dom.minidom
 from xml.dom.minidom import Node
+from xml.sax.saxutils import unescape
 from zipfile import ZipFile, BadZipfile
 
 import os
@@ -410,7 +411,10 @@ def parse_course_meta(xml_doc):
 
 def replace_zip_contents(xml_path, xml_doc, mod_name, dest):
     fh = codecs.open(xml_path, mode="w", encoding="utf-8")
-    new_xml = xml_doc.toxml("utf-8").decode('utf-8').replace("&amp;", "&").replace("&quot;","\"")
+    new_xml = xml_doc.toxml("utf-8").decode('utf-8')
+    new_xml = unescape(new_xml, {"&apos;": "'", "&quot;": '"', "&nbsp;": " "})
+    new_xml = new_xml.replace('&nbsp;', ' ').replace('&amp;', '&').replace('&quot;', '"')
+
     fh.write(new_xml)
     fh.close()
 
