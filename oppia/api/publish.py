@@ -10,6 +10,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 
 from oppia.models import Tag, CourseTag
+from oppia.settings import constants
+from oppia.settings.models import SettingProperties
 from oppia.uploader import handle_uploaded_file
 
 COURSE_FILE_FIELD = 'course_file'
@@ -39,8 +41,9 @@ def publish_view(request):
     else:
         # check the file size of the course doesnt exceed the max
         file = request.FILES[COURSE_FILE_FIELD]
-        if file is not None and file._size > settings.OPPIA_MAX_UPLOAD_SIZE:
-            size = int(math.floor(settings.OPPIA_MAX_UPLOAD_SIZE / 1024 / 1024))
+        max_upload = SettingProperties.get_int(constants.MAX_UPLOAD_SIZE, settings.OPPIA_MAX_UPLOAD_SIZE)
+        if file is not None and file._size > max_upload:
+            size = int(math.floor(max_upload / 1024 / 1024))
             validationErrors.append((_("Your file is larger than the maximum allowed (%(size)d Mb). You may want to check your course for large includes, such as images etc.") % {'size':size, }))
 
         if file is not None and file.content_type != 'application/zip' and file.content_type != 'application/x-zip-compressed':

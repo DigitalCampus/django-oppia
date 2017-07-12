@@ -61,6 +61,9 @@ appropriately resized images, or included video or other media files. Large
 course upload files may cause issues for end users (particularly those with slow
 internet connections) when trying to install the course on their phone.
 
+If you define a `MAX_UPLOAD_SIZE` property in the SettingProperties table (under the Django admin),
+that value will take precedence from the one defined in the `_settings.py` file
+
 
 OPPIA_POINTS_ENABLED
 -----------------------

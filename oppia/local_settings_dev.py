@@ -8,6 +8,7 @@ def modify(settings):
                                    'oppia.av',
                                    'oppia.profile',
                                    'oppia.reports',
+                                   'oppia.settings',
                                    'oppia.summary',
                                    'crispy_forms',
                                    'tastypie',)
