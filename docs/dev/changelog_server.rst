@@ -9,6 +9,8 @@ To see the upcoming feature developments and bug fixes, please refer to the `mon
 v0.9.11 - not yet released 
 --------------------------------
 
+* 368: Move settings model to top level - https://github.com/DigitalCampus/django-oppia/issues/issues/368
+* 406: Update to using django 1.8.17 (more recent version of 1.8 LTS) - https://github.com/DigitalCampus/django-oppia/issues/issues/406
 
 .. _serverv0.9.10:
 
@@ -16,7 +18,7 @@ v0.9.10 - Released 22 Jun 2017
 --------------------------------
 
 * 416: temp upload directory not getting deleted correctly - https://github.com/DigitalCampus/django-oppia/issues/issues/416
-* Replace and scape thoroughly HTML entities in the course XML
+* Replace and scrape thoroughly HTML entities in the course XML
 
 .. _serverv0.9.9:
 
