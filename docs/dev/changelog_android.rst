@@ -8,6 +8,8 @@ To see the upcoming feature developments and bug fixes, please refer to the `mon
 v64 (6.4.0) - not yet released 
 --------------------------------------
 
+* 636: Add message when course cannot load due to parsing errors - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/636
+* 622: Add option to turn off notifications (eg new courses etc) - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/622
 
 .. _appv63:
 
