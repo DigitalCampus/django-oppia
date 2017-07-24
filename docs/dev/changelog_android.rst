@@ -10,6 +10,9 @@ v64 (6.4.0) - not yet released
 
 * 636: Add message when course cannot load due to parsing errors - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/636
 * 622: Add option to turn off notifications (eg new courses etc) - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/622
+* Improve app customisation process - https://github.com/DigitalCampus/oppia-mobile-android/pull/640
+* 611: NumberFormatException when connection/response timeout values are very large - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/611
+* 613: Check that the download via PC is gives the correct location for copying the files to - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/613
 
 .. _appv63:
 
