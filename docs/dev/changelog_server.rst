@@ -6,11 +6,12 @@ To see the upcoming feature developments and bug fixes, please refer to the `mon
 
 .. _serverv0.9.11:
 
-v0.9.11 - not yet released 
+v0.9.11 - released 29 Sept 2017
 --------------------------------
 
 * 368: Move settings model to top level - https://github.com/DigitalCampus/django-oppia/issues/issues/368
 * 406: Update to using django 1.8.17 (more recent version of 1.8 LTS) - https://github.com/DigitalCampus/django-oppia/issues/issues/406
+* Hotfix to solve problem when there is more than one quiz with the same digest - https://github.com/DigitalCampus/django-oppia/pull/420
 
 .. _serverv0.9.10:
 

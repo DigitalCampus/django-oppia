@@ -8,7 +8,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-oppia',
-    version='0.9.10',
+    version='0.9.11',
     packages=['oppia',
               'oppia.quiz',
               'oppia.api',
@@ -42,7 +42,7 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
     install_requires=[
-        "django == 1.8.5",
+        "django == 1.8.17",
 	    "django-tastypie >= 0.13.3",
         "django-tablib >= 0.9.11",
         "django-crispy-forms >= 1.4.0",
