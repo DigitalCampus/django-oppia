@@ -129,11 +129,11 @@ class Course(models.Model):
             return None
         
         try:
-            quiz = Quiz.objects.get(quizprops__value=baseline.digest, quizprops__name="digest")
+            quiz = Quiz.objects.filter(quizprops__value=baseline.digest, quizprops__name="digest")
         except Quiz.DoesNotExist:
             return None
         
-        attempts = QuizAttempt.objects.filter(quiz=quiz, user=user)
+        attempts = QuizAttempt.objects.filter(quiz__in=quiz, user=user)
         if attempts.count() != 0:
             max_score = 100*float(attempts.aggregate(max=Max('score'))['max']) / float(attempts[0].maxscore)
             return max_score
