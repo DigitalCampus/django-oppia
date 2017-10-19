@@ -12,13 +12,13 @@ The Local Unit Tests are tests that run on a local JVM, therefore we do not need
 
 The main path for these tests is ``src/test/java``. It is mandatory for this type of tests to include the JUnit 4 framework dependency to the app *build.gradle* file.
 
-.. code-block:: java
+.. code-block:: text
 
    testCompile 'junit:junit:4.12'
  
 The tests methods that we create must have the tag ``@Test`` right before the method declaration, and must end with an **assertion** to check whether the test passes or not. For example:
  
-.. code-block:: java
+.. code-block:: text
 
    @Test
    public void Storage_correctDownloadPath(){
@@ -30,7 +30,7 @@ The tests methods that we create must have the tag ``@Test`` right before the me
 
 Optionally, the tests could provide a preconditions and post conditions blocks
 
-.. code-block:: java
+.. code-block:: text
 
  //Preconditions block
 
@@ -39,7 +39,7 @@ Optionally, the tests could provide a preconditions and post conditions blocks
 
 
 
-.. code-block:: java
+.. code-block:: text
 
  //Preconditions block
 
@@ -121,10 +121,10 @@ There are some things we need to take into account:
 
  .. code-block:: java
 
-  onView(withId(R.id.login_btn))		        //Find the view 
-          .perform(click());		            //Perform an action 
-  onView(withText(R.string.error_no_username))	//Find the view
-	      .check(matches(isDisplayed()));       //Inspect the result
+	  onView(withId(R.id.login_btn))		        //Find the view 
+	          .perform(click());		            //Perform an action 
+	  onView(withText(R.string.error_no_username))	//Find the view
+		      .check(matches(isDisplayed()));       //Inspect the result
 
 Mock Web Server
 -----------------
@@ -137,25 +137,25 @@ First, we need to add the MockWebServer dependency to our app *build.gradle* fil
 
 .. code-block:: XML
  
- testCompile 'com.squareup.okhttp3:mockwebserver(insert latest version)’
+	 testCompile 'com.squareup.okhttp3:mockwebserver(insert latest version)’
 
 
 After that, we are able to create MockWebServer objects. For example:
 
 
 
-.. code-block:: java
+.. code-block:: text
  
- MockWebServer mockServer = new MockWebServer();
-
- String filename = “responses/response_201_login.json”; //Premade response
-
- mockServer.enqueue(new MockResponse()
-	    .setResponseCode(201)
-     	.setBody(getStringFromFile(InstrumentationRegistry.getContext(),
-			                              filename)));
-
- mockServer.start(); 
+	 MockWebServer mockServer = new MockWebServer();
+	
+	 String filename = “responses/response_201_login.json”; //Premade response
+	
+	 mockServer.enqueue(new MockResponse()
+		    .setResponseCode(201)
+	     	.setBody(getStringFromFile(InstrumentationRegistry.getContext(),
+				                              filename)));
+	
+	 mockServer.start(); 
 
 
 On the other hand, we need to configure our app to communicate correctly with this mock web server. To achieve that, *OppiaMobile* uses the class ``MockApiEndpoint``, whose method ``getFullURL()`` will give us the correct path on which the mock web server is listening.
@@ -168,14 +168,14 @@ Temporary Files and Folders
 
 The ``TemporaryFolder`` object must be created using the ``@Rule`` tag.
 
-.. code-block:: java
+.. code-block:: text
  
- @Rule 
- public TemporaryFolder folder = new TemporaryFolder();
-
- //Use
- File tempFolder = folder.newFolder(“tempFolder”);
- File tempFile = folder.newFile(“tempFile.txt”);
+	 @Rule 
+	 public TemporaryFolder folder = new TemporaryFolder();
+	
+	 //Use
+	 File tempFolder = folder.newFolder(“tempFolder”);
+	 File tempFile = folder.newFile(“tempFile.txt”);
 
 
 Running Tests
@@ -201,12 +201,12 @@ We have several ways to run tests:
 
  To create a test suite, we need to create a new class and add these tags to the beginning of it:
 
- .. code-block:: java
+ .. code-block:: text
   
-  @RunWith(Suite.class)
-  @Suite.SuiteClasses({WelcomeUITest.class, LoginUITest.class, RegisterUITest.class, ResetUITest.class})
-
-  public class UITestSuite {…}
+	  @RunWith(Suite.class)
+	  @Suite.SuiteClasses({WelcomeUITest.class, LoginUITest.class, RegisterUITest.class, ResetUITest.class})
+	
+	  public class UITestSuite {…}
 
 
  If we run this suite, the tests inside in the classes listed in ``@Suite.SuiteClasses()`` will be executed.

@@ -61,7 +61,7 @@ Should you really want to, you can also create the media embed code by hand:
 #. Now you have md5 and the file uploaded to a server you can embed your media 
    into your page on Moodle using the following code:
    
-   .. code-block:: json
+   .. code-block:: text
    		
    		[[media object='{“filename”:”ghmp-basic-skills-20121001.m4v”,
    					”download_url”:”http://downloads.digital-campus.org/media/pnc/ghmp-basic-skills-20121001.m4v”,
@@ -76,7 +76,7 @@ Should you really want to, you can also create the media embed code by hand:
 #. You optionally supply a filesize (in bytes) and length (in seconds) as 
    follows:
 
-   .. code-block:: json
+   .. code-block:: text
 	
 	   [[media object='{“filename”:”ghmp-basic-skills-20121001.m4v”,
 						”download_url”:”http://downloads.digital-campus.org/media/pnc/ghmp-basic-skills-20121001.m4v”,
