@@ -3,9 +3,9 @@ OppiaMobile Server Change Log
 
 To see the upcoming feature developments and bug fixes, please refer to the `monthly milestones on GitHub <https://github.com/DigitalCampus/django-oppia/milestones>`_
 
-.. _serverv0.9.12:
+.. _serverv0.10.0:
 
-v0.9.12 - To be released
+v0.10.0 - To be released
 --------------------------------
 
 * 411: Add new logo - https://github.com/DigitalCampus/django-oppia/issues/issues/411
