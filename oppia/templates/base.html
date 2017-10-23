@@ -18,9 +18,18 @@
     <link href="{% static "oppia/ui-lightness/jquery-ui.min.css" %}" rel="stylesheet"/>
     <link href="{% static "oppia/ui-lightness/jquery-ui.structure.min.css" %}" rel="stylesheet"/>
     <link href="{% static "oppia/ui-lightness/jquery-ui.theme.min.css" %}" rel="stylesheet"/>
-    <link rel="shortcut icon" href="{% static "oppia/images/favicon.ico" %}"/>
+ 
     <script src="{% static "oppia/js/jquery-1.11.0.min.js" %}"></script>
     <script src="{% static "oppia/ui-lightness/jquery-ui.min.js" %}"></script>
+    
+    <!-- favicon -->
+	<link rel="apple-touch-icon" sizes="180x180" href="{% static "oppia/images/favicon/apple-touch-icon.png" %}">
+	<link rel="icon" type="image/png" sizes="32x32" href="{% static "oppia/images/favicon/favicon-32x32.png" %}">
+	<link rel="icon" type="image/png" sizes="16x16" href="{% static "oppia/images/favicon/favicon-16x16.png" %}">
+	<link rel="manifest" href="{% static "oppia/images/favicon/manifest.json" %}">
+	<link rel="mask-icon" href="{% static "oppia/images/favicon/safari-pinned-tab.svg" %}" color="#00a300">
+	<meta name="theme-color" content="#ffffff">    
+    
     {% block extra_styles %}
     {% endblock extra_styles %}
 	

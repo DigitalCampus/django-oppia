@@ -3,10 +3,16 @@ OppiaMobile Server Change Log
 
 To see the upcoming feature developments and bug fixes, please refer to the `monthly milestones on GitHub <https://github.com/DigitalCampus/django-oppia/milestones>`_
 
+.. _serverv0.9.12:
+
+v0.9.12 - To be released
+--------------------------------
+
+* 411: Add new logo - https://github.com/DigitalCampus/django-oppia/issues/issues/411
 
 .. _serverv0.9.11:
 
-v0.9.11 - released 29 Sept 2017
+v0.9.11 - Released 29 Sept 2017
 --------------------------------
 
 * 368: Move settings model to top level - https://github.com/DigitalCampus/django-oppia/issues/issues/368
