@@ -8,7 +8,19 @@ To see the upcoming feature developments and bug fixes, please refer to the `mon
 v0.10.0 - To be released
 --------------------------------
 
+.. warning:: 
+	This release requires Django 1.11 LTS. Previous versions were targeted for Django 1.8 LTS, so an upgrade of your 
+	Django will be required when updating to this version of the OppiaMObile server.
+	
+	
+
+.. _serverv0.9.12:
+
+v0.9.12 - To be released
+--------------------------------
+
 * 411: Add new logo - https://github.com/DigitalCampus/django-oppia/issues/issues/411
+
 
 .. _serverv0.9.11:
 
