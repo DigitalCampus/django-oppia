@@ -3,7 +3,7 @@ import datetime
 
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.shortcuts import render,render_to_response, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.template import RequestContext
 
 from oppia.models import Tracker, Points, Course, Cohort, CourseCohort, Participant, Activity, Section, Media
@@ -34,7 +34,7 @@ def scorecard_view(request):
              'secs': acts['secs'] + quiz['secs'] + media['secs'],
              'points': acts['points'] + quiz['points'] + media['points'],}
     scorecard = {'media':media, 'quiz':quiz, 'acts':acts, 'total': total}
-    return render_to_response('oppia/mobile/scorecard.html',{ 'scorecard':scorecard }, context_instance=RequestContext(request))
+    return render(request, 'oppia/mobile/scorecard.html',{ 'scorecard':scorecard })
 
 def monitor_home_view(request):
     auth = ApiKeyAuthentication()
@@ -52,7 +52,7 @@ def monitor_home_view(request):
         cohorts_list.append([cohort,courses])
     key = ApiKey.objects.get(user = request.user)
     request.user.key = key.key
-    return render_to_response('oppia/mobile/monitor/home.html',{ 'cohorts_list':cohorts_list, 'user': request.user }, context_instance=RequestContext(request))
+    return render(request, 'oppia/mobile/monitor/home.html',{ 'cohorts_list':cohorts_list, 'user': request.user })
 
 
 def monitor_cohort_progress_view(request,cohort_id, course_id):
@@ -93,7 +93,7 @@ def monitor_cohort_progress_view(request,cohort_id, course_id):
     except (EmptyPage, InvalidPage):
         tracks = paginator.page(paginator.num_pages)
         
-    return render_to_response('oppia/mobile/monitor/progress.html',{ 'cohort':cohort, 'course': course, 'participants': students, 'user': request.user }, context_instance=RequestContext(request))
+    return render(request, 'oppia/mobile/monitor/progress.html',{ 'cohort':cohort, 'course': course, 'participants': students, 'user': request.user })
 
 
 def monitor_cohort_quizzes_view(request, cohort_id, course_id):
@@ -136,7 +136,7 @@ def monitor_cohort_quizzes_view(request, cohort_id, course_id):
     except (EmptyPage, InvalidPage):
         tracks = paginator.page(paginator.num_pages)
         
-    return render_to_response('oppia/mobile/monitor/quizzes.html',{ 'cohort':cohort, 'course': course, 'participants': students, 'user': request.user }, context_instance=RequestContext(request))
+    return render(request, 'oppia/mobile/monitor/quizzes.html',{ 'cohort':cohort, 'course': course, 'participants': students, 'user': request.user })
 
 def monitor_cohort_media_view(request, cohort_id, course_id):
     auth = ApiKeyAuthentication()
@@ -177,7 +177,7 @@ def monitor_cohort_media_view(request, cohort_id, course_id):
     except (EmptyPage, InvalidPage):
         tracks = paginator.page(paginator.num_pages)
         
-    return render_to_response('oppia/mobile/monitor/media.html',{ 'cohort':cohort, 'course': course, 'participants': students, 'user': request.user }, context_instance=RequestContext(request))
+    return render(request, 'oppia/mobile/monitor/media.html',{ 'cohort':cohort, 'course': course, 'participants': students, 'user': request.user })
 
 
 def monitor_cohort_student_view(request,cohort_id, student_id):

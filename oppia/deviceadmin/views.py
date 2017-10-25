@@ -2,7 +2,7 @@ import json
 
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 
 from django.template import RequestContext
 
@@ -33,9 +33,8 @@ def user_devices_list(request):
         devices = paginator.page(paginator.num_pages)
 
     print devices
-    return render_to_response('oppia/deviceadmin/list.html',
-                              { 'page': devices, 'page_ordering':ordering },
-                              context_instance=RequestContext(request))
+    return render(request, 'oppia/deviceadmin/list.html',
+                              { 'page': devices, 'page_ordering':ordering })
 
 def send_message_to_device(request):
 

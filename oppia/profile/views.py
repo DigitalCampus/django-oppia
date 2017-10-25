@@ -15,7 +15,7 @@ from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 from django.db.models import Count, Max, Min, Avg, Q
 from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.template import RequestContext
 from django.utils import timezone
 from django.utils.translation import ugettext as _
@@ -78,11 +78,11 @@ def login_view(request):
     else:
         form = LoginForm(initial={'next':filterRedirect(request.GET),})
         
-    return render_to_response('oppia/form.html',
+    return render(request, 'oppia/form.html',
                               {'username': username, 
                                'form': form, 
-                               'title': _(u'Login')},
-                              context_instance=RequestContext(request),)
+                               'title': _(u'Login')})
+                              
 
 def register(request):
     if not settings.OPPIA_ALLOW_SELF_REGISTRATION:
@@ -115,10 +115,9 @@ def register(request):
     else:
         form = RegisterForm(initial={'next':filterRedirect(request.GET),})
 
-    return render_to_response('oppia/form.html',
+    return render(request, 'oppia/form.html',
                               {'form': form,
-                               'title': _(u'Register'), },
-                               context_instance=RequestContext(request),)
+                               'title': _(u'Register'), })
 
 def reset(request):
     if request.method == 'POST': # if form submitted...
@@ -145,11 +144,9 @@ def reset(request):
     else:
         form = ResetForm() # An unbound form
 
-    return render_to_response(
-                  'oppia/form.html',
+    return render(request, 'oppia/form.html',
                   {'form': form,
-                   'title': _(u'Reset password')},
-                  context_instance=RequestContext(request))
+                   'title': _(u'Reset password')})
 
 def edit(request, user_id=0):
     if user_id != 0:
@@ -205,10 +202,8 @@ def edit(request, user_id=0):
                                     'job_title': user_profile.job_title,
                                     'organisation': user_profile.organisation,})
 
-    return render_to_response(
-                  'oppia/profile/profile.html',
-                  {'form': form,},
-                  context_instance=RequestContext(request))
+    return render(request, 'oppia/profile/profile.html',
+                  {'form': form,})
 
 def points(request):
     points = Points.objects.filter(user=request.user).order_by('-date')
@@ -225,15 +220,13 @@ def points(request):
         mypoints = paginator.page(page)
     except (EmptyPage, InvalidPage):
         mypoints = paginator.page(paginator.num_pages)
-    return render_to_response('oppia/profile/points.html',
-                              {'page': mypoints,},
-                              context_instance=RequestContext(request),)
+    return render(request, 'oppia/profile/points.html',
+                              {'page': mypoints,})
 
 def badges(request):
     awards = Award.objects.filter(user=request.user).order_by('-award_date')
-    return render_to_response('oppia/profile/badges.html',
-                              {'awards': awards,},
-                              context_instance=RequestContext(request),)
+    return render(request, 'oppia/profile/badges.html',
+                              {'awards': awards,})
 
 
 def user_activity(request, user_id):
@@ -291,12 +284,11 @@ def user_activity(request, user_id):
         count = next((dct['count'] for dct in trackers if dct['activity_date'] == temp.date()), 0)
         activity.append([temp.strftime("%d %b %Y"),count])
 
-    return render_to_response('oppia/profile/user-scorecard.html',
+    return render(request, 'oppia/profile/user-scorecard.html',
                               {'view_user': view_user,
                                'courses': courses,
                                'page_ordering': ('-' if inverse_order else '') + ordering,
-                               'activity_graph_data': activity },
-                              context_instance=RequestContext(request))
+                               'activity_graph_data': activity })
 
 def user_course_activity_view(request, user_id, course_id):
 
@@ -400,7 +392,7 @@ def user_course_activity_view(request, user_id, course_id):
 
     quizzes.sort(key=operator.itemgetter(ordering), reverse=inverse_order)
 
-    return render_to_response('oppia/profile/user-course-scorecard.html',
+    return render(request, 'oppia/profile/user-course-scorecard.html',
                               {'view_user': view_user,
                                'course': course,
                                'quizzes': quizzes,
@@ -411,8 +403,7 @@ def user_course_activity_view(request, user_id, course_id):
                                'activities_total': activities_total,
                                'activities_percent': activities_percent,
                                'page_ordering': ('-' if inverse_order else '') + ordering,
-                               'activity_graph_data': activity },
-                              context_instance=RequestContext(request))
+                               'activity_graph_data': activity })
 
 def upload_view(request):
     if not request.user.is_staff:
@@ -486,10 +477,9 @@ def upload_view(request):
         results = []
         form = UploadProfileForm()
 
-    return render_to_response('oppia/profile/upload.html',
+    return render(request, 'oppia/profile/upload.html',
                               {'form': form,
-                               'results': results},
-                              context_instance=RequestContext(request),)
+                               'results': results})
 
 def get_query(query_string, search_fields):
     ''' Returns a query, that is a combination of Q objects. That combination
@@ -556,15 +546,12 @@ def search_users(request):
     except (EmptyPage, InvalidPage):
         users = paginator.page(paginator.num_pages)
 
-    return render_to_response('oppia/profile/search_user.html',
-                              {
-                                'quicksearch':query_string,
+    return render(request, 'oppia/profile/search_user.html',
+                              { 'quicksearch':query_string,
                                 'search_form':search_form,
                                 'advanced_search':filtered,
                                 'page': users,
-                                'page_ordering':ordering
-                              },
-                              context_instance=RequestContext(request),)
+                                'page_ordering':ordering })
 
 def export_users(request):
 
@@ -583,21 +570,15 @@ def export_users(request):
     if request.is_ajax():
         template = 'users-paginated-list.html'
 
-    return render_to_response('oppia/profile/' + template,
-                              {
-                                  'page': users,
+    return render(request, 'oppia/profile/' + template,
+                              {  'page': users,
                                   'page_ordering':ordering,
-                                  'users_list_template':'export'
-                              },
-                              context_instance=RequestContext(request),)
+                                  'users_list_template':'export' })
 
 def list_users(request):
     ordering, users = get_paginated_users(request)
-    return render_to_response('oppia/profile/users-paginated-list.html',
-                              {
-                                  'page': users,
+    return render(request, 'oppia/profile/users-paginated-list.html',
+                              {'page': users,
                                   'page_ordering':ordering,
                                   'users_list_template':'select',
-                                  'ajax_url':request.path
-                              },
-                              context_instance=RequestContext(request),)
+                                  'ajax_url':request.path })
