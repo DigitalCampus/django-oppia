@@ -248,18 +248,29 @@ def user_activity(request, user_id):
 
     courses = []
     for course in all_courses:
-        course_stats = UserCourseSummary.objects.filter(user=view_user, course=course)[0]
-        data = {'course': course,
-                'no_quizzes_completed': course_stats.quizzes_passed ,
-                'pretest_score': course_stats.pretest_score,
-                'no_activities_completed': course_stats.completed_activities,
-                'no_media_viewed': course_stats.media_viewed,
-                'no_points': course_stats.points,
-                'no_badges': course_stats.badges_achieved,}
+        course_stats = UserCourseSummary.objects.filter(user=view_user, course=course)
+        if course_stats:
+            course_stats = course_stats[0]
+            data = {'course': course,
+                    'no_quizzes_completed': course_stats.quizzes_passed,
+                    'pretest_score': course_stats.pretest_score,
+                    'no_activities_completed': course_stats.completed_activities,
+                    'no_media_viewed': course_stats.media_viewed,
+                    'no_points': course_stats.points,
+                    'no_badges': course_stats.badges_achieved, }
+        else:
+            data = {'course': course,
+                    'no_quizzes_completed': 0,
+                    'pretest_score': None,
+                    'no_activities_completed': 0,
+                    'no_media_viewed': 0,
+                    'no_points': 0,
+                    'no_badges': 0, }
+
         courses.append(data)
 
     order_options = ['course', 'no_quizzes_completed', 'pretest_score',
-                     'no_activities_completed','no_points', 'no_badges', 'no_media_viewed']
+                     'no_activities_completed', 'no_points', 'no_badges', 'no_media_viewed']
     default_order = 'course'
 
     ordering = request.GET.get('order_by', default_order)
