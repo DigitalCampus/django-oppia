@@ -10,7 +10,8 @@ v0.9.12 - To be released
 --------------------------------
 
 * 411: Add new logo - https://github.com/DigitalCampus/django-oppia/issues/issues/411
-
+* 422: Check user course summaries - https://github.com/DigitalCampus/django-oppia/issues/issues/422
+* 415: add defusedxml==0.5.0 as requirement - https://github.com/DigitalCampus/django-oppia/issues/issues/415
 
 .. _serverv0.9.11:
 
