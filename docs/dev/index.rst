@@ -12,6 +12,7 @@ For installing OppiaMobile server and Moodle block please refer to:
    block_install
    aws
    virtualbox
+   server/upgrade
    settings
    api
    utilities
