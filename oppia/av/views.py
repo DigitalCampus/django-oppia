@@ -29,7 +29,7 @@ def upload_view(request):
     if request.method == 'POST':    
        result = handler.upload(request, request.user)
        
-       if result['result']:
+       if result['result'] == UploadedMedia.UPLOAD_STATUS_SUCCESS:
            return HttpResponseRedirect(reverse('oppia_av_upload_success', args=[result['media'].id]))
        else:
            form = result['form']

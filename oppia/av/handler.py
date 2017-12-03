@@ -10,6 +10,8 @@ from oppia.av.forms import UploadMediaForm
 from oppia.av.models import UploadedMedia
 from oppia.api.publish import get_messages_array
 
+
+
 def upload(request, user):
 
     
@@ -36,9 +38,9 @@ def upload(request, user):
             uploaded_media.delete()
             errors = []
             errors.append(u'Please check that avprobe is installed on this system.')
-            return { 'result': False, 'form': form, 'errors': errors} 
+            return { 'result': UploadedMedia.UPLOAD_STATUS_FAILURE , 'form': form, 'errors': errors} 
         
-        return { 'result': True, 'media': uploaded_media } 
+        return { 'result': UploadedMedia.UPLOAD_STATUS_SUCCESS, 'media': uploaded_media } 
     else:
         
         errors = []
@@ -46,7 +48,7 @@ def upload(request, user):
             for e in error:
                 print e
                 errors.append(e)
-        return { 'result': False, 'form': form, 'errors': errors }
+        return { 'result': UploadedMedia.UPLOAD_STATUS_FAILURE, 'form': form, 'errors': errors }
     
     
 def get_length(filepath):

@@ -8,6 +8,11 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
 class UploadedMedia(models.Model):
+    
+    UPLOAD_STATUS_SUCCESS = 1
+    UPLOAD_STATUS_EXISTS = 2
+    UPLOAD_STATUS_FAILURE = 0
+    
     create_user = models.ForeignKey(User, related_name='media_create_user')
     update_user = models.ForeignKey(User, related_name='media_update_user')
     created_date = models.DateTimeField('date created',default=timezone.now)
@@ -23,7 +28,7 @@ class UploadedMedia(models.Model):
     def __unicode__(self):
         return self.file.name
     
-    def get_embed_code(self, domain):
+    def get_embed_code(self, uri):
         EMBED_TEMPLATE = "[[media object='{\"filename\":\"%s\",\"download_url\":\"%s\",\"digest\":\"%s\", \"filesize\":%d, \"length\":%d}']]IMAGE/TEXT HERE[[/media]]"
-        return EMBED_TEMPLATE % (os.path.basename(self.file.name), domain, self.md5, self.file.size, self.length)
+        return EMBED_TEMPLATE % (os.path.basename(self.file.name), uri, self.md5, self.file.size, self.length)
        

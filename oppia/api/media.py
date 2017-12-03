@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 
 from oppia.api.publish import get_messages_array
-
+from oppia.av.models import UploadedMedia
 from oppia.av import handler
 
 @csrf_exempt
@@ -46,7 +46,10 @@ def upload_view(request):
    
     result = handler.upload(request, user)
 
-    if result['result']:
-        return HttpResponse(status=201)
+    if result['result'] == UploadedMedia.UPLOAD_STATUS_SUCCESS:
+        media = result['media']
+        embed_code = media.get_embed_code(request.build_absolute_uri(media.file.url))
+        
+        return JsonResponse({'embed_code': embed_code }, status=201)
     else:
         return JsonResponse({'messages': result['errors']}, status=400)
