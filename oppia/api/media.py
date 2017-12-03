@@ -7,7 +7,9 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 
+from oppia.api.publish import get_messages_array
 
+from oppia.av import process_media
 
 @csrf_exempt
 def upload_view(request):
@@ -17,6 +19,15 @@ def upload_view(request):
 
     if request.method != 'POST':
         return HttpResponse(status=405)
+
+    
+    required = ['username','password']
+
+    validationErrors = []
+
+    for field in required:
+        if field not in request.POST:
+            validationErrors.append("field '{0}' missing".format(field))
 
     # authenticate user
     username = request.POST['username']
@@ -28,20 +39,14 @@ def upload_view(request):
             'message': _('Authentication errors'),
             'messages': get_messages_array(request)
         }
-        return JsonResponse(response_data, status=401)
-    
-    required = ['username','password','media_file']
-
-    validationErrors = []
-
-    for field in required:
-        if field not in request.POST:
-            print field + " not found"
-            validationErrors.append("field '{0}' missing".format(field))
-            
+        return JsonResponse(response_data, status=401)       
             
     if validationErrors:
-        return JsonResponse({ 'errors' : validationErrors }, status=400, )
-        
+        return JsonResponse({ 'errors' : validationErrors }, status=400, )  
+   
+    result = process_media.process(request, user)
 
-    
+    if result['result']:
+        return HttpResponse(status=201)
+    else:
+        return JsonResponse({'messages': result['errors']}, status=400)

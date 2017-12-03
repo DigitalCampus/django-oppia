@@ -19,5 +19,3 @@ class UploadedMedia(models.Model):
         verbose_name = _('Uploaded Media')
         verbose_name_plural = _('Uploaded Media')
         
-    #def __unicode__(self):
-    #    return self.get_title(self)

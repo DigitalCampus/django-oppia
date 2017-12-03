@@ -37,7 +37,6 @@ class UploadMediaForm(forms.Form):
         media_file = cleaned_data.get("media_file")
         
         if media_file is not None:
-            print media_file.content_type
             if media_file.content_type not in settings.OPPIA_MEDIA_FILE_TYPES:
                 raise forms.ValidationError(_("You may only upload a media file which is one of the following types: %s" % ', '.join(settings.OPPIA_MEDIA_FILE_TYPES)))
         
