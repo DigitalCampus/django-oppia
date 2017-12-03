@@ -29,18 +29,30 @@ Update the ``app/build.gradle`` file to update the ``applicationId`` to be the s
 AndroidManifest.xml.
 
 
-Classes to update 
+R class reference
 ----------------------------
 
-Replace all instances of ``import org.digitalcampus.mobile.learning.R;`` with ``import org.myorgname.myproject.oppia.R;``.
-This import is used in almost all the classes, so it will be easier to use a search and replace on the whole 
-src/main/java directory.
+The ``R.java`` is an Android dynamically generated class, created during build process to identify all the assets (from strings to Android widgets and layouts), for usage in Java classes in your Android app. For each type of resource, there is an R subclass (for example, ``R.drawable`` for all drawable resources), and for each resource of that type, there is a static integer (for example, ``R.drawable.icon``). This integer is the resource ID that you can use to retrieve your resource.
+
+To access your app resources, the R class is imported in your code, and it is declared under the app's package name, so we need to change all the references in the code to the R class to with new package name: to do so, replace all instances of ``import org.digitalcampus.mobile.learning.R;`` with ``import org.myorgname.myproject.oppia.R;``.
+
+This import is used in almost all the classes, so it will be easier to use a search and replace on the whole ``src/main/java directory``.
+
+
+Google Cloud Messaging
+---------------------------
+
+The app uses the Google Cloud Messaging platform to receive push messages. You need to configure your own API key from the Google developers console as explained in the :ref:`registering-gcm` section of the documentation.
+
+This is mandatory, as the ``google-services`` plugin checks that your package name and ``applicationId`` match with the one that appears in the configuration JSON file.
+
+If you are not going to use this functionalities, you can just edit the current ``google-services.json`` file in your project ``app`` folder, replacing the value of the ``"package_name"`` property with your own package name. The current configuration file is a dummy one, so no need to worry about it affecting your code.
 
 
 Automatic error reporting 
 --------------------------------------
 
-Update the `MINT_API_KEY` in application/MobileLearning.java to the specific key you have generated for your app.
+Update the `MINT_API_KEY` setting to the specific key you have generated for your app.
 
 
 Default server connection 

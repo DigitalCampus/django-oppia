@@ -5,12 +5,12 @@ import time
 
 from datetime import date
 
-import oppia
 from django.contrib.auth.models import User
 from django.db.models import Count
 
 from oppia.models import Tracker, Points, Course
-from oppia.summary.models import SettingProperties, UserCourseSummary, CourseDailyStats, UserPointsSummary
+from oppia.settings.models import SettingProperties
+from oppia.summary.models import UserCourseSummary, CourseDailyStats, UserPointsSummary
 
 
 def run():
@@ -26,10 +26,10 @@ def run():
     try:
         newest_tracker_pk = Tracker.objects.latest('id').id
         newest_points_pk  = Points.objects.latest('id').id
-    except oppia.models.Tracker.DoesNotExist:
+    except Tracker.DoesNotExist:
         print "Tracker table is empty. Aborting cron..."
         return
-    except oppia.models.Points.DoesNotExist:
+    except Points.DoesNotExist:
         newest_points_pk = last_points_pk
 
     print ('Last tracker processed: %d\nNewest tracker: %d\n' % (last_tracker_pk, newest_tracker_pk))
@@ -116,7 +116,6 @@ def run():
 
     elapsed_time = time.time() - start
     print ('cron completed, took %.2f seconds' % elapsed_time)
-
 
 if __name__ == "__main__":
     import django

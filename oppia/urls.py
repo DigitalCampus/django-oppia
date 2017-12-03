@@ -71,7 +71,7 @@ urlpatterns = patterns('',
     
     url(r'^api/', include(v1_api.urls)),
     url(r'^api/publish/$', 'oppia.api.publish.publish_view', name="oppia_publish"),
-    url(r'^api/media/$', 'oppia.api.media.media_upload_view', name="oppia_api_media_upload"),
+    url(r'^api/media/$', 'oppia.api.media.upload_view', name="oppia_upload_media_api"),
     
     url(r'^content/', include('oppia.content.urls')),
     url(r'^preview/', include('oppia.preview.urls')),

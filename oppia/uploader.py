@@ -5,6 +5,7 @@ import json
 import shutil
 import xml.dom.minidom
 from xml.dom.minidom import Node
+from xml.sax.saxutils import unescape
 from zipfile import ZipFile, BadZipfile
 
 import os
@@ -25,7 +26,8 @@ def handle_uploaded_file(f, extract_path, request, user):
             destination.write(chunk)
 
     try:
-        ZipFile(zipfilepath).extractall(path=extract_path)
+        zip_file = ZipFile(zipfilepath)
+        zip_file.extractall(path=extract_path)
     except BadZipfile:
         messages.error(request, _("Invalid zip file"), extra_tags="danger")
         return False, 500
@@ -40,14 +42,27 @@ def handle_uploaded_file(f, extract_path, request, user):
         messages.info(request, _("Invalid course zip file"), extra_tags="danger")
         return False, 400
 
+    try:
+        course, response = process_course(extract_path, f, mod_name, request, user)
+    except Exception as e:
+        messages.error(request, e.message, extra_tags="danger")
+        return False, 500
+    finally:
+        # remove the temp upload files
+        shutil.rmtree(extract_path, ignore_errors=True)
+
+    return course, 200
+
+
+def process_course(extract_path, f, mod_name, request, user):
+    xml_path = os.path.join(extract_path, mod_name, "module.xml")
     # check that the module.xml file exists
-    print os.path.join(extract_path, mod_name, "module.xml")
-    if not os.path.isfile(os.path.join(extract_path, mod_name, "module.xml")):
+    print xml_path
+    if not os.path.isfile(xml_path):
         messages.info(request, _("Zip file does not contain a module.xml file"), extra_tags="danger")
         return False, 400
 
     # parse the module.xml file
-    xml_path = os.path.join(extract_path, mod_name, "module.xml")
     doc = xml.dom.minidom.parse(xml_path)
     meta_info = parse_course_meta(doc)
 
@@ -100,13 +115,10 @@ def handle_uploaded_file(f, extract_path, request, user):
     tmp_path = replace_zip_contents(xml_path, doc, mod_name, extract_path)
     # Extract the final file into the courses area for preview
     zipfilepath = settings.COURSE_UPLOAD_DIR + f.name
-    shutil.copy(tmp_path+".zip", zipfilepath)
+    shutil.copy(tmp_path + ".zip", zipfilepath)
 
     course_preview_path = settings.MEDIA_ROOT + "courses/"
     ZipFile(zipfilepath).extractall(path=course_preview_path)
-
-    # remove the temp upload files
-    shutil.rmtree(extract_path, ignore_errors=True)
 
     return course, 200
 
@@ -155,23 +167,29 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
                 for act in activities.getElementsByTagName("activity"):
                     parse_and_save_activity(req, user, section, act, new_course, process_quizzes_locally)
 
+
     # add all the media
     for file in xml_doc.lastChild.lastChild.childNodes:
         if file.nodeName == 'file':
             media = Media()
             media.course = course
             media.filename = file.getAttribute("filename")
-            media.download_url = file.getAttribute("download_url")
+            url = file.getAttribute("download_url")
             media.digest = file.getAttribute("digest")
 
-            # get any optional attributes
-            for attrName, attrValue in file.attributes.items():
-                if attrName == "length":
-                    media.media_length = attrValue
-                if attrName == "filesize":
-                    media.filesize = attrValue
+            if len(url) > Media.URL_MAX_LENGTH:
+                print url
+                messages.info(req, _('File %(filename)s has a download URL larger than the maximum length permitted. The media file has not been registered, so it won\'t be tracled. Please, fix this issue and upload the course again.') % {'filename': media.filename})
+            else:
+                media.download_url = url
+                # get any optional attributes
+                for attrName, attrValue in file.attributes.items():
+                    if attrName == "length":
+                        media.media_length = attrValue
+                    if attrName == "filesize":
+                        media.filesize = attrValue
 
-            media.save()
+                media.save()
 
 
 def parse_and_save_activity(req, user, section, act, new_course, process_quiz_locally, is_baseline=False):
@@ -393,7 +411,10 @@ def parse_course_meta(xml_doc):
 
 def replace_zip_contents(xml_path, xml_doc, mod_name, dest):
     fh = codecs.open(xml_path, mode="w", encoding="utf-8")
-    new_xml = xml_doc.toxml("utf-8").decode('utf-8').replace("&amp;", "&").replace("&quot;","\"")
+    new_xml = xml_doc.toxml("utf-8").decode('utf-8')
+    new_xml = unescape(new_xml, {"&apos;": "'", "&quot;": '"', "&nbsp;": " "})
+    new_xml = new_xml.replace('&nbsp;', ' ').replace('&amp;', '&').replace('&quot;', '"')
+
     fh.write(new_xml)
     fh.close()
 
