@@ -12,6 +12,7 @@ from oppia.quiz.api.resources import QuizQuestionResource, ResponseResource, Qui
 
 from oppia import views as oppia_views
 from oppia.api import publish as oppia_api_publish
+from oppia.api import media as oppia_api_media
 
 from tastypie.api import Api
 
@@ -75,6 +76,7 @@ urlpatterns = [
     
     url(r'^api/', include(v1_api.urls)),
     url(r'^api/publish/$', oppia_api_publish.publish_view, name="oppia_publish"),
+    url(r'^api/media/$', oppia_api_media.upload_view, name="oppia_upload_media_api"),
     
     url(r'^content/', include('oppia.content.urls')),
     url(r'^preview/', include('oppia.preview.urls')),
