@@ -1,5 +1,6 @@
 # oppia/av/models.py
 import datetime
+import os 
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -18,4 +19,11 @@ class UploadedMedia(models.Model):
     class Meta:
         verbose_name = _('Uploaded Media')
         verbose_name_plural = _('Uploaded Media')
-        
+     
+    def __unicode__(self):
+        return self.file.name
+    
+    def get_embed_code(self, domain):
+        EMBED_TEMPLATE = "[[media object='{\"filename\":\"%s\",\"download_url\":\"%s\",\"digest\":\"%s\", \"filesize\":%d, \"length\":%d}']]IMAGE/TEXT HERE[[/media]]"
+        return EMBED_TEMPLATE % (os.path.basename(self.file.name), domain, self.md5, self.file.size, self.length)
+       

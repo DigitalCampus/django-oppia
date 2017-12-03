@@ -41,6 +41,7 @@ def modify(settings):
 
          r'^content/video-embed-helper/$',
          r'^media/temp/',
+         r'^media/uploaded/', 
     )
 
     settings['CRISPY_TEMPLATE_PACK'] = 'bootstrap3'

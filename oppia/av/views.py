@@ -12,7 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from oppia.av.forms import UploadMediaForm
 from oppia.av.models import UploadedMedia
-from oppia.av import process_media
+from oppia.av import handler
 
 def home_view(request):
     uploaded_media = UploadedMedia.objects.all()
@@ -27,12 +27,12 @@ def upload_view(request):
         return HttpResponse('Unauthorized', status=401)
     
     if request.method == 'POST':    
-       result = process_media.process(request, request.user)
+       result = handler.upload(request, request.user)
        
        if result['result']:
            return HttpResponseRedirect(reverse('oppia_av_upload_success', args=[result['media'].id]))
        else:
-           form = UploadMediaForm(request.POST,request.FILES) 
+           form = result['form']
                
     else:
         form = UploadMediaForm() # An unbound form
@@ -45,9 +45,12 @@ def upload_view(request):
 def upload_success_view(request,id):
      media = get_object_or_404(UploadedMedia, pk=id)
      
+     embed_code = media.get_embed_code(request.build_absolute_uri(media.file.url))
+     
      return render_to_response('oppia/av/upload_success.html', 
                               {'title':_(u'Upload Media'),
-                               'media': media},
+                               'media': media,
+                               'embed_code': embed_code },
                               context_instance=RequestContext(request))
      
      

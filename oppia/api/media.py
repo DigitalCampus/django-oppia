@@ -9,7 +9,7 @@ from django.contrib import messages
 
 from oppia.api.publish import get_messages_array
 
-from oppia.av import process_media
+from oppia.av import handler
 
 @csrf_exempt
 def upload_view(request):
@@ -44,7 +44,7 @@ def upload_view(request):
     if validationErrors:
         return JsonResponse({ 'errors' : validationErrors }, status=400, )  
    
-    result = process_media.process(request, user)
+    result = handler.upload(request, user)
 
     if result['result']:
         return HttpResponse(status=201)

@@ -193,6 +193,23 @@ a:hover, a:focus {
 	padding-right:20px;
 }
 
+/*
+ *  Embed code display
+ */
+
+code {
+	display: block !important;
+  	white-space: pre-wrap;
+  	margin: 10px 0 20px 0;
+  	padding: 20px;
+  	background-color: #ddd;
+	color: #000;
+}
+
+/*
+ * 
+ */
+ 
 tr.hover:hover {
     background-color: yellow;
     cursor: pointer;

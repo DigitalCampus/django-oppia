@@ -10,7 +10,7 @@ from oppia.av.forms import UploadMediaForm
 from oppia.av.models import UploadedMedia
 from oppia.api.publish import get_messages_array
 
-def process(request, user):
+def upload(request, user):
 
     
     form = UploadMediaForm(request.POST, request.FILES)
@@ -20,21 +20,23 @@ def process(request, user):
                                       update_user = user,)
         uploaded_media.file = request.FILES["media_file"]
         uploaded_media.save()
-        # generate the md5 and save this
-        uploaded_media.md5 = hashlib.md5(open(uploaded_media.file.path, 'rb').read()).hexdigest()
+        md5 = hashlib.md5(open(uploaded_media.file.path, 'rb').read()).hexdigest()
+        uploaded_media.md5 = md5
         uploaded_media.save()
-           
+         
         try:
             media_full_path = os.path.join(settings.MEDIA_ROOT, uploaded_media.file.name)
             media_length = get_length(media_full_path)
             uploaded_media.length = media_length
             uploaded_media.save()
         except OSError:
-            # likely means avprobe/'libav-tools' is not installed
+            '''
+            likely means avprobe/'libav-tools' is not installed
+            '''
             uploaded_media.delete()
             errors = []
             errors.append(u'Please check that avprobe is installed on this system.')
-            return { 'result': False, 'errors': errors} 
+            return { 'result': False, 'form': form, 'errors': errors} 
         
         return { 'result': True, 'media': uploaded_media } 
     else:
@@ -44,7 +46,7 @@ def process(request, user):
             for e in error:
                 print e
                 errors.append(e)
-        return { 'result': False, 'errors': errors }
+        return { 'result': False, 'form': form, 'errors': errors }
     
     
 def get_length(filepath):
