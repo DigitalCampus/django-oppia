@@ -33,7 +33,9 @@ Example 2 (correct):
 	
 In the Moodle inline HTML editor, it is very difficult to see that different types of quotes have been used. It is much 
 easier to notice if the page HTML is cut and pasted into a plain text editor (eg Notepad or similar) with a large font 
-size selected.
+size selected. Here is an example of mismatching quotes in the Moodle inline HTML editor:
+
+.. image:: images/moodle-editor-incorrect-html.png
 
 The likely cause of having different types of quotes is from cutting and pasting from different sources.
 
