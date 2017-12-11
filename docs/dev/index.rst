@@ -23,16 +23,6 @@ For installing OppiaMobile server and Moodle block please refer to:
    changelog
    troubleshooting/index
   
-  
-.. _installfaqs:
-
-Installation FAQS
--------------------
-
-.. toctree::
-   :maxdepth: 1
-
-   app_install_faqs
 
 .. _customisation:
 

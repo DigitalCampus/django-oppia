@@ -4,7 +4,6 @@ OppiaMobile Development Roadmap
 Short term
 -------------
 
-* Embedding more interactive/graphical questions - drag and drop. Requires updates to Moodle block and Oppia app.
 * Improved and more intuitive way to embed video/audio content. Requires updates to Moodle block and Oppia server.
 * Adding more comprehensive (automated) release testing process.
 
