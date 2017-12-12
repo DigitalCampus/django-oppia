@@ -310,9 +310,9 @@ def generate_graph_data(dates_types_stats, is_monthly=False):
     for date in dates_types_stats:
         if is_monthly:
             #depending if it is monthly or daily, we parse differently the day "tag"
-            day = datetime.date(month=date['month'], year=date['year'], day=1).strftime("%b %y")
+            day = datetime.date(month=date['month'], year=date['year'], day=1)
         else:
-            day = date['day'].strftime("%d %b %y")
+            day = date['day']
 
         if current_date is None or day != current_date:
             if current_date != None:
@@ -377,6 +377,7 @@ def recent_activity(request,course_id):
     leaderboard = Points.get_leaderboard(10, course)
     return render(request, 'oppia/course/activity.html',
                               {'course': course,
+                               'monthly': interval == 'months',
                                'form': form,
                                 'data':dates, 
                                 'leaderboard':leaderboard})

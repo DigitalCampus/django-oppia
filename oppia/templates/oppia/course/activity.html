@@ -25,7 +25,7 @@
 	function drawChart() {
 
 		var data = new google.visualization.DataTable();
-		data.addColumn('string', "{% trans 'Date' %}");
+		data.addColumn('date', "{% trans 'Date' %}");
 		data.addColumn('number', "{% trans 'Total' %}");
 		data.addColumn('number', "{% trans 'Page completed' %}");
 		data.addColumn('number', "{% trans 'Quiz completed' %}");
@@ -34,7 +34,7 @@
 		data.addRows( {{ data|length }} );
 		
 		{% for date,activity in data %}
-			data.setValue({{ forloop.counter0 }},0,'{{ date }}');
+			data.setValue({{ forloop.counter0 }},0,new Date({{ date| date:'Y' }},{{ date|date:'n' }}-1,{{date|date:'j'}}));
 			data.setValue({{ forloop.counter0 }},1,{{ activity.total }});
 			data.setValue({{ forloop.counter0 }},2,{{ activity.page }});
 			data.setValue({{ forloop.counter0 }},3,{{ activity.quiz }});
@@ -42,15 +42,20 @@
 			data.setValue({{ forloop.counter0 }},5,{{ activity.resource }});
 		{% endfor %}
 
+		var chartOptions = {
+			width: "100%",
+			height: 400,
+			vAxis: {title: "{% trans 'No. attempts' %}"},
+			pointSize:5,
+			chartArea: {left:100,width:"70%",height:"75%"},
+			backgroundColor: 'transparent',
+			legend: {position:'right'}
+		};
+		{% if monthly %}
+			chartOptions['hAxis'] = { format: 'MMM yyyy' };
+		{% endif %}
         var chart = new google.visualization.LineChart(document.getElementById('attempts_chart_div'));
-        chart.draw(data, {	width: "100%", 
-                			height: 400,
-                			vAxis: {title: "{% trans 'No. attempts' %}"},
-                			pointSize:5,
-                			chartArea: {left:100,width:"70%",height:"75%"},
-                			backgroundColor: 'transparent',
-                			legend: {position:'right'}
-							});
+        chart.draw(data, chartOptions);
       }
 </script>
 {% endblock extra_scripts %}

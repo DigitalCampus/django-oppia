@@ -28,7 +28,7 @@
 	        var chart = new google.visualization.AreaChart(document.getElementById('activity_graph_div'));
 	        chart.draw(data, {	width: "100%", 
 	                			height: 400,
-	                			vAxis: {minValue:0},
+	                			vAxis: {minValue:0, maxLines:2, viewWindow: {min:0 }},
 	                			pointSize:3,
 	                			chartArea: {left:80,top:10,width:"90%",height:"75%"},
 	                			backgroundColor: 'transparent',
