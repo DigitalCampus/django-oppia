@@ -14,7 +14,7 @@ from oppia.summary.models import UserCourseSummary, CourseDailyStats, UserPoints
 
 
 def update_summaries(last_tracker_pk=0, last_points_pk=0):
-
+    start = time.time()
     # get last tracker and points PKs to be processed
     # (to avoid leaving some out if new trackers arrive while processing)
     try:
@@ -30,6 +30,16 @@ def update_summaries(last_tracker_pk=0, last_points_pk=0):
     if last_tracker_pk >= newest_tracker_pk:
         print('No new trackers to process. Aborting cron...')
         return
+
+    first_tracker = (last_tracker_pk == 0)
+    first_points = (last_points_pk == 0)
+
+    # If we are calculating from the start, delete previous summary calculations
+    if first_tracker:
+        UserCourseSummary.objects.all().delete()
+        CourseDailyStats.objects.all().delete()
+    if first_points:
+        UserPointsSummary.objects.all().delete()
 
     # get different (distinct) user/courses involved
     userCourses = Tracker.objects \
@@ -68,7 +78,7 @@ def update_summaries(last_tracker_pk=0, last_points_pk=0):
         day = date(typeLog['year'], typeLog['month'], typeLog['day'])
         course = Course.objects.get(pk=typeLog['course'])
         stats, created = CourseDailyStats.objects.get_or_create(course=course, day=day, type=typeLog['type'])
-        stats.total = (0 if last_tracker_pk == 0 else stats.total) + typeLog['total']
+        stats.total = (0 if first_tracker else stats.total) + typeLog['total']
         stats.save()
 
         count += 1
@@ -86,7 +96,7 @@ def update_summaries(last_tracker_pk=0, last_points_pk=0):
     for searchLog in searchDailyLogs:
         day = date(searchLog['year'], searchLog['month'], searchLog['day'])
         stats, created = CourseDailyStats.objects.get_or_create(course=None, day=day, type='search')
-        stats.total = (0 if last_tracker_pk == 0 else stats.total) + searchLog['total']
+        stats.total = (0 if first_tracker else stats.total) + searchLog['total']
         stats.save()
 
     # get different (distinct) user/points involved
