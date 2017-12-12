@@ -375,7 +375,7 @@ def recent_activity(request,course_id):
         dates = generate_graph_data(monthly_stats, True)
 
     leaderboard = Points.get_leaderboard(10, course)
-    return rrender(request, 'oppia/course/activity.html',
+    return render(request, 'oppia/course/activity.html',
                               {'course': course,
                                'form': form,
                                 'data':dates, 
