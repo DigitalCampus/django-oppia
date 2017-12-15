@@ -10,7 +10,13 @@ then it will not work when the course is exported to Oppia either.
 The `Moodle documentation <http://docs.moodle.org/en/Multi_language_content>`_ has some information on how to 
 fix common problems. 
 
-One additional problem we have noticed, is using mismatching single or double quotes in the HTML tags. In the examples 
+Additional problems we have noticed:
+
+
+Using mismatching single or double quotes
+-------------------------------------------
+
+Be careful to check that the single or double quotes in the HTML tags are of matching types. In the examples 
 below (shown as large image as well as plain text), the first example uses a different type of double quotes. The 
 multilanguage filter in Moodle then cannot understand what is meant by the HTML code, and so fails to recognise that we 
 are trying to enter multilingual content. 
@@ -38,4 +44,28 @@ size selected. Here is an example of mismatching quotes in the Moodle inline HTM
 .. image:: images/moodle-editor-incorrect-html.png
 
 The likely cause of having different types of quotes is from cutting and pasting from different sources.
+
+
+Additional style attribute used in page and topic titles
+---------------------------------------------------------
+
+For page and topic/section titles, when the multilang span tags include additional attributes, this seems to stop the 
+Moodle multilang filter functioning correctly, but applies to the titles only, not the page content.
+
+Example 1 (does not work):
+
+.. code:: 
+	
+	<span lang="ur" class="multilang" style="font-size: 1rem;">ويڊيو جو خلاصو</span><span lang="ar" class="multilang" style="font-size: 1rem;">ايپليڪيشن جو تعارف</span>
+
+Example 2 (does work):
+
+.. code:: 
+    
+    <span lang="ur" class="multilang">ويڊيو جو خلاصو</span><span lang="ar" class="multilang">ايپليڪيشن جو تعارف</span>
+	
+The difference being that the ``style="font-size: 1rem;"`` attribute has been removed.
+
+
+
 
