@@ -51,7 +51,7 @@ OppiaMobile Moodle block
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 A Moodle block (script) to export the course from Moodle into the right format for installing in the OppiaMobile Android 
-app. This block has been developed and tested for Moodle v2.5+.
+app. 
 
 * Source code: https://github.com/DigitalCampus/moodle-block_oppia_mobile_export
 * Bug/issue tracker: https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues
