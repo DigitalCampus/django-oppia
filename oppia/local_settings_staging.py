@@ -105,7 +105,7 @@ def modify(settings):
 
     settings['API_LIMIT_PER_PAGE'] = 0
 
-    settings['DEVICE_ADMIN_ENABLED'] = True
+    settings['DEVICE_ADMIN_ENABLED'] = False
 
     if settings['DEVICE_ADMIN_ENABLED']:
         settings['INSTALLED_APPS'] += ('oppia.deviceadmin', 'gcm',)
