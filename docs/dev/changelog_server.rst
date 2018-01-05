@@ -15,6 +15,11 @@ v0.10.0 - To be released
 * 415: add defusedxml==0.5.0 as requirement - https://github.com/DigitalCampus/django-oppia/issues/issues/415	
 * 400: Add docs for updating the theme on the app for custom versions - https://github.com/DigitalCampus/django-oppia/issues/issues/400
 * 399: Check documentation for creating own version of app - https://github.com/DigitalCampus/django-oppia/issues/issues/399
+* 421: Move to django v1.11.6 - https://github.com/DigitalCampus/django-oppia/issues/issues/421	
+* 377: Course activity on summary overview showing dates into far future - https://github.com/DigitalCampus/django-oppia/issues/issues/377	
+* 390: Document management commands (purpose & how to run etc) - https://github.com/DigitalCampus/django-oppia/issues/issues/390
+* 431: Update to use TastyPie v0.14.0 - https://github.com/DigitalCampus/django-oppia/issues/issues/431
+
 
 Previous Versions
 ------------------

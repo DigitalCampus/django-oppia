@@ -1,5 +1,3 @@
-
-
 Server Settings
 ===============
 
@@ -8,8 +6,6 @@ installation.
 
 To edit these settings you will need to edit the ``local_settings_xxx.py`` file, and
 for them to take effect you will need to restart your web server.
- 
- 
  
 OPPIA_POINTS
 -------------
@@ -33,6 +29,8 @@ Default:
 
 OPPIA_METADATA
 ---------------
+
+The defines the metadata info that is sent back from the app.
 
 OPPIA_ALLOW_SELF_REGISTRATION
 -----------------------------
@@ -66,7 +64,6 @@ the is_staff status are able to upload courses. If this setting is set to
 
 You can also give upload permissions to individual users (whatever their staff 
 status) by setting the can_upload option to true in their user profile.
-
 
 
 OPPIA_POINTS_ENABLED
@@ -107,15 +104,21 @@ this course. This setting is ignored if ``OPPIA_POINTS_ENABLED`` is ``False``.
 
 
 OPPIA_BADGES_ENABLED
+----------------------
 
+Default: ``True``
+
+This setting determines whether the badges system is enabled for this server. It 
+currently just hides the badges from display on the mobile app.
 
 BADGE_AWARDING_METHOD
+------------------------
 
+Defines the method that is used for awarding a badge. This may be set to one of:
 
-
-
-
-
+* BADGE_AWARD_METHOD_ALL_ACTIVITIES (default) - all activities in the course must be completed, and all quizzes passed
+* BADGE_AWARD_METHOD_FINAL_QUIZ - only need to pass the final quiz
+* BADGE_AWARD_METHOD_ALL_QUIZZES - all the quizzes in the course must be passed
 
 
 OPPIA_GOOGLE_ANALYTICS_ENABLED
@@ -153,9 +156,38 @@ If you define a `MAX_UPLOAD_SIZE` property in the SettingProperties table (under
 that value will take precedence from the one defined in the `_settings.py` file
 
 
-OPPIA_MEDIA_FILE_TYPES
+OPPIA_VIDEO_FILE_TYPES
+-----------------------
 
+List of the video file MIME types that will be accepted for upload to the server.
 
-OPPIA_MEDIA_IMAGE_FILE_TYPES
+OPPIA_AUDIO_FILE_TYPES
+------------------------------
+
+List of the audio file MIME types that will be accepted for upload to the server.
+
+OPPIA_EXPORT_LOCAL_MINVERSION
+--------------------------------
+
+Default: 2017011400
+
+The minimum version no of the Moodle - Oppia export block to process the quizzes locally on the server.
+
 
 API_LIMIT_PER_PAGE
+--------------------
+
+Default: 0
+
+Defines how many results will be returned per page in the API. When set to 0, all results will be returned.
+
+
+DEVICE_ADMIN_ENABLED
+-----------------------
+
+Default: False
+
+Defines if the Google Device Admin functionality is enabled. Note that if it is enabled here and in the Oppia app, then 
+extra information is required in the app to ensure users are aware of these permissions. If this info is not provided in 
+the app, then it may get removed from Google Play.
+
