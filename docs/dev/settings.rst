@@ -185,7 +185,7 @@ Defines how many results will be returned per page in the API. When set to 0, al
 DEVICE_ADMIN_ENABLED
 -----------------------
 
-Default: False
+Default: True
 
 Defines if the Google Device Admin functionality is enabled. Note that if it is enabled here and in the Oppia app, then 
 extra information is required in the app to ensure users are aware of these permissions. If this info is not provided in 
