@@ -34,6 +34,8 @@ Default:
 OPPIA_METADATA
 ---------------
 
+The defines the metadata info that is sent back from the app.
+
 OPPIA_ALLOW_SELF_REGISTRATION
 -----------------------------
 
@@ -66,7 +68,6 @@ the is_staff status are able to upload courses. If this setting is set to
 
 You can also give upload permissions to individual users (whatever their staff 
 status) by setting the can_upload option to true in their user profile.
-
 
 
 OPPIA_POINTS_ENABLED
@@ -107,15 +108,21 @@ this course. This setting is ignored if ``OPPIA_POINTS_ENABLED`` is ``False``.
 
 
 OPPIA_BADGES_ENABLED
+----------------------
 
+Default: ``True``
+
+This setting determines whether the badges system is enabled for this server. It 
+currently just hides the badges from display on the mobile app.
 
 BADGE_AWARDING_METHOD
+------------------------
 
+Defines the method that is used for awarding a badge. This may be set to one of:
 
-
-
-
-
+* BADGE_AWARD_METHOD_ALL_ACTIVITIES (default) - all activities in the course must be completed, and all quizzes passed
+* BADGE_AWARD_METHOD_FINAL_QUIZ - only need to pass the final quiz
+* BADGE_AWARD_METHOD_ALL_QUIZZES - all the quizzes in the course must be passed
 
 
 OPPIA_GOOGLE_ANALYTICS_ENABLED
@@ -154,8 +161,17 @@ that value will take precedence from the one defined in the `_settings.py` file
 
 
 OPPIA_MEDIA_FILE_TYPES
+-----------------------
 
+List of the multimedia file types
 
 OPPIA_MEDIA_IMAGE_FILE_TYPES
+------------------------------
+
 
 API_LIMIT_PER_PAGE
+--------------------
+
+
+DEVICE_ADMIN_ENABLED
+-----------------------
