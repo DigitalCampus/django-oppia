@@ -6,7 +6,7 @@ from django.views import static
 
 from oppia.api.resources import TrackerResource, CourseResource, ScheduleResource, TagResource
 from oppia.api.resources import PointsResource, AwardsResource, BadgesResource, RegisterResource, UserResource, ResetPasswordResource
-from oppia.deviceadmin.api.resources import UserDeviceResource
+
 from oppia.quiz.api.resources import QuizResource, QuizPropsResource, QuestionResource
 from oppia.quiz.api.resources import QuizQuestionResource, ResponseResource, QuizAttemptResource
 
@@ -36,6 +36,8 @@ v1_api.register(ResponseResource())
 v1_api.register(QuizAttemptResource())
 
 if settings.DEVICE_ADMIN_ENABLED:
+    from oppia.deviceadmin.api.resources import UserDeviceResource
+
     v1_api.register(UserDeviceResource())
 
 urlpatterns = [
