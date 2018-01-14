@@ -16,6 +16,7 @@ v0.10.0 - To be released
 * 377: Course activity on summary overview showing dates into far future - https://github.com/DigitalCampus/django-oppia/issues/issues/377	
 * 390: Document management commands (purpose & how to run etc) - https://github.com/DigitalCampus/django-oppia/issues/issues/390
 * 431: Update to use TastyPie v0.14.0 - https://github.com/DigitalCampus/django-oppia/issues/issues/431
+* 433: Device admin setting error - https://github.com/DigitalCampus/django-oppia/issues/issues/433
 
 Previous Versions
 ------------------
