@@ -5,7 +5,7 @@ Installation
 
 To install and run the OppiaMobile server, you will need to be familiar with how
 to set up, install and maintain Django applications. To learn how to get started 
-with Django, visit http://gettingstartedwithdjango.com/.
+with Django, visit http://www.gettingstartedwithdjango.com/.
 
 
 * Create a virtual environment for python. We recommend that 

@@ -14,7 +14,6 @@ For installing OppiaMobile server and Moodle block please refer to:
    virtualbox
    server/upgrade
    settings
-   api
    utilities
    code_process
    testing/index
@@ -23,16 +22,6 @@ For installing OppiaMobile server and Moodle block please refer to:
    changelog
    troubleshooting/index
   
-  
-.. _installfaqs:
-
-Installation FAQS
--------------------
-
-.. toctree::
-   :maxdepth: 1
-
-   app_install_faqs
 
 .. _customisation:
 
