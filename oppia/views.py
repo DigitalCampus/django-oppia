@@ -12,7 +12,7 @@ from django.core.urlresolvers import reverse
 from django.db.models import Count, Sum
 from django.forms.formsets import formset_factory
 from django.http import HttpResponseRedirect
-from django.shortcuts import render,render_to_response
+from django.shortcuts import render,render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
@@ -1019,3 +1019,18 @@ def course_feedback_responses(request,course_id,quiz_id):
                                'quiz':quiz, 
                                'page':attempts}, 
                               context_instance=RequestContext(request))
+    
+def app_launch_activity_redirect_view(request):
+    try:
+        digest = str(request.GET.get('digest'))
+    except ValueError:
+        return HttpResponse(content=template.render(context), content_type='text/html; charset=utf-8', status=404)
+    
+    # get activity and redirect
+    activity = get_object_or_404(Activity,digest=digest)
+    return HttpResponseRedirect(reverse('oppia_preview_course_activity', args=[activity.section.course.id, activity.id]))
+
+
+
+
+

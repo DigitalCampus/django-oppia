@@ -71,6 +71,7 @@ urlpatterns = patterns('',
     
     url(r'^api/', include(v1_api.urls)),
     url(r'^api/publish/$', 'oppia.api.publish.publish_view', name="oppia_publish"),
+    url(r'^api/media/$', 'oppia.api.media.upload_view', name="oppia_upload_media_api"),
     
     url(r'^content/', include('oppia.content.urls')),
     url(r'^preview/', include('oppia.preview.urls')),
@@ -79,6 +80,8 @@ urlpatterns = patterns('',
     url(r'^reports/', include('oppia.reports.urls')),
     url(r'^viz/', include('oppia.viz.urls')),
     url(r'^av/', include('oppia.av.urls')),
+    
+    url(r'^view/$', 'oppia.views.app_launch_activity_redirect_view', name="oppia_app_launch_activity_redirect"),
     
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT }),
 

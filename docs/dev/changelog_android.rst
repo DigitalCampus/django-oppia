@@ -3,6 +3,14 @@ OppiaMobile Android App Change Log
 
 To see the upcoming feature developments and bug fixes, please refer to the `monthly milestones on GitHub <https://github.com/DigitalCampus/oppia-mobile-android/milestones>`_
 
+
+.. _appv65:
+
+v65 (6.5.0) - not yet released 
+--------------------------------------
+
+
+
 .. _appv64:
 
 v64 (6.4.0) - not yet released 
@@ -14,6 +22,10 @@ v64 (6.4.0) - not yet released
 * 611: NumberFormatException when connection/response timeout values are very large - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/611
 * 613: Check that the download via PC is gives the correct location for copying the files to - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/613
 * 617: Add lang pack for Arabic - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/617
+* 648: Reduce no clicks through to content when launching from other app - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/648
+* 646: Trim server url before it's checked to be a well formed url - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/646
+* 644: Update acknowledgements page - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/644
+
 
 .. _appv63:
 
