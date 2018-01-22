@@ -81,6 +81,8 @@ urlpatterns = patterns('',
     url(r'^viz/', include('oppia.viz.urls')),
     url(r'^av/', include('oppia.av.urls')),
     
+    url(r'^view/$', 'oppia.views.app_launch_activity_redirect_view', name="oppia_app_launch_activity_redirect"),
+    
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT }),
 
 )
