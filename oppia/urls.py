@@ -88,8 +88,9 @@ urlpatterns = [
     url(r'^viz/', include('oppia.viz.urls')),
     url(r'^av/', include('oppia.av.urls')),
     
+    url(r'^view/$', oppia_views.app_launch_activity_redirect_view, name="oppia_app_launch_activity_redirect"),
+    
     url(r'^media/(?P<path>.*)$', static.serve, {'document_root': settings.MEDIA_ROOT }),
-
 ]
 
 if settings.DEVICE_ADMIN_ENABLED:

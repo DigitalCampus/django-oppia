@@ -6,7 +6,7 @@ To see the upcoming feature developments and bug fixes, please refer to the `mon
 
 .. _serverv0.9.12:
 
-v0.9.12 - To be released
+v0.9.12 - Released 22 Jan 2018
 --------------------------------
 
 * 411: Add new logo - https://github.com/DigitalCampus/django-oppia/issues/issues/411
@@ -15,6 +15,7 @@ v0.9.12 - To be released
 * 412: Update docs to reflect new question type functionality - https://github.com/DigitalCampus/django-oppia/issues/issues/412
 * 410: Update docs for creating a new version/Implementation of Oppia app - https://github.com/DigitalCampus/django-oppia/issues/issues/410
 * 425: Review and  update the upgrade docs - https://github.com/DigitalCampus/django-oppia/issues/issues/425
+* 437: Redirect "link to open activity in app" to the preview page - https://github.com/DigitalCampus/django-oppia/issues/issues/437
 
 .. _serverv0.9.11:
 
