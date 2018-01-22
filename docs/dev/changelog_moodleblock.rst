@@ -1,12 +1,21 @@
 OppiaMobile Moodle Block Change Log
 =====================================
 
-.. _blockv2017xxxxxx:
 
-v2017xxxxxx - Not yet released
+.. _blockv2018xxxxxx:
+
+v2018xxxxxx -  Not yet released
+-------------------------------------
+
+
+
+.. _blockv2018011800:
+
+v2018011800 -  Released 18 Jan 2018
 -------------------------------------
 
 * Hotfix: Remove HTML entities in quiz question titles
+* Add new stylesheet option
 
 .. _blockv2017042700:
 
