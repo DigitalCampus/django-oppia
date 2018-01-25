@@ -13,7 +13,7 @@ v65 (6.5.0) - not yet released
 
 .. _appv64:
 
-v64 (6.4.0) - not yet released 
+v64 (6.4.0) - Released 25 Jan 2018
 --------------------------------------
 
 * 636: Add message when course cannot load due to parsing errors - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/636
@@ -25,7 +25,8 @@ v64 (6.4.0) - not yet released
 * 648: Reduce no clicks through to content when launching from other app - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/648
 * 646: Trim server url before it's checked to be a well formed url - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/646
 * 644: Update acknowledgements page - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/644
-
+* 645: When retaking a quiz the icon for playing media appears for all questions - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/645
+* UI improvements - https://github.com/DigitalCampus/oppia-mobile-android/pull/649 and https://github.com/DigitalCampus/oppia-mobile-android/pull/653
 
 .. _appv63:
 
