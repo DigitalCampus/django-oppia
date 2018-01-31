@@ -17,6 +17,7 @@ v0.10.0 - To be released
 * 390: Document management commands (purpose & how to run etc) - https://github.com/DigitalCampus/django-oppia/issues/issues/390
 * 431: Update to use TastyPie v0.14.0 - https://github.com/DigitalCampus/django-oppia/issues/issues/431
 * 433: Device admin setting error - https://github.com/DigitalCampus/django-oppia/issues/issues/433
+* 440: Option for user to export data - https://github.com/DigitalCampus/django-oppia/issues/issues/440
 
 Previous Versions
 ------------------
