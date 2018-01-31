@@ -16,11 +16,11 @@
 {% crispy form %}
 
 <div style="clear:both"></div>
-<h3>{% trans 'Export My Data' %}</h3>
+<h3>{% trans 'Export data' %}</h3>
 
-<a href="{% url 'profile_export_mydata' 'activity' %}" class="btn btn-default">Export Course Activity</a>
-<a href="{% url 'profile_export_mydata' 'quiz' %}" class="btn btn-default">Export Quiz Attempts</a>
-<a href="{% url 'profile_export_mydata' 'points' %}" class="btn btn-default">Export Points</a>
-<a href="{% url 'profile_export_mydata' 'badges' %}" class="btn btn-default">Export Badges</a>
+<a href="{% url 'profile_export_mydata' 'activity' %}" class="btn btn-default" target="_blank">Export Course Activity</a>
+<a href="{% url 'profile_export_mydata' 'quiz' %}" class="btn btn-default" target="_blank">Export Quiz Attempts</a>
+<a href="{% url 'profile_export_mydata' 'points' %}" class="btn btn-default" target="_blank">Export Points</a>
+<a href="{% url 'profile_export_mydata' 'badges' %}" class="btn btn-default" target="_blank">Export Badges</a>
 
 {% endblock %}

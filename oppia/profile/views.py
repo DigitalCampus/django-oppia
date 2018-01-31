@@ -224,10 +224,14 @@ def export_mydata_view(request, data_type):
                   {'quiz_attempts': my_quizzes})
     
     if data_type == 'points':
-        pass
+        points = Points.objects.filter(user=request.user)
+        return render(request, 'oppia/profile/export/points.html',
+                  {'points': points})
         
     if data_type == 'badges':   
-        pass
+        badges = Award.objects.filter(user=request.user)
+        return render(request, 'oppia/profile/export/badges.html',
+                  {'badges': badges})
      
 
 def points(request):
