@@ -26,7 +26,7 @@ from oppia.permissions import get_user, get_user_courses, can_view_course, can_e
 from oppia.profile.forms import LoginForm, RegisterForm, ResetForm, ProfileForm, UploadProfileForm, \
     UserSearchForm
 from oppia.profile.models import UserProfile
-from oppia.quiz.models import Quiz, QuizAttempt
+from oppia.quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
 from oppia.reports.signals import dashboard_accessed
 from oppia.summary.models import UserCourseSummary
 
@@ -212,7 +212,16 @@ def export_mydata_view(request, data_type):
                   {'activity': my_activity})
      
     if data_type == 'quiz':
-        pass
+        my_quizzes = []
+        my_quiz_attempts = QuizAttempt.objects.filter(user=request.user)
+        for mqa in my_quiz_attempts:
+            data = {}
+            data['quizattempt'] = mqa
+            data['quizattemptresponses'] = QuizAttemptResponse.objects.filter(quizattempt=mqa)
+            my_quizzes.append(data)
+        
+        return render(request, 'oppia/profile/export/quiz_attempts.html',
+                  {'quiz_attempts': my_quizzes})
     
     if data_type == 'points':
         pass
