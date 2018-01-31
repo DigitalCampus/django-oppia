@@ -417,8 +417,8 @@ def user_course_activity_view(request, user_id, course_id):
                                'activity_graph_data': activity })
 
 def upload_view(request):
-    if not request.user.is_staff:
-        raise Http404
+    if not request.user.is_superuser:
+        return HttpResponse('Unauthorized', status=401)
 
     if request.method == 'POST': # if form submitted...
         form = UploadProfileForm(request.POST,request.FILES)

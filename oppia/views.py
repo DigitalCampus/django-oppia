@@ -593,7 +593,8 @@ def schedule_saved(request, course_id, schedule_id=None):
  
 def cohort_list_view(request):
     if not request.user.is_staff:
-        raise Http404  
+        return HttpResponse('Unauthorized', status=401)
+         
     cohorts = Cohort.objects.all()
     return render(request, 'oppia/course/cohorts-list.html',
                               {'cohorts':cohorts,})
@@ -682,11 +683,11 @@ def cohort_add(request):
                                 'courses_page': courses,
                                 'courses_ordering': c_ordering,
                                 'page_ordering':ordering,
-                                'users_list_template':'select'
-                             },context_instance=RequestContext(request))
+                                'users_list_template': 'select',
+                             })
 
 def cohort_view(request,cohort_id):
-    cohort, response = can_view_cohort(request,cohort_id)
+    cohort, response = can_view_cohort(request, cohort_id)
     
     if response is not None:
         return response

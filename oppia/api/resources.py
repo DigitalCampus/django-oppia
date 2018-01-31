@@ -496,21 +496,24 @@ class CourseResource(ModelResource):
             if cohort.schedule:
                 schedule = cohort.schedule
         
-        # add scheduling XML file     
-        if schedule or has_completed_trackers:
-            file_to_download = settings.COURSE_UPLOAD_DIR +"temp/"+ str(request.user.id) + "-" + course.filename
-            shutil.copy2(course.getAbsPath(), file_to_download)
-            zip = zipfile.ZipFile(file_to_download,'a')
-            if schedule:
-                zip.writestr(course.shortname +"/schedule.xml",schedule.to_xml_string())
-            if has_completed_trackers:
-                zip.writestr(course.shortname +"/tracker.xml",Tracker.to_xml_string(course,request.user))
-            zip.close()
-
-        wrapper = FileWrapper(file(file_to_download))
-        response = HttpResponse(wrapper, content_type='application/zip')
-        response['Content-Length'] = os.path.getsize(file_to_download)
-        response['Content-Disposition'] = 'attachment; filename="%s"' %(course.filename)
+        try:
+            # add scheduling XML file     
+            if schedule or has_completed_trackers:
+                file_to_download = settings.COURSE_UPLOAD_DIR +"temp/"+ str(request.user.id) + "-" + course.filename
+                shutil.copy2(course.getAbsPath(), file_to_download)
+                zip = zipfile.ZipFile(file_to_download,'a')
+                if schedule:
+                    zip.writestr(course.shortname +"/schedule.xml",schedule.to_xml_string())
+                if has_completed_trackers:
+                    zip.writestr(course.shortname +"/tracker.xml",Tracker.to_xml_string(course,request.user))
+                zip.close()
+    
+            wrapper = FileWrapper(file(file_to_download))
+            response = HttpResponse(wrapper, content_type='application/zip')
+            response['Content-Length'] = os.path.getsize(file_to_download)
+            response['Content-Disposition'] = 'attachment; filename="%s"' %(course.filename)
+        except IOError:
+            raise Http404(_(u"Course not found"))
         
         # Add to tracker
         tracker = Tracker()

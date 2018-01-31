@@ -102,11 +102,15 @@ def can_edit_cohort(request, cohort_id):
     return False
 
 def can_view_cohort(request, cohort_id):
+    try: 
+       cohort = Cohort.objects.get(pk=cohort_id) 
+    except Cohort.DoesNotExist:
+        raise Http404
     try:
         if request.user.is_staff:
-            return Cohort.objects.get(pk=cohort_id), None
+            return cohort, None
         return Cohort.objects.get(pk=cohort_id,participant__user=request.user, participant__role=Participant.TEACHER), None
-    except Cohort.DoesNotExist:
+    except:
         return False,  HttpResponse('Unauthorized', status=401)
     return False,  HttpResponse('Unauthorized', status=401)
 

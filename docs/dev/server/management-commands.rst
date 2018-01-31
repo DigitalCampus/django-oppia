@@ -11,7 +11,7 @@ To view all the commands available in any Django project, you can type ``manage.
 by Django app. Also, you can access the help for a command typing ``manage.py help <command_name>``.
 
 Available commands
-.........
+....................
 
 ``cleanup_quizzes``:  **Cleans up old data** (quizzes and questions) **that is not relevant anymore**.
 It removes all the quizzes and its related data (properties, questions, correct answers, etc) that are not part of a

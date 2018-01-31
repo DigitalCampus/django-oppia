@@ -20,7 +20,7 @@ from oppia.viz.models import UserLocationVisualization
 
 def summary_view(request):
     if not request.user.is_staff:
-         raise Http404
+         return HttpResponse('Unauthorized', status=401)
 
     start_date = timezone.now() - datetime.timedelta(days=365)
     if request.method == 'POST':
