@@ -204,6 +204,22 @@ def edit(request, user_id=0):
 
     return render(request, 'oppia/profile/profile.html',
                   {'form': form,})
+    
+def export_mydata_view(request, data_type):
+    if data_type == 'activity':
+        my_activity = Tracker.objects.filter(user=request.user)
+        return render(request, 'oppia/profile/export/activity.html',
+                  {'activity': my_activity})
+     
+    if data_type == 'quiz':
+        pass
+    
+    if data_type == 'points':
+        pass
+        
+    if data_type == 'badges':   
+        pass
+     
 
 def points(request):
     points = Points.objects.filter(user=request.user).order_by('-date')

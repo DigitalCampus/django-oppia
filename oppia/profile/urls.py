@@ -25,4 +25,6 @@ urlpatterns = [
     url(r'^search/$', oppia_profile_views.search_users, name="search_users"),
     url(r'^export/$', oppia_profile_views.export_users, name="profile_export"),
     url(r'^list/$', oppia_profile_views.list_users, name="list_users"),
+    
+    url(r'^export/mydata/(?P<data_type>\w[\w/-]*)$', oppia_profile_views.export_mydata_view, name="profile_export_mydata"),
 ]

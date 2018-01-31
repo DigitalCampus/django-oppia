@@ -170,9 +170,9 @@ class ResetForm(forms.Form):
 
 class ProfileForm(forms.Form):
     api_key = forms.CharField(widget=forms.TextInput(attrs={'readonly': 'readonly'}),
-                              required=False, help_text=_(u'You cannot edit the API Key.'))
+                              required=False, help_text=_(u'You cannot edit your API Key.'))
     username = forms.CharField(widget=forms.TextInput(attrs={'readonly': 'readonly'}),
-                               required=False, help_text=_(u'You cannot edit the username.'))
+                               required=False, help_text=_(u'You cannot edit your username.'))
     email = forms.CharField(validators=[validate_email],
                             error_messages={'invalid': _(u'Please enter a valid e-mail address.')},
                             required=True)
