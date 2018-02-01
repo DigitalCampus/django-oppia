@@ -7,6 +7,7 @@ import operator
 import os
 import tablib
 from dateutil.relativedelta import relativedelta
+from django.core import exceptions
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core.urlresolvers import reverse
 from django.db.models import Count, Sum
@@ -200,9 +201,7 @@ def courses_list_view(request):
                                   'page_ordering':ordering,
                                   'ajax_url':request.path })
     else:
-        courses, response = can_view_courses_list(request)
-        if response is not None:
-            return response
+        courses = can_view_courses_list(request)
 
         dashboard_accessed.send(sender=None, request=request, data=None)
         return render_courses_list(request, courses)
@@ -221,9 +220,8 @@ def course_download_view(request, course_id):
     return response
 
 def tag_courses_view(request, tag_id):
-    courses, response = can_view_courses_list(request)
-    if response is not None:
-        return response
+    courses = can_view_courses_list(request)
+    
     courses = courses.filter(coursetag__tag__pk=tag_id)
 
     dashboard_accessed.send(sender=None, request=request, data=None)
@@ -232,7 +230,7 @@ def tag_courses_view(request, tag_id):
         
 def upload_step1(request):
     if not request.user.userprofile.get_can_upload():
-        return HttpResponse('Unauthorized', status=401)
+        raise exceptions.PermissionDenied
         
     if request.method == 'POST':
         form = UploadCourseStep1Form(request.POST,request.FILES)
@@ -253,9 +251,9 @@ def upload_step1(request):
 def upload_step2(request, course_id, editing=False):
 
     if editing and not can_edit_course(request, course_id):
-        return HttpResponse('Unauthorized', status=401)
+        raise exceptions.PermissionDenied
     elif not request.user.userprofile.get_can_upload():
-        return HttpResponse('Unauthorized', status=401)
+        raise exceptions.PermissionDenied
         
     course = Course.objects.get(pk=course_id)
     
@@ -332,10 +330,9 @@ def generate_graph_data(dates_types_stats, is_monthly=False):
 def recent_activity(request,course_id):
 
     course, response = can_view_course_detail(request, course_id)
-
     if response is not None:
-        return response
-
+        raise response
+    
     dashboard_accessed.send(sender=None, request=request, data=course)
 
     start_date = datetime.datetime.now() - datetime.timedelta(days=31)
@@ -593,7 +590,7 @@ def schedule_saved(request, course_id, schedule_id=None):
  
 def cohort_list_view(request):
     if not request.user.is_staff:
-        return HttpResponse('Unauthorized', status=401)
+        raise exceptions.PermissionDenied
          
     cohorts = Cohort.objects.all()
     return render(request, 'oppia/course/cohorts-list.html',
@@ -618,7 +615,7 @@ def get_paginated_courses(request):
 
 def cohort_add(request):
     if not can_add_cohort(request):
-        return HttpResponse('Unauthorized', status=401)   
+        raise exceptions.PermissionDenied  
     
     if request.method == 'POST':
         form = CohortForm(request.POST.copy())
@@ -749,7 +746,7 @@ def cohort_leaderboard_view(request,cohort_id):
 
 def cohort_edit(request,cohort_id):
     if not can_edit_cohort(request, cohort_id):
-        return HttpResponse('Unauthorized', status=401)  
+        raise exceptions.PermissionDenied
     cohort = Cohort.objects.get(pk=cohort_id)
     teachers_selected = []
     students_selected = []

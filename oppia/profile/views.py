@@ -9,6 +9,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import (authenticate, login)
 from django.contrib.auth.models import User
+from django.core import exceptions
 from django.core.mail import send_mail
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core.urlresolvers import reverse
@@ -153,7 +154,7 @@ def edit(request, user_id=0):
         if can_edit_user(request, user_id):
             view_user = User.objects.get(pk=user_id)
         else:
-            return HttpResponse('Unauthorized', status=401)
+            raise exceptions.PermissionDenied
     else:
         view_user = request.user
 
@@ -447,7 +448,7 @@ def user_course_activity_view(request, user_id, course_id):
 
 def upload_view(request):
     if not request.user.is_superuser:
-        return HttpResponse('Unauthorized', status=401)
+        raise exceptions.PermissionDenied
 
     if request.method == 'POST': # if form submitted...
         form = UploadProfileForm(request.POST,request.FILES)
@@ -536,7 +537,7 @@ def get_query(query_string, search_fields):
 def search_users(request):
 
     if not request.user.is_staff:
-        return HttpResponse('Unauthorized', status=401)
+        raise exceptions.PermissionDenied
 
     users = User.objects
 

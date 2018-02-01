@@ -48,7 +48,7 @@ def completion_rates(request):
 def course_completion_rates(request,course_id):
 
     if not request.user.is_staff:
-        return HttpResponse('Unauthorized', status=401)
+        raise exceptions.PermissionDenied
 
     try:
         course = Course.objects.get(pk=course_id)
@@ -79,7 +79,7 @@ def course_completion_rates(request,course_id):
 
 def can_view_courses_list(request):
     if not request.user.is_staff:
-        return None, HttpResponse('Unauthorized', status=401)
+        raise exceptions.PermissionDenied
     else:
         courses = Course.objects.filter(is_draft=False,is_archived=False).order_by('title')
     return courses, None

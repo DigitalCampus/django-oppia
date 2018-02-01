@@ -49,6 +49,9 @@ class PermissionsViewTest(TestCase):
     def assert_cannot_view(self, view, user=None, view_kwargs=None):
         return self.assert_response(view, 401, user, view_kwargs)
 
+    def assert_unauthorized(self, view, user=None, view_kwargs=None):
+        return self.assert_response(view, 403, user, view_kwargs)
+    
     def assert_not_found(self, view, user=None, view_kwargs=None):
         return self.assert_response(view, 404, user, view_kwargs)
 
@@ -83,7 +86,7 @@ class PermissionsViewTest(TestCase):
         self.assert_can_view('oppia_upload', self.staff_user)
 
     def test_student_cantview_upload_courses(self):
-        self.assert_cannot_view('oppia_upload', self.normal_user)
+        self.assert_unauthorized('oppia_upload', self.normal_user)
 
     def test_user_with_canupload_canview_upload_courses(self):
         self.assert_can_view('oppia_upload', self.teacher_user)
@@ -97,10 +100,10 @@ class PermissionsViewTest(TestCase):
         self.assert_can_view('profile_upload', self.admin_user)
 
     def test_staff_cantview_bulk_upload(self):
-        self.assert_cannot_view('profile_upload', self.staff_user)
+        self.assert_unauthorized('profile_upload', self.staff_user)
 
     def test_student_cantview_bulk_upload(self):
-        self.assert_cannot_view('profile_upload', self.normal_user)
+        self.assert_unauthorized('profile_upload', self.normal_user)
 
     ############ View cohort list #############
 
@@ -114,7 +117,7 @@ class PermissionsViewTest(TestCase):
         self.assert_can_view('oppia_cohorts', self.staff_user)
 
     def test_student_cantview_cohorts(self):
-        self.assert_cannot_view('oppia_cohorts', self.normal_user)
+        self.assert_unauthorized('oppia_cohorts', self.normal_user)
 
     # TODO: Define a teacher user to test cohort management
 
@@ -133,7 +136,7 @@ class PermissionsViewTest(TestCase):
         self.assert_can_view('oppia_cohort_view', self.staff_user, view_kwargs={'cohort_id': 1})
 
     def test_student_cantview_cohort(self):
-        self.assert_cannot_view('oppia_cohort_view', self.normal_user, view_kwargs={'cohort_id': 1})
+        self.assert_unauthorized('oppia_cohort_view', self.normal_user, view_kwargs={'cohort_id': 1})
 
     # TODO: Teacher view cohort he is assigned into
 
@@ -153,7 +156,7 @@ class PermissionsViewTest(TestCase):
         self.assert_can_view('oppia_cohort_course_view', self.staff_user, view_kwargs={'cohort_id': 1, 'course_id': 1})
 
     def test_student_cantview_cohort_course(self):
-        self.assert_cannot_view('oppia_cohort_course_view', self.normal_user,
+        self.assert_unauthorized('oppia_cohort_course_view', self.normal_user,
                                 view_kwargs={'cohort_id': 1, 'course_id': 1})
 
     # TODO: Teacher view cohort he is assigned into
@@ -170,7 +173,7 @@ class PermissionsViewTest(TestCase):
         self.assert_can_view('oppia_cohort_add', self.staff_user)
 
     def test_student_cantview_add_cohort(self):
-        self.assert_cannot_view('oppia_cohort_add', self.normal_user)
+        self.assert_unauthorized('oppia_cohort_add', self.normal_user)
 
     ############ courses list view #############
 
@@ -207,7 +210,7 @@ class PermissionsViewTest(TestCase):
         self.assert_can_view('oppia_recent_activity', self.staff_user, view_kwargs={'course_id': 1})
 
     def test_student_canview_course_activity(self):
-        self.assert_cannot_view('oppia_recent_activity', self.normal_user, view_kwargs={'course_id': 1})
+        self.assert_unauthorized('oppia_recent_activity', self.normal_user, view_kwargs={'course_id': 1})
 
     # TODO: Teacher view course activity for courses asigned to
 
@@ -226,7 +229,7 @@ class PermissionsViewTest(TestCase):
         self.assert_can_view('profile_user_activity', self.staff_user, view_kwargs={'user_id': 1})
 
     def test_student_cantview_user_activity(self):
-        self.assert_cannot_view('profile_user_activity', self.normal_user, view_kwargs={'user_id': 1})
+        self.assert_unauthorized('profile_user_activity', self.normal_user, view_kwargs={'user_id': 1})
 
     def test_student_canview_self_activity(self):
         self.assert_can_view('profile_user_activity', self.normal_user, view_kwargs={'user_id': 2})
@@ -251,7 +254,7 @@ class PermissionsViewTest(TestCase):
                              view_kwargs={'course_id': 1, 'user_id': 1})
 
     def test_student_cantview_user_course_activity(self):
-        self.assert_cannot_view('profile_user_course_activity', self.normal_user,
+        self.assert_unauthorized('profile_user_course_activity', self.normal_user,
                                 view_kwargs={'course_id': 1, 'user_id': 1})
 
     def test_student_canview_self_course_activity(self):
@@ -272,4 +275,4 @@ class PermissionsViewTest(TestCase):
         self.assert_can_view('oppia_viz_summary', self.staff_user)
 
     def test_student_cantview_summary_overview(self):
-        self.assert_cannot_view('oppia_viz_summary', self.normal_user)
+        self.assert_unauthorized('oppia_viz_summary', self.normal_user)

@@ -40,6 +40,9 @@ if settings.DEVICE_ADMIN_ENABLED:
 
     v1_api.register(UserDeviceResource())
 
+#Custom HTTP response pages
+handler403 = 'oppia.permissions.Oppia403Handler'
+
 urlpatterns = [
 
     url(r'^$', oppia_views.home_view, name="oppia_home"),
