@@ -24,7 +24,7 @@ from tastypie.models import ApiKey
 from oppia.models import Points, Award, Tracker, Activity
 from oppia.permissions import get_user, get_user_courses, can_view_course, can_edit_user
 from oppia.profile.forms import LoginForm, RegisterForm, ResetForm, ProfileForm, UploadProfileForm, \
-    UserSearchForm
+    UserSearchForm, DeleteAccountForm
 from oppia.profile.models import UserProfile
 from oppia.quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
 from oppia.reports.signals import dashboard_accessed
@@ -622,3 +622,52 @@ def list_users(request):
                                   'page_ordering':ordering,
                                   'users_list_template':'select',
                                   'ajax_url':request.path })
+    
+def delete_account_view(request):
+    if request.method == 'POST': # if form submitted...
+        form = DeleteAccountForm(request.POST)
+        if form.is_valid():
+            user =request.user
+            
+            #delete points
+            Points.objects.filter(user=user).delete()
+            print "points deleted"
+            
+            #delete badges
+            Award.objects.filter(user=user).delete()
+            print "awards deleted"
+            
+            #delete trackers
+            Tracker.objects.filter(user=user).delete()
+            print "trackers deleted"
+            
+            #delete quiz attempts
+            QuizAttemptResponse.objects.filter(quizattempt__user=user).delete()
+            QuizAttempt.objects.filter(user=user).delete()
+            print "quiz attempts deleted"
+            
+            #delete profile
+            UserProfile.objects.filter(user=user).delete()
+            print "profile deleted"
+            
+            #delete api key
+            ApiKey.objects.filter(user=user).delete()
+            print "API key deleted"
+            
+            #logout and delete user
+            User.objects.get(pk=user.id).delete()
+            print "user deleted"
+            
+            #redirect
+            return HttpResponseRedirect(reverse('profile_delete_account_complete')) # Redirect after POST
+    else:
+        form = DeleteAccountForm(initial={'username':request.user.username}) # An unbound form
+
+    return render(request, 'oppia/profile/delete_account.html',
+                  {'form': form })
+ 
+   
+def delete_account_complete_view(request):
+
+    return render(request, 'oppia/profile/delete_account_complete.html')
+
