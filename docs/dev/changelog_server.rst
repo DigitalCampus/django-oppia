@@ -18,6 +18,7 @@ v0.10.0 - To be released
 * 431: Update to use TastyPie v0.14.0 - https://github.com/DigitalCampus/django-oppia/issues/issues/431
 * 433: Device admin setting error - https://github.com/DigitalCampus/django-oppia/issues/issues/433
 * 440: Option for user to export data - https://github.com/DigitalCampus/django-oppia/issues/issues/440
+* 439: Option for user to delete their account/data completely - https://github.com/DigitalCampus/django-oppia/issues/issues/439
 
 Previous Versions
 ------------------
