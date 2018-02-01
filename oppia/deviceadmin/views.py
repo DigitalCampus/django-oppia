@@ -1,5 +1,6 @@
 import json
 
+from django.core import exceptions
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
@@ -12,7 +13,7 @@ from oppia.deviceadmin.models import UserDevice
 
 def user_devices_list(request):
     if not request.user.is_staff:
-        return HttpResponse('Unauthorized', status=401)
+        raise exceptions.PermissionDenied
 
     ordering = request.GET.get('order_by', None)
     if ordering is None:
@@ -42,7 +43,7 @@ def send_message_to_device(request):
         return HttpResponse(status=405)
 
     if not request.user.is_staff:
-        return HttpResponse('Unauthorized', status=401)
+        raise exceptions.PermissionDenied
 
     form = AdminMessageForm(request.POST)
     if form.is_valid():

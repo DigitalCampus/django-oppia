@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<h2>{% trans 'Unauthorized' %}</h2>
+
+{% blocktrans %}
+<p>Sorry, you are not authorised to access this page.</p>
+{% endblocktrans %}
+
+{% endblock content %}

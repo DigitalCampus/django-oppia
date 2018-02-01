@@ -3,6 +3,7 @@ import datetime
 
 
 from django.conf import settings
+from django.core import exceptions
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect, Http404
@@ -23,7 +24,7 @@ def home_view(request):
 
 def upload_view(request):
     if not request.user.userprofile.get_can_upload():
-        return HttpResponse('Unauthorized', status=401)
+        raise exceptions.PermissionDenied
     
     if request.method == 'POST':    
        result = handler.upload(request, request.user)
