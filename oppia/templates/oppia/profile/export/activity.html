@@ -1,0 +1,60 @@
+{% load i18n %}
+{% load display_functions %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% trans 'Exporting Activity' %} - {% trans 'app_name' %}</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    
+<table>
+	<tr>
+		<th>{% trans 'Submitted Date' %} (*1)</th>
+		<th>{% trans 'Tracker Date' %}  (*2)</th>
+		<th>{% trans 'IP Address' %}</th>
+		<th>{% trans 'User Agent' %} (*3)</th>
+		<th>{% trans 'Data' %} (*4)</th>
+		<th>{% trans 'Course' %} </th>
+		<th>{% trans 'Section' %} </th>
+		<th>{% trans 'Activity' %} </th>
+		<th>{% trans 'Activity Type' %} </th>
+		<th>{% trans 'Completed' %} (*5)</th>
+		<th>{% trans 'Time Taken (in seconds)' %}</th>
+		<th>{% trans 'Language' %} (*6)</th>
+	</tr>
+{% for a in activity %}
+	<tr>
+		<td>{{ a.submitted_date }}</td>
+		<td>{{ a.tracker_date }}</td>
+		<td>{{ a.ip }}</td>
+		<td>{{ a.agent }}</td>
+		<td>{{ a.data }}</td>
+		<td>{{ a.course.title }}</td>
+		<td>{{ a.section_title }}</td>
+		<td>{{ a.activity_title }}</td>
+		<td>{{ a.type }}</td>
+		<td>{{ a.completed }}</td>
+		<td>{{ a.time_taken }}</td>
+		<td>{{ a.lang }}</td>
+	</tr>
+{% endfor %}
+
+
+</table>
+
+
+<ol>
+	<li>{% trans 'The date/time as recorded by the OppiaMobile server when the activity data was received.' %}</li>
+	<li>{% trans 'The date/time as recorded by the device used when the activity happened.' %}</li>
+	<li>{% trans 'Identifies the browser/device that was used' %}</li>
+	<li>{% trans 'Additional data that was submitted to the server' %}</li>
+	<li>{% trans 'If the activity was taken to have been completed or not' %}</li> 
+	<li>{% trans 'Language the Oppia app was set to when viewing the activity' %}</li> 
+</ol>
+
+</body>

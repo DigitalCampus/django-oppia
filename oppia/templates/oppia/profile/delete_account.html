@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{% trans 'Delete Account' %}
+{% endblock extra_head_title %}
+
+{% block content %}
+
+<h2>{% trans 'Delete Account' %}</h2>
+
+<div class="alert alert-danger" role="alert">
+	{% blocktrans %}
+	<p>Deleting your account is permanent, all your data will be removed. 
+	To use Oppia again you will need to create a new account. </p>
+	<p>Please enter your password below to confirm deletion of your account. </p>
+	{% endblocktrans %}
+</div>
+        
+{% include "includes/messages.html" %}	
+
+
+{% crispy form %}
+
+{% endblock %}

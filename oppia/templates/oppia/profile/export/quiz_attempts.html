@@ -1,0 +1,55 @@
+{% load i18n %}
+{% load display_functions %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% trans 'Exporting Quiz Responses' %} - {% trans 'app_name' %}</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    
+<table>
+	<tr>
+		<th>{% trans 'Quiz' %}</th>
+		<th>{% trans 'Attempt Date' %} (*1)</th>
+		<th>{% trans 'Submitted Date' %} (*2)</th>
+		<th>{% trans 'Score' %}</th>
+		<th>{% trans 'Max score available for the quiz' %}</th>
+		<th>{% trans 'IP Address' %}</th>
+		<th>{% trans 'User Agent' %} (*3)</th>
+		<th>{% trans 'Questions & Responses' %} (*3)</th>
+	</tr>
+{% for qa in quiz_attempts %}
+	<tr>
+		<td>{{ qa.quizattempt.quiz.title }}</td>
+		<td>{{ qa.quizattempt.attempt_date }}</td>
+		<td>{{ qa.quizattempt.submitted_date }}</td>
+		<td>{{ qa.quizattempt.score }}</td>
+		<td>{{ qa.quizattempt.maxscore }}</td>
+		<td>{{ qa.quizattempt.ip }}</td>
+		<td>{{ qa.quizattempt.agent }}</td>
+		<td>
+			<ol>
+			{% for qar in qa.quizattemptresponses %}
+				<li>{{ qar.question.title }}, {% trans 'Your response' %}: {{ qar.text }} ({% trans 'Score' %}: {{ qar.score }})</li>
+			{% endfor %}
+			</ol>
+		</td>
+	</tr>
+{% endfor %}
+
+
+</table>
+
+
+<ol>
+	<li>{% trans 'The date/time as recorded by the device used when the quiz was attempted.' %}</li>
+ 	<li>{% trans 'The date/time as recorded by the OppiaMobile server when the quiz attempt data was received.' %}</li>
+ 	<li>{% trans 'Identifies the browser/device that was used' %}</li>
+</ol>
+
+</body>
+</html>

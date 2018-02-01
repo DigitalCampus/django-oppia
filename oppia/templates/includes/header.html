@@ -55,7 +55,7 @@
 		       		<ul class="dropdown-menu">
 		       			<li><a href="{% url 'profile_user_activity'  user.id %}">{% trans 'Scorecard' %}</a></li>
 		            	<li><a href="{% url 'profile_edit' %}">{% trans 'Edit Profile' %}</a></li>
-		            	<li><a href="{% url 'django.contrib.auth.views.logout' %}">{% trans 'Logout' %}</a></li>
+		            	<li><a href="{% url 'profile_logout' %}">{% trans 'Logout' %}</a></li>
 		            </ul>
 		            </li>
 		        {% else %}

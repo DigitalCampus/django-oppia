@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{% trans 'Account Deleted' %}
+{% endblock extra_head_title %}
+
+{% block content %}
+
+<h2>{% trans 'Account Deleted' %}</h2>
+
+{% blocktrans %}
+<p>Your account and all your data has now been deleted.</p>
+
+<p>To access Oppia again you will need to re-register to create a new profile</p>
+
+{% endblocktrans %}
+
+{% endblock %}

@@ -1,17 +1,19 @@
-Release Process for OppiaMobile Server
+Testing Process for OppiaMobile Server
 =======================================
 
-#. Create automated unit tests before development of new feature begins
-#. Develop code
-#. Test locally on issue branch (ensuring up to date with the current release branch)
-#. Update/add documentation as necessary
-#. Merge into release branch and re-test (both manual and automated tests)
-#. Copy onto staging server and re-test
-#. Merge release branch into master branch, update version numbers and tag with new version no
-#. Deploy to live server
+The Oppia server uses `Django's inbuilt unit testing framework <https://docs.djangoproject.com/en/1.11/topics/testing/overview/>`_ .
+
+All the unit tests can be found under: https://github.com/DigitalCampus/django-oppia/tree/master/oppia/tests
+
+Run the tests on your Oppia server
+-----------------------------------
+
+#. Activate the virtual environment (eg: ``/home/www/oppia/$ source env/bin/activate``)
+#. Run all the tests with ``python manage.py test oppia.tests`` 
 
 
-Specific tests that need to be applied for each release:
+Adding more tests
+-------------------
 
-* creation and testing of new/updated course content
-
+If you are adding additional functionality to the Oppia server, you can add tests for this functionality using the 
+standard Django unit testing framework.

@@ -14,6 +14,7 @@ For installing OppiaMobile server and Moodle block please refer to:
    virtualbox
    server/upgrade
    settings
+   server/management-commands
    utilities
    code_process
    testing/index

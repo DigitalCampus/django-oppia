@@ -39,6 +39,7 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
                 "maxscore":30,
                 "score":10,
                 "attempt_date":"2012-12-18T15:35:12",
+                "instance_id": "343c1dbf-b61a-4b74-990c-b94e3dc7d855",
                 "responses":[
                              {"question_id":"132",
                               "score":0,
@@ -66,6 +67,7 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
                 "maxscore":30,
                 "score":10,
                 "attempt_date":"2012-12-18T15:35:12",
+                "instance_id": "343c1dbf-b61a-4b74-990c-b94e3dc7d855",
                 "responses":[
                              {"question_id":"1839",
                               "score":0,
@@ -93,6 +95,7 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
                 "maxscore":30,
                 "score":10,
                 "attempt_date":"2012-12-18T15:35:12",
+                "instance_id": "343c1dbf-b61a-4b74-990c-b94e3dc7d855",
                 "responses":[
                              {"question_id":"1839",
                               "score":0,
@@ -120,6 +123,7 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
                 "maxscore":30,
                 "score":10,
                 "attempt_date":"2012-12-18T15:35:12",
+                "instance_id": "343c1dbf-b61a-4b74-990c-b94e3dc7d855",
                 "responses":[
                              {"question_id":"1111", # this question id doesn't exist in the test data
                               "score":0,
@@ -147,6 +151,7 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
                 "maxscore":30,
                 "score":10,
                 "attempt_date":"2012-12-18T15:35:12",
+                "instance_id": "343c1dbf-b61a-4b74-990c-b94e3dc7d855",
                 "responses":[
                              {"question_id":"1884", # this question id is valid but not part of this quiz
                               "score":0,
