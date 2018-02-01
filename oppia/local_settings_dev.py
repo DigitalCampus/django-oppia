@@ -14,15 +14,12 @@ def modify(settings):
                                    'tastypie',)
     settings['MIDDLEWARE_CLASSES'] += ('oppia.middleware.LoginRequiredMiddleware',)
 
-    context_processors = (
+
+    settings['TEMPLATES'][0]['OPTIONS']['context_processors'] += [
             'oppia.context_processors.get_points',
             'oppia.context_processors.get_version',
-            'oppia.context_processors.get_settings',)
-
-    if 'TEMPLATES' in settings and settings['TEMPLATES'][0]: #Django 1.8+ template settings
-        settings['TEMPLATES'][0]['OPTIONS']['context_processors'] += context_processors
-    elif 'TEMPLATE_CONTEXT_PROCESSORS' in settings: #Fallback for the old template settings
-        settings['TEMPLATE_CONTEXT_PROCESSORS'] += context_processors
+            'oppia.context_processors.get_settings',]
+    
 
     settings['LOGIN_EXEMPT_URLS'] = (
          r'^server/$',
@@ -30,6 +27,8 @@ def modify(settings):
          r'^profile/register/',
          r'^profile/reset/',
          r'^profile/setlang/$',
+         r'^profile/delete/complete/$',
+         
          r'^mobile/scorecard/$',        # - auth handled by api_key
          r'^mobile/monitor/',           # - auth handled by api_key
          r'^$',

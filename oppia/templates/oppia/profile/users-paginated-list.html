@@ -18,12 +18,12 @@
 
     {% if users_list_template %}
         {% with "oppia/profile/list/row-user-"|add:users_list_template|add:".html" as row_template_path %}
-            {% for user in page.object_list %}
+            {% for user in page.object_list.users %}
                 {% include row_template_path %}
             {% endfor %}
         {% endwith %}
     {% else %}
-        {% for user in page.object_list %}
+        {% for user in page.object_list.users %}
             {% include 'oppia/profile/list/row-user-default.html' %}
         {% endfor %}
 

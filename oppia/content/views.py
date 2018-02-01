@@ -8,7 +8,7 @@ import uuid
 
 from django import forms
 from django.conf import settings
-from django.shortcuts import render,render_to_response
+from django.shortcuts import render
 from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
 
@@ -85,11 +85,10 @@ def media_embed_helper(request):
     else:
         form = MediaEmbedHelperForm() 
 
-    return render_to_response('oppia/content/media-embed-helper.html',  
+    return render(request, 'oppia/content/media-embed-helper.html',  
                               {'settings': settings,
                                'form': form,
-                               'processed_media': processed_media }, 
-                              context_instance=RequestContext(request))
+                               'processed_media': processed_media })
     
     
 def get_length(filename):

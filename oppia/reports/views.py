@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db.models import Sum, Count
 from django.http.response import HttpResponse, Http404
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
 
@@ -42,9 +42,8 @@ def completion_rates(request):
 
         courses_list.append(obj)
 
-    return render_to_response('oppia/reports/completion_rates.html',
-                              {'courses_list': courses_list },
-                              context_instance=RequestContext(request))
+    return render(request, 'oppia/reports/completion_rates.html',
+                              {'courses_list': courses_list })
 
 def course_completion_rates(request,course_id):
 
@@ -72,14 +71,11 @@ def course_completion_rates(request,course_id):
         else:
             users_incompleted.append(userObj)
 
-    return render_to_response('oppia/reports/course_completion_rates.html',
-                              {
-                                  'course': course,
+    return render(request, 'oppia/reports/course_completion_rates.html',
+                              { 'course': course,
                                   'users_enroled_count': len(users_completed) + len(users_incompleted),
                                   'users_completed': users_completed,
-                                  'users_incompleted': users_incompleted,
-                              },
-                              context_instance=RequestContext(request))
+                                  'users_incompleted': users_incompleted, })
 
 def can_view_courses_list(request):
     if not request.user.is_staff:

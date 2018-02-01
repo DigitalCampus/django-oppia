@@ -12,7 +12,7 @@ from django.core.urlresolvers import reverse
 from django.db.models import Count, Sum
 from django.forms.formsets import formset_factory
 from django.http import HttpResponseRedirect
-from django.shortcuts import render,render_to_response, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.template import RequestContext
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
@@ -31,15 +31,13 @@ from uploader import handle_uploaded_file
 
 
 def server_view(request):
-    return render_to_response('oppia/server.html',  
+    return render(request, 'oppia/server.html',  
                               {'settings': settings}, 
-                              content_type="application/json", 
-                              context_instance=RequestContext(request))
+                              content_type="application/json")
 
 def about_view(request):
-    return render_to_response('oppia/about.html',  
-                              {'settings': settings}, 
-                              context_instance=RequestContext(request))
+    return render(request, 'oppia/about.html',  
+                              {'settings': settings})
     
 def home_view(request):
 
@@ -115,11 +113,10 @@ def home_view(request):
     else:
         form = None
 
-    return render_to_response('oppia/home.html',
+    return render(request, 'oppia/home.html',
                               {'form': form,
                                'activity_graph_data': activity, 
-                               'leaderboard': leaderboard}, 
-                              context_instance=RequestContext(request))
+                               'leaderboard': leaderboard})
 
 def teacher_home_view(request):
     cohorts, response = get_cohorts(request)
@@ -143,10 +140,9 @@ def teacher_home_view(request):
         count = next((dct['count'] for dct in trackers if dct['activity_date'] == temp.date()), 0)
         activity.append([temp.strftime("%d %b %Y"),count])
     
-    return render_to_response('oppia/home-teacher.html',
+    return render(request, 'oppia/home-teacher.html',
                               {'cohorts': cohorts,
-                               'activity_graph_data': activity, }, 
-                              context_instance=RequestContext(request))
+                               'activity_graph_data': activity, })
 
 def render_courses_list(request, courses, params=None):
 
@@ -191,8 +187,7 @@ def render_courses_list(request, courses, params=None):
     params['tag_list'] = tag_list
     params['course_filter'] = course_filter
 
-    return render_to_response('oppia/course/courses-list.html', params,
-                          context_instance=RequestContext(request))
+    return render(request, 'oppia/course/courses-list.html', params)
 
 
 def courses_list_view(request):
@@ -200,13 +195,10 @@ def courses_list_view(request):
     if request.is_ajax():
         #if we are requesting via ajax, just show the course list
         ordering, courses = get_paginated_courses(request)
-        return render_to_response('oppia/course/courses-paginated-list.html',
-                              {
-                                  'page': courses,
+        return render(request, 'oppia/course/courses-paginated-list.html',
+                              {'page': courses,
                                   'page_ordering':ordering,
-                                  'ajax_url':request.path
-                              },
-                              context_instance=RequestContext(request),)
+                                  'ajax_url':request.path })
     else:
         courses, response = can_view_courses_list(request)
         if response is not None:
@@ -254,10 +246,9 @@ def upload_step1(request):
     else:
         form = UploadCourseStep1Form() # An unbound form
 
-    return render_to_response('oppia/upload.html', 
+    return render(request, 'oppia/upload.html', 
                               {'form': form,
-                               'title':_(u'Upload Course - step 1')},
-                              context_instance=RequestContext(request))
+                               'title':_(u'Upload Course - step 1')})
 
 def upload_step2(request, course_id, editing=False):
 
@@ -304,12 +295,11 @@ def upload_step2(request, course_id, editing=False):
 
     page_title = _(u'Upload Course - step 2') if not editing else _(u'Edit course')
     print course.title
-    return render_to_response('oppia/upload.html', 
+    return render(request, 'oppia/upload.html', 
                               {'form': form,
                                'course_title':course.title,
                                'editing':editing,
-                               'title':page_title},
-                              context_instance=RequestContext(request))
+                               'title':page_title})
 
 def generate_graph_data(dates_types_stats, is_monthly=False):
     dates = []
@@ -320,9 +310,9 @@ def generate_graph_data(dates_types_stats, is_monthly=False):
     for date in dates_types_stats:
         if is_monthly:
             #depending if it is monthly or daily, we parse differently the day "tag"
-            day = datetime.date(month=date['month'], year=date['year'], day=1).strftime("%b %y")
+            day = datetime.date(month=date['month'], year=date['year'], day=1)
         else:
-            day = date['day'].strftime("%d %b %y")
+            day = date['day']
 
         if current_date is None or day != current_date:
             if current_date != None:
@@ -385,12 +375,12 @@ def recent_activity(request,course_id):
         dates = generate_graph_data(monthly_stats, True)
 
     leaderboard = Points.get_leaderboard(10, course)
-    return render_to_response('oppia/course/activity.html',
+    return render(request, 'oppia/course/activity.html',
                               {'course': course,
+                               'monthly': interval == 'months',
                                'form': form,
                                 'data':dates, 
-                                'leaderboard':leaderboard}, 
-                              context_instance=RequestContext(request))
+                                'leaderboard':leaderboard})
 
 def recent_activity_detail(request,course_id):
     course, response = can_view_course_detail(request, course_id)
@@ -440,11 +430,10 @@ def recent_activity_detail(request,course_id):
     except (EmptyPage, InvalidPage):
         tracks = paginator.page(paginator.num_pages)
     
-    return render_to_response('oppia/course/activity-detail.html',
+    return render(request, 'oppia/course/activity-detail.html',
                               {'course': course,
                                'form': form, 
-                               'page':tracks,}, 
-                              context_instance=RequestContext(request))
+                               'page':tracks,})
 
 
 def export_tracker_detail(request,course_id):
@@ -476,7 +465,8 @@ def export_tracker_detail(request,course_id):
 def schedule(request,course_id):
     course = check_owner(request,course_id)    
     schedules = Schedule.objects.filter(course=course)
-    return render_to_response('oppia/course/schedules.html',{'course': course,'schedules':schedules,}, context_instance=RequestContext(request))
+    return render(request, 'oppia/course/schedules.html',
+                        {'course': course,'schedules':schedules,})
     
 def schedule_add(request,course_id):
     course = check_owner(request,course_id)
@@ -492,7 +482,7 @@ def schedule_add(request,course_id):
             schedule.default = form.cleaned_data.get("default")
             schedule.created_by = request.user
             
-            # remvoe any existing default for this schedule
+            # remove any existing default for this schedule
             if schedule.default:
                 Schedule.objects.filter(course=course).update(default=False)
                 
@@ -598,17 +588,16 @@ def schedule_edit(request,course_id, schedule_id):
 
 def schedule_saved(request, course_id, schedule_id=None):
     course = check_owner(request,course_id)
-    return render_to_response('oppia/schedule-saved.html', 
-                              {'course': course},
-                              context_instance=RequestContext(request))
+    return render(request, 'oppia/schedule-saved.html', 
+                              {'course': course} )
  
 def cohort_list_view(request):
     if not request.user.is_staff:
-        raise Http404  
+        return HttpResponse('Unauthorized', status=401)
+         
     cohorts = Cohort.objects.all()
-    return render_to_response('oppia/course/cohorts-list.html',
-                              {'cohorts':cohorts,}, 
-                              context_instance=RequestContext(request))
+    return render(request, 'oppia/course/cohorts-list.html',
+                              {'cohorts':cohorts,})
 
 
 def get_paginated_courses(request):
@@ -694,11 +683,11 @@ def cohort_add(request):
                                 'courses_page': courses,
                                 'courses_ordering': c_ordering,
                                 'page_ordering':ordering,
-                                'users_list_template':'select'
-                             },context_instance=RequestContext(request))
+                                'users_list_template': 'select',
+                             })
 
 def cohort_view(request,cohort_id):
-    cohort, response = can_view_cohort(request,cohort_id)
+    cohort, response = can_view_cohort(request, cohort_id)
     
     if response is not None:
         return response
@@ -724,11 +713,10 @@ def cohort_view(request,cohort_id):
     leaderboard = cohort.get_leaderboard(10)
     
     
-    return render_to_response('oppia/course/cohort-activity.html',
+    return render(request, 'oppia/course/cohort-activity.html',
                               {'cohort':cohort,
                                'activity_graph_data': student_activity, 
-                               'leaderboard': leaderboard, }, 
-                              context_instance=RequestContext(request))
+                               'leaderboard': leaderboard, })
     
 def cohort_leaderboard_view(request,cohort_id):
     
@@ -755,10 +743,9 @@ def cohort_leaderboard_view(request,cohort_id):
         leaderboard = paginator.page(paginator.num_pages)
 
     
-    return render_to_response('oppia/course/cohort-leaderboard.html',
+    return render(request, 'oppia/course/cohort-leaderboard.html',
                               {'cohort':cohort,
-                               'page':leaderboard, }, 
-                              context_instance=RequestContext(request))
+                               'page':leaderboard, })
 
 def cohort_edit(request,cohort_id):
     if not can_edit_cohort(request, cohort_id):
@@ -903,14 +890,13 @@ def cohort_course_view(request, cohort_id, course_id):
 
     students.sort(key=operator.itemgetter(ordering), reverse=inverse_order)
        
-    return render_to_response('oppia/course/cohort-course-activity.html',
+    return render(request, 'oppia/course/cohort-course-activity.html',
                               {'course': course,
                                'cohort': cohort,
                                'course_media_count':media_count,
                                'activity_graph_data': student_activity,
                                'page_ordering': ('-' if inverse_order else '') + ordering,
-                               'students': students }, 
-                              context_instance=RequestContext(request))
+                               'students': students })
        
 def leaderboard_view(request):
     lb = Points.get_leaderboard()
@@ -928,9 +914,8 @@ def leaderboard_view(request):
     except (EmptyPage, InvalidPage):
         leaderboard = paginator.page(paginator.num_pages)
 
-    return render_to_response('oppia/leaderboard.html',
-                              {'page':leaderboard}, 
-                              context_instance=RequestContext(request))
+    return render(request, 'oppia/leaderboard.html',
+                              {'page':leaderboard})
 
 def course_quiz(request,course_id):
     course = check_owner(request,course_id)
@@ -945,10 +930,9 @@ def course_quiz(request,course_id):
                 quizzes.append(q)
         except Quiz.DoesNotExist:
             pass
-    return render_to_response('oppia/course/quizzes.html',
+    return render(request, 'oppia/course/quizzes.html',
                               {'course': course, 
-                               'quizzes':quizzes}, 
-                              context_instance=RequestContext(request))
+                               'quizzes':quizzes})
 
 def course_quiz_attempts(request,course_id,quiz_id):
     # get the quiz digests for this course
@@ -972,11 +956,10 @@ def course_quiz_attempts(request,course_id,quiz_id):
         tracks = paginator.page(paginator.num_pages)
     print  len(attempts)
 
-    return render_to_response('oppia/course/quiz-attempts.html',
+    return render(request, 'oppia/course/quiz-attempts.html',
                               {'course': course,
                                'quiz':quiz, 
-                               'page':attempts}, 
-                              context_instance=RequestContext(request))
+                               'page':attempts})
 
 def course_feedback(request,course_id):
     course = check_owner(request,course_id)
@@ -988,10 +971,9 @@ def course_feedback(request,course_id):
             q = quizobjs[0]
             feedback.append(q)
 
-    return render_to_response('oppia/course/feedback.html',
+    return render(request, 'oppia/course/feedback.html',
                               {'course': course,
-                               'feedback':feedback}, 
-                              context_instance=RequestContext(request))
+                               'feedback':feedback})
 
 def course_feedback_responses(request,course_id,quiz_id):
     #get the quiz digests for this course
@@ -1014,11 +996,10 @@ def course_feedback_responses(request,course_id,quiz_id):
     except (EmptyPage, InvalidPage):
         tracks = paginator.page(paginator.num_pages)
 
-    return render_to_response('oppia/course/feedback-responses.html',
+    return render(request, 'oppia/course/feedback-responses.html',
                               {'course': course,
                                'quiz':quiz, 
-                               'page':attempts}, 
-                              context_instance=RequestContext(request))
+                               'page':attempts})
     
 def app_launch_activity_redirect_view(request):
     try:
@@ -1029,8 +1010,4 @@ def app_launch_activity_redirect_view(request):
     # get activity and redirect
     activity = get_object_or_404(Activity,digest=digest)
     return HttpResponseRedirect(reverse('oppia_preview_course_activity', args=[activity.section.course.id, activity.id]))
-
-
-
-
 
