@@ -100,10 +100,10 @@ The current version of the instance is running:
 
 * Ubuntu 16.04 LTS Server
 * Apache 2.4
-* Mysql 5.5
-* Django 1.8.17
-* TastyPie 0.13.3
-* OppiaServer 0.9.11
+* Mysql 5.7
+* Django 1.11.6
+* TastyPie 0.14.0
+* OppiaServer 0.10.0
 
 
 Email configuration
