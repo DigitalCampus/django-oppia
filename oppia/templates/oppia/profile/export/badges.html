@@ -1,0 +1,33 @@
+{% load i18n %}
+{% load display_functions %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% trans 'Exporting Badges' %} - {% trans 'app_name' %}</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    
+<table>
+	<tr>
+		<th>{% trans 'Badge' %}</th>
+		<th>{% trans 'Description' %}</th>
+		<th>{% trans 'Date' %}</th>
+	</tr>
+{% for b in badges %}
+	<tr>
+		<td>{{ b.badge.name }}</td>
+		<td>{{ b.description }}</td>
+		<td>{{ b.award_date }}</td>
+	</tr>
+{% endfor %}
+
+
+</table>
+
+
+</body>
+</html>

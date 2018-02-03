@@ -7,7 +7,7 @@ from oppia.models import Tracker
 from oppia.quiz.models import QuizAttempt,QuizAttemptResponse
 
 
-from tastypie.test import ResourceTestCase
+from tastypie.test import ResourceTestCaseMixin
 
 
         

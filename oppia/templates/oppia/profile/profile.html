@@ -15,4 +15,17 @@
 
 {% crispy form %}
 
+<div style="clear:both"></div>
+<h3>{% trans 'Export data' %}</h3>
+
+<a href="{% url 'profile_export_mydata' 'activity' %}" class="btn btn-default" target="_blank">{% trans 'Export Course Activity' %}</a>
+<a href="{% url 'profile_export_mydata' 'quiz' %}" class="btn btn-default" target="_blank">{% trans 'Export Quiz Attempts' %}</a>
+<a href="{% url 'profile_export_mydata' 'points' %}" class="btn btn-default" target="_blank">{% trans 'Export Points' %}</a>
+<a href="{% url 'profile_export_mydata' 'badges' %}" class="btn btn-default" target="_blank">{% trans 'Export Badges' %}</a>
+
+<div style="clear:both"></div>
+<h3>{% trans 'Delete Account' %}</h3>
+
+<a href="{% url 'profile_delete_account' %}" class="btn btn-default">{% trans 'Delete Account' %}</a>
+
 {% endblock %}

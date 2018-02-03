@@ -1,43 +1,38 @@
 # oppia/api/resources.py
-import datetime
 import json
 import os
 import shutil
 import zipfile
-
-from django.conf.urls import url
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
-from django.conf import settings
-from django.core import serializers
-from django.core.mail import send_mail
 from wsgiref.util import FileWrapper
-from django.core.files.base import ContentFile
-from django.utils.six import b
+import datetime
 
+from django.conf import settings
+from django.conf.urls import url
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
+from django.core.mail import send_mail
 from django.db import IntegrityError
 from django.db.models import Sum
-from django.http import HttpRequest, HttpResponse ,Http404
+from django.http import HttpResponse, Http404
+from django.utils import dateparse
 from django.utils.translation import ugettext_lazy as _
-
-from tastypie import fields, bundle, http
-from tastypie.authentication import Authentication,ApiKeyAuthentication
+from tastypie import fields
+from tastypie.authentication import Authentication, ApiKeyAuthentication
 from tastypie.authorization import Authorization, ReadOnlyAuthorization
-from tastypie.exceptions import NotFound, BadRequest, InvalidFilterError 
-from tastypie.exceptions import Unauthorized, HydrationError, InvalidSortError, ImmediateHttpResponse
+from tastypie.exceptions import BadRequest
 from tastypie.models import ApiKey
-from tastypie.resources import ModelResource, Resource, convert_post_to_patch, dict_strip_unicode_keys
-from tastypie.serializers import Serializer
-from tastypie.utils import trailing_slash
+from tastypie.resources import ModelResource, convert_post_to_patch, dict_strip_unicode_keys
+from tastypie.utils import trailing_slash, timezone
 from tastypie.validation import Validation
 
 from oppia.api.serializers import PrettyJSONSerializer, CourseJSONSerializer, UserJSONSerializer
-from oppia.models import Activity, Section, Tracker, Course, Media, Schedule, ActivitySchedule, Cohort, Tag, CourseTag
+from oppia.models import Activity, Tracker, Course, Media, Schedule, ActivitySchedule, Cohort, Tag, CourseTag
 from oppia.models import Points, Award, Badge
 from oppia.profile.forms import RegisterForm
 from oppia.profile.models import UserProfile
 from oppia.signals import course_downloaded
- 
+
+
 class UserResource(ModelResource):
     ''' 
     For user login
@@ -396,7 +391,16 @@ class TrackerResource(ModelResource):
             pass
         
         return bundle 
-    
+
+    def hydrate_tracker_date(self, bundle, request = None, **kwargs):
+        # Fix tracker date if date submitted is in the future
+        if 'tracker_date' in bundle.data:
+            tracker_date = dateparse.parse_datetime(bundle.data['tracker_date'])
+            if tracker_date > datetime.datetime.now():
+                bundle.data['tracker_date'] = timezone.now()
+
+        return bundle
+
     def dehydrate_points(self,bundle):
         points = Points.get_userscore(bundle.request.user)
         return points
@@ -492,21 +496,24 @@ class CourseResource(ModelResource):
             if cohort.schedule:
                 schedule = cohort.schedule
         
-        # add scheduling XML file     
-        if schedule or has_completed_trackers:
-            file_to_download = settings.COURSE_UPLOAD_DIR +"temp/"+ str(request.user.id) + "-" + course.filename
-            shutil.copy2(course.getAbsPath(), file_to_download)
-            zip = zipfile.ZipFile(file_to_download,'a')
-            if schedule:
-                zip.writestr(course.shortname +"/schedule.xml",schedule.to_xml_string())
-            if has_completed_trackers:
-                zip.writestr(course.shortname +"/tracker.xml",Tracker.to_xml_string(course,request.user))
-            zip.close()
-
-        wrapper = FileWrapper(file(file_to_download))
-        response = HttpResponse(wrapper, content_type='application/zip')
-        response['Content-Length'] = os.path.getsize(file_to_download)
-        response['Content-Disposition'] = 'attachment; filename="%s"' %(course.filename)
+        try:
+            # add scheduling XML file     
+            if schedule or has_completed_trackers:
+                file_to_download = settings.COURSE_UPLOAD_DIR +"temp/"+ str(request.user.id) + "-" + course.filename
+                shutil.copy2(course.getAbsPath(), file_to_download)
+                zip = zipfile.ZipFile(file_to_download,'a')
+                if schedule:
+                    zip.writestr(course.shortname +"/schedule.xml",schedule.to_xml_string())
+                if has_completed_trackers:
+                    zip.writestr(course.shortname +"/tracker.xml",Tracker.to_xml_string(course,request.user))
+                zip.close()
+    
+            wrapper = FileWrapper(file(file_to_download))
+            response = HttpResponse(wrapper, content_type='application/zip')
+            response['Content-Length'] = os.path.getsize(file_to_download)
+            response['Content-Disposition'] = 'attachment; filename="%s"' %(course.filename)
+        except IOError:
+            raise Http404(_(u"Course not found"))
         
         # Add to tracker
         tracker = Tracker()

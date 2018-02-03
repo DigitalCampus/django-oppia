@@ -3,46 +3,59 @@ OppiaMobile Android App Change Log
 
 To see the upcoming feature developments and bug fixes, please refer to the `monthly milestones on GitHub <https://github.com/DigitalCampus/oppia-mobile-android/milestones>`_
 
-.. _appv64:
 
-v64 (6.4.0) - not yet released 
+.. _appv65:
+
+v65 (6.5.0) - not yet released 
 --------------------------------------
 
-* 636: Add message when course cannot load due to parsing errors - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/636
-* 622: Add option to turn off notifications (eg new courses etc) - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/622
+
+
+.. _appv64:
+
+v64 (6.4.0) - Released 25 Jan 2018
+--------------------------------------
+
+* 636: Add message when course cannot load due to parsing errors - https://github.com/DigitalCampus/oppia-mobile-android/issues/636
+* 622: Add option to turn off notifications (eg new courses etc) - https://github.com/DigitalCampus/oppia-mobile-android/issues/622
 * Improve app customisation process - https://github.com/DigitalCampus/oppia-mobile-android/pull/640
-* 611: NumberFormatException when connection/response timeout values are very large - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/611
-* 613: Check that the download via PC is gives the correct location for copying the files to - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/613
-* 617: Add lang pack for Arabic - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/617
+* 611: NumberFormatException when connection/response timeout values are very large - https://github.com/DigitalCampus/oppia-mobile-android/issues/611
+* 613: Check that the download via PC is gives the correct location for copying the files to - https://github.com/DigitalCampus/oppia-mobile-android/issues/613
+* 617: Add lang pack for Arabic - https://github.com/DigitalCampus/oppia-mobile-android/issues/617
+* 648: Reduce no clicks through to content when launching from other app - https://github.com/DigitalCampus/oppia-mobile-android/issues/648
+* 646: Trim server url before it's checked to be a well formed url - https://github.com/DigitalCampus/oppia-mobile-android/issues/646
+* 644: Update acknowledgements page - https://github.com/DigitalCampus/oppia-mobile-android/issues/644
+* 645: When retaking a quiz the icon for playing media appears for all questions - https://github.com/DigitalCampus/oppia-mobile-android/issues/645
+* UI improvements - https://github.com/DigitalCampus/oppia-mobile-android/pull/649 and https://github.com/DigitalCampus/oppia-mobile-android/pull/653
 
 .. _appv63:
 
 v63 (6.3.0) - Released 14 Jun 2017 
 --------------------------------------
 
-* 616: Display drag and drop questions - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/616
-* 626: Add new logo - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/626
-* 599: Full-Screen Images - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/599
-* 630: Update info for BIND_DEVICE_ADMIN - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/630
+* 616: Display drag and drop questions - https://github.com/DigitalCampus/oppia-mobile-android/issues/616
+* 626: Add new logo - https://github.com/DigitalCampus/oppia-mobile-android/issues/626
+* 599: Full-Screen Images - https://github.com/DigitalCampus/oppia-mobile-android/issues/599
+* 630: Update info for BIND_DEVICE_ADMIN - https://github.com/DigitalCampus/oppia-mobile-android/issues/630
 
 .. _appv62:
 
 v62 (6.2.0) - Released 28 Feb 2017 
 --------------------------------------
 
-* 600: Feedback field disappears on Quiz Feedback ListView - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/600
-* 603: Pre-Test quizzes not showing correct title - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/603
-* 610: App crashing issues on password reset and video download - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/610
-* 605: OppiaMobile server setting - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/605
-* 606: Course icons not scaling correctly - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/606
-* 272: Add lang pack for French - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/272
+* 600: Feedback field disappears on Quiz Feedback ListView - https://github.com/DigitalCampus/oppia-mobile-android/issues/600
+* 603: Pre-Test quizzes not showing correct title - https://github.com/DigitalCampus/oppia-mobile-android/issues/603
+* 610: App crashing issues on password reset and video download - https://github.com/DigitalCampus/oppia-mobile-android/issues/610
+* 605: OppiaMobile server setting - https://github.com/DigitalCampus/oppia-mobile-android/issues/605
+* 606: Course icons not scaling correctly - https://github.com/DigitalCampus/oppia-mobile-android/issues/606
+* 272: Add lang pack for French - https://github.com/DigitalCampus/oppia-mobile-android/issues/272
 
 .. _appv61:
 
 v61 (6.1.1) - Released 30 Jan 2017 
 --------------------------------------
 
-* 607: App crashing on login - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/607
+* 607: App crashing on login - https://github.com/DigitalCampus/oppia-mobile-android/issues/607
 
 
 .. _appv60:
@@ -79,7 +92,7 @@ v60 (6.1.0) - Released 14 Jan 2017
 * 589: When changing settings that affects the menu options, they don't update until next open of the app - http://github.com/DigitalCampus/oppia-mobile-android/issues/589
 * 594: Enable logout from homepage should be true by default - http://github.com/DigitalCampus/oppia-mobile-android/issues/594
 * 595: Update logout message as logs no longer lost on logout - http://github.com/DigitalCampus/oppia-mobile-android/issues/595
-* 586: Supported media file types - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/586
+* 586: Supported media file types - https://github.com/DigitalCampus/oppia-mobile-android/issues/586
 
 
 .. _appv59:

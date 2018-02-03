@@ -6,23 +6,24 @@ To see the upcoming feature developments and bug fixes, please refer to the `mon
 
 .. _serverv0.9.12:
 
-v0.9.12 - To be released
+v0.9.12 - Released 22 Jan 2018
 --------------------------------
 
-* 411: Add new logo - https://github.com/DigitalCampus/django-oppia/issues/issues/411
-* 422: Check user course summaries - https://github.com/DigitalCampus/django-oppia/issues/issues/422
-* 415: add defusedxml==0.5.0 as requirement - https://github.com/DigitalCampus/django-oppia/issues/issues/415
-* 412: Update docs to reflect new question type functionality - https://github.com/DigitalCampus/django-oppia/issues/issues/412
-* 410: Update docs for creating a new version/Implementation of Oppia app - https://github.com/DigitalCampus/django-oppia/issues/issues/410
-* 425: Review and  update the upgrade docs - https://github.com/DigitalCampus/django-oppia/issues/issues/425
+* 411: Add new logo - https://github.com/DigitalCampus/django-oppia/issues/411
+* 422: Check user course summaries - https://github.com/DigitalCampus/django-oppia/issues/422
+* 415: add defusedxml==0.5.0 as requirement - https://github.com/DigitalCampus/django-oppia/issues/415
+* 412: Update docs to reflect new question type functionality - https://github.com/DigitalCampus/django-oppia/issues/412
+* 410: Update docs for creating a new version/Implementation of Oppia app - https://github.com/DigitalCampus/django-oppia/issues/410
+* 425: Review and  update the upgrade docs - https://github.com/DigitalCampus/django-oppia/issues/425
+* 437: Redirect "link to open activity in app" to the preview page - https://github.com/DigitalCampus/django-oppia/issues/437
 
 .. _serverv0.9.11:
 
 v0.9.11 - Released 29 Sept 2017
 --------------------------------
 
-* 368: Move settings model to top level - https://github.com/DigitalCampus/django-oppia/issues/issues/368
-* 406: Update to using django 1.8.17 (more recent version of 1.8 LTS) - https://github.com/DigitalCampus/django-oppia/issues/issues/406
+* 368: Move settings model to top level - https://github.com/DigitalCampus/django-oppia/issues/368
+* 406: Update to using django 1.8.17 (more recent version of 1.8 LTS) - https://github.com/DigitalCampus/django-oppia/issues/406
 * Hotfix to solve problem when there is more than one quiz with the same digest - https://github.com/DigitalCampus/django-oppia/pull/420
 
 .. _serverv0.9.10:
@@ -30,7 +31,7 @@ v0.9.11 - Released 29 Sept 2017
 v0.9.10 - Released 22 Jun 2017
 --------------------------------
 
-* 416: temp upload directory not getting deleted correctly - https://github.com/DigitalCampus/django-oppia/issues/issues/416
+* 416: temp upload directory not getting deleted correctly - https://github.com/DigitalCampus/django-oppia/issues/416
 * Replace and scrape thoroughly HTML entities in the course XML
 
 .. _serverv0.9.9:

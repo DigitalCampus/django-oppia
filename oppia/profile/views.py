@@ -9,13 +9,14 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import (authenticate, login)
 from django.contrib.auth.models import User
+from django.core import exceptions
 from django.core.mail import send_mail
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 from django.db.models import Count, Max, Min, Avg, Q
 from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.template import RequestContext
 from django.utils import timezone
 from django.utils.translation import ugettext as _
@@ -24,9 +25,9 @@ from tastypie.models import ApiKey
 from oppia.models import Points, Award, Tracker, Activity
 from oppia.permissions import get_user, get_user_courses, can_view_course, can_edit_user
 from oppia.profile.forms import LoginForm, RegisterForm, ResetForm, ProfileForm, UploadProfileForm, \
-    UserSearchForm
+    UserSearchForm, DeleteAccountForm
 from oppia.profile.models import UserProfile
-from oppia.quiz.models import Quiz, QuizAttempt
+from oppia.quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
 from oppia.reports.signals import dashboard_accessed
 from oppia.summary.models import UserCourseSummary
 
@@ -78,11 +79,11 @@ def login_view(request):
     else:
         form = LoginForm(initial={'next':filterRedirect(request.GET),})
         
-    return render_to_response('oppia/form.html',
+    return render(request, 'oppia/form.html',
                               {'username': username, 
                                'form': form, 
-                               'title': _(u'Login')},
-                              context_instance=RequestContext(request),)
+                               'title': _(u'Login')})
+                              
 
 def register(request):
     if not settings.OPPIA_ALLOW_SELF_REGISTRATION:
@@ -115,10 +116,9 @@ def register(request):
     else:
         form = RegisterForm(initial={'next':filterRedirect(request.GET),})
 
-    return render_to_response('oppia/form.html',
+    return render(request, 'oppia/form.html',
                               {'form': form,
-                               'title': _(u'Register'), },
-                               context_instance=RequestContext(request),)
+                               'title': _(u'Register'), })
 
 def reset(request):
     if request.method == 'POST': # if form submitted...
@@ -145,18 +145,16 @@ def reset(request):
     else:
         form = ResetForm() # An unbound form
 
-    return render_to_response(
-                  'oppia/form.html',
+    return render(request, 'oppia/form.html',
                   {'form': form,
-                   'title': _(u'Reset password')},
-                  context_instance=RequestContext(request))
+                   'title': _(u'Reset password')})
 
 def edit(request, user_id=0):
     if user_id != 0:
         if can_edit_user(request, user_id):
             view_user = User.objects.get(pk=user_id)
         else:
-            return HttpResponse('Unauthorized', status=401)
+            raise exceptions.PermissionDenied
     else:
         view_user = request.user
 
@@ -205,10 +203,37 @@ def edit(request, user_id=0):
                                     'job_title': user_profile.job_title,
                                     'organisation': user_profile.organisation,})
 
-    return render_to_response(
-                  'oppia/profile/profile.html',
-                  {'form': form,},
-                  context_instance=RequestContext(request))
+    return render(request, 'oppia/profile/profile.html',
+                  {'form': form,})
+    
+def export_mydata_view(request, data_type):
+    if data_type == 'activity':
+        my_activity = Tracker.objects.filter(user=request.user)
+        return render(request, 'oppia/profile/export/activity.html',
+                  {'activity': my_activity})
+     
+    if data_type == 'quiz':
+        my_quizzes = []
+        my_quiz_attempts = QuizAttempt.objects.filter(user=request.user)
+        for mqa in my_quiz_attempts:
+            data = {}
+            data['quizattempt'] = mqa
+            data['quizattemptresponses'] = QuizAttemptResponse.objects.filter(quizattempt=mqa)
+            my_quizzes.append(data)
+        
+        return render(request, 'oppia/profile/export/quiz_attempts.html',
+                  {'quiz_attempts': my_quizzes})
+    
+    if data_type == 'points':
+        points = Points.objects.filter(user=request.user)
+        return render(request, 'oppia/profile/export/points.html',
+                  {'points': points})
+        
+    if data_type == 'badges':   
+        badges = Award.objects.filter(user=request.user)
+        return render(request, 'oppia/profile/export/badges.html',
+                  {'badges': badges})
+     
 
 def points(request):
     points = Points.objects.filter(user=request.user).order_by('-date')
@@ -225,15 +250,13 @@ def points(request):
         mypoints = paginator.page(page)
     except (EmptyPage, InvalidPage):
         mypoints = paginator.page(paginator.num_pages)
-    return render_to_response('oppia/profile/points.html',
-                              {'page': mypoints,},
-                              context_instance=RequestContext(request),)
+    return render(request, 'oppia/profile/points.html',
+                              {'page': mypoints,})
 
 def badges(request):
     awards = Award.objects.filter(user=request.user).order_by('-award_date')
-    return render_to_response('oppia/profile/badges.html',
-                              {'awards': awards,},
-                              context_instance=RequestContext(request),)
+    return render(request, 'oppia/profile/badges.html',
+                              {'awards': awards,})
 
 
 def user_activity(request, user_id):
@@ -302,12 +325,11 @@ def user_activity(request, user_id):
         count = next((dct['count'] for dct in trackers if dct['activity_date'] == temp.date()), 0)
         activity.append([temp.strftime("%d %b %Y"),count])
 
-    return render_to_response('oppia/profile/user-scorecard.html',
+    return render(request, 'oppia/profile/user-scorecard.html',
                               {'view_user': view_user,
                                'courses': courses,
                                'page_ordering': ('-' if inverse_order else '') + ordering,
-                               'activity_graph_data': activity },
-                              context_instance=RequestContext(request))
+                               'activity_graph_data': activity })
 
 def user_course_activity_view(request, user_id, course_id):
 
@@ -411,7 +433,7 @@ def user_course_activity_view(request, user_id, course_id):
 
     quizzes.sort(key=operator.itemgetter(ordering), reverse=inverse_order)
 
-    return render_to_response('oppia/profile/user-course-scorecard.html',
+    return render(request, 'oppia/profile/user-course-scorecard.html',
                               {'view_user': view_user,
                                'course': course,
                                'quizzes': quizzes,
@@ -422,12 +444,11 @@ def user_course_activity_view(request, user_id, course_id):
                                'activities_total': activities_total,
                                'activities_percent': activities_percent,
                                'page_ordering': ('-' if inverse_order else '') + ordering,
-                               'activity_graph_data': activity },
-                              context_instance=RequestContext(request))
+                               'activity_graph_data': activity })
 
 def upload_view(request):
-    if not request.user.is_staff:
-        raise Http404
+    if not request.user.is_superuser:
+        raise exceptions.PermissionDenied
 
     if request.method == 'POST': # if form submitted...
         form = UploadProfileForm(request.POST,request.FILES)
@@ -497,10 +518,9 @@ def upload_view(request):
         results = []
         form = UploadProfileForm()
 
-    return render_to_response('oppia/profile/upload.html',
+    return render(request, 'oppia/profile/upload.html',
                               {'form': form,
-                               'results': results},
-                              context_instance=RequestContext(request),)
+                               'results': results})
 
 def get_query(query_string, search_fields):
     ''' Returns a query, that is a combination of Q objects. That combination
@@ -517,7 +537,7 @@ def get_query(query_string, search_fields):
 def search_users(request):
 
     if not request.user.is_staff:
-        return HttpResponse('Unauthorized', status=401)
+        raise exceptions.PermissionDenied
 
     users = User.objects
 
@@ -567,15 +587,12 @@ def search_users(request):
     except (EmptyPage, InvalidPage):
         users = paginator.page(paginator.num_pages)
 
-    return render_to_response('oppia/profile/search_user.html',
-                              {
-                                'quicksearch':query_string,
+    return render(request, 'oppia/profile/search_user.html',
+                              { 'quicksearch':query_string,
                                 'search_form':search_form,
                                 'advanced_search':filtered,
                                 'page': users,
-                                'page_ordering':ordering
-                              },
-                              context_instance=RequestContext(request),)
+                                'page_ordering':ordering })
 
 def export_users(request):
 
@@ -594,21 +611,64 @@ def export_users(request):
     if request.is_ajax():
         template = 'users-paginated-list.html'
 
-    return render_to_response('oppia/profile/' + template,
-                              {
-                                  'page': users,
+    return render(request, 'oppia/profile/' + template,
+                              {  'page': users,
                                   'page_ordering':ordering,
-                                  'users_list_template':'export'
-                              },
-                              context_instance=RequestContext(request),)
+                                  'users_list_template':'export' })
 
 def list_users(request):
     ordering, users = get_paginated_users(request)
-    return render_to_response('oppia/profile/users-paginated-list.html',
-                              {
-                                  'page': users,
+    return render(request, 'oppia/profile/users-paginated-list.html',
+                              {'page': users,
                                   'page_ordering':ordering,
                                   'users_list_template':'select',
-                                  'ajax_url':request.path
-                              },
-                              context_instance=RequestContext(request),)
+                                  'ajax_url':request.path })
+    
+def delete_account_view(request):
+    if request.method == 'POST': # if form submitted...
+        form = DeleteAccountForm(request.POST)
+        if form.is_valid():
+            user =request.user
+            
+            #delete points
+            Points.objects.filter(user=user).delete()
+            print "points deleted"
+            
+            #delete badges
+            Award.objects.filter(user=user).delete()
+            print "awards deleted"
+            
+            #delete trackers
+            Tracker.objects.filter(user=user).delete()
+            print "trackers deleted"
+            
+            #delete quiz attempts
+            QuizAttemptResponse.objects.filter(quizattempt__user=user).delete()
+            QuizAttempt.objects.filter(user=user).delete()
+            print "quiz attempts deleted"
+            
+            #delete profile
+            UserProfile.objects.filter(user=user).delete()
+            print "profile deleted"
+            
+            #delete api key
+            ApiKey.objects.filter(user=user).delete()
+            print "API key deleted"
+            
+            #logout and delete user
+            User.objects.get(pk=user.id).delete()
+            print "user deleted"
+            
+            #redirect
+            return HttpResponseRedirect(reverse('profile_delete_account_complete')) # Redirect after POST
+    else:
+        form = DeleteAccountForm(initial={'username':request.user.username}) # An unbound form
+
+    return render(request, 'oppia/profile/delete_account.html',
+                  {'form': form })
+ 
+   
+def delete_account_complete_view(request):
+
+    return render(request, 'oppia/profile/delete_account_complete.html')
+

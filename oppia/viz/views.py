@@ -2,15 +2,16 @@
 
 import datetime
 import json
-from django.http import HttpResponseRedirect, Http404, HttpResponse
-from django.shortcuts import render,render_to_response
-from django.template import RequestContext
-from django.utils.translation import ugettext_lazy as _
-from django.db.models import Count, Sum, Q
 
-from django.contrib.auth import (authenticate, logout, views)
+from django.contrib.auth import authenticate, logout, views
 from django.contrib.auth.models import User
+from django.core import exceptions
+from django.db.models import Count, Sum, Q
+from django.http import HttpResponseRedirect, Http404, HttpResponse
+from django.shortcuts import render
+from django.template import RequestContext
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 
 from oppia.forms import DateDiffForm
 from oppia.models import Tracker, Course
@@ -20,7 +21,7 @@ from oppia.viz.models import UserLocationVisualization
 
 def summary_view(request):
     if not request.user.is_staff:
-         raise Http404
+         raise exceptions.PermissionDenied
 
     start_date = timezone.now() - datetime.timedelta(days=365)
     if request.method == 'POST':
@@ -133,7 +134,7 @@ def summary_view(request):
     if previous_searches is None:
         previous_searches = 0
 
-    return render_to_response('oppia/viz/summary.html',
+    return render(request, 'oppia/viz/summary.html',
                               {'form': form, 
                                'user_registrations': user_registrations,
                                'previous_user_registrations': previous_user_registrations, 
@@ -146,9 +147,9 @@ def summary_view(request):
                                'previous_course_activity': previous_course_activity,
                                'hot_courses': hot_courses,
                                'searches': searches,
-                               'previous_searches': previous_searches, },
-                              context_instance=RequestContext(request))
+                               'previous_searches': previous_searches, })
 
 def map_view(request):
-    return render_to_response('oppia/viz/map.html', 
-                              context_instance=RequestContext(request))
+    return render(request, 'oppia/viz/map.html')
+    
+    

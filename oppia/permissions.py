@@ -2,6 +2,7 @@
 
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.core import exceptions
 from django.http import Http404, HttpResponse
 
 from itertools import chain
@@ -52,9 +53,9 @@ def get_user(request, view_user_id):
             if courses > 0:
                 return view_user, None
             else:
-                return None, HttpResponse('Unauthorized', status=401)
+                raise exceptions.PermissionDenied
         except User.DoesNotExist:
-            return None, HttpResponse('Unauthorized', status=401)
+            raise exceptions.PermissionDenied
 
 
 
@@ -102,13 +103,17 @@ def can_edit_cohort(request, cohort_id):
     return False
 
 def can_view_cohort(request, cohort_id):
+    try: 
+       cohort = Cohort.objects.get(pk=cohort_id) 
+    except Cohort.DoesNotExist:
+        raise Http404
     try:
         if request.user.is_staff:
-            return Cohort.objects.get(pk=cohort_id), None
+            return cohort, None
         return Cohort.objects.get(pk=cohort_id,participant__user=request.user, participant__role=Participant.TEACHER), None
-    except Cohort.DoesNotExist:
-        return False,  HttpResponse('Unauthorized', status=401)
-    return False,  HttpResponse('Unauthorized', status=401)
+    except:
+        raise exceptions.PermissionDenied
+    raise exceptions.PermissionDenied
 
 
 def get_cohorts(request):
@@ -118,7 +123,7 @@ def get_cohorts(request):
         cohorts = Cohort.objects.filter(participant__user=request.user, participant__role=Participant.TEACHER).order_by('description')
     
     if cohorts.count() == 0:
-        return None, HttpResponse('Unauthorized', status=401)
+        raise exceptions.PermissionDenied
     
     return cohorts, None
 
@@ -141,9 +146,9 @@ def can_view_course_detail(request,course_id):
             course = Course.objects.get(pk=course_id)
         except Course.DoesNotExist:
             raise Http404
-        return course, None 
+        return course, None
     else:
-        return None, HttpResponse('Unauthorized', status=401)
+        return None, exceptions.PermissionDenied
 
 def can_edit_course(request, course_id):
     return request.user.is_staff
@@ -153,6 +158,7 @@ def can_view_courses_list(request):
         courses = Course.objects.all().order_by('title')
     else:
         courses = Course.objects.filter(is_draft=False,is_archived=False).order_by('title')
-    return courses, None
+    return courses
 
-
+def Oppia403Handler(request):
+    return HttpResponseForbidden('403.html')

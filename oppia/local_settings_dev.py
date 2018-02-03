@@ -14,15 +14,12 @@ def modify(settings):
                                    'tastypie',)
     settings['MIDDLEWARE_CLASSES'] += ('oppia.middleware.LoginRequiredMiddleware',)
 
-    context_processors = (
+
+    settings['TEMPLATES'][0]['OPTIONS']['context_processors'] += [
             'oppia.context_processors.get_points',
             'oppia.context_processors.get_version',
-            'oppia.context_processors.get_settings',)
-
-    if 'TEMPLATES' in settings and settings['TEMPLATES'][0]: #Django 1.8+ template settings
-        settings['TEMPLATES'][0]['OPTIONS']['context_processors'] += context_processors
-    elif 'TEMPLATE_CONTEXT_PROCESSORS' in settings: #Fallback for the old template settings
-        settings['TEMPLATE_CONTEXT_PROCESSORS'] += context_processors
+            'oppia.context_processors.get_settings',]
+    
 
     settings['LOGIN_EXEMPT_URLS'] = (
          r'^server/$',
@@ -30,6 +27,8 @@ def modify(settings):
          r'^profile/register/',
          r'^profile/reset/',
          r'^profile/setlang/$',
+         r'^profile/delete/complete/$',
+         
          r'^mobile/scorecard/$',        # - auth handled by api_key
          r'^mobile/monitor/',           # - auth handled by api_key
          r'^$',
@@ -41,6 +40,7 @@ def modify(settings):
          
          r'^content/video-embed-helper/$',
          r'^media/temp/', 
+         r'^media/uploaded/', 
     ) 
     
     settings['CRISPY_TEMPLATE_PACK'] = 'bootstrap3'
@@ -98,7 +98,10 @@ def modify(settings):
     
     settings['OPPIA_MAX_UPLOAD_SIZE'] = 5242880         # max course file upload size - in bytes
 
-    settings['OPPIA_MEDIA_FILE_TYPES'] = ("video/m4v","video/mp4","audio/mpeg","video/3gp","video/3gpp", "audio/amr")
+    settings['OPPIA_VIDEO_FILE_TYPES'] = ("video/m4v","video/mp4","video/3gp","video/3gpp")
+    settings['OPPIA_AUDIO_FILE_TYPES'] = ("audio/mpeg", "audio/amr", "audio/mp3")
+    settings['OPPIA_MEDIA_FILE_TYPES'] = settings['OPPIA_VIDEO_FILE_TYPES'] + settings['OPPIA_AUDIO_FILE_TYPES']
+    
     settings['OPPIA_MEDIA_IMAGE_FILE_TYPES'] = ("image/png", "image/jpeg")
     
     settings['OPPIA_EXPORT_LOCAL_MINVERSION'] = 2017011400 # min version of the export block to process the quizzes locally
