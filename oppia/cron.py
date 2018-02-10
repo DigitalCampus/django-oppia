@@ -5,7 +5,6 @@ import os, time, sys
 import argparse, hashlib, subprocess
 
 from django.conf import settings
-from awards import courses_completed
 
 def run(hours):
     print 'Starting OppiaMobile cron...'
@@ -23,6 +22,7 @@ def run(hours):
     else:
         print '{path} does not exist. Don\'t need to clean it'.format(path=path)
 
+    from awards import courses_completed
     courses_completed(int(hours))           
     print 'cron completed'
 
