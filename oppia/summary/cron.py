@@ -5,15 +5,17 @@ import time
 
 from datetime import date
 
-from django.contrib.auth.models import User
-from django.db.models import Count
-
-from oppia.models import Tracker, Points, Course
-from oppia.settings.models import SettingProperties
-from oppia.summary.models import UserCourseSummary, CourseDailyStats, UserPointsSummary
 
 
 def update_summaries(last_tracker_pk=0, last_points_pk=0):
+
+    from django.contrib.auth.models import User
+    from django.db.models import Count
+
+    from oppia.models import Tracker, Points, Course
+    from oppia.settings.models import SettingProperties
+    from oppia.summary.models import UserCourseSummary, CourseDailyStats, UserPointsSummary
+    
     start = time.time()
     # get last tracker and points PKs to be processed
     # (to avoid leaving some out if new trackers arrive while processing)
@@ -120,6 +122,8 @@ def run():
     print 'Starting Oppia Summary cron...'
     start = time.time()
 
+    from oppia.settings.models import SettingProperties
+    
     # get last tracker and points PKs processed
     last_tracker_pk = SettingProperties.get_property('last_tracker_pk', 0)
     last_points_pk  = SettingProperties.get_property('last_points_pk', 0)
