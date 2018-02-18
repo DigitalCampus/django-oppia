@@ -46,11 +46,10 @@ def upload_success_view(request,id):
      
      embed_code = media.get_embed_code(request.build_absolute_uri(media.file.url))
      
-     return render_to_response('oppia/av/upload_success.html', 
+     return render(request, 'oppia/av/upload_success.html', 
                               {'title':_(u'Upload Media'),
                                'media': media,
-                               'embed_code': embed_code },
-                              context_instance=RequestContext(request))
+                               'embed_code': embed_code })
      
      
     
