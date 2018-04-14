@@ -556,7 +556,6 @@ def search_users(request):
                 else:
                     filters[row] = search_form.cleaned_data[row]
         if filters:
-            print filters
             users = users.filter(**filters)
             filtered = True
 
@@ -632,32 +631,25 @@ def delete_account_view(request):
             
             #delete points
             Points.objects.filter(user=user).delete()
-            print "points deleted"
             
             #delete badges
             Award.objects.filter(user=user).delete()
-            print "awards deleted"
             
             #delete trackers
             Tracker.objects.filter(user=user).delete()
-            print "trackers deleted"
             
             #delete quiz attempts
             QuizAttemptResponse.objects.filter(quizattempt__user=user).delete()
             QuizAttempt.objects.filter(user=user).delete()
-            print "quiz attempts deleted"
             
             #delete profile
             UserProfile.objects.filter(user=user).delete()
-            print "profile deleted"
             
             #delete api key
             ApiKey.objects.filter(user=user).delete()
-            print "API key deleted"
             
             #logout and delete user
             User.objects.get(pk=user.id).delete()
-            print "user deleted"
             
             #redirect
             return HttpResponseRedirect(reverse('profile_delete_account_complete')) # Redirect after POST
