@@ -371,7 +371,7 @@ class Tracker(models.Model):
     time_taken = models.IntegerField(default=0)
     activity_title = models.TextField(blank=True, null=True, default=None)
     section_title = models.TextField(blank=True, null=True, default=None)
-    uuid = models.TextField(blank=True, null=True, default=None)
+    uuid = models.CharField(max_length=100, blank=True, null=True, default=None, db_index=True)
     lang = models.CharField(max_length=10,null=True, blank=True, default=None)
     
     class Meta:

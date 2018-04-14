@@ -8,6 +8,7 @@ To see the upcoming feature developments and bug fixes, please refer to the `mon
 v0.10.1 - not yet released
 --------------------------------
 
+* 443: Check and prevent duplicate trackers being submitted (based on UUID) - https://github.com/DigitalCampus/django-oppia/issues/issues/443
 
 
 .. _serverv0.10.0:
