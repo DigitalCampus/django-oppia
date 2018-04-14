@@ -104,6 +104,8 @@ def modify(settings):
     
     settings['OPPIA_MEDIA_IMAGE_FILE_TYPES'] = ("image/png", "image/jpeg")
     
+    settings['OPPIA_UPLOAD_TRACKER_FILE_TYPES'] = [("application/json")]
+    
     settings['OPPIA_EXPORT_LOCAL_MINVERSION'] = 2017011400 # min version of the export block to process the quizzes locally
 
     settings['API_LIMIT_PER_PAGE'] = 0
