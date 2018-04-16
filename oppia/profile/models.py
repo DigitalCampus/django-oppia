@@ -19,7 +19,7 @@ class UserProfile (models.Model):
             return True
         return self.can_upload
     
-    def get_can_upload_tracker(self):
+    def get_can_upload_activitylog(self):
         if self.user.is_staff:
             return True
         return False

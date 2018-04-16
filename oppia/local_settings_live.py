@@ -10,6 +10,7 @@ def modify(settings):
                                    'oppia.reports',
                                    'oppia.settings',
                                    'oppia.summary',
+                                   'oppia.activitylog',
                                    'crispy_forms',
                                    'tastypie',)
     settings['MIDDLEWARE_CLASSES'] += ('oppia.middleware.LoginRequiredMiddleware',)
