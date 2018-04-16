@@ -1,4 +1,6 @@
-# oppia/tests/quiz/test_auiz_api.py
+# coding: utf-8
+
+# oppia/tests/quiz/test_quiz_api.py
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.test.client import Client
@@ -25,3 +27,4 @@ from tastypie.test import ResourceTestCaseMixin
     
     # getting an invalid digest
     # creating a quiz (and data required etc)
+

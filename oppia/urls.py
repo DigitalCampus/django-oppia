@@ -88,6 +88,7 @@ urlpatterns = [
     url(r'^profile/', include('oppia.profile.urls')),
     url(r'^mobile/', include('oppia.mobile.urls')),
     url(r'^reports/', include('oppia.reports.urls')),
+    url(r'^activitylog/', include('oppia.activitylog.urls')),
     url(r'^viz/', include('oppia.viz.urls')),
     url(r'^av/', include('oppia.av.urls')),
     

@@ -66,6 +66,10 @@ Permissions on the OppiaMobile Server dashboard:
 | View server level      | Yes        | Yes      | No       | No       |
 | analytics              |            |          |          |          |
 +------------------------+------------+----------+----------+----------+
+| Upload media files     | Yes        | Yes      | No       | No       |
++------------------------+------------+----------+----------+----------+
+| Upload activity logs   | Yes        | Yes      | No       | No       |
++------------------------+------------+----------+----------+----------+
 
 Notes:
 

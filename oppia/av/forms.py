@@ -16,9 +16,9 @@ from oppia.av.models import UploadedMedia
 
 class UploadMediaForm(forms.Form):  
     media_file = forms.FileField(
-                help_text=_('Media file types accepted: %s' % ', '.join(settings.OPPIA_MEDIA_FILE_TYPES)),
+                help_text=_(u'Media file types accepted: %s' % ', '.join(settings.OPPIA_MEDIA_FILE_TYPES)),
                 required=True,
-                error_messages={'required': _('Please select a media file to upload')},
+                error_messages={'required': _(u'Please select a media file to upload')},
                 )
     
     def __init__(self, *args, **kwargs):
@@ -42,7 +42,7 @@ class UploadMediaForm(forms.Form):
         
         if media_file is not None:
             if media_file.content_type not in settings.OPPIA_MEDIA_FILE_TYPES:
-                raise forms.ValidationError(_("You may only upload a media file which is one of the following types: %s" % ', '.join(settings.OPPIA_MEDIA_FILE_TYPES)))
+                raise forms.ValidationError(_(u"You may only upload a media file which is one of the following types: %s" % ', '.join(settings.OPPIA_MEDIA_FILE_TYPES)))
         
         '''
         check this file hasn't already been uploaded
@@ -53,11 +53,11 @@ class UploadMediaForm(forms.Form):
         elif isinstance(media_file, InMemoryUploadedFile):
             md5 = hashlib.md5(media_file.read()).hexdigest()
         else:
-            raise forms.ValidationError(_("File failed to upload correctly"))
+            raise forms.ValidationError(_(u"File failed to upload correctly"))
 
         media_count = UploadedMedia.objects.filter(md5=md5).count()
         if media_count > 0:
-            raise forms.ValidationError(_("This media file has already been uploaded"))
+            raise forms.ValidationError(_(u"This media file has already been uploaded"))
         
         return cleaned_data
     

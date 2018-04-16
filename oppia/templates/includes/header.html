@@ -22,6 +22,9 @@
 		        			<li><a href="{% url 'oppia_upload' %}">{% trans 'Course' %}</a></li>
 		        			<li><a href="{% url 'oppia_av_upload' %}">{% trans 'Media' %}</a></li>
 		        			<li><a href="{% url 'oppia_media_embed_helper' %}">{% trans 'Media Embed Helper' %}</a></li>
+		        			{% if user.is_staff %}
+		        				<li><a href="{% url 'oppia_activitylog_upload' %}">{% trans 'Activity Log' %}</a></li>
+		        			{% endif %}
 		        		</ul>
 		        	{% endif %}
 		      {% endif %}
