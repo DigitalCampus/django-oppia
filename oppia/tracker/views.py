@@ -1,6 +1,8 @@
 
 # oppia/tracker/views.py
 
+import json
+
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
@@ -16,6 +18,10 @@ def upload_view(request):
     if request.method == 'POST':    
         form = UploadTrackerForm(request.POST,request.FILES)
         if form.is_valid():
+            tracker_file = request.FILES["tracker_file"]
+            
+            #tracker_json = json.loads(tracker_file)
+            
             return HttpResponseRedirect(reverse('oppia_tracker_upload_success'))
     else:
         form = UploadTrackerForm()
@@ -23,3 +29,8 @@ def upload_view(request):
     return render(request, 'oppia/tracker/upload.html', 
                               {'form': form,
                                'title':_(u'Upload Activity Log')})
+    
+    
+def upload_success_view(request):
+    return render(request, 'oppia/tracker/upload_success.html', 
+                              {'title':_(u'Upload Activity Log')})
