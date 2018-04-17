@@ -96,7 +96,6 @@ def home_view(request):
             no_months = 0
             tmp_date = start_date
             while tmp_date <= end_date:
-                print tmp_date
                 tmp_date += delta
                 no_months += 1
                 
@@ -106,8 +105,6 @@ def home_view(request):
                 year = temp.strftime("%Y")
                 count = CourseDailyStats.objects.filter(day__month=month, day__year=year).aggregate(total=Sum('total')).get('total',0)
                 activity.append([temp.strftime("%b %Y"), 0 if count is None else count])
-
-            print activity
 
         leaderboard = Points.get_leaderboard(10)
 
@@ -292,7 +289,6 @@ def upload_step2(request, course_id, editing=False):
                                     'is_draft':course.is_draft,}) # An unbound form
 
     page_title = _(u'Upload Course - step 2') if not editing else _(u'Edit course')
-    print course.title
     return render(request, 'oppia/upload.html', 
                               {'form': form,
                                'course_title':course.title,
@@ -849,7 +845,6 @@ def cohort_course_view(request, cohort_id, course_id):
     students = []
     media_count = course.get_no_media()
     for user in users:
-        print user
         course_stats = UserCourseSummary.objects.filter(user=user, course=course_id)
         if course_stats:
             course_stats = course_stats[0]
@@ -951,7 +946,6 @@ def course_quiz_attempts(request,course_id,quiz_id):
             a.responses = QuizAttemptResponse.objects.filter(quizattempt=a)                
     except (EmptyPage, InvalidPage):
         tracks = paginator.page(paginator.num_pages)
-    print  len(attempts)
 
     return render(request, 'oppia/course/quiz-attempts.html',
                               {'course': course,

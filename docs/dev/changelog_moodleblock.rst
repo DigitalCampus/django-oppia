@@ -2,12 +2,12 @@ OppiaMobile Moodle Block Change Log
 =====================================
 
 
-.. _blockv2018xxxxxx:
+.. _blockv2018022600:
 
-v2018xxxxxx -  Not yet released
+v2018022600 -  Released 26 Feb 2018
 -------------------------------------
 
-
+* 189: Ensure the activity/course title and description is enslosed in CDATA - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/189
 
 .. _blockv2018011800:
 

@@ -167,3 +167,97 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         response_data = self.deserialize(resp)
         self.assertTrue('points' in response_data)
         self.assertTrue('badges' in response_data)
+        
+        
+    def test_patch_unique_uuid(self):  
+        activity1 = {
+            'digest': '18ec12e5653a40431f453cce35811fa4', #page
+            'data': '{\"uuid\": \"d5f305e9-dd03-4d97-96d5-5a3c45169e02\"}'
+        }
+        activity2 = {
+            'digest': '3ec4d8ab03c3c6bd66b3805f0b11225b', #media
+            'data': '{\"uuid\": \"baa673cb-e5fc-4797-b7e9-58a06ed80915\"}'
+        }
+
+        data = {'objects':[activity1,activity2]}
+        tracker_count_start = Tracker.objects.all().count()
+        resp = self.api_client.patch(self.url, format='json', data=data, authentication=self.get_credentials())
+        self.assertHttpOK(resp)
+        self.assertValidJSON(resp.content)
+
+        tracker_count_end = Tracker.objects.all().count()
+        self.assertEqual(tracker_count_start+2, tracker_count_end)
+
+        response_data = self.deserialize(resp)
+        self.assertTrue('points' in response_data)
+        self.assertTrue('badges' in response_data) 
+        
+    def test_patch_duplicate_uuid(self):   
+        activity1 = {
+            'digest': '18ec12e5653a40431f453cce35811fa4', #page
+            'data': '{\"uuid\": \"d5f305e9-dd03-4d97-96d5-5a3c45169e02\"}'
+        }
+        activity2 = {
+            'digest': '18ec12e5653a40431f453cce35811fa4', #page
+            'data': '{\"uuid\": \"d5f305e9-dd03-4d97-96d5-5a3c45169e02\"}'
+        }
+
+        data = {'objects':[activity1, activity2]}
+        tracker_count_start = Tracker.objects.all().count()
+        resp = self.api_client.patch(self.url, format='json', data=data, authentication=self.get_credentials())
+        self.assertHttpOK(resp)
+        self.assertValidJSON(resp.content)
+
+        tracker_count_end = Tracker.objects.all().count()
+        self.assertEqual(tracker_count_start+1, tracker_count_end)
+
+        response_data = self.deserialize(resp)
+        self.assertTrue('points' in response_data)
+        self.assertTrue('badges' in response_data)
+        
+    def test_post_unique_uuid(self):  
+        data = {
+            'digest': '18ec12e5653a40431f453cce35811fa4', #page
+            'data': '{\"uuid\": \"d5f305e9-dd03-4d97-96d5-5a3c45169e02\"}'
+        }
+
+        tracker_count_start = Tracker.objects.all().count()
+        resp = self.api_client.post(self.url, format='json', data=data, authentication=self.get_credentials())
+        self.assertHttpCreated(resp)
+        self.assertValidJSON(resp.content)
+
+        tracker_count_end = Tracker.objects.all().count()
+        self.assertEqual(tracker_count_start+1, tracker_count_end)
+
+        response_data = self.deserialize(resp)
+        self.assertTrue('points' in response_data)
+        self.assertTrue('badges' in response_data) 
+        
+    def test_post_duplicate_uuid(self):  
+        data = {
+            'digest': '18ec12e5653a40431f453cce35811fa4', #page
+            'data': '{\"uuid\": \"d5f305e9-dd03-4d97-96d5-5a3c45169e02\"}'
+        }
+
+        tracker_count_start = Tracker.objects.all().count()
+        resp = self.api_client.post(self.url, format='json', data=data, authentication=self.get_credentials())
+        self.assertHttpCreated(resp)
+        self.assertValidJSON(resp.content)
+
+        response_data = self.deserialize(resp)
+        self.assertTrue('points' in response_data)
+        self.assertTrue('badges' in response_data)   
+        
+        # send the same again
+        resp = self.api_client.post(self.url, format='json', data=data, authentication=self.get_credentials())
+        self.assertHttpBadRequest(resp)
+        self.assertValidJSON(resp.content)
+        
+        tracker_count_end = Tracker.objects.all().count()
+        self.assertEqual(tracker_count_start+1, tracker_count_end)
+
+         
+        
+        
+        
+        

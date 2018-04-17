@@ -137,9 +137,8 @@ class QuizAttempt(models.Model):
     score = models.DecimalField(decimal_places=2, max_digits=6)
     maxscore = models.DecimalField(decimal_places=2, max_digits=6)
     ip = models.GenericIPAddressField()
-    instance_id = models.CharField(max_length=50,null=True,blank=True)
+    instance_id = models.CharField(max_length=100,null=True,blank=True, default=None, db_index=True)
     agent = models.TextField(blank=True)
-    uuid = models.TextField(blank=True, null=True, default=None)
     
     class Meta:
         verbose_name = _('QuizAttempt')
@@ -175,16 +174,13 @@ class QuizAttempt(models.Model):
             return None
 
     def get_tracker(self):
-        if (self.uuid is None):
-            return None
+        #get Tracker model this way to avoid circular import issues
+        Tracker = apps.get_model('app_label.model_name')
+        trackers = Tracker.objects.filter(uuid=self.instance_id)
+        if trackers.count() > 0:
+            return trackers[0]
         else:
-            #get Tracker model this way to avoid circular import issues
-            Tracker = apps.get_model('app_label.model_name')
-            trackers = Tracker.objects.filter(uuid=self.uuid)
-            if trackers.count() > 0:
-                return trackers[0]
-            else:
-                return None
+            return None
 
 class QuizAttemptResponse(models.Model):
     quizattempt = models.ForeignKey(QuizAttempt)

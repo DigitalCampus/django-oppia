@@ -21,7 +21,6 @@ def run(url, file_name):
         reader = csv.reader(f)
         for row in reader:
             if len(row) != 7:
-                print "Invalid no fields"
                 continue
             else:
                 username = row[0]
@@ -40,7 +39,6 @@ def run(url, file_name):
                     f = urllib2.urlopen(req)
                     json_response = json.loads(f.read())
                     f.close()
-                    print username + ": account created"
                 except urllib2.HTTPError:
                     print username + ": account NOT created"
 

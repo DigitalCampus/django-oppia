@@ -14,10 +14,8 @@ from oppia.api.publish import get_messages_array
 
 def upload(request, user):
 
-    
     form = UploadMediaForm(request.POST, request.FILES)
-    if form.is_valid(): # All validation rules pass
-       
+    if form.is_valid():       
         uploaded_media = UploadedMedia(create_user = user,
                                       update_user = user,)
         uploaded_media.file = request.FILES["media_file"]

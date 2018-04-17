@@ -10,6 +10,7 @@ def modify(settings):
                                    'oppia.reports',
                                    'oppia.settings',
                                    'oppia.summary',
+                                   'oppia.activitylog',
                                    'crispy_forms',
                                    'tastypie',)
     settings['MIDDLEWARE_CLASSES'] += ('oppia.middleware.LoginRequiredMiddleware',)
@@ -103,6 +104,8 @@ def modify(settings):
     settings['OPPIA_MEDIA_FILE_TYPES'] = settings['OPPIA_VIDEO_FILE_TYPES'] + settings['OPPIA_AUDIO_FILE_TYPES']
     
     settings['OPPIA_MEDIA_IMAGE_FILE_TYPES'] = ("image/png", "image/jpeg")
+    
+    settings['OPPIA_UPLOAD_TRACKER_FILE_TYPES'] = [("application/json")]
     
     settings['OPPIA_EXPORT_LOCAL_MINVERSION'] = 2017011400 # min version of the export block to process the quizzes locally
 
