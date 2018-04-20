@@ -12,31 +12,12 @@ The main reason to make these changes is so that you can:
 * Automatically have the app connect to your OppiaMobile server 
 
 
-Rename package
+Rename applicationId
 ---------------------------
 
-Update the package attribute on manifest tag in AndroidManifest.xml (keeping with the 'reverse url' type notation), so 
-for example, replace ``org.digitalcampus.mobile.learning`` with ``org.myorgname.myproject.oppia``
-
-Also in AndroidManifest.xml, update the GCM permissions class names:
-
-* update ``<permission android:name="org.digitalcampus.mobile.learning.C2D_MESSAGE" android:protectionLevel="signature" />`` 
-  to ``<permission android:name="org.myorgname.myproject.oppia.C2D_MESSAGE" android:protectionLevel="signature" />`` with ``org.myorgname.myproject.oppia`` being the same as you used above.
-* update ``<uses-permission android:name="org.digitalcampus.mobile.learning.C2D_MESSAGE" />`` 
-  to ``<uses-permission android:name="org.myorgname.myproject.oppia.C2D_MESSAGE" />`` with ``org.myorgname.myproject.oppia`` being the same as you used above.
-
-Update the ``app/build.gradle`` file to update the ``applicationId`` to be the same as you've used in the 
-AndroidManifest.xml.
-
-
-R class reference
-----------------------------
-
-The ``R.java`` is an Android dynamically generated class, created during build process to identify all the assets (from strings to Android widgets and layouts), for usage in Java classes in your Android app. For each type of resource, there is an R subclass (for example, ``R.drawable`` for all drawable resources), and for each resource of that type, there is a static integer (for example, ``R.drawable.icon``). This integer is the resource ID that you can use to retrieve your resource.
-
-To access your app resources, the R class is imported in your code, and it is declared under the app's package name, so we need to change all the references in the code to the R class to with new package name: to do so, replace all instances of ``import org.digitalcampus.mobile.learning.R;`` with ``import org.myorgname.myproject.oppia.R;``.
-
-This import is used in almost all the classes, so it will be easier to use a search and replace on the whole ``src/main/java directory``.
+In prior versions of OppiaMobile, it was needed to refactor all the references to the ``R.java`` class, but now it can be done dinamycally at build time thanks to the benefits of Gradle.
+Update the ``app/build.gradle`` changing the ``applicationId`` value to a new one, keeping with the 'reverse url' type notation, so
+for example, replace ``org.digitalcampus.mobile.learning`` with ``org.myorgname.myproject.oppia``.
 
 
 Google Cloud Messaging
@@ -62,7 +43,8 @@ Assuming you have set up and installed you own OppiaMobile server, clearly you'l
 default.
 
 The core OppiaMobile android app is configured to point to our demonstration server (http://demo.oppia-mobile.org). To 
-have your version of the app automatically point to your server:
+have your version of the app automatically point to your server, you need to update the ``OPPIA_SERVER_DEFAULT`` value in
+the settings file (see  :ref:`_settings_values` for more info on this topic).
 
 * Open the ``/res/values/untranslated.xml`` file
 * Change the ``prefServerDefault`` string to be the url to your server
