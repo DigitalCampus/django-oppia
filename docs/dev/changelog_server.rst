@@ -8,9 +8,11 @@ To see the upcoming feature developments and bug fixes, please refer to the `mon
 v0.10.1 - not yet released
 --------------------------------
 
-* 443: Check and prevent duplicate trackers being submitted (based on UUID) - https://github.com/DigitalCampus/django-oppia/issues/issues/443
-* 452: Check quizresponses for duplicates - https://github.com/DigitalCampus/django-oppia/issues/issues/452
-* 442: Option to upload the downloaded tracker files - https://github.com/DigitalCampus/django-oppia/issues/issues/442
+* 443: Check and prevent duplicate trackers being submitted (based on UUID) - https://github.com/DigitalCampus/django-oppia/issues/443
+* 452: Check quizresponses for duplicates - https://github.com/DigitalCampus/django-oppia/issues/452
+* 442: Option to upload the downloaded tracker files - https://github.com/DigitalCampus/django-oppia/issues/442
+* 454: On media upload, error not showing if libav-tools not installed - https://github.com/DigitalCampus/django-oppia/issues/454
+
 
 .. _serverv0.10.0:
 
