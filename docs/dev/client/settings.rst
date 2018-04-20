@@ -1,3 +1,5 @@
+.. _settings_values:
+
 Settings and Defaults
 ========================
 
