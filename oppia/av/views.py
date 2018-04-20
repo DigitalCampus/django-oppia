@@ -32,11 +32,7 @@ def upload_view(request):
        if result['result'] == UploadedMedia.UPLOAD_STATUS_SUCCESS:
            return HttpResponseRedirect(reverse('oppia_av_upload_success', args=[result['media'].id]))
        else:
-           return render(request, 'oppia/av/upload.html', 
-                              {'form': result['form'],
-                               'title':_(u'Upload Media'),
-                               'errors': result['errors']})
-               
+          form = result['form']
     else:
         form = UploadMediaForm() # An unbound form
 

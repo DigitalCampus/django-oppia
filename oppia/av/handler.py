@@ -34,9 +34,8 @@ def upload(request, user):
             likely means avprobe/'libav-tools' is not installed
             '''
             uploaded_media.delete()
-            errors = []
-            errors.append(u'Please check that avprobe is installed on this system.')
-            return { 'result': UploadedMedia.UPLOAD_STATUS_FAILURE , 'form': form, 'errors': errors} 
+            messages.add_message(request, messages.ERROR, _(u"The avprobe/libav-tools package is not installed on this server. Please ask your Oppia system administrator to install it for you (`apt-get install libav-tools`)."), "warning")
+            return { 'result': UploadedMedia.UPLOAD_STATUS_FAILURE , 'form': form} 
         
         return { 'result': UploadedMedia.UPLOAD_STATUS_SUCCESS, 'media': uploaded_media } 
     else:
