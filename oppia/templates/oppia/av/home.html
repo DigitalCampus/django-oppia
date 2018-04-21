@@ -9,24 +9,25 @@
 {% block content %}
 <div class="container">
 	<h2>{{ title }}</h2>
-	{% if uploaded_media %}
+	{% if page.object_list %}
 		<div class="table-responsive">
 	         <table class="table table-striped">
 				 <thead>
 	                <tr>
-	                  <th>{% trans 'Course' %}</th>
 	                  <th>{% trans 'Image' %}</th>
 	                  <th>{% trans 'Media' %}</th>
-	                  <th>{% trans 'MD5' %}</th>
+	                  <th>{% trans 'Embed Code' %}</th>
 	                </tr>
 	              </thead>
 	              <tbody>
-	              {% for media in uploaded_media %}
+	              {% for media in page.object_list %}
 	              	  {% include 'oppia/av/media_row.html' %}
 	              {% endfor %}
 	              </tbody>
 	 		</table>
-		</div>	
+		</div>
+		
+		{% include "oppia/includes/pagination.html" %}	
 	{% endif %}
 </div>
 {% endblock %}

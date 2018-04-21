@@ -16,11 +16,31 @@ from oppia.av.models import UploadedMedia
 from oppia.av import handler
 
 def home_view(request):
-    uploaded_media = UploadedMedia.objects.all()
+    uploaded_media = []
+    
+    objs = UploadedMedia.objects.all().order_by('-created_date')
+    for o in objs:
+        embed_code = o.get_embed_code(request.build_absolute_uri(o.file.url))
+        uploaded_media.append({'uploaded_media': o, 'embed_code': embed_code})
+    
+    paginator = Paginator(uploaded_media, 25) # Show 25 per page
+    # Make sure page request is an int. If not, deliver first page.
+    try:
+        page = int(request.GET. get('page', '1'))
+    except ValueError:
+        page = 1
 
+
+    try:
+        media = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        media = paginator.page(paginator.num_pages)
+    
+    
+    
     return render(request, 'oppia/av/home.html', 
                               { 'title':_(u'Uploaded Media'),
-                                'uploaded_media': uploaded_media })
+                                'page': media })
 
 def upload_view(request):
     if not request.user.userprofile.get_can_upload():

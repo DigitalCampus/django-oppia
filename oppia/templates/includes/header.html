@@ -16,6 +16,7 @@
 		    <ul class="nav navbar-nav navbar-right">
 		      {% if user.is_authenticated %}
 		        	<li><a href="{% url 'oppia_course' %}">{% trans 'menu_courses' %}</a></li>
+		        	<li><a href="{% url 'oppia_av_home' %}">{% trans 'Media' %}</a></li>
 		        	{% if user.userprofile.get_can_upload %}
 		        		<li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">{% trans 'Upload' %}<b class="caret"></b></a>
 		        		<ul class="dropdown-menu">

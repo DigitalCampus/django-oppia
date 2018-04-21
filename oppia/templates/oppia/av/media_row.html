@@ -3,12 +3,11 @@
 {% load staticfiles %}
 
 <tr>
-	<td>{{ media.course_shortname }}</td>
 	<td>
-		{% if media.image %}
-			<img src="{{ media.image.url }}" width="50px">
+		{% if media.uploaded_media.image %}
+			<img src="{{ media.uploaded_media.image.url }}" width="50px">
 		{% endif %}
 	</td>
-	<td><a href="{{ media.file.url }}" target="_blank">{{ media.file.url }}</a></td>
-	<td>{{ media.md5 }}</td>
+	<td><a href="{{ media.uploaded_media.file.url }}" target="_blank">{{ media.uploaded_media.filename }}</a></td>
+	<td><code>{{ media.embed_code }}</code></td>
 </tr>

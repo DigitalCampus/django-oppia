@@ -29,6 +29,9 @@ class UploadedMedia(models.Model):
         return self.file.name
     
     def get_embed_code(self, uri):
-        EMBED_TEMPLATE = "[[media object='{\"filename\":\"%s\",\"download_url\":\"%s\",\"digest\":\"%s\", \"filesize\":%d, \"length\":%d}']]IMAGE/TEXT HERE[[/media]]"
+        EMBED_TEMPLATE = "[[media object='{\"filename\":\"%s\", \"download_url\":\"%s\", \"digest\":\"%s\", \"filesize\":%d, \"length\":%d}']]IMAGE/TEXT HERE[[/media]]"
         return EMBED_TEMPLATE % (os.path.basename(self.file.name), uri, self.md5, self.file.size, self.length)
+    
+    def filename(self):
+        return os.path.basename(self.file.name)
        
