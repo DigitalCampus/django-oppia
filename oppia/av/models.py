@@ -2,8 +2,11 @@
 import datetime
 import os 
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models.signals import post_delete
+from django.dispatch.dispatcher import receiver
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
@@ -34,4 +37,12 @@ class UploadedMedia(models.Model):
     
     def filename(self):
         return os.path.basename(self.file.name)
+    
+    
+@receiver(post_delete, sender=UploadedMedia)
+def uploaded_media_delete_file(sender, instance, **kwargs):
+    file_to_delete =  os.path.join(settings.MEDIA_ROOT, instance.file.name)
+    print "deleting ...." + file_to_delete
+    os.remove(file_to_delete)
+    print "File removed"
        
