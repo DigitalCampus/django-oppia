@@ -24,7 +24,15 @@ General
 Local admin settings (all false by default)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-* ``ADMIN_PROTECT_SETTINGS`` (boolean): enable the admin password protection functionality
+This settings control the functionality of protecting different app actions by a local admin password, to control which
+actions are allowed to a normal user without this password. Is an option available in the preferences screen of the app (disabled by default),
+but by this values you can control which specific actions are controlled by the admin password.
+
+* ``ADMIN_PROTECT_INITIAL_PASSWORD`` (boolean): the admin password to set initially (it can be changed later in the settings screen). If it is set,
+then the admin protection will be enabled from the start by this password.
+* ``ADMIN_PROTECT_SETTINGS`` (boolean): protect settings screen by admin password. If this is set to `false`, a normal user will
+be able to access the preferences screen even if the admin initial password is set, but to change the admin protection and the admin password
+she would need to enter the current password first.
 * ``ADMIN_PROTECT_COURSE_DELETE`` (boolean): protect course deletion by admin password
 * ``ADMIN_PROTECT_COURSE_RESET`` (boolean): protect course reset by admin password
 * ``ADMIN_PROTECT_COURSE_INSTALL`` (boolean): protect course installs by admin password

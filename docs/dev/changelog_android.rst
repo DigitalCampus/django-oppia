@@ -9,7 +9,8 @@ To see the upcoming feature developments and bug fixes, please refer to the `mon
 v65 (6.5.0) - not yet released 
 --------------------------------------
 
-
+* 650: Admin password can be disabled without the admin password - https://github.com/DigitalCampus/oppia-mobile-android/issues/650
+* 651: Add option in custom.properties to preset the admin password - https://github.com/DigitalCampus/oppia-mobile-android/issues/651
 
 .. _appv64:
 
