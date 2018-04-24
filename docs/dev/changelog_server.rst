@@ -13,8 +13,8 @@ v0.10.1 - not yet released
 * 452: Check quizresponses for duplicates - https://github.com/DigitalCampus/django-oppia/issues/452
 * 442: Option to upload the downloaded tracker files - https://github.com/DigitalCampus/django-oppia/issues/442
 * 454: On media upload, error not showing if libav-tools not installed - https://github.com/DigitalCampus/django-oppia/issues/454
-* 428: UploadMedia  - finding,displaying & downloading media - https://github.com/DigitalCampus/django-oppia/issues/428
-
+* 428: UploadMedia - finding,displaying & downloading media - https://github.com/DigitalCampus/django-oppia/issues/428
+* 426: UploadedMedia - show embed code - https://github.com/DigitalCampus/django-oppia/issues/426
 
 .. _serverv0.10.0:
 
