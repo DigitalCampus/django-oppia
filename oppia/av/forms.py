@@ -10,6 +10,7 @@ from django import forms
 from django.conf import settings
 from django.core.files.uploadedfile import TemporaryUploadedFile, InMemoryUploadedFile
 from django.core.urlresolvers import reverse
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
 from oppia.av.models import UploadedMedia
@@ -55,9 +56,10 @@ class UploadMediaForm(forms.Form):
         else:
             raise forms.ValidationError(_(u"File failed to upload correctly"))
 
-        media_count = UploadedMedia.objects.filter(md5=md5).count()
-        if media_count > 0:
-            raise forms.ValidationError(_(u"This media file has already been uploaded"))
+        media = UploadedMedia.objects.filter(md5=md5)
+        if media.count() > 0:
+            url = reverse('oppia_av_view', args=[media.first().id])
+            raise forms.ValidationError(mark_safe(_(u"This media file has already been uploaded. <a href='%s'>View the original upload</a>." % url)))
         
         return cleaned_data
     

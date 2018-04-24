@@ -67,5 +67,15 @@ def upload_success_view(request,id):
                                'media': media,
                                'embed_code': embed_code })
      
+def media_view(request,id):
+     media = get_object_or_404(UploadedMedia, pk=id)
+     
+     embed_code = media.get_embed_code(request.build_absolute_uri(media.file.url))
+     
+     return render(request, 'oppia/av/view.html', 
+                              {'title':_(u'Media'),
+                               'media': media,
+                               'embed_code': embed_code })
+     
      
     

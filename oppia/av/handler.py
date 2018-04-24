@@ -43,7 +43,6 @@ def upload(request, user):
         errors = []
         for field, error in form.errors.items():
             for e in error:
-                print e
                 errors.append(e)
         return { 'result': UploadedMedia.UPLOAD_STATUS_FAILURE, 'form': form, 'errors': errors }
     
