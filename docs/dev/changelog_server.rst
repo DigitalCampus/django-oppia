@@ -1,9 +1,12 @@
 OppiaMobile Server Change Log
 ================================
 
-To see the upcoming feature developments and bug fixes, please refer to the `monthly milestones on GitHub <https://github.com/DigitalCampus/django-oppia/milestones>`_
 
 .. _serverv0.10.1:
+
+.. warning:: 
+	Please ensure to run `pip install -r django-oppia/requirements.txt` after upgrading to this version, since new packages
+	and an updated version of Django is used.
 
 v0.10.1 - not yet released
 --------------------------------
@@ -15,6 +18,7 @@ v0.10.1 - not yet released
 * 454: On media upload, error not showing if libav-tools not installed - https://github.com/DigitalCampus/django-oppia/issues/454
 * 428: UploadMedia - finding,displaying & downloading media - https://github.com/DigitalCampus/django-oppia/issues/428
 * 426: UploadedMedia - show embed code - https://github.com/DigitalCampus/django-oppia/issues/426
+* 448: Update customisation documentation - https://github.com/DigitalCampus/django-oppia/issues/448
 
 .. _serverv0.10.0:
 

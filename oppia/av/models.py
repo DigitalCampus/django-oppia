@@ -1,5 +1,6 @@
 # oppia/av/models.py
 import datetime
+import hashlib
 import os 
 
 from django.conf import settings
@@ -25,8 +26,8 @@ class UploadedMedia(models.Model):
     length = models.IntegerField(default=0, blank=True, null=True)
     
     class Meta:
-        verbose_name = _('Uploaded Media')
-        verbose_name_plural = _('Uploaded Media')
+        verbose_name = _(u'Uploaded Media')
+        verbose_name_plural = _(u'Uploaded Media')
      
     def __unicode__(self):
         return self.file.name
@@ -45,4 +46,32 @@ def uploaded_media_delete_file(sender, instance, **kwargs):
     print "deleting ...." + file_to_delete
     os.remove(file_to_delete)
     print "File removed"
+    
+ 
+def image_file_name(instance, filename):
+        basename, ext = os.path.splitext(filename)
+        return os.path.join('uploaded/images', filename[0:2], filename[2:4], filename + ext.lower()) 
+    
+       
+class UploadedMediaImage(models.Model):
+    
+    create_user = models.ForeignKey(User, related_name='media_image_create_user')
+    created_date = models.DateTimeField('date created',default=timezone.now)
+    image = models.ImageField(upload_to=image_file_name,blank=False)
+    uploaded_media = models.ForeignKey(UploadedMedia, on_delete=models.CASCADE)
+    default_image = models.BooleanField(default=False)
+    
+    class Meta:
+        verbose_name = _(u'Uploaded Media Image')
+        verbose_name_plural = _(u'Uploaded Media Images')
+        
+    def __unicode__(self):
+        return self.image.name
+    
+@receiver(post_delete, sender=UploadedMediaImage)
+def uploaded_media_image_delete_file(sender, instance, **kwargs):
+    image_to_delete =  os.path.join(settings.MEDIA_ROOT, instance.image.name)
+    print "deleting ...." + image_to_delete
+    os.remove(image_to_delete)
+    print "Image removed"
        
