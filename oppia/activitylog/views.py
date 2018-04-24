@@ -56,7 +56,7 @@ def upload_view(request):
                                     result = response.read()
                                     messages.info(request, _(u"Tracker activity for %(username)s added" % {'username': user['username']}))
                                 except urllib2.HTTPError:
-                                    messages.info(request, _(u"Already uploaded: tracker activity for %(username)s added" % {'username': user['username']}))
+                                    messages.warning(request, _(u"Already uploaded: tracker activity for %(username)s added" % {'username': user['username']}),'danger')
                         if 'quizresponses' in user:
                             for quizattempt in user['quizresponses']:
                                 url_comp = request.build_absolute_uri().split('/')
