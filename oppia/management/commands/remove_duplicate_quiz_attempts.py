@@ -35,13 +35,13 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         """
-        Remove quizresponses with no UUID
+        Remove quizattempts with no UUID
         """
         result = QuizAttempt.objects.filter(instance_id=None).delete()
         print _(u"\n\n%d quiz attempts removed that had no instance_id\n" % result[0])   
         
         """
-        Remove proper duplicate quizresponses - using max id
+        Remove proper duplicate quizattempts - using max id
         """      
         quiz_attempts = QuizAttempt.objects.all().values('instance_id').annotate(dcount=Count('instance_id')).filter(dcount__gte=2)
         

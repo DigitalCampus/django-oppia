@@ -3,11 +3,16 @@
 Settings and Defaults
 ========================
 
-The OppiaMobile Android app makes use of the Android build system to define at compile time some of the settings for the project, so you don't need to modify any source code. This is done by reading a file in the root of the project called ``oppia-default.properties`` and creating all the necessary BuildConfig values.
+The OppiaMobile Android app makes use of the Android build system to define at compile time some of the settings for the 
+project, so you don't need to modify any source code. This is done by reading a file in the root of the project called 
+``oppia-default.properties`` and creating all the necessary BuildConfig values.
 
-If you want to overwrite any of this settings, create a new file named ``custom.properties`` and define any value of the list below that you want to override. Note that you don't need to define all the values again, simply the ones you want to override, and the rest will use the default value.
+If you want to overwrite any of this settings, create a new file named ``custom.properties`` and define any value of the 
+list below that you want to override. Note that you don't need to define all the values again, simply the ones you want 
+to override, and the rest will use the default value.
 
-**IMPORTANT**: The ``custom.properties`` file is ignored by Git in order to hide private configuration settings (like API keys), so any changes you make to it will not be visible in your repository. 
+**IMPORTANT**: The ``custom.properties`` file is ignored by Git in order to hide private configuration settings (like 
+API keys), so any changes you make to it will not be visible in your repository. 
 
 List of configurable values
 ---------------------------
@@ -29,10 +34,10 @@ actions are allowed to a normal user without this password. Is an option availab
 but by this values you can control which specific actions are controlled by the admin password.
 
 * ``ADMIN_PROTECT_INITIAL_PASSWORD`` (boolean): the admin password to set initially (it can be changed later in the settings screen). If it is set,
-then the admin protection will be enabled from the start by this password.
+  then the admin protection will be enabled from the start by this password.
 * ``ADMIN_PROTECT_SETTINGS`` (boolean): protect settings screen by admin password. If this is set to `false`, a normal user will
-be able to access the preferences screen even if the admin initial password is set, but to change the admin protection and the admin password
-she would need to enter the current password first.
+  be able to access the preferences screen even if the admin initial password is set, but to change the admin protection and the admin password
+  she would need to enter the current password first.
 * ``ADMIN_PROTECT_COURSE_DELETE`` (boolean): protect course deletion by admin password
 * ``ADMIN_PROTECT_COURSE_RESET`` (boolean): protect course reset by admin password
 * ``ADMIN_PROTECT_COURSE_INSTALL`` (boolean): protect course installs by admin password
