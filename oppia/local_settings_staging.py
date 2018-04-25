@@ -12,7 +12,8 @@ def modify(settings):
                                    'oppia.summary',
                                    'oppia.activitylog',
                                    'crispy_forms',
-                                   'tastypie',)
+                                   'tastypie',
+                                   'sorl.thumbnail',)
     settings['MIDDLEWARE_CLASSES'] += ('oppia.middleware.LoginRequiredMiddleware',)
 
     settings['TEMPLATES'][0]['OPTIONS']['context_processors'] += [
