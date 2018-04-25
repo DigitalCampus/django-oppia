@@ -5,7 +5,7 @@ OppiaMobile Server Change Log
 .. _serverv0.10.1:
 
 .. warning:: 
-	Please ensure to run `pip install -r django-oppia/requirements.txt` after upgrading to this version, since new packages
+	Run `pip install -r django-oppia/requirements.txt` after upgrading to this version, since new packages
 	and an updated version of Django is used.
 
 v0.10.1 - not yet released
@@ -19,6 +19,8 @@ v0.10.1 - not yet released
 * 428: UploadMedia - finding,displaying & downloading media - https://github.com/DigitalCampus/django-oppia/issues/428
 * 426: UploadedMedia - show embed code - https://github.com/DigitalCampus/django-oppia/issues/426
 * 448: Update customisation documentation - https://github.com/DigitalCampus/django-oppia/issues/448
+* 427: UploadMedia - process to generate sample images - https://github.com/DigitalCampus/django-oppia/issues/427
+
 
 .. _serverv0.10.0:
 
