@@ -1,14 +1,15 @@
 {% load i18n %}
 {% load display_functions %}
-{% load staticfiles %}
+{% load thumbnail %}
 
 <tr>
-	<td>{{ media.course_shortname }}</td>
 	<td>
-		{% if media.image %}
-			<img src="{{ media.image.url }}" width="50px">
-		{% endif %}
+		{% thumbnail media.uploaded_media.get_default_image.image "220x150" crop="center" as im %}
+			<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+		{% empty %}
+	  			<p>No image</p>
+		{% endthumbnail %}
 	</td>
-	<td><a href="{{ media.file.url }}" target="_blank">{{ media.file.url }}</a></td>
-	<td>{{ media.md5 }}</td>
+	<td><a href="{{ media.uploaded_media.file.url }}" target="_blank">{{ media.uploaded_media.filename }}</a></td>
+	<td><code>{{ media.embed_code }}</code></td>
 </tr>

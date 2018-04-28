@@ -16,11 +16,28 @@ from oppia.av.models import UploadedMedia
 from oppia.av import handler
 
 def home_view(request):
-    uploaded_media = UploadedMedia.objects.all()
+    uploaded_media = []
+    
+    objs = UploadedMedia.objects.all().order_by('-created_date')
+    for o in objs:
+        embed_code = o.get_embed_code(request.build_absolute_uri(o.file.url))
+        uploaded_media.append({'uploaded_media': o, 'embed_code': embed_code})
+    
+    paginator = Paginator(uploaded_media, 25)
 
+    try:
+        page = int(request.GET. get('page', '1'))
+    except ValueError:
+        page = 1
+
+    try:
+        media = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        media = paginator.page(paginator.num_pages)
+    
     return render(request, 'oppia/av/home.html', 
                               { 'title':_(u'Uploaded Media'),
-                                'uploaded_media': uploaded_media })
+                                'page': media })
 
 def upload_view(request):
     if not request.user.userprofile.get_can_upload():
@@ -32,8 +49,7 @@ def upload_view(request):
        if result['result'] == UploadedMedia.UPLOAD_STATUS_SUCCESS:
            return HttpResponseRedirect(reverse('oppia_av_upload_success', args=[result['media'].id]))
        else:
-           form = result['form']
-               
+          form = result['form']
     else:
         form = UploadMediaForm() # An unbound form
 
@@ -48,6 +64,16 @@ def upload_success_view(request,id):
      
      return render(request, 'oppia/av/upload_success.html', 
                               {'title':_(u'Upload Media'),
+                               'media': media,
+                               'embed_code': embed_code })
+     
+def media_view(request,id):
+     media = get_object_or_404(UploadedMedia, pk=id)
+     
+     embed_code = media.get_embed_code(request.build_absolute_uri(media.file.url))
+     
+     return render(request, 'oppia/av/view.html', 
+                              {'title':_(u'Media'),
                                'media': media,
                                'embed_code': embed_code })
      

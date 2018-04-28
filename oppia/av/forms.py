@@ -10,6 +10,7 @@ from django import forms
 from django.conf import settings
 from django.core.files.uploadedfile import TemporaryUploadedFile, InMemoryUploadedFile
 from django.core.urlresolvers import reverse
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
 from oppia.av.models import UploadedMedia
@@ -20,8 +21,10 @@ class UploadMediaForm(forms.Form):
                 required=True,
                 error_messages={'required': _(u'Please select a media file to upload')},
                 )
+    embed_code = forms.CharField(widget=forms.HiddenInput(), required=False,)
     
     def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
         super(UploadMediaForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_action = reverse('oppia_av_upload')
@@ -30,6 +33,7 @@ class UploadMediaForm(forms.Form):
         self.helper.field_class = 'col-lg-8'
         self.helper.layout = Layout(
                 'media_file',
+                'embed_code',
                 Div(
                    Submit('submit', _(u'Upload'), css_class='btn btn-default'),
                    css_class='col-lg-offset-2 col-lg-4',
@@ -55,10 +59,14 @@ class UploadMediaForm(forms.Form):
         else:
             raise forms.ValidationError(_(u"File failed to upload correctly"))
 
-        media_count = UploadedMedia.objects.filter(md5=md5).count()
-        if media_count > 0:
-            raise forms.ValidationError(_(u"This media file has already been uploaded"))
-        
+        media = UploadedMedia.objects.filter(md5=md5)
+        if media.count() > 0:
+            url = reverse('oppia_av_view', args=[media.first().id])
+            raise forms.ValidationError({
+                'media_file': mark_safe(_(u"This media file has already been uploaded. <a href='%s'>View the original upload</a>." % url)),
+                'embed_code': media.first().get_embed_code(self.request.build_absolute_uri(media.first().file.url))
+                })
+            ##raise forms.ValidationError(mark_safe(_(u"Embed code: ")))
         return cleaned_data
     
     

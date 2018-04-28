@@ -1,15 +1,26 @@
 OppiaMobile Server Change Log
 ================================
 
-To see the upcoming feature developments and bug fixes, please refer to the `monthly milestones on GitHub <https://github.com/DigitalCampus/django-oppia/milestones>`_
 
 .. _serverv0.10.1:
+
+.. warning:: 
+	Run `pip install -r django-oppia/requirements.txt` after upgrading to this version, since new packages
+	and an updated version of Django is used.
 
 v0.10.1 - not yet released
 --------------------------------
 
-* 443: Check and prevent duplicate trackers being submitted (based on UUID) - https://github.com/DigitalCampus/django-oppia/issues/issues/443
-* 452: Check quizresponses for duplicates - https://github.com/DigitalCampus/django-oppia/issues/issues/452
+* 453: Upgrade to Django 1.11.11 - https://github.com/DigitalCampus/django-oppia/issues/issues/453
+* 443: Check and prevent duplicate trackers being submitted (based on UUID) - https://github.com/DigitalCampus/django-oppia/issues/443
+* 452: Check quizresponses for duplicates - https://github.com/DigitalCampus/django-oppia/issues/452
+* 442: Option to upload the downloaded tracker files - https://github.com/DigitalCampus/django-oppia/issues/442
+* 454: On media upload, error not showing if libav-tools not installed - https://github.com/DigitalCampus/django-oppia/issues/454
+* 428: UploadMedia - finding,displaying & downloading media - https://github.com/DigitalCampus/django-oppia/issues/428
+* 426: UploadedMedia - show embed code - https://github.com/DigitalCampus/django-oppia/issues/426
+* 448: Update customisation documentation - https://github.com/DigitalCampus/django-oppia/issues/448
+* 427: UploadMedia - process to generate sample images - https://github.com/DigitalCampus/django-oppia/issues/427
+
 
 .. _serverv0.10.0:
 
