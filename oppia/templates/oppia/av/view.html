@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load display_functions %}
+{% load thumbnail %}
 
 {% block extra_head_title %}
 	{{ title }}
@@ -17,6 +18,14 @@
     <h3>{% trans 'Embed code for Moodle' %}</h3>
     <code>{{ embed_code }}</code>
    
+   	{% if media.images.all %}
+	   	<h3>{% trans 'Sample Images' %}</h3>
+	   	{% for image in media.images.all %}
+	   		{% thumbnail image "220x150" crop="center" as im %}
+				<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+			{% endthumbnail %}
+	   	{% endfor %}
+	{% endif %}
 </div>
 {% endblock %}
 
