@@ -31,7 +31,7 @@ class Command(BaseCommand):
         """
         Generates sample media images
         """
-        media = UploadedMedia.objects.filter(uploadedmediaimage__isnull=True)
+        media = UploadedMedia.objects.filter(images__isnull=True)
            
         for m in media:
             print m.file.path
