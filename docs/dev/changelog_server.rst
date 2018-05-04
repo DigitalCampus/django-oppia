@@ -20,7 +20,7 @@ v0.10.1 - not yet released
 * 426: UploadedMedia - show embed code - https://github.com/DigitalCampus/django-oppia/issues/426
 * 448: Update customisation documentation - https://github.com/DigitalCampus/django-oppia/issues/448
 * 427: UploadMedia - process to generate sample images - https://github.com/DigitalCampus/django-oppia/issues/427
-
+* 460: Upload media - display sample images and allow selection of default - https://github.com/DigitalCampus/django-oppia/issues/460
 
 .. _serverv0.10.0:
 
