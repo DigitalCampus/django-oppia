@@ -12,7 +12,7 @@ from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
 
 from oppia.av.forms import UploadMediaForm
-from oppia.av.models import UploadedMedia
+from oppia.av.models import UploadedMedia, UploadedMediaImage
 from oppia.av import handler
 
 def home_view(request):
@@ -58,24 +58,49 @@ def upload_view(request):
                                'title':_(u'Upload Media')})
     
 def upload_success_view(request,id):
-     media = get_object_or_404(UploadedMedia, pk=id)
+    if not request.user.userprofile.get_can_upload():
+        raise exceptions.PermissionDenied
+    
+    media = get_object_or_404(UploadedMedia, pk=id)
      
-     embed_code = media.get_embed_code(request.build_absolute_uri(media.file.url))
+    embed_code = media.get_embed_code(request.build_absolute_uri(media.file.url))
      
-     return render(request, 'oppia/av/upload_success.html', 
+    return render(request, 'oppia/av/upload_success.html', 
                               {'title':_(u'Upload Media'),
                                'media': media,
                                'embed_code': embed_code })
      
 def media_view(request,id):
-     media = get_object_or_404(UploadedMedia, pk=id)
+    if not request.user.userprofile.get_can_upload():
+        raise exceptions.PermissionDenied
+    
+    media = get_object_or_404(UploadedMedia, pk=id)
      
-     embed_code = media.get_embed_code(request.build_absolute_uri(media.file.url))
+    embed_code = media.get_embed_code(request.build_absolute_uri(media.file.url))
      
-     return render(request, 'oppia/av/view.html', 
+    return render(request, 'oppia/av/view.html', 
                               {'title':_(u'Media'),
                                'media': media,
                                'embed_code': embed_code })
+     
+def set_default_image_view(request,image_id):
+    if not request.user.userprofile.get_can_upload():
+        raise exceptions.PermissionDenied
+    
+    media = UploadedMedia.objects.get(images__pk=image_id)
+    
+    # reset all images to not be default
+    images = UploadedMediaImage.objects.filter(uploaded_media=media)
+    for i in images:
+        i.default_image = False
+        i. save()
+        
+    # set the selected one
+    image = UploadedMediaImage.objects.get(pk=image_id)
+    image.default_image = True
+    image.save()
+    
+    return HttpResponseRedirect(reverse('oppia_av_view', args=[media.id]))
      
      
     

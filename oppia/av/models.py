@@ -62,7 +62,6 @@ def uploaded_media_delete_file(sender, instance, **kwargs):
         print "Error deleting media"
  
 def image_file_name(instance, filename):
-    basename, ext = os.path.splitext(filename)
     return os.path.join('uploaded/images', filename[0:2], filename[2:4], filename) 
     
        

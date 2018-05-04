@@ -21,9 +21,17 @@
    	{% if media.images.all %}
 	   	<h3>{% trans 'Sample Images' %}</h3>
 	   	{% for image in media.images.all %}
-	   		{% thumbnail image.image "220x150" crop="center" as im %}
-				<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-			{% endthumbnail %}
+	   		<div class="media-image">
+		  		{% thumbnail image.image "220x150" crop="center" as im %}
+					<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+				{% endthumbnail %}
+				<br/>
+				{% if image.default_image %}
+					[{% trans 'default' %}]
+				{% else %}
+					[<a href="{% url 'oppia_av_set_default_image' image.id %}">{% trans 'set as default' %}</a>]
+				{% endif %}
+			</div>
 	   	{% endfor %}
 	{% endif %}
 </div>

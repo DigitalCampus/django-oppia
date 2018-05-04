@@ -411,3 +411,8 @@ table.sortable .sorted:hover{
     padding: 5px 10px;
     margin-bottom: 5px;
 }
+
+.media-image {
+	float: left;
+	margin: 20px; 
+}
