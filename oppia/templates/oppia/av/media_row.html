@@ -4,6 +4,7 @@
 
 <tr>
 	<td>
+		{{ media.uploaded_media.get_default_image }}
 		{% thumbnail media.uploaded_media.get_default_image.image "220x150" crop="center" as im %}
 			<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
 		{% empty %}

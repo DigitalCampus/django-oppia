@@ -21,7 +21,7 @@
    	{% if media.images.all %}
 	   	<h3>{% trans 'Sample Images' %}</h3>
 	   	{% for image in media.images.all %}
-	   		{% thumbnail image "220x150" crop="center" as im %}
+	   		{% thumbnail image.image "220x150" crop="center" as im %}
 				<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
 			{% endthumbnail %}
 	   	{% endfor %}
