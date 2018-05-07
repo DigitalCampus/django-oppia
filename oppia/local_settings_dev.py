@@ -118,3 +118,5 @@ def modify(settings):
         settings['INSTALLED_APPS'] += ('oppia.deviceadmin', 'gcm',)
         settings['GCM_APIKEY'] = 'OPPIA_GOOGLEAPIKEY'
         settings['GCM_DEVICE_MODEL'] = 'oppia.deviceadmin.models.UserDevice'
+        
+    settings['DEVELOPMENT_SERVER'] = True

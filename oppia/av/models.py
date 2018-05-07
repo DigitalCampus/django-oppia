@@ -47,7 +47,6 @@ class UploadedMedia(models.Model):
         except UploadedMediaImage.DoesNotExist:
             try:
                 img = UploadedMediaImage.objects.filter(uploaded_media=self).order_by('created_date').first()
-                print img
                 return img
             except UploadedMediaImage.DoesNotExist:
                 return None
@@ -56,13 +55,14 @@ class UploadedMedia(models.Model):
 def uploaded_media_delete_file(sender, instance, **kwargs):
     file_to_delete =  os.path.join(settings.MEDIA_ROOT, instance.file.name)
     print "deleting ...." + file_to_delete
-    os.remove(file_to_delete)
-    print "File removed"
-    
+    try:
+        os.remove(file_to_delete)
+        print "File removed"
+    except OSError:
+        print "Error deleting media"
  
 def image_file_name(instance, filename):
-        basename, ext = os.path.splitext(filename)
-        return os.path.join('uploaded/images', filename[0:2], filename[2:4], filename) 
+    return os.path.join('uploaded/images', filename[0:2], filename[2:4], filename) 
     
        
 class UploadedMediaImage(models.Model):
@@ -84,6 +84,10 @@ class UploadedMediaImage(models.Model):
 def uploaded_media_image_delete_file(sender, instance, **kwargs):
     image_to_delete =  os.path.join(settings.MEDIA_ROOT, instance.image.name)
     print "deleting ...." + image_to_delete
-    os.remove(image_to_delete)
-    print "Image removed"
+    try:
+        os.remove(image_to_delete)
+        print "Image removed"
+    except OSError:
+        print "Error deleting image"
+    
        
