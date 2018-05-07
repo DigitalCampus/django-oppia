@@ -27,4 +27,5 @@ def get_settings(request):
              'OPPIA_GOOGLE_ANALYTICS_DOMAIN': settings.OPPIA_GOOGLE_ANALYTICS_DOMAIN,
              'OPPIA_SHOW_GRAVATARS': settings.OPPIA_SHOW_GRAVATARS,
              'OPPIA_DEVICEADMIN_ENABLED': settings.DEVICE_ADMIN_ENABLED,
-             'OPPIA_REPORTS': menu_reports(request), }
+             'OPPIA_REPORTS': menu_reports(request), 
+             'DEVELOPMENT_SERVER': settings.DEVELOPMENT_SERVER,}

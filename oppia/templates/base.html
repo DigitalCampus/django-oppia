@@ -44,7 +44,14 @@
 </div>
 
 <div class="container-fluid">
-    <div class="main">       
+    <div class="main"> 
+    {% if DEVELOPMENT_SERVER %}
+         <div class="alert alert-danger alert-dismissable">
+         	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+             <strong>{% trans 'This is a development server, anything added here will not be shared on the live site' %}</strong>
+         </div>
+     {% endif %}
+          
 {% block content %}
 {% endblock content %}
 	</div> <!--  end main -->

@@ -21,6 +21,7 @@ v0.10.1 - not yet released
 * 448: Update customisation documentation - https://github.com/DigitalCampus/django-oppia/issues/448
 * 427: UploadMedia - process to generate sample images - https://github.com/DigitalCampus/django-oppia/issues/427
 * 460: Upload media - display sample images and allow selection of default - https://github.com/DigitalCampus/django-oppia/issues/460
+* 467: Add option to highlight if dev server - https://github.com/DigitalCampus/django-oppia/issues/467
 
 .. _serverv0.10.0:
 
