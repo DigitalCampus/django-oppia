@@ -19,6 +19,7 @@ v65 (6.5.0) - not yet released
 * 659: Synch menu - add option to show all the courses installed - https://github.com/DigitalCampus/oppia-mobile-android/issues/659
 * 660: Synch menu - add option to show all the media installed - https://github.com/DigitalCampus/oppia-mobile-android/issues/660
 * 661: In synch menu add option to 'receive' file - https://github.com/DigitalCampus/oppia-mobile-android/issues/661
+* 678: Configure with build properties if the synchronization functionalities are enabled - https://github.com/DigitalCampus/oppia-mobile-android/issues/678
 
 .. _appv64:
 
