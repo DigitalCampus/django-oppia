@@ -1,4 +1,6 @@
 # oppia/signals.py
+import warnings
+
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
@@ -7,6 +9,7 @@ from django.dispatch import Signal
 from oppia.gamification.default_points import OPPIA_DEFAULT_POINTS
 from oppia.models import Points, Award, Tracker, Activity, Section, Course, Cohort
 from oppia.quiz.models import Quiz, QuizAttempt
+from oppia.utils.deprecation import RemovedInOppia0110Warning
 
 import math
 
@@ -23,6 +26,7 @@ def apply_points(user):
     
         
 def signup_callback(sender, **kwargs):
+    
     user = kwargs.get('instance')
     created = kwargs.get('created')
     if not apply_points(user):
@@ -38,6 +42,9 @@ def signup_callback(sender, **kwargs):
     return
 
 def quizattempt_callback(sender, **kwargs):
+    warnings.warn(
+        "oppia.signals.quizattempt_callback() is deprecated and will be removed in Oppia server 0.11.0.",
+        RemovedInOppia0110Warning, 2)
     quiz_attempt = kwargs.get('instance')
     
     # Check user doesn't own the quiz
@@ -105,6 +112,9 @@ def quizattempt_callback(sender, **kwargs):
     return
 
 def createquiz_callback(sender, **kwargs):
+    warnings.warn(
+        "oppia.signals.createquiz_callback() is deprecated and will be removed in Oppia server 0.11.0.",
+        RemovedInOppia0110Warning, 2)
     quiz = kwargs.get('instance')
     created = kwargs.get('created')
     
@@ -121,6 +131,10 @@ def createquiz_callback(sender, **kwargs):
     return
 
 def tracker_callback(sender, **kwargs):
+    warnings.warn(
+        "oppia.signals.tracker_callback() is deprecated and will be removed in Oppia server 0.11.0.",
+        RemovedInOppia0110Warning, 2)
+    
     tracker = kwargs.get('instance')
     if not apply_points(tracker.user):
         return
@@ -165,6 +179,9 @@ def tracker_callback(sender, **kwargs):
     return
 
 def course_download_callback(sender, **kwargs):
+    warnings.warn(
+        "oppia.signals.course_download_callback() is deprecated and will be removed in Oppia server 0.11.0.",
+        RemovedInOppia0110Warning, 2)
     user = kwargs.get('user')
     course = kwargs.get('course')
     if not apply_points(user):
