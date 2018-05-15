@@ -4,10 +4,12 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.dispatch import Signal
 
+from oppia.gamification.default_points import OPPIA_DEFAULT_POINTS
 from oppia.models import Points, Award, Tracker, Activity, Section, Course, Cohort
 from oppia.quiz.models import Quiz, QuizAttempt
 
 import math
+
 
 course_downloaded = Signal(providing_args=["course", "user"])
 
@@ -28,7 +30,7 @@ def signup_callback(sender, **kwargs):
 
     if created:
         p = Points()
-        p.points = settings.OPPIA_POINTS['REGISTER']
+        p.points = OPPIA_DEFAULT_POINTS['REGISTER']
         p.type = 'signup'
         p.description = "Initial registration"
         p.user = user
@@ -63,7 +65,7 @@ def quizattempt_callback(sender, **kwargs):
     if quiz_attempt.is_first_attempt():
         # If it's the first time they've attempted this quiz award points
         p = Points()
-        p.points = settings.OPPIA_POINTS['QUIZ_FIRST_ATTEMPT']
+        p.points = OPPIA_DEFAULT_POINTS['QUIZ_FIRST_ATTEMPT']
         p.type = 'firstattempt'
         p.user = quiz_attempt.user
         p.description = "Bonus points for your first attempt at: " + quiz.title
@@ -81,9 +83,9 @@ def quizattempt_callback(sender, **kwargs):
             p.save()
         
         # if you get 100% on first attempt get bonus of 50 points
-        if quiz_attempt.get_score_percent() >= settings.OPPIA_POINTS['QUIZ_FIRST_ATTEMPT_THRESHOLD']:
+        if quiz_attempt.get_score_percent() >= OPPIA_DEFAULT_POINTS['QUIZ_FIRST_ATTEMPT_THRESHOLD']:
             p = Points()
-            p.points = settings.OPPIA_POINTS['QUIZ_FIRST_ATTEMPT_BONUS']
+            p.points = OPPIA_DEFAULT_POINTS['QUIZ_FIRST_ATTEMPT_BONUS']
             p.type = 'firstattemptbonus'
             p.description = "Bonus points for getting 100% in first attempt at quiz: " + quiz.title
             p.user = quiz_attempt.user
@@ -93,7 +95,7 @@ def quizattempt_callback(sender, **kwargs):
     elif quiz_attempt.is_first_attempt_today():
         # If it's the first time today they've attempted this quiz award 10 points
         p = Points()
-        p.points = settings.OPPIA_POINTS['QUIZ_ATTEMPT']
+        p.points = OPPIA_DEFAULT_POINTS['QUIZ_ATTEMPT']
         p.type = 'quizattempt'
         p.user = quiz_attempt.user
         p.description = "Quiz attempt at: " + quiz.title
@@ -111,7 +113,7 @@ def createquiz_callback(sender, **kwargs):
     
     if created:
         p = Points()
-        p.points = settings.OPPIA_POINTS['QUIZ_CREATED']
+        p.points = OPPIA_DEFAULT_POINTS['QUIZ_CREATED']
         p.type = 'quizcreated'
         p.description = "Quiz created: " + quiz.title
         p.user = quiz.owner
@@ -136,17 +138,17 @@ def tracker_callback(sender, **kwargs):
             return
     
     type = 'activitycompleted'
-    points = settings.OPPIA_POINTS['ACTIVITY_COMPLETED']
+    points = OPPIA_DEFAULT_POINTS['ACTIVITY_COMPLETED']
     if tracker.get_activity_type() == "media":
         description =  "Media played: " + tracker.get_activity_title()
         type = 'mediaplayed'
         if tracker.is_first_tracker_today():
-            points = settings.OPPIA_POINTS['MEDIA_STARTED']
+            points = OPPIA_DEFAULT_POINTS['MEDIA_STARTED']
         else:
             points = 0
-        points += (settings.OPPIA_POINTS['MEDIA_PLAYING_POINTS_PER_INTERVAL'] * math.floor(tracker.time_taken/settings.OPPIA_POINTS['MEDIA_PLAYING_INTERVAL']))
-        if points > settings.OPPIA_POINTS['MEDIA_MAX_POINTS']:
-            points = settings.OPPIA_POINTS['MEDIA_MAX_POINTS']
+        points += (OPPIA_DEFAULT_POINTS['MEDIA_PLAYING_POINTS_PER_INTERVAL'] * math.floor(tracker.time_taken/OPPIA_DEFAULT_POINTS['MEDIA_PLAYING_INTERVAL']))
+        if points > OPPIA_DEFAULT_POINTS['MEDIA_MAX_POINTS']:
+            points = OPPIA_DEFAULT_POINTS['MEDIA_MAX_POINTS']
     else:
         description = "Activity completed: " + tracker.get_activity_title()    
        
@@ -175,7 +177,7 @@ def course_download_callback(sender, **kwargs):
         return 
     
     p = Points()
-    p.points = settings.OPPIA_POINTS['COURSE_DOWNLOADED']
+    p.points = OPPIA_DEFAULT_POINTS['COURSE_DOWNLOADED']
     p.type = 'coursedownloaded'
     p.description = "Course downloaded: " + course.get_title()
     p.user = user
