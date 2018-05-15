@@ -11,6 +11,7 @@ def modify(settings):
                                    'oppia.settings',
                                    'oppia.summary',
                                    'oppia.activitylog',
+                                   'oppia.gamification',
                                    'crispy_forms',
                                    'tastypie',
                                    'sorl.thumbnail',)
