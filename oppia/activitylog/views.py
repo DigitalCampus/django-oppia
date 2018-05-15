@@ -73,6 +73,7 @@ def upload_view(request):
                                     messages.info(request, _(u"Already uploaded: quiz attempt for %(username)s added" % {'username': user['username']}))
                                 
                     except ApiKey.DoesNotExist:
+                        messages.warning(request, _(u"%(username)s not found. Please check that this file is being uploaded to the correct server." % {'username': user['username']}),'danger')
                         print _(u"No user api key found for %s" % user['username'])
                    
                                       
