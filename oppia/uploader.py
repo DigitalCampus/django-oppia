@@ -14,6 +14,7 @@ from django.contrib import messages
 from django.utils import timezone
 from django.utils.translation import ugettext as _
 
+from oppia.gamification.models import CourseGamificationPoints, ActivityGamificationPoints, MediaGamificationPoints, QuizGamificationPoints
 from oppia.models import Course, Section, Activity, Media
 from oppia.quiz.models import Quiz, Question, QuizQuestion, Response, ResponseProps, QuestionProps, QuizProps
 
