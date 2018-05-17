@@ -23,7 +23,7 @@ v0.10.1 - not yet released
 * 460: Upload media - display sample images and allow selection of default - https://github.com/DigitalCampus/django-oppia/issues/460
 * 467: Add option to highlight if dev server - https://github.com/DigitalCampus/django-oppia/issues/467
 * 465: Activity upload - show message if user is not found - https://github.com/DigitalCampus/django-oppia/issues/issues/465
-
+* 445: Add points info from module.xml into db when course uploaded - https://github.com/DigitalCampus/django-oppia/issues/issues/445
 
 .. _serverv0.10.0:
 
