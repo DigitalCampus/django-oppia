@@ -10,58 +10,58 @@ from django.utils import timezone
 from oppia.models import Course, Activity, Media
 from oppia.quiz.models import Quiz 
 
-class CourseGamificationPoints(models.Model):
+class CourseGamificationEvent(models.Model):
     user = models.ForeignKey(User)
     course = models.ForeignKey(Course)
     created_date = models.DateTimeField('date created',default=timezone.now)
-    points_type = models.CharField(max_length=100)
+    event = models.CharField(max_length=100)
     points = models.IntegerField()
     
     class Meta:
-        verbose_name = _(u'Course Gamification Points')
-        verbose_name_plural = _(u'Course Gamification Points')
+        verbose_name = _(u'Course Gamification Event')
+        verbose_name_plural = _(u'Course Gamification Events')
         
     def __unicode__(self):
-        return self.points_type
+        return self.event
     
-class ActivityGamificationPoints(models.Model):
+class ActivityGamificationEvent(models.Model):
     user = models.ForeignKey(User)
     activity = models.ForeignKey(Activity)
     created_date = models.DateTimeField('date created',default=timezone.now)
-    points_type = models.CharField(max_length=100)
+    event = models.CharField(max_length=100)
     points = models.IntegerField()
     
     class Meta:
-        verbose_name = _(u'Activity Gamification Points')
-        verbose_name_plural = _(u'Activity Gamification Points')
+        verbose_name = _(u'Activity Gamification Event')
+        verbose_name_plural = _(u'Activity Gamification Events')
         
     def __unicode__(self):
-        return self.points_type
+        return self.event
     
-class MediaGamificationPoints(models.Model):
+class MediaGamificationEvent(models.Model):
     user = models.ForeignKey(User)
     media = models.ForeignKey(Media)
     created_date = models.DateTimeField('date created',default=timezone.now)
-    points_type = models.CharField(max_length=100)
+    event = models.CharField(max_length=100)
     points = models.IntegerField()
     
     class Meta:
-        verbose_name = _(u'Media Gamification Points')
-        verbose_name_plural = _(u'Media Gamification Points')
+        verbose_name = _(u'Media Gamification Event')
+        verbose_name_plural = _(u'Media Gamification Events')
         
     def __unicode__(self):
-        return self.points_type
+        return self.event
     
-class QuizGamificationPoints(models.Model):
+class QuizGamificationEvent(models.Model):
     user = models.ForeignKey(User)
     quiz = models.ForeignKey(Quiz)
     created_date = models.DateTimeField('date created',default=timezone.now)
-    points_type = models.CharField(max_length=100)
+    event = models.CharField(max_length=100)
     points = models.IntegerField()
     
     class Meta:
-        verbose_name = _(u'Quiz Gamification Points')
-        verbose_name_plural = _(u'Quiz Gamification Points')
+        verbose_name = _(u'Quiz Gamification Event')
+        verbose_name_plural = _(u'Quiz Gamification Events')
         
     def __unicode__(self):
-        return self.points_type
+        return self.event

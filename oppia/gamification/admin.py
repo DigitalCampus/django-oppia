@@ -3,19 +3,19 @@ from django.contrib import admin
 
 from oppia.gamification.models import *
 
-class CourseGamificationPointsAdmin(admin.ModelAdmin):
-    list_display = ('course','points_type','points')
+class CourseGamificationEventAdmin(admin.ModelAdmin):
+    list_display = ('course','event','points')
 
-class ActivityGamificationPointsAdmin(admin.ModelAdmin):
-    list_display = ('activity','points_type','points')
+class ActivityGamificationEventAdmin(admin.ModelAdmin):
+    list_display = ('activity','event','points')
     
-class MediaGamificationPointsAdmin(admin.ModelAdmin):
-    list_display = ('media','points_type','points')
+class MediaGamificationEventAdmin(admin.ModelAdmin):
+    list_display = ('media','event','points')
     
-class QuizGamificationPointsAdmin(admin.ModelAdmin):
-    list_display = ('quiz','points_type','points')   
+class QuizGamificationEventAdmin(admin.ModelAdmin):
+    list_display = ('quiz','event','points')   
    
-admin.site.register(CourseGamificationPoints, CourseGamificationPointsAdmin)  
-admin.site.register(ActivityGamificationPoints, ActivityGamificationPointsAdmin) 
-admin.site.register(MediaGamificationPoints, MediaGamificationPointsAdmin) 
-admin.site.register(QuizGamificationPoints, QuizGamificationPointsAdmin) 
+admin.site.register(CourseGamificationEvent, CourseGamificationEventAdmin)  
+admin.site.register(ActivityGamificationEvent, ActivityGamificationEventAdmin) 
+admin.site.register(MediaGamificationEvent, MediaGamificationEventAdmin) 
+admin.site.register(QuizGamificationEvent, QuizGamificationEventAdmin) 

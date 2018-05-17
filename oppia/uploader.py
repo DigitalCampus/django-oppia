@@ -14,7 +14,7 @@ from django.contrib import messages
 from django.utils import timezone
 from django.utils.translation import ugettext as _
 
-from oppia.gamification.models import CourseGamificationPoints, ActivityGamificationPoints, MediaGamificationPoints, QuizGamificationPoints
+from oppia.gamification.models import CourseGamificationEvent, ActivityGamificationEvent, MediaGamificationEvent, QuizGamificationEvent
 from oppia.models import Course, Section, Activity, Media
 from oppia.quiz.models import Quiz, Question, QuizQuestion, Response, ResponseProps, QuestionProps, QuizProps
 
@@ -58,7 +58,6 @@ def handle_uploaded_file(f, extract_path, request, user):
 def process_course(extract_path, f, mod_name, request, user):
     xml_path = os.path.join(extract_path, mod_name, "module.xml")
     # check that the module.xml file exists
-    print xml_path
     if not os.path.isfile(xml_path):
         messages.info(request, _("Zip file does not contain a module.xml file"), extra_tags="danger")
         return False, 400
@@ -105,6 +104,16 @@ def process_course(extract_path, f, mod_name, request, user):
     course.filename = f.name
     course.save()
 
+    # save gamification events
+    if 'gamification' in meta_info:
+        events = parse_gamification_events(meta_info['gamification'])
+        # remove anything existing for this course
+        CourseGamificationEvent.objects.filter(course=course).delete()
+        # add new
+        for event in events:
+            e = CourseGamificationEvent(user=user, course=course, event=event['name'], points=event['points'])
+            e.save()
+
     process_quizzes_locally = False
     if 'exportversion' in meta_info and meta_info['exportversion'] >= settings.OPPIA_EXPORT_LOCAL_MINVERSION:
         process_quizzes_locally = True
@@ -150,7 +159,7 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
             # Check if the section contains any activity (to avoid saving an empty one)
             activities = s.getElementsByTagName("activities")[:1]
             if not activities or activities[0].getElementsByTagName("activity").length == 0:
-                messages.info(req, _("Section ") + str(idx+1) + _(" does not contain any activity."))
+                messages.info(req, _("Section ") + str(idx+1) + _(" does not contain any activities."))
                 continue
 
             title = {}
@@ -169,8 +178,17 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
                     parse_and_save_activity(req, user, section, act, new_course, process_quizzes_locally)
 
 
-    # add all the media
-    for file in xml_doc.lastChild.lastChild.childNodes:
+    '''
+    This for loop is a hack around the fact that the minidom parser can add blank text elements between nodes
+    especially when the module.xml file is in 'pretty'/indented format
+    TODO: suggest looking at lxml as the xml parser instead
+    '''
+    for i in range(1,10):
+        if xml_doc.firstChild.childNodes[i].nodeName == 'media':
+            media_element = xml_doc.firstChild.childNodes[i]
+            break
+
+    for file in media_element.childNodes:
         if file.nodeName == 'file':
             media = Media()
             media.course = course
@@ -180,7 +198,7 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
 
             if len(url) > Media.URL_MAX_LENGTH:
                 print url
-                messages.info(req, _('File %(filename)s has a download URL larger than the maximum length permitted. The media file has not been registered, so it won\'t be tracled. Please, fix this issue and upload the course again.') % {'filename': media.filename})
+                messages.info(req, _('File %(filename)s has a download URL larger than the maximum length permitted. The media file has not been registered, so it won\'t be tracked. Please, fix this issue and upload the course again.') % {'filename': media.filename})
             else:
                 media.download_url = url
                 # get any optional attributes
@@ -191,8 +209,16 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
                         media.filesize = attrValue
 
                 media.save()
-
-
+                # save gamification events
+                if file.getElementsByTagName('gamification')[:1]:
+                    events = parse_gamification_events(file.getElementsByTagName('gamification')[0])
+                    # remove anything existing for this course
+                    MediaGamificationEvent.objects.filter(media=media).delete()
+                    # add new
+                    for event in events:
+                        e = MediaGamificationEvent(user=user, media=media, event=event['name'], points=event['points'])
+                        e.save()
+                    
 def parse_and_save_activity(req, user, section, act, new_course, process_quiz_locally, is_baseline=False):
     """
     Parses an Activity XML and saves it to the DB
@@ -277,15 +303,24 @@ def parse_and_save_activity(req, user, section, act, new_course, process_quiz_lo
     '''
 
     if (act_type == "quiz") and process_quiz_locally:
-        updated_json = parse_and_save_quiz(req, user, activity)
+        updated_json = parse_and_save_quiz(req, user, activity, act)
         # we need to update the JSON contents both in the XML and in the activity data
         act.getElementsByTagName("content")[0].firstChild.nodeValue = updated_json
         activity.content = updated_json
 
     activity.save()
+    
+    # save gamification events
+    if act.getElementsByTagName('gamification')[:1]:
+        events = parse_gamification_events(act.getElementsByTagName('gamification')[0])
+        # remove anything existing for this course
+        ActivityGamificationEvent.objects.filter(activity=activity).delete()
+        # add new
+        for event in events:
+            e = ActivityGamificationEvent(user=user, activity=activity, event=event['name'], points=event['points'])
+            e.save()
 
-
-def parse_and_save_quiz(req, user, activity):
+def parse_and_save_quiz(req, user, activity, actXML):
     """
     Parses an Activity XML that is a Quiz and saves it to the DB
     :parm user: the user that uploaded the course
@@ -315,20 +350,32 @@ def parse_and_save_quiz(req, user, activity):
             quiz_act = Activity.objects.get(digest=quiz_digest)
             updated_content = quiz_act.content
         except Activity.DoesNotExist:
-            updated_content = create_quiz(user, quiz_obj)
+            updated_content = create_quiz(user, quiz_obj, actXML)
     else:
-        updated_content = create_quiz(user, quiz_obj)
+        updated_content = create_quiz(user, quiz_obj, actXML)
 
     return updated_content
 
 
-def create_quiz(user, quiz_obj):
+def create_quiz(user, quiz_obj, actXML):
 
     quiz = Quiz()
     quiz.owner = user
     quiz.title = quiz_obj['title']
     quiz.description = quiz_obj['description']
     quiz.save()
+    
+    print "quiz saved"
+    # save gamification events
+    if actXML.getElementsByTagName('gamification')[:1]:
+        print actXML.getElementsByTagName('gamification')[0]
+        events = parse_gamification_events(actXML.getElementsByTagName('gamification')[0])
+        # remove anything existing for this course
+        QuizGamificationEvent.objects.filter(quiz=quiz).delete()
+        # add new
+        for event in events:
+            e = QuizGamificationEvent(user=user, quiz=quiz, event=event['name'], points=event['points'])
+            e.save()
 
     quiz_obj['id'] = quiz.pk
 
@@ -408,8 +455,19 @@ def parse_course_meta(xml_doc):
         for v in meta.getElementsByTagName("exportversion")[:1]:
             meta_info['exportversion'] = int(v.firstChild.nodeValue)
 
+        for g in meta.getElementsByTagName("gamification"):
+            meta_info['gamification'] = g
+            
     return meta_info
 
+def parse_gamification_events(element):
+    events = []
+    for e in element.getElementsByTagName("event"):
+        event_name = e.getAttribute('name')
+        points = e.firstChild.nodeValue
+        events.append({'name': event_name, 'points': points})
+    return events    
+    
 def replace_zip_contents(xml_path, xml_doc, mod_name, dest):
     fh = codecs.open(xml_path, mode="w", encoding="utf-8")
     new_xml = xml_doc.toxml("utf-8").decode('utf-8')
