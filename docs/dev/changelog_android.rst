@@ -15,7 +15,12 @@ v65 (6.5.0) - not yet released
 * 656: Protect tracker export by the admin password - https://github.com/DigitalCampus/oppia-mobile-android/issues/656
 * 657: Allow sharing of the exported tracker files - https://github.com/DigitalCampus/oppia-mobile-android/issues/657
 * 654: Add option in main menu for 'synchronise' - https://github.com/DigitalCampus/oppia-mobile-android/issues/654
-
+* 658: After install save the original course zip file - https://github.com/DigitalCampus/oppia-mobile-android/issues/658
+* 659: Synch menu - add option to show all the courses installed - https://github.com/DigitalCampus/oppia-mobile-android/issues/659
+* 660: Synch menu - add option to show all the media installed - https://github.com/DigitalCampus/oppia-mobile-android/issues/660
+* 661: In synch menu add option to 'receive' file - https://github.com/DigitalCampus/oppia-mobile-android/issues/661
+* 678: Configure with build properties if the synchronization functionalities are enabled - https://github.com/DigitalCampus/oppia-mobile-android/issues/678
+* 682: Media/Video trackers not getting saved - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/682
 
 .. _appv64:
 
