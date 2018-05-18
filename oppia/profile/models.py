@@ -7,7 +7,7 @@ from oppia.models import Participant
 
 
 class UserProfile (models.Model):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     about = models.TextField(blank=True, null=True, default=None)
     can_upload = models.BooleanField(default=False)
     job_title = models.TextField(blank=True, null=True, default=None)
