@@ -25,6 +25,8 @@ v0.10.1 - not yet released
 * 465: Activity upload - show message if user is not found - https://github.com/DigitalCampus/django-oppia/issues/issues/465
 * 445: Add points info from module.xml into db when course uploaded - https://github.com/DigitalCampus/django-oppia/issues/issues/445
 
+
+
 .. _serverv0.10.0:
 
 v0.10.0 - Released 1 Feb 2018
