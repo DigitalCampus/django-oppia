@@ -26,7 +26,8 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
     def test_post_points_included(self):
         data = {
             'digest': '18ec12e5653a40431f453cce35811fa4',
-            'points': 500
+            'points': 500,
+            'event': 'activity_completed'
         }
         tracker_count_start = Tracker.objects.all().count()
         points_count_start = Points.objects.all().count()
@@ -38,9 +39,17 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         # check the tracker record was successfully added
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start+1, tracker_count_end)
-
+        
+        # Check tracker includes the points and event data
+        latest_tracker = Tracker.objects.latest('submitted_date')
+        self.assertEqual(latest_tracker.points, 500)
+        self.assertEqual(latest_tracker.event, 'activity_completed')
+        
         # check that the points info has been added
-
+        points_count_end = Points.objects.all().count()
+        self.assertEqual(points_count_start+1, points_count_end)
+        
+        
         
         
         # check that all data is there

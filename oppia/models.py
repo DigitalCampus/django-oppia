@@ -374,6 +374,7 @@ class Tracker(models.Model):
     uuid = models.CharField(max_length=100, blank=True, null=True, default=None, db_index=True)
     lang = models.CharField(max_length=10,null=True, blank=True, default=None)
     points = models.IntegerField(blank=True, null=True, default=None)
+    event = models.CharField(max_length=50,null=True, blank=True, default=None)
     
     class Meta:
         verbose_name = _('Tracker')
