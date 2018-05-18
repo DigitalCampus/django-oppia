@@ -19,8 +19,8 @@ class UploadedMedia(models.Model):
     UPLOAD_STATUS_EXISTS = 2
     UPLOAD_STATUS_FAILURE = 0
     
-    create_user = models.ForeignKey(User, related_name='media_create_user')
-    update_user = models.ForeignKey(User, related_name='media_update_user')
+    create_user = models.ForeignKey(User, related_name='media_create_user', null=True, on_delete=models.SET_NULL)
+    update_user = models.ForeignKey(User, related_name='media_update_user', null=True, on_delete=models.SET_NULL)
     created_date = models.DateTimeField('date created',default=timezone.now)
     lastupdated_date = models.DateTimeField('date updated',default=timezone.now)
     file = models.FileField(upload_to="uploaded/%Y/%m/",blank=False)
@@ -67,7 +67,7 @@ def image_file_name(instance, filename):
        
 class UploadedMediaImage(models.Model):
     
-    create_user = models.ForeignKey(User, related_name='media_image_create_user')
+    create_user = models.ForeignKey(User, related_name='media_image_create_user', null=True, on_delete=models.SET_NULL)
     created_date = models.DateTimeField('date created',default=timezone.now)
     image = models.ImageField(upload_to=image_file_name,blank=False)
     uploaded_media = models.ForeignKey(UploadedMedia, on_delete=models.CASCADE, related_name='images')
