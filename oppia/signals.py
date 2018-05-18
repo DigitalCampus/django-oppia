@@ -131,14 +131,8 @@ def createquiz_callback(sender, **kwargs):
     return
 
 def tracker_callback(sender, **kwargs):
-    warnings.warn(
-        "oppia.signals.tracker_callback() is deprecated and will be removed in Oppia server 0.11.0.",
-        RemovedInOppia0110Warning, 2)
     
     tracker = kwargs.get('instance')
-    
-    if tracker.points is not None:
-        return 
     
     if not apply_points(tracker.user):
         return
@@ -149,13 +143,7 @@ def tracker_callback(sender, **kwargs):
     if tracker.course is not None and tracker.course.user == tracker.user and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
         return
     
-    if tracker.get_activity_type() is not "media":
-        if not tracker.is_first_tracker_today():
-            return
-        if not tracker.completed:
-            return
-    
-    type = 'activitycompleted'
+    type = 'activity_completed'
     points = OPPIA_DEFAULT_POINTS['ACTIVITY_COMPLETED']
     if tracker.get_activity_type() == "media":
         description =  "Media played: " + tracker.get_activity_title()
@@ -169,7 +157,17 @@ def tracker_callback(sender, **kwargs):
             points = OPPIA_DEFAULT_POINTS['MEDIA_MAX_POINTS']
     else:
         description = "Activity completed: " + tracker.get_activity_title()    
-       
+     
+    if tracker.points is not None:
+        points = tracker.points
+        type = tracker.event
+    else:
+        if tracker.get_activity_type() is not "media":
+            if not tracker.is_first_tracker_today():
+                return
+            if not tracker.completed:
+                return
+              
     p = Points()
     p.points = points
     p.type = type
@@ -177,8 +175,6 @@ def tracker_callback(sender, **kwargs):
     p.user = tracker.user
     p.course = tracker.course
     p.save()
-    
-    # @TODO test if tracker submitted on time
     
     return
 

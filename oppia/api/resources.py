@@ -376,26 +376,23 @@ class TrackerResource(ModelResource):
         
         try:
             json_data = json.loads(bundle.data['data'])
-            if json_data['timetaken']:
+            if 'timetaken' in json_data:
                 bundle.obj.time_taken = json_data['timetaken']
-        except:
-            pass
-        
-        try:
-            json_data = json.loads(bundle.data['data'])
-            if json_data['uuid']:
+            if 'uuid' in json_data:
                 bundle.obj.uuid = json_data['uuid']
-        except:
-            pass
-        
-        try:
-            json_data = json.loads(bundle.data['data'])
-            if json_data['lang']:
+            if 'lang' in json_data:
                 bundle.obj.lang = json_data['lang']
-        except:
+        except ValueError:
+            pass
+        except KeyError:
             pass
         
+        if 'points' in bundle.data:
+            bundle.obj.points = bundle.data['points']
         
+        if 'event' in bundle.data:
+            bundle.obj.event = bundle.data['event']
+            
         return bundle 
 
     def hydrate_tracker_date(self, bundle, request = None, **kwargs):
@@ -408,9 +405,6 @@ class TrackerResource(ModelResource):
         return bundle
 
     def dehydrate_points(self,bundle):
-        warnings.warn(
-            "oppia.api.resources.dehydrate_points() is deprecated and will be removed in Oppia server 0.11.0.",
-            RemovedInOppia0110Warning, 2)
         points = Points.get_userscore(bundle.request.user)
         return points
     
