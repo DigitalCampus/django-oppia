@@ -31,6 +31,7 @@ from oppia.models import Points, Award, Badge
 from oppia.profile.forms import RegisterForm
 from oppia.profile.models import UserProfile
 from oppia.signals import course_downloaded
+from oppia.utils.deprecation import RemovedInOppia0110Warning
 
 
 class UserResource(ModelResource):
@@ -394,6 +395,7 @@ class TrackerResource(ModelResource):
         except:
             pass
         
+        
         return bundle 
 
     def hydrate_tracker_date(self, bundle, request = None, **kwargs):
@@ -406,6 +408,9 @@ class TrackerResource(ModelResource):
         return bundle
 
     def dehydrate_points(self,bundle):
+        warnings.warn(
+            "oppia.api.resources.dehydrate_points() is deprecated and will be removed in Oppia server 0.11.0.",
+            RemovedInOppia0110Warning, 2)
         points = Points.get_userscore(bundle.request.user)
         return points
     

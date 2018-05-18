@@ -136,6 +136,10 @@ def tracker_callback(sender, **kwargs):
         RemovedInOppia0110Warning, 2)
     
     tracker = kwargs.get('instance')
+    
+    if tracker.points is not None:
+        return 
+    
     if not apply_points(tracker.user):
         return
     

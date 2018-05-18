@@ -1,4 +1,5 @@
-# TrackerResource
+# oppia/tests/api/test_tracker.py
+
 from django.contrib.auth.models import User
 from django.test import TestCase
 from tastypie.test import ResourceTestCaseMixin
@@ -52,7 +53,7 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertEqual(tracker_count_start+1, tracker_count_end)
         self.assertValidJSON(resp.content)
 
-    # test when
+    # test when digest is valid
     def test_post_digest_found(self):
         data = {
             'digest': '18ec12e5653a40431f453cce35811fa4',
@@ -61,7 +62,7 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         resp = self.api_client.post(self.url, format='json', data=data, authentication=self.get_credentials())
         self.assertHttpCreated(resp)
         self.assertValidJSON(resp.content)
-        # check the record was succesfully added
+        # check the record was successfully added
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start+1, tracker_count_end)
 
