@@ -20,6 +20,7 @@ v65 (6.5.0) - not yet released
 * 660: Synch menu - add option to show all the media installed - https://github.com/DigitalCampus/oppia-mobile-android/issues/660
 * 661: In synch menu add option to 'receive' file - https://github.com/DigitalCampus/oppia-mobile-android/issues/661
 * 678: Configure with build properties if the synchronization functionalities are enabled - https://github.com/DigitalCampus/oppia-mobile-android/issues/678
+* 682: Media/Video trackers not getting saved - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/682
 
 .. _appv64:
 
