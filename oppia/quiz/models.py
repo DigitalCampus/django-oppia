@@ -139,6 +139,8 @@ class QuizAttempt(models.Model):
     ip = models.GenericIPAddressField()
     instance_id = models.CharField(max_length=100,null=True,blank=True, default=None, db_index=True)
     agent = models.TextField(blank=True)
+    points = models.IntegerField(blank=True, null=True, default=None)
+    event = models.CharField(max_length=50,null=True, blank=True, default=None)
     
     class Meta:
         verbose_name = _('QuizAttempt')

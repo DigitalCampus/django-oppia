@@ -42,18 +42,9 @@ def signup_callback(sender, **kwargs):
     return
 
 def quizattempt_callback(sender, **kwargs):
-    warnings.warn(
-        "oppia.signals.quizattempt_callback() is deprecated and will be removed in Oppia server 0.11.0.",
-        RemovedInOppia0110Warning, 2)
     quiz_attempt = kwargs.get('instance')
     
-    # Check user doesn't own the quiz
     quiz = quiz_attempt.quiz
-    if quiz.owner == quiz_attempt.user:
-        return
-    
-    if not apply_points(quiz_attempt.user):
-        return 
     
     # find out if this quiz is part of a course
     course = None
@@ -63,12 +54,31 @@ def quizattempt_callback(sender, **kwargs):
         acts = Activity.objects.filter(digest=digest)
         for a in acts:
             course = a.section.course
-        
+            
+    if quiz_attempt.points is not None:
+        p = Points()
+        p.points = quiz_attempt.points
+        p.type = 'quiz_attempt'
+        p.user = quiz_attempt.user
+        p.description = quiz_attempt.event
+        p.course = course
+        p.save()
+        return
+    
+    # Check user doesn't own the quiz
+    if quiz.owner == quiz_attempt.user:
+        return
+    
+    if not apply_points(quiz_attempt.user):
+        return 
+     
     # find out is user is part of the cohort for this course
     if course is not None:
         if course.user == quiz_attempt.user and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
             return
-              
+     
+   
+             
     if quiz_attempt.is_first_attempt():
         # If it's the first time they've attempted this quiz award points
         p = Points()
