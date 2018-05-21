@@ -31,6 +31,7 @@ from oppia.models import Points, Award, Badge
 from oppia.profile.forms import RegisterForm
 from oppia.profile.models import UserProfile
 from oppia.signals import course_downloaded
+from oppia.utils.deprecation import RemovedInOppia0110Warning
 
 
 class UserResource(ModelResource):
@@ -375,25 +376,23 @@ class TrackerResource(ModelResource):
         
         try:
             json_data = json.loads(bundle.data['data'])
-            if json_data['timetaken']:
+            if 'timetaken' in json_data:
                 bundle.obj.time_taken = json_data['timetaken']
-        except:
-            pass
-        
-        try:
-            json_data = json.loads(bundle.data['data'])
-            if json_data['uuid']:
+            if 'uuid' in json_data:
                 bundle.obj.uuid = json_data['uuid']
-        except:
-            pass
-        
-        try:
-            json_data = json.loads(bundle.data['data'])
-            if json_data['lang']:
+            if 'lang' in json_data:
                 bundle.obj.lang = json_data['lang']
-        except:
+        except ValueError:
+            pass
+        except KeyError:
             pass
         
+        if 'points' in bundle.data:
+            bundle.obj.points = bundle.data['points']
+        
+        if 'event' in bundle.data:
+            bundle.obj.event = bundle.data['event']
+            
         return bundle 
 
     def hydrate_tracker_date(self, bundle, request = None, **kwargs):

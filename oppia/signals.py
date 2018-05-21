@@ -42,18 +42,9 @@ def signup_callback(sender, **kwargs):
     return
 
 def quizattempt_callback(sender, **kwargs):
-    warnings.warn(
-        "oppia.signals.quizattempt_callback() is deprecated and will be removed in Oppia server 0.11.0.",
-        RemovedInOppia0110Warning, 2)
     quiz_attempt = kwargs.get('instance')
     
-    # Check user doesn't own the quiz
     quiz = quiz_attempt.quiz
-    if quiz.owner == quiz_attempt.user:
-        return
-    
-    if not apply_points(quiz_attempt.user):
-        return 
     
     # find out if this quiz is part of a course
     course = None
@@ -63,12 +54,31 @@ def quizattempt_callback(sender, **kwargs):
         acts = Activity.objects.filter(digest=digest)
         for a in acts:
             course = a.section.course
-        
+            
+    if quiz_attempt.points is not None:
+        p = Points()
+        p.points = quiz_attempt.points
+        p.type = 'quiz_attempt'
+        p.user = quiz_attempt.user
+        p.description = quiz_attempt.event
+        p.course = course
+        p.save()
+        return
+    
+    # Check user doesn't own the quiz
+    if quiz.owner == quiz_attempt.user:
+        return
+    
+    if not apply_points(quiz_attempt.user):
+        return 
+     
     # find out is user is part of the cohort for this course
     if course is not None:
         if course.user == quiz_attempt.user and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
             return
-              
+     
+   
+             
     if quiz_attempt.is_first_attempt():
         # If it's the first time they've attempted this quiz award points
         p = Points()
@@ -131,11 +141,9 @@ def createquiz_callback(sender, **kwargs):
     return
 
 def tracker_callback(sender, **kwargs):
-    warnings.warn(
-        "oppia.signals.tracker_callback() is deprecated and will be removed in Oppia server 0.11.0.",
-        RemovedInOppia0110Warning, 2)
     
     tracker = kwargs.get('instance')
+    
     if not apply_points(tracker.user):
         return
     
@@ -145,13 +153,7 @@ def tracker_callback(sender, **kwargs):
     if tracker.course is not None and tracker.course.user == tracker.user and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
         return
     
-    if tracker.get_activity_type() is not "media":
-        if not tracker.is_first_tracker_today():
-            return
-        if not tracker.completed:
-            return
-    
-    type = 'activitycompleted'
+    type = 'activity_completed'
     points = OPPIA_DEFAULT_POINTS['ACTIVITY_COMPLETED']
     if tracker.get_activity_type() == "media":
         description =  "Media played: " + tracker.get_activity_title()
@@ -165,7 +167,17 @@ def tracker_callback(sender, **kwargs):
             points = OPPIA_DEFAULT_POINTS['MEDIA_MAX_POINTS']
     else:
         description = "Activity completed: " + tracker.get_activity_title()    
-       
+     
+    if tracker.points is not None:
+        points = tracker.points
+        type = tracker.event
+    else:
+        if tracker.get_activity_type() is not "media":
+            if not tracker.is_first_tracker_today():
+                return
+            if not tracker.completed:
+                return
+              
     p = Points()
     p.points = points
     p.type = type
@@ -173,8 +185,6 @@ def tracker_callback(sender, **kwargs):
     p.user = tracker.user
     p.course = tracker.course
     p.save()
-    
-    # @TODO test if tracker submitted on time
     
     return
 
