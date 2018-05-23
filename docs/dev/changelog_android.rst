@@ -21,6 +21,9 @@ v65 (6.5.0) - not yet released
 * 661: In synch menu add option to 'receive' file - https://github.com/DigitalCampus/oppia-mobile-android/issues/661
 * 678: Configure with build properties if the synchronization functionalities are enabled - https://github.com/DigitalCampus/oppia-mobile-android/issues/678
 * 682: Media/Video trackers not getting saved - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/682
+* 663: Add course props table in db and extra fields in activity/media for storing points - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/663 
+* 664: Add points awarded and event field to the tracker table - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/664
+
 
 .. _appv64:
 
