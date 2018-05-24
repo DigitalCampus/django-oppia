@@ -23,7 +23,8 @@ v65 (6.5.0) - not yet released
 * 682: Media/Video trackers not getting saved - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/682
 * 663: Add course props table in db and extra fields in activity/media for storing points - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/663 
 * 664: Add points awarded and event field to the tracker table - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/664
-
+* 696: Add points and event info to the activity download - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/696
+* 695: Check points and events are read from tracker & quizattempt xml files - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/695
 
 .. _appv64:
 
