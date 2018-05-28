@@ -25,6 +25,17 @@ v65 (6.5.0) - not yet released
 * 664: Add points awarded and event field to the tracker table - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/664
 * 696: Add points and event info to the activity download - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/696
 * 695: Check points and events are read from tracker & quizattempt xml files - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/695
+* 652: Extend admin password to cover all settings - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/652
+* 665: Move the points awarded for registration & course download into the app - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/665
+* 676: Combine the synch Export and Activity tabs - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/676
+* 686: Solve Sync activity rotation issues - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/686
+* 688: Refresh media scan after course transfers - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/688
+* 689: Don't save activity data on course backup - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/689
+* 690: Reconnect/Disconnect devices - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/690
+* 666: Use the offline points and events specified and add to the tracker info - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/666
+* 667: Send the points back with the tracker info - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/667
+* 668: Points displayed in the app should reflect those created internally by the app - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/668
+* 698: Check not doubling up on QuizAttempt and Tracker points - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/698
 
 .. _appv64:
 
