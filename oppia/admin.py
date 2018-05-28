@@ -7,7 +7,7 @@ from oppia.models import CourseCohort
 
 
 class TrackerAdmin(admin.ModelAdmin):
-    list_display = ('user', 'submitted_date', 'tracker_date', 'time_taken', 'agent', 'course','completed')
+    list_display = ('user', 'submitted_date', 'tracker_date', 'time_taken', 'event', 'points', 'course','completed')
     
 class CourseAdmin(admin.ModelAdmin):
     list_display = ('title', 'shortname', 'version', 'lastupdated_date', 'user', 'filename','is_draft','is_archived')

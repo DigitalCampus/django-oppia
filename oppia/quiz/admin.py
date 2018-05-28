@@ -5,7 +5,7 @@ from oppia.quiz.models import QuizProps, QuizQuestion, QuizAttempt, QuizAttemptR
 
 
 class QuizAttemptAdmin(admin.ModelAdmin):
-    list_display = ('user', 'quiz', 'attempt_date', 'score', 'ip', 'instance_id','agent')
+    list_display = ('user', 'quiz', 'attempt_date', 'score', 'event', 'points', 'ip', 'instance_id','agent')
     
 class QuestionPropsAdmin(admin.ModelAdmin):
     list_display = ('question', 'name', 'value')
