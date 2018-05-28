@@ -18,7 +18,7 @@ class Question(models.Model):
         ('description', 'Information only'),
         ('essay', 'Essay question'),
     )
-    owner = models.ForeignKey(User)
+    owner = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     created_date = models.DateTimeField('date created',default=timezone.now)
     lastupdated_date = models.DateTimeField('date updated',default=timezone.now)
     title = models.TextField(blank=False)  
@@ -36,8 +36,8 @@ class Question(models.Model):
         return float(props.value);
 
 class Response(models.Model):
-    owner = models.ForeignKey(User)
-    question = models.ForeignKey(Question)
+    owner = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
     created_date = models.DateTimeField('date created',default=timezone.now)
     lastupdated_date = models.DateTimeField('date updated',default=timezone.now)
     score = models.DecimalField(default=0,decimal_places=2, max_digits=6)
@@ -52,7 +52,7 @@ class Response(models.Model):
         return self.title
     
 class Quiz(models.Model):
-    owner = models.ForeignKey(User)
+    owner = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     created_date = models.DateTimeField('date created',default=timezone.now)
     lastupdated_date = models.DateTimeField('date updated',default=timezone.now)
     draft = models.BooleanField(default=False)
@@ -85,8 +85,8 @@ class Quiz(models.Model):
         return avg_score
     
 class QuizQuestion(models.Model):
-    quiz = models.ForeignKey(Quiz)
-    question = models.ForeignKey(Question)
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
     order = models.IntegerField(default=1)
     
     class Meta:
@@ -94,7 +94,7 @@ class QuizQuestion(models.Model):
         verbose_name_plural = _('QuizQuestions')
 
 class QuizProps(models.Model):
-    quiz = models.ForeignKey(Quiz)
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     value = models.TextField(blank=True)
     
@@ -106,7 +106,7 @@ class QuizProps(models.Model):
         return self.name
     
 class QuestionProps(models.Model):
-    question = models.ForeignKey(Question)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     value = models.TextField(blank=True)
     
@@ -118,7 +118,7 @@ class QuestionProps(models.Model):
         return self.name
     
 class ResponseProps(models.Model):
-    response = models.ForeignKey(Response)
+    response = models.ForeignKey(Response, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     value = models.TextField(blank=True)
     
@@ -130,7 +130,7 @@ class ResponseProps(models.Model):
         return self.name
     
 class QuizAttempt(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     quiz = models.ForeignKey(Quiz, null=True, default=None, on_delete=models.SET_NULL)
     attempt_date = models.DateTimeField('date attempted',default=timezone.now)
     submitted_date = models.DateTimeField('date submitted',default=timezone.now)
@@ -139,6 +139,8 @@ class QuizAttempt(models.Model):
     ip = models.GenericIPAddressField()
     instance_id = models.CharField(max_length=100,null=True,blank=True, default=None, db_index=True)
     agent = models.TextField(blank=True)
+    points = models.IntegerField(blank=True, null=True, default=None)
+    event = models.CharField(max_length=50,null=True, blank=True, default=None)
     
     class Meta:
         verbose_name = _('QuizAttempt')
@@ -183,8 +185,8 @@ class QuizAttempt(models.Model):
             return None
 
 class QuizAttemptResponse(models.Model):
-    quizattempt = models.ForeignKey(QuizAttempt)
-    question = models.ForeignKey(Question)
+    quizattempt = models.ForeignKey(QuizAttempt, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
     score = models.DecimalField(decimal_places=2, max_digits=6)
     text = models.TextField(blank=True)
     

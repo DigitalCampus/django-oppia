@@ -2,6 +2,13 @@ OppiaMobile Moodle Block Change Log
 =====================================
 
 
+.. _blockv2018051800:
+
+v2018051800 -  Released 18 May 2018
+-------------------------------------
+
+* 191: Add points data to the module.xml file - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/191
+
 .. _blockv2018022600:
 
 v2018022600 -  Released 26 Feb 2018

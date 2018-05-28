@@ -24,8 +24,8 @@ v0.10.1 - not yet released
 * 467: Add option to highlight if dev server - https://github.com/DigitalCampus/django-oppia/issues/467
 * 465: Activity upload - show message if user is not found - https://github.com/DigitalCampus/django-oppia/issues/issues/465
 * 445: Add points info from module.xml into db when course uploaded - https://github.com/DigitalCampus/django-oppia/issues/issues/445
-
-
+* 447: Update tracker API to use points submitted from app - https://github.com/DigitalCampus/django-oppia/issues/issues/447
+* 470: Add points and events into tracker and quiz attempt xml files - https://github.com/DigitalCampus/django-oppia/issues/issues/470
 
 .. _serverv0.10.0:
 

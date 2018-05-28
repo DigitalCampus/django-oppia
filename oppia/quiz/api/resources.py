@@ -277,7 +277,13 @@ class QuizAttemptResource(ModelResource):
                     QuizQuestion.objects.get(quiz=bundle.obj.quiz,question=response['question'])
                 except QuizQuestion.DoesNotExist:
                     raise BadRequest(_(u'This question is not part of this quiz'))
-            
+         
+        if 'points' in bundle.data:
+            bundle.obj.points = bundle.data['points']
+        
+        if 'event' in bundle.data:
+            bundle.obj.event = bundle.data['event']
+               
         return bundle
     
     def dehydrate_points(self,bundle):
