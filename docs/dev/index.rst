@@ -17,6 +17,7 @@ For installing OppiaMobile server and Moodle block please refer to:
    server/management-commands
    utilities
    code_process
+   getting-started
    testing/index
    remote_device_admin
    integration/launch_from_other_app
