@@ -38,7 +38,7 @@ suggestions for how you could contribute (in no particular order, and some may d
 * allowing login with users existing Google, Facebook, Twitter accounts
 
 Another area that we are very much interested in, but needs some research and planning is around personalised/adaptive 
-learning - so being able to tailor course content based on users existing knowledge & experience
+learning - so being able to tailor course content based on users existing knowledge & experience or responses to pre-tests.
 
 All of the above are improvements and enhancements that we've wanted to do for a long time, but any contributions (on 
 the list above or not) will help us keep OppiaMobile running and improving for its users.
