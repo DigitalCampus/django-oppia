@@ -44,9 +44,9 @@ with Django, visit http://www.gettingstartedwithdjango.com/.
 		
     * Ensure you have the following standard Django settings configured:
 	
-		* `LOGIN_REDIRECT_URL <https://docs.djangoproject.com/en/1.5/ref/settings/#login-redirect-url>`_
-		* `SERVER_EMAIL <https://docs.djangoproject.com/en/1.5/ref/settings/#login-url>`_
-		* `LOGIN_URL <https://docs.djangoproject.com/en/1.5/ref/settings/#std:setting-SERVER_EMAIL>`_
+		* `LOGIN_REDIRECT_URL <https://docs.djangoproject.com/en/1.11/ref/settings/#login-redirect-url>`_
+		* `SERVER_EMAIL <https://docs.djangoproject.com/en/1.11/ref/settings/#server-email>`_
+		* `LOGIN_URL <https://docs.djangoproject.com/en/1.11/ref/settings/#login-url>`_
 		
     * Add a new setting ``COURSE_UPLOAD_DIR``, this should a read/writable 
 	  directory by your webserver user, for example::
