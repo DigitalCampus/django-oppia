@@ -11,12 +11,21 @@ OppiaMobile Server Change Log
 v0.10.1 - not yet released
 --------------------------------
 
+Key updates:
+
+* updated version of Django, to 1.11.11 LTS
+* improvements to media uploading
+* support for points assigned offline by the app
+* code improvements and bug fixes
+
+Issue list:
+
 * 453: Upgrade to Django 1.11.11 - https://github.com/DigitalCampus/django-oppia/issues/issues/453
 * 443: Check and prevent duplicate trackers being submitted (based on UUID) - https://github.com/DigitalCampus/django-oppia/issues/443
 * 452: Check quizresponses for duplicates - https://github.com/DigitalCampus/django-oppia/issues/452
 * 442: Option to upload the downloaded tracker files - https://github.com/DigitalCampus/django-oppia/issues/442
 * 454: On media upload, error not showing if libav-tools not installed - https://github.com/DigitalCampus/django-oppia/issues/454
-* 428: UploadMedia - finding,displaying & downloading media - https://github.com/DigitalCampus/django-oppia/issues/428
+* 428: UploadMedia - finding, displaying & downloading media - https://github.com/DigitalCampus/django-oppia/issues/428
 * 426: UploadedMedia - show embed code - https://github.com/DigitalCampus/django-oppia/issues/426
 * 448: Update customisation documentation - https://github.com/DigitalCampus/django-oppia/issues/448
 * 427: UploadMedia - process to generate sample images - https://github.com/DigitalCampus/django-oppia/issues/427
@@ -26,6 +35,8 @@ v0.10.1 - not yet released
 * 445: Add points info from module.xml into db when course uploaded - https://github.com/DigitalCampus/django-oppia/issues/issues/445
 * 447: Update tracker API to use points submitted from app - https://github.com/DigitalCampus/django-oppia/issues/issues/447
 * 470: Add points and events into tracker and quiz attempt xml files - https://github.com/DigitalCampus/django-oppia/issues/issues/470
+* 472: sorl-thumbnail is listed as a requirement but not included as a project dependency on setup.py - https://github.com/DigitalCampus/django-oppia/issues/issues/472
+* 474: Broken links on documentation (installation page) - https://github.com/DigitalCampus/django-oppia/issues/issues/474
 
 .. _serverv0.10.0:
 
