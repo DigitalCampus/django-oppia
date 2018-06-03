@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 from django.core import exceptions
 from django.core.mail import send_mail
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import IntegrityError
 from django.db.models import Count, Max, Min, Avg, Q
 from django.http import HttpResponse, HttpResponseRedirect, Http404

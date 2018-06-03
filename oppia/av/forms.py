@@ -9,7 +9,7 @@ from crispy_forms.layout import Layout, Submit, Div, Row, Field
 from django import forms
 from django.conf import settings
 from django.core.files.uploadedfile import TemporaryUploadedFile, InMemoryUploadedFile
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 

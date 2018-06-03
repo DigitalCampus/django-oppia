@@ -1,6 +1,6 @@
 # oppia/reports/views.py
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db.models import Sum, Count
 from django.http.response import HttpResponse, Http404
 from django.shortcuts import render

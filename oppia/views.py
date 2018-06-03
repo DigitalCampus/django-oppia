@@ -9,7 +9,7 @@ import tablib
 from dateutil.relativedelta import relativedelta
 from django.core import exceptions
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db.models import Count, Sum
 from django.forms.formsets import formset_factory
 from django.http import HttpResponseRedirect
