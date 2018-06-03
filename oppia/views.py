@@ -45,7 +45,7 @@ def home_view(request):
     activity = []
     leaderboard = None
 
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         # create profile if none exists (historical for very old users)
         try:
             up = request.user.userprofile

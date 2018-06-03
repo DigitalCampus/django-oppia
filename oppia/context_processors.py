@@ -5,7 +5,7 @@ from oppia.models import Points, Award
 from oppia.reports.views import menu_reports
 
 def get_points(request):
-    if not request.user.is_authenticated():
+    if not request.user.is_authenticated:
         return {'points': 0, 'badges':0 }
     else:
         points = Points.get_userscore(request.user)

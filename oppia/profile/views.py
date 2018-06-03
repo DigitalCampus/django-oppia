@@ -60,7 +60,7 @@ def login_view(request):
     username = password = ''
     
     # if already logged in
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('oppia_home'))
     
     if request.POST:
