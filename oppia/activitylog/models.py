@@ -12,7 +12,7 @@ from django.utils import timezone
 
 class UploadedActivityLog(models.Model):
     
-    create_user = models.ForeignKey(User, related_name='activitylog_create_user')
+    create_user = models.ForeignKey(User, related_name='activitylog_create_user', on_delete=models.CASCADE)
     created_date = models.DateTimeField('date created',default=timezone.now)
     lastupdated_date = models.DateTimeField('date updated',default=timezone.now)
     file = models.FileField(upload_to="activitylog/%Y/%m/",blank=False)
