@@ -177,11 +177,7 @@ class CourseManager(models.Model):
 class Tag(models.Model):
     name = models.TextField(blank=False)
     created_date = models.DateTimeField('date created',default=timezone.now)
-<<<<<<< HEAD
     created_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-=======
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
->>>>>>> refs/remotes/origin/issue-468-RemovedInDjango20Warn
     courses = models.ManyToManyField(Course, through='CourseTag')
     description = models.TextField(blank=True, null=True, default=None)
     order_priority = models.IntegerField(default=0)
@@ -209,11 +205,7 @@ class Schedule(models.Model):
     default = models.BooleanField(default=False)
     created_date = models.DateTimeField('date created',default=timezone.now)
     lastupdated_date = models.DateTimeField('date updated',default=timezone.now)
-<<<<<<< HEAD
-    created_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-=======
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
->>>>>>> refs/remotes/origin/issue-468-RemovedInDjango20Warn
     
     class Meta:
         verbose_name = _('Schedule')
