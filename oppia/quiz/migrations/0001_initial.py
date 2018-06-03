@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ('lastupdated_date', models.DateTimeField(default=django.utils.timezone.now, verbose_name=b'date updated')),
                 ('title', models.TextField()),
                 ('type', models.CharField(default=b'multichoice', max_length=15, choices=[(b'multichoice', b'Multiple choice'), (b'shortanswer', b'Short answer'), (b'matching', b'Matching'), (b'numerical', b'Numerical'), (b'multiselect', b'Multiple select'), (b'description', b'Information only'), (b'essay', b'Essay question')])),
-                ('owner', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('owner', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'Question',
@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=200)),
                 ('value', models.TextField(blank=True)),
-                ('question', models.ForeignKey(to='quiz.Question')),
+                ('question', models.ForeignKey(to='quiz.Question', on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'QuestionProp',
@@ -53,7 +53,7 @@ class Migration(migrations.Migration):
                 ('deleted', models.BooleanField(default=False)),
                 ('title', models.TextField()),
                 ('description', models.TextField(blank=True)),
-                ('owner', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('owner', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'Quiz',
@@ -72,8 +72,8 @@ class Migration(migrations.Migration):
                 ('ip', models.IPAddressField()),
                 ('instance_id', models.CharField(max_length=50, null=True, blank=True)),
                 ('agent', models.TextField(blank=True)),
-                ('quiz', models.ForeignKey(to='quiz.Quiz')),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('quiz', models.ForeignKey(to='quiz.Quiz', on_delete=models.CASCADE)),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'QuizAttempt',
@@ -87,8 +87,8 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('score', models.DecimalField(max_digits=6, decimal_places=2)),
                 ('text', models.TextField(blank=True)),
-                ('question', models.ForeignKey(to='quiz.Question')),
-                ('quizattempt', models.ForeignKey(to='quiz.QuizAttempt')),
+                ('question', models.ForeignKey(to='quiz.Question', on_delete=models.CASCADE)),
+                ('quizattempt', models.ForeignKey(to='quiz.QuizAttempt', on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'QuizAttemptResponse',
@@ -102,7 +102,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=200)),
                 ('value', models.TextField(blank=True)),
-                ('quiz', models.ForeignKey(to='quiz.Quiz')),
+                ('quiz', models.ForeignKey(to='quiz.Quiz', on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'QuizProp',
@@ -115,8 +115,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('order', models.IntegerField(default=1)),
-                ('question', models.ForeignKey(to='quiz.Question')),
-                ('quiz', models.ForeignKey(to='quiz.Quiz')),
+                ('question', models.ForeignKey(to='quiz.Question', on_delete=models.CASCADE)),
+                ('quiz', models.ForeignKey(to='quiz.Quiz', on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'QuizQuestion',
@@ -133,8 +133,8 @@ class Migration(migrations.Migration):
                 ('score', models.DecimalField(default=0, max_digits=6, decimal_places=2)),
                 ('title', models.TextField()),
                 ('order', models.IntegerField(default=1)),
-                ('owner', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
-                ('question', models.ForeignKey(to='quiz.Question')),
+                ('owner', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
+                ('question', models.ForeignKey(to='quiz.Question', on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'Response',
@@ -148,7 +148,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=200)),
                 ('value', models.TextField(blank=True)),
-                ('response', models.ForeignKey(to='quiz.Response')),
+                ('response', models.ForeignKey(to='quiz.Response', on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'ResponseProp',

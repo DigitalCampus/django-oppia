@@ -66,7 +66,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('course_version', models.BigIntegerField(default=0)),
-                ('award', models.ForeignKey(to='oppia.Award')),
+                ('award', models.ForeignKey(to='oppia.Award', on_delete=models.CASCADE)),
             ],
             options={
             },
@@ -117,7 +117,7 @@ class Migration(migrations.Migration):
                 ('badge_icon', models.FileField(default=None, upload_to=b'badges', blank=True)),
                 ('is_draft', models.BooleanField(default=False)),
                 ('is_archived', models.BooleanField(default=False)),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'Course',
@@ -129,8 +129,8 @@ class Migration(migrations.Migration):
             name='CourseCohort',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('cohort', models.ForeignKey(to='oppia.Cohort')),
-                ('course', models.ForeignKey(to='oppia.Course')),
+                ('cohort', models.ForeignKey(to='oppia.Cohort', on_delete=models.CASCADE)),
+                ('course', models.ForeignKey(to='oppia.Course', on_delete=models.CASCADE)),
             ],
             options={
             },
@@ -140,8 +140,8 @@ class Migration(migrations.Migration):
             name='CourseManager',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('course', models.ForeignKey(to='oppia.Course')),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('course', models.ForeignKey(to='oppia.Course', on_delete=models.CASCADE)),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'Course Manager',
@@ -153,7 +153,7 @@ class Migration(migrations.Migration):
             name='CourseTag',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('course', models.ForeignKey(to='oppia.Course')),
+                ('course', models.ForeignKey(to='oppia.Course', on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'Course Tag',
@@ -170,7 +170,7 @@ class Migration(migrations.Migration):
                 ('download_url', models.URLField()),
                 ('filesize', models.BigIntegerField(default=None, null=True, blank=True)),
                 ('media_length', models.IntegerField(default=None, null=True, blank=True)),
-                ('course', models.ForeignKey(to='oppia.Course')),
+                ('course', models.ForeignKey(to='oppia.Course', on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'Media',
@@ -187,8 +187,8 @@ class Migration(migrations.Migration):
                 ('message', models.CharField(max_length=200)),
                 ('link', models.URLField(max_length=255)),
                 ('icon', models.CharField(max_length=200)),
-                ('author', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
-                ('course', models.ForeignKey(to='oppia.Course')),
+                ('author', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
+                ('course', models.ForeignKey(to='oppia.Course', on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'Message',
@@ -201,8 +201,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('role', models.CharField(max_length=20, choices=[(b'teacher', b'Teacher'), (b'student', b'Student')])),
-                ('cohort', models.ForeignKey(to='oppia.Cohort')),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('cohort', models.ForeignKey(to='oppia.Cohort', on_delete=models.CASCADE)),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'Participant',
@@ -219,9 +219,9 @@ class Migration(migrations.Migration):
                 ('description', models.TextField()),
                 ('data', models.TextField(blank=True)),
                 ('type', models.CharField(max_length=20, choices=[(b'signup', b'Sign up'), (b'userquizattempt', b'Quiz attempt by user'), (b'firstattempt', b'First quiz attempt'), (b'firstattemptscore', b'First attempt score'), (b'firstattemptbonus', b'Bonus for first attempt score'), (b'quizattempt', b'Quiz attempt'), (b'quizcreated', b'Created quiz'), (b'activitycompleted', b'Activity completed'), (b'mediaplayed', b'Media played'), (b'badgeawarded', b'Badge awarded'), (b'coursedownloaded', b'Course downloaded')])),
-                ('cohort', models.ForeignKey(to='oppia.Cohort', null=True)),
-                ('course', models.ForeignKey(to='oppia.Course', null=True)),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('cohort', models.ForeignKey(to='oppia.Cohort', null=True, on_delete=models.CASCADE)),
+                ('course', models.ForeignKey(to='oppia.Course', null=True, on_delete=models.CASCADE)),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'Points',
@@ -237,8 +237,8 @@ class Migration(migrations.Migration):
                 ('default', models.BooleanField(default=False)),
                 ('created_date', models.DateTimeField(default=django.utils.timezone.now, verbose_name=b'date created')),
                 ('lastupdated_date', models.DateTimeField(default=django.utils.timezone.now, verbose_name=b'date updated')),
-                ('course', models.ForeignKey(to='oppia.Course')),
-                ('created_by', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('course', models.ForeignKey(to='oppia.Course', on_delete=models.CASCADE)),
+                ('created_by', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'Schedule',
@@ -252,7 +252,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('order', models.IntegerField()),
                 ('title', models.TextField()),
-                ('course', models.ForeignKey(to='oppia.Course')),
+                ('course', models.ForeignKey(to='oppia.Course', on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'Section',
@@ -271,7 +271,7 @@ class Migration(migrations.Migration):
                 ('highlight', models.BooleanField(default=False)),
                 ('icon', models.FileField(default=None, null=True, upload_to=b'tags', blank=True)),
                 ('courses', models.ManyToManyField(to=b'oppia.Course', through='oppia.CourseTag')),
-                ('created_by', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('created_by', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'Tag',
@@ -296,8 +296,8 @@ class Migration(migrations.Migration):
                 ('section_title', models.TextField(default=None, null=True, blank=True)),
                 ('uuid', models.TextField(default=None, null=True, blank=True)),
                 ('lang', models.CharField(default=None, max_length=10, null=True, blank=True)),
-                ('course', models.ForeignKey(default=None, blank=True, to='oppia.Course', null=True)),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('course', models.ForeignKey(default=None, blank=True, to='oppia.Course', null=True, on_delete=models.CASCADE)),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'Tracker',
@@ -314,7 +314,7 @@ class Migration(migrations.Migration):
                 ('job_title', models.TextField(default=None, null=True, blank=True)),
                 ('organisation', models.TextField(default=None, null=True, blank=True)),
                 ('phone_number', models.TextField(default=None, null=True, blank=True)),
-                ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL)),
+                ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
             options={
             },
@@ -323,49 +323,49 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='coursetag',
             name='tag',
-            field=models.ForeignKey(to='oppia.Tag'),
+            field=models.ForeignKey(to='oppia.Tag', on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='cohort',
             name='course',
-            field=models.ForeignKey(blank=True, to='oppia.Course', null=True),
+            field=models.ForeignKey(blank=True, to='oppia.Course', null=True, on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='cohort',
             name='schedule',
-            field=models.ForeignKey(default=None, blank=True, to='oppia.Schedule', null=True),
+            field=models.ForeignKey(default=None, blank=True, to='oppia.Schedule', null=True, on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='awardcourse',
             name='course',
-            field=models.ForeignKey(to='oppia.Course'),
+            field=models.ForeignKey(to='oppia.Course', on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='award',
             name='badge',
-            field=models.ForeignKey(to='oppia.Badge'),
+            field=models.ForeignKey(to='oppia.Badge', on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='award',
             name='user',
-            field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='activityschedule',
             name='schedule',
-            field=models.ForeignKey(to='oppia.Schedule'),
+            field=models.ForeignKey(to='oppia.Schedule', on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='activity',
             name='section',
-            field=models.ForeignKey(to='oppia.Section'),
+            field=models.ForeignKey(to='oppia.Section', on_delete=models.CASCADE),
             preserve_default=True,
         ),
     ]
