@@ -19,7 +19,7 @@ from xml.dom.minidom import *
 models.signals.post_save.connect(create_api_key, sender=User)
     
 class Course(models.Model):
-    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_date = models.DateTimeField('date created',default=timezone.now)
     lastupdated_date = models.DateTimeField('date updated',default=timezone.now)
     version = models.BigIntegerField()
@@ -167,8 +167,8 @@ class Course(models.Model):
         
  
 class CourseManager(models.Model):
-    course = models.ForeignKey(Course)
-    user = models.ForeignKey(User)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     
     class Meta:
         verbose_name = _('Course Manager')
@@ -177,7 +177,11 @@ class CourseManager(models.Model):
 class Tag(models.Model):
     name = models.TextField(blank=False)
     created_date = models.DateTimeField('date created',default=timezone.now)
+<<<<<<< HEAD
     created_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+=======
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+>>>>>>> refs/remotes/origin/issue-468-RemovedInDjango20Warn
     courses = models.ManyToManyField(Course, through='CourseTag')
     description = models.TextField(blank=True, null=True, default=None)
     order_priority = models.IntegerField(default=0)
@@ -205,7 +209,11 @@ class Schedule(models.Model):
     default = models.BooleanField(default=False)
     created_date = models.DateTimeField('date created',default=timezone.now)
     lastupdated_date = models.DateTimeField('date updated',default=timezone.now)
+<<<<<<< HEAD
     created_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+=======
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+>>>>>>> refs/remotes/origin/issue-468-RemovedInDjango20Warn
     
     class Meta:
         verbose_name = _('Schedule')

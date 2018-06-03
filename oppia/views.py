@@ -9,7 +9,7 @@ import tablib
 from dateutil.relativedelta import relativedelta
 from django.core import exceptions
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db.models import Count, Sum
 from django.forms.formsets import formset_factory
 from django.http import HttpResponseRedirect
@@ -45,7 +45,7 @@ def home_view(request):
     activity = []
     leaderboard = None
 
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         # create profile if none exists (historical for very old users)
         try:
             up = request.user.userprofile

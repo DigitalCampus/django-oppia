@@ -11,8 +11,8 @@ from oppia.models import Course, Activity, Media
 from oppia.quiz.models import Quiz 
 
 class CourseGamificationEvent(models.Model):
-    user = models.ForeignKey(User)
-    course = models.ForeignKey(Course)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     created_date = models.DateTimeField('date created',default=timezone.now)
     event = models.CharField(max_length=100)
     points = models.IntegerField()
@@ -25,8 +25,8 @@ class CourseGamificationEvent(models.Model):
         return self.event
     
 class ActivityGamificationEvent(models.Model):
-    user = models.ForeignKey(User)
-    activity = models.ForeignKey(Activity)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
     created_date = models.DateTimeField('date created',default=timezone.now)
     event = models.CharField(max_length=100)
     points = models.IntegerField()
@@ -39,8 +39,8 @@ class ActivityGamificationEvent(models.Model):
         return self.event
     
 class MediaGamificationEvent(models.Model):
-    user = models.ForeignKey(User)
-    media = models.ForeignKey(Media)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    media = models.ForeignKey(Media, on_delete=models.CASCADE)
     created_date = models.DateTimeField('date created',default=timezone.now)
     event = models.CharField(max_length=100)
     points = models.IntegerField()
@@ -53,8 +53,8 @@ class MediaGamificationEvent(models.Model):
         return self.event
     
 class QuizGamificationEvent(models.Model):
-    user = models.ForeignKey(User)
-    quiz = models.ForeignKey(Quiz)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     created_date = models.DateTimeField('date created',default=timezone.now)
     event = models.CharField(max_length=100)
     points = models.IntegerField()
@@ -65,3 +65,4 @@ class QuizGamificationEvent(models.Model):
         
     def __unicode__(self):
         return self.event
+    

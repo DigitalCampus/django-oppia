@@ -10,8 +10,8 @@ from oppia.models import Course, Tracker, Points
 
 
 class UserCourseSummary (models.Model):
-    user   = models.ForeignKey(User, blank=False, null=False)
-    course = models.ForeignKey(Course, blank=False, null=False)
+    user   = models.ForeignKey(User, blank=False, null=False, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, blank=False, null=False, on_delete=models.CASCADE)
 
     points = models.IntegerField(blank=False, null=False, default=0)
     total_downloads = models.IntegerField(blank=False, null=False, default=0)
@@ -70,7 +70,7 @@ class UserCourseSummary (models.Model):
 
 
 class CourseDailyStats (models.Model):
-    course = models.ForeignKey(Course, blank=True, null=True, default=None)
+    course = models.ForeignKey(Course, blank=True, null=True, default=None, on_delete=models.CASCADE)
     day = models.DateField(blank=False, null=False)
     type = models.CharField(max_length=10,null=True, blank=True, default=None)
     total = models.IntegerField(blank=False, null=False, default=0)
@@ -99,7 +99,7 @@ class CourseDailyStats (models.Model):
 
 
 class UserPointsSummary(models.Model):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     points = models.IntegerField(blank=False, null=False, default=0)
     badges = models.IntegerField(blank=False, null=False, default=0)
 

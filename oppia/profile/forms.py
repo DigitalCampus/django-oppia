@@ -8,7 +8,7 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth import (authenticate)
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.core.validators import validate_email
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
