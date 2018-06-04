@@ -177,47 +177,42 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
                 for act in activities.getElementsByTagName("activity"):
                     parse_and_save_activity(req, user, section, act, new_course, process_quizzes_locally)
 
+    media_element_list = [node for node in xml_doc.firstChild.childNodes if node.nodeName == 'media']
+    media_element = None
+    if len(media_element_list) > 0:
+        media_element = media_element_list[0]
 
-    '''
-    This for loop is a hack around the fact that the minidom parser can add blank text elements between nodes
-    especially when the module.xml file is in 'pretty'/indented format
-    TODO: suggest looking at lxml as the xml parser instead
-    '''
-    for i in range(1,10):
-        if xml_doc.firstChild.childNodes[i].nodeName == 'media':
-            media_element = xml_doc.firstChild.childNodes[i]
-            break
+    if media_element is not None:
+        for file_element in media_element.childNodes:
+            if file_element.nodeName == 'file':
+                media = Media()
+                media.course = course
+                media.filename = file_element.getAttribute("filename")
+                url = file_element.getAttribute("download_url")
+                media.digest = file_element.getAttribute("digest")
 
-    for file in media_element.childNodes:
-        if file.nodeName == 'file':
-            media = Media()
-            media.course = course
-            media.filename = file.getAttribute("filename")
-            url = file.getAttribute("download_url")
-            media.digest = file.getAttribute("digest")
+                if len(url) > Media.URL_MAX_LENGTH:
+                    print url
+                    messages.info(req, _('File %(filename)s has a download URL larger than the maximum length permitted. The media file has not been registered, so it won\'t be tracked. Please, fix this issue and upload the course again.') % {'filename': media.filename})
+                else:
+                    media.download_url = url
+                    # get any optional attributes
+                    for attrName, attrValue in file_element.attributes.items():
+                        if attrName == "length":
+                            media.media_length = attrValue
+                        if attrName == "filesize":
+                            media.filesize = attrValue
 
-            if len(url) > Media.URL_MAX_LENGTH:
-                print url
-                messages.info(req, _('File %(filename)s has a download URL larger than the maximum length permitted. The media file has not been registered, so it won\'t be tracked. Please, fix this issue and upload the course again.') % {'filename': media.filename})
-            else:
-                media.download_url = url
-                # get any optional attributes
-                for attrName, attrValue in file.attributes.items():
-                    if attrName == "length":
-                        media.media_length = attrValue
-                    if attrName == "filesize":
-                        media.filesize = attrValue
-
-                media.save()
-                # save gamification events
-                if file.getElementsByTagName('gamification')[:1]:
-                    events = parse_gamification_events(file.getElementsByTagName('gamification')[0])
-                    # remove anything existing for this course
-                    MediaGamificationEvent.objects.filter(media=media).delete()
-                    # add new
-                    for event in events:
-                        e = MediaGamificationEvent(user=user, media=media, event=event['name'], points=event['points'])
-                        e.save()
+                    media.save()
+                    # save gamification events
+                    if file_element.getElementsByTagName('gamification')[:1]:
+                        events = parse_gamification_events(file_element.getElementsByTagName('gamification')[0])
+                        # remove anything existing for this course
+                        MediaGamificationEvent.objects.filter(media=media).delete()
+                        # add new
+                        for event in events:
+                            e = MediaGamificationEvent(user=user, media=media, event=event['name'], points=event['points'])
+                            e.save()
                     
 def parse_and_save_activity(req, user, section, act, new_course, process_quiz_locally, is_baseline=False):
     """
