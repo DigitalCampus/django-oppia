@@ -37,6 +37,7 @@ Issue list:
 * 470: Add points and events into tracker and quiz attempt xml files - https://github.com/DigitalCampus/django-oppia/issues/issues/470
 * 472: sorl-thumbnail is listed as a requirement but not included as a project dependency on setup.py - https://github.com/DigitalCampus/django-oppia/issues/issues/472
 * 474: Broken links on documentation (installation page) - https://github.com/DigitalCampus/django-oppia/issues/issues/474
+* 478: Search for <media> element can fail when importing course - https://github.com/DigitalCampus/django-oppia/issues/issues/478
 
 .. _serverv0.10.0:
 
