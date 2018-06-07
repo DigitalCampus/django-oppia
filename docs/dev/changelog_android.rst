@@ -11,6 +11,7 @@ Key updates:
 
 * Option to send/receive course and media files between devices using bluetooth
 * Gamification working offline in the app
+* Code improvements and bug fixes
 
 Issue list:
 
@@ -42,6 +43,9 @@ Issue list:
 * 668: Points displayed in the app should reflect those created internally by the app - https://github.com/DigitalCampus/oppia-mobile-android/issues/668
 * 698: Check not doubling up on QuizAttempt and Tracker points - https://github.com/DigitalCampus/oppia-mobile-android/issues/698
 * 694: Change PointsFragment & PointsListAdapter to use local points - https://github.com/DigitalCampus/oppia-mobile-android/issues/694
+* 701: Course reset not functioning anymore - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/701
+* 705: Video player freezes when screen goes into sleep mode - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/705
+* 715: On update activity getting user not found error - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/715
 
 .. _appv64:
 
