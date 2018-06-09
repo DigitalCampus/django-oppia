@@ -1334,7 +1334,7 @@ function Quiz(){
 						}
 					}
 					// loop through results and update rank & sent status
-					cache = mQ.store.get('results');
+					var cache = mQ.store.get('results');
 					mQ.store.clearKey('results');
 					content.sent = true;
 					for (var c in cache){
