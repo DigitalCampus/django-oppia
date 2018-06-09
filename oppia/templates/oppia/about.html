@@ -15,7 +15,7 @@
 {% endblocktrans %}
 
 <h3>{% trans 'Video demo' %}</h3>
-<iframe width="400" height="315" src="http://www.youtube.com/embed/wHo5R_RgkG0?html5=1" frameborder="0" allowfullscreen></iframe>
+<iframe width="400" height="315" style="border: 0px;" src="http://www.youtube.com/embed/wHo5R_RgkG0?html5=1" allowfullscreen></iframe>
 
 <h3>{% trans 'Acknowledgements' %}</h3>
 {% static "oppia/images/UK-AID-Standard-RGB.jpg" as ukaid_logo%}
@@ -41,7 +41,7 @@
 	
 {% endblocktrans %}
 
-<a name="terms"></a>
+<a id="terms"></a>
 <h3>{% trans 'Terms and License' %}</h3>
 {% blocktrans with settings.SERVER_EMAIL as email %}
 <p>OppiaMobile is a work in progress and is provided as-is. Not everything may work 100%, so if you find anything wrong, then <a href="mailto:{{ email }}">please let us know</a>.</p>
