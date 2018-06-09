@@ -54,12 +54,12 @@ class UploadedMedia(models.Model):
 @receiver(post_delete, sender=UploadedMedia)
 def uploaded_media_delete_file(sender, instance, **kwargs):
     file_to_delete =  os.path.join(settings.MEDIA_ROOT, instance.file.name)
-    print "deleting ...." + file_to_delete
+    print("deleting ...." + file_to_delete)
     try:
         os.remove(file_to_delete)
-        print "File removed"
+        print("File removed")
     except OSError:
-        print "Error deleting media"
+        print("Error deleting media")
  
 def image_file_name(instance, filename):
     return os.path.join('uploaded/images', filename[0:2], filename[2:4], filename) 
@@ -83,11 +83,11 @@ class UploadedMediaImage(models.Model):
 @receiver(post_delete, sender=UploadedMediaImage)
 def uploaded_media_image_delete_file(sender, instance, **kwargs):
     image_to_delete =  os.path.join(settings.MEDIA_ROOT, instance.image.name)
-    print "deleting ...." + image_to_delete
+    print("deleting ...." + image_to_delete)
     try:
         os.remove(image_to_delete)
-        print "Image removed"
+        print("Image removed")
     except OSError:
-        print "Error deleting image"
+        print("Error deleting image")
     
        

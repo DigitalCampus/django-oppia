@@ -26,7 +26,7 @@ def run():
             cached = UserLocationVisualization.objects.get(ip=t['ip'])
             cached.hits = t['count_hits']
             cached.save()
-            print "hits updated"
+            print("hits updated")
         except UserLocationVisualization.DoesNotExist:
             update_via_freegeoip(t)
 
@@ -35,25 +35,25 @@ def update_via_freegeoip(t):
     from oppia.viz.models import UserLocationVisualization
     
     url = 'https://freegeoip.net/json/%s' % (t['ip'])
-    print t['ip'] + " : "+ url
+    print(t['ip'] + " : "+ url)
     try:
         u = urllib2.urlopen(urllib2.Request(url), timeout=10)
         data = u.read()  
-        dataJSON = json.loads(data,"utf-8")
-        print dataJSON
+        data_json = json.loads(data,"utf-8")
+        print(data_json)
     except:
         return
     
-    if dataJSON['latitude'] != 0 and dataJSON['longitude'] != 0:
+    if data_json['latitude'] != 0 and data_json['longitude'] != 0:
         viz = UserLocationVisualization()
         viz.ip = t['ip']
-        viz.lat = dataJSON['latitude']
-        viz.lng = dataJSON['longitude']
+        viz.lat = data_json['latitude']
+        viz.lng = data_json['longitude']
         viz.hits = t['count_hits']
-        viz.region = dataJSON['city'] + " " + dataJSON['region_name'] 
-        viz.country_code = dataJSON['country_code']
-        viz.country_name = dataJSON['country_name']
-        viz.geonames_data = dataJSON
+        viz.region = data_json['city'] + " " + data_json['region_name'] 
+        viz.country_code = data_json['country_code']
+        viz.country_name = data_json['country_name']
+        viz.geonames_data = data_json
         viz.save()
 
     time.sleep(1) 

@@ -18,7 +18,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from oppia.models import Tracker
 
-class bcolors:
+class BColors:
     HEADER = '\033[95m'
     OK = '\033[92m'
     WARNING = '\033[91m'
@@ -38,7 +38,7 @@ class Command(BaseCommand):
         Remove page/media/quiz trackers with no UUID
         """
         result = Tracker.objects.filter(Q(type='page') | Q(type='quiz')| Q(type='media'), uuid=None).delete()
-        print _(u"\n\n%d trackers removed that had no UUID\n" % result[0])   
+        print(_(u"\n\n%d trackers removed that had no UUID\n" % result[0]))   
         
         """
         Remove proper duplicate trackers - using min id
@@ -46,17 +46,17 @@ class Command(BaseCommand):
         trackers = Tracker.objects.filter(Q(type='page') | Q(type='quiz')| Q(type='media')).values('uuid').annotate(dcount=Count('uuid')).filter(dcount__gte=2)
         
         for index, tracker in enumerate(trackers):
-            print "%d/%d" % (index, trackers.count()) 
+            print("%d/%d" % (index, trackers.count())) 
             exclude = Tracker.objects.filter(uuid=tracker['uuid']).aggregate(min_id=Min('id'))
             deleted = Tracker.objects.filter(uuid=tracker['uuid']).exclude(id=exclude['min_id']).delete()
-            print _(u"%d duplicate tracker(s) removed for UUID %s based on min id" % (deleted[0], tracker['uuid'])) 
+            print(_(u"%d duplicate tracker(s) removed for UUID %s based on min id" % (deleted[0], tracker['uuid']))) 
           
             
         """
         Remember to run summary cron from start
         """
         if result[0] + trackers.count() > 0:
-            print  _(u"Since duplicates have been found and removed, you should now run `update_summaries` to ensure the dashboard graphs are accurate.")
+            print(_(u"Since duplicates have been found and removed, you should now run `update_summaries` to ensure the dashboard graphs are accurate."))
             accept = raw_input(_(u"Would you like to run `update_summaries` now? [Yes/No]"))
             if accept == 'y' :
                 call_command('update_summaries',fromstart=True)

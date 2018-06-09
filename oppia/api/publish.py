@@ -27,27 +27,27 @@ def publish_view(request):
 
     required = ['username','password','tags','is_draft']
 
-    validationErrors = []
+    validation_errors = []
 
     for field in required:
         if field not in request.POST:
-            print field + " not found"
+            print(field + " not found")
             validationErrors.append("field '{0}' missing".format(field))
 
 
     if COURSE_FILE_FIELD not in request.FILES:
-        print "Course file not found"
-        validationErrors.append("file '{0}' missing".format(COURSE_FILE_FIELD))
+        print("Course file not found")
+        validation_errors.append("file '{0}' missing".format(COURSE_FILE_FIELD))
     else:
         # check the file size of the course doesnt exceed the max
         file = request.FILES[COURSE_FILE_FIELD]
         max_upload = SettingProperties.get_int(constants.MAX_UPLOAD_SIZE, settings.OPPIA_MAX_UPLOAD_SIZE)
         if file is not None and file._size > max_upload:
             size = int(math.floor(max_upload / 1024 / 1024))
-            validationErrors.append((_("Your file is larger than the maximum allowed (%(size)d Mb). You may want to check your course for large includes, such as images etc.") % {'size':size, }))
+            validation_errors.append((_("Your file is larger than the maximum allowed (%(size)d Mb). You may want to check your course for large includes, such as images etc.") % {'size':size, }))
 
         if file is not None and file.content_type != 'application/zip' and file.content_type != 'application/x-zip-compressed':
-            validationErrors.append(_("You may only upload a zip file"))
+            validation_errors.append(_("You may only upload a zip file"))
 
     if validationErrors:
         return JsonResponse({ 'errors' : validationErrors }, status=400, )
@@ -120,12 +120,12 @@ def validate_fields(request):
 
     for r in required:
         if r not in request.POST:
-            print r + " not found"
+            print(r + " not found")
             messages.error(request, _("required field '%s' not found") % r)
             is_valid = False
 
     if 'course_file' not in request.FILES:
-        print "Course file not found"
+        print("Course file not found")
         messages.error(request, _("Course file not found"))
         is_valid = False
     else:

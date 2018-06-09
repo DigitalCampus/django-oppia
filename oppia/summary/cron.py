@@ -1,11 +1,7 @@
 # Interpreter deliberately excluded here - set it in your cron shell script.
-# /usr/bin/env python
-
 import time
 
 from datetime import date
-
-
 
 def update_summaries(last_tracker_pk=0, last_points_pk=0):
 
@@ -16,14 +12,13 @@ def update_summaries(last_tracker_pk=0, last_points_pk=0):
     from oppia.settings.models import SettingProperties
     from oppia.summary.models import UserCourseSummary, CourseDailyStats, UserPointsSummary
     
-    start = time.time()
     # get last tracker and points PKs to be processed
     # (to avoid leaving some out if new trackers arrive while processing)
     try:
         newest_tracker_pk = Tracker.objects.latest('id').id
         newest_points_pk = Points.objects.latest('id').id
     except Tracker.DoesNotExist:
-        print "Tracker table is empty. Aborting cron..."
+        print("Tracker table is empty. Aborting cron...")
         return
     except Points.DoesNotExist:
         newest_points_pk = last_points_pk
@@ -44,28 +39,28 @@ def update_summaries(last_tracker_pk=0, last_points_pk=0):
         UserPointsSummary.objects.all().delete()
 
     # get different (distinct) user/courses involved
-    userCourses = Tracker.objects \
+    user_courses = Tracker.objects \
         .filter(pk__gt=last_tracker_pk, pk__lte=newest_tracker_pk) \
         .exclude(course__isnull=True) \
         .values('course', 'user').distinct()
 
-    totalUsers = userCourses.count()
-    print ('%d different user/courses to process.' % totalUsers)
+    total_users = user_courses.count()
+    print('%d different user/courses to process.' % total_users)
 
     count = 1
-    for ucTracker in userCourses:
-        print ('processing user/course trackers... (%d/%d)' % (count, totalUsers))
-        print ucTracker
-        user = User.objects.get(pk=ucTracker['user'])
-        course = Course.objects.get(pk=ucTracker['course'])
-        userCourse, created = UserCourseSummary.objects.get_or_create(course=course, user=user)
-        userCourse.update_summary(
+    for uc_tracker in user_courses:
+        print('processing user/course trackers... (%d/%d)' % (count, total_users))
+        print(ucTracker)
+        user = User.objects.get(pk=uc_tracker['user'])
+        course = Course.objects.get(pk=uc_tracker['course'])
+        user_course, created = UserCourseSummary.objects.get_or_create(course=course, user=user)
+        user_course.update_summary(
             last_tracker_pk=last_tracker_pk, last_points_pk=last_points_pk,
             newest_tracker_pk=newest_tracker_pk, newest_points_pk=newest_points_pk)
         count += 1
 
     # get different (distinct) courses/dates involved
-    courseDailyTypeLogs = Tracker.objects \
+    course_daily_type_logs = Tracker.objects \
         .filter(pk__gt=last_tracker_pk, pk__lte=newest_tracker_pk) \
         .exclude(course__isnull=True) \
         .extra({'day': "day(tracker_date)", 'month': "month(tracker_date)", 'year': "year(tracker_date)"}) \
@@ -73,43 +68,43 @@ def update_summaries(last_tracker_pk=0, last_points_pk=0):
         .annotate(total=Count('type')) \
         .order_by('day')
 
-    totalLogs = courseDailyTypeLogs.count()
-    print ('%d different courses/dates/types to process.' % totalLogs)
+    total_logs = course_daily_type_logs.count()
+    print('%d different courses/dates/types to process.' % total_logs)
     count = 0
-    for typeLog in courseDailyTypeLogs:
-        day = date(typeLog['year'], typeLog['month'], typeLog['day'])
-        course = Course.objects.get(pk=typeLog['course'])
-        stats, created = CourseDailyStats.objects.get_or_create(course=course, day=day, type=typeLog['type'])
-        stats.total = (0 if first_tracker else stats.total) + typeLog['total']
+    for type_log in course_daily_type_logs:
+        day = date(type_log['year'], type_log['month'], type_log['day'])
+        course = Course.objects.get(pk=type_log['course'])
+        stats, created = CourseDailyStats.objects.get_or_create(course=course, day=day, type=type_log['type'])
+        stats.total = (0 if first_tracker else stats.total) + type_log['total']
         stats.save()
 
         count += 1
-        print count
+        print(count)
 
     # get different (distinct) search logs involved
-    searchDailyLogs = Tracker.objects \
+    search_daily_logs = Tracker.objects \
         .filter(pk__gt=last_tracker_pk, pk__lte=newest_tracker_pk, user__is_staff=False, type='search') \
         .extra({'day': "day(tracker_date)", 'month': "month(tracker_date)", 'year': "year(tracker_date)"}) \
         .values('day', 'month', 'year') \
         .annotate(total=Count('id')) \
         .order_by('day')
 
-    print ('%d different search/dates to process.' % searchDailyLogs.count())
-    for searchLog in searchDailyLogs:
-        day = date(searchLog['year'], searchLog['month'], searchLog['day'])
+    print('%d different search/dates to process.' % search_daily_logs.count())
+    for search_log in search_daily_logs:
+        day = date(search_log['year'], search_log['month'], search_log['day'])
         stats, created = CourseDailyStats.objects.get_or_create(course=None, day=day, type='search')
-        stats.total = (0 if first_tracker else stats.total) + searchLog['total']
+        stats.total = (0 if first_tracker else stats.total) + search_log['total']
         stats.save()
 
     # get different (distinct) user/points involved
-    usersPoints = Points.objects \
+    users_points = Points.objects \
         .filter(pk__gt=last_points_pk, pk__lte=newest_points_pk) \
         .values('user').distinct()
 
-    totalUsers = usersPoints.count()
-    print ('%d different user/points to process.' % totalUsers)
-    for userPoints in usersPoints:
-        user = User.objects.get(pk=userPoints['user'])
+    total_users = users_points.count()
+    print('%d different user/points to process.' % total_users)
+    for user_points in users_points:
+        user = User.objects.get(pk=user_points['user'])
         points, created = UserPointsSummary.objects.get_or_create(user=user)
         points.update_points(last_points_pk=last_points_pk, newest_points_pk=newest_points_pk)
 
@@ -119,7 +114,7 @@ def update_summaries(last_tracker_pk=0, last_points_pk=0):
 
 
 def run():
-    print 'Starting Oppia Summary cron...'
+    print('Starting Oppia Summary cron...')
     start = time.time()
 
     from oppia.settings.models import SettingProperties
@@ -131,7 +126,7 @@ def run():
     update_summaries(last_tracker_pk, last_points_pk)
 
     elapsed_time = time.time() - start
-    print ('cron completed, took %.2f seconds' % elapsed_time)
+    print('cron completed, took %.2f seconds' % elapsed_time)
 
 if __name__ == "__main__":
     import django

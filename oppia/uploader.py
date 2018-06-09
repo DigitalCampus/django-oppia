@@ -34,7 +34,7 @@ def handle_uploaded_file(f, extract_path, request, user):
         return False, 500
 
     mod_name = ''
-    print os.listdir(extract_path)
+    print(os.listdir(extract_path))
     for dir in os.listdir(extract_path)[:1]:
         mod_name = dir
 
@@ -117,7 +117,7 @@ def process_course(extract_path, f, mod_name, request, user):
     process_quizzes_locally = False
     if 'exportversion' in meta_info and meta_info['exportversion'] >= settings.OPPIA_EXPORT_LOCAL_MINVERSION:
         process_quizzes_locally = True
-        print 'processing course\'s quizzes locally'
+        print('processing course\'s quizzes locally')
 
     parse_course_contents(request, doc, course, user, new_course, process_quizzes_locally)
     clean_old_course(request, oldsections, old_course_filename, course)
@@ -192,16 +192,16 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
                 media.digest = file_element.getAttribute("digest")
 
                 if len(url) > Media.URL_MAX_LENGTH:
-                    print url
+                    print(url)
                     messages.info(req, _('File %(filename)s has a download URL larger than the maximum length permitted. The media file has not been registered, so it won\'t be tracked. Please, fix this issue and upload the course again.') % {'filename': media.filename})
                 else:
                     media.download_url = url
                     # get any optional attributes
-                    for attrName, attrValue in file_element.attributes.items():
-                        if attrName == "length":
-                            media.media_length = attrValue
-                        if attrName == "filesize":
-                            media.filesize = attrValue
+                    for attr_name, attr_value in file_element.attributes.items():
+                        if attr_name == "length":
+                            media.media_length = attr_value
+                        if attr_name == "filesize":
+                            media.filesize = attr_value
 
                     media.save()
                     # save gamification events
@@ -237,10 +237,7 @@ def parse_and_save_activity(req, user, section, act, new_course, process_quiz_lo
             if t.firstChild and t.getAttribute('lang'):
                 temp_content[t.getAttribute('lang')] = t.firstChild.nodeValue
         content = json.dumps(temp_content)
-    elif act_type == "quiz":
-        for c in act.getElementsByTagName("content"):
-            content = c.firstChild.nodeValue
-    elif act_type == "feedback":
+    elif act_type == "quiz" or act_type=="feedback":
         for c in act.getElementsByTagName("content"):
             content = c.firstChild.nodeValue
     elif act_type == "resource":
@@ -287,10 +284,8 @@ def parse_and_save_activity(req, user, section, act, new_course, process_quiz_lo
     activity.content = content
     activity.description = description
 
-    if not existed:
-        # Only show the message if the course existed previously
-        if not new_course:
-            messages.warning(req, _('Activity "%(act)s"(%(digest)s) did not exist previously.') % {'act': activity, 'digest':activity.digest})
+    if not existed and not new_course:
+        messages.warning(req, _('Activity "%(act)s"(%(digest)s) did not exist previously.') % {'act': activity, 'digest':activity.digest})
     '''
     If we also want to show the activities that previously existed, uncomment this block
     else:
@@ -315,7 +310,7 @@ def parse_and_save_activity(req, user, section, act, new_course, process_quiz_lo
             e = ActivityGamificationEvent(user=user, activity=activity, event=event['name'], points=event['points'])
             e.save()
 
-def parse_and_save_quiz(req, user, activity, actXML):
+def parse_and_save_quiz(req, user, activity, act_xml):
     """
     Parses an Activity XML that is a Quiz and saves it to the DB
     :parm user: the user that uploaded the course
@@ -345,14 +340,14 @@ def parse_and_save_quiz(req, user, activity, actXML):
             quiz_act = Activity.objects.get(digest=quiz_digest)
             updated_content = quiz_act.content
         except Activity.DoesNotExist:
-            updated_content = create_quiz(user, quiz_obj, actXML)
+            updated_content = create_quiz(user, quiz_obj, act_xml)
     else:
-        updated_content = create_quiz(user, quiz_obj, actXML)
+        updated_content = create_quiz(user, quiz_obj, act_xml)
 
     return updated_content
 
 
-def create_quiz(user, quiz_obj, actXML):
+def create_quiz(user, quiz_obj, act_xml):
 
     quiz = Quiz()
     quiz.owner = user
@@ -360,11 +355,11 @@ def create_quiz(user, quiz_obj, actXML):
     quiz.description = quiz_obj['description']
     quiz.save()
     
-    print "quiz saved"
+    print("quiz saved")
     # save gamification events
-    if actXML.getElementsByTagName('gamification')[:1]:
-        print actXML.getElementsByTagName('gamification')[0]
-        events = parse_gamification_events(actXML.getElementsByTagName('gamification')[0])
+    if act_xml.getElementsByTagName('gamification')[:1]:
+        print(act_xml.getElementsByTagName('gamification')[0])
+        events = parse_gamification_events(act_xml.getElementsByTagName('gamification')[0])
         # remove anything existing for this course
         QuizGamificationEvent.objects.filter(quiz=quiz).delete()
         # add new
@@ -388,11 +383,10 @@ def create_quiz(user, quiz_obj, actXML):
                 title=q['question']['title'])
         question.save()
 
-        quizQuestion = QuizQuestion( quiz = quiz,
-            question = question, order = q['order'])
-        quizQuestion.save()
+        quiz_question = QuizQuestion( quiz = quiz, question = question, order = q['order'])
+        quiz_question.save()
 
-        q['id'] = quizQuestion.pk
+        q['id'] = quiz_question.pk
         q['question']['id'] = question.pk
 
         for prop in q['question']['props']:

@@ -61,11 +61,9 @@ class Command(BaseCommand):
                 except ValueError:
                     continue
                 
-                #print "Updating score"
                 qar.score = row[INPUT_FORMAT['revised_score']]
                 qar.save()
-                
-                
+            
                 quiz_attempt = qar.quizattempt
 
                 # update the quiz attempt total score
@@ -79,17 +77,17 @@ class Command(BaseCommand):
                 quiz_threshold = QuizProps.objects.get(name='passthreshold',quiz=quiz_attempt.quiz)
                 
                 if quiz_score_percent >= quiz_threshold:
-                    print quiz_score_percent +":" + quiz_threshold 
+                    print(quiz_score_percent +":" + quiz_threshold) 
                     try:
                         tracker = Tracker.objects.get(user=quiz_attempt.user, uuid=quiz_attempt.instance_id)
                         tracker.completed = True
                         tracker.save()
-                        print "tracker updated"
+                        print("tracker updated")
                     except Tracker.DoesNotExist:
                         pass
                 
 
-            print "Max QAR id - " + str(max_qar_id)
+            print("Max QAR id - " + str(max_qar_id))
         
         
         

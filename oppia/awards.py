@@ -19,11 +19,11 @@ def courses_completed(hours):
     try:
         badge = Badge.objects.get(ref='coursecompleted')
     except Badge.DoesNotExist:
-        print "Badge not found: coursecompleted"
+        print("Badge not found: coursecompleted")
         return
     
-    print settings.BADGE_AWARDING_METHOD
-    print hours
+    print(settings.BADGE_AWARDING_METHOD)
+    print(hours)
 
     if settings.BADGE_AWARDING_METHOD == settings.BADGE_AWARD_METHOD_ALL_ACTIVITIES:
         badge_award_all_activities(badge, hours)
@@ -59,10 +59,10 @@ def badge_award_all_activities(badge, hours):
             if user_completed >= total_activities:
                 course_award = Course.objects.get(id=c[0])
                 user_awarded = User.objects.get(id=u[0])
-                print course_award.title
-                print "-----------------------------"
-                print total_activities
-                print user_awarded.username + " AWARD BADGE"
+                print(course_award.title)
+                print("-----------------------------")
+                print(total_activities)
+                print(user_awarded.username + " AWARD BADGE")
                 award = Award()
                 award.badge = badge
                 award.user = user_awarded
@@ -83,8 +83,8 @@ def badge_award_final_quiz(badge, hours):
         if final_quiz_digest_activity.count() != 1:
             continue
         final_quiz_digest = final_quiz_digest_activity[0].digest
-        print final_quiz_digest
-        print c.title
+        print(final_quiz_digest)
+        print(c.title)
     
         # get all the users who've added tracker for this course in last 'hours'
         if hours == 0:
@@ -99,9 +99,9 @@ def badge_award_final_quiz(badge, hours):
         for u in users:
             user_completed = Tracker.objects.filter(user=u, course=c, completed=True, digest=final_quiz_digest).values('digest').distinct().count()
             if user_completed > 0:
-                print c.title
-                print "-----------------------------"
-                print u.username + " AWARD BADGE"
+                print(c.title)
+                print("-----------------------------")
+                print(u.username + " AWARD BADGE")
                 award = Award()
                 award.badge = badge
                 award.user = u
@@ -133,10 +133,10 @@ def badge_award_all_quizzes(badge, hours):
             if AwardCourse.objects.filter(award__user=u,course=c).count() == 0:
                 user_completed = Tracker.objects.filter(user=u, course=c, completed=True, type=Activity.QUIZ, digest__in=digests).values('digest').distinct().count()
                 if digests.count() == user_completed:
-                    print c.title
-                    print "-----------------------------"
-                    print digests.count()
-                    print u.username + " AWARD BADGE"
+                    print(c.title)
+                    print("-----------------------------")
+                    print(digests.count())
+                    print(u.username + " AWARD BADGE")
                     award = Award()
                     award.badge = badge
                     award.user = u

@@ -40,7 +40,7 @@ def upload_view(request):
             
             if 'users' in json_data:
                 for user in json_data['users']:
-                    print _(u"processing activity log for %s" % user['username'])
+                    print(_(u"processing activity log for %s" % user['username']))
                     try:
                         user_api_key = ApiKey.objects.get(user__username=user['username'])
                         if 'trackers' in user:
@@ -52,8 +52,7 @@ def upload_view(request):
                                 req.add_header('Content-Type', 'application/json; charset=utf-8')
                                 req.add_header('Accept', 'application/json; charset=utf-8')
                                 try:
-                                    response = urllib2.urlopen(req)
-                                    result = response.read()
+                                    urllib2.urlopen(req)
                                     messages.info(request, _(u"Tracker activity for %(username)s added" % {'username': user['username']}))
                                 except urllib2.HTTPError:
                                     messages.warning(request, _(u"Already uploaded: tracker activity for %(username)s added" % {'username': user['username']}),'danger')
@@ -66,15 +65,14 @@ def upload_view(request):
                                 req.add_header('Content-Type', 'application/json; charset=utf-8')
                                 req.add_header('Accept', 'application/json; charset=utf-8')
                                 try:
-                                    response = urllib2.urlopen(req)
-                                    result = response.read()
+                                    urllib2.urlopen(req)
                                     messages.info(request, _(u"Quiz attempt for %(username)s added" % {'username': user['username']}))
                                 except urllib2.HTTPError:
                                     messages.info(request, _(u"Already uploaded: quiz attempt for %(username)s added" % {'username': user['username']}))
                                 
                     except ApiKey.DoesNotExist:
                         messages.warning(request, _(u"%(username)s not found. Please check that this file is being uploaded to the correct server." % {'username': user['username']}),'danger')
-                        print _(u"No user api key found for %s" % user['username'])
+                        print(_(u"No user api key found for %s" % user['username']))
                    
                                       
             return HttpResponseRedirect(reverse('oppia_activitylog_upload_success'))

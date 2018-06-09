@@ -35,15 +35,7 @@ class CourseXML():
                         activity = Activity(title, location, type)
                         section.activities.append(activity)
 
-                 self.sections.append(section)
-    
-        for s in self.sections:
-            print s.title
-            for a in s.activities:
-                print a.title
-                print a.location
-    
-    
+                 self.sections.append(section)    
     
 class Section():
     
@@ -51,9 +43,6 @@ class Section():
         self.title = title
         self.activities = []
         
-    
-    
-    
 class Activity():
     
     def __init__(self, title, location, type):
