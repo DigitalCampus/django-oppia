@@ -91,6 +91,7 @@ urlpatterns = [
     url(r'^activitylog/', include('oppia.activitylog.urls')),
     url(r'^viz/', include('oppia.viz.urls')),
     url(r'^av/', include('oppia.av.urls')),
+    url(r'^gamification/', include('oppia.gamification.urls')),
     
     url(r'^view/$', oppia_views.app_launch_activity_redirect_view, name="oppia_app_launch_activity_redirect"),
     
