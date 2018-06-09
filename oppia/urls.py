@@ -4,7 +4,7 @@ from django.conf.urls import include, url
 from django.views.generic import TemplateView
 from django.views import static
 
-from oppia.api.resources import TrackerResource, CourseResource, ScheduleResource, TagResource
+from oppia.api.resources import TrackerResource, CourseResource, TagResource
 from oppia.api.resources import PointsResource, AwardsResource, BadgesResource, RegisterResource, UserResource, ResetPasswordResource
 
 from oppia.quiz.api.resources import QuizResource, QuizPropsResource, QuestionResource
@@ -19,7 +19,6 @@ from tastypie.api import Api
 v1_api = Api(api_name='v1')
 v1_api.register(TrackerResource())
 v1_api.register(CourseResource())
-v1_api.register(ScheduleResource())
 v1_api.register(TagResource())
 v1_api.register(PointsResource())
 v1_api.register(AwardsResource())
@@ -61,12 +60,7 @@ urlpatterns = [
     url(r'^course/(?P<course_id>\d+)/edit/$', oppia_views.upload_step2, {'editing':True}, name="oppia_course_edit"),
     url(r'^course/(?P<course_id>\d+)/detail/$', oppia_views.recent_activity_detail, name="oppia_recent_activity_detail"),
     url(r'^course/(?P<course_id>\d+)/detail/export/$', oppia_views.export_tracker_detail, name="oppia_export_tracker_detail"),
-    url(r'^course/(?P<course_id>\d+)/schedule/$', oppia_views.schedule, name="oppia_schedules"),
     url(r'^course/(?P<course_id>\d+)/download/$', oppia_views.course_download_view, name="oppia_course_download"),
-    url(r'^course/(?P<course_id>\d+)/schedule/add/$', oppia_views.schedule_add, name="oppia_schedule_add"),
-    url(r'^course/(?P<course_id>\d+)/schedule/(?P<schedule_id>\d+)/edit/$', oppia_views.schedule_edit, name="oppia_schedule_edit"),
-    url(r'^course/(?P<course_id>\d+)/schedule/saved/$', oppia_views.schedule_saved),
-    url(r'^course/(?P<course_id>\d+)/schedule/(?P<schedule_id>\d+)/saved/$', oppia_views.schedule_saved),
     url(r'^course/(?P<course_id>\d+)/quiz/$', oppia_views.course_quiz, name="oppia_course_quiz"),
     url(r'^course/(?P<course_id>\d+)/quiz/(?P<quiz_id>\d+)/attempts/$', oppia_views.course_quiz_attempts, name="oppia_course_quiz_attempts"),
     url(r'^course/(?P<course_id>\d+)/feedback/$', oppia_views.course_feedback, name="oppia_course_feedback"),

@@ -19,7 +19,7 @@ from xml.dom.minidom import *
 models.signals.post_save.connect(create_api_key, sender=User)
     
 class Course(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     created_date = models.DateTimeField('date created',default=timezone.now)
     lastupdated_date = models.DateTimeField('date updated',default=timezone.now)
     version = models.BigIntegerField()
@@ -67,13 +67,6 @@ class Course(models.Model):
     def no_distinct_downloads(self):
         no_distinct_downloads = Tracker.objects.filter(course=self, type='download').values('user_id').distinct().count()
         return no_distinct_downloads
-    
-    def get_default_schedule(self):
-        try:
-            schedule = Schedule.objects.get(default=True,course = self)
-        except Schedule.DoesNotExist:
-            return None
-        return schedule
     
     def get_activity_today(self):
         return Tracker.objects.filter(course=self,
@@ -198,45 +191,6 @@ class CourseTag(models.Model):
     class Meta:
         verbose_name = _('Course Tag')
         verbose_name_plural = _('Course Tags')
-           
-class Schedule(models.Model):
-    title = models.TextField(blank=False)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    default = models.BooleanField(default=False)
-    created_date = models.DateTimeField('date created',default=timezone.now)
-    lastupdated_date = models.DateTimeField('date updated',default=timezone.now)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    
-    class Meta:
-        verbose_name = _('Schedule')
-        verbose_name_plural = _('Schedules')
-        
-    def __unicode__(self):
-        return self.title
-    
-    def to_xml_string(self):
-        doc = Document();
-        schedule = doc.createElement('schedule')
-        schedule.setAttribute('version',self.lastupdated_date.strftime('%Y%m%d%H%M%S'))
-        doc.appendChild(schedule)
-        act_scheds = ActivitySchedule.objects.filter(schedule=self)
-        for acts in act_scheds:
-            act = doc.createElement('activity')
-            act.setAttribute('digest',acts.digest)
-            act.setAttribute('startdate',acts.start_date.strftime('%Y-%m-%d %H:%M:%S'))
-            act.setAttribute('enddate',acts.end_date.strftime('%Y-%m-%d %H:%M:%S'))
-            schedule.appendChild(act)
-        return doc.toxml()
-        
-class ActivitySchedule(models.Model):
-    schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE)
-    digest = models.CharField(max_length=100)
-    start_date = models.DateTimeField(default=timezone.now)
-    end_date = models.DateTimeField(default=timezone.now)
-    
-    class Meta:
-        verbose_name = _('ActivitySchedule')
-        verbose_name_plural = _('ActivitySchedules')
            
 class Section(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
@@ -524,7 +478,6 @@ class Cohort(models.Model):
     description = models.CharField(max_length=100)
     start_date = models.DateTimeField(default=timezone.now)
     end_date = models.DateTimeField(default=timezone.now)
-    schedule = models.ForeignKey(Schedule,null=True, blank=True, default=None, on_delete=models.SET_NULL)
     
     class Meta:
         verbose_name = _('Cohort')

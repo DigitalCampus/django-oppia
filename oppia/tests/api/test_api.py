@@ -20,7 +20,6 @@ class CourseTagResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertHttpNotFound(self.api_client.post(self.url, format='json', data={}))
         
 
-# TODO ScheduleResource
 # TODO ScorecardResource
 
 

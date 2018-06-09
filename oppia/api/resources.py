@@ -26,7 +26,7 @@ from tastypie.utils import trailing_slash, timezone
 from tastypie.validation import Validation
 
 from oppia.api.serializers import PrettyJSONSerializer, CourseJSONSerializer, UserJSONSerializer
-from oppia.models import Activity, Tracker, Course, Media, Schedule, ActivitySchedule, Cohort, Tag, CourseTag
+from oppia.models import Activity, Tracker, Course, Media, Cohort, Tag, CourseTag
 from oppia.models import Points, Award, Badge
 from oppia.profile.forms import RegisterForm
 from oppia.profile.models import UserProfile
@@ -504,21 +504,15 @@ class CourseResource(ModelResource):
                 raise Http404(_(u"Course not found"))
          
         file_to_download = course.getAbsPath();
-        schedule = course.get_default_schedule()
         has_completed_trackers = Tracker.has_completed_trackers(course,request.user)
         cohort = Cohort.member_now(course,request.user)
-        if cohort:
-            if cohort.schedule:
-                schedule = cohort.schedule
         
         try:
             # add scheduling XML file     
-            if schedule or has_completed_trackers:
+            if has_completed_trackers:
                 file_to_download = settings.COURSE_UPLOAD_DIR +"temp/"+ str(request.user.id) + "-" + course.filename
                 shutil.copy2(course.getAbsPath(), file_to_download)
                 zip = zipfile.ZipFile(file_to_download,'a')
-                if schedule:
-                    zip.writestr(course.shortname +"/schedule.xml",schedule.to_xml_string())
                 if has_completed_trackers:
                     zip.writestr(course.shortname +"/tracker.xml",Tracker.to_xml_string(course,request.user))
                 zip.close()
@@ -579,15 +573,8 @@ class CourseResource(ModelResource):
             pass
         
         course = Course.objects.get(pk=bundle.obj.pk)
-        schedule = course.get_default_schedule()
+
         cohort = Cohort.member_now(course,bundle.request.user)
-        if cohort:
-            if cohort.schedule:
-                schedule = cohort.schedule
-        if schedule:
-            bundle.data['schedule'] = schedule.lastupdated_date.strftime("%Y%m%d%H%M%S")
-            sr = ScheduleResource()
-            bundle.data['schedule_uri'] = sr.get_resource_uri(schedule)
 
         if course and course.user:
             bundle.data['author'] = course.user.first_name + " " + course.user.last_name
@@ -605,22 +592,6 @@ class CourseTagResource(ModelResource):
         authentication = ApiKeyAuthentication()
         authorization = ReadOnlyAuthorization()
         always_return_data = True  
-         
-class ScheduleResource(ModelResource):
-    activityschedule = fields.ToManyField('oppia.api.resources.ActivityScheduleResource', 'activityschedule_set', related_name='schedule', full=True, null=True)
-    class Meta:
-        queryset = Schedule.objects.all()
-        resource_name = 'schedule'
-        allowed_methods = ['get']
-        fields = ['id', 'title', 'lastupdated_date']
-        authentication = ApiKeyAuthentication()
-        authorization = Authorization() 
-        always_return_data = True
-        include_resource_uri = False
-       
-    def dehydrate(self, bundle):
-        bundle.data['version'] = bundle.data['lastupdated_date'].strftime("%Y%m%d%H%M%S")
-        return bundle 
    
 class TagResource(ModelResource):
     count = fields.IntegerField(readonly=True)
@@ -691,23 +662,6 @@ class TagResource(ModelResource):
                 data['tags'] = data['objects']
                 del data['objects']  
         return data 
-          
-class ActivityScheduleResource(ModelResource):
-    schedule = fields.ToOneField('oppia.api.resources.ScheduleResource', 'schedule', related_name='activityschedule')
-    class Meta:
-        queryset = ActivitySchedule.objects.all()
-        resource_name = 'activityschedule'
-        allowed_methods = ['get']
-        fields = ['digest', 'start_date', 'end_date']
-        authentication = ApiKeyAuthentication()
-        authorization = ReadOnlyAuthorization() 
-        always_return_data = True
-        include_resource_uri = False
-        
-    def dehydrate(self, bundle):
-        bundle.data['start_date'] = bundle.data['start_date'].strftime("%Y-%m-%d %H:%M:%S")
-        bundle.data['end_date'] = bundle.data['end_date'].strftime("%Y-%m-%d %H:%M:%S")
-        return bundle
     
 class PointsResource(ModelResource):
     class Meta:
