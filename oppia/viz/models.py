@@ -2,6 +2,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+
 class UserLocationVisualization (models.Model):
     ip = models.GenericIPAddressField()
     hits = models.IntegerField(default=0)
