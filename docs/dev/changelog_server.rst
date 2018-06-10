@@ -39,6 +39,7 @@ Issue list:
 * 474: Broken links on documentation (installation page) - https://github.com/DigitalCampus/django-oppia/issues/issues/474
 * 478: Search for <media> element can fail when importing course - https://github.com/DigitalCampus/django-oppia/issues/issues/478
 * 480: Remove code related to scheduling - https://github.com/DigitalCampus/django-oppia/issues/issues/480
+* 481: Remove code related to messaging - https://github.com/DigitalCampus/django-oppia/issues/issues/481
 
 .. _serverv0.10.0:
 
