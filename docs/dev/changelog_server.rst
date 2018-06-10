@@ -7,6 +7,8 @@ OppiaMobile Server Change Log
 .. warning:: 
 	Run `pip install -r django-oppia/requirements.txt` after upgrading to this version, since new packages
 	and an updated version of Django is used.
+	
+	Update calls to the cartodb_update and ip2location functions to use management commands instead
 
 v0.10.1 - not yet released
 --------------------------------
@@ -40,6 +42,7 @@ Issue list:
 * 478: Search for <media> element can fail when importing course - https://github.com/DigitalCampus/django-oppia/issues/issues/478
 * 480: Remove code related to scheduling - https://github.com/DigitalCampus/django-oppia/issues/issues/480
 * 481: Remove code related to messaging - https://github.com/DigitalCampus/django-oppia/issues/issues/481
+* 459: Clean up utils dir - https://github.com/DigitalCampus/django-oppia/issues/issues/459
 
 .. _serverv0.10.0:
 
