@@ -17,13 +17,7 @@ from django.db.models import Count, Max
 from django.utils.translation import ugettext_lazy as _
 
 from oppia.quiz.models import QuizAttempt
-
-class BColors:
-    HEADER = '\033[95m'
-    OK = '\033[92m'
-    WARNING = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
+from oppia.utils.terminal import BColors
 
 class Command(BaseCommand):
     help = _(u"Removes any duplicate quiz attempts based on instance_id")

@@ -15,6 +15,7 @@ from django.db.models import Sum
 
 from oppia.quiz.models import QuizAttemptResponse, QuizAttempt, Quiz, QuizProps
 from oppia.models import Tracker
+from oppia.utils.terminal import BColors
 
 INPUT_FORMAT = {
                   'question': 0,

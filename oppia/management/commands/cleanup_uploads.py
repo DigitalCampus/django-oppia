@@ -15,6 +15,7 @@ from django.core.management.base import BaseCommand, CommandError
 from django.db.models import Sum
 
 from oppia.models import Course
+from oppia.utils.terminal import BColors
 
 class Command(BaseCommand):
     help = "Cleans up any old files in the oppia uploads directory"
