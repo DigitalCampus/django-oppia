@@ -264,7 +264,7 @@ class ResetPasswordResource(ModelResource):
             prefix = 'https://'
         else:
             prefix = 'http://'
-        # TODO - better way to manage email message content
+            
         send_mail('OppiaMobile: Password reset', 'Here is your new password for OppiaMobile: '+newpass 
                   + '\n\nWhen you next log in you can update your password to something more memorable.' 
                   + '\n\n' + prefix + bundle.request.META['SERVER_NAME'] , 

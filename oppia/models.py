@@ -565,19 +565,6 @@ class Participant(models.Model):
     class Meta:
         verbose_name = _('Participant')
         verbose_name_plural = _('Participants')
-         
-class Message(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE) 
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    date_created = models.DateTimeField(default=timezone.now)
-    publish_date = models.DateTimeField(default=timezone.now)
-    message = models.CharField(max_length=200)
-    link = models.URLField(max_length=255)  
-    icon = models.CharField(max_length=200)
-    
-    class Meta:
-        verbose_name = _('Message')
-        verbose_name_plural = _('Messages')
         
 class Badge(models.Model):
     ref = models.CharField(max_length=20)

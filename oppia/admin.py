@@ -1,7 +1,7 @@
 # oppia/admin.py
 from django.contrib import admin
 from oppia.models import Course, Section, Activity, Tracker, Media, Cohort, CourseManager
-from oppia.models import Participant, Message, Tag, CourseTag
+from oppia.models import Participant, Tag, CourseTag
 from oppia.models import Badge, Award, Points, AwardCourse
 from oppia.models import CourseCohort
 
@@ -69,7 +69,6 @@ admin.site.register(Course,CourseAdmin)
 admin.site.register(CourseCohort, CourseCohortAdmin)
 admin.site.register(CourseTag,CourseTagAdmin)
 admin.site.register(Media, MediaAdmin)
-admin.site.register(Message)
 admin.site.register(Participant, ParticipantAdmin)
 admin.site.register(Points,PointsAdmin)
 admin.site.register(Section,SectionAdmin)
