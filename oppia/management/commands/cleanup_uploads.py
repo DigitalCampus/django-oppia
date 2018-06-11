@@ -6,6 +6,7 @@ Management command to clean up any old files in the oppia uploads directory
 import os
 import time
 import django.db.models
+import oppia.management.commands
 
 from optparse import make_option
 
@@ -15,8 +16,6 @@ from django.core.management.base import BaseCommand, CommandError
 from django.db.models import Sum
 
 from oppia.models import Course
-from oppia.utils.terminal import BColors
-
 
 class Command(BaseCommand):
     help = "Cleans up any old files in the oppia uploads directory"

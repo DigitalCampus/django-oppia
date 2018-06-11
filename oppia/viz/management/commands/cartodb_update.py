@@ -5,12 +5,12 @@ Management command to user map on CartoDB
 import json
 import time
 import urllib
+import oppia.management.commands
 
 from django.core.management.base import BaseCommand
 from django.db.models import Sum, Q
 
 from oppia.viz.models import UserLocationVisualization
-from oppia.utils import terminal
 
 CARTODB_TABLE = "oppiamobile_users"
 
@@ -47,7 +47,7 @@ class Command(BaseCommand):
                 data = u.read()
                 data_json = json.loads(data)
                 print(data_json)
-                time.sleep(terminal.DEFAULT_SLEEP)
+                time.sleep(commands.DEFAULT_SLEEP)
 
         # add any new points
         locations = UserLocationVisualization.objects.exclude(lat=0, lng=0).values('lat', 'lng', 'country_code').annotate(total_hits=Sum('hits'))
@@ -66,4 +66,4 @@ class Command(BaseCommand):
                 data = u.read()
                 data_json = json.loads(data)
                 print(data_json)
-                time.sleep(terminal.DEFAULT_SLEEP)
+                time.sleep(commands.DEFAULT_SLEEP)

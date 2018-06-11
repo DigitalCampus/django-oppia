@@ -2,13 +2,13 @@
 """
 Management command to get user locations based on their IP address in the Tracker model
 """
+import oppia.management.commands
 
 from django.core.management.base import BaseCommand
 from django.db.models import Count
 from django.utils.translation import ugettext_lazy as _
 
 from oppia.models import Tracker
-from oppia.utils import terminal
 from oppia.viz.models import UserLocationVisualization
 
 
@@ -52,4 +52,4 @@ def update_via_freegeoip(t):
         viz.geonames_data = data_json
         viz.save()
 
-    time.sleep(terminal.DEFAULT_SLEEP)
+    time.sleep(commands.DEFAULT_SLEEP)

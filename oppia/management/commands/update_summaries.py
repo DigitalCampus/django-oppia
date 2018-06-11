@@ -1,10 +1,12 @@
+
+import oppia.management.commands
+
 from distutils.util import strtobool
 
 from django.core.management.base import BaseCommand
 
 from oppia.settings.models import SettingProperties
 from oppia.summary.cron import update_summaries
-from oppia.utils.terminal import BColors
 
 class Command(BaseCommand):
     help = 'Updates course and points summary tables'

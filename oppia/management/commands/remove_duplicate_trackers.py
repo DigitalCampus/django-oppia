@@ -6,6 +6,7 @@ Management command to remove any duplicate trackers (based on UUID)
 import os
 import time
 import django.db.models
+import oppia.management.commands
 
 from optparse import make_option
 
@@ -17,14 +18,6 @@ from django.db.models import Count, Min, Q
 from django.utils.translation import ugettext_lazy as _
 
 from oppia.models import Tracker
-from oppia.utils.terminal import BColors
-
-class BColors:
-    HEADER = '\033[95m'
-    OK = '\033[92m'
-    WARNING = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
 
 class Command(BaseCommand):
     help = _(u"Removes any duplicate trackers based on UUID")

@@ -7,6 +7,8 @@ import codecs
 import os
 import csv
 import re
+import oppia.management.commands
+
 from optparse import make_option
 
 from django.contrib.auth.models import User
@@ -15,7 +17,6 @@ from django.db.models import Sum
 
 from oppia.quiz.models import QuizAttemptResponse, QuizAttempt, Quiz, QuizProps
 from oppia.models import Tracker
-from oppia.utils.terminal import BColors
 
 INPUT_FORMAT = {
                   'question': 0,
