@@ -15,13 +15,14 @@ from oppia.signals import badgeaward_callback
 
 models.signals.post_save.connect(badgeaward_callback, sender=Award)
 
+
 def courses_completed(hours):
     try:
         badge = Badge.objects.get(ref='coursecompleted')
     except Badge.DoesNotExist:
         print("Badge not found: coursecompleted")
         return
-    
+
     print(settings.BADGE_AWARDING_METHOD)
     print(hours)
 
@@ -75,17 +76,18 @@ def badge_award_all_activities(badge, hours):
                 am.course_version = course_award.version
                 am.save()
 
+
 def badge_award_final_quiz(badge, hours):
     courses = Course.objects.filter(is_draft=False, is_archived=False)
     for c in courses:
-        final_quiz_digest_activity = Activity.objects.filter(section__course=c, type=Activity.QUIZ).order_by('-section__order','-order')[:1]
-            
+        final_quiz_digest_activity = Activity.objects.filter(section__course=c, type=Activity.QUIZ).order_by('-section__order', '-order')[:1]
+
         if final_quiz_digest_activity.count() != 1:
             continue
         final_quiz_digest = final_quiz_digest_activity[0].digest
         print(final_quiz_digest)
         print(c.title)
-    
+
         # get all the users who've added tracker for this course in last 'hours'
         if hours == 0:
             users = User.objects.filter(tracker__course=c)
@@ -95,7 +97,7 @@ def badge_award_final_quiz(badge, hours):
 
         # exclude the users that already own this course award
         users = users.exclude(award__awardcourse__course=c).distinct()
-       
+
         for u in users:
             user_completed = Tracker.objects.filter(user=u, course=c, completed=True, digest=final_quiz_digest).values('digest').distinct().count()
             if user_completed > 0:
@@ -113,12 +115,13 @@ def badge_award_final_quiz(badge, hours):
                 am.award = award
                 am.course_version = c.version
                 am.save()
-    
+
+
 def badge_award_all_quizzes(badge, hours):
     courses = Course.objects.filter(is_draft=False, is_archived=False)
     for c in courses:
-        digests = Activity.objects.filter(section__course=c,type=Activity.QUIZ).values('digest').distinct()
-            
+        digests = Activity.objects.filter(section__course=c, type=Activity.QUIZ).values('digest').distinct()
+
         # get all the users who've added tracker for this course in last 'hours'
         if hours == 0:
             users = User.objects.filter(tracker__course=c)
@@ -128,9 +131,9 @@ def badge_award_all_quizzes(badge, hours):
 
         # exclude the users that already own this course award
         users = users.exclude(award__awardcourse__course=c).distinct()
-       
-        for u in users:     
-            if AwardCourse.objects.filter(award__user=u,course=c).count() == 0:
+
+        for u in users:
+            if AwardCourse.objects.filter(award__user=u, course=c).count() == 0:
                 user_completed = Tracker.objects.filter(user=u, course=c, completed=True, type=Activity.QUIZ, digest__in=digests).values('digest').distinct().count()
                 if digests.count() == user_completed:
                     print(c.title)
@@ -142,9 +145,9 @@ def badge_award_all_quizzes(badge, hours):
                     award.user = u
                     award.description = "Course completed: " + c.get_title()
                     award.save()
-                    
+
                     am = AwardCourse()
                     am.course = c
                     am.award = award
                     am.course_version = c.version
-                    am.save() 
+                    am.save()

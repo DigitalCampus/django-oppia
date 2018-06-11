@@ -20,7 +20,7 @@ def upload_view(request):
 
     if request.method != 'POST':
         return HttpResponse(status=405)
-    
+
     required = ['username', 'password']
 
     validationErrors = []

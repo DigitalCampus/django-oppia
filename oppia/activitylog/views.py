@@ -73,7 +73,7 @@ def upload_view(request):
                     except ApiKey.DoesNotExist:
                         messages.warning(request, _(u"%(username)s not found. Please check that this file is being uploaded to the correct server." % {'username': user['username']}), 'danger')
                         print(_(u"No user api key found for %s" % user['username']))
-                                      
+
             return HttpResponseRedirect(reverse('oppia_activitylog_upload_success'))
     else:
         form = UploadActivityLogForm()

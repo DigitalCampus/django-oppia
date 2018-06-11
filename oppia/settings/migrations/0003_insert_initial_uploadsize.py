@@ -16,6 +16,7 @@ def insert_maxuploadsize(apps, schema_editor):
         settingProp.int_value = settings.OPPIA_MAX_UPLOAD_SIZE
         settingProp.save()
 
+
 class Migration(migrations.Migration):
 
     dependencies = [

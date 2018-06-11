@@ -37,21 +37,21 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
 
     def test_authorized(self):
         data = {
-                "quiz_id":2,
-                "maxscore":30,
-                "score":10,
-                "attempt_date":"2012-12-18T15:35:12",
+                "quiz_id": 2,
+                "maxscore": 30,
+                "score": 10,
+                "attempt_date": "2012-12-18T15:35:12",
                 "instance_id": "343c1dbf-b61a-4b74-990c-b94e3dc7d855",
-                "responses":[
-                             {"question_id":"132",
-                              "score":0,
-                              "text":"true"},
-                             {"question_id":"133",
-                              "score":10,
-                              "text":"true"},
-                             {"question_id":"134",
-                              "score":0,
-                              "text":"false"}]}
+                "responses": [
+                             {"question_id": "132",
+                              "score": 0,
+                              "text": "true"},
+                             {"question_id": "133",
+                              "score": 10,
+                              "text": "true"},
+                             {"question_id": "134",
+                              "score": 0,
+                              "text": "false"}]}
         quizattempt_count_start = QuizAttempt.objects.all().count()
         quizattemptresponse_count_start = QuizAttemptResponse.objects.all().count()
         resp = self.api_client.post(self.url, format='json', data=data, authentication=self.get_credentials())
@@ -60,26 +60,26 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
 
         quizattempt_count_end = QuizAttempt.objects.all().count()
         quizattemptresponse_count_end = QuizAttemptResponse.objects.all().count()
-        self.assertEqual(quizattempt_count_start+1, quizattempt_count_end)
-        self.assertEqual(quizattemptresponse_count_start+3, quizattemptresponse_count_end)
+        self.assertEqual(quizattempt_count_start + 1, quizattempt_count_end)
+        self.assertEqual(quizattemptresponse_count_start + 3, quizattemptresponse_count_end)
 
     def test_unauthorized(self):
         data = {
-                "quiz_id":"354",
-                "maxscore":30,
-                "score":10,
-                "attempt_date":"2012-12-18T15:35:12",
+                "quiz_id": "354",
+                "maxscore": 30,
+                "score": 10,
+                "attempt_date": "2012-12-18T15:35:12",
                 "instance_id": "343c1dbf-b61a-4b74-990c-b94e3dc7d855",
-                "responses":[
-                             {"question_id":"1839",
-                              "score":0,
-                              "text":"true"},
-                             {"question_id":"1840",
-                              "score":10,
-                              "text":"true"},
-                             {"question_id":"1841",
-                              "score":0,
-                              "text":"false"}]}
+                "responses": [
+                             {"question_id": "1839",
+                              "score": 0,
+                              "text": "true"},
+                             {"question_id": "1840",
+                              "score": 10,
+                              "text": "true"},
+                             {"question_id": "1841",
+                              "score": 0,
+                              "text": "false"}]}
         bad_auth = self.create_apikey(username=self.username, api_key="1234")
         quizattempt_count_start = QuizAttempt.objects.all().count()
         quizattemptresponse_count_start = QuizAttemptResponse.objects.all().count()
@@ -93,21 +93,21 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
 
     def test_invalid_quiz_id(self):
         data = {
-                "quiz_id":"100", # this quiz id doesn't exist in the test data
-                "maxscore":30,
-                "score":10,
-                "attempt_date":"2012-12-18T15:35:12",
+                "quiz_id": "100",  # this quiz id doesn't exist in the test data
+                "maxscore": 30,
+                "score": 10,
+                "attempt_date": "2012-12-18T15:35:12",
                 "instance_id": "343c1dbf-b61a-4b74-990c-b94e3dc7d855",
-                "responses":[
-                             {"question_id":"1839",
-                              "score":0,
-                              "text":"true"},
-                             {"question_id":"1840",
-                              "score":10,
-                              "text":"true"},
-                             {"question_id":"1841",
-                              "score":0,
-                              "text":"false"}]}
+                "responses": [
+                             {"question_id": "1839",
+                              "score": 0,
+                              "text": "true"},
+                             {"question_id": "1840",
+                              "score": 10,
+                              "text": "true"},
+                             {"question_id": "1841",
+                              "score": 0,
+                              "text": "false"}]}
         quizattempt_count_start = QuizAttempt.objects.all().count()
         quizattemptresponse_count_start = QuizAttemptResponse.objects.all().count()
         resp = self.api_client.post(self.url, format='json', data=data, authentication=self.get_credentials())
@@ -121,21 +121,21 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
 
     def test_invalid_question_id(self):
         data = {
-                "quiz_id":"354",
-                "maxscore":30,
-                "score":10,
-                "attempt_date":"2012-12-18T15:35:12",
+                "quiz_id": "354",
+                "maxscore": 30,
+                "score": 10,
+                "attempt_date": "2012-12-18T15:35:12",
                 "instance_id": "343c1dbf-b61a-4b74-990c-b94e3dc7d855",
-                "responses":[
-                             {"question_id":"1111", # this question id doesn't exist in the test data
-                              "score":0,
-                              "text":"true"},
-                             {"question_id":"1840",
-                              "score":10,
-                              "text":"true"},
-                             {"question_id":"1841",
-                              "score":0,
-                              "text":"false"}]}
+                "responses": [
+                             {"question_id": "1111",  # this question id doesn't exist in the test data
+                              "score": 0,
+                              "text": "true"},
+                             {"question_id": "1840",
+                              "score": 10,
+                              "text": "true"},
+                             {"question_id": "1841",
+                              "score": 0,
+                              "text": "false"}]}
         quizattempt_count_start = QuizAttempt.objects.all().count()
         quizattemptresponse_count_start = QuizAttemptResponse.objects.all().count()
         resp = self.api_client.post(self.url, format='json', data=data, authentication=self.get_credentials())
@@ -149,21 +149,21 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
 
     def test_question_is_part_of_quiz(self):
         data = {
-                "quiz_id":"354",
-                "maxscore":30,
-                "score":10,
-                "attempt_date":"2012-12-18T15:35:12",
+                "quiz_id": "354",
+                "maxscore": 30,
+                "score": 10,
+                "attempt_date": "2012-12-18T15:35:12",
                 "instance_id": "343c1dbf-b61a-4b74-990c-b94e3dc7d855",
-                "responses":[
-                             {"question_id":"1884", # this question id is valid but not part of this quiz
-                              "score":0,
-                              "text":"true"},
-                             {"question_id":"1840",
-                              "score":10,
-                              "text":"true"},
-                             {"question_id":"1841",
-                              "score":0,
-                              "text":"false"}]}
+                "responses": [
+                             {"question_id": "1884",  # this question id is valid but not part of this quiz
+                              "score": 0,
+                              "text": "true"},
+                             {"question_id": "1840",
+                              "score": 10,
+                              "text": "true"},
+                             {"question_id": "1841",
+                              "score": 0,
+                              "text": "false"}]}
         quizattempt_count_start = QuizAttempt.objects.all().count()
         quizattemptresponse_count_start = QuizAttemptResponse.objects.all().count()
         resp = self.api_client.post(self.url, format='json', data=data, authentication=self.get_credentials())
@@ -174,25 +174,25 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
         quizattemptresponse_count_end = QuizAttemptResponse.objects.all().count()
         self.assertEqual(quizattempt_count_start, quizattempt_count_end)
         self.assertEqual(quizattemptresponse_count_start, quizattemptresponse_count_end)
-        
+
     def test_unique_quiz_attempt(self):
-        
+
         data = {
-                "quiz_id":2,
-                "maxscore":30,
-                "score":10,
-                "attempt_date":"2012-12-18T15:35:12",
+                "quiz_id": 2,
+                "maxscore": 30,
+                "score": 10,
+                "attempt_date": "2012-12-18T15:35:12",
                 "instance_id": "343c1dbf-b61a-4b74-990c-b94e3dc7d855",
-                "responses":[
-                             {"question_id":"132",
-                              "score":0,
-                              "text":"true"},
-                             {"question_id":"133",
-                              "score":10,
-                              "text":"true"},
-                             {"question_id":"134",
-                              "score":0,
-                              "text":"false"}]}
+                "responses": [
+                             {"question_id": "132",
+                              "score": 0,
+                              "text": "true"},
+                             {"question_id": "133",
+                              "score": 10,
+                              "text": "true"},
+                             {"question_id": "134",
+                              "score": 0,
+                              "text": "false"}]}
         quizattempt_count_start = QuizAttempt.objects.all().count()
         quizattemptresponse_count_start = QuizAttemptResponse.objects.all().count()
         resp = self.api_client.post(self.url, format='json', data=data, authentication=self.get_credentials())
@@ -201,27 +201,27 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
 
         quizattempt_count_end = QuizAttempt.objects.all().count()
         quizattemptresponse_count_end = QuizAttemptResponse.objects.all().count()
-        self.assertEqual(quizattempt_count_start+1, quizattempt_count_end)
-        self.assertEqual(quizattemptresponse_count_start+3, quizattemptresponse_count_end)
-        
+        self.assertEqual(quizattempt_count_start + 1, quizattempt_count_end)
+        self.assertEqual(quizattemptresponse_count_start + 3, quizattemptresponse_count_end)
+
     def test_duplicate_quiz_attempt(self):
-        
+
         data = {
-            "quiz_id":2,
-            "maxscore":30,
-            "score":10,
-            "attempt_date":"2012-12-18T15:35:12",
+            "quiz_id": 2,
+            "maxscore": 30,
+            "score": 10,
+            "attempt_date": "2012-12-18T15:35:12",
             "instance_id": "343c1dbf-b61a-4b74-990c-b94e3dc7d855",
-            "responses":[
-                         {"question_id":"132",
-                          "score":0,
-                          "text":"true"},
-                         {"question_id":"133",
-                          "score":10,
-                          "text":"true"},
-                         {"question_id":"134",
-                          "score":0,
-                              "text":"false"}]}
+            "responses": [
+                         {"question_id": "132",
+                          "score": 0,
+                          "text": "true"},
+                         {"question_id": "133",
+                          "score": 10,
+                          "text": "true"},
+                         {"question_id": "134",
+                          "score": 0,
+                              "text": "false"}]}
         quizattempt_count_start = QuizAttempt.objects.all().count()
         quizattemptresponse_count_start = QuizAttemptResponse.objects.all().count()
         resp = self.api_client.post(self.url, format='json', data=data, authentication=self.get_credentials())
@@ -230,9 +230,9 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
 
         quizattempt_count_end = QuizAttempt.objects.all().count()
         quizattemptresponse_count_end = QuizAttemptResponse.objects.all().count()
-        self.assertEqual(quizattempt_count_start+1, quizattempt_count_end)
-        self.assertEqual(quizattemptresponse_count_start+3, quizattemptresponse_count_end)
-        
+        self.assertEqual(quizattempt_count_start + 1, quizattempt_count_end)
+        self.assertEqual(quizattemptresponse_count_start + 3, quizattemptresponse_count_end)
+
         # now send same data again
         quizattempt_count_start = QuizAttempt.objects.all().count()
         quizattemptresponse_count_start = QuizAttemptResponse.objects.all().count()
@@ -244,4 +244,3 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
         quizattemptresponse_count_end = QuizAttemptResponse.objects.all().count()
         self.assertEqual(quizattempt_count_start, quizattempt_count_end)
         self.assertEqual(quizattemptresponse_count_start, quizattemptresponse_count_end)
-        

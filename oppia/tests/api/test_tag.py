@@ -45,16 +45,16 @@ class TagResourceTest(ResourceTestCaseMixin, TestCase):
         response_data = self.deserialize(resp)
         self.assertTrue('tags' in response_data)
         # should have 5 tags with the test data set
-        self.assertEquals(len(response_data['tags']),4)
+        self.assertEquals(len(response_data['tags']), 4)
         # check each course had a download url
         for tag in response_data['tags']:
             self.assertTrue('count' in tag)
             self.assertTrue('id' in tag)
             self.assertTrue('name' in tag)
             # check count not 0
-            self.assertTrue(tag['count'] > 0 )
+            self.assertTrue(tag['count'] > 0)
             # check name not null
-            self.assertTrue(len(tag['name']) > 0 )
+            self.assertTrue(len(tag['name']) > 0)
 
     # test getting a listing of courses for one of the tags
     def test_tag_list(self):
@@ -66,7 +66,7 @@ class TagResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertTrue('courses' in response_data)
         self.assertTrue('count' in response_data)
         self.assertTrue('name' in response_data)
-        self.assertEqual(len(response_data['courses']),response_data['count'])
+        self.assertEqual(len(response_data['courses']), response_data['count'])
         for course in response_data['courses']:
             self.assertTrue('shortname' in course)
             self.assertTrue('title' in course)

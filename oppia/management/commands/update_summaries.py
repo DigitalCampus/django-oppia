@@ -21,7 +21,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if options['fromstart']:
-            update_summaries(0,0)
+            update_summaries(0, 0)
         else:
             # get last tracker and points PKs processed
             last_tracker_pk = SettingProperties.get_property('last_tracker_pk', 0)

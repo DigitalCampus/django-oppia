@@ -18,7 +18,7 @@ class UserProfile (models.Model):
         if self.user.is_staff:
             return True
         return self.can_upload
-    
+
     def get_can_upload_activitylog(self):
         if self.user.is_staff:
             return True

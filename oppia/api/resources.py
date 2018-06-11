@@ -448,7 +448,7 @@ class TrackerResource(ModelResource):
                     self.obj_create(bundle, request=request)
             else:
                 self.obj_create(bundle, request=request)
-            
+
         response_data = {'points': self.dehydrate_points(bundle),
                          'badges': self.dehydrate_badges(bundle),
                          'scoring': self.dehydrate_scoring(bundle),

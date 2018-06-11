@@ -32,7 +32,7 @@ class UploadActivityLogForm(forms.Form):
                    css_class='col-lg-offset-2 col-lg-4',
                 ),
             )
-        
+
     def clean(self):
         cleaned_data = super(UploadActivityLogForm, self).clean()
         activity_log_file = cleaned_data.get("activity_log_file")

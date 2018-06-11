@@ -3,6 +3,7 @@ import time
 
 from datetime import date
 
+
 def update_summaries(last_tracker_pk=0, last_points_pk=0):
 
     from django.contrib.auth.models import User
@@ -11,7 +12,7 @@ def update_summaries(last_tracker_pk=0, last_points_pk=0):
     from oppia.models import Tracker, Points, Course
     from oppia.settings.models import SettingProperties
     from oppia.summary.models import UserCourseSummary, CourseDailyStats, UserPointsSummary
-    
+
     # get last tracker and points PKs to be processed
     # (to avoid leaving some out if new trackers arrive while processing)
     try:
@@ -118,10 +119,10 @@ def run():
     start = time.time()
 
     from oppia.settings.models import SettingProperties
-    
+
     # get last tracker and points PKs processed
     last_tracker_pk = SettingProperties.get_property('last_tracker_pk', 0)
-    last_points_pk  = SettingProperties.get_property('last_points_pk', 0)
+    last_points_pk = SettingProperties.get_property('last_points_pk', 0)
 
     update_summaries(last_tracker_pk, last_points_pk)
 

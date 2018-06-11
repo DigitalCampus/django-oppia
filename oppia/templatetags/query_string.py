@@ -5,6 +5,7 @@ from django.utils.safestring import mark_safe
 
 register = template.Library()
 
+
 @register.tag
 def query_string(parser, token):
     """
@@ -14,9 +15,9 @@ def query_string(parser, token):
     Usage:
     http://www.url.com/{% query_string "param_to_add=value, param_to_add=value" "param_to_remove, params_to_remove" %}
     """
-    
+
     try:
-        tag_name, add_string,remove_string = token.split_contents()
+        tag_name, add_string, remove_string = token.split_contents()
     except ValueError:
         raise template.TemplateSyntaxError, "%r tag requires two arguments" % token.contents.split()[0]
     if not (add_string[0] == add_string[-1] and add_string[0] in ('"', "'")) or not (remove_string[0] == remove_string[-1] and remove_string[0] in ('"', "'")):
@@ -25,18 +26,20 @@ def query_string(parser, token):
     add = string_to_dict(add_string[1:-1])
     remove = string_to_list(remove_string[1:-1])
 
-    return QueryStringNode(add,remove)
+    return QueryStringNode(add, remove)
+
 
 class QueryStringNode(template.Node):
-    def __init__(self, add,remove):
+    def __init__(self, add, remove):
         self.add = add
         self.remove = remove
 
     def render(self, context):
         p = {}
         for k, v in context["request"].GET.items():
-            p[k]=v
-        return get_query_string(p,self.add,self.remove,context)
+            p[k] = v
+        return get_query_string(p, self.add, self.remove, context)
+
 
 def get_query_string(p, new_params, remove, context):
     """
@@ -56,9 +59,10 @@ def get_query_string(p, new_params, remove, context):
         try:
             p[k] = template.Variable(v).resolve(context)
         except:
-            p[k]=v
+            p[k] = v
 
     return mark_safe('?' + '&amp;'.join([u'%s=%s' % (urllib.quote_plus(str(k)), urllib.quote_plus(str(v))) for k, v in p.items()]))
+
 
 # Taken from lib/utils.py
 def string_to_dict(string):
@@ -71,10 +75,12 @@ def string_to_dict(string):
             string += ','
         for arg in string.split(','):
             arg = arg.strip()
-            if arg == '': continue
+            if arg == '':
+                continue
             kw, val = arg.split('=', 1)
             kwargs[kw] = val
     return kwargs
+
 
 def string_to_list(string):
     args = []
@@ -85,6 +91,7 @@ def string_to_list(string):
             string += ','
         for arg in string.split(','):
             arg = arg.strip()
-            if arg == '': continue
+            if arg == '':
+                continue
             args.append(arg)
     return args

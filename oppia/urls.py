@@ -57,7 +57,7 @@ urlpatterns = [
     url(r'^course/$', oppia_views.courses_list_view, name="oppia_course"),
     url(r'^course/tag/(?P<tag_id>\d+)/$', oppia_views.tag_courses_view, name="oppia_tag_courses"),
     url(r'^course/(?P<course_id>\d+)/$', oppia_views.recent_activity, name="oppia_recent_activity"),
-    url(r'^course/(?P<course_id>\d+)/edit/$', oppia_views.upload_step2, {'editing':True}, name="oppia_course_edit"),
+    url(r'^course/(?P<course_id>\d+)/edit/$', oppia_views.upload_step2, {'editing': True}, name="oppia_course_edit"),
     url(r'^course/(?P<course_id>\d+)/detail/$', oppia_views.recent_activity_detail, name="oppia_recent_activity_detail"),
     url(r'^course/(?P<course_id>\d+)/detail/export/$', oppia_views.export_tracker_detail, name="oppia_export_tracker_detail"),
     url(r'^course/(?P<course_id>\d+)/download/$', oppia_views.course_download_view, name="oppia_course_download"),
@@ -89,7 +89,7 @@ urlpatterns = [
     
     url(r'^view/$', oppia_views.app_launch_activity_redirect_view, name="oppia_app_launch_activity_redirect"),
     
-    url(r'^media/(?P<path>.*)$', static.serve, {'document_root': settings.MEDIA_ROOT }),
+    url(r'^media/(?P<path>.*)$', static.serve, {'document_root': settings.MEDIA_ROOT}),
 ]
 
 if settings.DEVICE_ADMIN_ENABLED:
@@ -97,4 +97,3 @@ if settings.DEVICE_ADMIN_ENABLED:
         url(r'^deviceadmin/', include('oppia.deviceadmin.urls')),
     ]
     urlpatterns += gcmpatterns
-
