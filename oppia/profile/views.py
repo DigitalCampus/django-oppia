@@ -1,6 +1,7 @@
 # oppia/profile/views.py
 import csv
 import datetime
+import oppia.profile
 from itertools import chain
 
 from django import forms
@@ -534,6 +535,20 @@ def get_query(query_string, search_fields):
 
     return query
 
+def get_filters_from_row(search_form):
+    filters = {}
+    for row in search_form.cleaned_data:
+        if search_form.cleaned_data[row]:
+            if row is 'register_start_date':
+                filters['date_joined__gte'] = search_form.cleaned_data[row]
+            elif row is 'register_end_date':
+                filters['date_joined__lte'] = search_form.cleaned_data[row]
+            elif isinstance(search_form.fields[row], forms.CharField):
+                filters["%s__icontains" % row] = search_form.cleaned_data[row]
+            else:
+                filters[row] = search_form.cleaned_data[row]
+    return filters
+
 def search_users(request):
 
     if not request.user.is_staff:
@@ -543,18 +558,8 @@ def search_users(request):
 
     filtered = False
     search_form = UserSearchForm(request.GET,request.FILES)
-    if search_form.is_valid():
-        filters = {}
-        for row in search_form.cleaned_data:
-            if search_form.cleaned_data[row]:
-                if row is 'register_start_date':
-                    filters['date_joined__gte'] = search_form.cleaned_data[row]
-                elif row is 'register_end_date':
-                    filters['date_joined__lte'] = search_form.cleaned_data[row]
-                elif isinstance(search_form.fields[row], forms.CharField):
-                    filters["%s__icontains" % row] = search_form.cleaned_data[row]
-                else:
-                    filters[row] = search_form.cleaned_data[row]
+    if search_form.is_valid(): 
+        filters = get_filters_from_row(search_form)           
         if filters:
             users = users.filter(**filters)
             filtered = True
@@ -573,7 +578,7 @@ def search_users(request):
         ordering = 'first_name'
 
     users = users.order_by(ordering)
-    paginator = Paginator(users, 10) # Show 25 per page
+    paginator = Paginator(users, oppia.profile.SEARCH_USERS_RESULTS_PER_PAGE) # Show 25 per page
 
     # Make sure page request is an int. If not, deliver first page.
     try:
