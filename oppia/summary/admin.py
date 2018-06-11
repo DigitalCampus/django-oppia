@@ -5,9 +5,10 @@ from oppia.summary.models import UserCourseSummary, CourseDailyStats, UserPoints
 
 def message_user(model, request, model_name, query_count):
     if query_count == 1:
-         model.message_user(request, model_name + " summary succesfully updated.")
+        model.message_user(request, model_name + " summary succesfully updated.")
     elif query_count > 0:
         model.message_user(request, model_name + " summaries succesfully updated.")
+
 
 class UserCourseSummaryAdmin(admin.ModelAdmin):
     list_display = ('user', 'course', 'points', 'total_downloads', 'total_activity', 'quizzes_passed',
@@ -21,6 +22,7 @@ class UserCourseSummaryAdmin(admin.ModelAdmin):
 
     update_summary.short_description = "Update summary"
 
+
 class CourseDailyStatsAdmin(admin.ModelAdmin):
     list_display = ('course', 'day', 'type', 'total')
     date_hierarchy = 'day'
@@ -33,6 +35,7 @@ class CourseDailyStatsAdmin(admin.ModelAdmin):
         message_user(self, request, "Daily stats", queryset.count())
 
     update_summary.short_description = "Update summary"
+
 
 class UserPointsAdmin(admin.ModelAdmin):
     list_display = ('user', 'points', 'badges')

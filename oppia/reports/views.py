@@ -14,7 +14,8 @@ from oppia.summary.models import UserCourseSummary
 def menu_reports(request):
     # add in here any reports that need to appear in the menu
     #return [{'name': 'test', 'url':'/reports/1/'},{'name': 'test2', 'url':'/reports/2/'}]
-    return [{'name':_('Completion Rates'), 'url':reverse('oppia_completion_rates')}]
+    return [{'name': _('Completion Rates'), 'url': reverse('oppia_completion_rates')}]
+
 
 def completion_rates(request):
 
@@ -23,7 +24,7 @@ def completion_rates(request):
         return response
 
     courses_list = []
-    course_stats = list (UserCourseSummary.objects.filter(course__in=courses).values('course').annotate(users=Count('user'), completed=Sum('badges_achieved') ))
+    course_stats = list(UserCourseSummary.objects.filter(course__in=courses).values('course').annotate(users=Count('user'), completed=Sum('badges_achieved')))
 
     for course in courses:
         obj = {}
@@ -37,15 +38,16 @@ def completion_rates(request):
                     obj['completion'] = (float(stats['completed']) / float(no_users)) * 100
                 else:
                     obj['completion'] = 0
-                course_stats.remove(stats) #remove the element to optimize next searchs
+                course_stats.remove(stats)  # remove the element to optimize next searchs
                 continue
 
         courses_list.append(obj)
 
     return render(request, 'oppia/reports/completion_rates.html',
-                              {'courses_list': courses_list })
+                              {'courses_list': courses_list})
 
-def course_completion_rates(request,course_id):
+
+def course_completion_rates(request, course_id):
 
     if not request.user.is_staff:
         raise exceptions.PermissionDenied
@@ -72,14 +74,15 @@ def course_completion_rates(request,course_id):
             users_incompleted.append(userObj)
 
     return render(request, 'oppia/reports/course_completion_rates.html',
-                              { 'course': course,
+                              {'course': course,
                                   'users_enroled_count': len(users_completed) + len(users_incompleted),
                                   'users_completed': users_completed,
                                   'users_incompleted': users_incompleted, })
+
 
 def can_view_courses_list(request):
     if not request.user.is_staff:
         raise exceptions.PermissionDenied
     else:
-        courses = Course.objects.filter(is_draft=False,is_archived=False).order_by('title')
+        courses = Course.objects.filter(is_draft=False, is_archived=False).order_by('title')
     return courses, None

@@ -1,9 +1,10 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+
 class SettingProperties(models.Model):
     key = models.CharField(max_length=30, null=False, primary_key=True)
-    str_value = models.CharField(max_length=50,blank=True, null=True)
+    str_value = models.CharField(max_length=50, blank=True, null=True)
     int_value = models.IntegerField(blank=True, null=True)
 
     class Meta:

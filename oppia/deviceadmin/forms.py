@@ -7,9 +7,10 @@ from oppia.deviceadmin.models import UserDevice
 
 class RegisterUserDeviceForm(RegisterDeviceForm):
 
-     class Meta:
+    class Meta:
         model = UserDevice
-        fields = ('dev_id', 'reg_id', 'name', 'model_name',)
+        fields = ('dev_id', 'reg_id', 'name', 'model_name', )
+
 
 class AdminMessageForm(forms.Form):
 

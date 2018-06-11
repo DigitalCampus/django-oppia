@@ -11,7 +11,7 @@ urlpatterns = [
     url(r'^register/$', oppia_profile_views.register, name="profile_register"),
     url(r'^register/thanks/$', TemplateView.as_view(template_name="oppia/thanks.html"), name="profile_register_thanks"),
     url(r'^login/$', oppia_profile_views.login_view, name="profile_login"),
-    url(r'^logout/$', django_contrib_auth_views.logout, {'template_name': 'oppia/logout.html',}, name="profile_logout"),
+    url(r'^logout/$', django_contrib_auth_views.logout, {'template_name': 'oppia/logout.html', }, name="profile_logout"),
     url(r'^setlang/$', django_views_i18n.set_language, name="profile_set_language"),
     url(r'^reset/$', oppia_profile_views.reset, name="profile_reset"),
     url(r'^reset/sent/$', TemplateView.as_view(template_name="oppia/profile/reset-sent.html"), name="profile_reset_sent"),

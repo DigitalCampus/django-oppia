@@ -138,9 +138,9 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
     for meta in xml_doc.getElementsByTagName("meta")[:1]:
         if meta.getElementsByTagName("activity").length > 0:
             section = Section(
-                course = course,
-                title = '{"en": "Baseline"}',
-                order = 0
+                course=course,
+                title='{"en": "Baseline"}',
+                order=0
             )
             section.save()
             for act in meta.getElementsByTagName("activity"):
@@ -159,7 +159,7 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
             # Check if the section contains any activity (to avoid saving an empty one)
             activities = s.getElementsByTagName("activities")[:1]
             if not activities or activities[0].getElementsByTagName("activity").length == 0:
-                messages.info(req, _("Section ") + str(idx+1) + _(" does not contain any activities."))
+                messages.info(req, _("Section ") + str(idx + 1) + _(" does not contain any activities."))
                 continue
 
             title = {}
@@ -167,9 +167,9 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
                 if t.nodeName == 'title':
                     title[t.getAttribute('lang')] = t.firstChild.nodeValue
             section = Section(
-                course = course,
-                title = json.dumps(title),
-                order = s.getAttribute("order")
+                course=course,
+                title=json.dumps(title),
+                order=s.getAttribute("order")
             )
             section.save()
 
@@ -213,7 +213,8 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
                         for event in events:
                             e = MediaGamificationEvent(user=user, media=media, event=event['name'], points=event['points'])
                             e.save()
-                    
+
+
 def parse_and_save_activity(req, user, section, act, new_course, process_quiz_locally, is_baseline=False):
     """
     Parses an Activity XML and saves it to the DB
@@ -237,7 +238,7 @@ def parse_and_save_activity(req, user, section, act, new_course, process_quiz_lo
             if t.firstChild and t.getAttribute('lang'):
                 temp_content[t.getAttribute('lang')] = t.firstChild.nodeValue
         content = json.dumps(temp_content)
-    elif act_type == "quiz" or act_type=="feedback":
+    elif act_type == "quiz" or act_type == "feedback":
         for c in act.getElementsByTagName("content"):
             content = c.firstChild.nodeValue
     elif act_type == "resource":
@@ -285,7 +286,7 @@ def parse_and_save_activity(req, user, section, act, new_course, process_quiz_lo
     activity.description = description
 
     if not existed and not new_course:
-        messages.warning(req, _('Activity "%(act)s"(%(digest)s) did not exist previously.') % {'act': activity, 'digest':activity.digest})
+        messages.warning(req, _('Activity "%(act)s"(%(digest)s) did not exist previously.') % {'act': activity, 'digest': activity.digest})
     '''
     If we also want to show the activities that previously existed, uncomment this block
     else:
@@ -299,7 +300,7 @@ def parse_and_save_activity(req, user, section, act, new_course, process_quiz_lo
         activity.content = updated_json
 
     activity.save()
-    
+
     # save gamification events
     if act.getElementsByTagName('gamification')[:1]:
         events = parse_gamification_events(act.getElementsByTagName('gamification')[0])
@@ -309,6 +310,7 @@ def parse_and_save_activity(req, user, section, act, new_course, process_quiz_lo
         for event in events:
             e = ActivityGamificationEvent(user=user, activity=activity, event=event['name'], points=event['points'])
             e.save()
+
 
 def parse_and_save_quiz(req, user, activity, act_xml):
     """
@@ -354,7 +356,7 @@ def create_quiz(user, quiz_obj, act_xml):
     quiz.title = quiz_obj['title']
     quiz.description = quiz_obj['description']
     quiz.save()
-    
+
     print("quiz saved")
     # save gamification events
     if act_xml.getElementsByTagName('gamification')[:1]:
@@ -379,11 +381,11 @@ def create_quiz(user, quiz_obj, act_xml):
     for q in quiz_obj['questions']:
 
         question = Question(owner=user,
-                type= q['question']['type'],
+                type=q['question']['type'],
                 title=q['question']['title'])
         question.save()
 
-        quiz_question = QuizQuestion( quiz = quiz, question = question, order = q['order'])
+        quiz_question = QuizQuestion(quiz=quiz, question=question, order=q['order'])
         quiz_question.save()
 
         q['id'] = quiz_question.pk
@@ -393,16 +395,16 @@ def create_quiz(user, quiz_obj, act_xml):
             if prop is not 'id':
                 QuestionProps(
                     question=question, name=prop,
-                    value = q['question']['props'][prop]
+                    value=q['question']['props'][prop]
                 ).save()
 
         for r in q['question']['responses']:
             response = Response(
-                owner = user,
-                question = question,
-                title = r['title'],
-                score = r['score'],
-                order = r['order']
+                owner=user,
+                question=question,
+                title=r['title'],
+                score=r['score'],
+                order=r['order']
             )
             response.save()
             r['id'] = response.pk
@@ -410,15 +412,16 @@ def create_quiz(user, quiz_obj, act_xml):
             for prop in r['props']:
                 if prop is not 'id':
                     ResponseProps(
-                        response= response, name = prop,
-                        value = r['props'][prop]
+                        response=response, name=prop,
+                        value=r['props'][prop]
                     ).save()
 
     return json.dumps(quiz_obj)
 
+
 def parse_course_meta(xml_doc):
 
-    meta_info = { 'versionid': 0, 'shortname':'' }
+    meta_info = {'versionid': 0, 'shortname': ''}
     for meta in xml_doc.getElementsByTagName("meta")[:1]:
         for v in meta.getElementsByTagName("versionid")[:1]:
             meta_info['versionid'] = int(v.firstChild.nodeValue)
@@ -446,8 +449,9 @@ def parse_course_meta(xml_doc):
 
         for g in meta.getElementsByTagName("gamification"):
             meta_info['gamification'] = g
-            
+
     return meta_info
+
 
 def parse_gamification_events(element):
     events = []
@@ -455,8 +459,9 @@ def parse_gamification_events(element):
         event_name = e.getAttribute('name')
         points = e.firstChild.nodeValue
         events.append({'name': event_name, 'points': points})
-    return events    
-    
+    return events
+
+
 def replace_zip_contents(xml_path, xml_doc, mod_name, dest):
     fh = codecs.open(xml_path, mode="w", encoding="utf-8")
     new_xml = xml_doc.toxml("utf-8").decode('utf-8')
@@ -470,11 +475,12 @@ def replace_zip_contents(xml_path, xml_doc, mod_name, dest):
     shutil.make_archive(tmp_zipfilepath, 'zip', dest, base_dir=mod_name)
     return tmp_zipfilepath
 
+
 def clean_old_course(req, oldsections, old_course_filename, course):
     for section in oldsections:
         sec = Section.objects.get(pk=section)
         for act in sec.activities():
-            messages.info(req, _('Activity "%(act)s"(%(digest)s) is no longer in the course.') % {'act': act, 'digest':act.digest})
+            messages.info(req, _('Activity "%(act)s"(%(digest)s) is no longer in the course.') % {'act': act, 'digest': act.digest})
         sec.delete()
 
     if old_course_filename is not None and old_course_filename != course.filename:

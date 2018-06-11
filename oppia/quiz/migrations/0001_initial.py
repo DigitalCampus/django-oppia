@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Question',
                 'verbose_name_plural': 'Questions',
             },
-            bases=(models.Model,),
+            bases=(models.Model, ),
         ),
         migrations.CreateModel(
             name='QuestionProps',
@@ -41,7 +41,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'QuestionProp',
                 'verbose_name_plural': 'QuestionProps',
             },
-            bases=(models.Model,),
+            bases=(models.Model, ),
         ),
         migrations.CreateModel(
             name='Quiz',
@@ -59,7 +59,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Quiz',
                 'verbose_name_plural': 'Quizzes',
             },
-            bases=(models.Model,),
+            bases=(models.Model, ),
         ),
         migrations.CreateModel(
             name='QuizAttempt',
@@ -79,7 +79,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'QuizAttempt',
                 'verbose_name_plural': 'QuizAttempts',
             },
-            bases=(models.Model,),
+            bases=(models.Model, ),
         ),
         migrations.CreateModel(
             name='QuizAttemptResponse',
@@ -94,7 +94,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'QuizAttemptResponse',
                 'verbose_name_plural': 'QuizAttemptResponses',
             },
-            bases=(models.Model,),
+            bases=(models.Model, ),
         ),
         migrations.CreateModel(
             name='QuizProps',
@@ -108,7 +108,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'QuizProp',
                 'verbose_name_plural': 'QuizProps',
             },
-            bases=(models.Model,),
+            bases=(models.Model, ),
         ),
         migrations.CreateModel(
             name='QuizQuestion',
@@ -122,7 +122,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'QuizQuestion',
                 'verbose_name_plural': 'QuizQuestions',
             },
-            bases=(models.Model,),
+            bases=(models.Model, ),
         ),
         migrations.CreateModel(
             name='Response',
@@ -140,7 +140,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Response',
                 'verbose_name_plural': 'Responses',
             },
-            bases=(models.Model,),
+            bases=(models.Model, ),
         ),
         migrations.CreateModel(
             name='ResponseProps',
@@ -154,7 +154,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'ResponseProp',
                 'verbose_name_plural': 'ResponseProps',
             },
-            bases=(models.Model,),
+            bases=(models.Model, ),
         ),
         migrations.AddField(
             model_name='quiz',

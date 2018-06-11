@@ -13,6 +13,7 @@ def fix_future_dates(apps, schema_editor):
         tracker.tracker_date = tracker.submitted_date
         tracker.save()
 
+
 class Migration(migrations.Migration):
 
     dependencies = [
