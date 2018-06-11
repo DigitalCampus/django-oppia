@@ -43,6 +43,7 @@ Issue list:
 * 480: Remove code related to scheduling - https://github.com/DigitalCampus/django-oppia/issues/issues/480
 * 481: Remove code related to messaging - https://github.com/DigitalCampus/django-oppia/issues/issues/481
 * 459: Clean up utils dir - https://github.com/DigitalCampus/django-oppia/issues/issues/459
+* 498: Search users page not functioning... - https://github.com/DigitalCampus/django-oppia/issues/issues/498
 
 .. _serverv0.10.0:
 
