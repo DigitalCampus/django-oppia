@@ -22,7 +22,7 @@ onload="init();"
 <h2><a href="{% url 'oppia_recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a>
 &gt; <a href="{% url 'oppia_course_feedback' course.id %}">{% trans 'title_feedback' %}</a>
 &gt; {{ quiz.title }} </h2>
-<p><i>{% trans 'Tags:' %} {{ course.get_tags}}</i></p>
+<p><em>{% trans 'Tags:' %} {{ course.get_tags}}</em></p>
 
 {% if page.object_list %}
 	{% include "oppia/includes/page_navigator.html" %}
