@@ -60,18 +60,18 @@ def course_completion_rates(request, course_id):
     users_completed = []
     users_incompleted = []
 
-    courseActivities = course.get_no_activities()
+    course_activities = course.get_no_activities()
     users_stats = UserCourseSummary.objects.filter(course=course_id).order_by('user')
 
     for user_stats in users_stats:
-        userActivities = user_stats.completed_activities
-        userObj = {'user': user_stats.user}
-        userObj['activities_completed'] = userActivities
-        userObj['completion_percent'] = (userActivities * 100 / courseActivities)
-        if (userActivities >= courseActivities):
-            users_completed.append(userObj)
+        user_activities = user_stats.completed_activities
+        user_obj = {'user': user_stats.user}
+        user_obj['activities_completed'] = user_activities
+        user_obj['completion_percent'] = (user_activities * 100 / course_activities)
+        if (user_activities >= course_activities):
+            users_completed.append(user_obj)
         else:
-            users_incompleted.append(userObj)
+            users_incompleted.append(user_obj)
 
     return render(request, 'oppia/reports/course_completion_rates.html',
                               {'course': course,

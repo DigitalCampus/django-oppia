@@ -143,8 +143,8 @@ def can_execute(program):
     return False
 
 
-def md5_checksum(filePath):
-    with open(filePath, 'rb') as fh:
+def md5_checksum(file_path):
+    with open(file_path, 'rb') as fh:
         m = hashlib.md5()
         while True:
             data = fh.read(8192)

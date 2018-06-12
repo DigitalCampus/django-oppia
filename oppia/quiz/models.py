@@ -184,9 +184,9 @@ class QuizAttempt(models.Model):
             return None
 
     def get_tracker(self):
-        #get Tracker model this way to avoid circular import issues
-        Tracker = apps.get_model('app_label.model_name')
-        trackers = Tracker.objects.filter(uuid=self.instance_id)
+        #get tracker model this way to avoid circular import issues
+        tracker = apps.get_model('app_label.model_name')
+        trackers = tracker.objects.filter(uuid=self.instance_id)
         if trackers.count() > 0:
             return trackers[0]
         else:

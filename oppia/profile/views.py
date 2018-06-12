@@ -33,8 +33,8 @@ from oppia.reports.signals import dashboard_accessed
 from oppia.summary.models import UserCourseSummary
 
 
-def filter_redirect(requestContent):
-    redirection = requestContent.get('next')
+def filter_redirect(request_content):
+    redirection = request_content.get('next')
     # Avoid redirecting to logout after login
     if redirection == reverse('profile_logout'):
         return None

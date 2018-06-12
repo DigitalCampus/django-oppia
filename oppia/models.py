@@ -413,8 +413,8 @@ class Tracker(models.Model):
     @staticmethod
     def to_xml_string(course, user):
         doc = Document()
-        trackerXML = doc.createElement('trackers')
-        doc.appendChild(trackerXML)
+        tracker_xml = doc.createElement('trackers')
+        doc.appendChild(tracker_xml)
         trackers = Tracker.objects.filter(user=user, course=course)
         for t in trackers:
             track = doc.createElement('tracker')
@@ -441,7 +441,7 @@ class Tracker(models.Model):
                     pass
                 except IndexError:
                     pass
-            trackerXML.appendChild(track)
+            tracker_xml.appendChild(track)
         return doc.toxml()
 
     @staticmethod
@@ -663,15 +663,15 @@ class Points(models.Model):
 
         if course is not None:
             users = UserCourseSummary.objects.filter(course=course)
-            usersPoints = users.values('user').annotate(points=Sum('points'), badges=Sum('badges_achieved')).order_by('-points')
+            users_points = users.values('user').annotate(points=Sum('points'), badges=Sum('badges_achieved')).order_by('-points')
         else:
-            usersPoints = UserPointsSummary.objects.all().values('user', 'points', 'badges').order_by('-points')
+            users_points = UserPointsSummary.objects.all().values('user', 'points', 'badges').order_by('-points')
 
         if count > 0:
-            usersPoints = usersPoints[:count]
+            users_points = users_points[:count]
 
         leaderboard = []
-        for u in usersPoints:
+        for u in users_points:
             user = User.objects.get(pk=u['user'])
             user.badges = 0 if u['badges'] is None else u['badges']
             user.total = 0 if u['points'] is None else u['points']
