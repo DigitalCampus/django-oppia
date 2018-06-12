@@ -1,5 +1,6 @@
 # This is a workaround since Tastypie doesn't accept file Uploads
 import math
+import oppia.api
 
 import os
 from django.conf import settings
@@ -14,9 +15,54 @@ from oppia.settings import constants
 from oppia.settings.models import SettingProperties
 from oppia.uploader import handle_uploaded_file
 
-COURSE_FILE_FIELD = 'course_file'
+def add_course_tags(course, tags):
+    for t in tags:
+        try:
+            tag = Tag.objects.get(name__iexact=t.strip())
+        except Tag.DoesNotExist:
+            tag = Tag()
+            tag.name = t.strip()
+            tag.created_by = user
+            tag.save()
+        # add tag to course
+        try:
+            ct = CourseTag.objects.get(course=course, tag=tag)
+        except CourseTag.DoesNotExist:
+            ct = CourseTag()
+            ct.course = course
+            ct.tag = tag
+            ct.save()
+            
+def check_required_fields(request, required, validation_errors):
+    for field in required:
+        if field not in request.POST:
+            print(field + " not found")
+            validationErrors.append("field '{0}' missing".format(field))
+    return validation_errors
 
+def check_upload_file_size_type(file, validation_errors):
+    max_upload = SettingProperties.get_int(constants.MAX_UPLOAD_SIZE, settings.OPPIA_MAX_UPLOAD_SIZE)
+    if file is not None and file._size > max_upload:
+        size = int(math.floor(max_upload / 1024 / 1024))
+        validation_errors.append((_("Your file is larger than the maximum allowed (%(size)d Mb). You may want to check your course for large includes, such as images etc.") % {'size': size, }))
 
+    if file is not None and file.content_type != 'application/zip' and file.content_type != 'application/x-zip-compressed':
+        validation_errors.append(_("You may only upload a zip file"))
+
+    return validation_errors
+
+def authenticate_user(username, password):
+    user = authenticate(username=username, password=password)
+    if user is None or not user.is_active:
+        messages.error(request, "Invalid username/password")
+        response_data = {
+            'message': _('Authentication errors'),
+            'messages': get_messages_array(request)
+        }
+        return False, response_data
+    else:
+        return True, None
+    
 @csrf_exempt
 def publish_view(request):
 
@@ -29,40 +75,20 @@ def publish_view(request):
     required = ['username', 'password', 'tags', 'is_draft']
 
     validation_errors = []
-
-    for field in required:
-        if field not in request.POST:
-            print(field + " not found")
-            validationErrors.append("field '{0}' missing".format(field))
-
-
-    if COURSE_FILE_FIELD not in request.FILES:
+    validation_errors = check_required_fields(request, required, validation_errors)
+    
+    if oppia.api.COURSE_FILE_FIELD not in request.FILES:
         print("Course file not found")
-        validation_errors.append("file '{0}' missing".format(COURSE_FILE_FIELD))
+        validation_errors.append("file '{0}' missing".format(oppia.api.COURSE_FILE_FIELD))
     else:
-        # check the file size of the course doesnt exceed the max
-        file = request.FILES[COURSE_FILE_FIELD]
-        max_upload = SettingProperties.get_int(constants.MAX_UPLOAD_SIZE, settings.OPPIA_MAX_UPLOAD_SIZE)
-        if file is not None and file._size > max_upload:
-            size = int(math.floor(max_upload / 1024 / 1024))
-            validation_errors.append((_("Your file is larger than the maximum allowed (%(size)d Mb). You may want to check your course for large includes, such as images etc.") % {'size': size, }))
+        validation_errors = check_upload_file_size_type(request.FILES[oppia.api.COURSE_FILE_FIELD], validation_errors)    
 
-        if file is not None and file.content_type != 'application/zip' and file.content_type != 'application/x-zip-compressed':
-            validation_errors.append(_("You may only upload a zip file"))
-
-    if validationErrors:
-        return JsonResponse({'errors': validationErrors}, status=400, )
+    if validation_errors:
+        return JsonResponse({'errors': validation_errors}, status=400, )
 
     # authenticate user
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate(username=username, password=password)
-    if user is None or not user.is_active:
-        messages.error(request, "Invalid username/password")
-        response_data = {
-            'message': _('Authentication errors'),
-            'messages': get_messages_array(request)
-        }
+    authenticated, response_data = authenticate_user(request.POST['username'], request.POST['password'])
+    if not authenticated:
         return JsonResponse(response_data, status=401)
 
     # check user has permissions to publish course
@@ -90,22 +116,7 @@ def publish_view(request):
 
         # add tags
         tags = request.POST['tags'].strip().split(",")
-        for t in tags:
-            try:
-                tag = Tag.objects.get(name__iexact=t.strip())
-            except Tag.DoesNotExist:
-                tag = Tag()
-                tag.name = t.strip()
-                tag.created_by = user
-                tag.save()
-            # add tag to course
-            try:
-                ct = CourseTag.objects.get(course=course, tag=tag)
-            except CourseTag.DoesNotExist:
-                ct = CourseTag()
-                ct.course = course
-                ct.tag = tag
-                ct.save()
+        add_course_tags(course, tags)
 
         msgs = get_messages_array(request)
         if len(msgs) > 0:
