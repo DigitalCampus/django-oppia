@@ -93,7 +93,7 @@ def monitor_cohort_progress_view(request, cohort_id, course_id):
                         'section': s}
                 p.sections.append(temp)
     except (EmptyPage, InvalidPage):
-        tracks = paginator.page(paginator.num_pages)
+        pass
 
     return render(request, 'oppia/mobile/monitor/progress.html', {'cohort': cohort, 'course': course, 'participants': students, 'user': request.user})
 
@@ -136,7 +136,7 @@ def monitor_cohort_quizzes_view(request, cohort_id, course_id):
                         'started': started}
                 p.quizzes.append(temp)
     except (EmptyPage, InvalidPage):
-        tracks = paginator.page(paginator.num_pages)
+        pass
 
     return render(request, 'oppia/mobile/monitor/quizzes.html', {'cohort': cohort, 'course': course, 'participants': students, 'user': request.user})
 
@@ -178,7 +178,7 @@ def monitor_cohort_media_view(request, cohort_id, course_id):
                         'started': started}
                 p.media.append(temp)
     except (EmptyPage, InvalidPage):
-        tracks = paginator.page(paginator.num_pages)
+        pass
 
     return render(request, 'oppia/mobile/monitor/media.html', {'cohort': cohort, 'course': course, 'participants': students, 'user': request.user})
 
@@ -187,12 +187,9 @@ def monitor_cohort_student_view(request, cohort_id, student_id):
     auth = ApiKeyAuthentication()
     if auth.is_authenticated(request) is not True:
         return HttpResponse('Unauthorized', status=401)
-    now = datetime.datetime.now()
     key = ApiKey.objects.get(user=request.user)
     request.user.key = key.key
-    cohort = get_object_or_404(Cohort, pk=cohort_id, participant__user=request.user, participant__role=Participant.TEACHER, start_date__lte=now, end_date__gte=now)
     raise Http404
-
 
 def record_mobile_tracker(request, course_id, type, page):
     t = Tracker()

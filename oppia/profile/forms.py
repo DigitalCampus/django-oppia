@@ -158,10 +158,10 @@ class ResetForm(forms.Form):
         cleaned_data = self.cleaned_data
         username = cleaned_data.get("username")
         try:
-            user = User.objects.get(username__exact=username)
+            User.objects.get(username__exact=username)
         except User.DoesNotExist:
             try:
-                user = User.objects.get(email__exact=username)
+                User.objects.get(email__exact=username)
             except User.DoesNotExist:
                 raise forms.ValidationError(_(u"Username/email not found"))
         return cleaned_data

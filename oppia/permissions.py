@@ -88,10 +88,10 @@ def is_manager(course_id, user):
             return True
         else:
             try:
-                course = Course.objects.get(pk=course_id, user=user)
+                Course.objects.get(pk=course_id, user=user)
                 return True
             except Course.DoesNotExist:
-                course = Course.objects.get(pk=course_id, coursemanager__course__id=course_id, coursemanager__user=user)
+                Course.objects.get(pk=course_id, coursemanager__course__id=course_id, coursemanager__user=user)
                 return True
     except Course.DoesNotExist:
         return False

@@ -831,7 +831,7 @@ def course_quiz_attempts(request, course_id, quiz_id):
         for a in attempts:
             a.responses = QuizAttemptResponse.objects.filter(quizattempt=a)
     except (EmptyPage, InvalidPage):
-        tracks = paginator.page(paginator.num_pages)
+        paginator.page(paginator.num_pages)
 
     return render(request, 'oppia/course/quiz-attempts.html',
                               {'course': course,
