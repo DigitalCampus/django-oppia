@@ -1,4 +1,6 @@
 # oppia/quiz/api/resources.py
+import oppia
+
 from django.conf.urls import url
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
@@ -262,7 +264,7 @@ class QuizAttemptResource(ModelResource):
 
     def hydrate(self, bundle, request=None):
         bundle.obj.user = User.objects.get(pk=bundle.request.user.id)
-        bundle.obj.ip = bundle.request.META.get('REMOTE_ADDR', '0.0.0.0')
+        bundle.obj.ip = bundle.request.META.get('REMOTE_ADDR', oppia.DEFAULT_IP_ADDRESS)
         bundle.obj.agent = bundle.request.META.get('HTTP_USER_AGENT', 'unknown')
 
         # check the quiz exists

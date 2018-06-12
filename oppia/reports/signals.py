@@ -1,4 +1,5 @@
 # oppia/reports/signals.py
+import oppia
 
 from django.dispatch import Signal
 
@@ -15,7 +16,7 @@ def dashboard_accessed_callback(sender, **kwargs):
     dal.user = request.user
     dal.url = request.build_absolute_uri()
     dal.data = data
-    dal.ip = request.META.get('REMOTE_ADDR', '0.0.0.0')
+    dal.ip = request.META.get('REMOTE_ADDR', oppia.DEFAULT_IP_ADDRESS)
     dal.agent = request.META.get('HTTP_USER_AGENT', 'unknown')
     dal.save()
 

@@ -1,5 +1,6 @@
 # oppia/mobile/views.py
 import datetime
+import oppia
 
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.http import HttpResponse, HttpResponseRedirect, Http404
@@ -194,7 +195,7 @@ def monitor_cohort_student_view(request, cohort_id, student_id):
 def record_mobile_tracker(request, course_id, type, page):
     t = Tracker()
     t.user = request.user
-    t.ip = request.META.get('REMOTE_ADDR', '0.0.0.0')
+    t.ip = request.META.get('REMOTE_ADDR', oppia.DEFAULT_IP_ADDRESS)
     t.agent = request.META.get('HTTP_USER_AGENT', 'unknown')
     t.digest = ""
     t.data = ""

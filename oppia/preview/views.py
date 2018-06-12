@@ -1,6 +1,7 @@
 # oppia/preview/views.py
 import codecs
 import os
+import oppia
 import re
 
 from django.conf import settings
@@ -48,7 +49,7 @@ def course_activity_view(request, course_id, activity_id):
     tracker.course = course
     tracker.type = activity.type
     tracker.data = ""
-    tracker.ip = request.META.get('REMOTE_ADDR', '0.0.0.0')
+    tracker.ip = request.META.get('REMOTE_ADDR', oppia.DEFAULT_IP_ADDRESS)
     tracker.agent = request.META.get('HTTP_USER_AGENT', 'unknown')
     tracker.activity_title = activity.title
     tracker.section_title = activity.section.title
