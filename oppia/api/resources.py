@@ -5,6 +5,7 @@ import shutil
 import zipfile
 from wsgiref.util import FileWrapper
 import datetime
+import oppia.api
 
 from django.conf import settings
 from django.conf.urls import url
@@ -32,6 +33,14 @@ from oppia.profile.forms import RegisterForm
 from oppia.profile.models import UserProfile
 from oppia.signals import course_downloaded
 from oppia.utils.deprecation import RemovedInOppia0110Warning
+
+
+def check_required_params(bundle, required):
+    for r in required:
+        try:
+            bundle.data[r]
+        except KeyError:
+            raise BadRequest(_(u'Please enter your %s') % r)
 
 
 class UserResource(ModelResource):
@@ -89,7 +98,7 @@ class UserResource(ModelResource):
                 tracker = Tracker()
                 tracker.user = u
                 tracker.type = 'login'
-                tracker.ip = bundle.request.META.get('REMOTE_ADDR', '0.0.0.0')
+                tracker.ip = bundle.request.META.get('REMOTE_ADDR', oppia.api.DEFAULT_IP_ADDRESS)
                 tracker.agent = bundle.request.META.get('HTTP_USER_AGENT', 'unknown')
                 tracker.save()
             else:
@@ -148,11 +157,9 @@ class RegisterResource(ModelResource):
         if not settings.OPPIA_ALLOW_SELF_REGISTRATION:
             raise BadRequest(_(u'Registration is disabled on this server.'))
         required = ['username', 'password', 'passwordagain', 'email', 'firstname', 'lastname']
-        for r in required:
-            try:
-                bundle.data[r]
-            except KeyError:
-                raise BadRequest(_(u'Please enter your %s') % r)
+
+        check_required_params(bundle, required)
+
         data = {'username': bundle.data['username'],
                 'password': bundle.data['password'],
                 'password_again': bundle.data['passwordagain'],
@@ -189,16 +196,15 @@ class RegisterResource(ModelResource):
             user_profile.save()
 
             u = authenticate(username=username, password=password)
-            if u is not None:
-                if u.is_active:
-                    login(bundle.request, u)
-                    # Add to tracker
-                    tracker = Tracker()
-                    tracker.user = u
-                    tracker.type = 'register'
-                    tracker.ip = bundle.request.META.get('REMOTE_ADDR', '0.0.0.0')
-                    tracker.agent = bundle.request.META.get('HTTP_USER_AGENT', 'unknown')
-                    tracker.save()
+            if u is not None and u.is_active:
+                login(bundle.request, u)
+                # Add to tracker
+                tracker = Tracker()
+                tracker.user = u
+                tracker.type = 'register'
+                tracker.ip = bundle.request.META.get('REMOTE_ADDR', oppia.api.DEFAULT_IP_ADDRESS)
+                tracker.agent = bundle.request.META.get('HTTP_USER_AGENT', 'unknown')
+                tracker.save()
             key = ApiKey.objects.get(user=u)
             bundle.data['api_key'] = key.key
         except IntegrityError:
@@ -244,11 +250,7 @@ class ResetPasswordResource(ModelResource):
 
     def obj_create(self, bundle, **kwargs):
         required = ['username', ]
-        for r in required:
-            try:
-                bundle.data[r]
-            except KeyError:
-                raise BadRequest(_(u'Please enter your username or email address'))
+        check_required_params(bundle, required)
 
         bundle.obj.username = bundle.data['username']
         try:
@@ -327,13 +329,47 @@ class TrackerResource(ModelResource):
         fields = ['points', 'digest', 'data', 'tracker_date', 'badges', 'course', 'completed', 'scoring', 'metadata', 'badging']
         validation = TrackerValidation()
 
+    def process_tracker_bundle(self, bundle):
+        try:
+            if 'course' in bundle.data:
+                media_objs = Media.objects.filter(digest=bundle.data['digest'], course__shortname=bundle.data['course'])[:1]
+            else:
+                media_objs = Media.objects.filter(digest=bundle.data['digest'])[:1]
+            if media_objs.count() > 0:
+                media = media_objs[0]
+                bundle.obj.course = media.course
+                bundle.obj.type = 'media'
+        except Media.DoesNotExist:
+            pass
+
+        try:
+            json_data = json.loads(bundle.data['data'])
+            if 'timetaken' in json_data:
+                bundle.obj.time_taken = json_data['timetaken']
+            if 'uuid' in json_data:
+                bundle.obj.uuid = json_data['uuid']
+            if 'lang' in json_data:
+                bundle.obj.lang = json_data['lang']
+        except ValueError:
+            pass
+        except KeyError:
+            pass
+
+        if 'points' in bundle.data:
+            bundle.obj.points = bundle.data['points']
+
+        if 'event' in bundle.data:
+            bundle.obj.event = bundle.data['event']
+
+        return bundle
+
     def hydrate(self, bundle, request=None):
 
         # remove any id if this is submitted - otherwise it may overwrite existing tracker item
         if 'id' in bundle.data:
             del bundle.obj.id
         bundle.obj.user = bundle.request.user
-        bundle.obj.ip = bundle.request.META.get('REMOTE_ADDR', '0.0.0.0')
+        bundle.obj.ip = bundle.request.META.get('REMOTE_ADDR', oppia.api.DEFAULT_IP_ADDRESS)
         bundle.obj.agent = bundle.request.META.get('HTTP_USER_AGENT', 'unknown')
 
         if 'type' in bundle.data and bundle.data['type'] == 'search':
@@ -365,36 +401,7 @@ class TrackerResource(ModelResource):
             bundle.obj.activity_title = ''
             bundle.obj.section_title = ''
 
-        try:
-            if 'course' in bundle.data:
-                media_objs = Media.objects.filter(digest=bundle.data['digest'], course__shortname=bundle.data['course'])[:1]
-            else:
-                media_objs = Media.objects.filter(digest=bundle.data['digest'])[:1]
-            if media_objs.count() > 0:
-                media = media_objs[0]
-                bundle.obj.course = media.course
-                bundle.obj.type = 'media'
-        except Media.DoesNotExist:
-            pass
-
-        try:
-            json_data = json.loads(bundle.data['data'])
-            if 'timetaken' in json_data:
-                bundle.obj.time_taken = json_data['timetaken']
-            if 'uuid' in json_data:
-                bundle.obj.uuid = json_data['uuid']
-            if 'lang' in json_data:
-                bundle.obj.lang = json_data['lang']
-        except ValueError:
-            pass
-        except KeyError:
-            pass
-
-        if 'points' in bundle.data:
-            bundle.obj.points = bundle.data['points']
-
-        if 'event' in bundle.data:
-            bundle.obj.event = bundle.data['event']
+        bundle = self.process_tracker_bundle(bundle)
 
         return bundle
 
@@ -435,7 +442,7 @@ class TrackerResource(ModelResource):
             data = self.alter_deserialized_detail_data(request, data)
             bundle = self.build_bundle(data=dict_strip_unicode_keys(data))
             bundle.request.user = request.user
-            bundle.request.META['REMOTE_ADDR'] = request.META.get('REMOTE_ADDR', '0.0.0.0')
+            bundle.request.META['REMOTE_ADDR'] = request.META.get('REMOTE_ADDR', oppia.api.DEFAULT_IP_ADDRESS)
             bundle.request.META['HTTP_USER_AGENT'] = request.META.get('HTTP_USER_AGENT', 'unknown')
             # check UUID not already submitted
             if 'data' in bundle.data:
@@ -508,7 +515,6 @@ class CourseResource(ModelResource):
 
         file_to_download = course.getAbsPath()
         has_completed_trackers = Tracker.has_completed_trackers(course, request.user)
-        cohort = Cohort.member_now(course, request.user)
 
         try:
             # add scheduling XML file
@@ -533,7 +539,7 @@ class CourseResource(ModelResource):
         tracker.course = course
         tracker.type = 'download'
         tracker.data = json.dumps({'version': course.version})
-        tracker.ip = request.META.get('REMOTE_ADDR', '0.0.0.0')
+        tracker.ip = request.META.get('REMOTE_ADDR', oppia.api.DEFAULT_IP_ADDRESS)
         tracker.agent = request.META.get('HTTP_USER_AGENT', 'unknown')
         tracker.save()
 
@@ -576,8 +582,6 @@ class CourseResource(ModelResource):
             pass
 
         course = Course.objects.get(pk=bundle.obj.pk)
-
-        cohort = Cohort.member_now(course, bundle.request.user)
 
         if course and course.user:
             bundle.data['author'] = course.user.first_name + " " + course.user.last_name
@@ -642,7 +646,7 @@ class TagResource(ModelResource):
         cr = CourseResource()
         for c in courses:
             bundle = cr.build_bundle(obj=c, request=request)
-            d = cr.full_dehydrate(bundle)
+            cr.full_dehydrate(bundle)
             course_data.append(bundle.data)
 
         response = HttpResponse(content=json.dumps({'id': pk, 'count': courses.count(), 'courses': course_data, 'name': tag.name}), content_type="application/json; charset=utf-8")
@@ -663,10 +667,9 @@ class TagResource(ModelResource):
             return None
 
     def alter_list_data_to_serialize(self, request, data):
-        if isinstance(data, dict):
-            if 'objects' in data:
-                data['tags'] = data['objects']
-                del data['objects']
+        if isinstance(data, dict) and 'objects' in data:
+            data['tags'] = data['objects']
+            del data['objects']
         return data
 
 

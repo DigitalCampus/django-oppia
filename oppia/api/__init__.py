@@ -1,1 +1,2 @@
 COURSE_FILE_FIELD = 'course_file'
+DEFAULT_IP_ADDRESS = '0.0.0.0'

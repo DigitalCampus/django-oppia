@@ -15,6 +15,7 @@ from oppia.settings import constants
 from oppia.settings.models import SettingProperties
 from oppia.uploader import handle_uploaded_file
 
+
 def add_course_tags(course, tags):
     for t in tags:
         try:
@@ -32,13 +33,15 @@ def add_course_tags(course, tags):
             ct.course = course
             ct.tag = tag
             ct.save()
-            
+
+
 def check_required_fields(request, required, validation_errors):
     for field in required:
         if field not in request.POST:
             print(field + " not found")
             validationErrors.append("field '{0}' missing".format(field))
     return validation_errors
+
 
 def check_upload_file_size_type(file, validation_errors):
     max_upload = SettingProperties.get_int(constants.MAX_UPLOAD_SIZE, settings.OPPIA_MAX_UPLOAD_SIZE)
@@ -51,6 +54,7 @@ def check_upload_file_size_type(file, validation_errors):
 
     return validation_errors
 
+
 def authenticate_user(username, password):
     user = authenticate(username=username, password=password)
     if user is None or not user.is_active:
@@ -62,7 +66,8 @@ def authenticate_user(username, password):
         return False, response_data
     else:
         return True, None
-    
+
+
 @csrf_exempt
 def publish_view(request):
 
@@ -76,12 +81,12 @@ def publish_view(request):
 
     validation_errors = []
     validation_errors = check_required_fields(request, required, validation_errors)
-    
+
     if oppia.api.COURSE_FILE_FIELD not in request.FILES:
         print("Course file not found")
         validation_errors.append("file '{0}' missing".format(oppia.api.COURSE_FILE_FIELD))
     else:
-        validation_errors = check_upload_file_size_type(request.FILES[oppia.api.COURSE_FILE_FIELD], validation_errors)    
+        validation_errors = check_upload_file_size_type(request.FILES[oppia.api.COURSE_FILE_FIELD], validation_errors)
 
     if validation_errors:
         return JsonResponse({'errors': validation_errors}, status=400, )
