@@ -18,7 +18,7 @@
 		        	<li><a href="{% url 'oppia_course' %}">{% trans 'menu_courses' %}</a></li>
 		        	<li><a href="{% url 'oppia_av_home' %}">{% trans 'Media' %}</a></li>
 		        	{% if user.userprofile.get_can_upload %}
-		        		<li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">{% trans 'Upload' %}<b class="caret"></b></a>
+		        		<li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">{% trans 'Upload' %}<strong class="caret"></strong></a>
 		        		<ul class="dropdown-menu">
 		        			<li><a href="{% url 'oppia_upload' %}">{% trans 'Course' %}</a></li>
 		        			<li><a href="{% url 'oppia_av_upload' %}">{% trans 'Media' %}</a></li>
@@ -31,7 +31,7 @@
 		      {% endif %}
 		       {% if user.is_staff %}
 		       		<li><a href="{% url 'oppia_cohorts' %}">{% trans 'Cohorts' %}</a></li>
-		       		<li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">{% trans 'Analytics' %}<b class="caret"></b></a>
+		       		<li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">{% trans 'Analytics' %}<strong class="caret"></strong></a>
 		       		<ul class="dropdown-menu">
 		       			<li><a href="{% url 'oppia_viz_summary' %}">{% trans 'Summary Overview' %}</a></li>
 		        		<li><a href="{% url 'oppia_viz_map' %}">{% trans 'Activity Map' %}</a></li>
@@ -42,7 +42,7 @@
 					</li>
 		       {% endif %}
 		       {% if user.is_superuser %}
-		       		<li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">{% trans 'Admin' %}<b class="caret"></b></a>
+		       		<li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">{% trans 'Admin' %}<strong class="caret"></strong></a>
 		       		<ul class="dropdown-menu">
                         <li><a href="{% url 'search_users' %}">{% trans 'Search users' %}</a></li>
 		       			<li><a href="{% url 'profile_upload' %}">{% trans 'Upload users' %}</a></li>
@@ -56,7 +56,7 @@
 		       {% endif %}
 		       
 		       {% if user.is_authenticated %}
-		       		<li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">{% trans 'My Oppia' %}<b class="caret"></b></a>
+		       		<li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">{% trans 'My Oppia' %}<strong class="caret"></strong></a>
 		       		<ul class="dropdown-menu">
 		       			<li><a href="{% url 'profile_user_activity'  user.id %}">{% trans 'Scorecard' %}</a></li>
 		            	<li><a href="{% url 'profile_edit' %}">{% trans 'Edit Profile' %}</a></li>
