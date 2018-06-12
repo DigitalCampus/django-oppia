@@ -126,9 +126,8 @@ class RegisterForm(forms.Form):
             raise forms.ValidationError(_(u"Email has already been registered"))
 
         # check the password are the same
-        if password and password_again:
-            if password != password_again:
-                raise forms.ValidationError(_(u"Passwords do not match."))
+        if password and password_again and password != password_again:
+            raise forms.ValidationError(_(u"Passwords do not match."))
 
         # Always return the full collection of cleaned data.
         return cleaned_data
@@ -276,9 +275,8 @@ class ProfileForm(forms.Form):
         # if password entered then check they are the same
         password = cleaned_data.get("password")
         password_again = cleaned_data.get("password_again")
-        if password and password_again:
-            if password != password_again:
-                raise forms.ValidationError(_(u"Passwords do not match."))
+        if password and password_again and password != password_again:
+            raise forms.ValidationError(_(u"Passwords do not match."))
 
         return cleaned_data
 

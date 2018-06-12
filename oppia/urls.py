@@ -40,7 +40,7 @@ if settings.DEVICE_ADMIN_ENABLED:
     v1_api.register(UserDeviceResource())
 
 #Custom HTTP response pages
-handler403 = 'oppia.permissions.Oppia403Handler'
+handler403 = 'oppia.permissions.oppia_403_handler'
 
 urlpatterns = [
 

@@ -29,10 +29,6 @@ def secs_to_duration(secs):
 
     return str(int(math.floor(secs / 60))) + " mins"
 
-    #minutes = int(math.floor(secs/60))
-    #seconds = int(secs - (minutes*60))
-    #return str(minutes)+'\''+str(seconds)+'"'
-
 @register.filter(name='title_lang')
 @stringfilter
 def title_lang(title, lang):

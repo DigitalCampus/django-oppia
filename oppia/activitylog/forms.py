@@ -37,6 +37,5 @@ class UploadActivityLogForm(forms.Form):
         cleaned_data = super(UploadActivityLogForm, self).clean()
         activity_log_file = cleaned_data.get("activity_log_file")
 
-        if activity_log_file is not None:
-            if activity_log_file.content_type not in settings.OPPIA_UPLOAD_TRACKER_FILE_TYPES:
-                raise forms.ValidationError(_(u"You may only upload an activity log file which is one of the following types: %s" % ', '.join(settings.OPPIA_UPLOAD_TRACKER_FILE_TYPES)))
+        if activity_log_file is not None and activity_log_file.content_type not in settings.OPPIA_UPLOAD_TRACKER_FILE_TYPES:
+            raise forms.ValidationError(_(u"You may only upload an activity log file which is one of the following types: %s" % ', '.join(settings.OPPIA_UPLOAD_TRACKER_FILE_TYPES)))

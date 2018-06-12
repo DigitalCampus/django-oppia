@@ -13,9 +13,8 @@ class QuizOwnerValidation(Validation):
             return {'__all__': 'no data.'}
         errors = {}
         quiz = bundle.obj.quiz
-        if not bundle.request.user.is_staff:
-            if quiz.owner.id != bundle.request.user.id:
-                errors['error_message'] = _(u"You are not the owner of this quiz")
+        if not bundle.request.user.is_staff and quiz.owner.id != bundle.request.user.id:
+            errors['error_message'] = _(u"You are not the owner of this quiz")
         return errors
 
 

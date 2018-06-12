@@ -92,15 +92,6 @@ class QuizJSONSerializer(Serializer):
                 r['props'] = r['p']
                 del r['p']
 
-                # for feedback
-                '''
-                for f in r['feedback']:
-                    try:
-                        f['title'] = json.loads(f['title'])
-                    except ValueError:
-                        # ignore this since the title doesn't supply lang info, so just continue as plain string
-                        pass
-                '''
         # calc maxscore for quiz
         data['p'] = {}
         data['p']['maxscore'] = qmaxscore

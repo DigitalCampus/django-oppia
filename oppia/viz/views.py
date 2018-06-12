@@ -101,9 +101,7 @@ def summary_view(request):
         previous_course_activity = 0
 
     last_month = timezone.now() - datetime.timedelta(days=131)
-    #hit_by_course = Tracker.objects.filter(user__is_staff=False, submitted_date__gte=last_month).exclude(course_id=None).values('course_id').annotate(total_hits=Count('id')).order_by('-total_hits')
-    #total_hits = Tracker.objects.filter(user__is_staff=False, submitted_date__gte=last_month).exclude(course_id=None).aggregate(total_hits=Count('id'))
-
+    
     hit_by_course = CourseDailyStats.objects \
                         .filter(day__gte=last_month, course__isnull=False).values('course_id') \
                         .annotate(total_hits=Sum('total')).order_by('-total_hits')

@@ -74,12 +74,9 @@ def quizattempt_callback(sender, **kwargs):
         return
 
     # find out is user is part of the cohort for this course
-    if course is not None:
-        if course.user == quiz_attempt.user and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
-            return
-
-   
-             
+    if course is not None and course.user == quiz_attempt.user and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
+        return
+     
     if quiz_attempt.is_first_attempt():
         # If it's the first time they've attempted this quiz award points
         p = Points()

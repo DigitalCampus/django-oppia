@@ -98,15 +98,6 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
         resource_url = get_api_url('course', 3) + 'download/'
         resp = self.api_client.get(resource_url, format='json', data=self.auth_data)
         self.assertHttpNotFound(resp)
-    # TODO test course file found
-
-    '''
-    def test_course_download_draft_admin_visible(self):
-        resource_url = get_api_url('course', 3) + 'download/'
-        resp = self.api_client.get(resource_url, format='json', data=self.admin_auth)
-        self.assertHttpOK(resp)
-        self.assertValidJSON(resp.content)
-    '''
 
     def test_course_get_activity(self):
         resource_url = get_api_url('course', 1) + 'activity/'

@@ -172,5 +172,5 @@ def can_view_courses_list(request):
     return courses
 
 
-def Oppia403Handler(request):
+def oppia_403_handler(request):
     return HttpResponseForbidden('403.html')

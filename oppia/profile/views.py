@@ -33,7 +33,7 @@ from oppia.reports.signals import dashboard_accessed
 from oppia.summary.models import UserCourseSummary
 
 
-def filterRedirect(requestContent):
+def filter_redirect(requestContent):
     redirection = requestContent.get('next')
     # Avoid redirecting to logout after login
     if redirection == reverse('profile_logout'):
@@ -70,7 +70,7 @@ def login_view(request):
         form = LoginForm(request.POST)
         username = request.POST.get('username')
         password = request.POST.get('password')
-        next = filterRedirect(request.POST)
+        next = filter_redirect(request.POST)
 
         user = authenticate(username=username, password=password)
         if user is not None and user.is_active:
@@ -80,7 +80,7 @@ def login_view(request):
             else:
                 return HttpResponseRedirect(reverse('oppia_home'))
     else:
-        form = LoginForm(initial={'next': filterRedirect(request.GET), })
+        form = LoginForm(initial={'next': filter_redirect(request.GET), })
 
     return render(request, 'oppia/form.html',
                               {'username': username,
@@ -111,13 +111,12 @@ def register(request):
             user_profile.organisation = form.cleaned_data.get("organisation")
             user_profile.save()
             u = authenticate(username=username, password=password)
-            if u is not None:
-                if u.is_active:
-                    login(request, u)
-                    return HttpResponseRedirect('thanks/')
+            if u is not None and u.is_active:
+                login(request, u)
+                return HttpResponseRedirect('thanks/')
             return HttpResponseRedirect('thanks/')  # Redirect after POST
     else:
-        form = RegisterForm(initial={'next': filterRedirect(request.GET), })
+        form = RegisterForm(initial={'next': filter_redirect(request.GET), })
 
     return render(request, 'oppia/form.html',
                               {'form': form,
