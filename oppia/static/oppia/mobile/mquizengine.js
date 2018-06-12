@@ -430,14 +430,14 @@ function mQuiz(){
 		}
 		qs.sort(sortresults);
 		for (var q in qs){
-			var result = $('<div>').attr({'class':'result'});
+			var q_result = $('<div>').attr({'class':'result'});
 			var d = new Date(qs[q].attempt_date);
 			var str = qs[q].title + "<br/><small>"+ dateFormat(d,'HH:MM d-mmm-yy')+"</small>";
 			result.append($('<div>').attr({'class':'rest clickable','onclick':'document.location="#'+qs[q].quiz_id +'"','title':'try this quiz again'}).html(str));
 			result.append($('<div>').attr({'class':'ress'}).text((qs[q].score*100/qs[q].maxscore).toFixed(0)+"%"));
 			result.append($('<div>').attr({'class':'resr'}).text(qs[q].rank));
 			result.append("<div style='clear:both'></div>");
-			results.append(result);
+			results.append(q_result);
 		}
 	};
 	
