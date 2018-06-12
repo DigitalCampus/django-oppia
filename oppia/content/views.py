@@ -36,14 +36,14 @@ def media_embed_helper(request):
             media_url = form.cleaned_data.get("media_url")
             media_guid = str(uuid.uuid4())
             media_local_file = os.path.join(settings.COURSE_UPLOAD_DIR, 'temp', media_guid)
-            downloadError = None
+            download_error = None
             processed_media = {}
 
             # Need to add better validation here
             try:
                 urllib.urlretrieve(media_url, filename=media_local_file)
             except IOError as err:
-                downloadError = err
+                download_error = err
                 processed_media['success'] = False
                 processed_media['error'] = _("url_download_fail")
 
@@ -74,7 +74,7 @@ def media_embed_helper(request):
             else:
                 processed_media['success'] = False
                 if downloadError is not None:
-                    processed_media['error'] = downloadError.strerror
+                    processed_media['error'] = download_error.strerror
                 else:
                     processed_media['error'] = _("ffmpeg_missing")
 

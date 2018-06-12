@@ -57,7 +57,7 @@ def send_message_to_device(request):
             message_data['password'] = password
 
         device = UserDevice.objects.get(dev_id=device_id)
-        messageID, response = device.send_message(message_data)
+        message_id, response = device.send_message(message_data)
         success = response['failure'] == 0
         if success:
             return JsonResponse(response, status=200)

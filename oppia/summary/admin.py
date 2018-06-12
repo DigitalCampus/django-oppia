@@ -16,8 +16,8 @@ class UserCourseSummaryAdmin(admin.ModelAdmin):
     actions = ['update_summary']
 
     def update_summary(self, request, queryset):
-        for courseSummary in queryset:
-            courseSummary.update_summary()
+        for course_summary in queryset:
+            course_summary.update_summary()
         message_user(self, request, "User-course", queryset.count())
 
     update_summary.short_description = "Update summary"
@@ -30,8 +30,8 @@ class CourseDailyStatsAdmin(admin.ModelAdmin):
     actions = ['update_summary']
 
     def update_summary(self, request, queryset):
-        for dailyStats in queryset:
-            CourseDailyStats.update_daily_summary(dailyStats.course.id, dailyStats.day)
+        for daily_stats in queryset:
+            CourseDailyStats.update_daily_summary(daily_stats.course.id, daily_stats.day)
         message_user(self, request, "Daily stats", queryset.count())
 
     update_summary.short_description = "Update summary"
@@ -43,8 +43,8 @@ class UserPointsAdmin(admin.ModelAdmin):
     actions = ['update_summary']
 
     def update_summary(self, request, queryset):
-        for userPoints in queryset:
-            userPoints.update_points()
+        for user_points in queryset:
+            user_points.update_points()
         message_user(self, request, "User points", queryset.count())
 
     update_summary.short_description = "Update summary"

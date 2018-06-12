@@ -36,11 +36,11 @@ class UserCourseSummary (models.Model):
         first_points = (last_points_pk == 0)
 
         t = time.time()
-        selfTrackers = Tracker.objects.filter(user=self.user, course=self.course, pk__gt=last_tracker_pk, pk__lte=newest_tracker_pk)
+        self_trackers = Tracker.objects.filter(user=self.user, course=self.course, pk__gt=last_tracker_pk, pk__lte=newest_tracker_pk)
 
         ### Add the values that are directly obtained from the last pks
-        self.total_activity = (0 if first_tracker else self.total_activity) + selfTrackers.count()
-        self.total_downloads = (0 if first_tracker else self.total_downloads) + selfTrackers.filter(type='download').count()
+        self.total_activity = (0 if first_tracker else self.total_activity) + self_trackers.count()
+        self.total_downloads = (0 if first_tracker else self.total_downloads) + self_trackers.filter(type='download').count()
 
         filters = {
             'user': self.user,
@@ -81,12 +81,12 @@ class CourseDailyStats (models.Model):
     @staticmethod
     def update_daily_summary(course, day, last_tracker_pk=0, newest_tracker_pk=0):  # range of tracker ids to process
 
-        dayStart = datetime.datetime.strptime(day.strftime("%Y-%m-%d") + " 00:00:00", "%Y-%m-%d %H:%M:%S")
-        dayEnd = datetime.datetime.strptime(day.strftime("%Y-%m-%d") + " 23:59:59", "%Y-%m-%d %H:%M:%S")
+        day_start = datetime.datetime.strptime(day.strftime("%Y-%m-%d") + " 00:00:00", "%Y-%m-%d %H:%M:%S")
+        day_end = datetime.datetime.strptime(day.strftime("%Y-%m-%d") + " 23:59:59", "%Y-%m-%d %H:%M:%S")
 
         course = Course.objects.get(pk=course)
         trackers = Tracker.objects.filter(course=course,
-                                              tracker_date__gte=dayStart, tracker_date__lte=dayEnd,
+                                              tracker_date__gte=day_start, tracker_date__lte=day_end,
                                               pk__gt=last_tracker_pk, pk__lte=newest_tracker_pk) \
                                     .values('type').annotate(total=Count('type'))
 
