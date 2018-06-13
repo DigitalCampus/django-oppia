@@ -5,6 +5,7 @@ import os
 import subprocess
 import urllib
 import uuid
+import oppia.content
 
 from django import forms
 from django.conf import settings
@@ -40,44 +41,10 @@ def media_embed_helper(request):
             processed_media = {}
 
             # Need to add better validation here
-            try:
-                urllib.urlretrieve(media_url, filename=media_local_file)
-            except IOError as err:
-                download_error = err
-                processed_media['success'] = False
-                processed_media['error'] = _("url_download_fail")
+            download_error, processed_media = check_media_link(media_url, media_local_file, download_error, processed_media)
 
-            if downloadError is None and can_execute("avprobe") and can_execute("ffmpeg"):
-
-                # get the basic meta info
-                embed_template = "[[media object='{\"filename\":\"%s\",\"download_url\":\"%s\",\"digest\":\"%s\", \"filesize\":%d, \"length\":%d}']]IMAGE/TEXT HERE[[/media]]"
-                file_size = os.path.getsize(media_local_file)
-                md5sum = md5_checksum(media_local_file)
-
-                # get media length
-                success, file_length = get_length(media_local_file)
-
-                if success:
-                    # create some image/screenshots
-                    image_path = generate_media_screenshots(media_local_file, media_guid)
-                    processed_media['embed_code'] = embed_template % (media_url.split('/')[-1], media_url, md5sum, file_size, file_length)
-
-                    # Add the generated images to the output
-                    processed_media['image_url_root'] = settings.MEDIA_URL + "temp/" + media_guid + ".images/"
-                    processed_media['image_files'] = next(os.walk(image_path))[2]
-                    processed_media['success'] = True
-
-                else:
-                    processed_media['success'] = False
-                    processed_media['error'] = _("get_length_error")
-
-            else:
-                processed_media['success'] = False
-                if downloadError is not None:
-                    processed_media['error'] = download_error.strerror
-                else:
-                    processed_media['error'] = _("ffmpeg_missing")
-
+            download_error, processed_media = process_media_file(media_local_file, download_error, processed_media)
+            
             # try to delete the temp media file
             try:
                 os.remove(media_local_file)
@@ -91,7 +58,49 @@ def media_embed_helper(request):
                                'form': form,
                                'processed_media': processed_media})
 
+
+def process_media_file(media_local_file, download_error, processed_media):
+    if download_error is None and can_execute("avprobe") and can_execute("ffmpeg"):
+
+        # get the basic meta info
+        file_size = os.path.getsize(media_local_file)
+        md5sum = md5_checksum(media_local_file)
+
+        # get media length
+        success, file_length = get_length(media_local_file)
+
+        if success:
+            # create some image/screenshots
+            image_path = generate_media_screenshots(media_local_file, media_guid)
+            processed_media['embed_code'] = oppia.content.EMBED_TEMPLATE % (media_url.split('/')[-1], media_url, md5sum, file_size, file_length)
+
+            # Add the generated images to the output
+            processed_media['image_url_root'] = settings.MEDIA_URL + "temp/" + media_guid + ".images/"
+            processed_media['image_files'] = next(os.walk(image_path))[2]
+            processed_media['success'] = True
+
+        else:
+            processed_media['success'] = False
+            processed_media['error'] = _("get_length_error")
+
+    else:
+        processed_media['success'] = False
+        if download_error is not None:
+            processed_media['error'] = download_error.strerror
+        else:
+            processed_media['error'] = _("ffmpeg_missing")
     
+    return download_error, processed_media
+
+def check_media_link(media_url, media_local_file, download_error, processed_media):
+    try:
+        urllib.urlretrieve(media_url, filename=media_local_file)
+    except IOError as err:
+        download_error = err
+        processed_media['success'] = False
+        processed_media['error'] = _("url_download_fail")
+    return download_error, processed_media
+
 def get_length(filename):
     result = subprocess.Popen(["avprobe", filename], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
@@ -117,10 +126,7 @@ def generate_media_screenshots(media_local_file, media_guid):
     if not os.path.exists(image_path):
         os.makedirs(image_path)
 
-    IMAGE_WIDTH = 320
-    IMAGE_HEIGHT = 180
-
-    image_generator_command = "ffmpeg -i %s -r 0.02 -s %dx%d -f image2 %s/frame-%%03d.png" % (media_local_file, IMAGE_WIDTH, IMAGE_HEIGHT, image_path)
+    image_generator_command = "ffmpeg -i %s -r 0.02 -s %dx%d -f image2 %s/frame-%%03d.png" % (media_local_file, oppia.content.SCREENSHOT_IMAGE_WIDTH, oppia.content.SCREENSHOT_IMAGE_HEIGHT, image_path)
     subprocess.call(image_generator_command, shell=True)
     return image_path
 
