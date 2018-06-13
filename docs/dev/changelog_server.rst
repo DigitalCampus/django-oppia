@@ -20,7 +20,7 @@ Key updates:
 
 Issue list:
 
-* 453: Upgrade to Django 1.11.11 - https://github.com/DigitalCampus/django-oppia/issues/issues/453
+* 453: Upgrade to Django 1.11.11 - https://github.com/DigitalCampus/django-oppia/issues/453
 * 443: Check and prevent duplicate trackers being submitted (based on UUID) - https://github.com/DigitalCampus/django-oppia/issues/443
 * 452: Check quizresponses for duplicates - https://github.com/DigitalCampus/django-oppia/issues/452
 * 442: Option to upload the downloaded tracker files - https://github.com/DigitalCampus/django-oppia/issues/442
@@ -31,13 +31,13 @@ Issue list:
 * 427: UploadMedia - process to generate sample images - https://github.com/DigitalCampus/django-oppia/issues/427
 * 460: Upload media - display sample images and allow selection of default - https://github.com/DigitalCampus/django-oppia/issues/460
 * 467: Add option to highlight if dev server - https://github.com/DigitalCampus/django-oppia/issues/467
-* 465: Activity upload - show message if user is not found - https://github.com/DigitalCampus/django-oppia/issues/issues/465
-* 445: Add points info from module.xml into db when course uploaded - https://github.com/DigitalCampus/django-oppia/issues/issues/445
-* 447: Update tracker API to use points submitted from app - https://github.com/DigitalCampus/django-oppia/issues/issues/447
-* 470: Add points and events into tracker and quiz attempt xml files - https://github.com/DigitalCampus/django-oppia/issues/issues/470
-* 472: sorl-thumbnail is listed as a requirement but not included as a project dependency on setup.py - https://github.com/DigitalCampus/django-oppia/issues/issues/472
-* 474: Broken links on documentation (installation page) - https://github.com/DigitalCampus/django-oppia/issues/issues/474
-* 478: Search for <media> element can fail when importing course - https://github.com/DigitalCampus/django-oppia/issues/issues/478
+* 465: Activity upload - show message if user is not found - https://github.com/DigitalCampus/django-oppia/issues/465
+* 445: Add points info from module.xml into db when course uploaded - https://github.com/DigitalCampus/django-oppia/issues/445
+* 447: Update tracker API to use points submitted from app - https://github.com/DigitalCampus/django-oppia/issues/447
+* 470: Add points and events into tracker and quiz attempt xml files - https://github.com/DigitalCampus/django-oppia/issues/470
+* 472: sorl-thumbnail is listed as a requirement but not included as a project dependency on setup.py - https://github.com/DigitalCampus/django-oppia/issues/472
+* 474: Broken links on documentation (installation page) - https://github.com/DigitalCampus/django-oppia/issues/474
+* 478: Search for <media> element can fail when importing course - https://github.com/DigitalCampus/django-oppia/issues/478
 
 .. _serverv0.10.0:
 
