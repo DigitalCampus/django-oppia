@@ -253,43 +253,18 @@ def upload_step1(request):
 
 def upload_step2(request, course_id, editing=False):
 
-    if editing and not can_edit_course(request, course_id):
-        raise exceptions.PermissionDenied
-    elif not request.user.userprofile.get_can_upload():
+    if (editing and not can_edit_course(request, course_id)) or not request.user.userprofile.get_can_upload():
         raise exceptions.PermissionDenied
 
     course = Course.objects.get(pk=course_id)
 
     if request.method == 'POST':
         form = UploadCourseStep2Form(request.POST, request.FILES)
-        if form.is_valid():  # All validation rules pass
-
-            if course:
-                #add the tags
-                tags = form.cleaned_data.get("tags").strip().split(",")
-                is_draft = form.cleaned_data.get("is_draft")
-                if len(tags) > 0:
-                    course.is_draft = is_draft
-                    course.save()
-                    for t in tags:
-                        try:
-                            tag = Tag.objects.get(name__iexact=t.strip())
-                        except Tag.DoesNotExist:
-                            tag = Tag()
-                            tag.name = t.strip()
-                            tag.created_by = request.user
-                            tag.save()
-                        # add tag to course
-                        try:
-                            ct = CourseTag.objects.get(course=course, tag=tag)
-                        except CourseTag.DoesNotExist:
-                            ct = CourseTag()
-                            ct.course = course
-                            ct.tag = tag
-                            ct.save()
-
-                redirect = 'oppia_course' if editing else 'oppia_upload_success'
-                return HttpResponseRedirect(reverse(redirect))  # Redirect after POST
+        if form.is_valid() and course:
+            #add the tags
+            add_course_tags(form, course)
+            redirect = 'oppia_course' if editing else 'oppia_upload_success'
+            return HttpResponseRedirect(reverse(redirect))  # Redirect after POST
     else:
         form = UploadCourseStep2Form(initial={'tags': course.get_tags(),
                                     'is_draft': course.is_draft, })  # An unbound form
@@ -301,7 +276,30 @@ def upload_step2(request, course_id, editing=False):
                                'editing': editing,
                                'title': page_title})
 
-
+def add_course_tags(form, course):
+    tags = form.cleaned_data.get("tags").strip().split(",")
+    is_draft = form.cleaned_data.get("is_draft")
+    if len(tags) > 0:
+        course.is_draft = is_draft
+        course.save()
+        for t in tags:
+            try:
+                tag = Tag.objects.get(name__iexact=t.strip())
+            except Tag.DoesNotExist:
+                tag = Tag()
+                tag.name = t.strip()
+                tag.created_by = request.user
+                tag.save()
+            # add tag to course
+            try:
+                ct = CourseTag.objects.get(course=course, tag=tag)
+            except CourseTag.DoesNotExist:
+                ct = CourseTag()
+                ct.course = course
+                ct.tag = tag
+                ct.save()
+    
+    
 def generate_graph_data(dates_types_stats, is_monthly=False):
     dates = []
 
