@@ -2,10 +2,7 @@ OppiaMobile App Permissions
 ===========================
 
 
-In the OppiaMobile client (phone) app generally all users have the same functionality and permissions. The only 
-difference is those users who are teachers who can the monitoring pages directly within the app. For admin and staff 
-users to see these monitoring pages, they need to be explicitly assigned the teacher role in the appropriate cohorts and 
-courses.
+In the OppiaMobile client (phone) app generally all users have the same functionality and permissions.
 
 Restricting app permissions
 ----------------------------

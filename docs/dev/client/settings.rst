@@ -46,7 +46,6 @@ but by this values you can control which specific actions are controlled by the 
 Main menu configurations
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-* ``MENU_ALLOW_MONITOR`` (boolean): show the "Monitor option" in the main menu
 * ``MENU_ALLOW_SETTINGS`` (boolean): show the "Settings" option in the main menu
 * ``MENU_ALLOW_COURSE_DOWNLOAD`` (boolean): show the "Install courses" option in the main menu
 * ``MENU_ALLOW_LOGOUT`` (boolean): show the "Logout" option in the main menu

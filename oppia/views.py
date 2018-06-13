@@ -319,7 +319,7 @@ def generate_graph_data(dates_types_stats, is_monthly=False):
             if current_date != None:
                 dates.append([current_date, current_stats])
             current_date = day
-            current_stats = {'page': 0, 'quiz': 0, 'media': 0, 'resource': 0, 'monitor': 0, 'total': 0}
+            current_stats = {'page': 0, 'quiz': 0, 'media': 0, 'resource': 0, 'total': 0}
 
         current_stats[date['type']] = date['total']
         current_stats['total'] += date['total']

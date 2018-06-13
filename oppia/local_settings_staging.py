@@ -32,7 +32,6 @@ def modify(settings):
          r'^profile/delete/complete/$',
          
          r'^mobile/scorecard/$',  # - auth handled by api_key
-         r'^mobile/monitor/',  # - auth handled by api_key
          r'^$',
          r'^about/$',
          r'^terms/$',
