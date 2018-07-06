@@ -17,20 +17,7 @@ How to embed media files in OppiaMobile courses
    use if projecting the video. At Digital Campus, we usually convert videos 
    into .m4v format using Handbrake (https://handbrake.fr/ - an open source tool 
    and works on most platforms)
-#. Upload the converted media to the internet, so it's available for anyone to 
-   directly download the full media file. If you have your own OppiaMobile 
-   server, you could just set up a web available directory on there. Digital 
-   Campus for example has a plain website 
-   (http://downloads.digital-campus.org/media/) where we store the media we're 
-   using in our courses. 
-#. Once your media has been uploaded to a server, you can use the `Media Embed Helper <http://demo.oppia-mobile.org/content/video-embed-helper>`_ page to generate the content to paste into Moodle.
-
-Many media files to embed?
-----------------------------
-You use the utility script :ref:`/oppia/utils/media_scan.py <utilities_media_scan>` to generate the 
-embed code blocks for a whole directory of media files. This will also automatically generate a set 
-of screenshots from the video that you can use for embedding.   
-   
+#. Upload the converted media to the OppiaMobile server (under the menu Upload -> Media), this will then provide the embed code to use in Moodle.
 
 How can users get the media files
 ----------------------------------

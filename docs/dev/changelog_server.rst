@@ -1,14 +1,31 @@
 OppiaMobile Server Change Log
 ================================
 
-To see the upcoming feature developments and bug fixes, please refer to the `monthly milestones on GitHub <https://github.com/DigitalCampus/django-oppia/milestones>`_
 
 .. _serverv0.10.1:
+
+.. warning:: 
+	Run `pip install -r django-oppia/requirements.txt` after upgrading to this version, since new packages
+	and an updated version of Django is used.
 
 v0.10.1 - not yet released
 --------------------------------
 
-
+* 453: Upgrade to Django 1.11.11 - https://github.com/DigitalCampus/django-oppia/issues/issues/453
+* 443: Check and prevent duplicate trackers being submitted (based on UUID) - https://github.com/DigitalCampus/django-oppia/issues/443
+* 452: Check quizresponses for duplicates - https://github.com/DigitalCampus/django-oppia/issues/452
+* 442: Option to upload the downloaded tracker files - https://github.com/DigitalCampus/django-oppia/issues/442
+* 454: On media upload, error not showing if libav-tools not installed - https://github.com/DigitalCampus/django-oppia/issues/454
+* 428: UploadMedia - finding,displaying & downloading media - https://github.com/DigitalCampus/django-oppia/issues/428
+* 426: UploadedMedia - show embed code - https://github.com/DigitalCampus/django-oppia/issues/426
+* 448: Update customisation documentation - https://github.com/DigitalCampus/django-oppia/issues/448
+* 427: UploadMedia - process to generate sample images - https://github.com/DigitalCampus/django-oppia/issues/427
+* 460: Upload media - display sample images and allow selection of default - https://github.com/DigitalCampus/django-oppia/issues/460
+* 467: Add option to highlight if dev server - https://github.com/DigitalCampus/django-oppia/issues/467
+* 465: Activity upload - show message if user is not found - https://github.com/DigitalCampus/django-oppia/issues/issues/465
+* 445: Add points info from module.xml into db when course uploaded - https://github.com/DigitalCampus/django-oppia/issues/issues/445
+* 447: Update tracker API to use points submitted from app - https://github.com/DigitalCampus/django-oppia/issues/issues/447
+* 470: Add points and events into tracker and quiz attempt xml files - https://github.com/DigitalCampus/django-oppia/issues/issues/470
 
 .. _serverv0.10.0:
 

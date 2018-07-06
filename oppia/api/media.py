@@ -52,4 +52,5 @@ def upload_view(request):
         
         return JsonResponse({'embed_code': embed_code }, status=201)
     else:
-        return JsonResponse({'messages': result['errors']}, status=400)
+        response = {'messages': result['errors']}
+        return JsonResponse(response, status=400)

@@ -14,10 +14,8 @@ from oppia.api.publish import get_messages_array
 
 def upload(request, user):
 
-    
-    form = UploadMediaForm(request.POST, request.FILES)
-    if form.is_valid(): # All validation rules pass
-       
+    form = UploadMediaForm(request.POST, request.FILES, request=request)
+    if form.is_valid():       
         uploaded_media = UploadedMedia(create_user = user,
                                       update_user = user,)
         uploaded_media.file = request.FILES["media_file"]
@@ -36,9 +34,8 @@ def upload(request, user):
             likely means avprobe/'libav-tools' is not installed
             '''
             uploaded_media.delete()
-            errors = []
-            errors.append(u'Please check that avprobe is installed on this system.')
-            return { 'result': UploadedMedia.UPLOAD_STATUS_FAILURE , 'form': form, 'errors': errors} 
+            messages.add_message(request, messages.ERROR, _(u"The avprobe/libav-tools package is not installed on this server. Please ask your Oppia system administrator to install it for you (`apt-get install libav-tools`)."), "danger")
+            return { 'result': UploadedMedia.UPLOAD_STATUS_FAILURE , 'form': form} 
         
         return { 'result': UploadedMedia.UPLOAD_STATUS_SUCCESS, 'media': uploaded_media } 
     else:
@@ -46,7 +43,6 @@ def upload(request, user):
         errors = []
         for field, error in form.errors.items():
             for e in error:
-                print e
                 errors.append(e)
         return { 'result': UploadedMedia.UPLOAD_STATUS_FAILURE, 'form': form, 'errors': errors }
     

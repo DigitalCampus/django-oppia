@@ -5,7 +5,7 @@ import os, time, sys
 import argparse, hashlib, subprocess
 
 from django.conf import settings
-from awards import courses_completed
+from django.core.management import call_command
 
 def run(hours):
     print 'Starting OppiaMobile cron...'
@@ -23,7 +23,12 @@ def run(hours):
     else:
         print '{path} does not exist. Don\'t need to clean it'.format(path=path)
 
-    courses_completed(int(hours))           
+    from awards import courses_completed
+    courses_completed(int(hours))  
+    
+    # create and new media images
+    call_command('generate_media_images')
+             
     print 'cron completed'
 
 

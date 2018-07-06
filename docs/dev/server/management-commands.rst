@@ -21,6 +21,17 @@ course anymore and don't have any attempt. Before actually deleting the data, th
 Cleans the temporary zip files uploaded to the server that are no longer needed. It also checks that every course in
 the server has its related course package so it can be downloaded, printing a warning for each of them that doesn't satisfy this.
 
+``generate_media_images``: **Generates sample media images**
+Creates sample image files (snapshots/screenshots) from any media that has been uploaded
+
+``media_url_check``: **Checks the media download urls to ensure they are valid links**
+It checks all the links for media files that are embedded in course to ensure they are valid links, printing a warning for any media file
+that is referenced in a course, but the media file is not actually available for download.
+
+``remove_duplicate_quiz_attempts``: **Removes any duplicate quiz attempts based on instance_id**
+
+``remove_duplicate_trackers``: **Removes any duplicate trackers based on UUID**
+
 ``update_short_answer_scores``: **Updates the scores for short answer questions**.
 It receives an additional parameter pointing to a CSV file that includes the response attempts to update and its new
 scores. It then goes to the related quiz attempts and updates their total scores and checks the pass threshold with the new score.

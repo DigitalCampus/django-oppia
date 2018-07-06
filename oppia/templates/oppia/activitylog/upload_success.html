@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+
+<h2>{% trans 'Activity Log successfully uploaded' %}</h2>
+	
+<p>{% trans 'The activity log file was successfully uploaded.' %}</p>
+
+<p><a href="{% url 'oppia_activitylog_upload' %}" class="btn btn-primary btn btn-default">{% trans 'Upload another activity log' %}</a></p>
+
+<p>{% trans 'Log info:' %}</p>
+
+    
+{% include "includes/messages.html" %}
+
+{% endblock %}

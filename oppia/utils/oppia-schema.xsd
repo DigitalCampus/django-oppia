@@ -3,41 +3,32 @@
 		<xs:documentation>
 			Schema for OppiaMobile course XML files
 			Digital Campus
-			Version: 4
-			Date: 21 Mar 2014
+			Version: 5
+			Date: 15 May 2018
 		</xs:documentation>
 	</xs:annotation>
 	
 	<xs:element name="module">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="meta" minOccurs="1" maxOccurs="1"
-					type="MetaType" />
-				<xs:element name="structure" minOccurs="1" maxOccurs="1"
-					type="StructureType" />
-				<xs:element name="media" minOccurs="0" maxOccurs="1"
-					type="MediaType" />
+				<xs:element name="meta" minOccurs="1" maxOccurs="1" type="MetaType" />
+				<xs:element name="structure" minOccurs="1" maxOccurs="1" type="StructureType" />
+				<xs:element name="media" minOccurs="0" maxOccurs="1" type="MediaType" />
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
 
 	<xs:complexType name="MetaType">
 		<xs:sequence>
-			<xs:element name="versionid" minOccurs="1" maxOccurs="1"
-				type="xs:positiveInteger" />
-			<xs:element name="priority" minOccurs="0" maxOccurs="1"
-				type="xs:integer" />
-			<xs:element name="server" minOccurs="0" maxOccurs="1"
-				type="xs:string" />
-			<xs:element name="sequencing" minOccurs="0" maxOccurs="1"
-				type="xs:string" />
-				<xs:element name="tags" minOccurs="0" maxOccurs="1"
-				type="xs:string" />
-			<xs:element name="title" minOccurs="1" maxOccurs="unbounded"
-				type="LangType" />
+			<xs:element name="versionid" minOccurs="1" maxOccurs="1" type="xs:positiveInteger" />
+			<xs:element name="priority" minOccurs="0" maxOccurs="1" type="xs:integer" />
+			<xs:element name="server" minOccurs="0" maxOccurs="1" type="xs:string" />
+			<xs:element name="sequencing" minOccurs="0" maxOccurs="1" type="xs:string" />
+			<xs:element name="tags" minOccurs="0" maxOccurs="1" type="xs:string" />
+			<xs:element name="exportversion" minOccurs="0" maxOccurs="1" type="xs:positiveInteger" />
+			<xs:element name="title" minOccurs="1" maxOccurs="unbounded" type="LangType" />
 			<xs:element name="shortname" minOccurs="1" maxOccurs="1" />
-			<xs:element name="description" minOccurs="0" maxOccurs="unbounded"
-				type="LangType" />
+			<xs:element name="description" minOccurs="0" maxOccurs="unbounded" type="LangType" />
 			<xs:choice minOccurs="0" maxOccurs="unbounded">
 				<xs:element name="page" type="PageType" />
 				<xs:element name="activity" type="ActivityType" />
@@ -46,12 +37,11 @@
 			<xs:element name="langs" minOccurs="1" maxOccurs="1">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element name="lang" minOccurs="1" maxOccurs="unbounded"
-							type="xs:string" />
+						<xs:element name="lang" minOccurs="1" maxOccurs="unbounded" type="xs:string" />
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
-
+			<xs:element name="gamification" minOccurs="0" maxOccurs="1" type="GamificationType"/>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -66,15 +56,13 @@
 
 	<xs:complexType name="PageType">
 		<xs:sequence>
-			<xs:element name="title" minOccurs="1" maxOccurs="unbounded"
-				type="LangType" />
+			<xs:element name="title" minOccurs="1" maxOccurs="unbounded" type="LangType" />
 			<xs:element name="image" minOccurs="0" maxOccurs="1">
 				<xs:complexType>
 					<xs:attribute name="filename" type="xs:string" />
 				</xs:complexType>
 			</xs:element>
-			<xs:element name="location" minOccurs="1" maxOccurs="unbounded"
-				type="LangType" />
+			<xs:element name="location" minOccurs="1" maxOccurs="unbounded" type="LangType" />
 		</xs:sequence>
 		<xs:attribute name="id" type="xs:positiveInteger" />
 	</xs:complexType>
@@ -84,19 +72,16 @@
 			<xs:element name="section" minOccurs="1" maxOccurs="unbounded">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element name="title" minOccurs="1" maxOccurs="unbounded"
-							type="LangType" />
+						<xs:element name="title" minOccurs="1" maxOccurs="unbounded" type="LangType" />
 						<xs:element name="activities" minOccurs="1" maxOccurs="1">
 							<xs:complexType>
 								<xs:sequence>
-									<xs:element name="activity" minOccurs="1" maxOccurs="unbounded"
-										type="ActivityType" />
+									<xs:element name="activity" minOccurs="1" maxOccurs="unbounded" type="ActivityType" />
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
 					</xs:sequence>
-					<xs:attribute name="order" type="xs:positiveInteger"
-						use="required" />
+					<xs:attribute name="order" type="xs:positiveInteger" use="required" />
 				</xs:complexType>
 			</xs:element>
 		</xs:sequence>
@@ -104,16 +89,12 @@
 
 	<xs:complexType name="ActivityType">
 		<xs:sequence>
-			<xs:element name="title" minOccurs="1" maxOccurs="unbounded"
-				type="LangType" />
+			<xs:element name="title" minOccurs="1" maxOccurs="unbounded" type="LangType" />
 
 			<xs:choice minOccurs="1" maxOccurs="unbounded">
-				<xs:element name="media" minOccurs="0" maxOccurs="unbounded"
-					type="MediaType" />
-				<xs:element name="content" minOccurs="0" maxOccurs="unbounded"
-					type="LangType" />
-				<xs:element name="description" minOccurs="0" maxOccurs="unbounded"
-					type="LangType" />
+				<xs:element name="media" minOccurs="0" maxOccurs="unbounded" type="MediaType" />
+				<xs:element name="content" minOccurs="0" maxOccurs="unbounded" type="LangType" />
+				<xs:element name="description" minOccurs="0" maxOccurs="unbounded" type="LangType" />
 				<xs:element name="related" minOccurs="0" maxOccurs="1" />
 				<xs:element name="location" minOccurs="0" maxOccurs="unbounded">
 					<xs:complexType>
@@ -130,6 +111,7 @@
 						<xs:attribute name="filename" type="xs:string" />
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="gamification" minOccurs="0" maxOccurs="1" type="GamificationType"/>
 			</xs:choice>
 		</xs:sequence>
 		<xs:attribute name="type" type="xs:string" />
@@ -141,14 +123,28 @@
 		<xs:sequence>
 			<xs:element name="file" minOccurs="1" maxOccurs="unbounded">
 				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="gamification" minOccurs="0" maxOccurs="1" type="GamificationType"/>
+					</xs:sequence>
 					<xs:attribute name="filename" type="xs:string" use="required" />
-					<xs:attribute name="download_url" type="xs:string"
-						use="required" />
+					<xs:attribute name="download_url" type="xs:string" use="required" />
 					<xs:attribute name="digest" type="xs:string" use="required" />
-					<xs:attribute name="filesize" type="xs:positiveInteger"
-						use="optional" />
-					<xs:attribute name="length" type="xs:positiveInteger"
-						use="optional" />
+					<xs:attribute name="filesize" type="xs:positiveInteger" use="optional" />
+					<xs:attribute name="length" type="xs:positiveInteger" use="optional" />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="GamificationType">
+		<xs:sequence>
+			<xs:element name="event" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="name" type="xs:string" />
+						</xs:extension>
+					</xs:simpleContent>
 				</xs:complexType>
 			</xs:element>
 		</xs:sequence>

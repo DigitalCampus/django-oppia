@@ -19,7 +19,7 @@ from xml.dom.minidom import *
 models.signals.post_save.connect(create_api_key, sender=User)
     
 class Course(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     created_date = models.DateTimeField('date created',default=timezone.now)
     lastupdated_date = models.DateTimeField('date updated',default=timezone.now)
     version = models.BigIntegerField()
@@ -177,7 +177,7 @@ class CourseManager(models.Model):
 class Tag(models.Model):
     name = models.TextField(blank=False)
     created_date = models.DateTimeField('date created',default=timezone.now)
-    created_by = models.ForeignKey(User)
+    created_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     courses = models.ManyToManyField(Course, through='CourseTag')
     description = models.TextField(blank=True, null=True, default=None)
     order_priority = models.IntegerField(default=0)
@@ -192,8 +192,8 @@ class Tag(models.Model):
         return self.name
  
 class CourseTag(models.Model):
-    course = models.ForeignKey(Course)
-    tag = models.ForeignKey(Tag)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
     
     class Meta:
         verbose_name = _('Course Tag')
@@ -201,11 +201,11 @@ class CourseTag(models.Model):
            
 class Schedule(models.Model):
     title = models.TextField(blank=False)
-    course = models.ForeignKey(Course)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     default = models.BooleanField(default=False)
     created_date = models.DateTimeField('date created',default=timezone.now)
     lastupdated_date = models.DateTimeField('date updated',default=timezone.now)
-    created_by = models.ForeignKey(User)
+    created_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     
     class Meta:
         verbose_name = _('Schedule')
@@ -229,7 +229,7 @@ class Schedule(models.Model):
         return doc.toxml()
         
 class ActivitySchedule(models.Model):
-    schedule = models.ForeignKey(Schedule)
+    schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE)
     digest = models.CharField(max_length=100)
     start_date = models.DateTimeField(default=timezone.now)
     end_date = models.DateTimeField(default=timezone.now)
@@ -239,7 +239,7 @@ class ActivitySchedule(models.Model):
         verbose_name_plural = _('ActivitySchedules')
            
 class Section(models.Model):
-    course = models.ForeignKey(Course)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     order = models.IntegerField()
     title = models.TextField(blank=False)
     
@@ -278,7 +278,7 @@ class Activity(models.Model):
         (FEEDBACK, 'Feedback')
     )
     
-    section = models.ForeignKey(Section)
+    section = models.ForeignKey(Section, on_delete=models.CASCADE)
     order = models.IntegerField()
     title = models.TextField(blank=False)
     type = models.CharField(max_length=10)
@@ -343,7 +343,7 @@ class Activity(models.Model):
 class Media(models.Model):
     URL_MAX_LENGTH = 250
 
-    course = models.ForeignKey(Course)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     digest = models.CharField(max_length=100)
     filename = models.CharField(max_length=200)
     download_url = models.URLField(max_length=URL_MAX_LENGTH)
@@ -358,7 +358,7 @@ class Media(models.Model):
         return self.filename
     
 class Tracker(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     submitted_date = models.DateTimeField('date submitted',default=timezone.now)
     tracker_date = models.DateTimeField('date tracked',default=timezone.now)
     ip = models.GenericIPAddressField()
@@ -371,8 +371,10 @@ class Tracker(models.Model):
     time_taken = models.IntegerField(default=0)
     activity_title = models.TextField(blank=True, null=True, default=None)
     section_title = models.TextField(blank=True, null=True, default=None)
-    uuid = models.TextField(blank=True, null=True, default=None)
+    uuid = models.CharField(max_length=100, blank=True, null=True, default=None, db_index=True)
     lang = models.CharField(max_length=10,null=True, blank=True, default=None)
+    points = models.IntegerField(blank=True, null=True, default=None)
+    event = models.CharField(max_length=50,null=True, blank=True, default=None)
     
     class Meta:
         verbose_name = _('Tracker')
@@ -406,13 +408,11 @@ class Tracker(models.Model):
            
     def get_activity_title(self, lang='en'):
         media = Media.objects.filter(digest=self.digest)
-        print media
         for m in media:
             return m.filename
         try:
             activity = Activity.objects.filter(digest=self.digest)
             for a in activity:
-                print a.title
                 titles = json.loads(a.title)
                 if lang in titles:
                     return titles[lang]
@@ -463,6 +463,8 @@ class Tracker(models.Model):
             track.setAttribute('submitteddate', t.submitted_date.strftime('%Y-%m-%d %H:%M:%S'))
             track.setAttribute('completed', str(t.completed))
             track.setAttribute('type', t.type)
+            track.setAttribute('event', t.event)
+            track.setAttribute('points', t.points)
             if t.type == 'quiz':
                 try:
                     quiz = doc.createElement('quiz')
@@ -473,6 +475,8 @@ class Tracker(models.Model):
                     quiz.setAttribute('submitteddate', quiz_attempt[0].submitted_date.strftime('%Y-%m-%d %H:%M:%S'))
                     quiz.setAttribute('passed', str(t.completed))
                     quiz.setAttribute("course", course.shortname)
+                    quiz.setAttribute("event", quiz_attempt[0].event)
+                    quiz.setAttribute("points", quiz_attempt[0].points)
                     track.appendChild(quiz)
                 except ValueError:
                     pass  
@@ -587,8 +591,8 @@ class Cohort(models.Model):
         return users
     
 class CourseCohort(models.Model):
-    course = models.ForeignKey(Course) 
-    cohort = models.ForeignKey(Cohort)  
+    course = models.ForeignKey(Course, on_delete=models.CASCADE) 
+    cohort = models.ForeignKey(Cohort, on_delete=models.CASCADE)  
   
     class Meta:
         unique_together = ("course", "cohort")
@@ -601,8 +605,8 @@ class Participant(models.Model):
         (TEACHER, 'Teacher'),
         (STUDENT, 'Student'),
     )
-    cohort = models.ForeignKey(Cohort)
-    user = models.ForeignKey(User)
+    cohort = models.ForeignKey(Cohort, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     role = models.CharField(max_length=20,choices=ROLE_TYPES)
     
     class Meta:
@@ -610,8 +614,8 @@ class Participant(models.Model):
         verbose_name_plural = _('Participants')
          
 class Message(models.Model):
-    course = models.ForeignKey(Course) 
-    author = models.ForeignKey(User)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE) 
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     date_created = models.DateTimeField(default=timezone.now)
     publish_date = models.DateTimeField(default=timezone.now)
     message = models.CharField(max_length=200)
@@ -638,8 +642,8 @@ class Badge(models.Model):
         return self.description
     
 class Award(models.Model):
-    badge = models.ForeignKey(Badge)
-    user = models.ForeignKey(User)
+    badge = models.ForeignKey(Badge, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.TextField(blank=False)
     award_date = models.DateTimeField('date awarded',default=timezone.now)
     
@@ -670,8 +674,8 @@ class Award(models.Model):
     badge_icon = property(_get_badge)
     
 class AwardCourse(models.Model):
-    award = models.ForeignKey(Award)
-    course = models.ForeignKey(Course)
+    award = models.ForeignKey(Award, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     course_version = models.BigIntegerField(default=0)
       
 class Points(models.Model):
@@ -688,7 +692,7 @@ class Points(models.Model):
         ('badgeawarded', 'Badge awarded'),
         ('coursedownloaded', 'Course downloaded'),
     )
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     course = models.ForeignKey(Course,null=True, default=None, on_delete=models.SET_NULL)
     points = models.IntegerField()
     date = models.DateTimeField('date created',default=timezone.now)

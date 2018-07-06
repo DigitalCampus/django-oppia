@@ -7,7 +7,7 @@ from oppia.models import Participant
 
 
 class UserProfile (models.Model):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     about = models.TextField(blank=True, null=True, default=None)
     can_upload = models.BooleanField(default=False)
     job_title = models.TextField(blank=True, null=True, default=None)
@@ -18,6 +18,11 @@ class UserProfile (models.Model):
         if self.user.is_staff:
             return True
         return self.can_upload
+    
+    def get_can_upload_activitylog(self):
+        if self.user.is_staff:
+            return True
+        return False
 
     def is_student_only(self):
         if self.user.is_staff:

@@ -31,6 +31,7 @@ from oppia.models import Points, Award, Badge
 from oppia.profile.forms import RegisterForm
 from oppia.profile.models import UserProfile
 from oppia.signals import course_downloaded
+from oppia.utils.deprecation import RemovedInOppia0110Warning
 
 
 class UserResource(ModelResource):
@@ -278,13 +279,24 @@ class ResetPasswordResource(ModelResource):
 
 class TrackerValidation(Validation):
     def is_valid(self, bundle, request=None):
-
+        
         errors = {}
         if bundle.data and 'type' in bundle.data and bundle.data['type'] == 'search':
             # if the tracker is a search, we check that the needed values are present
             json_data = json.loads(bundle.data['data'])
             if not 'query' in json_data or not 'results_count' in json_data:
-                errors['search'] = 'You must include the search term and the results count!'
+                errors['search'] = 'You must include the search term and the results count'
+                
+        # check this tracker hasn't already been submitted (based on the UUID)
+        try:
+            json_data = json.loads(bundle.data['data'])
+            if json_data['uuid']:
+                bundle.obj.uuid = json_data['uuid']
+                uuids = Tracker.objects.filter(uuid=bundle.obj.uuid)
+                if uuids.count() > 0:
+                    errors['uuid'] = 'This UUID has already been submitted'
+        except:
+            pass
 
         return errors
 
@@ -313,6 +325,7 @@ class TrackerResource(ModelResource):
         validation = TrackerValidation()
 
     def hydrate(self, bundle, request=None):
+        
         # remove any id if this is submitted - otherwise it may overwrite existing tracker item
         if 'id' in bundle.data:
             del bundle.obj.id
@@ -325,7 +338,7 @@ class TrackerResource(ModelResource):
             bundle.obj.course = None
             bundle.obj.type = "search"
             return bundle
-
+ 
         # find out the course & activity type from the digest
         try:
             if 'course' in bundle.data:
@@ -348,7 +361,7 @@ class TrackerResource(ModelResource):
             bundle.obj.type = ''
             bundle.obj.activity_title = ''
             bundle.obj.section_title = ''
-        
+            
         try:
             if 'course' in bundle.data:
                 media_objs = Media.objects.filter(digest=bundle.data['digest'],course__shortname=bundle.data['course'])[:1]
@@ -361,35 +374,25 @@ class TrackerResource(ModelResource):
         except Media.DoesNotExist:
             pass
         
-        # this try/except block is temporary until everyone is using client app v17
         try:
             json_data = json.loads(bundle.data['data'])
-            if json_data['activity'] == "completed":
-                bundle.obj.completed = True
-        except:
-            bundle.obj.completed = False
-        
-        try:
-            json_data = json.loads(bundle.data['data'])
-            if json_data['timetaken']:
+            if 'timetaken' in json_data:
                 bundle.obj.time_taken = json_data['timetaken']
-        except:
-            pass
-        
-        try:
-            json_data = json.loads(bundle.data['data'])
-            if json_data['uuid']:
+            if 'uuid' in json_data:
                 bundle.obj.uuid = json_data['uuid']
-        except:
-            pass
-        
-        try:
-            json_data = json.loads(bundle.data['data'])
-            if json_data['lang']:
+            if 'lang' in json_data:
                 bundle.obj.lang = json_data['lang']
-        except:
+        except ValueError:
+            pass
+        except KeyError:
             pass
         
+        if 'points' in bundle.data:
+            bundle.obj.points = bundle.data['points']
+        
+        if 'event' in bundle.data:
+            bundle.obj.event = bundle.data['event']
+            
         return bundle 
 
     def hydrate_tracker_date(self, bundle, request = None, **kwargs):
@@ -431,7 +434,19 @@ class TrackerResource(ModelResource):
             bundle.request.user = request.user
             bundle.request.META['REMOTE_ADDR'] = request.META.get('REMOTE_ADDR','0.0.0.0')
             bundle.request.META['HTTP_USER_AGENT'] = request.META.get('HTTP_USER_AGENT','unknown')
-            self.obj_create(bundle, request=request)
+            # check UUID not already submitted
+            if 'data' in bundle.data:
+                json_data = json.loads(bundle.data['data'])
+                if 'uuid' in json_data:
+                    uuids = Tracker.objects.filter(uuid=json_data['uuid'])
+                    if uuids.count() == 0:
+                        self.obj_create(bundle, request=request)
+                else:
+                    self.obj_create(bundle, request=request)    
+            else:
+                self.obj_create(bundle, request=request)
+            
+            
         response_data = {'points': self.dehydrate_points(bundle),
                          'badges':self.dehydrate_badges(bundle),
                          'scoring':self.dehydrate_scoring(bundle),
