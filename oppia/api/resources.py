@@ -14,7 +14,7 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.db import IntegrityError
 from django.db.models import Sum
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, JsonResponse
 from django.utils import dateparse
 from django.utils.translation import ugettext_lazy as _
 from tastypie import fields
@@ -44,23 +44,23 @@ def check_required_params(bundle, required):
 
 
 class UserResource(ModelResource):
-    ''' 
+    '''
     For user login
-    
+
     Usage:
     POST request to ``http://localhost/api/v1/user/``
-    
+
     Required arguments:
-    
+
     * ``username``
     * ``password``
-    
+
     Returns (if authorized):
-    
+
     Object with ``first_name``, ``last_name``, ``api_key``, ``last_login``, ``username``, ``points``, ``badges``, and ``scoring``
-    
+
     If unauthorized returns an HTTP 401 response
-    
+
     '''
     points = fields.IntegerField(readonly=True)
     badges = fields.IntegerField(readonly=True)
@@ -130,12 +130,14 @@ class UserResource(ModelResource):
         return settings.OPPIA_METADATA
 
     def dehydrate_course_points(self, bundle):
-        course_points = list(Points.objects.exclude(course=None).filter(user=bundle.request.user).values('course__shortname').annotate(total_points=Sum('points')))
+        course_points = list(
+            Points.objects.exclude(course=None).filter(user=bundle.request.user).values('course__shortname').annotate(
+                total_points=Sum('points')))
         return course_points
 
 
 class RegisterResource(ModelResource):
-    ''' 
+    '''
     For user registration
     '''
     points = fields.IntegerField(readonly=True)
@@ -234,7 +236,7 @@ class RegisterResource(ModelResource):
 
 
 class ResetPasswordResource(ModelResource):
-    ''' 
+    '''
     For resetting user password
     '''
     message = fields.CharField()
@@ -306,7 +308,7 @@ class TrackerValidation(Validation):
 
 
 class TrackerResource(ModelResource):
-    ''' 
+    '''
     Submitting a Tracker
     '''
     user = fields.ForeignKey(UserResource, 'user')
@@ -326,13 +328,15 @@ class TrackerResource(ModelResource):
         authorization = Authorization()
         serializer = PrettyJSONSerializer()
         always_return_data = True
-        fields = ['points', 'digest', 'data', 'tracker_date', 'badges', 'course', 'completed', 'scoring', 'metadata', 'badging']
+        fields = ['points', 'digest', 'data', 'tracker_date', 'badges', 'course', 'completed', 'scoring', 'metadata',
+                  'badging']
         validation = TrackerValidation()
 
     def process_tracker_bundle(self, bundle):
         try:
             if 'course' in bundle.data:
-                media_objs = Media.objects.filter(digest=bundle.data['digest'], course__shortname=bundle.data['course'])[:1]
+                media_objs = Media.objects.filter(digest=bundle.data['digest'],
+                                                  course__shortname=bundle.data['course'])[:1]
             else:
                 media_objs = Media.objects.filter(digest=bundle.data['digest'])[:1]
             if media_objs.count() > 0:
@@ -381,7 +385,8 @@ class TrackerResource(ModelResource):
         # find out the course & activity type from the digest
         try:
             if 'course' in bundle.data:
-                activities = Activity.objects.filter(digest=bundle.data['digest'], section__course__shortname=bundle.data['course'])[:1]
+                activities = Activity.objects.filter(digest=bundle.data['digest'],
+                                                     section__course__shortname=bundle.data['course'])[:1]
             else:
                 activities = Activity.objects.filter(digest=bundle.data['digest'])[:1]
             if activities.count() > 0:
@@ -432,12 +437,15 @@ class TrackerResource(ModelResource):
         return settings.OPPIA_METADATA
 
     def dehydrate_course_points(self, bundle):
-        course_points = list(Points.objects.exclude(course=None).filter(user=bundle.request.user).values('course__shortname').annotate(total_points=Sum('points')))
+        course_points = list(
+            Points.objects.exclude(course=None).filter(user=bundle.request.user).values('course__shortname').annotate(
+                total_points=Sum('points')))
         return course_points
 
     def patch_list(self, request, **kwargs):
         request = convert_post_to_patch(request)
-        deserialized = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
+        deserialized = self.deserialize(request, request.body,
+                                        format=request.META.get('CONTENT_TYPE', 'application/json'))
         for data in deserialized["objects"]:
             data = self.alter_deserialized_detail_data(request, data)
             bundle = self.build_bundle(data=dict_strip_unicode_keys(data))
@@ -468,7 +476,6 @@ class TrackerResource(ModelResource):
 
 
 class CourseResource(ModelResource):
-
     class Meta:
         queryset = Course.objects.all()
         resource_name = 'course'
@@ -488,9 +495,11 @@ class CourseResource(ModelResource):
 
     def prepend_urls(self):
         return [
-            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/download%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('download_course'), name="api_download_course"),
-            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/activity%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('download_activity'), name="api_download_activity"),
-            ]
+            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/download%s$" % (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('download_course'), name="api_download_course"),
+            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/activity%s$" % (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('download_activity'), name="api_download_activity"),
+        ]
 
     def download_course(self, request, **kwargs):
         self.is_authenticated(request)
@@ -618,14 +627,17 @@ class TagResource(ModelResource):
 
     def get_object_list(self, request):
         if request.user.is_staff:
-            return Tag.objects.filter(courses__isnull=False, coursetag__course__is_archived=False).distinct().order_by('-order_priority', 'name')
+            return Tag.objects.filter(courses__isnull=False, coursetag__course__is_archived=False).distinct().order_by(
+                '-order_priority', 'name')
         else:
-            return Tag.objects.filter(courses__isnull=False, coursetag__course__is_archived=False, coursetag__course__is_draft=False).distinct().order_by('-order_priority', 'name')
+            return Tag.objects.filter(courses__isnull=False, coursetag__course__is_archived=False,
+                                      coursetag__course__is_draft=False).distinct().order_by('-order_priority', 'name')
 
     def prepend_urls(self):
         return [
-            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('tag_detail'), name="api_tag_detail"),
-            ]
+            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)%s$" % (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('tag_detail'), name="api_tag_detail"),
+        ]
 
     def tag_detail(self, request, **kwargs):
         self.is_authenticated(request)
@@ -649,7 +661,9 @@ class TagResource(ModelResource):
             cr.full_dehydrate(bundle)
             course_data.append(bundle.data)
 
-        response = HttpResponse(content=json.dumps({'id': pk, 'count': courses.count(), 'courses': course_data, 'name': tag.name}), content_type="application/json; charset=utf-8")
+        response = HttpResponse(
+            content=json.dumps({'id': pk, 'count': courses.count(), 'courses': course_data, 'name': tag.name}),
+            content_type="application/json; charset=utf-8")
         return response
 
     def dehydrate_count(self, bundle):
@@ -690,6 +704,40 @@ class PointsResource(ModelResource):
     def dehydrate(self, bundle):
         bundle.data['date'] = bundle.data['date'].strftime("%Y-%m-%d %H:%M:%S")
         return bundle
+
+    def prepend_urls(self):
+        return [
+            url(r"^leaderboard/$", self.wrap_view('leaderboard'), name="api_leaderboard"),
+        ]
+
+    def leaderboard(self, request, **kwargs):
+
+        self.method_check(request, allowed=['get'])
+        self.is_authenticated(request)
+        self.throttle_check(request)
+
+        if request.is_secure():
+            prefix = 'https://'
+        else:
+            prefix = 'http://'
+
+        response_data = {}
+        response_data['generated_date'] = timezone.now()
+        response_data['server'] = prefix + request.META['SERVER_NAME']
+        leaderboard = Points.get_leaderboard()
+        response_data['leaderboard'] = []
+
+        for idx, leader in enumerate(leaderboard):
+            leader_data = {}
+            leader_data['position'] = idx + 1
+            leader_data['username'] = leader.username
+            leader_data['first_name'] = leader.first_name
+            leader_data['last_name'] = leader.last_name
+            leader_data['points'] = leader.total
+            leader_data['badges'] = leader.badges
+            response_data['leaderboard'].append(leader_data)
+
+        return JsonResponse(response_data)
 
 
 class BadgesResource(ModelResource):
