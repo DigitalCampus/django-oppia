@@ -1,6 +1,7 @@
 # oppia/profile/views.py
 import csv
 import datetime
+import oppia.profile
 from itertools import chain
 
 from django import forms
@@ -12,7 +13,7 @@ from django.contrib.auth.models import User
 from django.core import exceptions
 from django.core.mail import send_mail
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import IntegrityError
 from django.db.models import Count, Max, Min, Avg, Q
 from django.http import HttpResponse, HttpResponseRedirect, Http404
@@ -32,13 +33,14 @@ from oppia.reports.signals import dashboard_accessed
 from oppia.summary.models import UserCourseSummary
 
 
-def filterRedirect(requestContent):
-    redirection = requestContent.get('next')
+def filter_redirect(request_content):
+    redirection = request_content.get('next')
     # Avoid redirecting to logout after login
     if redirection == reverse('profile_logout'):
         return None
     else:
         return redirection
+
 
 def get_paginated_users(request):
     default_order = 'date_joined'
@@ -56,42 +58,43 @@ def get_paginated_users(request):
 
     return ordering, paginator.page(page)
 
+
 def login_view(request):
     username = password = ''
-    
+
     # if already logged in
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('oppia_home'))
-    
+
     if request.POST:
         form = LoginForm(request.POST)
         username = request.POST.get('username')
         password = request.POST.get('password')
-        next = filterRedirect(request.POST)
+        next = filter_redirect(request.POST)
 
         user = authenticate(username=username, password=password)
         if user is not None and user.is_active:
-            login(request,user)
+            login(request, user)
             if next is not None:
                 return HttpResponseRedirect(next)
             else:
                 return HttpResponseRedirect(reverse('oppia_home'))
     else:
-        form = LoginForm(initial={'next':filterRedirect(request.GET),})
-        
+        form = LoginForm(initial={'next': filter_redirect(request.GET), })
+
     return render(request, 'oppia/form.html',
-                              {'username': username, 
-                               'form': form, 
+                              {'username': username,
+                               'form': form,
                                'title': _(u'Login')})
-                              
+
 
 def register(request):
     if not settings.OPPIA_ALLOW_SELF_REGISTRATION:
         raise Http404
-    
-    if request.method == 'POST': # if form submitted...
+
+    if request.method == 'POST':  # if form submitted...
         form = RegisterForm(request.POST)
-        if form.is_valid(): # All validation rules pass
+        if form.is_valid():  # All validation rules pass
             # Create new user
             username = form.cleaned_data.get("username")
             email = form.cleaned_data.get("email")
@@ -108,20 +111,20 @@ def register(request):
             user_profile.organisation = form.cleaned_data.get("organisation")
             user_profile.save()
             u = authenticate(username=username, password=password)
-            if u is not None:
-                if u.is_active:
-                    login(request, u)
-                    return HttpResponseRedirect('thanks/')
-            return HttpResponseRedirect('thanks/') # Redirect after POST
+            if u is not None and u.is_active:
+                login(request, u)
+                return HttpResponseRedirect('thanks/')
+            return HttpResponseRedirect('thanks/')  # Redirect after POST
     else:
-        form = RegisterForm(initial={'next':filterRedirect(request.GET),})
+        form = RegisterForm(initial={'next': filter_redirect(request.GET), })
 
     return render(request, 'oppia/form.html',
                               {'form': form,
                                'title': _(u'Register'), })
 
+
 def reset(request):
-    if request.method == 'POST': # if form submitted...
+    if request.method == 'POST':  # if form submitted...
         form = ResetForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data.get("username")
@@ -137,17 +140,18 @@ def reset(request):
             else:
                 prefix = 'http://'
             # TODO - better way to manage email message content
-            send_mail('OppiaMobile: Password reset', 'Here is your new password for OppiaMobile: '+newpass
+            send_mail('OppiaMobile: Password reset', 'Here is your new password for OppiaMobile: ' + newpass
                       + '\n\nWhen you next log in you can update your password to something more memorable.'
-                      + '\n\n' + prefix + request.META['SERVER_NAME'] ,
+                      + '\n\n' + prefix + request.META['SERVER_NAME'],
                       settings.SERVER_EMAIL, [user.email], fail_silently=False)
             return HttpResponseRedirect('sent')
     else:
-        form = ResetForm() # An unbound form
+        form = ResetForm()  # An unbound form
 
     return render(request, 'oppia/form.html',
                   {'form': form,
                    'title': _(u'Reset password')})
+
 
 def edit(request, user_id=0):
     if user_id != 0:
@@ -158,7 +162,7 @@ def edit(request, user_id=0):
     else:
         view_user = request.user
 
-    key = ApiKey.objects.get(user = view_user)
+    key = ApiKey.objects.get(user=view_user)
     if request.method == 'POST':
         form = ProfileForm(request.POST)
         if form.is_valid():
@@ -195,23 +199,24 @@ def edit(request, user_id=0):
             user_profile = UserProfile.objects.get(user=view_user)
         except UserProfile.DoesNotExist:
             user_profile = UserProfile()
-        form = ProfileForm(initial={'username':view_user.username,
-                                    'email':view_user.email,
-                                    'first_name':view_user.first_name,
-                                    'last_name':view_user.last_name,
+        form = ProfileForm(initial={'username': view_user.username,
+                                    'email': view_user.email,
+                                    'first_name': view_user.first_name,
+                                    'last_name': view_user.last_name,
                                     'api_key': key.key,
                                     'job_title': user_profile.job_title,
-                                    'organisation': user_profile.organisation,})
+                                    'organisation': user_profile.organisation, })
 
     return render(request, 'oppia/profile/profile.html',
-                  {'form': form,})
-    
+                  {'form': form, })
+
+
 def export_mydata_view(request, data_type):
     if data_type == 'activity':
         my_activity = Tracker.objects.filter(user=request.user)
         return render(request, 'oppia/profile/export/activity.html',
                   {'activity': my_activity})
-     
+
     if data_type == 'quiz':
         my_quizzes = []
         my_quiz_attempts = QuizAttempt.objects.filter(user=request.user)
@@ -220,24 +225,24 @@ def export_mydata_view(request, data_type):
             data['quizattempt'] = mqa
             data['quizattemptresponses'] = QuizAttemptResponse.objects.filter(quizattempt=mqa)
             my_quizzes.append(data)
-        
+
         return render(request, 'oppia/profile/export/quiz_attempts.html',
                   {'quiz_attempts': my_quizzes})
-    
+
     if data_type == 'points':
         points = Points.objects.filter(user=request.user)
         return render(request, 'oppia/profile/export/points.html',
                   {'points': points})
-        
-    if data_type == 'badges':   
+
+    if data_type == 'badges':
         badges = Award.objects.filter(user=request.user)
         return render(request, 'oppia/profile/export/badges.html',
                   {'badges': badges})
-     
+
 
 def points(request):
     points = Points.objects.filter(user=request.user).order_by('-date')
-    paginator = Paginator(points, 25) # Show 25 contacts per page
+    paginator = Paginator(points, 25)  # Show 25 contacts per page
 
     # Make sure page request is an int. If not, deliver first page.
     try:
@@ -251,12 +256,13 @@ def points(request):
     except (EmptyPage, InvalidPage):
         mypoints = paginator.page(paginator.num_pages)
     return render(request, 'oppia/profile/points.html',
-                              {'page': mypoints,})
+                              {'page': mypoints, })
+
 
 def badges(request):
     awards = Award.objects.filter(user=request.user).order_by('-award_date')
     return render(request, 'oppia/profile/badges.html',
-                              {'awards': awards,})
+                              {'awards': awards, })
 
 
 def user_activity(request, user_id):
@@ -310,26 +316,27 @@ def user_activity(request, user_id):
     activity = []
     start_date = timezone.now() - datetime.timedelta(days=31)
     end_date = timezone.now()
-    no_days = (end_date-start_date).days + 1
+    no_days = (end_date - start_date).days + 1
 
-    course_ids = list(chain(cohort_courses.values_list('id',flat=True),other_courses.values_list('id',flat=True)))
+    course_ids = list(chain(cohort_courses.values_list('id', flat=True), other_courses.values_list('id', flat=True)))
     trackers = Tracker.objects.filter(course__id__in=course_ids,
                                       user=view_user,
                                       tracker_date__gte=start_date,
                                       tracker_date__lte=end_date) \
-                                      .extra({'activity_date':"date(tracker_date)"}) \
+                                      .extra({'activity_date': "date(tracker_date)"}) \
                                       .values('activity_date') \
                                       .annotate(count=Count('id'))
-    for i in range(0,no_days,+1):
+    for i in range(0, no_days, +1):
         temp = start_date + datetime.timedelta(days=i)
         count = next((dct['count'] for dct in trackers if dct['activity_date'] == temp.date()), 0)
-        activity.append([temp.strftime("%d %b %Y"),count])
+        activity.append([temp.strftime("%d %b %Y"), count])
 
     return render(request, 'oppia/profile/user-scorecard.html',
                               {'view_user': view_user,
                                'courses': courses,
                                'page_ordering': ('-' if inverse_order else '') + ordering,
-                               'activity_graph_data': activity })
+                               'activity_graph_data': activity})
+
 
 def user_course_activity_view(request, user_id, course_id):
 
@@ -340,7 +347,7 @@ def user_course_activity_view(request, user_id, course_id):
     dashboard_accessed.send(sender=None, request=request, data=None)
     course = can_view_course(request, course_id)
 
-    act_quizzes = Activity.objects.filter(section__course=course,type=Activity.QUIZ).order_by('section__order','order')
+    act_quizzes = Activity.objects.filter(section__course=course, type=Activity.QUIZ).order_by('section__order', 'order')
 
     quizzes_attempted = 0
     quizzes_passed = 0
@@ -357,7 +364,6 @@ def user_course_activity_view(request, user_id, course_id):
         except Quiz.DoesNotExist:
             quiz = None
 
-
         attempts = QuizAttempt.objects.filter(quiz=quiz, user=view_user)
         num_attempts = attempts.count()
         passed = False
@@ -365,13 +371,13 @@ def user_course_activity_view(request, user_id, course_id):
 
             quiz_maxscore = float(attempts[0].maxscore)
             attemps_stats = attempts.aggregate(max=Max('score'), min=Min('score'), avg=Avg('score'))
-            max_score = 100*float(attemps_stats['max']) / quiz_maxscore
-            min_score = 100*float(attemps_stats['min']) / quiz_maxscore
-            avg_score = 100*float(attemps_stats['avg']) / quiz_maxscore
+            max_score = 100 * float(attemps_stats['max']) / quiz_maxscore
+            min_score = 100 * float(attemps_stats['min']) / quiz_maxscore
+            avg_score = 100 * float(attemps_stats['avg']) / quiz_maxscore
             first_date = attempts.aggregate(date=Min('attempt_date'))['date']
             recent_date = attempts.aggregate(date=Max('attempt_date'))['date']
-            first_score = 100*float(attempts.filter(attempt_date = first_date)[0].score) / quiz_maxscore
-            latest_score = 100*float(attempts.filter(attempt_date = recent_date)[0].score) / quiz_maxscore
+            first_score = 100 * float(attempts.filter(attempt_date=first_date)[0].score) / quiz_maxscore
+            latest_score = 100 * float(attempts.filter(attempt_date=recent_date)[0].score) / quiz_maxscore
 
             passed = max_score is not None and max_score > 75
             if aq.section.order == 0:
@@ -399,26 +405,26 @@ def user_course_activity_view(request, user_id, course_id):
                  }
         quizzes.append(quiz)
 
-    activities_completed = course.get_activities_completed(course,view_user)
+    activities_completed = course.get_activities_completed(course, view_user)
     activities_total = course.get_no_activities()
     activities_percent = (activities_completed * 100) / activities_total
 
     activity = []
     start_date = timezone.now() - datetime.timedelta(days=31)
     end_date = timezone.now()
-    no_days = (end_date-start_date).days + 1
+    no_days = (end_date - start_date).days + 1
 
     trackers = Tracker.objects.filter(course=course,
                                       user=view_user,
                                       tracker_date__gte=start_date,
                                       tracker_date__lte=end_date) \
-                                      .extra({'activity_date':"date(tracker_date)"}) \
+                                      .extra({'activity_date': "date(tracker_date)"}) \
                                       .values('activity_date') \
                                       .annotate(count=Count('id'))
-    for i in range(0,no_days,+1):
+    for i in range(0, no_days, +1):
         temp = start_date + datetime.timedelta(days=i)
         count = next((dct['count'] for dct in trackers if dct['activity_date'] == temp.date()), 0)
-        activity.append([temp.strftime("%d %b %Y"),count])
+        activity.append([temp.strftime("%d %b %Y"), count])
 
     order_options = ['quiz_order', 'no_attempts', 'max_score', 'min_score',
                      'first_score', 'latest_score', 'avg_score']
@@ -437,25 +443,26 @@ def user_course_activity_view(request, user_id, course_id):
                               {'view_user': view_user,
                                'course': course,
                                'quizzes': quizzes,
-                               'quizzes_passed':quizzes_passed,
-                               'quizzes_attempted':quizzes_attempted,
+                               'quizzes_passed': quizzes_passed,
+                               'quizzes_attempted': quizzes_attempted,
                                'pretest_score': course_pretest,
                                'activities_completed': activities_completed,
                                'activities_total': activities_total,
                                'activities_percent': activities_percent,
                                'page_ordering': ('-' if inverse_order else '') + ordering,
-                               'activity_graph_data': activity })
+                               'activity_graph_data': activity})
+
 
 def upload_view(request):
     if not request.user.is_superuser:
         raise exceptions.PermissionDenied
 
-    if request.method == 'POST': # if form submitted...
-        form = UploadProfileForm(request.POST,request.FILES)
+    if request.method == 'POST':  # if form submitted...
+        form = UploadProfileForm(request.POST, request.FILES)
         if form.is_valid():
             request.FILES['upload_file'].open("rb")
             csv_file = csv.DictReader(request.FILES['upload_file'].file)
-            required_fields = ['username','firstname','lastname','email']
+            required_fields = ['username', 'firstname', 'lastname', 'email']
             results = []
             try:
                 for row in csv_file:
@@ -522,17 +529,32 @@ def upload_view(request):
                               {'form': form,
                                'results': results})
 
+
 def get_query(query_string, search_fields):
     ''' Returns a query, that is a combination of Q objects. That combination
         aims to search keywords within a model by testing the given search fields.
 
     '''
-    query = None # Query to search in every field
+    query = None  # Query to search in every field
     for field_name in search_fields:
-        q = Q(**{"%s__icontains" % field_name: query_string})
+        q = Q( ** {"%s__icontains" % field_name: query_string})
         query = q if query is None else (query | q)
 
     return query
+
+def get_filters_from_row(search_form):
+    filters = {}
+    for row in search_form.cleaned_data:
+        if search_form.cleaned_data[row]:
+            if row is 'register_start_date':
+                filters['date_joined__gte'] = search_form.cleaned_data[row]
+            elif row is 'register_end_date':
+                filters['date_joined__lte'] = search_form.cleaned_data[row]
+            elif isinstance(search_form.fields[row], forms.CharField):
+                filters["%s__icontains" % row] = search_form.cleaned_data[row]
+            else:
+                filters[row] = search_form.cleaned_data[row]
+    return filters
 
 def search_users(request):
 
@@ -543,20 +565,10 @@ def search_users(request):
 
     filtered = False
     search_form = UserSearchForm(request.GET,request.FILES)
-    if search_form.is_valid():
-        filters = {}
-        for row in search_form.cleaned_data:
-            if search_form.cleaned_data[row]:
-                if row is 'register_start_date':
-                    filters['date_joined__gte'] = search_form.cleaned_data[row]
-                elif row is 'register_end_date':
-                    filters['date_joined__lte'] = search_form.cleaned_data[row]
-                elif isinstance(search_form.fields[row], forms.CharField):
-                    filters["%s__icontains" % row] = search_form.cleaned_data[row]
-                else:
-                    filters[row] = search_form.cleaned_data[row]
+    if search_form.is_valid(): 
+        filters = get_filters_from_row(search_form)           
         if filters:
-            users = users.filter(**filters)
+            users = users.filter( ** filters)
             filtered = True
 
     if not filtered:
@@ -565,7 +577,7 @@ def search_users(request):
     query_string = None
     if ('q' in request.GET) and request.GET['q'].strip():
         query_string = request.GET['q']
-        filter_query = get_query(query_string, ['username','first_name', 'last_name','email',])
+        filter_query = get_query(query_string, ['username', 'first_name', 'last_name', 'email', ])
         users = users.filter(filter_query)
 
     ordering = request.GET.get('order_by', None)
@@ -573,7 +585,7 @@ def search_users(request):
         ordering = 'first_name'
 
     users = users.order_by(ordering)
-    paginator = Paginator(users, 10) # Show 25 per page
+    paginator = Paginator(users, oppia.profile.SEARCH_USERS_RESULTS_PER_PAGE) # Show 25 per page
 
     # Make sure page request is an int. If not, deliver first page.
     try:
@@ -587,11 +599,12 @@ def search_users(request):
         users = paginator.page(paginator.num_pages)
 
     return render(request, 'oppia/profile/search_user.html',
-                              { 'quicksearch':query_string,
-                                'search_form':search_form,
-                                'advanced_search':filtered,
+                              {'quicksearch': query_string,
+                                'search_form': search_form,
+                                'advanced_search': filtered,
                                 'page': users,
-                                'page_ordering':ordering })
+                                'page_ordering': ordering})
+
 
 def export_users(request):
 
@@ -611,56 +624,57 @@ def export_users(request):
         template = 'users-paginated-list.html'
 
     return render(request, 'oppia/profile/' + template,
-                              {  'page': users,
-                                  'page_ordering':ordering,
-                                  'users_list_template':'export' })
+                              {'page': users,
+                                  'page_ordering': ordering,
+                                  'users_list_template': 'export'})
+
 
 def list_users(request):
     ordering, users = get_paginated_users(request)
     return render(request, 'oppia/profile/users-paginated-list.html',
                               {'page': users,
-                                  'page_ordering':ordering,
-                                  'users_list_template':'select',
-                                  'ajax_url':request.path })
-    
+                                  'page_ordering': ordering,
+                                  'users_list_template': 'select',
+                                  'ajax_url': request.path})
+
+
 def delete_account_view(request):
-    if request.method == 'POST': # if form submitted...
+    if request.method == 'POST':  # if form submitted...
         form = DeleteAccountForm(request.POST)
         if form.is_valid():
-            user =request.user
-            
+            user = request.user
+
             #delete points
             Points.objects.filter(user=user).delete()
-            
+
             #delete badges
             Award.objects.filter(user=user).delete()
-            
+
             #delete trackers
             Tracker.objects.filter(user=user).delete()
-            
+
             #delete quiz attempts
             QuizAttemptResponse.objects.filter(quizattempt__user=user).delete()
             QuizAttempt.objects.filter(user=user).delete()
-            
+
             #delete profile
             UserProfile.objects.filter(user=user).delete()
-            
+
             #delete api key
             ApiKey.objects.filter(user=user).delete()
-            
+
             #logout and delete user
             User.objects.get(pk=user.id).delete()
-            
+
             #redirect
-            return HttpResponseRedirect(reverse('profile_delete_account_complete')) # Redirect after POST
+            return HttpResponseRedirect(reverse('profile_delete_account_complete'))  # Redirect after POST
     else:
-        form = DeleteAccountForm(initial={'username':request.user.username}) # An unbound form
+        form = DeleteAccountForm(initial={'username': request.user.username})  # An unbound form
 
     return render(request, 'oppia/profile/delete_account.html',
-                  {'form': form })
- 
+                  {'form': form})
+
    
 def delete_account_complete_view(request):
 
     return render(request, 'oppia/profile/delete_account_complete.html')
-

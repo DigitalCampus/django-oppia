@@ -1,3 +1,6 @@
+
+import oppia.management.commands
+
 from distutils.util import strtobool
 
 from django.core.management.base import BaseCommand
@@ -5,7 +8,6 @@ from django.core.management.base import BaseCommand
 from oppia.models import Activity
 from oppia.quiz.models import Quiz, QuizProps, QuizAttempt, Response, ResponseProps, Question, QuestionProps, \
     QuizQuestion
-
 
 class Command(BaseCommand):
     help = 'Cleans up old data (quizzes and questions) that is not relevant anymore'

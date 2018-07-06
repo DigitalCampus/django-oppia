@@ -362,7 +362,7 @@ function mQuiz(){
 			mQ.store.clear();
 			mQ.store.init();
 			// send logout request to main site
-			url = this.opts.url + "../../profile/logout/";
+			var url = this.opts.url + "../../profile/logout/";
 			$.ajax({
 				type: "GET",
 				timeout: mQ.opts.timeout,
@@ -387,7 +387,7 @@ function mQuiz(){
 		if(!hash){
 			hash = '#home';
 		}
-		loggedin = mQ.loggedIn();
+		var loggedin = mQ.loggedIn();
 		if(!loggedin && hash != '#register' && hash != "#login"){
 			this.showLogin(hash);
 			return;
@@ -430,14 +430,14 @@ function mQuiz(){
 		}
 		qs.sort(sortresults);
 		for (var q in qs){
-			var result = $('<div>').attr({'class':'result'});
+			var q_result = $('<div>').attr({'class':'result'});
 			var d = new Date(qs[q].attempt_date);
 			var str = qs[q].title + "<br/><small>"+ dateFormat(d,'HH:MM d-mmm-yy')+"</small>";
 			result.append($('<div>').attr({'class':'rest clickable','onclick':'document.location="#'+qs[q].quiz_id +'"','title':'try this quiz again'}).html(str));
 			result.append($('<div>').attr({'class':'ress'}).text((qs[q].score*100/qs[q].maxscore).toFixed(0)+"%"));
 			result.append($('<div>').attr({'class':'resr'}).text(qs[q].rank));
 			result.append("<div style='clear:both'></div>");
-			results.append(result);
+			results.append(q_result);
 		}
 	};
 	
@@ -515,7 +515,7 @@ function mQuiz(){
 						timeout: mQ.opts.timeout,
 						url: url,
 						success:function(data){
-								cache = mQ.store.get('results');
+								var cache = mQ.store.get('results');
 								mQ.store.clearKey('results');
 								
 								results[r].sent = true;
@@ -1334,7 +1334,7 @@ function Quiz(){
 						}
 					}
 					// loop through results and update rank & sent status
-					cache = mQ.store.get('results');
+					var cache = mQ.store.get('results');
 					mQ.store.clearKey('results');
 					content.sent = true;
 					for (var c in cache){

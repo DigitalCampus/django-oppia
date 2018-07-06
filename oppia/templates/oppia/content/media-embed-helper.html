@@ -31,7 +31,7 @@
             <p>The script has also generated the following screenshots from the media that you may wish to use (right click over the image and select 'save as' to save to your computer for uploading into Moodle):</p>
             {% endblocktrans %}
             {% for im in processed_media.image_files %}
-                <img src="{{ processed_media.image_url_root }}{{ im }}" style="margin:20px;"/>
+                <img src="{{ processed_media.image_url_root }}{{ im }}" style="margin:20px;" alt="{% trans 'Media image'%}/>
             {% endfor %}
         {% endif %}
     {% else %}

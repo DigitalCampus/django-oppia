@@ -1,0 +1,124 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+
+    "definitions": {
+
+        "quiz_props_def": {
+            "type": "object",
+            "properties": {
+                "allowtryagain": { "type": "string" },
+                "availability": { "type": "string" },
+                "courseversion": { "type": "string" },
+                "digest": { "type": "string" },
+                "maxscore": { "type": "number" },
+                "passthreshold": { "type": "string" },
+                "randomselect": { "type": "string" },
+                "showfeedback": { "type": "string" }
+            },
+            "required": [
+                "allowtryagain",
+                "availability",
+                "courseversion",
+                "digest",
+                "maxscore",
+                "passthreshold",
+                "showfeedback"
+            ]
+        },
+
+        "response_feedback_def": {
+            "type": "object",
+            "properties": {
+                "feedback": { "type": "object" }
+            }
+        },
+
+        "response_def": {
+            "type": "object",
+            "properties": {
+                "id": { "type": "number" },
+                "order": { "type": "number" },
+                "props": { "$ref": "#/definitions/response_feedback_def" },
+                "score": { "type": "string" },
+                "title": { "type": "object" }
+            },
+            "required": [
+                "id",
+                "order",
+                "props",
+                "score",
+                "title"
+            ]
+        },
+
+        "question_props_def": {
+            "type": "object",
+            "properties": {
+                "feedback":  { "type": "object" },
+                "correctfeedback": { "type": "object" },
+                "incorrectfeedback": { "type": "object" },
+                "partiallycorrectfeedback": { "type": "object" },
+                "maxscore": { "type": "number" },
+                "image": { "type": "string" }
+            }
+        },
+
+        "question_def": {
+            "type": "object",
+            "properties": {
+                "id": { "type": "number" },
+                "props": { "$ref": "#/definitions/question_props_def" },
+                "responses": {
+                    "type": "array",
+                    "items": { "$ref": "#/definitions/response_def" }
+                },
+                "title": { "type": "object" },
+                "type": { "type": "string" }
+            },
+            "required": [
+                "id",
+                "props",
+                "responses",
+                "title",
+                "type"
+            ]
+        },
+
+        "questions_item_def": {
+            "type": "object",
+            "properties": {
+                "id": { "type": "number" },
+                "order": { "type": "number" },
+                "question": { "$ref": "#/definitions/question_def" }
+            },
+            "required": [
+                "id",
+                "order",
+                "question"
+            ]
+        },
+
+        "questions_def": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "$ref": "#/definitions/questions_item_def" }
+        }
+
+    },
+
+    "type": "object",
+
+    "properties": {
+
+        "description": { "type": "object" },
+        "id": { "type": "number" },
+        "lastupdated_date": { "type": "string" },
+        "owner": { "type": "string" },
+        "props": { "$ref": "#/definitions/quiz_props_def" },
+        "questions": { "$ref": "#/definitions/questions_def" },
+        "resource_uri": { "type": "string" },
+        "title": { "type": "object" }
+
+    }
+
+}

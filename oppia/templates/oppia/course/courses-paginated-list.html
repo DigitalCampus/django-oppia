@@ -15,8 +15,8 @@
         {% for course in page.object_list %}
         <tr id="{{ course.shortname }}" data-selectable-id="{{ course.shortname }}">
             <td class="col-xs-2 col-sm-1">
-                <a class="btn btn-sm btn-primary btn-add"><i class="glyphicon glyphicon-plus"></i> <i class="glyphicon glyphicon-ok hidden"></i> </a>
-                <a class="btn btn-sm btn-primary btn-remove removing" style="display: none;"><i class="glyphicon glyphicon-remove"></i> </a>
+                <a class="btn btn-sm btn-primary btn-add"><em class="glyphicon glyphicon-plus"></em> <em class="glyphicon glyphicon-ok hidden"></em> </a>
+                <a class="btn btn-sm btn-primary btn-remove removing" style="display: none;"><em class="glyphicon glyphicon-remove"></em> </a>
             </td>
             <td class="col-xs-7 col-sm-7">{{ course.title | title_lang:LANGUAGE_CODE }}</td>
             <td class="col-xs-3 col-sm-4">{{ course.lastupdated_date|date:"d/m/Y" }}</td>

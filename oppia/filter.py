@@ -1,7 +1,6 @@
 
-
-
 from django.http import UnreadablePostError
+
 
 def skip_unreadable_post(record):
     if record.exc_info:

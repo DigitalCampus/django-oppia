@@ -73,31 +73,6 @@ div.listprogress{
     text-align: center;
 }
 
-#monitormenu {
-	width:100%;
-	text-align: center;
-	border-top: 1px solid #77A240;
-	border-bottom: 1px solid #77A240;
-	padding: 5px 0;
-	background: #E8E8E8;
-}
-
-#monitormenu ul li {
-	display: inline;
-	list-style-type: none;
-	text-align: center;
-	padding: 5px 10px;
-	border-right: 1px solid #DCDCDC;
-	border-left: 1px solid #DCDCDC;
-}
-
-
-#monitormenu ul li:hover {
-	cursor:pointer;
-	background: #77A240;
-	color: white;
-}
-
 div.progress-box {
 	float:left;  
 	margin-right:1px; 

@@ -15,14 +15,14 @@
 {% endblocktrans %}
 
 <h3>{% trans 'Video demo' %}</h3>
-<iframe width="400" height="315" src="http://www.youtube.com/embed/wHo5R_RgkG0?html5=1" frameborder="0" allowfullscreen></iframe>
+<iframe width="400" height="315" style="border: 0px;" src="http://www.youtube.com/embed/wHo5R_RgkG0?html5=1" allowfullscreen title="{% trans 'OppiaMobile demo video'%}"></iframe>
 
 <h3>{% trans 'Acknowledgements' %}</h3>
 {% static "oppia/images/UK-AID-Standard-RGB.jpg" as ukaid_logo%}
 {% blocktrans %} 
 	<p>The development of OppiaMobile has been made possible by funding from:</p>
 	
-	<img src="{{ ukaid_logo }}"/>
+	<img src="{{ ukaid_logo }}" alt="UKAID logo"/>
 	
 	<p>Acknowledgements and contributors to the code include:</p>
 		<ul>
@@ -37,11 +37,12 @@
 		<li>Laila Hussain - Urdu translation</li>
 		<li><a href="http://lal.ngo">Lebanese Alternative Learning</a> - Arabic (Lebanese) translation and funding for drag and drop quizzes</li>
 		<li><a href="http://lastmilehealth.org">Last Mile Health</a> - Funding for additional development</li>
+		<li>David Gil de Gómez Pérez - technical development, performance improvements and bug fixes</li>
 	</ul>
 	
 {% endblocktrans %}
 
-<a name="terms"></a>
+<a id="terms"></a>
 <h3>{% trans 'Terms and License' %}</h3>
 {% blocktrans with settings.SERVER_EMAIL as email %}
 <p>OppiaMobile is a work in progress and is provided as-is. Not everything may work 100%, so if you find anything wrong, then <a href="mailto:{{ email }}">please let us know</a>.</p>

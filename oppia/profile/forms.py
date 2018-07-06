@@ -8,7 +8,7 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth import (authenticate)
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.core.validators import validate_email
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
@@ -18,12 +18,12 @@ class LoginForm(forms.Form):
     username = forms.CharField(max_length=30,
                                error_messages={'required': _(u'Please enter a username.')}, )
     password = forms.CharField(widget=forms.PasswordInput,
-                               error_messages={'required': _(u'Please enter a password.'),},
+                               error_messages={'required': _(u'Please enter a password.'), },
                                required=True)
     next = forms.CharField(widget=forms.HiddenInput())
 
     def __init__(self, *args, **kwargs):
-        super(LoginForm, self).__init__(*args, **kwargs)
+        super(LoginForm, self).__init__( * args, ** kwargs)
         self.helper = FormHelper()
         self.helper.form_action = reverse('profile_login')
         self.helper.form_class = 'form-horizontal'
@@ -87,7 +87,7 @@ class RegisterForm(forms.Form):
     organisation = forms.CharField(max_length=100, required=False)
 
     def __init__(self, *args, **kwargs):
-        super(RegisterForm, self).__init__(*args, **kwargs)
+        super(RegisterForm, self).__init__( * args, ** kwargs)
         self.helper = FormHelper()
         self.helper.form_action = reverse('profile_register')
         self.helper.form_class = 'form-horizontal'
@@ -126,9 +126,8 @@ class RegisterForm(forms.Form):
             raise forms.ValidationError(_(u"Email has already been registered"))
 
         # check the password are the same
-        if password and password_again:
-            if password != password_again:
-                raise forms.ValidationError(_(u"Passwords do not match."))
+        if password and password_again and password != password_again:
+            raise forms.ValidationError(_(u"Passwords do not match."))
 
         # Always return the full collection of cleaned data.
         return cleaned_data
@@ -140,7 +139,7 @@ class ResetForm(forms.Form):
                                required=True)
 
     def __init__(self, *args, **kwargs):
-        super(ResetForm, self).__init__(*args, **kwargs)
+        super(ResetForm, self).__init__( * args, ** kwargs)
         self.fields['username'].label = "Username or email"
         self.helper = FormHelper()
         self.helper.form_action = reverse('profile_reset')
@@ -159,10 +158,10 @@ class ResetForm(forms.Form):
         cleaned_data = self.cleaned_data
         username = cleaned_data.get("username")
         try:
-            user = User.objects.get(username__exact=username)
+            User.objects.get(username__exact=username)
         except User.DoesNotExist:
             try:
-                user = User.objects.get(email__exact=username)
+                User.objects.get(email__exact=username)
             except User.DoesNotExist:
                 raise forms.ValidationError(_(u"Username/email not found"))
         return cleaned_data
@@ -194,7 +193,7 @@ class ProfileForm(forms.Form):
     organisation = forms.CharField(max_length=100, required=False)
 
     def __init__(self, *args, **kwargs):
-        super(ProfileForm, self).__init__(*args, **kwargs)
+        super(ProfileForm, self).__init__( * args, ** kwargs)
         if len(args) == 1:
             email = args[0]['email']
             username = args[0]['username']
@@ -276,9 +275,8 @@ class ProfileForm(forms.Form):
         # if password entered then check they are the same
         password = cleaned_data.get("password")
         password_again = cleaned_data.get("password_again")
-        if password and password_again:
-            if password != password_again:
-                raise forms.ValidationError(_(u"Passwords do not match."))
+        if password and password_again and password != password_again:
+            raise forms.ValidationError(_(u"Passwords do not match."))
 
         return cleaned_data
 
@@ -289,7 +287,7 @@ class UploadProfileForm(forms.Form):
         error_messages={'required': _('Please select a file to upload')}, )
 
     def __init__(self, *args, **kwargs):
-        super(UploadProfileForm, self).__init__(*args, **kwargs)
+        super(UploadProfileForm, self).__init__( * args, ** kwargs)
         self.helper = FormHelper()
         self.helper.form_action = reverse('profile_upload')
         self.helper.form_class = 'form-horizontal'
@@ -316,7 +314,7 @@ class UserSearchForm(forms.Form):
     register_end_date = forms.CharField(required=False, label=False)
 
     def __init__(self, *args, **kwargs):
-        super(UserSearchForm, self).__init__(*args, **kwargs)
+        super(UserSearchForm, self).__init__( * args, ** kwargs)
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
         self.helper.label_class = 'col-sm-3 col-md-2 col-lg-2 control-label'
@@ -337,17 +335,17 @@ class UserSearchForm(forms.Form):
                 css_class='col-lg-7 col-md-7 col-sm-11 text-right',
             )
         )
-        
+
 
 class DeleteAccountForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput(attrs={'readonly': 'readonly'}),
                                required=True)
     password = forms.CharField(widget=forms.PasswordInput,
-                               error_messages={'required': _(u'Please enter your password.'),},
+                               error_messages={'required': _(u'Please enter your password.'), },
                                required=True)
 
     def __init__(self, *args, **kwargs):
-        super(DeleteAccountForm, self).__init__(*args, **kwargs)
+        super(DeleteAccountForm, self).__init__( * args, ** kwargs)
         self.helper = FormHelper()
         self.helper.form_action = reverse('profile_delete_account')
         self.helper.form_class = 'form-horizontal'
@@ -374,4 +372,3 @@ class DeleteAccountForm(forms.Form):
         if user is None or not user.is_active:
             raise forms.ValidationError(_(u"Invalid password. Please try again."))
         return cleaned_data
-    

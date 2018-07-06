@@ -10,7 +10,7 @@
 {% block content %}
 
 <h2><a href="{% url 'oppia_recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a></h2>
-<p><i>{% trans 'Tags:' %} {{ course.get_tags}}</i></p>
+<p><em>{% trans 'Tags:' %} {{ course.get_tags}}</em></p>
 
 
 <div class="table-responsive">

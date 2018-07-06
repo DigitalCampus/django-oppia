@@ -4,8 +4,9 @@
 Management command to clean up any old files in the oppia uploads directory
 """
 import os
-import time 
+import time
 import django.db.models
+import oppia.management.commands
 
 from optparse import make_option
 
@@ -19,10 +20,8 @@ from oppia.models import Course
 class Command(BaseCommand):
     help = "Cleans up any old files in the oppia uploads directory"
 
-
     def add_arguments(self, parser):
         pass
-        
 
     def handle(self, *args, **options):
         """
@@ -36,15 +35,12 @@ class Command(BaseCommand):
                 if courses.count() == 0:
                     #delete the file
                     os.remove(settings.COURSE_UPLOAD_DIR + filename)
-                    print "Removed: " + filename
-                    
+                    print("Removed: " + filename)
+
         """
         Flag up courses that don't have files
         """
         courses = Course.objects.all()
         for course in courses:
-            if not os.path.isfile(os.path.join(settings.COURSE_UPLOAD_DIR,course.filename)):
-                print "FILE MISSING: %s for %s " % (course.filename, course.title)
-        
-        
-        
+            if not os.path.isfile(os.path.join(settings.COURSE_UPLOAD_DIR, course.filename)):
+                print("FILE MISSING: %s for %s " % (course.filename, course.title))

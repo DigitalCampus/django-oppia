@@ -13,8 +13,8 @@ from oppia.utils.deprecation import RemovedInOppia0110Warning
 
 import math
 
-
 course_downloaded = Signal(providing_args=["course", "user"])
+
 
 # rules for applying points (or not)
 def apply_points(user):
@@ -23,10 +23,10 @@ def apply_points(user):
     if user.is_staff and not settings.OPPIA_STAFF_EARN_POINTS:
         return False
     return True
-    
+
         
 def signup_callback(sender, **kwargs):
-    
+
     user = kwargs.get('instance')
     created = kwargs.get('created')
     if not apply_points(user):
@@ -41,11 +41,12 @@ def signup_callback(sender, **kwargs):
         p.save()
     return
 
+
 def quizattempt_callback(sender, **kwargs):
     quiz_attempt = kwargs.get('instance')
-    
+
     quiz = quiz_attempt.quiz
-    
+
     # find out if this quiz is part of a course
     course = None
     digest = quiz_attempt.get_quiz_digest()
@@ -54,7 +55,7 @@ def quizattempt_callback(sender, **kwargs):
         acts = Activity.objects.filter(digest=digest)
         for a in acts:
             course = a.section.course
-            
+
     if quiz_attempt.points is not None:
         p = Points()
         p.points = quiz_attempt.points
@@ -64,21 +65,18 @@ def quizattempt_callback(sender, **kwargs):
         p.course = course
         p.save()
         return
-    
+
     # Check user doesn't own the quiz
     if quiz.owner == quiz_attempt.user:
         return
-    
+
     if not apply_points(quiz_attempt.user):
-        return 
-     
+        return
+
     # find out is user is part of the cohort for this course
-    if course is not None:
-        if course.user == quiz_attempt.user and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
-            return
+    if course is not None and course.user == quiz_attempt.user and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
+        return
      
-   
-             
     if quiz_attempt.is_first_attempt():
         # If it's the first time they've attempted this quiz award points
         p = Points()
@@ -88,7 +86,7 @@ def quizattempt_callback(sender, **kwargs):
         p.description = "Bonus points for your first attempt at: " + quiz.title
         p.course = course
         p.save()
-    
+
         # add percentage points for their first attempt
         if quiz_attempt.get_score_percent() > 0:
             p = Points()
@@ -98,7 +96,7 @@ def quizattempt_callback(sender, **kwargs):
             p.user = quiz_attempt.user
             p.course = course
             p.save()
-        
+
         # if you get 100% on first attempt get bonus of 50 points
         if quiz_attempt.get_score_percent() >= OPPIA_DEFAULT_POINTS['QUIZ_FIRST_ATTEMPT_THRESHOLD']:
             p = Points()
@@ -108,7 +106,7 @@ def quizattempt_callback(sender, **kwargs):
             p.user = quiz_attempt.user
             p.course = course
             p.save()
-            
+
     elif quiz_attempt.is_first_attempt_today():
         # If it's the first time today they've attempted this quiz award 10 points
         p = Points()
@@ -118,8 +116,9 @@ def quizattempt_callback(sender, **kwargs):
         p.description = "Quiz attempt at: " + quiz.title
         p.course = course
         p.save()
-    
+
     return
+
 
 def createquiz_callback(sender, **kwargs):
     warnings.warn(
@@ -127,10 +126,10 @@ def createquiz_callback(sender, **kwargs):
         RemovedInOppia0110Warning, 2)
     quiz = kwargs.get('instance')
     created = kwargs.get('created')
-    
+
     if not apply_points(quiz.owner):
         return
-    
+
     if created:
         p = Points()
         p.points = OPPIA_DEFAULT_POINTS['QUIZ_CREATED']
@@ -140,34 +139,35 @@ def createquiz_callback(sender, **kwargs):
         p.save()
     return
 
+
 def tracker_callback(sender, **kwargs):
-    
+
     tracker = kwargs.get('instance')
-    
+
     if not apply_points(tracker.user):
         return
-    
+
     if not tracker.activity_exists():
         return
-    
+
     if tracker.course is not None and tracker.course.user == tracker.user and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
         return
-    
+
     type = 'activity_completed'
     points = OPPIA_DEFAULT_POINTS['ACTIVITY_COMPLETED']
     if tracker.get_activity_type() == "media":
-        description =  "Media played: " + tracker.get_activity_title()
+        description = "Media played: " + tracker.get_activity_title()
         type = 'mediaplayed'
         if tracker.is_first_tracker_today():
             points = OPPIA_DEFAULT_POINTS['MEDIA_STARTED']
         else:
             points = 0
-        points += (OPPIA_DEFAULT_POINTS['MEDIA_PLAYING_POINTS_PER_INTERVAL'] * math.floor(tracker.time_taken/OPPIA_DEFAULT_POINTS['MEDIA_PLAYING_INTERVAL']))
+        points += (OPPIA_DEFAULT_POINTS['MEDIA_PLAYING_POINTS_PER_INTERVAL'] * math.floor(tracker.time_taken / OPPIA_DEFAULT_POINTS['MEDIA_PLAYING_INTERVAL']))
         if points > OPPIA_DEFAULT_POINTS['MEDIA_MAX_POINTS']:
             points = OPPIA_DEFAULT_POINTS['MEDIA_MAX_POINTS']
     else:
-        description = "Activity completed: " + tracker.get_activity_title()    
-     
+        description = "Activity completed: " + tracker.get_activity_title()
+
     if tracker.points is not None:
         points = tracker.points
         type = tracker.event
@@ -177,7 +177,7 @@ def tracker_callback(sender, **kwargs):
                 return
             if not tracker.completed:
                 return
-              
+
     p = Points()
     p.points = points
     p.type = type
@@ -185,8 +185,9 @@ def tracker_callback(sender, **kwargs):
     p.user = tracker.user
     p.course = tracker.course
     p.save()
-    
+
     return
+
 
 def course_download_callback(sender, **kwargs):
     warnings.warn(
@@ -196,13 +197,13 @@ def course_download_callback(sender, **kwargs):
     course = kwargs.get('course')
     if not apply_points(user):
         return
-    
+
     if course.user == user and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
         return
-    
+
     if not course.is_first_download(user):
-        return 
-    
+        return
+
     p = Points()
     p.points = OPPIA_DEFAULT_POINTS['COURSE_DOWNLOADED']
     p.type = 'coursedownloaded'
@@ -211,6 +212,7 @@ def course_download_callback(sender, **kwargs):
     p.course = course
     p.save()
     return
+
 
 def badgeaward_callback(sender, **kwargs):
     award = kwargs.get('instance')
@@ -230,5 +232,3 @@ models.signals.post_save.connect(tracker_callback, sender=Tracker)
 models.signals.post_save.connect(signup_callback, sender=User)
 models.signals.post_save.connect(createquiz_callback, sender=Quiz)
 models.signals.post_save.connect(quizattempt_callback, sender=QuizAttempt)
-
-

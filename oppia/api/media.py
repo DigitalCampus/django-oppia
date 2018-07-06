@@ -11,23 +11,23 @@ from oppia.api.publish import get_messages_array
 from oppia.av.models import UploadedMedia
 from oppia.av import handler
 
+
 @csrf_exempt
 def upload_view(request):
-    
+
     # get the messages to clear possible previous unprocessed messages
     get_messages_array(request)
 
     if request.method != 'POST':
         return HttpResponse(status=405)
 
-    
-    required = ['username','password']
+    required = ['username', 'password']
 
-    validationErrors = []
+    validation_errors = []
 
     for field in required:
         if field not in request.POST:
-            validationErrors.append("field '{0}' missing".format(field))
+            validation_errors.append("field '{0}' missing".format(field))
 
     # authenticate user
     username = request.POST['username']
@@ -39,18 +39,18 @@ def upload_view(request):
             'message': _('Authentication errors'),
             'messages': get_messages_array(request)
         }
-        return JsonResponse(response_data, status=401)       
-            
+        return JsonResponse(response_data, status=401)
+
     if validationErrors:
-        return JsonResponse({ 'errors' : validationErrors }, status=400, )  
-   
+        return JsonResponse({'errors': validation_errors}, status=400, )
+
     result = handler.upload(request, user)
 
     if result['result'] == UploadedMedia.UPLOAD_STATUS_SUCCESS:
         media = result['media']
         embed_code = media.get_embed_code(request.build_absolute_uri(media.file.url))
-        
-        return JsonResponse({'embed_code': embed_code }, status=201)
+
+        return JsonResponse({'embed_code': embed_code}, status=201)
     else:
         response = {'messages': result['errors']}
         return JsonResponse(response, status=400)

@@ -15,11 +15,11 @@ class Migration(migrations.Migration):
             name='CourseCohort',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('cohort', models.ForeignKey(to='oppia.Cohort')),
-                ('course', models.ForeignKey(to='oppia.Course')),
+                ('cohort', models.ForeignKey(to='oppia.Cohort', on_delete=models.CASCADE)),
+                ('course', models.ForeignKey(to='oppia.Course', on_delete=models.CASCADE)),
             ],
             options={
             },
-            bases=(models.Model,),
+            bases=(models.Model, ),
         ),
     ]

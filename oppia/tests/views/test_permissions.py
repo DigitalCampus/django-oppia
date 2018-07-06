@@ -1,4 +1,4 @@
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test import TestCase
 
 
@@ -51,10 +51,9 @@ class PermissionsViewTest(TestCase):
 
     def assert_unauthorized(self, view, user=None, view_kwargs=None):
         return self.assert_response(view, 403, user, view_kwargs)
-    
+
     def assert_not_found(self, view, user=None, view_kwargs=None):
         return self.assert_response(view, 404, user, view_kwargs)
-
     # Permissions tests (based on http://oppiamobile.readthedocs.io/en/latest/permissions/server.html)
 
     ############ Django admin #############
@@ -73,7 +72,6 @@ class PermissionsViewTest(TestCase):
         route = reverse('admin:index')
         res = self.get_view(route, self.normal_user)
         self.assertRedirects(res, route + 'login/?next=' + route)
-
     ############ Upload courses view #############
 
     def test_anon_cantview_upload_courses(self):
@@ -90,7 +88,6 @@ class PermissionsViewTest(TestCase):
 
     def test_user_with_canupload_canview_upload_courses(self):
         self.assert_can_view('oppia_upload', self.teacher_user)
-
     ############ Bulk upload users view #############
 
     def test_anon_cantview_bulk_upload(self):
@@ -104,7 +101,6 @@ class PermissionsViewTest(TestCase):
 
     def test_student_cantview_bulk_upload(self):
         self.assert_unauthorized('profile_upload', self.normal_user)
-
     ############ View cohort list #############
 
     def test_anon_cantview_cohorts(self):
@@ -118,7 +114,6 @@ class PermissionsViewTest(TestCase):
 
     def test_student_cantview_cohorts(self):
         self.assert_unauthorized('oppia_cohorts', self.normal_user)
-
     # TODO: Define a teacher user to test cohort management
 
     ############ View a cohort ################
@@ -137,7 +132,6 @@ class PermissionsViewTest(TestCase):
 
     def test_student_cantview_cohort(self):
         self.assert_unauthorized('oppia_cohort_view', self.normal_user, view_kwargs={'cohort_id': 1})
-
     # TODO: Teacher view cohort s/he is assigned into
 
     ############ View a cohort course activity ################
@@ -158,7 +152,6 @@ class PermissionsViewTest(TestCase):
     def test_student_cantview_cohort_course(self):
         self.assert_unauthorized('oppia_cohort_course_view', self.normal_user,
                                 view_kwargs={'cohort_id': 1, 'course_id': 1})
-
     # TODO: Teacher view cohort s/he is assigned into
 
     ############ Add new cohort #############
@@ -174,7 +167,6 @@ class PermissionsViewTest(TestCase):
 
     def test_student_cantview_add_cohort(self):
         self.assert_unauthorized('oppia_cohort_add', self.normal_user)
-
     ############ courses list view #############
 
     def test_anon_cantview_courses_list(self):
@@ -194,7 +186,6 @@ class PermissionsViewTest(TestCase):
         res = self.assert_can_view('oppia_course', self.normal_user)
         # check that the number of courses dont include the draft ones
         self.assertEqual(res.context['page'].paginator.count, 2)
-
     ############ View course recent activity #############
 
     def test_anon_cantview_course_activity(self):
@@ -211,7 +202,6 @@ class PermissionsViewTest(TestCase):
 
     def test_student_canview_course_activity(self):
         self.assert_unauthorized('oppia_recent_activity', self.normal_user, view_kwargs={'course_id': 1})
-
     # TODO: Teacher view course activity for courses assigned to
 
     ############ View student activity (all activity) #####
@@ -233,7 +223,6 @@ class PermissionsViewTest(TestCase):
 
     def test_student_canview_self_activity(self):
         self.assert_can_view('profile_user_activity', self.normal_user, view_kwargs={'user_id': 2})
-
     # @TODO: Teacher view user activity of a user in a cohort he is assigned
 
     ############ View student activity (for a course) #####
@@ -260,7 +249,6 @@ class PermissionsViewTest(TestCase):
     def test_student_canview_self_course_activity(self):
         self.assert_can_view('profile_user_course_activity', self.normal_user,
                              view_kwargs={'course_id': 1, 'user_id': 2})
-
     # TODO: Teacher view user activity of a user in a cohort he is assigned
 
     ############ analytics summary overview #############

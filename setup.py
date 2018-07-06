@@ -43,12 +43,13 @@ setup(
     ],
     install_requires=[
         "django == 1.11.11",
-	    "django-tastypie == 0.14.0",
+        "django-tastypie == 0.14.0",
         "django-tablib >= 0.9.11",
         "django-crispy-forms >= 1.4.0",
         "pytz",
         "django-gcm >= 1.2.0",
         "defusedxml==0.5.0",
         "Pillow==3.4.2",
+        "sorl-thumbnail>=12.4,<13.0",
     ],
 )

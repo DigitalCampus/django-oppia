@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('day', models.DateField()),
                 ('type', models.CharField(default=None, max_length=10, null=True, blank=True)),
                 ('total', models.IntegerField(default=0)),
-                ('course', models.ForeignKey(to='oppia.Course')),
+                ('course', models.ForeignKey(to='oppia.Course', on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'CourseDailyStats',
@@ -46,8 +46,8 @@ class Migration(migrations.Migration):
                 ('pretest_score', models.FloatField(null=True, blank=True)),
                 ('media_viewed', models.IntegerField(default=0)),
                 ('completed_activities', models.IntegerField(default=0)),
-                ('course', models.ForeignKey(to='oppia.Course')),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('course', models.ForeignKey(to='oppia.Course', on_delete=models.CASCADE)),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'UserCourseSummary',
