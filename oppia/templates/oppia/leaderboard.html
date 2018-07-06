@@ -8,7 +8,9 @@
 {% endblock extra_head_title %}
 
 {% block content %}
-<h2>{% trans 'Leaderboard' %}</h2>
+
+<h2>{% trans 'Leaderboard' %}<a class="btn btn-primary" style="margin-left:20px;" href="{% url 'oppia_gamification_leaderboard_export_server' %}" download="leaderboard.json">{% trans 'Export' %}</a></h2>
+
 
 {% if page.object_list.count > 0  %}
 	{% include "oppia/includes/page_navigator.html" %}
