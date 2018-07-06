@@ -7,6 +7,8 @@ OppiaMobile Server Change Log
 .. warning:: 
 	Run `pip install -r django-oppia/requirements.txt` after upgrading to this version, since new packages
 	and an updated version of Django is used.
+	
+	Update calls to the cartodb_update and ip2location functions to use management commands instead
 
 v0.10.1 - not yet released
 --------------------------------
@@ -38,6 +40,10 @@ Issue list:
 * 472: sorl-thumbnail is listed as a requirement but not included as a project dependency on setup.py - https://github.com/DigitalCampus/django-oppia/issues/472
 * 474: Broken links on documentation (installation page) - https://github.com/DigitalCampus/django-oppia/issues/474
 * 478: Search for <media> element can fail when importing course - https://github.com/DigitalCampus/django-oppia/issues/478
+* 480: Remove code related to scheduling - https://github.com/DigitalCampus/django-oppia/issues/480
+* 481: Remove code related to messaging - https://github.com/DigitalCampus/django-oppia/issues/481
+* 459: Clean up utils dir - https://github.com/DigitalCampus/django-oppia/issues/459
+* 498: Search users page not functioning... - https://github.com/DigitalCampus/django-oppia/issues/498
 
 .. _serverv0.10.0:
 

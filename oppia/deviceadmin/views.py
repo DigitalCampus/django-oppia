@@ -20,7 +20,7 @@ def user_devices_list(request):
         ordering = '-modified_date'
 
     devices = UserDevice.objects.all().order_by(ordering)
-    paginator = Paginator(devices, 10) # Show 25 per page
+    paginator = Paginator(devices, 10)  # Show 25 per page
 
     # Make sure page request is an int. If not, deliver first page.
     try:
@@ -34,7 +34,8 @@ def user_devices_list(request):
         devices = paginator.page(paginator.num_pages)
 
     return render(request, 'oppia/deviceadmin/list.html',
-                              { 'page': devices, 'page_ordering':ordering })
+                              {'page': devices, 'page_ordering': ordering})
+
 
 def send_message_to_device(request):
 
@@ -56,7 +57,7 @@ def send_message_to_device(request):
             message_data['password'] = password
 
         device = UserDevice.objects.get(dev_id=device_id)
-        messageID, response = device.send_message(message_data)
+        message_id, response = device.send_message(message_data)
         success = response['failure'] == 0
         if success:
             return JsonResponse(response, status=200)

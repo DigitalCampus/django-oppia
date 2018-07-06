@@ -297,20 +297,6 @@ For adding a possible response to a quiz question
 		"order":5, "score":10, "props":[{"name":"feedback","value":"Correct, 
 		well done!"}]}' 
 		"http://localhost/api/v1/response/?username=XXXX&api_key=XXXXXXXX"
-
-Schedule
---------
-For getting the activity schedule for a course (for the given user)
-
-* Available methods: GET
-* Required parameters:
-
-	* ``username``
-	* ``api_key``
-
-* Example GET request::
-
-	http://localhost/api/v1/schedule/45/?format=json&username=XXXX&api_key=XXXXXXXX
 		
 Tag
 ---

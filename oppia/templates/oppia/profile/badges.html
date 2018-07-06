@@ -16,7 +16,7 @@
 	{% for b in awards %}
 		 <tr>
            <td>{{ b.award_date }}</td>
-           <td><img src="{{ MEDIA_URL }}{{ b.badge_icon }}" align="middle" height="50px"/> {{ b.description }} </td>
+           <td><img src="{{ MEDIA_URL }}{{ b.badge_icon }}" height="50px" alt="{% trans 'Badge icon'%}/> {{ b.description }} </td>
          </tr>
 	{% endfor %}
 			</tbody>

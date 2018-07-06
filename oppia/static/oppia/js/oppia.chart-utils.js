@@ -53,9 +53,9 @@ function getCSVFromDatatable(datatable){
     }
     csvText+='\n';
     for (var i=0; i<numRows; i++){
-        for (var j=0; j<numColumns; j++){
-            csvText+=datatable.getValue(i,j);
-            if (j<(numColumns-1)) csvText+=',';
+        for (var k=0; k<numColumns; k++){
+            csvText+=datatable.getValue(i,k);
+            if (k<(numColumns-1)) csvText+=',';
         }
         csvText+='\n';
     }

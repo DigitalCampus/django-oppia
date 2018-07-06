@@ -48,14 +48,13 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
         response_data = self.deserialize(resp)
         self.assertTrue('courses' in response_data)
         # should have 2 courses with the test data set
-        self.assertEquals(len(response_data['courses']),2)
+        self.assertEquals(len(response_data['courses']), 2)
         # check each course had a download url
         for course in response_data['courses']:
             self.assertTrue('url' in course)
             self.assertTrue('shortname' in course)
             self.assertTrue('title' in course)
             self.assertTrue('version' in course)
-
 
     def test_course_get_single(self):
         resource_url = get_api_url('course', 1)
@@ -100,16 +99,6 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
         resp = self.api_client.get(resource_url, format='json', data=self.auth_data)
         self.assertHttpNotFound(resp)
 
-    # TODO test course file found
-
-    '''
-    def test_course_download_draft_admin_visible(self):
-        resource_url = get_api_url('course', 3) + 'download/'
-        resp = self.api_client.get(resource_url, format='json', data=self.admin_auth)
-        self.assertHttpOK(resp)
-        self.assertValidJSON(resp.content)
-    '''
-    
     def test_course_get_activity(self):
         resource_url = get_api_url('course', 1) + 'activity/'
         resp = self.api_client.get(resource_url, format='json', data=self.auth_data)
@@ -129,4 +118,3 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
         resource_url = get_api_url('course', 3) + 'activity/'
         resp = self.api_client.get(resource_url, format='json', data=self.admin_auth)
         self.assertHttpOK(resp)
-

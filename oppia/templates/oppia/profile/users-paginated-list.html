@@ -23,7 +23,7 @@
             {% endfor %}
         {% endwith %}
     {% else %}
-        {% for user in page.object_list.users %}
+        {% for user in page.object_list %}
             {% include 'oppia/profile/list/row-user-default.html' %}
         {% endfor %}
 

@@ -18,10 +18,10 @@
 				<td><a href="{% url 'oppia_preview_course_home' course.id %}">
 				<strong>{{ course.title|title_lang:LANGUAGE_CODE }}</strong></a>
 				{% if course.is_draft %}
-					- <i>{% trans 'draft' %}</i>
+					- <em>{% trans 'draft' %}</em>
 				{% endif %}	
 				{% if course.is_archived %}
-					- <i>{% trans 'archived' %}</i>
+					- <em>{% trans 'archived' %}</em>
 				{% endif %}<br/>
 				<small>{% trans 'Tags:' %} {{ course.get_tags}}</small></td>
 			</tr>

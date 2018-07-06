@@ -1,10 +1,12 @@
+
+import oppia.management.commands
+
 from distutils.util import strtobool
 
 from django.core.management.base import BaseCommand
 
 from oppia.settings.models import SettingProperties
 from oppia.summary.cron import update_summaries
-
 
 class Command(BaseCommand):
     help = 'Updates course and points summary tables'
@@ -21,7 +23,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if options['fromstart']:
-            update_summaries(0,0)
+            update_summaries(0, 0)
         else:
             # get last tracker and points PKs processed
             last_tracker_pk = SettingProperties.get_property('last_tracker_pk', 0)

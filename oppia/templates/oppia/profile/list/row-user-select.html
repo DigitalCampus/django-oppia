@@ -3,8 +3,8 @@
 
 <tr id="{{ user.username }}" data-selectable-id="{{ user.username }}">
     <td class="col-xs-2 col-sm-1">
-        <a class="btn btn-sm btn-primary btn-add"><i class="glyphicon glyphicon-plus"></i> <i class="glyphicon glyphicon-ok hidden"></i> </a>
-        <a class="btn btn-sm btn-primary btn-remove removing" style="display: none;"><i class="glyphicon glyphicon-remove"></i> </a>
+        <a class="btn btn-sm btn-primary btn-add"><em class="glyphicon glyphicon-plus"></em> <em class="glyphicon glyphicon-ok hidden"></em> </a>
+        <a class="btn btn-sm btn-primary btn-remove removing" style="display: none;"><em class="glyphicon glyphicon-remove"></em> </a>
     </td>
     <td class="col-xs-7 col-sm-7 ">{% if OPPIA_SHOW_GRAVATARS %} {{ user|gravatar:24 }} {% endif %}
         {{ user.first_name }} {{ user.last_name }}

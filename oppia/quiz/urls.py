@@ -4,7 +4,6 @@ from django.conf.urls import patterns, include, url
 from tastypie.api import Api
 from oppia.quiz.api.resources import QuizResource, QuizPropsResource, QuestionResource, QuizQuestionResource, ResponseResource, QuizAttemptResource
 
-
 v1_api = Api(api_name='v1')
 v1_api.register(QuizResource())
 v1_api.register(QuizPropsResource())

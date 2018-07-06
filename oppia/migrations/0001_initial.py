@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Activity',
                 'verbose_name_plural': 'Activities',
             },
-            bases=(models.Model,),
+            bases=(models.Model, ),
         ),
         migrations.CreateModel(
             name='ActivitySchedule',
@@ -44,7 +44,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'ActivitySchedule',
                 'verbose_name_plural': 'ActivitySchedules',
             },
-            bases=(models.Model,),
+            bases=(models.Model, ),
         ),
         migrations.CreateModel(
             name='Award',
@@ -57,7 +57,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Award',
                 'verbose_name_plural': 'Awards',
             },
-            bases=(models.Model,),
+            bases=(models.Model, ),
         ),
         migrations.CreateModel(
             name='AwardCourse',
@@ -68,7 +68,7 @@ class Migration(migrations.Migration):
             ],
             options={
             },
-            bases=(models.Model,),
+            bases=(models.Model, ),
         ),
         migrations.CreateModel(
             name='Badge',
@@ -85,7 +85,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Badge',
                 'verbose_name_plural': 'Badges',
             },
-            bases=(models.Model,),
+            bases=(models.Model, ),
         ),
         migrations.CreateModel(
             name='Cohort',
@@ -99,7 +99,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Cohort',
                 'verbose_name_plural': 'Cohorts',
             },
-            bases=(models.Model,),
+            bases=(models.Model, ),
         ),
         migrations.CreateModel(
             name='Course',
@@ -121,7 +121,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Course',
                 'verbose_name_plural': 'Courses',
             },
-            bases=(models.Model,),
+            bases=(models.Model, ),
         ),
         migrations.CreateModel(
             name='CourseCohort',
@@ -132,7 +132,7 @@ class Migration(migrations.Migration):
             ],
             options={
             },
-            bases=(models.Model,),
+            bases=(models.Model, ),
         ),
         migrations.CreateModel(
             name='CourseManager',
@@ -145,7 +145,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Course Manager',
                 'verbose_name_plural': 'Course Managers',
             },
-            bases=(models.Model,),
+            bases=(models.Model, ),
         ),
         migrations.CreateModel(
             name='CourseTag',
@@ -157,7 +157,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Course Tag',
                 'verbose_name_plural': 'Course Tags',
             },
-            bases=(models.Model,),
+            bases=(models.Model, ),
         ),
         migrations.CreateModel(
             name='Media',
@@ -174,7 +174,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Media',
                 'verbose_name_plural': 'Media',
             },
-            bases=(models.Model,),
+            bases=(models.Model, ),
         ),
         migrations.CreateModel(
             name='Message',
@@ -192,7 +192,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Message',
                 'verbose_name_plural': 'Messages',
             },
-            bases=(models.Model,),
+            bases=(models.Model, ),
         ),
         migrations.CreateModel(
             name='Participant',
@@ -206,7 +206,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Participant',
                 'verbose_name_plural': 'Participants',
             },
-            bases=(models.Model,),
+            bases=(models.Model, ),
         ),
         migrations.CreateModel(
             name='Points',
@@ -225,7 +225,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Points',
                 'verbose_name_plural': 'Points',
             },
-            bases=(models.Model,),
+            bases=(models.Model, ),
         ),
         migrations.CreateModel(
             name='Schedule',
@@ -242,7 +242,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Schedule',
                 'verbose_name_plural': 'Schedules',
             },
-            bases=(models.Model,),
+            bases=(models.Model, ),
         ),
         migrations.CreateModel(
             name='Section',
@@ -256,7 +256,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Section',
                 'verbose_name_plural': 'Sections',
             },
-            bases=(models.Model,),
+            bases=(models.Model, ),
         ),
         migrations.CreateModel(
             name='Tag',
@@ -275,7 +275,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Tag',
                 'verbose_name_plural': 'Tags',
             },
-            bases=(models.Model,),
+            bases=(models.Model, ),
         ),
         migrations.CreateModel(
             name='Tracker',
@@ -301,7 +301,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Tracker',
                 'verbose_name_plural': 'Trackers',
             },
-            bases=(models.Model,),
+            bases=(models.Model, ),
         ),
         migrations.CreateModel(
             name='UserProfile',
@@ -316,7 +316,7 @@ class Migration(migrations.Migration):
             ],
             options={
             },
-            bases=(models.Model,),
+            bases=(models.Model, ),
         ),
         migrations.AddField(
             model_name='coursetag',

@@ -27,4 +27,3 @@ class Migration(migrations.Migration):
             database_operations=database_operations,
             state_operations=state_operations)
     ]
-

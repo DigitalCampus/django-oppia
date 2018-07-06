@@ -11,7 +11,7 @@
 
 <h2><a href="{% url 'oppia_completion_rates' %}">{% trans 'Completion Rates' %}</a> &gt; {{ course.title|title_lang:LANGUAGE_CODE }}</h2>
 
-<p><i>{% trans 'Tags:' %} {{ course.get_tags}}</i></p>
+<p><em>{% trans 'Tags:' %} {{ course.get_tags}}</em></p>
 	
 <h3>{% trans 'Course completion rates' %}</h3>
 <p>{% trans 'Users enroled:' %} {{ users_enroled_count }}</p>

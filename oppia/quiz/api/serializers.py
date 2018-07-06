@@ -1,13 +1,15 @@
 # oppia/quiz/api/serializers.py
 import json
 from tastypie.serializers import Serializer
-        
+
+
 class QuizJSONSerializer(Serializer):
     json_indent = 0
+
     def to_json(self, data, options=None):
         options = options or {}
         data = self.to_simple(data, options)
-    
+
         if 'objects' in data:
             for o in data['objects']:
                 self.format_quiz(o)
@@ -15,11 +17,11 @@ class QuizJSONSerializer(Serializer):
             del data['objects']
         if 'questions' in data:
             self.format_quiz(data)
-        
-        return json.dumps(data, sort_keys=True, ensure_ascii=False,  indent=self.json_indent)
-        
+
+        return json.dumps(data, sort_keys=True, ensure_ascii=False, indent=self.json_indent)
+
     def format_quiz(self, data):
-        
+
         qmaxscore = 0.0
         try:
             data['description'] = json.loads(data['description'])
@@ -31,19 +33,19 @@ class QuizJSONSerializer(Serializer):
         except ValueError:
             # ignore this since the title doesn't supply lang info, so just continue as plain string
             pass
-        
+
         # remove intermediate quizquestion data
         for question in data['questions']:
             del question['question']['owner']
             del question['question']['resource_uri']
-            
+
             # serialise question title as json
             try:
                 question['question']['title'] = json.loads(question['question']['title'])
             except ValueError:
                 # ignore this since the title doesn't supply lang info, so just continue as plain string
                 pass
-            
+
     
             
             if 'props' in question['question']:
@@ -53,7 +55,7 @@ class QuizJSONSerializer(Serializer):
                         question['question']['p'][p['name']] = float(p['value'])
                     except:
                         question['question']['p'][p['name']] = p['value']
-                        
+
                     # for matching questions
                     if p['name'] == 'incorrectfeedback' or p['name'] == 'partiallycorrectfeedback' or p['name'] == 'correctfeedback':
                         try:
@@ -68,7 +70,7 @@ class QuizJSONSerializer(Serializer):
                     qmaxscore = qmaxscore + float(question['question']['props']['maxscore'])
                 except:
                     qmaxscore = qmaxscore
-            
+
            # for response in question['response']:
             for r in question['question']['responses']:
                 del r['question']
@@ -89,27 +91,18 @@ class QuizJSONSerializer(Serializer):
                         r['p'][p['name']] = p['value']
                 r['props'] = r['p']
                 del r['p']
-                
-                # for feedback
-                '''
-                for f in r['feedback']:
-                    try:
-                        f['title'] = json.loads(f['title'])
-                    except ValueError:
-                        # ignore this since the title doesn't supply lang info, so just continue as plain string
-                        pass
-                '''
+
         # calc maxscore for quiz
         data['p'] = {}
         data['p']['maxscore'] = qmaxscore
         for p in data['props']:
             data['p'][p['name']] = p['value']
         data['props'] = data['p']
-        del data['p']  
-        
-         
-        return data  
-    
+        del data['p']
+
+        return data
+
+
 class QuizAttemptJSONSerializer(Serializer):
     json_indent = 0
 

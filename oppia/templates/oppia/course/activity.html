@@ -62,7 +62,7 @@
 {% block content %}
 
 <h2>{{ course.title|title_lang:LANGUAGE_CODE }}</h2>
-<p><i>{% trans 'Tags:' %} {{ course.get_tags}}</i></p>
+<p><em>{% trans 'Tags:' %} {{ course.get_tags}}</em></p>
 	
 <h3>{% trans 'courses_recent_activity' %}</h3>
 <div id="attempts_chart_div" class="graph">{% trans 'graph_generating'%}</div>

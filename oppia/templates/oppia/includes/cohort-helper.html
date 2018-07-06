@@ -16,8 +16,8 @@
 
                  </div>
                 <div id="courses-display" class="collapse">
-                    Add courses from the "Available courses" lists by clicking the button with the <i class="glyphicon glyphicon-plus"></i> sign.
-                    If you want to remove one selected course, press the button with the <i class="glyphicon glyphicon-remove"></i> sign by its side.
+                    Add courses from the "Available courses" lists by clicking the button with the <em class="glyphicon glyphicon-plus"></em> sign.
+                    If you want to remove one selected course, press the button with the <em class="glyphicon glyphicon-remove"></em> sign by its side.
                  </div>
              </div>
          </div>
@@ -32,8 +32,8 @@
               {% for course in selected_courses %}
                 <tr id="{{ course.shortname }}" data-selectable-id="{{ course.shortname }}">
                     <td class="col-xs-2 col-sm-1">
-                        <a class="btn btn-sm btn-primary btn-add" style="display: none;"><i class="glyphicon glyphicon-plus"></i> <i class="glyphicon glyphicon-ok hidden"></i> </a>
-                        <a class="btn btn-sm btn-primary btn-remove removing" ><i class="glyphicon glyphicon-remove"></i> </a>
+                        <a class="btn btn-sm btn-primary btn-add" style="display: none;"><em class="glyphicon glyphicon-plus"></em> <em class="glyphicon glyphicon-ok hidden"></em> </a>
+                        <a class="btn btn-sm btn-primary btn-remove removing" ><em class="glyphicon glyphicon-remove"></em> </a>
                     </td>
                     <td class="col-xs-7 col-sm-7">{{ course.title | title_lang:LANGUAGE_CODE }}</td>
                     <td class="col-xs-3 col-sm-4">{{ course.lastupdated_date|date:"d/m/Y" }}</td>
@@ -66,8 +66,8 @@
 
                  </div>
                 <div id="teachers-display" class="collapse">
-                    Add students from the "Available teachers" lists by clicking the button with the <i class="glyphicon glyphicon-plus"></i> sign.
-                    If you want to remove one selected teacher, press the button with the <i class="glyphicon glyphicon-remove"></i> sign by its side.
+                    Add students from the "Available teachers" lists by clicking the button with the <em class="glyphicon glyphicon-plus"></em> sign.
+                    If you want to remove one selected teacher, press the button with the <em class="glyphicon glyphicon-remove"></em> sign by its side.
                  </div>
              </div>
          </div>
@@ -82,8 +82,8 @@
               {% for teacher in selected_teachers %}
                 <tr id="{{ teacher.username }}" data-selectable-id="{{ teacher.username }}">
                     <td class="col-xs-2 col-sm-1">
-                        <a class="btn btn-sm btn-primary btn-add" style="display: none;"><i class="glyphicon glyphicon-plus"></i> <i class="glyphicon glyphicon-ok hidden"></i> </a>
-                        <a class="btn btn-sm btn-primary btn-remove removing" ><i class="glyphicon glyphicon-remove"></i> </a>
+                        <a class="btn btn-sm btn-primary btn-add" style="display: none;"><em class="glyphicon glyphicon-plus"></em> <em class="glyphicon glyphicon-ok hidden"></em> </a>
+                        <a class="btn btn-sm btn-primary btn-remove removing" ><em class="glyphicon glyphicon-remove"></em> </a>
                     </td>
                     <td class="col-xs-7 col-sm-7 ">{% if OPPIA_SHOW_GRAVATARS %} {{ teacher|gravatar:24 }} {% endif %}
                         {{ teacher.first_name }} {{ teacher.last_name }}
@@ -118,8 +118,8 @@
 
                  </div>
                 <div id="students-display" class="collapse">
-                    Add students from the "Available students" lists by clicking the button with the <i class="glyphicon glyphicon-plus"></i> sign.
-                    If you want to remove one selected student, press the button with the <i class="glyphicon glyphicon-remove"></i> sign by its side.
+                    Add students from the "Available students" lists by clicking the button with the <em class="glyphicon glyphicon-plus"></em> sign.
+                    If you want to remove one selected student, press the button with the <em class="glyphicon glyphicon-remove"></em> sign by its side.
                  </div>
              </div>
          </div>
@@ -134,8 +134,8 @@
               {% for student in selected_students %}
                 <tr id="{{ student.username }}" data-selectable-id="{{ student.username }}">
                     <td class="col-xs-2 col-sm-1">
-                        <a class="btn btn-sm btn-primary btn-add" style="display: none;"><i class="glyphicon glyphicon-plus"></i> <i class="glyphicon glyphicon-ok hidden"></i> </a>
-                        <a class="btn btn-sm btn-primary btn-remove removing"><i class="glyphicon glyphicon-remove "></i> </a>
+                        <a class="btn btn-sm btn-primary btn-add" style="display: none;"><em class="glyphicon glyphicon-plus"></em> <em class="glyphicon glyphicon-ok hidden"></em> </a>
+                        <a class="btn btn-sm btn-primary btn-remove removing"><em class="glyphicon glyphicon-remove "></em> </a>
                     </td>
                     <td class="col-xs-7 col-sm-7 ">{% if OPPIA_SHOW_GRAVATARS %} {{ student|gravatar:24 }} {% endif %}
                         {{ student.first_name }} {{ student.last_name }}
