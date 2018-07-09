@@ -214,8 +214,9 @@ def course_download_view(request, course_id):
     except Course.DoesNotExist:
         raise Http404()
     file_to_download = course.getAbsPath()
-    wrapper = FileWrapper(file(file_to_download))
-    response = HttpResponse(wrapper, content_type='application/zip')
+    binary_file = open(file_to_download, 'rb')
+    response = HttpResponse(binary_file.read(), content_type='application/zip')
+    binary_file.close()
     response['Content-Length'] = os.path.getsize(file_to_download)
     response['Content-Disposition'] = 'attachment; filename="%s"' % (course.filename)
     return response
