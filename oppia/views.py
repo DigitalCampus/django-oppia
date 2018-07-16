@@ -214,8 +214,9 @@ def course_download_view(request, course_id):
     except Course.DoesNotExist:
         raise Http404()
     file_to_download = course.getAbsPath()
-    wrapper = FileWrapper(file(file_to_download))
-    response = HttpResponse(wrapper, content_type='application/zip')
+    binary_file = open(file_to_download, 'rb')
+    response = HttpResponse(binary_file.read(), content_type='application/zip')
+    binary_file.close()
     response['Content-Length'] = os.path.getsize(file_to_download)
     response['Content-Disposition'] = 'attachment; filename="%s"' % (course.filename)
     return response
@@ -262,7 +263,7 @@ def upload_step2(request, course_id, editing=False):
         form = UploadCourseStep2Form(request.POST, request.FILES)
         if form.is_valid() and course:
             #add the tags
-            add_course_tags(form, course)
+            add_course_tags(request, form, course)
             redirect = 'oppia_course' if editing else 'oppia_upload_success'
             return HttpResponseRedirect(reverse(redirect))  # Redirect after POST
     else:
@@ -276,7 +277,7 @@ def upload_step2(request, course_id, editing=False):
                                'editing': editing,
                                'title': page_title})
 
-def add_course_tags(form, course):
+def add_course_tags(request, form, course):
     tags = form.cleaned_data.get("tags").strip().split(",")
     is_draft = form.cleaned_data.get("is_draft")
     if len(tags) > 0:
