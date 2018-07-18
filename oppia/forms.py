@@ -4,14 +4,14 @@ import math
 
 from crispy_forms.bootstrap import FieldWithButtons
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Div, Row, Field
+from crispy_forms.layout import Layout, Submit, Div, Row
 from django import forms
 from django.conf import settings
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
+from settings.models import SettingProperties
 
-from oppia.settings import constants
-from oppia.settings.models import SettingProperties
+from settings import constants
 
 
 class UploadCourseStep1Form(forms.Form):

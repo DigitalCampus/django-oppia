@@ -10,7 +10,7 @@ from django.utils import timezone
 
 from oppia.models import Badge, Award, AwardCourse
 from oppia.models import Tracker, Course, Section, Activity, Media
-from oppia.quiz.models import Quiz, QuizAttempt, QuizProps
+from quiz import Quiz, QuizAttempt, QuizProps
 from oppia.signals import badgeaward_callback
 
 models.signals.post_save.connect(badgeaward_callback, sender=Award)

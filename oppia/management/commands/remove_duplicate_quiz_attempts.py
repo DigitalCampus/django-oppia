@@ -3,21 +3,14 @@
 """
 Management command to remove any duplicate quiz attempts (based on instance_id)
 """
-import os
-import time
-import django.db.models
-import oppia.management.commands
 
-from optparse import make_option
-
-from django.conf import settings
-from django.contrib.auth.models import User
 from django.core.management import call_command
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from django.db.models import Count, Max
 from django.utils.translation import ugettext_lazy as _
 
-from oppia.quiz.models import QuizAttempt
+from quiz import QuizAttempt
+
 
 class Command(BaseCommand):
     help = _(u"Removes any duplicate quiz attempts based on instance_id")

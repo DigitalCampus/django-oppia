@@ -1,20 +1,16 @@
 # oppia/views.py
 import datetime
 import json
-from wsgiref.util import FileWrapper
-
 import operator
 import os
+
 import tablib
 from dateutil.relativedelta import relativedelta
-from django.core import exceptions
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from django.urls import reverse
 from django.db.models import Count, Sum
-from django.forms.formsets import formset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-from django.template import RequestContext
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
@@ -23,11 +19,11 @@ from oppia.forms import UploadCourseStep1Form, UploadCourseStep2Form, DateRangeF
 from oppia.models import Activity, Points
 from oppia.models import Tracker, Tag, CourseTag, CourseCohort
 from oppia.permissions import *
-from oppia.profile.models import UserProfile
-from oppia.profile.views import get_paginated_users
-from oppia.quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
-from oppia.reports.signals import dashboard_accessed
-from oppia.summary.models import UserCourseSummary, CourseDailyStats
+from profile.models import UserProfile
+from profile.views import get_paginated_users
+from quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
+from reports.signals import dashboard_accessed
+from summary.models import UserCourseSummary, CourseDailyStats
 from uploader import handle_uploaded_file
 
 

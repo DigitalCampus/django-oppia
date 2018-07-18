@@ -1,11 +1,10 @@
 # oppia/api/resources.py
+import datetime
 import json
 import os
 import shutil
 import zipfile
 from wsgiref.util import FileWrapper
-import datetime
-import oppia.api
 
 from django.conf import settings
 from django.conf.urls import url
@@ -17,6 +16,7 @@ from django.db.models import Sum
 from django.http import HttpResponse, Http404, JsonResponse
 from django.utils import dateparse
 from django.utils.translation import ugettext_lazy as _
+from profile.forms import RegisterForm
 from tastypie import fields
 from tastypie.authentication import Authentication, ApiKeyAuthentication
 from tastypie.authorization import Authorization, ReadOnlyAuthorization
@@ -26,13 +26,12 @@ from tastypie.resources import ModelResource, convert_post_to_patch, dict_strip_
 from tastypie.utils import trailing_slash, timezone
 from tastypie.validation import Validation
 
+import oppia.api
 from oppia.api.serializers import PrettyJSONSerializer, CourseJSONSerializer, UserJSONSerializer
-from oppia.models import Activity, Tracker, Course, Media, Cohort, Tag, CourseTag
+from oppia.models import Activity, Tracker, Course, Media, Tag, CourseTag
 from oppia.models import Points, Award, Badge
-from oppia.profile.forms import RegisterForm
-from oppia.profile.models import UserProfile
 from oppia.signals import course_downloaded
-from oppia.utils.deprecation import RemovedInOppia0110Warning
+from profile.models import UserProfile
 
 
 def check_required_params(bundle, required):

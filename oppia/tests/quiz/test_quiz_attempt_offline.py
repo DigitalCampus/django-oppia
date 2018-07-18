@@ -6,7 +6,7 @@ from django.test import TestCase
 from tastypie.test import ResourceTestCaseMixin
 
 from oppia.models import Points
-from oppia.quiz.models import QuizAttemptResponse, QuizAttempt
+from quiz import QuizAttemptResponse, QuizAttempt
 from oppia.tests.utils import get_api_key, get_api_url
 
 

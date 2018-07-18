@@ -1,15 +1,14 @@
 # oppia/api/media.py
 
-from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth import authenticate
-from django.http import HttpResponseRedirect, Http404, HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib import messages
 
+from av import handler
+from av.models import UploadedMedia
 from oppia.api.publish import get_messages_array
-from oppia.av.models import UploadedMedia
-from oppia.av import handler
 
 
 @csrf_exempt
@@ -41,7 +40,7 @@ def upload_view(request):
         }
         return JsonResponse(response_data, status=401)
 
-    if validationErrors:
+    if validation_errors:
         return JsonResponse({'errors': validation_errors}, status=400, )
 
     result = handler.upload(request, user)

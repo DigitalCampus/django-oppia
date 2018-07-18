@@ -2,21 +2,21 @@
 
 import codecs
 import json
+import os
 import shutil
 import xml.dom.minidom
-from xml.dom.minidom import Node
 from xml.sax.saxutils import unescape
 from zipfile import ZipFile, BadZipfile
 
-import os
 from django.conf import settings
 from django.contrib import messages
 from django.utils import timezone
 from django.utils.translation import ugettext as _
 
-from oppia.gamification.models import CourseGamificationEvent, ActivityGamificationEvent, MediaGamificationEvent, QuizGamificationEvent
+from gamification.models import CourseGamificationEvent, ActivityGamificationEvent, MediaGamificationEvent, \
+    QuizGamificationEvent
 from oppia.models import Course, Section, Activity, Media
-from oppia.quiz.models import Quiz, Question, QuizQuestion, Response, ResponseProps, QuestionProps, QuizProps
+from quiz.models import Quiz, Question, QuizQuestion, Response, ResponseProps, QuestionProps, QuizProps
 
 
 def handle_uploaded_file(f, extract_path, request, user):
@@ -76,7 +76,7 @@ def process_course(extract_path, f, mod_name, request, user):
         # check that the current user is allowed to wipe out the other course
         if course.user != user:
             messages.info(request, _("Sorry, only the original owner may update this course"))
-            return False, 401
+            #return False, 401
         # check if course version is older
         if course.version > meta_info['versionid']:
             messages.info(request, _("A newer version of this course already exists"))

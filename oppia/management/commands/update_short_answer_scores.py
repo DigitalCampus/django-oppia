@@ -3,20 +3,13 @@
 """
 Management command to update manually scored short answer questions
 """
-import codecs
-import os
 import csv
-import re
-import oppia.management.commands
 
-from optparse import make_option
-
-from django.contrib.auth.models import User
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from django.db.models import Sum
 
-from oppia.quiz.models import QuizAttemptResponse, QuizAttempt, Quiz, QuizProps
 from oppia.models import Tracker
+from quiz import QuizAttemptResponse, QuizProps
 
 INPUT_FORMAT = {
                   'question': 0,

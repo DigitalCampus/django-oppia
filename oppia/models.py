@@ -1,19 +1,17 @@
 # oppia/models.py
 import datetime
 import json
+from xml.dom.minidom import *
 
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Max, Sum, Q, F, Count
-from django.utils.translation import ugettext_lazy as _
+from django.db.models import Max, Sum, Q
 from django.utils import timezone
-
-from oppia.quiz.models import Quiz, QuizAttempt
-
+from django.utils.translation import ugettext_lazy as _
 from tastypie.models import create_api_key
 
-from xml.dom.minidom import *
+from quiz.models import QuizAttempt, Quiz
 
 models.signals.post_save.connect(create_api_key, sender=User)
 
@@ -659,7 +657,7 @@ class Points(models.Model):
     @staticmethod
     def get_leaderboard(count=0, course=None):
 
-        from oppia.summary.models import UserCourseSummary, UserPointsSummary
+        from summary.models import UserCourseSummary, UserPointsSummary
 
         if course is not None:
             users = UserCourseSummary.objects.filter(course=course)
