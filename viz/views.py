@@ -9,7 +9,7 @@ from django.shortcuts import render
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from oppia.forms import DateDiffForm
+from helpers.forms.dates import DateDiffForm
 from oppia.models import Tracker, Course
 from summary.models import CourseDailyStats
 from viz.models import UserLocationVisualization

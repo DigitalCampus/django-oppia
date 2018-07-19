@@ -14,8 +14,9 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from oppia.forms import CohortForm
-from oppia.forms import UploadCourseStep1Form, UploadCourseStep2Form, DateRangeForm, DateRangeIntervalForm
+from helpers.forms.dates import DateRangeIntervalForm, DateRangeForm, DateDiffForm
+from oppia.forms.cohort import CohortForm
+from oppia.forms.upload import UploadCourseStep1Form, UploadCourseStep2Form
 from oppia.models import Activity, Points
 from oppia.models import Tracker, Tag, CourseTag, CourseCohort
 from oppia.permissions import *

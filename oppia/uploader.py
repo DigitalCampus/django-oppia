@@ -76,7 +76,7 @@ def process_course(extract_path, f, mod_name, request, user):
         # check that the current user is allowed to wipe out the other course
         if course.user != user:
             messages.info(request, _("Sorry, only the original owner may update this course"))
-            #return False, 401
+            return False, 401
         # check if course version is older
         if course.version > meta_info['versionid']:
             messages.info(request, _("A newer version of this course already exists"))

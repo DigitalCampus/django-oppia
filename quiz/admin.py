@@ -1,8 +1,8 @@
 # oppia/quiz/admin.py
 from django.contrib import admin
 
-from quiz.models import Quiz, Question, Response, ResponseProps, QuestionProps, QuizProps, QuizQuestion, QuizAttempt, \
-    QuizAttemptResponse
+from models import Quiz, Question, Response, ResponseProps, QuestionProps, QuizProps, \
+    QuizQuestion, QuizAttempt, QuizAttemptResponse
 
 
 class QuizAttemptAdmin(admin.ModelAdmin):
