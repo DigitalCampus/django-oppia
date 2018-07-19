@@ -12,16 +12,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" crossorigin="anonymous">
-    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" crossorigin="anonymous"    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css" rel="stylesheet"/>
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/themes/ui-lightness/jquery-ui.min.css" rel="stylesheet"/>
     <link href="{% static "oppia/style.css" %}" rel="stylesheet"/>
-    <link href="{% static "oppia/ui-lightness/jquery-ui.min.css" %}" rel="stylesheet"/>
-    <link href="{% static "oppia/ui-lightness/jquery-ui.structure.min.css" %}" rel="stylesheet"/>
-    <link href="{% static "oppia/ui-lightness/jquery-ui.theme.min.css" %}" rel="stylesheet"/>
- 
-    <script src="{% static "oppia/js/jquery-1.11.0.min.js" %}"></script>
-    <script src="{% static "oppia/ui-lightness/jquery-ui.min.js" %}"></script>
-    
+
     <!-- favicon -->
 	<link rel="apple-touch-icon" sizes="180x180" href="{% static "oppia/images/favicon/apple-touch-icon.png" %}">
 	<link rel="icon" type="image/png" sizes="32x32" href="{% static "oppia/images/favicon/favicon-32x32.png" %}">
@@ -32,9 +26,7 @@
     
     {% block extra_styles %}
     {% endblock extra_styles %}
-	
-    {% block extra_scripts %}
-    {% endblock extra_scripts %}  
+
 </head>
 
 <body {% block extra_body %}{% endblock extra_body %}>
@@ -64,8 +56,13 @@
     	{{ version }} &copy; {% now "Y" %} <a href="http://digital-campus.org">Digital Campus</a>
     </p>
 </div>
-    
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+{% block extra_scripts %}
+{% endblock extra_scripts %}
 
 {% if OPPIA_GOOGLE_ANALYTICS_ENABLED %}
 	<script>
