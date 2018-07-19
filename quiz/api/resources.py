@@ -28,8 +28,8 @@ from quiz.models import QuizProps, ResponseProps, QuizAttempt, QuizAttemptRespon
 
           
 class QuizResource(ModelResource):
-    questions = fields.ToManyField('oppia.quiz.api.resources.QuizQuestionResource', 'quizquestion_set', related_name='quiz', full=True)
-    props = fields.ToManyField('oppia.quiz.api.resources.QuizPropsResource', 'quizprops_set', related_name='quiz', full=True)
+    questions = fields.ToManyField('quiz.api.resources.QuizQuestionResource', 'quizquestion_set', related_name='quiz', full=True)
+    props = fields.ToManyField('quiz.api.resources.QuizPropsResource', 'quizprops_set', related_name='quiz', full=True)
     owner = fields.ForeignKey(UserResource, 'owner')
 
     class Meta:
@@ -83,7 +83,7 @@ class QuizResource(ModelResource):
 
         
 class QuizQuestionResource(ModelResource):
-    question = fields.ToOneField('oppia.quiz.api.resources.QuestionResource', 'question', full=True)
+    question = fields.ToOneField('quiz.api.resources.QuestionResource', 'question', full=True)
 
     class Meta:
         queryset = QuizQuestion.objects.all()
@@ -101,8 +101,8 @@ class QuizQuestionResource(ModelResource):
 
 
 class QuestionResource(ModelResource):
-    responses = fields.ToManyField('oppia.quiz.api.resources.ResponseResource', 'response_set', related_name='question', full=True)
-    props = fields.ToManyField('oppia.quiz.api.resources.QuestionPropsResource', 'questionprops_set', related_name='question', full=True, null=True)
+    responses = fields.ToManyField('quiz.api.resources.ResponseResource', 'response_set', related_name='question', full=True)
+    props = fields.ToManyField('quiz.api.resources.QuestionPropsResource', 'questionprops_set', related_name='question', full=True, null=True)
     owner = fields.ForeignKey(UserResource, 'owner')
 
     class Meta:
@@ -121,7 +121,7 @@ class QuestionResource(ModelResource):
 
 
 class QuestionPropsResource(ModelResource):
-    question = fields.ToOneField('oppia.quiz.api.resources.QuestionResource', 'question', related_name='questionprops')
+    question = fields.ToOneField('quiz.api.resources.QuestionResource', 'question', related_name='questionprops')
 
     class Meta:
         queryset = QuestionProps.objects.all()
@@ -136,7 +136,7 @@ class QuestionPropsResource(ModelResource):
     
 class ResponseResource(ModelResource):
     question = fields.ForeignKey(QuestionResource, 'question')
-    props = fields.ToManyField('oppia.quiz.api.resources.ResponsePropsResource', 'responseprops_set', related_name='response', full=True, null=True)
+    props = fields.ToManyField('quiz.api.resources.ResponsePropsResource', 'responseprops_set', related_name='response', full=True, null=True)
 
     class Meta:
         queryset = Response.objects.all()
@@ -156,7 +156,7 @@ class ResponseResource(ModelResource):
 
 
 class ResponsePropsResource(ModelResource):
-    response = fields.ToOneField('oppia.quiz.api.resources.ResponseResource', 'response', related_name='responseprops')
+    response = fields.ToOneField('quiz.api.resources.ResponseResource', 'response', related_name='responseprops')
 
     class Meta:
         queryset = ResponseProps.objects.all()
@@ -235,7 +235,7 @@ class QuizPropsResource(ModelResource):
 
 class QuizAttemptResponseResource(ModelResource):
     question = fields.ForeignKey(QuestionResource, 'question')
-    quizattempt = fields.ToOneField('oppia.quiz.api.resources.QuizAttemptResource', 'quizattempt', related_name='quizattemptresponse')
+    quizattempt = fields.ToOneField('quiz.api.resources.QuizAttemptResource', 'quizattempt', related_name='quizattemptresponse')
 
     class Meta:
         queryset = QuizAttemptResponse.objects.all()
@@ -249,7 +249,7 @@ class QuizAttemptResponseResource(ModelResource):
 class QuizAttemptResource(ModelResource):
     quiz = fields.ForeignKey(QuizResource, 'quiz')
     user = fields.ForeignKey(UserResource, 'user')
-    responses = fields.ToManyField('oppia.quiz.api.resources.QuizAttemptResponseResource', 'quizattemptresponse_set', related_name='quizattempt', full=True, null=True)
+    responses = fields.ToManyField('quiz.api.resources.QuizAttemptResponseResource', 'quizattemptresponse_set', related_name='quizattempt', full=True, null=True)
     points = fields.IntegerField(readonly=True)
     badges = fields.IntegerField(readonly=True)
 

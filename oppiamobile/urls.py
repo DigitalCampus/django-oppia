@@ -22,7 +22,6 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^', include('oppia.urls')),
     url(r'^content/', include('content.urls')),
-    url(r'^preview/', include('oppia.preview.urls')),
     url(r'^profile/', include('profile.urls')),
     url(r'^mobile/', include('mobile.urls')),
     url(r'^reports/', include('reports.urls')),

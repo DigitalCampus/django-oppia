@@ -74,8 +74,8 @@ urlpatterns = [
     url(r'^api/', include(v1_api.urls)),
     url(r'^api/publish/$', oppia_api_publish.publish_view, name="oppia_publish"),
     url(r'^api/media/$', oppia_api_media.upload_view, name="oppia_upload_media_api"),
-    
 
+    url(r'^preview/', include('oppia.preview.urls')),
     
     url(r'^view/$', oppia_views.app_launch_activity_redirect_view, name="oppia_app_launch_activity_redirect"),
     

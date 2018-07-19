@@ -98,7 +98,7 @@ INSTALLED_APPS = [
 ]
 
 TIME_ZONE = 'UTC'
-USE_TZ = False
+USE_TZ = True
 SITE_ID = 1
 
 # Static files (CSS, JavaScript, Images)
@@ -181,7 +181,7 @@ OPPIA_POINTS_ENABLED = True            # determines if the points system is enab
 OPPIA_STAFF_EARN_POINTS = False         # prevent staff from earning points
 OPPIA_COURSE_OWNERS_EARN_POINTS = False  # stops owners of courses earning points
 OPPIA_TEACHERS_EARN_POINTS = False      # stops teachers of courses earning points
-OPPIA_BADGES_ENABLE = True            # determines if the badges system is enabled
+OPPIA_BADGES_ENABLED = True            # determines if the badges system is enabled
 
 BADGE_AWARD_METHOD_ALL_ACTIVITIES = 'all activities'
 BADGE_AWARD_METHOD_FINAL_QUIZ = 'final quiz'
