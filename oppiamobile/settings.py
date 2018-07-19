@@ -19,22 +19,15 @@ SECRET_KEY = 'uzekt30thl4&hw)p@c#ht=b8mn!3l080kmnuk7ez+g5l%lb*p9'
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, os.pardir))
 
-
-ADMINS = (
-    ('Alex Little', 'alex@digital-campus.org')
-)
-
 ALLOWED_HOSTS = []
-MANAGERS = ADMINS
-
 DEBUG = True
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'oppia2',
-        'USER': 'root',
-        'PASSWORD': 'cice',
+        'NAME': 'oppia',
+        'USER': 'YOUR_DB_USERNAME',
+        'PASSWORD': 'YOUR_DB_PASSWORD',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
@@ -88,6 +81,7 @@ INSTALLED_APPS = [
     'gamification',
     'oppia',
     'tastypie',
+    'helpers',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -116,8 +110,8 @@ STATIC_URL = '/static/'
 # Email
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = '/tmp/'
-SERVER_EMAIL = 'alex@digital-campus.org'
-EMAIL_SUBJECT_PREFIX = '[Oppia-Core Staging]: '
+SERVER_EMAIL = 'adming@email.org'
+EMAIL_SUBJECT_PREFIX = '[SUBJECT_PREFIX]: '
 
 
 # Internationalization
@@ -190,10 +184,10 @@ BADGE_AWARD_METHOD_ALL_QUIZZES = 'all quizzes'
 BADGE_AWARDING_METHOD = BADGE_AWARD_METHOD_ALL_ACTIVITIES
 
 OPPIA_GOOGLE_ANALYTICS_ENABLED = True
-OPPIA_GOOGLE_ANALYTICS_CODE = 'UA-3609005-11'
-OPPIA_GOOGLE_ANALYTICS_DOMAIN = 'oppia-mobile.org'
+OPPIA_GOOGLE_ANALYTICS_CODE = 'YOUR_GOOGLE_ANALYTICS_CODE'
+OPPIA_GOOGLE_ANALYTICS_DOMAIN = 'YOUR_DOMAIN'
 
-OPPIA_MAX_UPLOAD_SIZE = 15242880         # max course file upload size - in bytes
+OPPIA_MAX_UPLOAD_SIZE = 5242880         # max course file upload size - in bytes
 
 OPPIA_VIDEO_FILE_TYPES = ("video/m4v", "video/mp4", "video/3gp", "video/3gpp")
 OPPIA_AUDIO_FILE_TYPES = ("audio/mpeg", "audio/amr", "audio/mp3")
@@ -207,10 +201,20 @@ OPPIA_EXPORT_LOCAL_MINVERSION = 2017011400  # min version of the export block to
 API_LIMIT_PER_PAGE = 0
 
 DEVICE_ADMIN_ENABLED = False
+GCM_DEVICE_MODEL = 'deviceadmin.models.UserDevice'
+GCM_APIKEY = 'OPPIA_GOOGLEAPIKEY'
+
+DEVELOPMENT_SERVER = True
+
+
+# Import secret_settings.py (if exists)
+# > see settings_secret.py.template for reference
+try:
+    from settings_secret import *
+except ImportError:
+    pass
+
 
 if DEVICE_ADMIN_ENABLED:
     INSTALLED_APPS += ('deviceadmin', 'gcm', )
-    GCM_APIKEY = 'OPPIA_GOOGLEAPIKEY'
-    GCM_DEVICE_MODEL = 'oppia.deviceadmin.models.UserDevice'
 
-DEVELOPMENT_SERVER = True

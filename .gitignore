@@ -10,3 +10,4 @@
 /.idea
 /.eggs
 /.scannerwork
+oppiamobile/settings_secret.py
