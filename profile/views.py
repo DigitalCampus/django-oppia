@@ -47,7 +47,7 @@ def get_paginated_users(request):
     if ordering is None:
         ordering = default_order
 
-    users = User.objects.all().order_by(ordering).select_related('api_key__key')
+    users = User.objects.all().order_by(ordering)
     paginator = Paginator(users, 5)
 
     try:
@@ -611,6 +611,7 @@ def export_users(request):
         raise Http404
 
     ordering, users = get_paginated_users(request)
+    print users
     for user in users:
         try:
             user.apiKey = user.api_key.key
