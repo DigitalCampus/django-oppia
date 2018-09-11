@@ -11,7 +11,6 @@
 <h3><a href="{% url 'oppia_cohort_view' cohort.id %}">{{ cohort.description }}</a> &gt; {% trans 'Leaderboard' %}</h3>
 
 {% if page.object_list.count > 0  %}
-	{% include "oppia/includes/page_navigator.html" %}
     <div class="table-responsive">
          <table class="table table-striped">
          	 <thead>
@@ -43,7 +42,7 @@
 	    	</tbody>
  		</table>
 	</div>
-	{% include "oppia/includes/page_navigator.html" %}
+	{% include "oppia/includes/pagination.html" %}
 {% endif %}
 
 {% endblock %}

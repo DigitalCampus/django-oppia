@@ -25,8 +25,7 @@ onload="init();"
 <p><em>{% trans 'Tags:' %} {{ course.get_tags}}</em></p>
 
 {% if page.object_list %}
-	{% include "oppia/includes/page_navigator.html" %}
-	
+
 		<div class="table-responsive">
          <table class="table">
          	 <thead>
@@ -71,7 +70,7 @@ onload="init();"
 			</tbody>
  		</table>
 	</div> 
-	{% include "oppia/includes/page_navigator.html" %}
+	{% include "oppia/includes/pagination.html" %}
 {% else %}
 	<p>{% trans 'No attempts yet' %}</p>
 {% endif %}
