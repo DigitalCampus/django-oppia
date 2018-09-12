@@ -1,4 +1,5 @@
 # oppia/reports/views.py
+from django.core import exceptions
 from django.db.models import Sum, Count
 from django.http.response import Http404
 from django.shortcuts import render

@@ -5,7 +5,7 @@ from django.db import models
 from django.db.models import Sum
 from django.utils.translation import ugettext_lazy as _
 
-from oppia.models import Course, Tracker, Points
+from oppia.models import Course, Tracker, Points, Award
 
 
 class UserCourseSummary (models.Model):
@@ -56,7 +56,7 @@ class UserCourseSummary (models.Model):
         ### Values that need to be recalculated (as the course digests may vary)
         self.pretest_score = Course.get_pre_test_score(self.course, self.user)
         self.quizzes_passed = Course.get_no_quizzes_completed(self.course, self.user)
-        self.badges_achieved = Course.get_badges(self.course, self.user)
+        self.badges_achieved = Award.get_userawards(self.user, self.course)
         self.completed_activities = Course.get_activities_completed(self.course, self.user)
 
         ### Update the data in the database

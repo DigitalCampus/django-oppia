@@ -2,7 +2,9 @@ from django.core import exceptions
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
-from oppia.deviceadmin.forms import AdminMessageForm
+
+import deviceadmin
+from deviceadmin.forms import AdminMessageForm
 
 from deviceadmin.models import UserDevice
 
@@ -16,7 +18,7 @@ def user_devices_list(request):
         ordering = '-modified_date'
 
     devices = UserDevice.objects.all().order_by(ordering)
-    paginator = Paginator(devices, 10)  # Show 25 per page
+    paginator = Paginator(devices, deviceadmin.DEVICE_RESULTS_PER_PAGE)
 
     # Make sure page request is an int. If not, deliver first page.
     try:

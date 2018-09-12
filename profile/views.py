@@ -611,7 +611,6 @@ def export_users(request):
         raise Http404
 
     ordering, users = get_paginated_users(request)
-    print users
     for user in users:
         try:
             user.apiKey = user.api_key.key
