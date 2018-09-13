@@ -83,6 +83,7 @@ INSTALLED_APPS = [
     'tastypie',
     'helpers',
     'crispy_forms',
+    'sass_processor',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -101,6 +102,14 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
 STATIC_ROOT = ROOT_DIR + '/static'
 MEDIA_ROOT = ROOT_DIR + '/media'
 ADMIN_MEDIA_PREFIX = '/static/admin/'
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'sass_processor.finders.CssFinder',
+
+]
+
 
 ROOT_URLCONF = 'oppiamobile.urls'
 MEDIA_URL = '/media/'
