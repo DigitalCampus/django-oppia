@@ -7,6 +7,9 @@ $oppia-light: #9aca3c;
 $oppia-mid: #689e3a;
 $oppia-dark: #628817;
 
+$font-family-brand: 'Lato', sans-serif;
+$font-family-emphasis: 'Montserrat', sans-serif;
+
 $theme-colors: (
   "primary": $oppia-mid
 );
@@ -23,4 +26,7 @@ body {
 }
 
 // Import all Bootstrap extensions
+@import './components/type';
 @import './components/buttons';
+@import './components/charts';
+@import './components/tables';
