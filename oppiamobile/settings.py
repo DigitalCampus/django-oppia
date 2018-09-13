@@ -151,6 +151,7 @@ LOGIN_EXEMPT_URLS = (
     r'^content/video-embed-helper/$',
     r'^media/temp/',
     r'^media/uploaded/',
+    r'^view/$',
 )
 
 # OppiaMobile Settings

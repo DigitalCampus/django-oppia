@@ -15,7 +15,7 @@
 	  <div class="navbar-collapse collapse">
 		    <ul class="nav navbar-nav navbar-right">
 		       {% if user.is_authenticated %}
-		            <li><a href="{% url 'django.contrib.auth.views.logout' %}">{% trans 'Logout' %}</a></li>
+		            <li><a href="{% url 'profile_logout' %}">{% trans 'Logout' %}</a></li>
 		        {% else %}
 		            <li><a href="{% url 'profile_login' %}?next={{ request.path }}">{% trans 'Login' %}</a></li>
 		           	{% if OPPIA_ALLOW_SELF_REGISTRATION %}

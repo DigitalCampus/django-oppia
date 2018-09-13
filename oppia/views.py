@@ -885,4 +885,9 @@ def app_launch_activity_redirect_view(request):
 
     # get activity and redirect
     activity = get_object_or_404(Activity, digest=digest)
-    return HttpResponseRedirect(reverse('oppia_preview_course_activity', args=[activity.section.course.id, activity.id]))
+
+    return render(request, 'oppia/course/activity_digest.html',
+                  {
+                      'activity': activity,
+                        'digest': digest
+                   })
