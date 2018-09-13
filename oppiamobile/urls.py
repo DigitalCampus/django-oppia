@@ -16,11 +16,11 @@ Including another URLconf
 
 from django.conf import settings
 from django.conf.urls import url, include
-from django.conf.urls.static import static
 from django.contrib import admin
 
 urlpatterns = [
     url(r'^', include('oppia.urls')),
+    url(r'^api/', include('api.urls')),
     url(r'^content/', include('content.urls')),
     url(r'^profile/', include('profile.urls')),
     url(r'^mobile/', include('mobile.urls')),
@@ -33,5 +33,5 @@ urlpatterns = [
 ]
 
 if settings.DEVICE_ADMIN_ENABLED:
-    gcmpatterns = [ url(r'^deviceadmin/', include('oppia.deviceadmin.urls')), ]
+    gcmpatterns = [ url(r'^deviceadmin/', include('deviceadmin.urls')), ]
     urlpatterns += gcmpatterns

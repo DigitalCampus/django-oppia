@@ -92,6 +92,7 @@ def process_media_file(media_guid, media_url, media_local_file, download_error, 
     
     return download_error, processed_media
 
+
 def check_media_link(media_url, media_local_file, download_error, processed_media):
     try:
         urllib.urlretrieve(media_url, filename=media_local_file)

@@ -8,7 +8,7 @@ import tablib
 from dateutil.relativedelta import relativedelta
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db.models import Count, Sum
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.utils import timezone

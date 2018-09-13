@@ -16,7 +16,6 @@ from django.db.models import Sum
 from django.http import HttpResponse, Http404, JsonResponse
 from django.utils import dateparse
 from django.utils.translation import ugettext_lazy as _
-from profile.forms import RegisterForm
 from tastypie import fields
 from tastypie.authentication import Authentication, ApiKeyAuthentication
 from tastypie.authorization import Authorization, ReadOnlyAuthorization
@@ -26,11 +25,12 @@ from tastypie.resources import ModelResource, convert_post_to_patch, dict_strip_
 from tastypie.utils import trailing_slash, timezone
 from tastypie.validation import Validation
 
-import oppia.api
-from oppia.api.serializers import PrettyJSONSerializer, CourseJSONSerializer, UserJSONSerializer
+from api import constants
+from api.serializers import PrettyJSONSerializer, CourseJSONSerializer, UserJSONSerializer
 from oppia.models import Activity, Tracker, Course, Media, Tag, CourseTag
 from oppia.models import Points, Award, Badge
 from oppia.signals import course_downloaded
+from profile.forms import RegisterForm
 from profile.models import UserProfile
 
 
@@ -97,7 +97,7 @@ class UserResource(ModelResource):
                 tracker = Tracker()
                 tracker.user = u
                 tracker.type = 'login'
-                tracker.ip = bundle.request.META.get('REMOTE_ADDR', oppia.api.DEFAULT_IP_ADDRESS)
+                tracker.ip = bundle.request.META.get('REMOTE_ADDR', constants.DEFAULT_IP_ADDRESS)
                 tracker.agent = bundle.request.META.get('HTTP_USER_AGENT', 'unknown')
                 tracker.save()
             else:
@@ -203,7 +203,7 @@ class RegisterResource(ModelResource):
                 tracker = Tracker()
                 tracker.user = u
                 tracker.type = 'register'
-                tracker.ip = bundle.request.META.get('REMOTE_ADDR', oppia.api.DEFAULT_IP_ADDRESS)
+                tracker.ip = bundle.request.META.get('REMOTE_ADDR', constants.DEFAULT_IP_ADDRESS)
                 tracker.agent = bundle.request.META.get('HTTP_USER_AGENT', 'unknown')
                 tracker.save()
             key = ApiKey.objects.get(user=u)
@@ -372,7 +372,7 @@ class TrackerResource(ModelResource):
         if 'id' in bundle.data:
             del bundle.obj.id
         bundle.obj.user = bundle.request.user
-        bundle.obj.ip = bundle.request.META.get('REMOTE_ADDR', oppia.api.DEFAULT_IP_ADDRESS)
+        bundle.obj.ip = bundle.request.META.get('REMOTE_ADDR', constants.DEFAULT_IP_ADDRESS)
         bundle.obj.agent = bundle.request.META.get('HTTP_USER_AGENT', 'unknown')
 
         if 'type' in bundle.data and bundle.data['type'] == 'search':
@@ -449,7 +449,7 @@ class TrackerResource(ModelResource):
             data = self.alter_deserialized_detail_data(request, data)
             bundle = self.build_bundle(data=dict_strip_unicode_keys(data))
             bundle.request.user = request.user
-            bundle.request.META['REMOTE_ADDR'] = request.META.get('REMOTE_ADDR', oppia.api.DEFAULT_IP_ADDRESS)
+            bundle.request.META['REMOTE_ADDR'] = request.META.get('REMOTE_ADDR', constants.DEFAULT_IP_ADDRESS)
             bundle.request.META['HTTP_USER_AGENT'] = request.META.get('HTTP_USER_AGENT', 'unknown')
             # check UUID not already submitted
             if 'data' in bundle.data:
@@ -547,7 +547,7 @@ class CourseResource(ModelResource):
         tracker.course = course
         tracker.type = 'download'
         tracker.data = json.dumps({'version': course.version})
-        tracker.ip = request.META.get('REMOTE_ADDR', oppia.api.DEFAULT_IP_ADDRESS)
+        tracker.ip = request.META.get('REMOTE_ADDR', constants.DEFAULT_IP_ADDRESS)
         tracker.agent = request.META.get('HTTP_USER_AGENT', 'unknown')
         tracker.save()
 
@@ -599,7 +599,7 @@ class CourseResource(ModelResource):
 
 
 class CourseTagResource(ModelResource):
-    course = fields.ToOneField('oppia.api.resources.CourseResource', 'course', full=True)
+    course = fields.ToOneField('api.resources.CourseResource', 'course', full=True)
 
     class Meta:
         queryset = CourseTag.objects.all()

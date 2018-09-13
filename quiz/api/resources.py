@@ -1,32 +1,27 @@
 # oppia/quiz/api/resources.py
-import oppia
-
 from django.conf.urls import url
-from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, InvalidPage
-from django.db import IntegrityError
 from django.db.models import Q
 from django.http.response import Http404
 from django.utils.translation import ugettext as _
-
-from tastypie import fields, bundle, http
-from tastypie.authentication import Authentication, ApiKeyAuthentication
+from api.resources import UserResource
+from tastypie import fields
+from tastypie.authentication import ApiKeyAuthentication
 from tastypie.authorization import Authorization
-from tastypie.exceptions import NotFound, BadRequest, InvalidFilterError, HydrationError, InvalidSortError, ImmediateHttpResponse
-from tastypie.models import ApiKey
+from tastypie.exceptions import BadRequest
 from tastypie.resources import ModelResource
 
+import oppia
+from api.serializers import PrettyJSONSerializer
 from oppia.models import Points, Award
-from oppia.api.resources import UserResource
-from oppia.api.serializers import PrettyJSONSerializer
 from quiz.api.serializers import QuizJSONSerializer, QuizAttemptJSONSerializer
 from quiz.api.validation import QuizOwnerValidation, QuestionOwnerValidation
-from quiz.api.validation import ResponseOwnerValidation, QuizAttemptValidation
+from quiz.api.validation import ResponseOwnerValidation
 from quiz.models import Quiz, Question, QuizQuestion, Response, QuestionProps
 from quiz.models import QuizProps, ResponseProps, QuizAttempt, QuizAttemptResponse
 
-          
+
 class QuizResource(ModelResource):
     questions = fields.ToManyField('quiz.api.resources.QuizQuestionResource', 'quizquestion_set', related_name='quiz', full=True)
     props = fields.ToManyField('quiz.api.resources.QuizPropsResource', 'quizprops_set', related_name='quiz', full=True)

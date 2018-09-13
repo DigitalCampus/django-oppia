@@ -6,9 +6,9 @@ from django.http import HttpResponse, JsonResponse
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
 
+from api.publish import get_messages_array
 from av import handler
 from av.models import UploadedMedia
-from oppia.api.publish import get_messages_array
 
 
 @csrf_exempt

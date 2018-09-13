@@ -40,6 +40,7 @@ class ResponseAdmin(admin.ModelAdmin):
 class QuizQuestionAdmin(admin.ModelAdmin):
     list_display = ('quiz', 'question', 'order')
 
+
 admin.site.register(Quiz, QuizAdmin)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Response, ResponseAdmin)
