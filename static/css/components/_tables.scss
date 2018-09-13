@@ -1,7 +1,12 @@
+table.sortable th{
+    padding:0;
+}
 table.sortable th > a{
     display: block;
     padding: 8px;
-    margin: -8px;
+    line-height:0.9em;
+    height:100%;
+    font-weight:normal;
 }
 table.sortable th > a .glyphicon{
     font-size: 0.8em;
@@ -24,3 +29,13 @@ table.sortable .sorted:hover{
     background: linear-gradient(to bottom, #f5f5f5 85%, $oppia-lighter 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5f5f5', endColorstr='$oppia-lighter',GradientType=0 ); /* IE6-9 */
 }
+
+.search-block{
+    border:1px solid #DDD;
+    border-radius: 4px;
+}
+.search-block .panel-group{ margin-bottom: 0;}
+.search-block thead{ background-color: #ddd; }
+.search-block .panel-group .panel{ border-radius: 0; border:none;}
+.search-block .panel-heading{ background-color: #77A240; padding:5px 15px;}
+.search-block .panel-heading a{ display:block; padding: 6px 0; line-height: 1.42857143; color: #fff; text-decoration:none; font-size:1.1em; font-weight: bold;}
