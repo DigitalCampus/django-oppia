@@ -1,6 +1,7 @@
 {% extends "base.html" %} 
 {% load i18n %} 
 {% load display_functions %} 
+{% load settings_value %}
 
 {% block extra_head_title %}
 	{% trans 'Courses' %}
@@ -19,8 +20,14 @@
     <h5>{{activity.section.title|title_lang:LANGUAGE_CODE}}</h5>
 
     <br>
-        <a href="intent://view?digest={{digest}}#Intent;scheme=oppiamobile;package=org.digitalcampus.mobile.learning;end" class="btn btn-primary">Open in app</a>
-        <a href="https://play.google.com/store/apps/details?id=org.digitalcampus.mobile.learning" class="btn btn-info">Get it on Google Play</a>
+
+    {% settings_value 'OPPIA_ANDROID_PACKAGEID' as package_id %}
+	{% settings_value 'OPPIA_ANDROID_DEFAULT_PACKAGEID' as default_package_id %}
+    {% settings_value 'OPPIA_ANDROID_ON_GOOGLE_PLAY' as on_googleplay %}
+
+    <a href="intent://view?digest={{digest}}#Intent;scheme=oppiamobile;package={{package_id}};end" class="btn btn-primary">Open in app</a>
+
+    <a href="https://play.google.com/store/apps/details?id={% if on_googleplay %}{{package_id}}{% else %}{{default_package_id}}{% endif %}" class="btn btn-info">Get it on Google Play</a>
 
     </div>
 
