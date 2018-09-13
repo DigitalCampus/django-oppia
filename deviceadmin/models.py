@@ -7,5 +7,5 @@ from gcm.models import AbstractDevice
 
 
 class UserDevice(AbstractDevice):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     model_name = models.TextField(blank=True, null=True, default=None)

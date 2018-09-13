@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                 ('modified_date', models.DateTimeField(auto_now=True, verbose_name='Modified date')),
                 ('is_active', models.BooleanField(default=False, verbose_name='Is active?')),
                 ('model_name', models.TextField(default=None, null=True, blank=True)),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
             options={
                 'ordering': ['-modified_date'],
