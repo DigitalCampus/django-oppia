@@ -30,6 +30,34 @@ table.sortable .sorted:hover{
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5f5f5', endColorstr='$oppia-lighter',GradientType=0 ); /* IE6-9 */
 }
 
+.table-fixed{
+    display: block;
+    border: 1px solid #ddd;
+    background:#f5f5f5;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+.table-fixed thead {
+  width: 97%;
+}
+.table-fixed tbody {
+    min-height: 150px;
+  overflow-y: auto;
+  width: 100%;
+    background:#fff;
+}
+.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
+  display: block;
+}
+.table-fixed tbody td, .table-fixed thead > tr> th {
+  float: left;
+  border-bottom-width: 0;
+}
+.table-fixed tr {
+    clear:left;
+}
+
 .search-block{
     border:1px solid #DDD;
     border-radius: 4px;
