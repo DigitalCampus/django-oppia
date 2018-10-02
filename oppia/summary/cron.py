@@ -51,7 +51,6 @@ def update_summaries(last_tracker_pk=0, last_points_pk=0):
     count = 1
     for uc_tracker in user_courses:
         print('processing user/course trackers... (%d/%d)' % (count, total_users))
-        print(ucTracker)
         user = User.objects.get(pk=uc_tracker['user'])
         course = Course.objects.get(pk=uc_tracker['course'])
         user_course, created = UserCourseSummary.objects.get_or_create(course=course, user=user)
