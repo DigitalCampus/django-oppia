@@ -30,8 +30,10 @@ def upload_view(request):
             validation_errors.append("field '{0}' missing".format(field))
 
     # authenticate user
-    username = request.POST['username']
-    password = request.POST['password']
+    username = request.POST.get("username")
+    password = request.POST.get("password")
+    print username
+    print password
     user = authenticate(username=username, password=password)
     if user is None or not user.is_active:
         messages.error(request, "Invalid username/password")
@@ -41,7 +43,7 @@ def upload_view(request):
         }
         return JsonResponse(response_data, status=401)
 
-    if validationErrors:
+    if validation_errors:
         return JsonResponse({'errors': validation_errors}, status=400, )
 
     result = handler.upload(request, user)
