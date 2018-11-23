@@ -1,8 +1,9 @@
 # oppia/context_processors.py
 from django.conf import settings
+
 import oppia
 from oppia.models import Points, Award
-from oppia.reports.views import menu_reports
+from reports.views import menu_reports
 
 
 def get_points(request):

@@ -1,4 +1,5 @@
 # oppia/signals.py
+import math
 import warnings
 
 from django.conf import settings
@@ -6,12 +7,10 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.dispatch import Signal
 
-from oppia.gamification.default_points import OPPIA_DEFAULT_POINTS
-from oppia.models import Points, Award, Tracker, Activity, Section, Course, Cohort
-from oppia.quiz.models import Quiz, QuizAttempt
+from gamification.default_points import OPPIA_DEFAULT_POINTS
+from oppia.models import Points, Tracker, Activity
+from quiz.models import Quiz, QuizAttempt
 from oppia.utils.deprecation import RemovedInOppia0110Warning
-
-import math
 
 course_downloaded = Signal(providing_args=["course", "user"])
 

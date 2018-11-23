@@ -1,0 +1,48 @@
+{% extends "base.html" %} 
+{% load i18n %} 
+{% load display_functions %}
+{% load settings_value %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+{% block extra_head_title %}
+	{% trans 'Home' %}
+{% endblock extra_head_title %}
+
+{% if user.is_authenticated %}
+	{% block extra_body %}
+		onload="setUpDatePicker();"
+	{% endblock extra_body %}
+{% endif %} 
+{% block content %}
+
+{% if user.is_authenticated %}
+	<div>
+		<h3>{% trans 'courses_recent_activity' %}</h3>
+		{% include "oppia/includes/activity-graph.html" %}	
+	</div>
+	{% include "includes/messages.html" %}	
+	{% crispy form %}
+	
+	<h3>{% trans 'home_leaderboard' %}<a class="btn btn-primary" style="margin-left:20px;" href="{% url 'oppia_gamification_leaderboard_export_server' %}" download="leaderboard.json">{% trans 'Export' %}</a></h3>
+	{% include "oppia/includes/leaderboard.html" %}
+	<div><a href="{% url 'oppia_leaderboard' %}">{% trans "more..." %}</a></div>
+{% else %}
+    {% static "oppia/images/dc-logo-150x150.png" as oppia_logo %}
+
+	{% settings_value 'OPPIA_ANDROID_PACKAGEID' as package_id %}
+	{% blocktrans %} 
+	<div style="text-align:center; margin-top:20px;">
+		<img src="{{ oppia_logo }}" alt="OppiaMobile logo"/>
+	</div>
+	<div style="max-width:350px; text-align:center; margin: 10px auto ">
+	<p><a href="https://digital-campus.org/oppiamobile/overview/">OppiaMobile</a> is the mobile learning platform from <a href="https://digital-campus.org">Digital Campus</a> to deliver learning content, multimedia and quizzes on your smartphone. All the content and activities can
+	be accessed and used even when you don't have an internet connection available on your mobile.</p>
+
+	<div class="btn-primary btn btn-default"><a href="https://play.google.com/store/apps/details?id={{package_id}}">Download OppiaMobile app</a></div>
+	</div>
+	{% endblocktrans %}
+
+{% endif %} 
+
+{% endblock %}

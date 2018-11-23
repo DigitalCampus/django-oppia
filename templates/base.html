@@ -1,0 +1,100 @@
+{% load i18n %}
+{% load sass_tags %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block extra_head_title %}{% endblock extra_head_title %} - {% trans 'app_name' %}</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <META name="description" content="OppiaMobile learning"/> 
+	<META name="keywords" content="oppia, oppiamobile, oppia-mobile, quiz, assessment, mobile, android, learning, video, media"/> 
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap -->
+    <link href="{% sass_src 'css/oppia.scss' %}" rel="stylesheet" type="text/css" />
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/themes/ui-lightness/jquery-ui.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+
+    <!-- favicon -->
+	<link rel="apple-touch-icon" sizes="180x180" href="{% static "oppia/images/favicon/apple-touch-icon.png" %}">
+	<link rel="icon" type="image/png" sizes="32x32" href="{% static "oppia/images/favicon/favicon-32x32.png" %}">
+	<link rel="icon" type="image/png" sizes="16x16" href="{% static "oppia/images/favicon/favicon-16x16.png" %}">
+	<link rel="manifest" href="{% static "oppia/images/favicon/manifest.json" %}">
+	<link rel="mask-icon" href="{% static "oppia/images/favicon/safari-pinned-tab.svg" %}" color="#00a300">
+	<meta name="theme-color" content="#ffffff">    
+    
+    {% block extra_styles %}
+    {% endblock extra_styles %}
+
+</head>
+
+<body class="d-flex flex-column" {% block extra_body %}{% endblock extra_body %}>
+
+<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-primary" role="navigation">
+  {% include "includes/header.html" %}
+</nav>
+
+{% if DEVELOPMENT_SERVER %}
+         <div class="alert alert-danger alert-dismissable">
+         	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+             {% trans 'This is a development server, anything added here will not be shared on the live site' %}
+         </div>
+     {% endif %}
+
+<section class="container-fluid flex-grow">
+    <div class="main">
+    {% block content %}
+    {% endblock content %}
+	</div> <!--  end main -->
+</section> <!--  end container -->
+
+
+<footer class="bg-light text-dark mt-4">
+    <div class="container-fluid py-3">
+        <div class="row">
+            <div class="col-md-9 pb-2 text-center text-md-left">
+                    <a href="{% url 'oppia_about' %}">{% trans 'footer_about' %}</a> |
+                    <a href="{% url 'oppia_about' %}#terms">{% trans 'footer_terms' %}</a>
+
+
+            </div>
+            <div class="col-md-3 small align-self-end pb-2 text-center text-md-right">{{ version }} &copy; {% now "Y" %} <a href="http://digital-campus.org">Digital Campus</a></div>
+        </div>
+    </div>
+</footer>
+
+<!--
+<div id="footer">
+    <p class="text-muted">
+    	<a href="{% url 'oppia_about' %}">{% trans 'footer_about' %}</a> |
+    	<a href="{% url 'oppia_about' %}#terms">{% trans 'footer_terms' %}</a> |
+    	{{ version }} &copy; {% now "Y" %} <a href="http://digital-campus.org">Digital Campus</a>
+    </p>
+</div>
+-->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+{% block extra_scripts %}
+{% endblock extra_scripts %}
+
+{% if OPPIA_GOOGLE_ANALYTICS_ENABLED %}
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	
+	  ga('create', '{{ OPPIA_GOOGLE_ANALYTICS_CODE }}', '{{ OPPIA_GOOGLE_ANALYTICS_DOMAIN }}');
+	  ga('send', 'pageview');
+	</script>
+{% endif %}
+</body>
+</html>
+

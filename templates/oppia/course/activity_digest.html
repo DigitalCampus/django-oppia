@@ -1,0 +1,48 @@
+{% extends "base.html" %} 
+{% load i18n %} 
+{% load display_functions %} 
+{% load settings_value %}
+
+{% block extra_head_title %}
+	{% trans 'Courses' %}
+{% endblock extra_head_title %}
+
+{% block content %}
+
+<div class="container">
+    <p class="lead">
+        The link you are visiting is intended for opening a course activity within the OppiaMobile app.
+    </p>
+
+    <div class="panel course-scorecard">
+        <span class="lead text-primary">{{activity.section.course.title|title_lang:LANGUAGE_CODE}}</span>
+    <h4>{{activity.title|title_lang:LANGUAGE_CODE}}</h4>
+    <h5>{{activity.section.title|title_lang:LANGUAGE_CODE}}</h5>
+
+    <br>
+
+    {% settings_value 'OPPIA_ANDROID_PACKAGEID' as package_id %}
+	{% settings_value 'OPPIA_ANDROID_DEFAULT_PACKAGEID' as default_package_id %}
+    {% settings_value 'OPPIA_ANDROID_ON_GOOGLE_PLAY' as on_googleplay %}
+
+    <a href="intent://view?digest={{digest}}#Intent;scheme=oppiamobile;package={{package_id}};end" class="btn btn-primary">Open in app</a>
+
+    <a href="https://play.google.com/store/apps/details?id={% if on_googleplay %}{{package_id}}{% else %}{{default_package_id}}{% endif %}" class="btn btn-info">Get it on Google Play</a>
+
+    </div>
+
+
+    <p><a href="https://digital-campus.org/oppiamobile/overview/">OppiaMobile</a> is the mobile learning platform from <a href="https://digital-campus.org">Digital Campus</a> to deliver learning content, multimedia and quizzes on your smartphone. All the content and activities can
+	be accessed and used even when you don't have an internet connection available on your mobile.</p>
+
+
+
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+	<script type="text/javascript">
+
+    </script>
+{% endblock %}
