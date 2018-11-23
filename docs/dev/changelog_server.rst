@@ -13,8 +13,12 @@ Key updates:
 
 Issue list:
 
-
-
+* 486: Refactor django project structure - https://github.com/DigitalCampus/django-oppia/issues/issues/486
+* 495: Use CDN versions of js libraries rather than local copies - https://github.com/DigitalCampus/django-oppia/issues/issues/495
+* 492: Update leaderboard pagination display to match the courses - https://github.com/DigitalCampus/django-oppia/issues/issues/492
+* 389: Implement "Open activity in app" functionality - https://github.com/DigitalCampus/django-oppia/issues/issues/389
+* 490: Use LESS/SASS for better frontend development - https://github.com/DigitalCampus/django-oppia/issues/issues/490
+* 488: Update to use Bootstrap 4 - https://github.com/DigitalCampus/django-oppia/issues/issues/488
 
 .. _serverv0.10.1:
 
