@@ -2,21 +2,21 @@
 
 import codecs
 import json
+import os
 import shutil
 import xml.dom.minidom
-from xml.dom.minidom import Node
 from xml.sax.saxutils import unescape
 from zipfile import ZipFile, BadZipfile
 
-import os
 from django.conf import settings
 from django.contrib import messages
 from django.utils import timezone
 from django.utils.translation import ugettext as _
 
-from oppia.gamification.models import CourseGamificationEvent, ActivityGamificationEvent, MediaGamificationEvent, QuizGamificationEvent
+from gamification.models import CourseGamificationEvent, ActivityGamificationEvent, MediaGamificationEvent, \
+    QuizGamificationEvent
 from oppia.models import Course, Section, Activity, Media
-from oppia.quiz.models import Quiz, Question, QuizQuestion, Response, ResponseProps, QuestionProps, QuizProps
+from quiz.models import Quiz, Question, QuizQuestion, Response, ResponseProps, QuestionProps, QuizProps
 
 
 def handle_uploaded_file(f, extract_path, request, user):

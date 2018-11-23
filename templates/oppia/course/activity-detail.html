@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+{% load crispy_forms_tags %}
+
+{% block extra_head_title %}
+	{{ course.title|title_lang:LANGUAGE_CODE }}
+{% endblock extra_head_title %}
+
+{% block extra_scripts %}
+	<script type="text/javascript">
+		function init(){
+			$('tr[name=trackerlist]').each(function(i){
+				$('#detail'+$(this).attr('id')).toggle();
+				$(this).click(function() {
+					$('#detail'+$(this).attr('id')).toggle("blind", 1000 );
+				});
+				}
+			);
+		}
+		{% include "oppia/includes/init-date-picker-js.html" %}
+	</script>
+{% endblock extra_scripts %}
+{% block extra_body %}
+onload="init();setUpDatePicker();"
+{% endblock extra_body %}
+{% block content %}
+
+<h2><a href="{% url 'oppia_recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a></h2>
+<p><em>{% trans 'Tags:' %} {{ course.get_tags}}</em></p>
+
+{% if page.object_list %}
+
+	<div style="margin-left:15px">
+	{% include "includes/messages.html" %}	
+	{% crispy form %}
+	</div>
+    
+    <div class="table-responsive">
+         <table class="table">
+         	 <thead>
+                <tr>
+                  <th>{% trans 'table_header_tracker_date' %}</th>
+                  <th>{% trans 'table_header_tracker_user' %}</th>
+                  <th>{% trans 'table_header_tracker_type' %}</th>
+                  <th>{% trans 'table_header_tracker_activity' %}</th>
+                  <th>{% trans 'table_header_tracker_timetaken' %}</th>
+                  <th>{% trans 'table_header_tracker_lang' %}</th>
+                </tr>
+              </thead>
+              <tbody>
+	{% for t in page.object_list %}
+		<tr id='{{ t.id }}' name="trackerlist" class="hover">
+			<td>{{ t.tracker_date|date:"d M Y H:i" }}</td>
+			<td>{% if OPPIA_SHOW_GRAVATARS %}
+       				{{ t.user|gravatar:24 }}
+       			{% endif %} 
+       			{% if request.user.is_staff %}
+					<a href="{% url 'profile_user_activity' t.user.id %}">{{ t.user.first_name }} {{ t.user.last_name }}</a>
+				{% else %}
+					{{ t.user.first_name }} {{ t.user.last_name }}
+				{% endif %}</td>
+			<td>{{ t.type }}</td>
+			<td>{% if t.get_media_title %}
+					{{ t.get_media_title }}
+				{% else %}
+					{% if t.activity_title %}
+						{{ t.activity_title|title_lang:LANGUAGE_CODE }} 
+					{% endif %}
+					{% if t.section_title %}
+						({{ t.section_title|title_lang:LANGUAGE_CODE }})
+					{% endif %}
+				{% endif %}</td>
+			<td>{{ t.time_taken }}</td>
+			<td>{% if t.get_lang %}{{ t.get_lang}}{% else %}--{% endif %}</td>
+		</tr>
+		<tr id='detail{{ t.id }}'>
+			<td colspan="6">
+				 <div class="table-responsive">
+        			 <table class="table table-striped">
+			         	 <thead>
+			                <tr>
+			                  <th>{% trans 'Name' %}</th>
+			                  <th>{% trans 'Value' %}</th>
+			                </tr>
+			              </thead>
+			              <tbody>
+				{% for k,v in t.data_obj %}
+					<tr>
+						<td>{{ k }}</td>
+						<td>{{ v }}</td>
+					</tr>
+			{% endfor %}
+			</tbody>
+ 		</table>
+			</td>
+		</tr>
+	{% endfor %}
+			</tbody>
+ 		</table>
+	</div> 
+	{% include "oppia/includes/pagination.html" %}
+	
+	{% include "oppia/includes/tracker_export.html" %}
+	
+{% else %}
+	<p>{% trans 'No hits yet' %}</p>
+{% endif %}
+{% endblock %}

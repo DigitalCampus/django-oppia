@@ -3,12 +3,14 @@ from django.http import HttpResponseRedirect
 from django.conf import settings
 from re import compile
 
+from django.utils.deprecation import MiddlewareMixin
+
 EXEMPT_URLS = [compile(settings.LOGIN_URL.lstrip('/'))]
 if hasattr(settings, 'LOGIN_EXEMPT_URLS'):
     EXEMPT_URLS += [compile(expr) for expr in settings.LOGIN_EXEMPT_URLS]
 
 
-class LoginRequiredMiddleware:
+class LoginRequiredMiddleware(MiddlewareMixin):
     """
 Middleware that requires a user to be authenticated to view any page other
 than LOGIN_URL. Exemptions to this requirement can optionally be specified
