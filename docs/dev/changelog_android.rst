@@ -1,10 +1,18 @@
 OppiaMobile Android App Change Log
 ====================================
 
+.. _appv66:
+
+v66 (6.6.0) - not yet released
+--------------------------------------
+
+Key updates:
+
+Issue list:
 
 .. _appv65:
 
-v65 (6.5.0) - not yet released 
+v65 (6.5.0) - Released 24 Nov 2018
 --------------------------------------
 
 Key updates:
