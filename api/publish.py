@@ -1,29 +1,29 @@
 # This is a workaround since Tastypie doesn't accept file Uploads
 import math
-import os
+import oppia.api
 
+import os
 from django.conf import settings
-from django.contrib import messages
 from django.contrib.auth import authenticate
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponseRedirect, Http404, HttpResponse, JsonResponse
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
 
-import api
 from oppia.models import Tag, CourseTag
+from oppia.settings import constants
+from oppia.settings.models import SettingProperties
 from oppia.uploader import handle_uploaded_file
-from settings import constants
-from settings.models import SettingProperties
 
 
-def add_course_tags(course, tags, created_by=None):
+def add_course_tags(course, tags, user):
     for t in tags:
         try:
             tag = Tag.objects.get(name__iexact=t.strip())
         except Tag.DoesNotExist:
             tag = Tag()
             tag.name = t.strip()
-            tag.created_by = created_by
+            tag.created_by = user
             tag.save()
         # add tag to course
         try:
@@ -36,7 +36,6 @@ def add_course_tags(course, tags, created_by=None):
 
 
 def check_required_fields(request, required, validation_errors):
-    validation_errors = []
     for field in required:
         if field not in request.POST:
             print(field + " not found")
@@ -56,7 +55,10 @@ def check_upload_file_size_type(file, validation_errors):
     return validation_errors
 
 
-def authenticate_user(request, username, password):
+def authenticate_user(request):
+    username = request.POST['username']
+    password = request.POST['password']
+
     user = authenticate(username=username, password=password)
     if user is None or not user.is_active:
         messages.error(request, "Invalid username/password")
@@ -83,17 +85,17 @@ def publish_view(request):
     validation_errors = []
     validation_errors = check_required_fields(request, required, validation_errors)
 
-    if api.COURSE_FILE_FIELD not in request.FILES:
+    if oppia.api.COURSE_FILE_FIELD not in request.FILES:
         print("Course file not found")
-        validation_errors.append("file '{0}' missing".format(api.COURSE_FILE_FIELD))
+        validation_errors.append("file '{0}' missing".format(oppia.api.COURSE_FILE_FIELD))
     else:
-        validation_errors = check_upload_file_size_type(request.FILES[api.COURSE_FILE_FIELD], validation_errors)
+        validation_errors = check_upload_file_size_type(request.FILES[oppia.api.COURSE_FILE_FIELD], validation_errors)
 
     if validation_errors:
         return JsonResponse({'errors': validation_errors}, status=400, )
 
     # authenticate user
-    authenticated, response_data = authenticate_user(request, request.POST['username'], request.POST['password'])
+    authenticated, response_data = authenticate_user(request)
     if not authenticated:
         return JsonResponse(response_data, status=401)
     else:
