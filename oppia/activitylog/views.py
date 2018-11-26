@@ -34,7 +34,8 @@ def process_uploaded_trackers(request, user, user_api_key):
             messages.info(request, _(u"Tracker activity for %(username)s added" % {'username': user['username']}))
         except urllib2.HTTPError:
             messages.warning(request, _(u"Already uploaded: tracker activity for %(username)s added" % {'username': user['username']}), 'danger')
- 
+
+
 def process_uploaded_quizresponses(request, user, user_api_key):
     for quizattempt in user['quizresponses']:
         url_comp = request.build_absolute_uri().split('/')
@@ -48,7 +49,8 @@ def process_uploaded_quizresponses(request, user, user_api_key):
             messages.info(request, _(u"Quiz attempt for %(username)s added" % {'username': user['username']}))
         except urllib2.HTTPError:
             messages.info(request, _(u"Already uploaded: quiz attempt for %(username)s added" % {'username': user['username']}))
-                                    
+
+
 def process_uploaded_file(request, json_data):
     if 'users' in json_data:
         for user in json_data['users']:
@@ -94,10 +96,14 @@ def process_uploaded_file(request, json_data):
             except ApiKey.DoesNotExist:
                 messages.warning(request, _(u"%(username)s not found. Please check that this file is being uploaded to the correct server." % {'username': username}), 'danger')
                 print(_(u"No user api key found for %s" % user['username']))
- 
+
+
 def upload_view(request):
     if not request.user.userprofile.get_can_upload_activitylog():
         raise exceptions.PermissionDenied
+
+    url_comp = request.build_absolute_uri().split('/')
+    server_url = "%(protocol)s//%(domain)s" % ({ 'protocol': url_comp[0], 'domain': url_comp[2]})
 
     if request.method == 'POST':
         form = UploadActivityLogForm(request.POST, request.FILES)
@@ -113,13 +119,14 @@ def upload_view(request):
             file_data = open(uploaded_activity_log.file.path, 'rb').read()
             json_data = json.loads(file_data)
 
-            # TODO check server matches
-            process_uploaded_file(request, json_data)
-            
-            return HttpResponseRedirect(reverse('oppia_activitylog_upload_success'))
-    else:
-        form = UploadActivityLogForm()
+            if 'server' in json_data and json_data['server'].startswith(server_url):
+                process_uploaded_file(request, json_data)
+                return HttpResponseRedirect(reverse('oppia_activitylog_upload_success'))
+            else:
+                messages.warning(request, _(
+                    "The server in the activity log file does not match with the current one" ))
 
+    form = UploadActivityLogForm()
     return render(request, 'oppia/activitylog/upload.html',
                               {'form': form,
                                'title': _(u'Upload Activity Log')})
