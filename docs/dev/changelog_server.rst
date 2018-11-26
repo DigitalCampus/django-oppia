@@ -1,17 +1,31 @@
 OppiaMobile Server Change Log
 ================================
 
+.. _serverv0.10.2:
+
+v0.10.2 - not yet released
+--------------------------------
+
+Key updates:
+
+* Restructuring of project to match Django best practice
+
+
+Issue list:
+
+
+
 
 .. _serverv0.10.1:
+
+v0.10.1 - Released 23 Nov 2018
+--------------------------------
 
 .. warning:: 
 	Run `pip install -r django-oppia/requirements.txt` after upgrading to this version, since new packages
 	and an updated version of Django is used.
 	
 	Update calls to the cartodb_update and ip2location functions to use management commands instead
-
-v0.10.1 - not yet released
---------------------------------
 
 Key updates:
 

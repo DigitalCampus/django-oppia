@@ -38,8 +38,8 @@ def upload(request, user):
             likely means avprobe/'libav-tools' is not installed
             '''
             uploaded_media.delete()
-            messages.add_message(request, messages.ERROR, _(u"The avprobe/libav-tools package is not installed on this server. Please ask your Oppia system administrator to install it for you (`apt-get install libav-tools`)."), "danger")
-            return {'result': UploadedMedia.UPLOAD_STATUS_FAILURE, 'form': form}
+            messages.add_message(request, messages.ERROR, _(u"The avprobe/libav-tools package might not be installed on this server. Please ask your Oppia system administrator to install it for you (`apt-get install libav-tools`)."), "danger")
+            return {'result': UploadedMedia.UPLOAD_STATUS_FAILURE, 'form': form, 'errors': _(u"The avprobe/libav-tools package might not be installed on this server.")}
 
         return {'result': UploadedMedia.UPLOAD_STATUS_SUCCESS, 'media': uploaded_media}
     else:

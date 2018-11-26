@@ -535,8 +535,9 @@ class CourseResource(ModelResource):
                     zip.writestr(course.shortname + "/tracker.xml", Tracker.to_xml_string(course, request.user))
                 zip.close()
 
-            wrapper = FileWrapper(file(file_to_download))
-            response = HttpResponse(wrapper, content_type='application/zip')
+            binary_file = open(file_to_download, 'rb')
+            response = HttpResponse(binary_file.read(), content_type='application/zip')
+            binary_file.close()
             response['Content-Length'] = os.path.getsize(file_to_download)
             response['Content-Disposition'] = 'attachment; filename="%s"' % (course.filename)
         except IOError:
