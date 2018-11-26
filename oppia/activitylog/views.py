@@ -5,6 +5,8 @@ import urllib
 import urllib2
 
 from django.contrib import messages
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import User
 from django.core import exceptions
 from django.urls import reverse
 from django.http import HttpResponseRedirect
@@ -16,8 +18,10 @@ from tastypie.models import ApiKey
 
 from oppia.activitylog.forms import UploadActivityLogForm
 from oppia.activitylog.models import UploadedActivityLog
+from oppia.profile.models import UserProfile
 
-def process_uploaded_trackers(user, user_api_key):
+
+def process_uploaded_trackers(request, user, user_api_key):
     for tracker in user['trackers']:
         url_comp = request.build_absolute_uri().split('/')
         url = ('%(protocol)s//%(domain)s/api/v1/tracker/?username=%(username)s&api_key=%(api_key)s' % {'protocol': url_comp[0], 'domain': url_comp[2], 'username': user['username'], 'api_key': user_api_key.key})
@@ -31,7 +35,7 @@ def process_uploaded_trackers(user, user_api_key):
         except urllib2.HTTPError:
             messages.warning(request, _(u"Already uploaded: tracker activity for %(username)s added" % {'username': user['username']}), 'danger')
  
-def process_uploaded_quizresponses(user, user_api_key):
+def process_uploaded_quizresponses(request, user, user_api_key):
     for quizattempt in user['quizresponses']:
         url_comp = request.build_absolute_uri().split('/')
         url = ('%(protocol)s//%(domain)s/api/v1/quizattempt/?username=%(username)s&api_key=%(api_key)s' % {'protocol': url_comp[0], 'domain': url_comp[2], 'username': user['username'], 'api_key': user_api_key.key})
@@ -45,18 +49,50 @@ def process_uploaded_quizresponses(user, user_api_key):
         except urllib2.HTTPError:
             messages.info(request, _(u"Already uploaded: quiz attempt for %(username)s added" % {'username': user['username']}))
                                     
-def process_uploaded_file(json_data):
+def process_uploaded_file(request, json_data):
     if 'users' in json_data:
         for user in json_data['users']:
-            print(_(u"processing activity log for %s" % user['username']))
+            username = user['username']
+            print(_(u"processing activity log for %s" % username))
+
+            if User.objects.filter(username=username).count() == 0:
+
+                print "New user!"
+                # User was registered offline, we create a new one
+                new_user = User(
+                    username=username,
+                    email=user['email'],
+                )
+
+                new_user.password = user['password'] if 'password' in user else make_password(None)
+                new_user.first_name = user['firstname']
+                new_user.last_name = user['lastname']
+                new_user.save()
+
+                user_profile = UserProfile()
+                user_profile.user = new_user
+                user_profile.phone_number = user['phoneno'] if 'phoneno' in user else None
+                user_profile.job_title = user['jobtitle'] if 'jobtitle' in user else None
+                user_profile.organisation = user['organisation'] if 'organisation' in user else None
+                user_profile.save()
+
+                messages.warning(request, _(
+                    u"%(username)s did not exist previously, and was created." % {
+                        'username': username}), 'danger')
+
             try:
-                user_api_key = ApiKey.objects.get(user__username=user['username'])
+                user_api_key, created = ApiKey.objects.get_or_create(user__username=username)
+                if (created):
+                    messages.warning(request, _(
+                        u"Generated new ApiKey for %(username)s : %(apikey)s" % {
+                            'username': username, 'apikey': user_api_key.key }), 'danger')
+
                 if 'trackers' in user:
-                    process_uploaded_trackers(user, user_api_key)
+                    process_uploaded_trackers(request, user, user_api_key)
                 if 'quizresponses' in user:
-                    process_uploaded_quizresponses(user, user_api_key)
+                    process_uploaded_quizresponses(request, user, user_api_key)
             except ApiKey.DoesNotExist:
-                messages.warning(request, _(u"%(username)s not found. Please check that this file is being uploaded to the correct server." % {'username': user['username']}), 'danger')
+                messages.warning(request, _(u"%(username)s not found. Please check that this file is being uploaded to the correct server." % {'username': username}), 'danger')
                 print(_(u"No user api key found for %s" % user['username']))
  
 def upload_view(request):
@@ -78,7 +114,7 @@ def upload_view(request):
             json_data = json.loads(file_data)
 
             # TODO check server matches
-            process_uploaded_file(json_data)
+            process_uploaded_file(request, json_data)
             
             return HttpResponseRedirect(reverse('oppia_activitylog_upload_success'))
     else:
