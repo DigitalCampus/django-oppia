@@ -23,7 +23,7 @@ class LoginForm(forms.Form):
     next = forms.CharField(widget=forms.HiddenInput())
 
     def __init__(self, *args, **kwargs):
-        super(LoginForm, self).__init__( * args, ** kwargs)
+        super(LoginForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_action = reverse('profile_login')
         self.helper.form_class = 'form-horizontal'
@@ -59,7 +59,7 @@ class RegisterForm(forms.Form):
     email = forms.CharField(validators=[validate_email],
                             error_messages={'invalid': _(u'Please enter a valid e-mail address.'),
                                             'required': _(u'Please enter your e-mail address.')},
-                            required=True)
+                            required=False)
     password = forms.CharField(widget=forms.PasswordInput,
                                error_messages={'required': _(u'Please enter a password.'),
                                                'min_length': _(u'Your password should be at least 6 characters long.')},
@@ -87,7 +87,7 @@ class RegisterForm(forms.Form):
     organisation = forms.CharField(max_length=100, required=False)
 
     def __init__(self, *args, **kwargs):
-        super(RegisterForm, self).__init__( * args, ** kwargs)
+        super(RegisterForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_action = reverse('profile_register')
         self.helper.form_class = 'form-horizontal'
@@ -121,9 +121,10 @@ class RegisterForm(forms.Form):
             raise forms.ValidationError(_(u"Username has already been registered, please select another."))
 
         # check the email address not already used
-        num_rows = User.objects.filter(email=email).count()
-        if num_rows != 0:
-            raise forms.ValidationError(_(u"Email has already been registered"))
+        if email != '':
+            num_rows = User.objects.filter(email=email).count()
+            if num_rows != 0:
+                raise forms.ValidationError(_(u"Email has already been registered"))
 
         # check the password are the same
         if password and password_again and password != password_again:
@@ -139,7 +140,7 @@ class ResetForm(forms.Form):
                                required=True)
 
     def __init__(self, *args, **kwargs):
-        super(ResetForm, self).__init__( * args, ** kwargs)
+        super(ResetForm, self).__init__(*args, **kwargs)
         self.fields['username'].label = "Username or email"
         self.helper = FormHelper()
         self.helper.form_action = reverse('profile_reset')
@@ -193,7 +194,7 @@ class ProfileForm(forms.Form):
     organisation = forms.CharField(max_length=100, required=False)
 
     def __init__(self, *args, **kwargs):
-        super(ProfileForm, self).__init__( * args, ** kwargs)
+        super(ProfileForm, self).__init__(*args, **kwargs)
         if len(args) == 1:
             email = args[0]['email']
             username = args[0]['username']
@@ -287,7 +288,7 @@ class UploadProfileForm(forms.Form):
         error_messages={'required': _('Please select a file to upload')}, )
 
     def __init__(self, *args, **kwargs):
-        super(UploadProfileForm, self).__init__( * args, ** kwargs)
+        super(UploadProfileForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_action = reverse('profile_upload')
         self.helper.form_class = 'form-horizontal'
@@ -314,7 +315,7 @@ class UserSearchForm(forms.Form):
     register_end_date = forms.CharField(required=False, label=False)
 
     def __init__(self, *args, **kwargs):
-        super(UserSearchForm, self).__init__( * args, ** kwargs)
+        super(UserSearchForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
         self.helper.label_class = 'col-sm-3 col-md-2 col-lg-2 control-label'
@@ -345,7 +346,7 @@ class DeleteAccountForm(forms.Form):
                                required=True)
 
     def __init__(self, *args, **kwargs):
-        super(DeleteAccountForm, self).__init__( * args, ** kwargs)
+        super(DeleteAccountForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_action = reverse('profile_delete_account')
         self.helper.form_class = 'form-horizontal'
@@ -359,7 +360,7 @@ class DeleteAccountForm(forms.Form):
                 HTML("""<a role="button" class="btn btn-default"
                         href="{% url "profile_edit" %}">Cancel</a>"""),
                 css_class='col-lg-offset-2 col-lg-4',
-                
+
             ),
         )
 
