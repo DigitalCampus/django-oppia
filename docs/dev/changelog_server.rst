@@ -6,6 +6,10 @@ OppiaMobile Server Change Log
 v0.10.2 - not yet released
 --------------------------------
 
+.. warning:: 
+	Run `pip install -r django-oppia/requirements.txt` after upgrading to this version, since new packages
+	and an updated version of Django is used.
+	
 Key updates:
 
 * Restructuring of project to match Django best practice
@@ -19,6 +23,7 @@ Issue list:
 * 389: Implement "Open activity in app" functionality - https://github.com/DigitalCampus/django-oppia/issues/issues/389
 * 490: Use LESS/SASS for better frontend development - https://github.com/DigitalCampus/django-oppia/issues/issues/490
 * 488: Update to use Bootstrap 4 - https://github.com/DigitalCampus/django-oppia/issues/issues/488
+* 519: Update to Django 1.11.15 - https://github.com/DigitalCampus/django-oppia/issues/issues/519
 
 .. _serverv0.10.1:
 
