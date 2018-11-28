@@ -16,9 +16,9 @@ from django.utils.translation import ugettext_lazy as _
 
 from tastypie.models import ApiKey
 
-from oppia.activitylog.forms import UploadActivityLogForm
-from oppia.activitylog.models import UploadedActivityLog
-from oppia.profile.models import UserProfile
+from activitylog.forms import UploadActivityLogForm
+from activitylog.models import UploadedActivityLog
+from profile.models import UserProfile
 
 
 def process_uploaded_trackers(request, user, user_api_key):
@@ -59,7 +59,7 @@ def process_uploaded_file(request, json_data):
 
             if User.objects.filter(username=username).count() == 0:
 
-                print "New user!"
+                print(_(u"New user!"))
                 # User was registered offline, we create a new one
                 new_user = User(
                     username=username,

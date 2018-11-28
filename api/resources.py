@@ -5,7 +5,7 @@ import shutil
 import zipfile
 from wsgiref.util import FileWrapper
 import datetime
-import oppia.api
+import api
 
 from django.conf import settings
 from django.conf.urls import url
@@ -26,11 +26,11 @@ from tastypie.resources import ModelResource, convert_post_to_patch, dict_strip_
 from tastypie.utils import trailing_slash, timezone
 from tastypie.validation import Validation
 
-from oppia.api.serializers import PrettyJSONSerializer, CourseJSONSerializer, UserJSONSerializer
+from api.serializers import PrettyJSONSerializer, CourseJSONSerializer, UserJSONSerializer
 from oppia.models import Activity, Tracker, Course, Media, Cohort, Tag, CourseTag
 from oppia.models import Points, Award, Badge
-from oppia.profile.forms import RegisterForm
-from oppia.profile.models import UserProfile
+from profile.forms import RegisterForm
+from profile.models import UserProfile
 from oppia.signals import course_downloaded
 from oppia.utils.deprecation import RemovedInOppia0110Warning
 
