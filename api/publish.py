@@ -1,6 +1,6 @@
 # This is a workaround since Tastypie doesn't accept file Uploads
 import math
-import api
+import oppia.api
 
 import os
 from django.conf import settings
@@ -11,19 +11,19 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 
 from oppia.models import Tag, CourseTag
-from settings import constants
-from settings.models import SettingProperties
+from oppia.settings import constants
+from oppia.settings.models import SettingProperties
 from oppia.uploader import handle_uploaded_file
 
 
-def add_course_tags(course, tags, user):
+def add_course_tags(request, course, tags):
     for t in tags:
         try:
             tag = Tag.objects.get(name__iexact=t.strip())
         except Tag.DoesNotExist:
             tag = Tag()
             tag.name = t.strip()
-            tag.created_by = user
+            tag.created_by = request.user
             tag.save()
         # add tag to course
         try:
@@ -39,7 +39,7 @@ def check_required_fields(request, required, validation_errors):
     for field in required:
         if field not in request.POST:
             print(field + " not found")
-            validation_errors.append("field '{0}' missing".format(field))
+            validationErrors.append("field '{0}' missing".format(field))
     return validation_errors
 
 
@@ -55,10 +55,7 @@ def check_upload_file_size_type(file, validation_errors):
     return validation_errors
 
 
-def authenticate_user(request):
-    username = request.POST['username']
-    password = request.POST['password']
-
+def authenticate_user(username, password):
     user = authenticate(username=username, password=password)
     if user is None or not user.is_active:
         messages.error(request, "Invalid username/password")
@@ -68,7 +65,7 @@ def authenticate_user(request):
         }
         return False, response_data
     else:
-        return True, user
+        return True, None
 
 
 @csrf_exempt
@@ -95,11 +92,9 @@ def publish_view(request):
         return JsonResponse({'errors': validation_errors}, status=400, )
 
     # authenticate user
-    authenticated, response_data = authenticate_user(request)
+    authenticated, response_data = authenticate_user(request.POST['username'], request.POST['password'])
     if not authenticated:
         return JsonResponse(response_data, status=401)
-    else:
-        user = response_data
 
     # check user has permissions to publish course
     if settings.OPPIA_STAFF_ONLY_UPLOAD is True \
@@ -126,7 +121,7 @@ def publish_view(request):
 
         # add tags
         tags = request.POST['tags'].strip().split(",")
-        add_course_tags(course, tags, user)
+        add_course_tags(request, course, tags)
 
         msgs = get_messages_array(request)
         if len(msgs) > 0:
