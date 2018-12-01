@@ -16,14 +16,14 @@ from oppia.settings.models import SettingProperties
 from oppia.uploader import handle_uploaded_file
 
 
-def add_course_tags(course, tags):
+def add_course_tags(request, course, tags):
     for t in tags:
         try:
             tag = Tag.objects.get(name__iexact=t.strip())
         except Tag.DoesNotExist:
             tag = Tag()
             tag.name = t.strip()
-            tag.created_by = user
+            tag.created_by = request.user
             tag.save()
         # add tag to course
         try:
@@ -121,7 +121,7 @@ def publish_view(request):
 
         # add tags
         tags = request.POST['tags'].strip().split(",")
-        add_course_tags(course, tags)
+        add_course_tags(request, course, tags)
 
         msgs = get_messages_array(request)
         if len(msgs) > 0:

@@ -278,7 +278,7 @@ def upload_step2(request, course_id, editing=False):
                                'title': page_title})
 
 def add_course_tags(request, form, course):
-    tags = form.cleaned_data.get("tags").strip().split(",")
+    tags = form.cleaned_data.get("tags","").strip().split(",")
     is_draft = form.cleaned_data.get("is_draft")
     if len(tags) > 0:
         course.is_draft = is_draft
