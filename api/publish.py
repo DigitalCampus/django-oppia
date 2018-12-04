@@ -55,7 +55,7 @@ def check_upload_file_size_type(file, validation_errors):
     return validation_errors
 
 
-def authenticate_user(username, password):
+def authenticate_user(request, username, password):
     user = authenticate(username=username, password=password)
     if user is None or not user.is_active:
         messages.error(request, "Invalid username/password")
@@ -92,14 +92,14 @@ def publish_view(request):
         return JsonResponse({'errors': validation_errors}, status=400, )
 
     # authenticate user
-    authenticated, response_data = authenticate_user(request.POST['username'], request.POST['password'])
+    authenticated, response_data = authenticate_user(request, request.POST['username'], request.POST['password'])
     if not authenticated:
         return JsonResponse(response_data, status=401)
 
     # check user has permissions to publish course
     if settings.OPPIA_STAFF_ONLY_UPLOAD is True \
-            and not user.is_staff \
-            and user.userprofile.can_upload is False:
+            and not request.user.is_staff \
+            and request.user.userprofile.can_upload is False:
         return HttpResponse(status=401)
 
     extract_path = os.path.join(settings.COURSE_UPLOAD_DIR, 'temp', str(user.id))
