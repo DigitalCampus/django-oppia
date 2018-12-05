@@ -1,6 +1,6 @@
 # This is a workaround since Tastypie doesn't accept file Uploads
 import math
-import oppia.api
+import api
 
 import os
 from django.conf import settings
@@ -11,8 +11,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 
 from oppia.models import Tag, CourseTag
-from oppia.settings import constants
-from oppia.settings.models import SettingProperties
+from settings import constants
+from settings.models import SettingProperties
 from oppia.uploader import handle_uploaded_file
 
 
