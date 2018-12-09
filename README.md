@@ -1,5 +1,5 @@
-django-oppia
-=============
+OppiaMobile - django-oppia
+===========================
 
 django-oppia is the server side component for the OppiaMobile learning platform
 
