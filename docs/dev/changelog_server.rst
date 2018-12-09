@@ -13,8 +13,8 @@ Key updates:
 
 Issue list:
 
-
-
+* 521: Add a 'contributing.md' file - https://github.com/DigitalCampus/django-oppia/issues/issues/521
+* 523: Remove the 'mobile' & 'preview' directories - https://github.com/DigitalCampus/django-oppia/issues/issues/523
 
 .. _serverv0.10.1:
 
