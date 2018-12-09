@@ -150,7 +150,6 @@ LOGIN_EXEMPT_URLS = (
     r'^profile/reset/',
     r'^profile/setlang/$',
     r'^profile/delete/complete/$',
-    r'^mobile/scorecard/$',  # - auth handled by api_key
     r'^$',
     r'^about/$',
     r'^terms/$',
