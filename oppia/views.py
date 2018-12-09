@@ -1,33 +1,30 @@
 # oppia/views.py
 import datetime
 import json
-from wsgiref.util import FileWrapper
-
 import operator
 import os
+
 import tablib
 from dateutil.relativedelta import relativedelta
-from django.core import exceptions
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from django.urls import reverse
 from django.db.models import Count, Sum
-from django.forms.formsets import formset_factory
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404
-from django.template import RequestContext
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from oppia.forms import CohortForm
-from oppia.forms import UploadCourseStep1Form, UploadCourseStep2Form, DateRangeForm, DateRangeIntervalForm
+from helpers.forms.dates import DateRangeIntervalForm, DateRangeForm, DateDiffForm
+from oppia.forms.cohort import CohortForm
+from oppia.forms.upload import UploadCourseStep1Form, UploadCourseStep2Form
 from oppia.models import Activity, Points
 from oppia.models import Tracker, Tag, CourseTag, CourseCohort
 from oppia.permissions import *
-from oppia.profile.models import UserProfile
-from oppia.profile.views import get_paginated_users
-from oppia.quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
-from oppia.reports.signals import dashboard_accessed
-from oppia.summary.models import UserCourseSummary, CourseDailyStats
+from profile.models import UserProfile
+from profile.views import get_paginated_users
+from quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
+from reports.signals import dashboard_accessed
+from summary.models import UserCourseSummary, CourseDailyStats
 from uploader import handle_uploaded_file
 
 
@@ -214,8 +211,9 @@ def course_download_view(request, course_id):
     except Course.DoesNotExist:
         raise Http404()
     file_to_download = course.getAbsPath()
-    wrapper = FileWrapper(file(file_to_download))
-    response = HttpResponse(wrapper, content_type='application/zip')
+    binary_file = open(file_to_download, 'rb')
+    response = HttpResponse(binary_file.read(), content_type='application/zip')
+    binary_file.close()
     response['Content-Length'] = os.path.getsize(file_to_download)
     response['Content-Disposition'] = 'attachment; filename="%s"' % (course.filename)
     return response
@@ -262,7 +260,7 @@ def upload_step2(request, course_id, editing=False):
         form = UploadCourseStep2Form(request.POST, request.FILES)
         if form.is_valid() and course:
             #add the tags
-            add_course_tags(form, course)
+            add_course_tags(request, form, course)
             redirect = 'oppia_course' if editing else 'oppia_upload_success'
             return HttpResponseRedirect(reverse(redirect))  # Redirect after POST
     else:
@@ -276,7 +274,7 @@ def upload_step2(request, course_id, editing=False):
                                'editing': editing,
                                'title': page_title})
 
-def add_course_tags(form, course):
+def add_course_tags(request, form, course):
     tags = form.cleaned_data.get("tags").strip().split(",")
     is_draft = form.cleaned_data.get("is_draft")
     if len(tags) > 0:
@@ -887,4 +885,9 @@ def app_launch_activity_redirect_view(request):
 
     # get activity and redirect
     activity = get_object_or_404(Activity, digest=digest)
-    return HttpResponseRedirect(reverse('oppia_preview_course_activity', args=[activity.section.course.id, activity.id]))
+
+    return render(request, 'oppia/course/activity_digest.html',
+                  {
+                      'activity': activity,
+                        'digest': digest
+                   })

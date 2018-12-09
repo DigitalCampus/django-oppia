@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+{% block content %}
+<h2>{% trans 'page_title_points' %}</h2>
+
+{% if page.object_list.count > 0 %}
+    
+    <div class="table-responsive">
+         <table class="table table-striped">
+         	 <thead>
+                <tr>
+                  <th>{% trans 'table_header_points_date' %}</th>
+                  <th>{% trans 'table_header_points' %}</th>
+                  <th>{% trans 'table_header_points_description' %}</th>
+                </tr>
+              </thead>
+              <tbody>
+	{% for p in page.object_list %}
+		 <tr>
+           <td>{{ p.date|date:"d M Y H:i" }}</td>
+           <td>{{ p.points }}</td>
+           <td>{{ p.description }}</td>
+         </tr>
+	{% endfor %}
+		</tbody>
+ 		</table>
+	</div>
+	{% include "oppia/includes/pagination.html" %}
+	
+{% else %}
+	<p>You don't have any points yet</p>
+{% endif %}
+{% endblock %}

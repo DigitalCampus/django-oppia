@@ -5,12 +5,10 @@ import datetime
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Count, F, Max
 from django.utils import timezone
 
 from oppia.models import Badge, Award, AwardCourse
-from oppia.models import Tracker, Course, Section, Activity, Media
-from oppia.quiz.models import Quiz, QuizAttempt, QuizProps
+from oppia.models import Tracker, Course, Activity
 from oppia.signals import badgeaward_callback
 
 models.signals.post_save.connect(badgeaward_callback, sender=Award)

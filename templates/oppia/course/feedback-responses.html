@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+{% block extra_scripts %}
+	<script type="text/javascript">
+		function init(){
+			$('tr[name=attemptlist]').each(function(i){
+				$('#detail'+$(this).attr('id')).toggle();
+				$(this).click(function() {
+					$('#detail'+$(this).attr('id')).toggle("blind", 1000 );
+				});
+				}
+			);
+		}
+	</script>
+{% endblock extra_scripts %}
+{% block extra_body %}
+onload="init();"
+{% endblock extra_body %}
+{% block content %}
+
+<h2><a href="{% url 'oppia_recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a>
+&gt; <a href="{% url 'oppia_course_feedback' course.id %}">{% trans 'title_feedback' %}</a>
+&gt; {{ quiz.title }} </h2>
+<p><em>{% trans 'Tags:' %} {{ course.get_tags}}</em></p>
+
+{% if page.object_list %}
+
+		<div class="table-responsive">
+         <table class="table">
+         	 <thead>
+                <tr>
+                  <th>{% trans 'table_header_attempt_date' %}</th>
+                  <th>{% trans 'table_header_attempt_name' %}</th>
+                </tr>
+              </thead>
+              <tbody>
+	{% for a in page.object_list %}
+		<tr id='{{ a.id }}' name="attemptlist" class="hover">
+			<td>{{ a.attempt_date }}</td>
+			<td>{% if OPPIA_SHOW_GRAVATARS %}
+       				{{ a.user|gravatar:24 }}
+       			{% endif %} 
+       			{{ a.user.first_name }} 
+       			{{ a.user.last_name }}</td>
+		</tr>
+		<tr id='detail{{ a.id }}'>
+			<td colspan="6">
+				 <div class="table-responsive">
+        			 <table class="table table-striped">
+			         	 <thead>
+			                <tr>
+			                  <th>{% trans 'Question' %}</th>
+			                  <th>{% trans 'Response' %}</th>
+
+			                </tr>
+			              </thead>
+			              <tbody>
+				{% for r in a.responses %}
+					<tr>
+						<td>{{ r.question.title }}</td>
+						<td>{{ r.text }}</td>
+					</tr>
+			{% endfor %}
+			</tbody>
+ 		</table>
+			</td>
+		</tr>
+	{% endfor %}
+			</tbody>
+ 		</table>
+	</div> 
+	{% include "oppia/includes/pagination.html" %}
+{% else %}
+	<p>{% trans 'No attempts yet' %}</p>
+{% endif %}
+
+
+{% endblock content %}

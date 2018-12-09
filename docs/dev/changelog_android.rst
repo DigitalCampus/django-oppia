@@ -49,6 +49,11 @@ Issue list:
 * 687: Better detection of Bluetooth connection loss - https://github.com/DigitalCampus/oppia-mobile-android/issues/687
 * 691: Better bluetooth device pairing - https://github.com/DigitalCampus/oppia-mobile-android/issues/691
 * 719: Remove code related to monitoring page - https://github.com/DigitalCampus/oppia-mobile-android/issues/719
+* 669: Notification of points to user - how to highlight in real time - https://github.com/DigitalCampus/oppia-mobile-android/issues/669
+* 670: Option to import leaderboard - https://github.com/DigitalCampus/oppia-mobile-android/issues/670
+* 671: Add tables in app db for storing leaderboard data - https://github.com/DigitalCampus/oppia-mobile-android/issues/671
+* 672: Develop designs for how the leaderboard may be displayed in the app - https://github.com/DigitalCampus/oppia-mobile-android/issues/672
+* 700: Allow custom offline points for course download - https://github.com/DigitalCampus/oppia-mobile-android/issues/700
 
 .. _appv64:
 

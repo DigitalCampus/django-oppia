@@ -1,14 +1,14 @@
 # oppia/permissions.py
 
+from __builtin__ import True
+from itertools import chain
+
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core import exceptions
-from django.http import Http404, HttpResponse
-
-from itertools import chain
+from django.http import Http404, HttpResponseForbidden
 
 from oppia.models import Course, Participant, Cohort
-from __builtin__ import True
 
 
 def can_upload(request):
