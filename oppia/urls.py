@@ -40,8 +40,6 @@ urlpatterns = [
     url(r'^cohort/(?P<cohort_id>\d+)/(?P<course_id>\d+)/view/$', oppia_views.cohort_course_view, name="oppia_cohort_course_view"),
     url(r'^cohort/(?P<cohort_id>\d+)/leaderboard/$', oppia_views.cohort_leaderboard_view, name="oppia_cohort_leaderboard"),
 
-
-    url(r'^preview/', include('oppia.preview.urls')),
     url(r'^view/$', oppia_views.app_launch_activity_redirect_view, name="oppia_app_launch_activity_redirect"),
     url(r'^media/(?P<path>.*)$', static.serve, {'document_root': settings.MEDIA_ROOT}),
 ]
