@@ -2,6 +2,7 @@
 *~
 .project
 .pydevproject
+.scannerwork
 .settings/
 /build
 /dist
