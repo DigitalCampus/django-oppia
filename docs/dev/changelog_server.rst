@@ -14,7 +14,6 @@ Key updates:
 
 * Restructuring of project to match Django best practice
 
-
 Issue list:
 
 * 486: Refactor django project structure - https://github.com/DigitalCampus/django-oppia/issues/issues/486
@@ -24,6 +23,8 @@ Issue list:
 * 490: Use LESS/SASS for better frontend development - https://github.com/DigitalCampus/django-oppia/issues/issues/490
 * 488: Update to use Bootstrap 4 - https://github.com/DigitalCampus/django-oppia/issues/issues/488
 * 519: Update to Django 1.11.15 - https://github.com/DigitalCampus/django-oppia/issues/issues/519
+* 521: Add a 'contributing.md' file - https://github.com/DigitalCampus/django-oppia/issues/issues/521
+* 523: Remove the 'mobile' & 'preview' directories - https://github.com/DigitalCampus/django-oppia/issues/issues/523
 
 .. _serverv0.10.1:
 

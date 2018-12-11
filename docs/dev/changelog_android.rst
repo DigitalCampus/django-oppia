@@ -10,6 +10,9 @@ Key updates:
 
 Issue list:
 
+* 755: Offline registration - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/755
+* 759: Keyboard overlays the registration form fields - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/759
+
 .. _appv65:
 
 v65 (6.5.0) - Released 24 Nov 2018

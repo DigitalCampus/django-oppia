@@ -1,5 +1,5 @@
-Getting started and contributing to tech dev for OppiaMobile
-==============================================================
+Contributing to OppiaMobile
+=============================
 
 To get started and help contribute to OppiaMobile, the first steps will be:
 
@@ -21,6 +21,9 @@ before getting fully submerged in the whole code base:
   navigation of how these doc pages are structured)
 * Provide feedback and input on the overall user interface and process to publish a course, navigate the server 
   dashboard and use the app
+  
+Other ways to contribute
+-------------------------
 
 Whilst the GitHub issue lists provide the core of the issues, bug fixes and enhancements - these can be a little 
 impenetrable to anyone who is unfamiliar with the detail of how the platform components work, so here are some 
