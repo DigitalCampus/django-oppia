@@ -16,7 +16,7 @@ Activities
 -------------
 
 * Introductions
-* Overview of the OppiaPlatform components - :doc:`../../dev/architecture`
+* Overview of the OppiaPlatform components - :doc:`../../../overview/architecture`
 * Overview of developer tools used in supporting and maintaining OppiaMobile:
 
 	* Developer environments - Eclipse, PyCharm and Android Studio
@@ -33,7 +33,7 @@ Activities
 Follow up and preparation for next session
 -------------------------------------------------------
 
-* Read up on OppiaMobile developer documentation - :doc:`../../dev/index` 
+* Read up on OppiaMobile developer documentation - :doc:`../../../technical/index` 
 * Install Git and read overview documentation - https://git-scm.com/
 * Create account on GitHub - https://github.com/
 * Check Github training (https://training.github.com/classes/) and help (https://help.github.com/)

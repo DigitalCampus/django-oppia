@@ -18,7 +18,7 @@ Activities
 -------------
 
 * Review of previous session, any questions/queries
-* Set up an OppiaMobile AWS machine image (see: :doc:`../../dev/aws`)
+* Set up an OppiaMobile AWS machine image (see: :doc:`../../../technical/install/aws`)
 * Update passwords
 * Create an elastic (static) IP address for the machine
 * Update the server code from the core OppiaMobile server repository

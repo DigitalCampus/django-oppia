@@ -1,5 +1,5 @@
-OppiaMobile Training and Support
-==================================
+OppiaMobile Training
+========================
 
 This set of documentation describes the various training sessions and workshops that Digital Campus has used on a 
 variety of projects to support the implementation of OppiaMobile.

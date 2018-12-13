@@ -1,4 +1,4 @@
-Change Log for OppiaMobile Platform Components
+Releases and Release Notes
 ================================================
 
 The OppiaMobile platform consists of 3 core components (server, client app and 
@@ -12,7 +12,7 @@ OppiaMobile Server (Django)
 .. toctree::
    :maxdepth: 2
    
-   changelog_server
+   server/changelog_server
 
 
 OppiaMobile Client App (Android)
@@ -21,7 +21,7 @@ OppiaMobile Client App (Android)
 .. toctree::
    :maxdepth: 2
    
-   changelog_android
+   app/changelog_android
    
 OppiaMobile export block for Moodle
 ------------------------------------- 
@@ -29,4 +29,4 @@ OppiaMobile export block for Moodle
 .. toctree::
    :maxdepth: 2
    
-   changelog_moodleblock
+   block/changelog_moodleblock

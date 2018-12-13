@@ -92,7 +92,7 @@ look and feel), then you can point git to the fork of your code by editing the
 ``/home/oppiamobile/django-oppia/.git/config`` file and pulling the code from 
 your fork instead.
 
-:ref:`More information on customising OppiaMobile <customisation>`
+:ref:`More information on customising OppiaMobile <custom_server>`
 
 Environment information
 -----------------------

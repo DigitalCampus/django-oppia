@@ -1,3 +1,5 @@
+.. _custom_app:
+
 OppiaMobile Android App
 ========================
 

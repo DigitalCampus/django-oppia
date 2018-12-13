@@ -6,24 +6,63 @@
 Welcome to the OppiaMobile documentation
 ==============================================
 
-`OppiaMobile <http://oppia-mobile.org/>`_ is the mobile learning platform from
-`Digital Campus <http://digital-campus.org/>`_. This documentation details how 
-to set up your own implementation and how you may make basic customisations.
+`OppiaMobile <https://oppia-mobile.org/>`_ is an open source mobile learning platform specifically designed for 
+delivering learning content, multimedia and quizzes in low-broadband settings and primarily used for health worker 
+training.
 
-Contents:
+Overview
+----------
 
 .. toctree::
    :maxdepth: 1
    
-   features
-   dev/index
-   author/author
-   permissions/index
-   dashboard/index
-   gamification
-   viz/index
-   training/index
-   author/adapt/index
-   help
-   acknowledgements
+   overview/features
+   overview/architecture
+   overview/roadmap
+   overview/governance
    
+
+Technical
+----------
+
+.. toctree::
+   :maxdepth: 1
+   
+   technical/install/index
+   technical/releases/index
+
+Installing & Set Up
+Code Management & Testing 
+Development
+Customisation
+Contributing
+
+
+Content Creation
+-------------------
+
+.. toctree::
+   :maxdepth: 1
+
+
+Implementers/Users Guide
+--------------------------
+
+.. toctree::
+   :maxdepth: 1
+
+   implementers/dashboard/index
+   implementers/permissions/index
+   implementers/gamification/index
+   implementers/integration/index
+   implementers/viz/index
+
+Training & Support
+-------------------
+
+.. toctree::
+   :maxdepth: 1
+   
+   support/training/index
+   support/troubleshooting/index
+   support/help

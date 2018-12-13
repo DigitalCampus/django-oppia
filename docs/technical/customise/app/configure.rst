@@ -42,7 +42,7 @@ Default server connection
 Assuming you have set up and installed you own OppiaMobile server, clearly you'll want your users to connect to this by 
 default.
 
-The core OppiaMobile android app is configured to point to our demonstration server (http://demo.oppia-mobile.org). To 
+The core OppiaMobile android app is configured to point to our demonstration server (https://demo.oppia-mobile.org). To 
 have your version of the app automatically point to your server, you need to update the ``OPPIA_SERVER_DEFAULT`` value in
 the settings file (see  :ref:`_settings_values` for more info on this topic).
 
