@@ -1,6 +1,8 @@
 Welcome to the OppiaMobile documentation
 ==============================================
 
+.. figure::  images/dc_logo.png
+
 `OppiaMobile <https://oppia-mobile.org/>`_ is an open source mobile learning platform specifically designed for 
 delivering learning content, multimedia and quizzes in low-broadband settings and primarily used for health worker 
 training.
@@ -28,7 +30,7 @@ Technical
    technical/install/index
    technical/releases/index
    technical/testing/index
-   technical/contribute/getting-started
+   technical/dev/contribute
    technical/manage/index
 
 

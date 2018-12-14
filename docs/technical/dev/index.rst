@@ -1,8 +1,10 @@
-Code Management and Release Process
-====================================
+Source Code and Contributing
+============================================
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    
-   github
+   source
    code_process
+   contribute
+   github

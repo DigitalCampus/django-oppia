@@ -2,15 +2,12 @@ OppiaMobile Development Roadmap
 =================================
 
 
-Server v0.10.1 and App v6.5.0
+Server v0.10.2 and App v6.6.0
 ------------------------------
 
-Scheduled for release in July 2018, includes:
-
-* gamification working offline
-* transfer of courses and media files from device to device (using bluetooth)
-* offline export of activity logs from device, for uploading onto server (when device is never or very rarely network connected)
-
+* Improved django server project structure
+* Updated app welcome/login/registration screen
+* Restructured documentation
 
 Short term
 -------------
@@ -23,7 +20,6 @@ Medium term
 -------------
 
 * Restricting course access to particular users - for example where Oppia may be used for paid courses
-* Synchronisation between devices - extending the bluetooth transfer
 * Improved gamification and implementing the OpenBadges spec
 * Export activity & experiences using xAPI to a learning record store
 * Integration with data collection platforms (eg OpenSRP) - being able to launch particular learning activities within 
