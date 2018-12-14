@@ -1,8 +1,3 @@
-.. OppiaMobile documentation master file, created by
-   sphinx-quickstart on Tue Jun 25 16:03:07 2013.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 Welcome to the OppiaMobile documentation
 ==============================================
 
@@ -20,6 +15,7 @@ Overview
    overview/architecture
    overview/roadmap
    overview/governance
+   overview/acknowledgements
    
 
 Technical
@@ -28,14 +24,12 @@ Technical
 .. toctree::
    :maxdepth: 1
    
+   technical/index
    technical/install/index
    technical/releases/index
-
-Installing & Set Up
-Code Management & Testing 
-Development
-Customisation
-Contributing
+   technical/testing/index
+   technical/contribute/getting-started
+   technical/manage/index
 
 
 Content Creation
@@ -44,6 +38,9 @@ Content Creation
 .. toctree::
    :maxdepth: 1
 
+   content/author
+   content/style/index
+   content/adapt/index
 
 Implementers/Users Guide
 --------------------------

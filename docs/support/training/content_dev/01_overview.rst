@@ -18,11 +18,11 @@ Activities
 -------------
 
 * Introductions
-* Describe key features of OppiaMobile (see: :doc:`../../features`)
+* Describe key features of OppiaMobile (see: :doc:`../../../overview/features`)
 * Describe architecture and components of OppiaMobile, especially Moodle for course authoring
 * Access a Moodle course and turn editing on
 * Basic course structure, levels of activities and how they get represented when exported to OppiaMobile
-* Activity types supporting in OppiaMobile (see: :doc:`../../author/activitytypes`)
+* Activity types supporting in OppiaMobile (see: :doc:`../../../content/activitytypes`)
 * Adding a section/topic title
 * Adding an HTML page activity
 * Adding an image to the page
@@ -33,5 +33,5 @@ Activities
 Follow up and preparation for next session
 -------------------------------------------------------
 
-* Review full documentation for course development (see: :doc:`../../author/author`).
+* Review full documentation for course development (see: :doc:`../../../content/author`).
 * Add some more pages to their course and review how it appears in the OppiaMobile app.

@@ -16,7 +16,7 @@ Activities
 -------------
 
 * Review of previous session, any questions/queries
-* Installing the Moodle block (see: :doc:`../../../technical/install/block_install`)
+* Installing the Moodle block (see: :doc:`../../../technical/install/block`)
 * Setting up the server connection to new instance on AWS
 * Creating a test course and export
 

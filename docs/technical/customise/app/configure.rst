@@ -44,7 +44,7 @@ default.
 
 The core OppiaMobile android app is configured to point to our demonstration server (https://demo.oppia-mobile.org). To 
 have your version of the app automatically point to your server, you need to update the ``OPPIA_SERVER_DEFAULT`` value in
-the settings file (see  :ref:`_settings_values` for more info on this topic).
+the settings file (see  :doc:`./settings` for more info on this topic).
 
 * Open the ``/res/values/untranslated.xml`` file
 * Change the ``prefServerDefault`` string to be the url to your server
