@@ -1,5 +1,5 @@
-Initial Workshop
-======================
+Initial Workshop for Users new to Android & Oppia
+===================================================
 
 This is the initial workshop we use when introducing users to Android and OppiaMobile. 
 We usually run this over 2 days, much will depend on the previous knowledge your users 

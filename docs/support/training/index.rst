@@ -8,6 +8,5 @@ variety of projects to support the implementation of OppiaMobile.
    :maxdepth: 1
    
    intro/index
-   follow_up/index
    content_dev/index
    tech/index

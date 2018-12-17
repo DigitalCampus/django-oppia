@@ -21,8 +21,6 @@ A couple of exceptions to the above process:
 Server Release Process/Checklist
 ----------------------------------
 
-[Flagged_for_Review]
-
 Before making pull request from issue branch to release branch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

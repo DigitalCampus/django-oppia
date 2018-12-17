@@ -23,7 +23,6 @@ urlpatterns = [
     url(r'^api/', include('api.urls')),
     url(r'^content/', include('content.urls')),
     url(r'^profile/', include('profile.urls')),
-    url(r'^mobile/', include('mobile.urls')),
     url(r'^reports/', include('reports.urls')),
     url(r'^activitylog/', include('activitylog.urls')),
     url(r'^viz/', include('viz.urls')),
