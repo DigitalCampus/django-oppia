@@ -1,12 +1,27 @@
 OppiaMobile Android App Change Log
 ====================================
 
-.. _appv66:
 
-v66 (6.6.0) - not yet released
+.. _appv67:
+
+v67 (6.7.0) - not yet released
 --------------------------------------
 
 Key updates:
+
+Issue list:
+
+
+.. _appv66:
+
+v66 (6.6.0) - Released 5 Jan 2019
+--------------------------------------
+
+Key updates:
+
+* Fixes for bluetooth transfer
+* Offline registration
+* Improved gamification for media playback
 
 Issue list:
 
@@ -26,6 +41,8 @@ Issue list:
 * 742: Automatically install courses if there are no more transfers in queue - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/742
 * 735: Points notification for media playback not showing - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/735
 * 756: Offline registration upload - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/756
+* 770: Update manifest (application section) to allow clear text traffic - https://github.com/DigitalCampus/oppia-mobile-android/issues/770
+
 
 .. _appv65:
 
