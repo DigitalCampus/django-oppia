@@ -100,6 +100,9 @@ class CoursePublishResourceTest(TestCase):
         # teacher attempts to update
         response = self.client.post(self.url, { 'username': 'teacher', 'password': 'password', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: self.course_file })
         self.assertEqual(response.status_code, 401)
-    #
+    
+    # TODO - check overwriting course with older version
+    
+    # TODO - check file size of course
     
     
