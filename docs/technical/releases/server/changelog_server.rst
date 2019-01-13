@@ -25,6 +25,7 @@ Issue list:
 * 519: Update to Django 1.11.15 - https://github.com/DigitalCampus/django-oppia/issues/issues/519
 * 521: Add a 'contributing.md' file - https://github.com/DigitalCampus/django-oppia/issues/issues/521
 * 523: Remove the 'mobile' & 'preview' directories - https://github.com/DigitalCampus/django-oppia/issues/issues/523
+* 534: Error on publishing course, due to project restructuring - https://github.com/DigitalCampus/django-oppia/issues/issues/534
 
 .. _serverv0.10.1:
 

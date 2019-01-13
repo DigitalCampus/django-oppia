@@ -63,9 +63,9 @@ def authenticate_user(request, username, password):
             'message': _('Authentication errors'),
             'messages': get_messages_array(request)
         }
-        return False, response_data
+        return False, response_data, None
     else:
-        return True, None
+        return True, None, user
 
 
 @csrf_exempt
@@ -92,14 +92,14 @@ def publish_view(request):
         return JsonResponse({'errors': validation_errors}, status=400, )
 
     # authenticate user
-    authenticated, response_data = authenticate_user(request, request.POST['username'], request.POST['password'])
+    authenticated, response_data, user = authenticate_user(request, request.POST['username'], request.POST['password'])
     if not authenticated:
         return JsonResponse(response_data, status=401)
 
     # check user has permissions to publish course
     if settings.OPPIA_STAFF_ONLY_UPLOAD is True \
-            and not request.user.is_staff \
-            and request.user.userprofile.can_upload is False:
+            and not user.is_staff \
+            and user.userprofile.can_upload is False:
         return HttpResponse(status=401)
 
     extract_path = os.path.join(settings.COURSE_UPLOAD_DIR, 'temp', str(user.id))
