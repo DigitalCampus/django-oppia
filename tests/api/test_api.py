@@ -1,4 +1,4 @@
-# oppia/tests/api/test_api.py
+# tests/api/test_api.py
 from django.test import TestCase
 from tastypie.test import ResourceTestCaseMixin
 

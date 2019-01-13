@@ -28,6 +28,7 @@ Issue list:
 * 523: Remove the 'mobile' & 'preview' directories - https://github.com/DigitalCampus/django-oppia/issues/issues/523
 * 534: Error on publishing course, due to project restructuring - https://github.com/DigitalCampus/django-oppia/issues/issues/534
 * 504: In Ubuntu 18.04 avprobe is replaced with ffprobe - https://github.com/DigitalCampus/django-oppia/issues/issues/504
+* 536: Update to Django 1.11.18 - https://github.com/DigitalCampus/django-oppia/issues/issues/536
 
 .. _serverv0.10.1:
 

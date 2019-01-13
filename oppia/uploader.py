@@ -43,6 +43,7 @@ def handle_uploaded_file(f, extract_path, request, user):
         messages.info(request, _("Invalid course zip file"), extra_tags="danger")
         return False, 400
 
+    response = 200
     try:
         course, response = process_course(extract_path, f, mod_name, request, user)
     except Exception as e:
@@ -52,7 +53,7 @@ def handle_uploaded_file(f, extract_path, request, user):
         # remove the temp upload files
         shutil.rmtree(extract_path, ignore_errors=True)
 
-    return course, 200
+    return course, response
 
 
 def process_course(extract_path, f, mod_name, request, user):
