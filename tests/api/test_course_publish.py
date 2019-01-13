@@ -4,6 +4,7 @@ from django.test.client import Client
 
 import api
 from oppia.models import Course
+from settings.models import SettingProperties
 from django.contrib.auth.models import User
 
 class CoursePublishResourceTest(TestCase):
@@ -101,8 +102,16 @@ class CoursePublishResourceTest(TestCase):
         response = self.client.post(self.url, { 'username': 'teacher', 'password': 'password', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: self.course_file })
         self.assertEqual(response.status_code, 401)
     
+    # check file size of course
+    def test_course_filesize_limit(self):
+        setting = SettingProperties.objects.get(key='MAX_UPLOAD_SIZE')
+        setting.int_value = 1000
+        setting.save()
+        
+        response = self.client.post(self.url, { 'username': 'admin', 'password': 'password', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: self.course_file })
+        self.assertEqual(response.status_code, 400)
+        
+        
     # TODO - check overwriting course with older version
-    
-    # TODO - check file size of course
     
     
