@@ -94,7 +94,7 @@ def set_default_image_view(request, image_id):
     images = UploadedMediaImage.objects.filter(uploaded_media=media)
     for i in images:
         i.default_image = False
-        i. save()
+        i.save()
 
     # set the selected one
     image = UploadedMediaImage.objects.get(pk=image_id)

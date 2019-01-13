@@ -60,7 +60,8 @@ def media_embed_helper(request):
 
 
 def process_media_file(media_guid, media_url, media_local_file, download_error, processed_media):
-    if download_error is None and can_execute("avprobe") and can_execute("ffmpeg"):
+    
+    if download_error is None and can_execute(settings.SCREENSHOT_GENERATOR_PROGRAM) and can_execute(settings.MEDIA_PROCESSOR_PROGRAM):
 
         # get the basic meta info
         file_size = os.path.getsize(media_local_file)
@@ -104,7 +105,7 @@ def check_media_link(media_url, media_local_file, download_error, processed_medi
 
 
 def get_length(filename):
-    result = subprocess.Popen(["avprobe", filename], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    result = subprocess.Popen([settings.MEDIA_PROCESSOR_PROGRAM, filename], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
     duration_list = [x for x in result.stdout.readlines() if "Duration" in x]
     if len(duration_list) != 0:
@@ -128,10 +129,10 @@ def generate_media_screenshots(media_local_file, media_guid):
     if not os.path.exists(image_path):
         os.makedirs(image_path)
 
-    image_generator_command = "ffmpeg -i %s -r 0.02 -s %dx%d -f image2 %s/frame-%%03d.png" % (media_local_file,
-                                                                                              content.SCREENSHOT_IMAGE_WIDTH,
-                                                                                              content.SCREENSHOT_IMAGE_HEIGHT,
-                                                                                              image_path)
+    image_generator_command = ("%s %s" % (settings.SCREENSHOT_GENERATOR_PROGRAM, settings.SCREENSHOT_GENERATOR_PROGRAM_PARAMS)) % (media_local_file,
+                                                                                                                                  content.SCREENSHOT_IMAGE_WIDTH,
+                                                                                                                                  content.SCREENSHOT_IMAGE_HEIGHT,
+                                                                                                                                  image_path)
     subprocess.call(image_generator_command, shell=True)
     return image_path
 

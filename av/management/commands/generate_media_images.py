@@ -12,7 +12,7 @@ from django.core.management.base import BaseCommand
 from django.utils.translation import ugettext_lazy as _
 
 import content
-from av import UploadedMedia, UploadedMediaImage
+from av.models import UploadedMedia, UploadedMediaImage
 
 
 class Command(BaseCommand):
@@ -36,7 +36,7 @@ class Command(BaseCommand):
                 print("  > Created output dir " + cache_dir)
 
             print("  > Generating miniatures... \r", )
-            image_generator_command = "ffmpeg -i %s -r 0.02 -s %dx%d -f image2 %s/frame-%%03d.png" % (m.file.path, content.SCREENSHOT_IMAGE_WIDTH, content.SCREENSHOT_IMAGE_HEIGHT, cache_dir)
+            image_generator_command = ("%s %s" % (settings.SCREENSHOT_GENERATOR_PROGRAM, settings.SCREENSHOT_GENERATOR_PROGRAM_PARAMS)) % (m.file.path, content.SCREENSHOT_IMAGE_WIDTH, content.SCREENSHOT_IMAGE_HEIGHT, cache_dir)
             ffmpeg = subprocess.Popen(image_generator_command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True)
             
             self.process_ffmpeg_output(ffmpeg)
@@ -44,15 +44,15 @@ class Command(BaseCommand):
             print("  > Generating miniatures... 100% \r\n", )
 
             # Now get the images generated and add to the db
-            self.add_images_to_db(cache_dir)
+            self.add_images_to_db(cache_dir,m)
 
         print("\n  > Process completed.")
         
-    def add_images_to_db(self, cache_dir):
+    def add_images_to_db(self, cache_dir, media):
         image_file_list = os.listdir(cache_dir)
         for filename in image_file_list:
             print(filename)
-            media_image = UploadedMediaImage(create_user=m.create_user, uploaded_media=m)
+            media_image = UploadedMediaImage(create_user=media.create_user, uploaded_media=media)
             data = None
             with open(os.path.join(cache_dir, filename), 'rb') as f:
                 data = f.read()
