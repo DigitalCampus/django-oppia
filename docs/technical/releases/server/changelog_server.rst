@@ -12,6 +12,7 @@ v0.10.2 - not yet released
 	
 Key updates:
 
+* Upgrading to Django 1.11.18
 * Restructuring of project to match Django best practice
 
 Issue list:
@@ -26,6 +27,7 @@ Issue list:
 * 521: Add a 'contributing.md' file - https://github.com/DigitalCampus/django-oppia/issues/issues/521
 * 523: Remove the 'mobile' & 'preview' directories - https://github.com/DigitalCampus/django-oppia/issues/issues/523
 * 534: Error on publishing course, due to project restructuring - https://github.com/DigitalCampus/django-oppia/issues/issues/534
+* 504: In Ubuntu 18.04 avprobe is replaced with ffprobe - https://github.com/DigitalCampus/django-oppia/issues/issues/504
 
 .. _serverv0.10.1:
 
