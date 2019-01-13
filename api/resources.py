@@ -98,7 +98,7 @@ class UserResource(ModelResource):
                 tracker = Tracker()
                 tracker.user = u
                 tracker.type = 'login'
-                tracker.ip = bundle.request.META.get('REMOTE_ADDR', oppia.api.DEFAULT_IP_ADDRESS)
+                tracker.ip = bundle.request.META.get('REMOTE_ADDR', api.DEFAULT_IP_ADDRESS)
                 tracker.agent = bundle.request.META.get('HTTP_USER_AGENT', 'unknown')
                 tracker.save()
             else:
@@ -204,7 +204,7 @@ class RegisterResource(ModelResource):
                 tracker = Tracker()
                 tracker.user = u
                 tracker.type = 'register'
-                tracker.ip = bundle.request.META.get('REMOTE_ADDR', oppia.api.DEFAULT_IP_ADDRESS)
+                tracker.ip = bundle.request.META.get('REMOTE_ADDR', api.DEFAULT_IP_ADDRESS)
                 tracker.agent = bundle.request.META.get('HTTP_USER_AGENT', 'unknown')
                 tracker.save()
             key = ApiKey.objects.get(user=u)
@@ -373,7 +373,7 @@ class TrackerResource(ModelResource):
         if 'id' in bundle.data:
             del bundle.obj.id
         bundle.obj.user = bundle.request.user
-        bundle.obj.ip = bundle.request.META.get('REMOTE_ADDR', oppia.api.DEFAULT_IP_ADDRESS)
+        bundle.obj.ip = bundle.request.META.get('REMOTE_ADDR', api.DEFAULT_IP_ADDRESS)
         bundle.obj.agent = bundle.request.META.get('HTTP_USER_AGENT', 'unknown')
 
         if 'type' in bundle.data and bundle.data['type'] == 'search':
@@ -450,7 +450,7 @@ class TrackerResource(ModelResource):
             data = self.alter_deserialized_detail_data(request, data)
             bundle = self.build_bundle(data=dict_strip_unicode_keys(data))
             bundle.request.user = request.user
-            bundle.request.META['REMOTE_ADDR'] = request.META.get('REMOTE_ADDR', oppia.api.DEFAULT_IP_ADDRESS)
+            bundle.request.META['REMOTE_ADDR'] = request.META.get('REMOTE_ADDR', api.DEFAULT_IP_ADDRESS)
             bundle.request.META['HTTP_USER_AGENT'] = request.META.get('HTTP_USER_AGENT', 'unknown')
             # check UUID not already submitted
             if 'data' in bundle.data:
@@ -549,7 +549,7 @@ class CourseResource(ModelResource):
         tracker.course = course
         tracker.type = 'download'
         tracker.data = json.dumps({'version': course.version})
-        tracker.ip = request.META.get('REMOTE_ADDR', oppia.api.DEFAULT_IP_ADDRESS)
+        tracker.ip = request.META.get('REMOTE_ADDR', api.DEFAULT_IP_ADDRESS)
         tracker.agent = request.META.get('HTTP_USER_AGENT', 'unknown')
         tracker.save()
 
@@ -601,7 +601,7 @@ class CourseResource(ModelResource):
 
 
 class CourseTagResource(ModelResource):
-    course = fields.ToOneField('oppia.api.resources.CourseResource', 'course', full=True)
+    course = fields.ToOneField('api.resources.CourseResource', 'course', full=True)
 
     class Meta:
         queryset = CourseTag.objects.all()

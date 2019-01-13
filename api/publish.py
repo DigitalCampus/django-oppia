@@ -82,11 +82,11 @@ def publish_view(request):
     validation_errors = []
     validation_errors = check_required_fields(request, required, validation_errors)
 
-    if oppia.api.COURSE_FILE_FIELD not in request.FILES:
+    if api.COURSE_FILE_FIELD not in request.FILES:
         print("Course file not found")
-        validation_errors.append("file '{0}' missing".format(oppia.api.COURSE_FILE_FIELD))
+        validation_errors.append("file '{0}' missing".format(api.COURSE_FILE_FIELD))
     else:
-        validation_errors = check_upload_file_size_type(request.FILES[oppia.api.COURSE_FILE_FIELD], validation_errors)
+        validation_errors = check_upload_file_size_type(request.FILES[api.COURSE_FILE_FIELD], validation_errors)
 
     if validation_errors:
         return JsonResponse({'errors': validation_errors}, status=400, )
