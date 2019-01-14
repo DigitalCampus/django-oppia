@@ -41,6 +41,6 @@ def get_api(version_name):
 urlpatterns = [
     url(r'^', include(get_api('v1').urls)),
     url(r'^publish/$', publish_view, name="oppia_publish"),
-    url(r'^ media/$', upload_view, name="oppia_upload_media_api"),
+    url(r'^media/$', upload_view, name="oppia_upload_media_api"),
 
 ]

@@ -1,4 +1,4 @@
-# tests/api/test_api.py
+# tests/api/test_course_publish.py
 from django.test import TestCase
 from django.test.client import Client
 

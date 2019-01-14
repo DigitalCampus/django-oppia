@@ -28,6 +28,9 @@ def upload_view(request):
         if field not in request.POST:
             validation_errors.append("field '{0}' missing".format(field))
 
+    if validation_errors:
+        return JsonResponse({'errors': validation_errors}, status=400 )
+    
     # authenticate user
     username = request.POST.get("username")
     password = request.POST.get("password")
@@ -40,9 +43,6 @@ def upload_view(request):
             'messages': get_messages_array(request)
         }
         return JsonResponse(response_data, status=401)
-
-    if validation_errors:
-        return JsonResponse({'errors': validation_errors}, status=400, )
 
     result = handler.upload(request, user)
 

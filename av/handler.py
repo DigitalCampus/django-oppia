@@ -31,7 +31,7 @@ def upload(request, user):
             uploaded_media.save()
         except OSError:
             '''
-            most likley means settings.MEDIA_PROCESSOR_PROGRAM is not installed
+            most likely means settings.MEDIA_PROCESSOR_PROGRAM is not installed
             '''
             uploaded_media.delete()
             messages.add_message(request, messages.ERROR, _(u"The %s program does not seem to be installed on this server, or is incorrectly configured. Please ask your Oppia system administrator to install it for you.") % settings.MEDIA_PROCESSOR_PROGRAM, "danger")

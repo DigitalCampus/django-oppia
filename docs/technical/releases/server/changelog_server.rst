@@ -29,6 +29,7 @@ Issue list:
 * 534: Error on publishing course, due to project restructuring - https://github.com/DigitalCampus/django-oppia/issues/issues/534
 * 504: In Ubuntu 18.04 avprobe is replaced with ffprobe - https://github.com/DigitalCampus/django-oppia/issues/issues/504
 * 536: Update to Django 1.11.18 - https://github.com/DigitalCampus/django-oppia/issues/issues/536
+* 535: Add tests for publishing courses and media files using the API - https://github.com/DigitalCampus/django-oppia/issues/issues/535
 
 .. _serverv0.10.1:
 
