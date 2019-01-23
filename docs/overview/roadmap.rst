@@ -2,7 +2,7 @@ OppiaMobile Development Roadmap
 =================================
 
 
-Server v0.11. and App v6.6.0
+Server v0.11.0 and App v6.6.0
 ------------------------------
 
 * Improved django server project structure
