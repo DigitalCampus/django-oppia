@@ -1,9 +1,9 @@
 OppiaMobile Server Change Log
 ================================
 
-.. _serverv0.10.2:
+.. _serverv0.11.0:
 
-v0.10.2 - not yet released
+v0.11.0 - not yet released
 --------------------------------
 
 .. warning:: 
