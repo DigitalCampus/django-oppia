@@ -53,7 +53,7 @@ def check_required_fields(request, validation_errors):
 
 def check_upload_file_size_type(file, validation_errors):
     max_upload = SettingProperties.get_int(constants.MAX_UPLOAD_SIZE, settings.OPPIA_MAX_UPLOAD_SIZE)
-    if file is not None and file._size > max_upload:
+    if file is not None and file.size > max_upload:
         size = int(math.floor(max_upload / 1024 / 1024))
         validation_errors.append((_(u"Your file is larger than the maximum allowed (%(size)d Mb). You may want to check your course for large includes, such as images etc.") % {'size': size, }))
 
