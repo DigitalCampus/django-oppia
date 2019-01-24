@@ -25,7 +25,7 @@ from profile.views import get_paginated_users
 from quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
 from reports.signals import dashboard_accessed
 from summary.models import UserCourseSummary, CourseDailyStats
-from uploader import handle_uploaded_file
+from oppia.uploader import handle_uploaded_file
 
 
 def server_view(request):

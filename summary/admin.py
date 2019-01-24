@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from models import UserCourseSummary, CourseDailyStats, UserPointsSummary
+from summary.models import UserCourseSummary, CourseDailyStats, UserPointsSummary
 
 
 def message_user(model, request, model_name, query_count):

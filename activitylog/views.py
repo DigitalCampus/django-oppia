@@ -2,7 +2,6 @@
 
 import json
 import urllib
-import urllib2
 
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
@@ -26,13 +25,13 @@ def process_uploaded_trackers(request, user, user_api_key):
         url_comp = request.build_absolute_uri().split('/')
         url = ('%(protocol)s//%(domain)s/api/v1/tracker/?username=%(username)s&api_key=%(api_key)s' % {'protocol': url_comp[0], 'domain': url_comp[2], 'username': user['username'], 'api_key': user_api_key.key})
         data = json.dumps(tracker)
-        req = urllib2.Request(url, data)
+        req = urllib.Request(url, data)
         req.add_header('Content-Type', 'application/json; charset=utf-8')
         req.add_header('Accept', 'application/json; charset=utf-8')
         try:
-            urllib2.urlopen(req)
+            urllib.urlopen(req)
             messages.info(request, _(u"Tracker activity for %(username)s added" % {'username': user['username']}))
-        except urllib2.HTTPError:
+        except urllib.HTTPError:
             messages.warning(request, _(u"Already uploaded: tracker activity for %(username)s added" % {'username': user['username']}), 'danger')
 
 
@@ -41,13 +40,13 @@ def process_uploaded_quizresponses(request, user, user_api_key):
         url_comp = request.build_absolute_uri().split('/')
         url = ('%(protocol)s//%(domain)s/api/v1/quizattempt/?username=%(username)s&api_key=%(api_key)s' % {'protocol': url_comp[0], 'domain': url_comp[2], 'username': user['username'], 'api_key': user_api_key.key})
         data = json.dumps(quizattempt)
-        req = urllib2.Request(url, data)
+        req = urllib.Request(url, data)
         req.add_header('Content-Type', 'application/json; charset=utf-8')
         req.add_header('Accept', 'application/json; charset=utf-8')
         try:
-            urllib2.urlopen(req)
+            urllib.urlopen(req)
             messages.info(request, _(u"Quiz attempt for %(username)s added" % {'username': user['username']}))
-        except urllib2.HTTPError:
+        except urllib.HTTPError:
             messages.info(request, _(u"Already uploaded: quiz attempt for %(username)s added" % {'username': user['username']}))
 
 

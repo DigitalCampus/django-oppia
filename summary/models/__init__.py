@@ -1,3 +1,3 @@
-from course_daily_stats import CourseDailyStats
-from user_course_summary import UserCourseSummary
-from user_points_summary import UserPointsSummary
+from summary.models.course_daily_stats import CourseDailyStats
+from summary.models.user_course_summary import UserCourseSummary
+from summary.models.user_points_summary import UserPointsSummary

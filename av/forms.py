@@ -11,7 +11,7 @@ from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
-from models import UploadedMedia
+from av.models import UploadedMedia
 
 
 class UploadMediaForm(forms.Form):

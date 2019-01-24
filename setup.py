@@ -41,8 +41,8 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
     install_requires=[
-        "django == 1.11.18",
-        "django-tastypie == 0.14.0",
+        "django == 2.1.5",
+        "django-tastypie == 0.14.2",
         "django-tablib >= 0.9.11",
         "django-crispy-forms >= 1.4.0",
         "pytz",
