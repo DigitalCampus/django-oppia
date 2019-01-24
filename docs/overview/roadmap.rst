@@ -14,6 +14,7 @@ Short term
 
 * Improved and more intuitive way to embed video/audio content. Requires updates to Moodle block and Oppia server.
 * Adding more comprehensive (automated) release testing process.
+* Support for Python 3 and Django 2.x
 
 
 Medium term 
