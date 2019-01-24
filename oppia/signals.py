@@ -118,27 +118,6 @@ def quizattempt_callback(sender, **kwargs):
 
     return
 
-
-def createquiz_callback(sender, **kwargs):
-    warnings.warn(
-        "oppia.signals.createquiz_callback() is deprecated and will be removed in Oppia server 0.11.0.",
-        RemovedInOppia0110Warning, 2)
-    quiz = kwargs.get('instance')
-    created = kwargs.get('created')
-
-    if not apply_points(quiz.owner):
-        return
-
-    if created:
-        p = Points()
-        p.points = OPPIA_DEFAULT_POINTS['QUIZ_CREATED']
-        p.type = 'quizcreated'
-        p.description = "Quiz created: " + quiz.title
-        p.user = quiz.owner
-        p.save()
-    return
-
-
 def tracker_callback(sender, **kwargs):
 
     tracker = kwargs.get('instance')
@@ -229,5 +208,4 @@ def badgeaward_callback(sender, **kwargs):
 course_downloaded.connect(course_download_callback)
 models.signals.post_save.connect(tracker_callback, sender=Tracker)
 models.signals.post_save.connect(signup_callback, sender=User)
-models.signals.post_save.connect(createquiz_callback, sender=Quiz)
 models.signals.post_save.connect(quizattempt_callback, sender=QuizAttempt)
