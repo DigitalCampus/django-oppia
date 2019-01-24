@@ -14,9 +14,6 @@
 	<p>To get started with our courses, <a href="https://play.google.com/store/apps/details?id=org.digitalcampus.mobile.learning">download the OppiaMobile app</a>. 
 {% endblocktrans %}
 
-<h3>{% trans 'Video demo' %}</h3>
-<iframe width="400" height="315" style="border: 0px;" src="http://www.youtube.com/embed/wHo5R_RgkG0?html5=1" allowfullscreen title="{% trans 'OppiaMobile demo video'%}"></iframe>
-
 <h3>{% trans 'Acknowledgements' %}</h3>
 {% static "oppia/images/UK-AID-Standard-RGB.jpg" as ukaid_logo%}
 {% blocktrans %} 
@@ -45,7 +42,7 @@
 <a id="terms"></a>
 <h3>{% trans 'Terms and License' %}</h3>
 {% blocktrans with settings.SERVER_EMAIL as email %}
-<p>OppiaMobile is a work in progress and is provided as-is. Not everything may work 100%, so if you find anything wrong, then <a href="mailto:{{ email }}">please let us know</a>.</p>
+<p>OppiaMobile is a work in progress and is provided as-is. Not everything may work 100%, so if you find anything wrong, then <a href="https://groups.google.com/forum/#!forum/oppiamobile">please let us know</a>.</p>
 
 <h3>License</h3>
 <p>OppiaMobile is free software: you can redistribute it and/or modify
@@ -61,7 +58,7 @@ GNU General Public License for more details.</p>
 <p>You should have received a copy of the GNU General Public License
 along with OppiaMobile.  If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>
 
-<p>OppiaMobile server uses <a href="http://getbootstrap.com/">Bootstrap v3</a> which is released under the <a href="http://getbootstrap.com/getting-started/#license-faqs">MIT license and is copyright 2014 Twitter</a>.</p>
+<p>OppiaMobile server uses <a href="http://getbootstrap.com/">Bootstrap</a> which is released under the <a href="https://github.com/twbs/bootstrap/blob/master/LICENSE">MIT license and is copyright 2014 Twitter</a>.</p>
 {% endblocktrans %}
 
 {% endblock %}
