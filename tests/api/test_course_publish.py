@@ -13,8 +13,8 @@ class CoursePublishResourceTest(TestCase):
     def setUp(self):
         self.client = Client()
         self.url = '/api/publish/'
-        self.course_file = open('./oppia/fixtures/reference_files/anc_course.zip','r') 
-        self.video_file = open('./oppia/fixtures/reference_files/sample_video.m4v','r')
+        self.course_file = open('./oppia/fixtures/reference_files/anc_course.zip','rb') 
+        self.video_file = open('./oppia/fixtures/reference_files/sample_video.m4v','rb')
         
     # test only POST is available
     def test_no_get(self):
@@ -23,21 +23,25 @@ class CoursePublishResourceTest(TestCase):
     
     # test all params have been sent
     def test_required_params(self):
+        course_file = open('./oppia/fixtures/reference_files/anc_course.zip','rb') 
+        
         # no username
-        response = self.client.post(self.url, { 'tags': 'demo', 'password': 'secret', 'is_draft': False, api.COURSE_FILE_FIELD: self.course_file })
+        response = self.client.post(self.url, { 'tags': 'demo', 'password': 'secret', 'is_draft': False, api.COURSE_FILE_FIELD: course_file })
         self.assertEqual(response.status_code, 400)
         
         # no password
-        response = self.client.post(self.url, { 'username': 'demo', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: self.course_file })
+        response = self.client.post(self.url, { 'username': 'demo', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: course_file })
         self.assertEqual(response.status_code, 400)
         
         # no tags
-        response = self.client.post(self.url, { 'username': 'demo', 'password': 'secret', 'is_draft': False, api.COURSE_FILE_FIELD: self.course_file })
+        response = self.client.post(self.url, { 'username': 'demo', 'password': 'secret', 'is_draft': False, api.COURSE_FILE_FIELD: course_file })
         self.assertEqual(response.status_code, 400)
         
         # no is_draft
-        response = self.client.post(self.url, { 'username': 'demo', 'password': 'secret', 'tags': 'demo', api.COURSE_FILE_FIELD: self.course_file})
+        response = self.client.post(self.url, { 'username': 'demo', 'password': 'secret', 'tags': 'demo', api.COURSE_FILE_FIELD: course_file})
         self.assertEqual(response.status_code, 400)
+        
+        course_file.close()
         
     # test tags not empty
     def test_tags_not_empty(self):
