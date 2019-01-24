@@ -36,7 +36,10 @@ class UploadedMedia(models.Model):
         return self.file.name
 
     def get_embed_code(self, uri):
-        return EMBED_TEMPLATE % (os.path.basename(self.file.name), uri, self.md5, self.file.size, self.length)
+        try:
+            return EMBED_TEMPLATE % (os.path.basename(self.file.name), uri, self.md5, self.file.size, self.length)
+        except FileNotFoundError:
+            return _("File %s not found" % self.file.name)
 
     def filename(self):
         return os.path.basename(self.file.name)

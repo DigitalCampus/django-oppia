@@ -47,8 +47,9 @@ def title_lang(title, lang):
 @register.filter(name='gravatar')
 def gravatar(user, size):
     gravatar_url = "https://www.gravatar.com/avatar.php?"
-    gravatar_url += urllib.urlencode({
-        'gravatar_id': hashlib.md5(user.email).hexdigest(),
+    gravatar_id = hashlib.md5(str(user.email).encode('utf-8')).hexdigest()
+    gravatar_url +=  urllib.parse.urlencode({
+        'gravatar_id': gravatar_id,
         'size': str(size)
     })
     return mark_safe(
