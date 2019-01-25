@@ -31,7 +31,7 @@ Issue list:
 * 536: Update to Django 1.11.18 - https://github.com/DigitalCampus/django-oppia/issues/issues/536
 * 535: Add tests for publishing courses and media files using the API - https://github.com/DigitalCampus/django-oppia/issues/issues/535
 * 532: Database migration fails on 0012_fix_future_tracker_dates.py - https://github.com/DigitalCampus/django-oppia/issues/issues/532
-
+* 537: Add tests for the uploading media (via the webform) - https://github.com/DigitalCampus/django-oppia/issues/issues/537
 
 
 Previous Versions

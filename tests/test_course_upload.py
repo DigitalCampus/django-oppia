@@ -1,4 +1,6 @@
 # tests/av/test_course_publish.py
+
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from django.test.client import Client
 from django.contrib.auth.models import User
@@ -43,12 +45,11 @@ class CourseUploadTest(TestCase):
         
         course_file.close()
     
-    '''        
-    TODO - fix issue with how file upload mime types are recognised
-    
+    '''
     def test_upload_form(self):
-        
-        course_file = open(self.course_file_path,'rb') 
+        course_file_content = open(self.course_file_path,'rb')
+        video = SimpleUploadedFile("file.mp4", course_file_content, content_type="video/mp4")
+         
         
         form_data = {'course_file': course_file}
         form = UploadCourseStep1Form(data=form_data)

@@ -6,7 +6,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Div
 from django import forms
 from django.conf import settings
-from django.core.files.uploadedfile import TemporaryUploadedFile, InMemoryUploadedFile
+from django.core.files.uploadedfile import TemporaryUploadedFile, InMemoryUploadedFile, SimpleUploadedFile
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
@@ -50,9 +50,10 @@ class UploadMediaForm(forms.Form):
         check this file hasn't already been uploaded
         the media_file might either by a TemporaryUploadedFile or an InMemoryUploadedFile - so need to handle generation of the md5 differently in each case         
         '''
+        
         if isinstance(media_file, TemporaryUploadedFile):
             md5 = hashlib.md5(open(media_file.temporary_file_path(), 'rb').read()).hexdigest()
-        elif isinstance(media_file, InMemoryUploadedFile):
+        elif isinstance(media_file, InMemoryUploadedFile) or isinstance(media_file, SimpleUploadedFile):
             md5 = hashlib.md5(media_file.read()).hexdigest()
         else:
             raise forms.ValidationError(_(u"File failed to upload correctly"))
