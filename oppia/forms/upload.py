@@ -41,7 +41,7 @@ class UploadCourseStep1Form(forms.Form):
 
         max_upload = SettingProperties.get_int(constants.MAX_UPLOAD_SIZE, settings.OPPIA_MAX_UPLOAD_SIZE)
 
-        if file is not None and file._size > max_upload:
+        if file is not None and file.size > max_upload:
             size = int(math.floor(max_upload / 1024 / 1024))
             raise forms.ValidationError(_("Your file is larger than the maximum allowed (%(size)d Mb). You may want to check your course for large includes, such as images etc.") % {'size': size, })
 
