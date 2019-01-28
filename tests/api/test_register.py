@@ -3,7 +3,7 @@ from tastypie.test import ResourceTestCaseMixin
 
 
 class RegisterResourceTest(ResourceTestCaseMixin, TestCase):
-    fixtures = ['user.json']
+    fixtures = ['tests/test_user.json']
 
     def setUp(self):
         super(RegisterResourceTest, self).setUp()

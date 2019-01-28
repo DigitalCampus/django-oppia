@@ -4,7 +4,10 @@ from tests.utils import *
 
 
 class PermissionsViewTest(TestCase):
-    fixtures = ['user.json', 'oppia.json', 'quiz.json', 'permissions.json']
+    fixtures = ['tests/test_user.json', 
+                'tests/test_oppia.json', 
+                'tests/test_quiz.json', 
+                'tests/test_permissions.json']
 
     def setUp(self):
         super(PermissionsViewTest, self).setUp()

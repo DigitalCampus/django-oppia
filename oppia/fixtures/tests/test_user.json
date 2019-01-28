@@ -1,0 +1,159 @@
+[
+{
+    "fields": {
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "is_active": true,
+        "is_superuser": true,
+        "is_staff": true,
+        "last_login": "2015-06-11T13:21:06Z",
+        "groups": [],
+        "user_permissions": [],
+        "password": "pbkdf2_sha256$15000$MlXu7yRFWjo1$TvrX6B+xNZj8gCfORIfTvD01FIcyk7ZL6MtNfFhMTyk=",
+        "email": "admin@me.com",
+        "date_joined": "2015-06-11T13:17:14Z"
+    },
+    "model": "auth.user",
+    "pk": 1
+},
+  {
+    "fields": {
+      "phone_number": null,
+      "about": null,
+      "can_upload": false,
+      "organisation": "",
+      "user": 1,
+      "job_title": ""
+    },
+    "model": "profile.userprofile",
+    "pk": 1
+  },
+{
+    "fields": {
+        "username": "demo",
+        "first_name": "demo",
+        "last_name": "user",
+        "is_active": true,
+        "is_superuser": false,
+        "is_staff": false,
+        "last_login": "2015-06-11T13:20:48Z",
+        "groups": [],
+        "user_permissions": [],
+        "password": "pbkdf2_sha256$15000$7FJfq85aSCtQ$ZT+WV+jOaLPVeLvq5kMlxcX+Js53PeE92mcd/Zm1w7k=",
+        "email": "demo@me.com",
+        "date_joined": "2015-06-11T13:20:47Z"
+    },
+    "model": "auth.user",
+    "pk": 2
+},
+  {
+    "fields": {
+      "phone_number": null,
+      "about": null,
+      "can_upload": false,
+      "organisation": "",
+      "user": 2,
+      "job_title": ""
+    },
+    "model": "profile.userprofile",
+    "pk": 2
+  },
+{
+    "fields": {
+      "username": "staff",
+      "first_name": "demo",
+      "last_name": "user",
+      "is_active": true,
+      "is_superuser": false,
+      "is_staff": true,
+      "last_login": "2015-06-11T13:20:48Z",
+      "groups": [],
+      "user_permissions": [],
+      "password": "pbkdf2_sha256$15000$7FJfq85aSCtQ$ZT+WV+jOaLPVeLvq5kMlxcX+Js53PeE92mcd/Zm1w7k=",
+      "email": "staff@me.com",
+      "date_joined": "2015-06-11T13:20:47Z"
+    },
+    "model": "auth.user",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "phone_number": null,
+      "about": null,
+      "can_upload": false,
+      "organisation": "",
+      "user": 3,
+      "job_title": ""
+    },
+    "model": "profile.userprofile",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "username": "teacher",
+      "first_name": "teacher",
+      "last_name": "user",
+      "is_active": true,
+      "is_superuser": false,
+      "is_staff": false,
+      "last_login": "2015-06-11T13:20:48Z",
+      "groups": [],
+      "user_permissions": [],
+      "password": "pbkdf2_sha256$15000$7FJfq85aSCtQ$ZT+WV+jOaLPVeLvq5kMlxcX+Js53PeE92mcd/Zm1w7k=",
+      "email": "teacher@me.com",
+      "date_joined": "2015-06-11T13:20:47Z"
+    },
+    "model": "auth.user",
+    "pk": 4
+  },
+
+  {
+    "fields": {
+      "phone_number": null,
+      "about": null,
+      "can_upload": true,
+      "organisation": "",
+      "user": 4,
+      "job_title": ""
+    },
+    "model": "profile.userprofile",
+    "pk": 4
+  },
+   {
+    "model": "tastypie.apikey",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "key": "3d5798d936e8820a1ac60d8f61c9bff21ae39cea",
+      "created": "2012-11-14T00:00:00Z"
+    }
+  },
+  {
+    "model": "tastypie.apikey",
+    "pk": 2,
+    "fields": {
+      "user": 2,
+      "key": "4512ef97bdc332db36c70127e374d181",
+      "created": "2012-12-10T21:41:38Z"
+    }
+  },
+  {
+    "model": "tastypie.apikey",
+    "pk": 3,
+    "fields": {
+      "user": 3,
+      "key": "532ee762ff79904101802c94613679bf",
+      "created": "2012-12-10T21:41:38Z"
+    }
+  },
+  {
+    "model": "tastypie.apikey",
+    "pk": 4,
+    "fields": {
+      "user": 4,
+      "key": "28331364c0b40e865cc819ee4cee1382",
+      "created": "2012-12-10T21:41:38Z"
+    }
+  }
+]

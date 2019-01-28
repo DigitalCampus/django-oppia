@@ -8,7 +8,10 @@ from settings.models import SettingProperties
 from django.contrib.auth.models import User
 
 class CoursePublishResourceTest(TestCase):
-    fixtures = ['user.json', 'oppia.json', 'quiz.json', 'permissions.json']
+    fixtures = ['tests/test_user.json', 
+                'tests/test_oppia.json', 
+                'tests/test_quiz.json', 
+                'tests/test_permissions.json']
     
     def setUp(self):
         self.client = Client()

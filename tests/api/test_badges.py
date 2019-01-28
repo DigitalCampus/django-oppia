@@ -6,7 +6,9 @@ from tests.utils import get_api_key, get_api_url
 
 
 class BadgesResourceTest(ResourceTestCaseMixin, TestCase):
-    fixtures = ['user.json', 'oppia.json', 'default_badges.json']
+    fixtures = ['tests/test_user.json', 
+                'tests/test_oppia.json',
+                'default_badges.json']
 
     def setUp(self):
         super(BadgesResourceTest, self).setUp()

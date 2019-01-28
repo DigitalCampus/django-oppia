@@ -10,7 +10,10 @@ from tests.utils import *
 from oppia.forms.upload import UploadCourseStep1Form, UploadCourseStep2Form
 
 class CourseUploadTest(TestCase):
-    fixtures = ['user.json', 'oppia.json', 'quiz.json', 'permissions.json']
+    fixtures = ['tests/test_user.json', 
+                'tests/test_oppia.json', 
+                'tests/test_quiz.json', 
+                'tests/test_permissions.json']
     
     course_file_path = './oppia/fixtures/reference_files/anc_course.zip' 
     media_file_path = './oppia/fixtures/reference_files/sample_video.m4v'
