@@ -82,6 +82,8 @@ Add/remove staff access permission
 #. Tick/untick the 'staff status' checkbox
 #. Click on the save button (bottom right)
 
+.. _permission-user-upload:
+
 Add/remove permission to upload courses
 ------------------------------------------
 

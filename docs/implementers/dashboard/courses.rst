@@ -33,6 +33,21 @@ Update course information (tags etc)
 
 Currently this should be done during the course export process in Moodle.
 
+.. _permission-course-ownership:
+
+Change the ownership of a course
+-----------------------------------
+
+When a course is first published, the user publishing the course is the owner of this course, and only they can re-publish the course.
+If a different user needs to publish the course, then the course ownership will need to be changed.
+
+#. From the menu bar, select 'Admin' > 'Django Admin'
+#. Select 'Courses' under the 'Oppia' section
+#. Browse or search for the course and select it
+#. Change the `user` to the new owner
+#. Click save
+
+
 
 Publish a draft course
 -----------------------
