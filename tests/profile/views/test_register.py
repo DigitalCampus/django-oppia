@@ -3,7 +3,9 @@ from django.test import TestCase
 
 
 class RegisterViewTest(TestCase):
-    fixtures = ['user.json', 'oppia.json', 'quiz.json']
+    fixtures = ['tests/test_user.json', 
+                'tests/test_oppia.json',
+                'tests/test_quiz.json']
 
     def setUp(self):
         super(RegisterViewTest, self).setUp()

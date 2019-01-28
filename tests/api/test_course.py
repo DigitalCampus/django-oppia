@@ -7,7 +7,9 @@ from tests.utils import get_api_key, get_api_url
 
 
 class CourseResourceTest(ResourceTestCaseMixin, TestCase):
-    fixtures = ['user.json', 'oppia.json', 'permissions.json']
+    fixtures = ['tests/test_user.json', 
+                'tests/test_oppia.json',
+                'tests/test_permissions.json']
 
     def setUp(self):
         super(CourseResourceTest, self).setUp()

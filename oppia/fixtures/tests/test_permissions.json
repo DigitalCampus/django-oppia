@@ -1,0 +1,45 @@
+[
+  {
+    "fields": {
+      "description": "{\"en\": \"Draft course, full content, designed for use in all countries\"}",
+      "title": "{\"en\": \"Draft course for testing\"}",
+      "is_draft": true,
+      "is_archived": false,
+      "filename": "draft-20150611100319.zip",
+      "version": 20150611100319,
+      "user": 1,
+      "created_date": "2015-06-12T14:04:36Z",
+      "shortname": "draft-test",
+      "lastupdated_date": "2015-06-12T14:04:36Z",
+      "badge_icon": ""
+    },
+    "model": "oppia.course",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "description": "{\"en\": \"Cohort test 1\"}",
+      "start_date": "2015-06-12T14:04:36Z",
+      "end_date": "2016-06-12T14:04:36Z"
+    },
+    "model": "oppia.cohort",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "description": "{\"en\": \"Cohort test 2\"}",
+      "start_date": "2015-06-12T14:04:36Z",
+      "end_date": "2016-06-12T14:04:36Z"
+    },
+    "model": "oppia.cohort",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "course": 1,
+      "cohort": 1
+    },
+    "model": "oppia.coursecohort",
+    "pk": 1
+  }
+]

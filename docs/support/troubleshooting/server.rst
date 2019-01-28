@@ -17,3 +17,12 @@ Activity for a user doesn't appear in the server
 * If the user is an admin or staff user, then the activity is not shown in the dashboard graphs. Similarly, if the user 
   is set up as a teacher for the course, then their course activity is not reflected in the dashboard activity graphs 
   either.
+  
+Unable to publish a course due to permissions issue
+----------------------------------------------------
+ 
+There are three potential issues:
+ 
+#. The username/password used is incorrect. Check the user can log in using the same username/password into the Oppia server dashboard.
+#. The user does not have permissions to upload courses on the server, see: :ref:`permission-user-upload`
+#. The course was originally published by a different user, see: :ref:`permission-course-ownership` 

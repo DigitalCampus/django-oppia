@@ -7,7 +7,8 @@ from tests.utils import get_api_key, get_api_url
 
 
 class PointsResourceTest(ResourceTestCaseMixin, TestCase):
-    fixtures = ['user.json', 'oppia.json']
+    fixtures = ['tests/test_user.json', 
+                'tests/test_oppia.json']
 
     def setUp(self):
         super(PointsResourceTest, self).setUp()

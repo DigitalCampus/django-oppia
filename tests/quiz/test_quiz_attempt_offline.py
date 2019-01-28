@@ -11,7 +11,9 @@ from tests.utils import get_api_key, get_api_url
 
 
 class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
-    fixtures = ['user.json', 'oppia.json', 'quiz.json']
+    fixtures = ['tests/test_user.json', 
+                'tests/test_oppia.json',
+                'tests/test_quiz.json']
 
     def setUp(self):
         super(QuizAttemptResourceTest, self).setUp()

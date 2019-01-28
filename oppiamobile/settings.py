@@ -22,7 +22,6 @@ ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, os.pardir))
 ALLOWED_HOSTS = []
 DEBUG = True
 
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -121,10 +120,7 @@ USE_I18N = True
 USE_L10N = True
 
 gettext = lambda s: s
-LANGUAGES = (
-    #('es', gettext('Spanish')),
-    ('en', gettext('English'))
-)
+LANGUAGES = ('en', gettext('English'))
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 

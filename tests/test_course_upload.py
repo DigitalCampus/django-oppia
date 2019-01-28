@@ -10,7 +10,10 @@ from tests.utils import *
 from oppia.forms.upload import UploadCourseStep1Form, UploadCourseStep2Form
 
 class CourseUploadTest(TestCase):
-    fixtures = ['user.json', 'oppia.json', 'quiz.json', 'permissions.json']
+    fixtures = ['tests/test_user.json', 
+                'tests/test_oppia.json', 
+                'tests/test_quiz.json', 
+                'tests/test_permissions.json']
     
     course_file_path = './oppia/fixtures/reference_files/anc_course.zip' 
     media_file_path = './oppia/fixtures/reference_files/sample_video.m4v'
@@ -45,15 +48,3 @@ class CourseUploadTest(TestCase):
         
         course_file.close()
     
-    '''
-    def test_upload_form(self):
-        course_file_content = open(self.course_file_path,'rb')
-        video = SimpleUploadedFile("file.mp4", course_file_content, content_type="video/mp4")
-         
-        
-        form_data = {'course_file': course_file}
-        form = UploadCourseStep1Form(data=form_data)
-        self.assertTrue(form.is_valid())
-        
-        course_file.close()
-    '''

@@ -32,7 +32,7 @@ Issue list:
 * 535: Add tests for publishing courses and media files using the API - https://github.com/DigitalCampus/django-oppia/issues/issues/535
 * 532: Database migration fails on 0012_fix_future_tracker_dates.py - https://github.com/DigitalCampus/django-oppia/issues/issues/532
 * 537: Add tests for the uploading media (via the webform) - https://github.com/DigitalCampus/django-oppia/issues/issues/537
-
+* 543: Add tests for editing user profile (via form) - https://github.com/DigitalCampus/django-oppia/issues/issues/543
 
 Previous Versions
 ------------------

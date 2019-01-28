@@ -1,18 +1,6 @@
 [
 {
     "fields": {
-        "phone_number": null,
-        "about": null,
-        "can_upload": false,
-        "organisation": "",
-        "user": 2,
-        "job_title": ""
-    },
-    "model": "profile.userprofile",
-    "pk": 1
-},
-{
-    "fields": {
         "description": "{\"en\": \"ANC HEAT Module Part 1, full content, designed for use in all countries\"}",
         "title": "{\"en\": \"Antenatal Care Part 1\"}",
         "is_draft": false,

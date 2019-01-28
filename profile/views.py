@@ -215,8 +215,7 @@ def export_mydata_view(request, data_type):
         my_activity = Tracker.objects.filter(user=request.user)
         return render(request, 'oppia/profile/export/activity.html',
                   {'activity': my_activity})
-
-    if data_type == 'quiz':
+    elif data_type == 'quiz':
         my_quizzes = []
         my_quiz_attempts = QuizAttempt.objects.filter(user=request.user)
         for mqa in my_quiz_attempts:
@@ -227,16 +226,16 @@ def export_mydata_view(request, data_type):
 
         return render(request, 'oppia/profile/export/quiz_attempts.html',
                   {'quiz_attempts': my_quizzes})
-
-    if data_type == 'points':
+    elif data_type == 'points':
         points = Points.objects.filter(user=request.user)
         return render(request, 'oppia/profile/export/points.html',
                   {'points': points})
-
-    if data_type == 'badges':
+    elif data_type == 'badges':
         badges = Award.objects.filter(user=request.user)
         return render(request, 'oppia/profile/export/badges.html',
                   {'badges': badges})
+    else:
+        raise Http404
 
 
 def points(request):
