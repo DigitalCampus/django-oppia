@@ -28,8 +28,6 @@ DATABASES = {
         'NAME': 'oppia',
         'USER': 'YOUR_DB_USERNAME',
         'PASSWORD': 'YOUR_DB_PASSWORD',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
     }
 }
 
@@ -130,10 +128,7 @@ USE_I18N = True
 USE_L10N = True
 
 gettext = lambda s: s
-LANGUAGES = (
-    #('es', gettext('Spanish')),
-    ('en', gettext('English'))
-)
+LANGUAGES = ('en', gettext('English'))
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 

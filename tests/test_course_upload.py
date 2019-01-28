@@ -45,15 +45,3 @@ class CourseUploadTest(TestCase):
         
         course_file.close()
     
-    '''
-    def test_upload_form(self):
-        course_file_content = open(self.course_file_path,'rb')
-        video = SimpleUploadedFile("file.mp4", course_file_content, content_type="video/mp4")
-         
-        
-        form_data = {'course_file': course_file}
-        form = UploadCourseStep1Form(data=form_data)
-        self.assertTrue(form.is_valid())
-        
-        course_file.close()
-    '''
