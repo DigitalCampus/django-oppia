@@ -1,4 +1,6 @@
 # tests/api/test_course_publish.py
+
+from django import forms
 from django.test import TestCase
 from django.test.client import Client
 
@@ -26,6 +28,7 @@ class MediaPublishResourceTest(TestCase):
     def test_required_params(self):
         # no username
         response = self.client.post(self.url, { 'password': 'secret', 'media_file': self.video_file })
+        self.assertRaises(forms.ValidationError)
         self.assertEqual(response.status_code, 400)
         
         # no password
