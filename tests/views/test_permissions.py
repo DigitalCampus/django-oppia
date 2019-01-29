@@ -266,4 +266,6 @@ class PermissionsViewTest(TestCase):
         self.assert_can_view('oppia_viz_summary', self.staff_user)
 
     def test_student_cantview_summary_overview(self):
-        self.assert_unauthorized('oppia_viz_summary', self.normal_user)
+        self.client.login(username=self.normal_user['user'], password=self.normal_user['password'])
+        response = self.client.get(reverse('oppia_viz_summary'))
+        self.assertEqual(response.status_code, 302)
