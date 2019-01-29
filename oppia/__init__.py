@@ -1,4 +1,4 @@
-VERSION = (0, 10, 2, 'beta', 0)
+VERSION = (0, 11, 0, 'beta', 0)
 DEFAULT_IP_ADDRESS = None
 
 import warnings
