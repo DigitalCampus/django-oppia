@@ -33,6 +33,8 @@ Issue list:
 * 532: Database migration fails on 0012_fix_future_tracker_dates.py - https://github.com/DigitalCampus/django-oppia/issues/issues/532
 * 537: Add tests for the uploading media (via the webform) - https://github.com/DigitalCampus/django-oppia/issues/issues/537
 * 543: Add tests for editing user profile (via form) - https://github.com/DigitalCampus/django-oppia/issues/issues/543
+* 544: SonarQube - complexity of profile/views.py edit function - https://github.com/DigitalCampus/django-oppia/issues/issues/544
+
 
 Previous Versions
 ------------------

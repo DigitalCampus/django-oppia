@@ -153,14 +153,14 @@ def reset(request):
 
 
 def edit(request, user_id=0):
-    if user_id != 0:
-        if can_edit_user(request, user_id):
-            view_user = User.objects.get(pk=user_id)
-        else:
-            raise exceptions.PermissionDenied
+        
+    if user_id != 0 and can_edit_user(request, user_id):
+        view_user = User.objects.get(pk=user_id)
+    elif user_id == 0:
+        view_user = request.user    
     else:
-        view_user = request.user
-
+        raise exceptions.PermissionDenied
+        
     key = ApiKey.objects.get(user=view_user)
     if request.method == 'POST':
         form = ProfileForm(request.POST)
@@ -174,17 +174,11 @@ def edit(request, user_id=0):
             view_user.last_name = last_name
             view_user.save()
 
-            try:
-                user_profile = UserProfile.objects.get(user=view_user)
-                user_profile.job_title = form.cleaned_data.get("job_title")
-                user_profile.organisation = form.cleaned_data.get("organisation")
-                user_profile.save()
-            except UserProfile.DoesNotExist:
-                user_profile = UserProfile()
-                user_profile.user = view_user
-                user_profile.job_title = form.cleaned_data.get("job_title")
-                user_profile.organisation = form.cleaned_data.get("organisation")
-                user_profile.save()
+            user_profile, created = UserProfile.objects.get_or_create(user=view_user)
+            user_profile.job_title = form.cleaned_data.get("job_title")
+            user_profile.organisation = form.cleaned_data.get("organisation")
+            user_profile.save()
+        
             messages.success(request, _(u"Profile updated"))
 
             # if password should be changed
@@ -194,10 +188,8 @@ def edit(request, user_id=0):
                 view_user.save()
                 messages.success(request, _(u"Password updated"))
     else:
-        try:
-            user_profile = UserProfile.objects.get(user=view_user)
-        except UserProfile.DoesNotExist:
-            user_profile = UserProfile()
+        user_profile, created = UserProfile.objects.get_or_create(user=view_user)
+        
         form = ProfileForm(initial={'username': view_user.username,
                                     'email': view_user.email,
                                     'first_name': view_user.first_name,
