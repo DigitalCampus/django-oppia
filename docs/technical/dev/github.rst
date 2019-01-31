@@ -17,8 +17,8 @@ The key advantages to using a versioning system like GitHub include:
 You will find it extremely beneficial to create a proper ``fork`` of the code 
 for the various OppiaMobile components rather than just taking a basic copy of 
 the code, since a fork will allow you to easily merge in future developments,
-updates and bug fixes as well as submitting fixes and new features back into the 
-core version for anyone else to take advantage of.
+updates and bug fixes as well as submitting fixes and new features back into 
+the core version for anyone else to take advantage of.
 
 
 A couple of links to help get you started:
@@ -27,20 +27,3 @@ A couple of links to help get you started:
 * forking a repository (and keeping it up to date with the original): 
   https://help.github.com/articles/fork-a-repo
 
-Submitting changes to the core version
----------------------------------------
-
-If you have made updates (new functionality, bug fixes etc) that you'd like to 
-contribute back to the core version of OppiaMobile, then please issue a "pull 
-request".
-
-You can find info here on how to issue a pull request: https://help.github.com/articles/using-pull-requests/
-
-Creating small, specific pull requests (matched to an issue in GitHub issue 
-tracker), will make it much easier and quicker (and also more likely) that your 
-changes can be incorporated into the core version.
-
-We're keen to acknowledge those who have contributed to the development of 
-OppiaMobile, so please also send us your attribution information (name, 
-organisation etc), so we can include you in the about/acknowledgements section 
-of the app.

@@ -22,6 +22,25 @@ before getting fully submerged in the whole code base:
 * Provide feedback and input on the overall user interface and process to publish a course, navigate the server 
   dashboard and use the app
   
+Submitting code contributions
+---------------------------------------
+
+If you have made updates (new functionality, bug fixes etc) that you'd like to 
+contribute back to the core version of OppiaMobile, then please issue a "pull 
+request".
+
+You can find info here on how to issue a pull request: https://help.github.com/articles/using-pull-requests/
+
+Creating small, specific pull requests (matched to an issue in GitHub issue 
+tracker), will make it much easier and quicker (and also more likely) that your 
+changes can be incorporated into the core version.
+
+We're keen to acknowledge those who have contributed to the development of 
+OppiaMobile, so please also send us your attribution information (name, 
+organisation etc), so we can include you in the about/acknowledgements section 
+of the app.
+
+  
 Other ways to contribute
 -------------------------
 
