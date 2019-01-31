@@ -5,6 +5,18 @@ Source Code and Contributing
    :maxdepth: 2
    
    source
-   code_process
    contribute
+   code_quality
+   code_process
+   
+ 
+Reference Info
+-----------------  
+  
+.. toctree::
+   :maxdepth: 2
+     
    github
+   pep8
+   sonarqube
+  
