@@ -68,3 +68,7 @@ class PermissionsViewTest(TestCase):
 
     def test_student_cantview_av_upload(self):
         self.assert_unauthorized('oppia_av_upload', self.normal_user)
+        
+    def test_teacher_canview_av_upload(self):
+        # since has can_upload set in profile
+        self.assert_can_view('oppia_av_upload', self.teacher_user)
