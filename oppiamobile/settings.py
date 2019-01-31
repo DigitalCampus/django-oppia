@@ -82,7 +82,7 @@ INSTALLED_APPS = [
     'helpers',
     'crispy_forms',
     'sass_processor',
-    'sorl.thumbnail'
+    'sorl.thumbnail',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
