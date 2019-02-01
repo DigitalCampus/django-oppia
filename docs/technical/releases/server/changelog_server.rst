@@ -35,6 +35,8 @@ Issue list:
 * 543: Add tests for editing user profile (via form) - https://github.com/DigitalCampus/django-oppia/issues/issues/543
 * 544: SonarQube - complexity of profile/views.py edit function - https://github.com/DigitalCampus/django-oppia/issues/issues/544
 * 553: SonarQube - complexity of viz/views.py summary_view function - https://github.com/DigitalCampus/django-oppia/issues/issues/553
+* 516: Update docs for installing - with the new project structure - https://github.com/DigitalCampus/django-oppia/issues/issues/516
+
 
 Previous Versions
 ------------------
