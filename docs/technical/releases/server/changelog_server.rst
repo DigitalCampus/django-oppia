@@ -14,6 +14,8 @@ Key updates:
 
 * Upgrading to Django 1.11.18
 * Restructuring of project to match Django best practice
+* Extra automated tests
+* Improved documentation structure and updates
 
 Issue list:
 
@@ -36,6 +38,8 @@ Issue list:
 * 544: SonarQube - complexity of profile/views.py edit function - https://github.com/DigitalCampus/django-oppia/issues/issues/544
 * 553: SonarQube - complexity of viz/views.py summary_view function - https://github.com/DigitalCampus/django-oppia/issues/issues/553
 * 516: Update docs for installing - with the new project structure - https://github.com/DigitalCampus/django-oppia/issues/issues/516
+* 505: Investigate options for less reliance on specific command line tools - https://github.com/DigitalCampus/django-oppia/issues/issues/505
+* 538: Update platform architecture/workflow docs - https://github.com/DigitalCampus/django-oppia/issues/issues/538
 
 
 Previous Versions

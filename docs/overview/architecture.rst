@@ -1,31 +1,21 @@
-OppiaMobile Platform Architecture and Components
+OppiaMobile Platform Architecture and Workflow
 ====================================================
-
-Architecture and Workflow
----------------------------
 
 .. image:: images/oppia-platform-architecture.png
 
 #. Courses are authored in Moodle.
-#. When the course is exported from Moodle, the quizzes are automatically exported to the OppiaMobile server.
-#. After export from Moodle, the module zip package can be downloaded and then uploaded into the learning modules app 
-   in the OppiaMobile server. The reason for leaving this as a manual upload (rather than automatically published) is to 
-   allow content authors the option to test out the content on their devices before it is pushed out as an automatic 
-   update to learners.
-#. Our OppiaMobile server provides the core of the server side, dealing with all user accounts, modules, quiz result 
-   submission and tracking activity.
-#. When users install the OppiaMobile Android app, their accounts are created on the OppiaMobile server. All quiz 
-   attempts and results are submitted from the OppiaMobile Android app to the OppiaMobile engine (when the user has an 
-   internet connection available).
-#. All learning modules are downloaded from the OppiaMobile server and all tracking activity by the user (pages viewed, 
-   videos watched and quiz attempts) is submitted to the OppiaMobile server by the OppiaMobile Android app. The
-   OppiaMobile server also deals with all the points and badges awarded.
-#. The OppiaMobile Android app delivers the learning content on the users phone.
-#. Media and video content can be hosted on any website, providing it allows a direct download of the video file. 
-   Currently all the media content is hosted in a static directory structure on our demo OppiaMobile website 
-   (http://downloads.digital-campus.org/media/) – but this is only for convenience, rather than a requirement.
-#. The OppiaMobile Android app can download the videos from the media hosting (if a wifi connection is available). 
-   Alternatively the media files may be directly copied onto the phone SD card.
+#. Courses are then exported to the OppiaMobile Server
+#. The OppiaMobile server hosts all the courses, user accounts, media and 
+   analytics data
+#. When a user installs the app and creates an account, they can download 
+   courses from the OppiaMobile server for running offline on their device
+#. When the user accesses courses and completes activities (e.g. watching 
+   videos,taking quizzes), this data is sent back to the OppiaMobile server 
+   whenever there is an internet connection available.
+#. Implementation owners, project managers etc can view the activity (e.g. 
+   quiz results, time spent watching videos) for their users via the 
+   OppiaMobile server dashboard. 
+
 
     
 
