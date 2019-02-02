@@ -29,6 +29,11 @@ Add required packages
 pip install -r ../django-oppia/requirements.txt
 
 
+on live server might need new version of mod_wsgi:
+
+sudo apt-get install libapache2-mod-wsgi-py3
+
+
 
 
 
