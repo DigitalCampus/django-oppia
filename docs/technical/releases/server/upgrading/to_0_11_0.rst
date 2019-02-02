@@ -1,0 +1,7 @@
+Upgrading to OppiaMobile Server v0.11.0
+===========================================
+
+
+
+Run `pip install -r django-oppia/requirements.txt` after upgrading to this 
+version, since new packages	and an updated version of Django is used.
