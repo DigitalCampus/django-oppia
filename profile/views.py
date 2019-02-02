@@ -7,6 +7,7 @@ from itertools import chain
 from django import forms
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import (authenticate, login)
 from django.contrib.auth.models import User
 from django.core import exceptions
@@ -546,11 +547,9 @@ def get_filters_from_row(search_form):
                 filters[row] = search_form.cleaned_data[row]
     return filters
 
+@staff_member_required
 def search_users(request):
-
-    if not request.user.is_staff:
-        raise exceptions.PermissionDenied
-
+    
     users = User.objects
 
     filtered = False
@@ -595,11 +594,8 @@ def search_users(request):
                                 'page': users,
                                 'page_ordering': ordering})
 
-
+@staff_member_required
 def export_users(request):
-
-    if not request.user.is_staff:
-        raise Http404
 
     ordering, users = get_paginated_users(request)
     for user in users:
@@ -618,7 +614,7 @@ def export_users(request):
                                   'page_ordering': ordering,
                                   'users_list_template': 'export'})
 
-
+@staff_member_required
 def list_users(request):
     ordering, users = get_paginated_users(request)
     return render(request, 'oppia/profile/users-paginated-list.html',

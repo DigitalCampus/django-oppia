@@ -21,9 +21,9 @@ urlpatterns = [
     url(r'^(?P<user_id>\d+)/activity/$', oppia_profile_views.user_activity, name="profile_user_activity"),
     url(r'^(?P<user_id>\d+)/(?P<course_id>\d+)/activity/$', oppia_profile_views.user_course_activity_view, name="profile_user_course_activity"),
     url(r'^upload/$', oppia_profile_views.upload_view, name="profile_upload"),
-    url(r'^search/$', oppia_profile_views.search_users, name="search_users"),
+    url(r'^search/$', oppia_profile_views.search_users, name="profile_search_users"),
     url(r'^export/$', oppia_profile_views.export_users, name="profile_export"),
-    url(r'^list/$', oppia_profile_views.list_users, name="list_users"),
+    url(r'^list/$', oppia_profile_views.list_users, name="profile_list_users"),
     
     url(r'^delete/$', oppia_profile_views.delete_account_view, name="profile_delete_account"),
     url(r'^delete/complete/$', oppia_profile_views.delete_account_complete_view, name="profile_delete_account_complete"),
