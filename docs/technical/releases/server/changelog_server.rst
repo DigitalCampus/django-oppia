@@ -42,6 +42,7 @@ Issue list:
 * 505: Investigate options for less reliance on specific command line tools - https://github.com/DigitalCampus/django-oppia/issues/505
 * 538: Update platform architecture/workflow docs - https://github.com/DigitalCampus/django-oppia/issues/538
 * 489: Restructure documentation - https://github.com/DigitalCampus/django-oppia/issues/489
+* 477: MIDDLEWARE_CLASSES deprecation during installation - https://github.com/DigitalCampus/django-oppia/issues/issues/477
 
 Upgrade Notes
 ----------------
