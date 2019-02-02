@@ -4,6 +4,8 @@ from django.test.client import Client
 
 from tests.utils import *
 
+from tests.user_logins import *
+
 class VisualisationsTest(TestCase):
     fixtures = ['tests/test_user.json', 
                 'tests/test_oppia.json', 
@@ -12,29 +14,12 @@ class VisualisationsTest(TestCase):
     
     def setUp(self):
         super(VisualisationsTest, self).setUp()
-
-        self.admin_user = {
-            'user': 'admin',
-            'password': 'password'
-        }
-        self.staff_user = {
-            'user': 'staff',
-            'password': 'password'
-        }
-        self.normal_user = {
-            'user': 'demo',
-            'password': 'password'
-        }
-        self.teacher_user = {
-            'user': 'teacher',
-            'password': 'password'
-        }  
         
     # summary
     # only staff/admins can view
     def test_view_summary(self):
-        allowed_users = [self.admin_user, self.staff_user]
-        disallowed_users = [self.teacher_user, self.normal_user]
+        allowed_users = [ADMIN_USER, STAFF_USER]
+        disallowed_users = [TEACHER_USER, NORMAL_USER]
     
         for allowed_user in allowed_users:
             self.client.login(username=allowed_user['user'], password=allowed_user['password'])
@@ -52,7 +37,7 @@ class VisualisationsTest(TestCase):
     # map 
     def test_view_map(self):
         
-        allowed_users = [self.admin_user, self.teacher_user, self.staff_user, self.normal_user]
+        allowed_users = [ADMIN_USER, TEACHER_USER, STAFF_USER, NORMAL_USER]
         
         for allowed_user in allowed_users:
             self.client.login(username=allowed_user['user'], password=allowed_user['password'])
