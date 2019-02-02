@@ -6,9 +6,10 @@ OppiaMobile Server Change Log
 v0.11.0 - not yet released
 --------------------------------
 
-.. warning:: 
-	Run `pip install -r django-oppia/requirements.txt` after upgrading to this version, since new packages
-	and an updated version of Django is used.
+.. note:: 
+	In this release the project structure has changed, so you will need to make 
+	changes to your OppiaMobile server set up, see :doc:`upgrading/to_0_11_0`
+
 	
 Key updates:
 
@@ -40,7 +41,15 @@ Issue list:
 * 516: Update docs for installing - with the new project structure - https://github.com/DigitalCampus/django-oppia/issues/issues/516
 * 505: Investigate options for less reliance on specific command line tools - https://github.com/DigitalCampus/django-oppia/issues/issues/505
 * 538: Update platform architecture/workflow docs - https://github.com/DigitalCampus/django-oppia/issues/issues/538
+* 489: Restructure documentation - https://github.com/DigitalCampus/django-oppia/issues/issues/489
 
+Upgrade Notes
+----------------
+
+.. toctree::
+   :maxdepth: 1
+
+   upgrading/to_0_11_0
 
 Previous Versions
 ------------------
