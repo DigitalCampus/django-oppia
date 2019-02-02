@@ -34,7 +34,6 @@ def handle_uploaded_file(f, extract_path, request, user):
         return False, 500
 
     mod_name = ''
-    print(os.listdir(extract_path))
     for dir in os.listdir(extract_path)[:1]:
         mod_name = dir
 
@@ -118,7 +117,6 @@ def process_course(extract_path, f, mod_name, request, user):
     process_quizzes_locally = False
     if 'exportversion' in meta_info and meta_info['exportversion'] >= settings.OPPIA_EXPORT_LOCAL_MINVERSION:
         process_quizzes_locally = True
-        print('processing course\'s quizzes locally')
 
     parse_course_contents(request, doc, course, user, new_course, process_quizzes_locally)
     clean_old_course(request, oldsections, old_course_filename, course)
@@ -193,7 +191,6 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
                 media.digest = file_element.getAttribute("digest")
 
                 if len(url) > Media.URL_MAX_LENGTH:
-                    print(url)
                     messages.info(req, _('File %(filename)s has a download URL larger than the maximum length permitted. The media file has not been registered, so it won\'t be tracked. Please, fix this issue and upload the course again.') % {'filename': media.filename})
                 else:
                     media.download_url = url
@@ -354,7 +351,6 @@ def create_quiz(user, quiz_obj, act_xml):
 
     # save gamification events
     if act_xml.getElementsByTagName('gamification')[:1]:
-        print(act_xml.getElementsByTagName('gamification')[0])
         events = parse_gamification_events(act_xml.getElementsByTagName('gamification')[0])
         # remove anything existing for this course
         QuizGamificationEvent.objects.filter(quiz=quiz).delete()

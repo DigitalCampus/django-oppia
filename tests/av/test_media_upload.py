@@ -10,6 +10,8 @@ from tests.utils import *
 from av.forms import UploadMediaForm
 from av.models import UploadedMedia
 
+from tests.user_logins import *
+
 class MediaUploadResourceTest(TestCase):
     fixtures = ['tests/test_user.json', 
                 'tests/test_oppia.json', 
@@ -21,30 +23,14 @@ class MediaUploadResourceTest(TestCase):
     
     def setUp(self):
         super(MediaUploadResourceTest, self).setUp()
-
-        self.admin_user = {
-            'user': 'admin',
-            'password': 'password'
-        }
-        self.staff_user = {
-            'user': 'staff',
-            'password': 'password'
-        }
-        self.normal_user = {
-            'user': 'demo',
-            'password': 'password'
-        }
-        self.teacher_user = {
-            'user': 'teacher',
-            'password': 'password'
-        }   
+ 
 
     def test_upload_template(self):
         
         media_file_content = open(self.media_file_path,'rb') 
         media_file = SimpleUploadedFile(media_file_content.name, media_file_content.read(), content_type="video/m4v")
         
-        self.client.login(username=self.admin_user['user'], password=self.admin_user['password'])
+        self.client.login(username=ADMIN_USER['user'], password=ADMIN_USER['password'])
         response = self.client.post(reverse('oppia_av_upload'), {'media_file': media_file })
         self.assertRedirects(response, reverse('oppia_av_upload_success', args=[1]), 302, 200)
         
