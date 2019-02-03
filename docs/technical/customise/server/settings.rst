@@ -7,31 +7,31 @@ installation.
 To edit these settings you will need to edit your ``/oppiamobile/settings_secret.py`` file, and
 for them to take effect you will need to restart your web server.
  
-OPPIA_POINTS
--------------
+ 
+COURSE_UPLOAD_DIR
+------------------
 
-Default: 
+Default `ROOT_DIR +'/upload'`
 
-::
-
-  'REGISTER':100,                             # given when user first registers
-  'QUIZ_ATTEMPT_OWNER':5,                     # given to the quiz owner when another user attempts their quiz 
-  'QUIZ_FIRST_ATTEMPT':20,                    # for the first attempt at a quiz 
-  'QUIZ_ATTEMPT':10,                          # for any subsequent attempts at a quiz 
-  'QUIZ_FIRST_ATTEMPT_THRESHOLD':100,         # Threshold for getting bonus points for first attempt at quiz (must be 0-100)
-  'QUIZ_FIRST_ATTEMPT_BONUS':50,              # Bonus points for getting over the threshold on first attempt at quiz 
-  'QUIZ_CREATED':200,                         # for creating a quiz
-  'ACTIVITY_COMPLETED':10,                    # for completing an activity
-  'MEDIA_STARTED':20,                         # for starting media
-  'MEDIA_PLAYING_INTERVAL':30,                # interval in seconds for which points are given
-  'MEDIA_PLAYING_POINTS_PER_INTERVAL':5,      # no points per interval media is playing
-  'MEDIA_MAX_POINTS':200,                     # the maximum number of points available for any single media play
-  'COURSE_DOWNLOADED':50 
-
+This is the path to where uploaded course will be saved.
 
 
 OPPIA_METADATA
 ---------------
+
+Default:
+
+::
+
+	{
+	    'NETWORK': True,  
+	    'DEVICE_ID': True,
+	    'SIM_SERIAL': True,
+	    'WIFI_ON': True,
+	    'NETWORK_CONNECTED': True,
+	    'BATTERY_LEVEL': True,
+	    'GPS': False,
+	}
 
 The defines the metadata info that is sent back from the app.
 
@@ -119,9 +119,9 @@ BADGE_AWARDING_METHOD
 
 Defines the method that is used for awarding a badge. This may be set to one of:
 
-* BADGE_AWARD_METHOD_ALL_ACTIVITIES (default) - all activities in the course must be completed, and all quizzes passed
-* BADGE_AWARD_METHOD_FINAL_QUIZ - only need to pass the final quiz
-* BADGE_AWARD_METHOD_ALL_QUIZZES - all the quizzes in the course must be passed
+* ``BADGE_AWARD_METHOD_ALL_ACTIVITIES`` (default) - all activities in the course must be completed, and all quizzes passed
+* ``BADGE_AWARD_METHOD_FINAL_QUIZ`` - only need to pass the final quiz
+* ``BADGE_AWARD_METHOD_ALL_QUIZZES`` - all the quizzes in the course must be passed
 
 
 OPPIA_GOOGLE_ANALYTICS_ENABLED
@@ -134,8 +134,8 @@ Whether or not to turn on Google Analytics tracking for your Oppia server.
 OPPIA_GOOGLE_ANALYTICS_CODE
 ---------------------------
 
-Your Google Analytics tracking code - only used if OPPIA_GOOGLE_ANALYTICS_CODE
-is set to True.
+Your Google Analytics tracking code - only used if ``OPPIA_GOOGLE_ANALYTICS_CODE``
+is set to ``True``.
 
 OPPIA_GOOGLE_ANALYTICS_DOMAIN
 -----------------------------
@@ -147,7 +147,7 @@ set to ``True``.
 OPPIA_MAX_UPLOAD_SIZE
 ---------------------
 
-Default: 5242880 (5Mb)
+Default: ``5242880`` (5Mb)
 
 This is the maximum file course file size that can be uploaded (in bytes). This
 is to prevent users uploading very large files - for example if they haven't 
@@ -156,23 +156,35 @@ course upload files may cause issues for end users (particularly those with slow
 internet connections) when trying to install the course on their phone.
 
 If you define a `MAX_UPLOAD_SIZE` property in the SettingProperties table (under the Django admin),
-that value will take precedence from the one defined in the `_settings.py` file
+that value will take precedence from the one defined in the ``settings_secret.py`` file
 
 
 OPPIA_VIDEO_FILE_TYPES
 -----------------------
+
+Default: ``("video/m4v", "video/mp4", "video/3gp", "video/3gpp")``
 
 List of the video file MIME types that will be accepted for upload to the server.
 
 OPPIA_AUDIO_FILE_TYPES
 ------------------------------
 
+Default: ``("audio/mpeg", "audio/amr", "audio/mp3")``
+
 List of the audio file MIME types that will be accepted for upload to the server.
+
+OPPIA_MEDIA_IMAGE_FILE_TYPES
+------------------------------
+
+Default: ``("image/png", "image/jpeg")``
+
+List of the media image file MIME types that will be accepted for upload to the server.
+
 
 OPPIA_EXPORT_LOCAL_MINVERSION
 --------------------------------
 
-Default: 2017011400
+Default: ``2017011400``
 
 The minimum version no of the Moodle - Oppia export block to process the quizzes locally on the server.
 
@@ -180,7 +192,7 @@ The minimum version no of the Moodle - Oppia export block to process the quizzes
 API_LIMIT_PER_PAGE
 --------------------
 
-Default: 0
+Default: ``0``
 
 Defines how many results will be returned per page in the API. When set to 0, all results will be returned.
 
@@ -188,9 +200,63 @@ Defines how many results will be returned per page in the API. When set to 0, al
 DEVICE_ADMIN_ENABLED
 -----------------------
 
-Default: True
+Default: ``False``
 
 Defines if the Google Device Admin functionality is enabled. Note that if it is enabled here and in the Oppia app, then 
 extra information is required in the app to ensure users are aware of these permissions. If this info is not provided in 
 the app, then it may get removed from Google Play.
+
+GCM_DEVICE_MODEL
+-----------------
+
+Default: ``deviceadmin.models.UserDevice``
+
+Only used if DEVICE_ADMIN_ENABLED is ``True``
+
+GCM_APIKEY
+-----------------
+
+Default: ``OPPIA_GOOGLEAPIKEY``
+
+Only used if DEVICE_ADMIN_ENABLED is ``True``
+
+
+OPPIA_ANDROID_PACKAGEID 
+------------------------
+
+Default:  ``'org.digitalcampus.mobile.learning'``
+
+Package ID for linking to the Google Play Store
+
+OPPIA_ANDROID_ON_GOOGLE_PLAY
+--------------------------------
+
+Default: ``True`` 
+
+If the app is not on Google Play, we rely on the core version for store links
+
+
+SCREENSHOT_GENERATOR_PROGRAM
+----------------------------------
+
+Default: ``ffmpeg``
+
+
+SCREENSHOT_GENERATOR_PROGRAM_PARAMS
+-------------------------------------
+
+Default:``"-i %s -r 0.02 -s %dx%d -f image2 %s/frame-%%03d.png"``
+
+MEDIA_PROCESSOR_PROGRAM
+--------------------------
+
+Default: ``"avprobe"``
+
+For Ubuntu 18.04 and above, you should override this in ``settings_secret.py``
+to be ``"ffprobe"``
+
+MEDIA_PROCESSOR_PROGRAM_PARAMS
+----------------------------------
+
+Default: ``""``
 

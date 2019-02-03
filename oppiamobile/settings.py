@@ -159,10 +159,11 @@ LOGIN_EXEMPT_URLS = (
 )
 
 # OppiaMobile Settings
-COURSE_UPLOAD_DIR = ROOT_DIR + '/oppia-uploads'
+COURSE_UPLOAD_DIR = ROOT_DIR + '/upload'
 
 OPPIA_METADATA = {
-    'NETWORK': True,  # 'DEVICE_ID': True,
+    'NETWORK': True,  
+    'DEVICE_ID': True,
     'SIM_SERIAL': True,
     'WIFI_ON': True,
     'NETWORK_CONNECTED': True,
