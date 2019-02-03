@@ -37,7 +37,7 @@
   {% include "includes/header.html" %}
 </nav>
 
-{% if DEVELOPMENT_SERVER %}
+{% if DEBUG %}
          <div class="alert alert-danger alert-dismissable">
          	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
              {% trans 'This is a development server, anything added here will not be shared on the live site' %}

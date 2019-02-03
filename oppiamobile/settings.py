@@ -150,10 +150,11 @@ LOGIN_EXEMPT_URLS = (
 )
 
 # OppiaMobile Settings
-COURSE_UPLOAD_DIR = ROOT_DIR + '/oppia-uploads'
+COURSE_UPLOAD_DIR = ROOT_DIR + '/upload'
 
 OPPIA_METADATA = {
-    'NETWORK': True,  # 'DEVICE_ID': True,
+    'NETWORK': True,  
+    'DEVICE_ID': True,
     'SIM_SERIAL': True,
     'WIFI_ON': True,
     'NETWORK_CONNECTED': True,
@@ -204,8 +205,6 @@ API_LIMIT_PER_PAGE = 0
 DEVICE_ADMIN_ENABLED = False
 GCM_DEVICE_MODEL = 'deviceadmin.models.UserDevice'
 GCM_APIKEY = 'OPPIA_GOOGLEAPIKEY'
-
-DEVELOPMENT_SERVER = True
 
 SCREENSHOT_GENERATOR_PROGRAM = "ffmpeg"
 SCREENSHOT_GENERATOR_PROGRAM_PARAMS = "-i %s -r 0.02 -s %dx%d -f image2 %s/frame-%%03d.png"
