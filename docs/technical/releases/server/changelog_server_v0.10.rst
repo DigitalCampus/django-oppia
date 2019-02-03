@@ -43,7 +43,7 @@ Issue list:
 * 481: Remove code related to messaging - https://github.com/DigitalCampus/django-oppia/issues/481
 * 459: Clean up utils dir - https://github.com/DigitalCampus/django-oppia/issues/459
 * 498: Search users page not functioning... - https://github.com/DigitalCampus/django-oppia/issues/498
-* 449: Option to export leaderboard data - https://github.com/DigitalCampus/django-oppia/issues/issues/449
+* 449: Option to export leaderboard data - https://github.com/DigitalCampus/django-oppia/issues/449
 * 482: Remove code related to monitoring page - https://github.com/DigitalCampus/django-oppia/issues/482
 
 .. _serverv0.10.0:

@@ -7,14 +7,14 @@ OppiaMobile Moodle Block Change Log
 v2018051800 -  Released 18 May 2018
 -------------------------------------
 
-* 191: Add points data to the module.xml file - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/191
+* 191: Add points data to the module.xml file - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/191
 
 .. _blockv2018022600:
 
 v2018022600 -  Released 26 Feb 2018
 -------------------------------------
 
-* 189: Ensure the activity/course title and description is enslosed in CDATA - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/issues/189
+* 189: Ensure the activity/course title and description is enslosed in CDATA - https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/issues/189
 
 .. _blockv2018011800:
 

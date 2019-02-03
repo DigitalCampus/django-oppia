@@ -11,6 +11,8 @@ Key updates:
 
 Issue list:
 
+* 774: Update to use most recent version of Gradle - https://github.com/DigitalCampus/oppia-mobile-android/issues/774
+* 643: Issue with new Gradle version - https://github.com/DigitalCampus/oppia-mobile-android/issues/643
 
 .. _appv66:
 
@@ -25,22 +27,22 @@ Key updates:
 
 Issue list:
 
-* 755: Offline registration - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/755
-* 759: Keyboard overlays the registration form fields - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/759
-* 738: App crash in Activity view after second screen rotation - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/738
-* 739: Pushing back button on sync activity should disconnect devices - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/739
-* 743: Don't show media files in the sync activity - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/743
-* 744: Prevent device from going asleep during course transfer - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/744
-* 740: Final actions on media playback - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/740
-* 741: Only award points for media playback once - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/741
-* 745: Show progress of transfers as a whole, not individually - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/745
-* 754: New register screen - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/754
-* 757: Include offline registration data in activity logs - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/757
-* 749: Define using build config the default gamification event to use for media playback - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/749
-* 748: Create new gamification event based in media viewing threshold - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/748
-* 742: Automatically install courses if there are no more transfers in queue - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/742
-* 735: Points notification for media playback not showing - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/735
-* 756: Offline registration upload - https://github.com/DigitalCampus/oppia-mobile-android/issues/issues/756
+* 755: Offline registration - https://github.com/DigitalCampus/oppia-mobile-android/issues/755
+* 759: Keyboard overlays the registration form fields - https://github.com/DigitalCampus/oppia-mobile-android/issues/759
+* 738: App crash in Activity view after second screen rotation - https://github.com/DigitalCampus/oppia-mobile-android/issues/738
+* 739: Pushing back button on sync activity should disconnect devices - https://github.com/DigitalCampus/oppia-mobile-android/issues/739
+* 743: Don't show media files in the sync activity - https://github.com/DigitalCampus/oppia-mobile-android/issues/743
+* 744: Prevent device from going asleep during course transfer - https://github.com/DigitalCampus/oppia-mobile-android/issues/744
+* 740: Final actions on media playback - https://github.com/DigitalCampus/oppia-mobile-android/issues/740
+* 741: Only award points for media playback once - https://github.com/DigitalCampus/oppia-mobile-android/issues/741
+* 745: Show progress of transfers as a whole, not individually - https://github.com/DigitalCampus/oppia-mobile-android/issues/745
+* 754: New register screen - https://github.com/DigitalCampus/oppia-mobile-android/issues/754
+* 757: Include offline registration data in activity logs - https://github.com/DigitalCampus/oppia-mobile-android/issues/757
+* 749: Define using build config the default gamification event to use for media playback - https://github.com/DigitalCampus/oppia-mobile-android/issues/749
+* 748: Create new gamification event based in media viewing threshold - https://github.com/DigitalCampus/oppia-mobile-android/issues/748
+* 742: Automatically install courses if there are no more transfers in queue - https://github.com/DigitalCampus/oppia-mobile-android/issues/742
+* 735: Points notification for media playback not showing - https://github.com/DigitalCampus/oppia-mobile-android/issues/735
+* 756: Offline registration upload - https://github.com/DigitalCampus/oppia-mobile-android/issues/756
 * 770: Update manifest (application section) to allow clear text traffic - https://github.com/DigitalCampus/oppia-mobile-android/issues/770
 
 
