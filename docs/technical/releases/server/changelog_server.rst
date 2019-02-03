@@ -44,8 +44,8 @@ Issue list:
 * 489: Restructure documentation - https://github.com/DigitalCampus/django-oppia/issues/489
 * 477: MIDDLEWARE_CLASSES deprecation during installation - https://github.com/DigitalCampus/django-oppia/issues/477
 * 494: Badges page is not linked to from anywhere? - https://github.com/DigitalCampus/django-oppia/issues/494
-* 559: Add tests for profile urls - https://github.com/DigitalCampus/django-oppia/issues/issues/559
-
+* 559: Add tests for profile urls - https://github.com/DigitalCampus/django-oppia/issues/559
+* 560: Add tests and data for viz models and functions - https://github.com/DigitalCampus/django-oppia/issues/560
 
 
 Upgrade Notes

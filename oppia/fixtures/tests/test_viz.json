@@ -1,0 +1,4440 @@
+[
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 508,
+    "fields": {
+        "ip": "213.55.108.113",
+        "hits": 442,
+        "lat": 9.0,
+        "lng": 39.5,
+        "region": "Ethiopia",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'fcode': u'PCLI', u'countryId': u'337996', u'name': u'Ethiopia', u'countryCode': u'ET', u'geonameId': 337996, u'toponymName': u'Federal Democratic Republic of Ethiopia', u'fclName': u'country, state, region,...', u'fcodeName': u'independent political entity', u'countryName': u'Ethiopia', u'lat': u'9', u'lng': u'39.5', u'population': 88013491, u'fcl': u'A', u'adminCode1': u'00', u'adminName1': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 524,
+    "fields": {
+        "ip": "213.55.73.49",
+        "hits": 13,
+        "lat": 9.0,
+        "lng": 39.5,
+        "region": "Ethiopia",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'fcode': u'PCLI', u'countryId': u'337996', u'name': u'Ethiopia', u'countryCode': u'ET', u'geonameId': 337996, u'toponymName': u'Federal Democratic Republic of Ethiopia', u'fclName': u'country, state, region,...', u'fcodeName': u'independent political entity', u'countryName': u'Ethiopia', u'lat': u'9', u'lng': u'39.5', u'population': 88013491, u'fcl': u'A', u'adminCode1': u'00', u'adminName1': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 532,
+    "fields": {
+        "ip": "122.161.102.185",
+        "hits": 2,
+        "lat": 28.6667,
+        "lng": 77.1,
+        "region": "NCT",
+        "country_code": "IN",
+        "country_name": "India",
+        "geonames_data": "{u'fcode': u'ADM1', u'countryId': u'1269750', u'name': u'NCT', u'countryCode': u'IN', u'geonameId': 1273293, u'toponymName': u'National Capital Territory of Delhi', u'fclName': u'country, state, region,...', u'fcodeName': u'first-order administrative division', u'countryName': u'India', u'lat': u'28.6667', u'lng': u'77.1', u'population': 15766943, u'fcl': u'A', u'adminCode1': u'07', u'adminName1': u'NCT'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 548,
+    "fields": {
+        "ip": "82.132.214.88",
+        "hits": 2,
+        "lat": 54.75844,
+        "lng": -2.69531,
+        "region": "United Kingdom",
+        "country_code": "GB",
+        "country_name": "United Kingdom",
+        "geonames_data": "{u'fcode': u'PCLI', u'countryId': u'2635167', u'name': u'United Kingdom', u'countryCode': u'GB', u'geonameId': 2635167, u'toponymName': u'United Kingdom of Great Britain and Northern Ireland', u'fclName': u'country, state, region,...', u'fcodeName': u'independent political entity', u'countryName': u'United Kingdom', u'lat': u'54.75844', u'lng': u'-2.69531', u'population': 62348447, u'fcl': u'A', u'adminCode1': u'00', u'adminName1': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 556,
+    "fields": {
+        "ip": "92.14.254.144",
+        "hits": 3,
+        "lat": 50.91667,
+        "lng": -1.38333,
+        "region": "Southampton",
+        "country_code": "GB",
+        "country_name": "United Kingdom",
+        "geonames_data": "{u'fcode': u'ADM2', u'countryId': u'2635167', u'name': u'Southampton', u'countryCode': u'GB', u'geonameId': 3333196, u'toponymName': u'Southampton', u'fclName': u'country, state, region,...', u'fcodeName': u'second-order administrative division', u'countryName': u'United Kingdom', u'lat': u'50.91667', u'lng': u'-1.38333', u'population': 0, u'fcl': u'A', u'adminCode1': u'ENG', u'adminName1': u'England'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 572,
+    "fields": {
+        "ip": "203.187.244.223",
+        "hits": 17,
+        "lat": 8.77435,
+        "lng": 78.1979,
+        "region": "P?ndyan T?vu",
+        "country_code": "IN",
+        "country_name": "India",
+        "geonames_data": "{u'fcode': u'ISL', u'countryId': u'1269750', u'name': u'P\\u0101ndyan T\\u012bvu', u'countryCode': u'IN', u'geonameId': 1260516, u'toponymName': u'P\\u0101ndyan T\\u012bvu', u'fclName': u'mountain,hill,rock,... ', u'fcodeName': u'island', u'countryName': u'India', u'lat': u'8.77435', u'lng': u'78.1979', u'population': 0, u'fcl': u'T', u'adminCode1': u'25', u'adminName1': u'Tamil Nadu'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 596,
+    "fields": {
+        "ip": "77.58.248.11",
+        "hits": 22,
+        "lat": 47.41667,
+        "lng": 8.66667,
+        "region": "Zurich",
+        "country_code": "CH",
+        "country_name": "Switzerland",
+        "geonames_data": "{u'fcode': u'ADM1', u'countryId': u'2658434', u'name': u'Zurich', u'countryCode': u'CH', u'geonameId': 2657895, u'toponymName': u'Kanton Z\\xfcrich', u'fclName': u'country, state, region,...', u'fcodeName': u'first-order administrative division', u'countryName': u'Switzerland', u'lat': u'47.41667', u'lng': u'8.66667', u'population': 1289559, u'fcl': u'A', u'adminCode1': u'ZH', u'adminName1': u'Zurich'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 604,
+    "fields": {
+        "ip": "178.60.102.50",
+        "hits": 1,
+        "lat": 40.0,
+        "lng": -4.0,
+        "region": "Spain",
+        "country_code": "ES",
+        "country_name": "Spain",
+        "geonames_data": "{u'fcode': u'PCLI', u'countryId': u'2510769', u'name': u'Spain', u'countryCode': u'ES', u'geonameId': 2510769, u'toponymName': u'Kingdom of Spain', u'fclName': u'country, state, region,...', u'fcodeName': u'independent political entity', u'countryName': u'Spain', u'lat': u'40', u'lng': u'-4', u'population': 46505963, u'fcl': u'A', u'adminCode1': u'00', u'adminName1': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 628,
+    "fields": {
+        "ip": "41.220.68.60",
+        "hits": 3,
+        "lat": 10.0,
+        "lng": 8.0,
+        "region": "Nigeria",
+        "country_code": "NG",
+        "country_name": "Nigeria",
+        "geonames_data": "{u'fcode': u'PCLI', u'countryId': u'2328926', u'name': u'Nigeria', u'countryCode': u'NG', u'geonameId': 2328926, u'toponymName': u'Federal Republic of Nigeria', u'fclName': u'country, state, region,...', u'fcodeName': u'independent political entity', u'countryName': u'Nigeria', u'lat': u'10', u'lng': u'8', u'population': 154000000, u'fcl': u'A', u'adminCode1': u'00', u'adminName1': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 644,
+    "fields": {
+        "ip": "213.55.73.36",
+        "hits": 19,
+        "lat": 9.0,
+        "lng": 39.5,
+        "region": "Ethiopia",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'fcode': u'PCLI', u'countryId': u'337996', u'name': u'Ethiopia', u'countryCode': u'ET', u'geonameId': 337996, u'toponymName': u'Federal Democratic Republic of Ethiopia', u'fclName': u'country, state, region,...', u'fcodeName': u'independent political entity', u'countryName': u'Ethiopia', u'lat': u'9', u'lng': u'39.5', u'population': 88013491, u'fcl': u'A', u'adminCode1': u'00', u'adminName1': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 652,
+    "fields": {
+        "ip": "220.226.2.29",
+        "hits": 9,
+        "lat": 19.5,
+        "lng": 75.0,
+        "region": "Maharashtra",
+        "country_code": "IN",
+        "country_name": "India",
+        "geonames_data": "{u'fcode': u'ADM1', u'countryId': u'1269750', u'name': u'Maharashtra', u'countryCode': u'IN', u'geonameId': 1264418, u'toponymName': u'State of Mah\\u0101r\\u0101shtra', u'fclName': u'country, state, region,...', u'fcodeName': u'first-order administrative division', u'countryName': u'India', u'lat': u'19.5', u'lng': u'75', u'population': 103391791, u'fcl': u'A', u'adminCode1': u'16', u'adminName1': u'Maharashtra'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 668,
+    "fields": {
+        "ip": "122.174.88.28",
+        "hits": 1,
+        "lat": 11.0,
+        "lng": 78.0,
+        "region": "Tamil Nadu",
+        "country_code": "IN",
+        "country_name": "India",
+        "geonames_data": "{u'fcode': u'ADM1', u'countryId': u'1269750', u'name': u'Tamil Nadu', u'countryCode': u'IN', u'geonameId': 1255053, u'toponymName': u'State of Tamil N\\u0101du', u'fclName': u'country, state, region,...', u'fcodeName': u'first-order administrative division', u'countryName': u'India', u'lat': u'11', u'lng': u'78', u'population': 63995556, u'fcl': u'A', u'adminCode1': u'25', u'adminName1': u'Tamil Nadu'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 676,
+    "fields": {
+        "ip": "5.36.17.18",
+        "hits": 3,
+        "lat": 23.61387,
+        "lng": 58.5922,
+        "region": "Muscat",
+        "country_code": "OM",
+        "country_name": "Oman",
+        "geonames_data": "{u'fcode': u'PPLC', u'countryId': u'286963', u'name': u'Muscat', u'countryCode': u'OM', u'geonameId': 287286, u'toponymName': u'Muscat', u'fclName': u'city, village,...', u'fcodeName': u'capital of a political entity', u'countryName': u'Oman', u'lat': u'23.61387', u'lng': u'58.5922', u'population': 797000, u'fcl': u'P', u'adminCode1': u'06', u'adminName1': u'Masqa\\u0163'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 692,
+    "fields": {
+        "ip": "213.55.110.201",
+        "hits": 3,
+        "lat": 9.0,
+        "lng": 39.5,
+        "region": "Ethiopia",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'fcode': u'PCLI', u'countryId': u'337996', u'name': u'Ethiopia', u'countryCode': u'ET', u'geonameId': 337996, u'toponymName': u'Federal Democratic Republic of Ethiopia', u'fclName': u'country, state, region,...', u'fcodeName': u'independent political entity', u'countryName': u'Ethiopia', u'lat': u'9', u'lng': u'39.5', u'population': 88013491, u'fcl': u'A', u'adminCode1': u'00', u'adminName1': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 716,
+    "fields": {
+        "ip": "85.133.161.221",
+        "hits": 6,
+        "lat": 32.0,
+        "lng": 53.0,
+        "region": "Iran",
+        "country_code": "IR",
+        "country_name": "Iran",
+        "geonames_data": "{u'fcode': u'PCLI', u'countryId': u'130758', u'name': u'Iran', u'countryCode': u'IR', u'geonameId': 130758, u'toponymName': u'Islamic Republic of Iran', u'fclName': u'country, state, region,...', u'fcodeName': u'independent political entity', u'countryName': u'Iran', u'lat': u'32', u'lng': u'53', u'population': 76923300, u'fcl': u'A', u'adminCode1': u'00', u'adminName1': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 724,
+    "fields": {
+        "ip": "68.100.244.200",
+        "hits": 25,
+        "lat": 37.54812,
+        "lng": -77.44675,
+        "region": "Virginia",
+        "country_code": "US",
+        "country_name": "United States",
+        "geonames_data": "{u'fcode': u'ADM1', u'countryId': u'6252001', u'name': u'Virginia', u'countryCode': u'US', u'geonameId': 6254928, u'toponymName': u'Virginia', u'fclName': u'country, state, region,...', u'fcodeName': u'first-order administrative division', u'countryName': u'United States', u'lat': u'37.54812', u'lng': u'-77.44675', u'population': 7642884, u'fcl': u'A', u'adminCode1': u'VA', u'adminName1': u'Virginia'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 748,
+    "fields": {
+        "ip": "196.201.217.43",
+        "hits": 11,
+        "lat": -1.28333,
+        "lng": 36.83333,
+        "region": "Nairobi",
+        "country_code": "KE",
+        "country_name": "Kenya",
+        "geonames_data": "{u'fcode': u'ADM1', u'countryId': u'192950', u'name': u'Nairobi', u'countryCode': u'KE', u'geonameId': 184742, u'toponymName': u'Nairobi', u'fclName': u'country, state, region,...', u'fcodeName': u'first-order administrative division', u'countryName': u'Kenya', u'lat': u'-1.28333', u'lng': u'36.83333', u'population': 3138369, u'fcl': u'A', u'adminCode1': u'05', u'adminName1': u'Nairobi Area'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 764,
+    "fields": {
+        "ip": "197.176.82.42",
+        "hits": 4,
+        "lat": -1.28333,
+        "lng": 36.81667,
+        "region": "Nairobi",
+        "country_code": "KE",
+        "country_name": "Kenya",
+        "geonames_data": "{u'fcode': u'PPLC', u'countryId': u'192950', u'name': u'Nairobi', u'countryCode': u'KE', u'geonameId': 184745, u'toponymName': u'Nairobi', u'fclName': u'city, village,...', u'fcodeName': u'capital of a political entity', u'countryName': u'Kenya', u'lat': u'-1.28333', u'lng': u'36.81667', u'population': 2750547, u'fcl': u'P', u'adminCode1': u'05', u'adminName1': u'Nairobi Area'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 772,
+    "fields": {
+        "ip": "108.161.119.240",
+        "hits": 10,
+        "lat": 45.41117,
+        "lng": -75.69812,
+        "region": "Ottawa",
+        "country_code": "CA",
+        "country_name": "Canada",
+        "geonames_data": "{u'fcode': u'PPLC', u'countryId': u'6251999', u'name': u'Ottawa', u'countryCode': u'CA', u'geonameId': 6094817, u'toponymName': u'Ottawa', u'fclName': u'city, village,...', u'fcodeName': u'capital of a political entity', u'countryName': u'Canada', u'lat': u'45.41117', u'lng': u'-75.69812', u'population': 812129, u'fcl': u'P', u'adminCode1': u'08', u'adminName1': u'Ontario'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 788,
+    "fields": {
+        "ip": "41.57.210.233",
+        "hits": 10,
+        "lat": 5.6698,
+        "lng": -0.01657,
+        "region": "Tema",
+        "country_code": "GH",
+        "country_name": "Ghana",
+        "geonames_data": "{u'fcode': u'PPL', u'countryId': u'2300660', u'name': u'Tema', u'countryCode': u'GH', u'geonameId': 2294700, u'toponymName': u'Tema', u'fclName': u'city, village,...', u'fcodeName': u'populated place', u'countryName': u'Ghana', u'lat': u'5.6698', u'lng': u'-0.01657', u'population': 155782, u'fcl': u'P', u'adminCode1': u'01', u'adminName1': u'Greater Accra'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 796,
+    "fields": {
+        "ip": "106.206.46.190",
+        "hits": 3,
+        "lat": 19.07283,
+        "lng": 72.88261,
+        "region": "Mumbai",
+        "country_code": "IN",
+        "country_name": "India",
+        "geonames_data": "{u'fcode': u'PPLA', u'countryId': u'1269750', u'name': u'Mumbai', u'countryCode': u'IN', u'geonameId': 1275339, u'toponymName': u'Mumbai', u'fclName': u'city, village,...', u'fcodeName': u'seat of a first-order administrative division', u'countryName': u'India', u'lat': u'19.07283', u'lng': u'72.88261', u'population': 12691836, u'fcl': u'P', u'adminCode1': u'16', u'adminName1': u'Maharashtra'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 812,
+    "fields": {
+        "ip": "41.66.207.223",
+        "hits": 48,
+        "lat": 5.6698,
+        "lng": -0.01657,
+        "region": "Tema",
+        "country_code": "GH",
+        "country_name": "Ghana",
+        "geonames_data": "{u'fcode': u'PPL', u'countryId': u'2300660', u'name': u'Tema', u'countryCode': u'GH', u'geonameId': 2294700, u'toponymName': u'Tema', u'fclName': u'city, village,...', u'fcodeName': u'populated place', u'countryName': u'Ghana', u'lat': u'5.6698', u'lng': u'-0.01657', u'population': 155782, u'fcl': u'P', u'adminCode1': u'01', u'adminName1': u'Greater Accra'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 836,
+    "fields": {
+        "ip": "192.3.142.242",
+        "hits": 11,
+        "lat": -33.0,
+        "lng": 146.0,
+        "region": "New South Wales",
+        "country_code": "AU",
+        "country_name": "Australia",
+        "geonames_data": "{u'fcode': u'ADM1', u'countryId': u'2077456', u'name': u'New South Wales', u'countryCode': u'AU', u'geonameId': 2155400, u'toponymName': u'State of New South Wales', u'fclName': u'country, state, region,...', u'fcodeName': u'first-order administrative division', u'countryName': u'Australia', u'lat': u'-33', u'lng': u'146', u'population': 6917658, u'fcl': u'A', u'adminCode1': u'02', u'adminName1': u'New South Wales'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 844,
+    "fields": {
+        "ip": "5.47.227.122",
+        "hits": 2,
+        "lat": 39.0,
+        "lng": 35.0,
+        "region": "Turkey",
+        "country_code": "TR",
+        "country_name": "Turkey",
+        "geonames_data": "{u'fcode': u'PCLI', u'countryId': u'298795', u'name': u'Turkey', u'countryCode': u'TR', u'geonameId': 298795, u'toponymName': u'Republic of Turkey', u'fclName': u'country, state, region,...', u'fcodeName': u'independent political entity', u'countryName': u'Turkey', u'lat': u'39', u'lng': u'35', u'population': 77804122, u'fcl': u'A', u'adminCode1': u'00', u'adminName1': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 868,
+    "fields": {
+        "ip": "59.41.210.178",
+        "hits": 5,
+        "lat": 23.11667,
+        "lng": 113.25,
+        "region": "Guangzhou",
+        "country_code": "CN",
+        "country_name": "China",
+        "geonames_data": "{u'fcode': u'PPLA', u'countryId': u'1814991', u'name': u'Guangzhou', u'countryCode': u'CN', u'geonameId': 1809858, u'toponymName': u'Guangzhou', u'fclName': u'city, village,...', u'fcodeName': u'seat of a first-order administrative division', u'countryName': u'China', u'lat': u'23.11667', u'lng': u'113.25', u'population': 3152825, u'fcl': u'P', u'adminCode1': u'30', u'adminName1': u'Guangdong'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 884,
+    "fields": {
+        "ip": "197.151.250.111",
+        "hits": 11,
+        "lat": 30.06263,
+        "lng": 31.24967,
+        "region": "Cairo",
+        "country_code": "EG",
+        "country_name": "Egypt",
+        "geonames_data": "{u'fcode': u'PPLC', u'countryId': u'357994', u'name': u'Cairo', u'countryCode': u'EG', u'geonameId': 360630, u'toponymName': u'Cairo', u'fclName': u'city, village,...', u'fcodeName': u'capital of a political entity', u'countryName': u'Egypt', u'lat': u'30.06263', u'lng': u'31.24967', u'population': 7734614, u'fcl': u'P', u'adminCode1': u'11', u'adminName1': u'Al Q\\u0101hirah'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 892,
+    "fields": {
+        "ip": "188.250.16.201",
+        "hits": 4,
+        "lat": 41.14961,
+        "lng": -8.61099,
+        "region": "Porto",
+        "country_code": "PT",
+        "country_name": "Portugal",
+        "geonames_data": "{u'fcode': u'PPLA', u'countryId': u'2264397', u'name': u'Porto', u'countryCode': u'PT', u'geonameId': 2735943, u'toponymName': u'Porto', u'fclName': u'city, village,...', u'fcodeName': u'seat of a first-order administrative division', u'countryName': u'Portugal', u'lat': u'41.14961', u'lng': u'-8.61099', u'population': 249633, u'fcl': u'P', u'adminCode1': u'17', u'adminName1': u'Porto'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 908,
+    "fields": {
+        "ip": "188.236.193.94",
+        "hits": 7,
+        "lat": 54.75844,
+        "lng": -2.69531,
+        "region": "United Kingdom",
+        "country_code": "GB",
+        "country_name": "United Kingdom",
+        "geonames_data": "{u'fcode': u'PCLI', u'countryId': u'2635167', u'name': u'United Kingdom', u'countryCode': u'GB', u'geonameId': 2635167, u'toponymName': u'United Kingdom of Great Britain and Northern Ireland', u'fclName': u'country, state, region,...', u'fcodeName': u'independent political entity', u'countryName': u'United Kingdom', u'lat': u'54.75844', u'lng': u'-2.69531', u'population': 62348447, u'fcl': u'A', u'adminCode1': u'00', u'adminName1': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 916,
+    "fields": {
+        "ip": "178.115.132.43",
+        "hits": 2,
+        "lat": 47.33333,
+        "lng": 13.33333,
+        "region": "Austria",
+        "country_code": "AT",
+        "country_name": "Austria",
+        "geonames_data": "{u'fcode': u'PCLI', u'countryId': u'2782113', u'name': u'Austria', u'countryCode': u'AT', u'geonameId': 2782113, u'toponymName': u'Republic of Austria', u'fclName': u'country, state, region,...', u'fcodeName': u'independent political entity', u'countryName': u'Austria', u'lat': u'47.33333', u'lng': u'13.33333', u'population': 8205000, u'fcl': u'A', u'adminCode1': u'00', u'adminName1': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 932,
+    "fields": {
+        "ip": "111.91.27.69",
+        "hits": 1,
+        "lat": 19.5,
+        "lng": 75.0,
+        "region": "Maharashtra",
+        "country_code": "IN",
+        "country_name": "India",
+        "geonames_data": "{u'fcode': u'ADM1', u'countryId': u'1269750', u'name': u'Maharashtra', u'countryCode': u'IN', u'geonameId': 1264418, u'toponymName': u'State of Mah\\u0101r\\u0101shtra', u'fclName': u'country, state, region,...', u'fcodeName': u'first-order administrative division', u'countryName': u'India', u'lat': u'19.5', u'lng': u'75', u'population': 103391791, u'fcl': u'A', u'adminCode1': u'16', u'adminName1': u'Maharashtra'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 956,
+    "fields": {
+        "ip": "41.189.160.34",
+        "hits": 1,
+        "lat": 52.52705,
+        "lng": 17.37781,
+        "region": "Ostr\u00f3w Lednicki",
+        "country_code": "PL",
+        "country_name": "Poland",
+        "geonames_data": "{u'fcode': u'ISL', u'countryId': u'798544', u'name': u'Ostr\\xf3w Lednicki', u'countryCode': u'PL', u'geonameId': 3093718, u'toponymName': u'Ostr\\xf3w Lednicki', u'fclName': u'mountain,hill,rock,... ', u'fcodeName': u'island', u'countryName': u'Poland', u'lat': u'52.52705', u'lng': u'17.37781', u'population': 0, u'fcl': u'T', u'adminCode1': u'86', u'adminName1': u'Greater Poland Voivodeship'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 964,
+    "fields": {
+        "ip": "90.148.38.94",
+        "hits": 6,
+        "lat": 20.66667,
+        "lng": 41.33333,
+        "region": "Makkah Province",
+        "country_code": "SA",
+        "country_name": "Saudi Arabia",
+        "geonames_data": "{u'fcode': u'ADM1', u'countryId': u'102358', u'name': u'Makkah Province', u'countryCode': u'SA', u'geonameId': 104514, u'toponymName': u'Makkah Province', u'fclName': u'country, state, region,...', u'fcodeName': u'first-order administrative division', u'countryName': u'Saudi Arabia', u'lat': u'20.66667', u'lng': u'41.33333', u'population': 5899358, u'fcl': u'A', u'adminCode1': u'14', u'adminName1': u'Makkah'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 988,
+    "fields": {
+        "ip": "1.38.19.71",
+        "hits": 14,
+        "lat": 8.77435,
+        "lng": 78.1979,
+        "region": "P?ndyan T?vu",
+        "country_code": "IN",
+        "country_name": "India",
+        "geonames_data": "{u'fcode': u'ISL', u'countryId': u'1269750', u'name': u'P\\u0101ndyan T\\u012bvu', u'countryCode': u'IN', u'geonameId': 1260516, u'toponymName': u'P\\u0101ndyan T\\u012bvu', u'fclName': u'mountain,hill,rock,... ', u'fcodeName': u'island', u'countryName': u'India', u'lat': u'8.77435', u'lng': u'78.1979', u'population': 0, u'fcl': u'T', u'adminCode1': u'25', u'adminName1': u'Tamil Nadu'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1004,
+    "fields": {
+        "ip": "60.3.86.222",
+        "hits": 2,
+        "lat": 38.04139,
+        "lng": 114.47861,
+        "region": "Shijiazhuang",
+        "country_code": "CN",
+        "country_name": "China",
+        "geonames_data": "{u'fcode': u'PPLA', u'countryId': u'1814991', u'name': u'Shijiazhuang', u'countryCode': u'CN', u'geonameId': 1795270, u'toponymName': u'Shijiazhuang', u'fclName': u'city, village,...', u'fcodeName': u'seat of a first-order administrative division', u'countryName': u'China', u'lat': u'38.04139', u'lng': u'114.47861', u'population': 1992474, u'fcl': u'P', u'adminCode1': u'10', u'adminName1': u'Hebei'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1012,
+    "fields": {
+        "ip": "46.27.43.252",
+        "hits": 9,
+        "lat": 42.81687,
+        "lng": -1.64323,
+        "region": "Pamplona",
+        "country_code": "ES",
+        "country_name": "Spain",
+        "geonames_data": "{u'fcode': u'PPLA', u'countryId': u'2510769', u'name': u'Pamplona', u'countryCode': u'ES', u'geonameId': 3114472, u'toponymName': u'Pamplona', u'fclName': u'city, village,...', u'fcodeName': u'seat of a first-order administrative division', u'countryName': u'Spain', u'lat': u'42.81687', u'lng': u'-1.64323', u'population': 198491, u'fcl': u'P', u'adminCode1': u'32', u'adminName1': u'Navarre'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1028,
+    "fields": {
+        "ip": "112.97.34.143",
+        "hits": 19,
+        "lat": 23.11667,
+        "lng": 113.25,
+        "region": "Guangzhou",
+        "country_code": "CN",
+        "country_name": "China",
+        "geonames_data": "{u'fcode': u'PPLA', u'countryId': u'1814991', u'name': u'Guangzhou', u'countryCode': u'CN', u'geonameId': 1809858, u'toponymName': u'Guangzhou', u'fclName': u'city, village,...', u'fcodeName': u'seat of a first-order administrative division', u'countryName': u'China', u'lat': u'23.11667', u'lng': u'113.25', u'population': 3152825, u'fcl': u'P', u'adminCode1': u'30', u'adminName1': u'Guangdong'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1036,
+    "fields": {
+        "ip": "117.196.178.83",
+        "hits": 3,
+        "lat": 23.5,
+        "lng": 78.5,
+        "region": "State of Madhya Pradesh",
+        "country_code": "IN",
+        "country_name": "India",
+        "geonames_data": "{u'fcode': u'ADM1', u'countryId': u'1269750', u'name': u'State of Madhya Pradesh', u'countryCode': u'IN', u'geonameId': 1264542, u'toponymName': u'State of Madhya Pradesh', u'fclName': u'country, state, region,...', u'fcodeName': u'first-order administrative division', u'countryName': u'India', u'lat': u'23.5', u'lng': u'78.5', u'population': 60385118, u'fcl': u'A', u'adminCode1': u'35', u'adminName1': u'Madhya Pradesh'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1052,
+    "fields": {
+        "ip": "187.14.41.128",
+        "hits": 2,
+        "lat": -22.90278,
+        "lng": -43.2075,
+        "region": "Rio de Janeiro",
+        "country_code": "BR",
+        "country_name": "Brazil",
+        "geonames_data": "{u'fcode': u'PPLA', u'countryId': u'3469034', u'name': u'Rio de Janeiro', u'countryCode': u'BR', u'geonameId': 3451190, u'toponymName': u'Rio de Janeiro', u'fclName': u'city, village,...', u'fcodeName': u'seat of a first-order administrative division', u'countryName': u'Brazil', u'lat': u'-22.90278', u'lng': u'-43.2075', u'population': 6023699, u'fcl': u'P', u'adminCode1': u'21', u'adminName1': u'Rio de Janeiro'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1076,
+    "fields": {
+        "ip": "37.238.104.237",
+        "hits": 1,
+        "lat": 33.0,
+        "lng": 44.0,
+        "region": "Iraq",
+        "country_code": "IQ",
+        "country_name": "Iraq",
+        "geonames_data": "{u'fcode': u'PCLI', u'countryId': u'99237', u'name': u'Iraq', u'countryCode': u'IQ', u'geonameId': 99237, u'toponymName': u'Republic of Iraq', u'fclName': u'country, state, region,...', u'fcodeName': u'independent political entity', u'countryName': u'Iraq', u'lat': u'33', u'lng': u'44', u'population': 29671605, u'fcl': u'A', u'adminCode1': u'00', u'adminName1': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1084,
+    "fields": {
+        "ip": "92.14.243.72",
+        "hits": 22,
+        "lat": 50.90395,
+        "lng": -1.40428,
+        "region": "Southampton",
+        "country_code": "GB",
+        "country_name": "United Kingdom",
+        "geonames_data": "{u'fcode': u'PPLA2', u'countryId': u'2635167', u'name': u'Southampton', u'countryCode': u'GB', u'geonameId': 2637487, u'toponymName': u'Southampton', u'fclName': u'city, village,...', u'fcodeName': u'seat of a second-order administrative division', u'countryName': u'United Kingdom', u'lat': u'50.90395', u'lng': u'-1.40428', u'population': 246201, u'fcl': u'P', u'adminCode1': u'ENG', u'adminName1': u'England'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1108,
+    "fields": {
+        "ip": "77.246.55.133",
+        "hits": 2,
+        "lat": -17.0,
+        "lng": 29.5,
+        "region": "Mashonaland West",
+        "country_code": "ZW",
+        "country_name": "Zimbabwe",
+        "geonames_data": "{u'fcode': u'ADM1', u'countryId': u'878675', u'name': u'Mashonaland West', u'countryCode': u'ZW', u'geonameId': 886841, u'toponymName': u'Mashonaland West Province', u'fclName': u'country, state, region,...', u'fcodeName': u'first-order administrative division', u'countryName': u'Zimbabwe', u'lat': u'-17', u'lng': u'29.5', u'population': 1270629, u'fcl': u'A', u'adminCode1': u'05', u'adminName1': u'Mashonaland West'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1124,
+    "fields": {
+        "ip": "87.109.94.11",
+        "hits": 1,
+        "lat": 21.42667,
+        "lng": 39.82611,
+        "region": "Mecca",
+        "country_code": "SA",
+        "country_name": "Saudi Arabia",
+        "geonames_data": "{u'fcode': u'PPL', u'countryId': u'102358', u'name': u'Mecca', u'countryCode': u'SA', u'geonameId': 104515, u'toponymName': u'Mecca', u'fclName': u'city, village,...', u'fcodeName': u'populated place', u'countryName': u'Saudi Arabia', u'lat': u'21.42667', u'lng': u'39.82611', u'population': 1323624, u'fcl': u'P', u'adminCode1': u'14', u'adminName1': u'Makkah'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1132,
+    "fields": {
+        "ip": "79.101.235.28",
+        "hits": 32,
+        "lat": 44.80401,
+        "lng": 20.46513,
+        "region": "Belgrade",
+        "country_code": "RS",
+        "country_name": "Serbia",
+        "geonames_data": "{u'fcode': u'PPLC', u'countryId': u'6290252', u'name': u'Belgrade', u'countryCode': u'RS', u'geonameId': 792680, u'toponymName': u'Belgrade', u'fclName': u'city, village,...', u'fcodeName': u'capital of a political entity', u'countryName': u'Serbia', u'lat': u'44.80401', u'lng': u'20.46513', u'population': 1273651, u'fcl': u'P', u'adminCode1': u'SE', u'adminName1': u'Central Serbia'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1148,
+    "fields": {
+        "ip": "179.129.250.22",
+        "hits": 3,
+        "lat": -23.5475,
+        "lng": -46.63611,
+        "region": "S\u00e3o Paulo",
+        "country_code": "BR",
+        "country_name": "Brazil",
+        "geonames_data": "{u'fcode': u'PPLA', u'countryId': u'3469034', u'name': u'S\\xe3o Paulo', u'countryCode': u'BR', u'geonameId': 3448439, u'toponymName': u'S\\xe3o Paulo', u'fclName': u'city, village,...', u'fcodeName': u'seat of a first-order administrative division', u'countryName': u'Brazil', u'lat': u'-23.5475', u'lng': u'-46.63611', u'population': 10021295, u'fcl': u'P', u'adminCode1': u'27', u'adminName1': u'S\\xe3o Paulo'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1156,
+    "fields": {
+        "ip": "92.0.2.189",
+        "hits": 18,
+        "lat": 50.90395,
+        "lng": -1.40428,
+        "region": "Southampton",
+        "country_code": "GB",
+        "country_name": "United Kingdom",
+        "geonames_data": "{u'fcode': u'PPLA2', u'countryId': u'2635167', u'name': u'Southampton', u'countryCode': u'GB', u'geonameId': 2637487, u'toponymName': u'Southampton', u'fclName': u'city, village,...', u'fcodeName': u'seat of a second-order administrative division', u'countryName': u'United Kingdom', u'lat': u'50.90395', u'lng': u'-1.40428', u'population': 246201, u'fcl': u'P', u'adminCode1': u'ENG', u'adminName1': u'England'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1172,
+    "fields": {
+        "ip": "197.237.157.253",
+        "hits": 9,
+        "lat": -1.28333,
+        "lng": 36.81667,
+        "region": "Nairobi",
+        "country_code": "KE",
+        "country_name": "Kenya",
+        "geonames_data": "{u'fcode': u'PPLC', u'countryId': u'192950', u'name': u'Nairobi', u'countryCode': u'KE', u'geonameId': 184745, u'toponymName': u'Nairobi', u'fclName': u'city, village,...', u'fcodeName': u'capital of a political entity', u'countryName': u'Kenya', u'lat': u'-1.28333', u'lng': u'36.81667', u'population': 2750547, u'fcl': u'P', u'adminCode1': u'05', u'adminName1': u'Nairobi Area'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1196,
+    "fields": {
+        "ip": "106.77.248.82",
+        "hits": 4,
+        "lat": 19.07283,
+        "lng": 72.88261,
+        "region": "Mumbai",
+        "country_code": "IN",
+        "country_name": "India",
+        "geonames_data": "{u'fcode': u'PPLA', u'countryId': u'1269750', u'name': u'Mumbai', u'countryCode': u'IN', u'geonameId': 1275339, u'toponymName': u'Mumbai', u'fclName': u'city, village,...', u'fcodeName': u'seat of a first-order administrative division', u'countryName': u'India', u'lat': u'19.07283', u'lng': u'72.88261', u'population': 12691836, u'fcl': u'P', u'adminCode1': u'16', u'adminName1': u'Maharashtra'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1204,
+    "fields": {
+        "ip": "124.88.3.194",
+        "hits": 1,
+        "lat": 39.9075,
+        "lng": 116.39723,
+        "region": "Beijing",
+        "country_code": "CN",
+        "country_name": "China",
+        "geonames_data": "{u'fcode': u'PPLC', u'countryId': u'1814991', u'name': u'Beijing', u'countryCode': u'CN', u'geonameId': 1816670, u'toponymName': u'Beijing', u'fclName': u'city, village,...', u'fcodeName': u'capital of a political entity', u'countryName': u'China', u'lat': u'39.9075', u'lng': u'116.39723', u'population': 7480601, u'fcl': u'P', u'adminCode1': u'22', u'adminName1': u'Beijing'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1228,
+    "fields": {
+        "ip": "92.0.7.56",
+        "hits": 10,
+        "lat": 50.90395,
+        "lng": -1.40428,
+        "region": "Southampton",
+        "country_code": "GB",
+        "country_name": "United Kingdom",
+        "geonames_data": "{u'fcode': u'PPLA2', u'countryId': u'2635167', u'name': u'Southampton', u'countryCode': u'GB', u'geonameId': 2637487, u'toponymName': u'Southampton', u'fclName': u'city, village,...', u'fcodeName': u'seat of a second-order administrative division', u'countryName': u'United Kingdom', u'lat': u'50.90395', u'lng': u'-1.40428', u'population': 246201, u'fcl': u'P', u'adminCode1': u'ENG', u'adminName1': u'England'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1244,
+    "fields": {
+        "ip": "37.238.75.203",
+        "hits": 2,
+        "lat": 33.34058,
+        "lng": 44.40088,
+        "region": "Baghdad",
+        "country_code": "IQ",
+        "country_name": "Iraq",
+        "geonames_data": "{u'fcode': u'PPLC', u'countryId': u'99237', u'name': u'Baghdad', u'countryCode': u'IQ', u'geonameId': 98182, u'toponymName': u'Baghdad', u'fclName': u'city, village,...', u'fcodeName': u'capital of a political entity', u'countryName': u'Iraq', u'lat': u'33.34058', u'lng': u'44.40088', u'population': 5672513, u'fcl': u'P', u'adminCode1': u'07', u'adminName1': u'Mayorality of Baghdad'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1252,
+    "fields": {
+        "ip": "70.209.72.2",
+        "hits": 6,
+        "lat": 34.5003,
+        "lng": -111.50098,
+        "region": "Arizona",
+        "country_code": "US",
+        "country_name": "United States",
+        "geonames_data": "{u'fcode': u'ADM1', u'countryId': u'6252001', u'name': u'Arizona', u'countryCode': u'US', u'geonameId': 5551752, u'toponymName': u'Arizona', u'fclName': u'country, state, region,...', u'fcodeName': u'first-order administrative division', u'countryName': u'United States', u'lat': u'34.5003', u'lng': u'-111.50098', u'population': 5863809, u'fcl': u'A', u'adminCode1': u'AZ', u'adminName1': u'Arizona'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1268,
+    "fields": {
+        "ip": "105.158.73.123",
+        "hits": 10,
+        "lat": 33.89352,
+        "lng": -5.54727,
+        "region": "Meknes",
+        "country_code": "MA",
+        "country_name": "Morocco",
+        "geonames_data": "{u'fcode': u'PPLA', u'countryId': u'2542007', u'name': u'Meknes', u'countryCode': u'MA', u'geonameId': 2542715, u'toponymName': u'Mekn\\xe8s', u'fclName': u'city, village,...', u'fcodeName': u'seat of a first-order administrative division', u'countryName': u'Morocco', u'lat': u'33.89352', u'lng': u'-5.54727', u'population': 545705, u'fcl': u'P', u'adminCode1': u'48', u'adminName1': u'Mekn\\xe8s-Tafilalet'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1276,
+    "fields": {
+        "ip": "222.93.88.68",
+        "hits": 3,
+        "lat": 33.0,
+        "lng": 120.0,
+        "region": "Jiangsu Sheng",
+        "country_code": "CN",
+        "country_name": "China",
+        "geonames_data": "{u'fcode': u'ADM1', u'countryId': u'1814991', u'name': u'Jiangsu Sheng', u'countryCode': u'CN', u'geonameId': 1806260, u'toponymName': u'Jiangsu Sheng', u'fclName': u'country, state, region,...', u'fcodeName': u'first-order administrative division', u'countryName': u'China', u'lat': u'33', u'lng': u'120', u'population': 76770000, u'fcl': u'A', u'adminCode1': u'04', u'adminName1': u'Jiangsu Sheng'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1292,
+    "fields": {
+        "ip": "14.140.90.150",
+        "hits": 12,
+        "lat": 19.07283,
+        "lng": 72.88261,
+        "region": "Mumbai",
+        "country_code": "IN",
+        "country_name": "India",
+        "geonames_data": "{u'fcode': u'PPLA', u'countryId': u'1269750', u'name': u'Mumbai', u'countryCode': u'IN', u'geonameId': 1275339, u'toponymName': u'Mumbai', u'fclName': u'city, village,...', u'fcodeName': u'seat of a first-order administrative division', u'countryName': u'India', u'lat': u'19.07283', u'lng': u'72.88261', u'population': 12691836, u'fcl': u'P', u'adminCode1': u'16', u'adminName1': u'Maharashtra'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1316,
+    "fields": {
+        "ip": "196.201.216.144",
+        "hits": 59,
+        "lat": -1.28333,
+        "lng": 36.81667,
+        "region": "Nairobi",
+        "country_code": "KE",
+        "country_name": "Kenya",
+        "geonames_data": "{u'fcode': u'PPLC', u'countryId': u'192950', u'name': u'Nairobi', u'countryCode': u'KE', u'geonameId': 184745, u'toponymName': u'Nairobi', u'fclName': u'city, village,...', u'fcodeName': u'capital of a political entity', u'countryName': u'Kenya', u'lat': u'-1.28333', u'lng': u'36.81667', u'population': 2750547, u'fcl': u'P', u'adminCode1': u'05', u'adminName1': u'Nairobi Area'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1324,
+    "fields": {
+        "ip": "41.50.7.109",
+        "hits": 10,
+        "lat": -26.20227,
+        "lng": 28.04363,
+        "region": "Johannesburg",
+        "country_code": "ZA",
+        "country_name": "South Africa",
+        "geonames_data": "{u'fcode': u'PPLA', u'countryId': u'953987', u'name': u'Johannesburg', u'countryCode': u'ZA', u'geonameId': 993800, u'toponymName': u'Johannesburg', u'fclName': u'city, village,...', u'fcodeName': u'seat of a first-order administrative division', u'countryName': u'South Africa', u'lat': u'-26.20227', u'lng': u'28.04363', u'population': 2026469, u'fcl': u'P', u'adminCode1': u'06', u'adminName1': u'Gauteng'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1348,
+    "fields": {
+        "ip": "196.46.245.151",
+        "hits": 1,
+        "lat": 6.45306,
+        "lng": 3.39583,
+        "region": "Lagos",
+        "country_code": "NG",
+        "country_name": "Nigeria",
+        "geonames_data": "{u'fcode': u'PPL', u'countryId': u'2328926', u'name': u'Lagos', u'countryCode': u'NG', u'geonameId': 2332459, u'toponymName': u'Lagos', u'fclName': u'city, village,...', u'fcodeName': u'populated place', u'countryName': u'Nigeria', u'lat': u'6.45306', u'lng': u'3.39583', u'population': 9000000, u'fcl': u'P', u'adminCode1': u'05', u'adminName1': u'Lagos'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1364,
+    "fields": {
+        "ip": "105.54.167.87",
+        "hits": 2,
+        "lat": -1.28333,
+        "lng": 36.81667,
+        "region": "Nairobi",
+        "country_code": "KE",
+        "country_name": "Kenya",
+        "geonames_data": "{u'fcode': u'PPLC', u'countryId': u'192950', u'name': u'Nairobi', u'countryCode': u'KE', u'geonameId': 184745, u'toponymName': u'Nairobi', u'fclName': u'city, village,...', u'fcodeName': u'capital of a political entity', u'countryName': u'Kenya', u'lat': u'-1.28333', u'lng': u'36.81667', u'population': 2750547, u'fcl': u'P', u'adminCode1': u'05', u'adminName1': u'Nairobi Area'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1372,
+    "fields": {
+        "ip": "42.104.25.28",
+        "hits": 1,
+        "lat": 28.65381,
+        "lng": 77.22897,
+        "region": "Delhi",
+        "country_code": "IN",
+        "country_name": "India",
+        "geonames_data": "{u'fcode': u'PPLA', u'countryId': u'1269750', u'name': u'Delhi', u'countryCode': u'IN', u'geonameId': 1273294, u'toponymName': u'Delhi', u'fclName': u'city, village,...', u'fcodeName': u'seat of a first-order administrative division', u'countryName': u'India', u'lat': u'28.65381', u'lng': u'77.22897', u'population': 10927986, u'fcl': u'P', u'adminCode1': u'07', u'adminName1': u'NCT'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1388,
+    "fields": {
+        "ip": "197.156.86.252",
+        "hits": 1082,
+        "lat": 9.02497,
+        "lng": 38.74689,
+        "region": "Addis Ababa",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'fcode': u'PPLC', u'countryId': u'337996', u'name': u'Addis Ababa', u'countryCode': u'ET', u'geonameId': 344979, u'toponymName': u'Addis Ababa', u'fclName': u'city, village,...', u'fcodeName': u'capital of a political entity', u'countryName': u'Ethiopia', u'lat': u'9.02497', u'lng': u'38.74689', u'population': 2757729, u'fcl': u'P', u'adminCode1': u'44', u'adminName1': u'\\u0100d\\u012bs \\u0100beba'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1396,
+    "fields": {
+        "ip": "213.55.73.99",
+        "hits": 10,
+        "lat": 9.02497,
+        "lng": 38.74689,
+        "region": "Addis Ababa",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'fcode': u'PPLC', u'countryId': u'337996', u'name': u'Addis Ababa', u'countryCode': u'ET', u'geonameId': 344979, u'toponymName': u'Addis Ababa', u'fclName': u'city, village,...', u'fcodeName': u'capital of a political entity', u'countryName': u'Ethiopia', u'lat': u'9.02497', u'lng': u'38.74689', u'population': 2757729, u'fcl': u'P', u'adminCode1': u'44', u'adminName1': u'\\u0100d\\u012bs \\u0100beba'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1412,
+    "fields": {
+        "ip": "124.122.216.106",
+        "hits": 9,
+        "lat": 14.01346,
+        "lng": 100.53049,
+        "region": "Pathum Thani",
+        "country_code": "TH",
+        "country_name": "Thailand",
+        "geonames_data": "{u'fcode': u'PPLA', u'countryId': u'1605651', u'name': u'Pathum Thani', u'countryCode': u'TH', u'geonameId': 1607983, u'toponymName': u'Pathum Thani', u'fclName': u'city, village,...', u'fcodeName': u'seat of a first-order administrative division', u'countryName': u'Thailand', u'lat': u'14.01346', u'lng': u'100.53049', u'population': 24547, u'fcl': u'P', u'adminCode1': u'39', u'adminName1': u'Pathum Thani'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1436,
+    "fields": {
+        "ip": "198.228.228.44",
+        "hits": 8,
+        "lat": 38.34982,
+        "lng": -81.63262,
+        "region": "Charleston",
+        "country_code": "US",
+        "country_name": "United States",
+        "geonames_data": "{u'fcode': u'PPLA', u'countryId': u'6252001', u'name': u'Charleston', u'countryCode': u'US', u'geonameId': 4801859, u'toponymName': u'Charleston', u'fclName': u'city, village,...', u'fcodeName': u'seat of a first-order administrative division', u'countryName': u'United States', u'lat': u'38.34982', u'lng': u'-81.63262', u'population': 51400, u'fcl': u'P', u'adminCode1': u'WV', u'adminName1': u'West Virginia'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1444,
+    "fields": {
+        "ip": "213.55.73.42",
+        "hits": 10,
+        "lat": 9.02497,
+        "lng": 38.74689,
+        "region": "Addis Ababa",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'fcode': u'PPLC', u'countryId': u'337996', u'name': u'Addis Ababa', u'countryCode': u'ET', u'geonameId': 344979, u'toponymName': u'Addis Ababa', u'fclName': u'city, village,...', u'fcodeName': u'capital of a political entity', u'countryName': u'Ethiopia', u'lat': u'9.02497', u'lng': u'38.74689', u'population': 2757729, u'fcl': u'P', u'adminCode1': u'44', u'adminName1': u'\\u0100d\\u012bs \\u0100beba'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1468,
+    "fields": {
+        "ip": "67.148.50.158",
+        "hits": 3,
+        "lat": 38.89511,
+        "lng": -77.03637,
+        "region": "Washington",
+        "country_code": "US",
+        "country_name": "United States",
+        "geonames_data": "{u'fcode': u'PPLC', u'countryId': u'6252001', u'name': u'Washington', u'countryCode': u'US', u'geonameId': 4140963, u'toponymName': u'Washington, D.C.', u'fclName': u'city, village,...', u'fcodeName': u'capital of a political entity', u'countryName': u'United States', u'lat': u'38.89511', u'lng': u'-77.03637', u'population': 601723, u'fcl': u'P', u'adminCode1': u'DC', u'adminName1': u'Washington, D.C.'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1484,
+    "fields": {
+        "ip": "154.122.74.235",
+        "hits": 3,
+        "lat": -1.28333,
+        "lng": 36.81667,
+        "region": "Nairobi",
+        "country_code": "KE",
+        "country_name": "Kenya",
+        "geonames_data": "{u'fcode': u'PPLC', u'countryId': u'192950', u'name': u'Nairobi', u'countryCode': u'KE', u'geonameId': 184745, u'toponymName': u'Nairobi', u'fclName': u'city, village,...', u'fcodeName': u'capital of a political entity', u'countryName': u'Kenya', u'lat': u'-1.28333', u'lng': u'36.81667', u'population': 2750547, u'fcl': u'P', u'adminCode1': u'05', u'adminName1': u'Nairobi Area'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1492,
+    "fields": {
+        "ip": "173.209.211.151",
+        "hits": 2,
+        "lat": 28.75054,
+        "lng": -82.5001,
+        "region": "Florida",
+        "country_code": "US",
+        "country_name": "United States",
+        "geonames_data": "{u'fcode': u'ADM1', u'countryId': u'6252001', u'name': u'Florida', u'countryCode': u'US', u'geonameId': 4155751, u'toponymName': u'Florida', u'fclName': u'country, state, region,...', u'fcodeName': u'first-order administrative division', u'countryName': u'United States', u'lat': u'28.75054', u'lng': u'-82.5001', u'adminName1': u'Florida', u'fcl': u'A', u'adminCode1': u'FL', u'population': 17671452}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1508,
+    "fields": {
+        "ip": "197.156.86.132",
+        "hits": 1523,
+        "lat": 9.02497,
+        "lng": 38.74689,
+        "region": "Addis Ababa",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'fcode': u'PPLC', u'countryId': u'337996', u'name': u'Addis Ababa', u'countryCode': u'ET', u'geonameId': 344979, u'toponymName': u'Addis Ababa', u'fclName': u'city, village,...', u'fcodeName': u'capital of a political entity', u'countryName': u'Ethiopia', u'lat': u'9.02497', u'lng': u'38.74689', u'adminName1': u'\\u0100d\\u012bs \\u0100beba', u'fcl': u'P', u'adminCode1': u'44', u'population': 2757729}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1516,
+    "fields": {
+        "ip": "114.79.144.144",
+        "hits": 19,
+        "lat": 19.07283,
+        "lng": 72.88261,
+        "region": "Mumbai",
+        "country_code": "IN",
+        "country_name": "India",
+        "geonames_data": "{u'fcode': u'PPLA', u'countryId': u'1269750', u'name': u'Mumbai', u'countryCode': u'IN', u'geonameId': 1275339, u'toponymName': u'Mumbai', u'fclName': u'city, village,...', u'fcodeName': u'seat of a first-order administrative division', u'countryName': u'India', u'lat': u'19.07283', u'lng': u'72.88261', u'adminName1': u'Maharashtra', u'fcl': u'P', u'adminCode1': u'16', u'population': 12691836}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1532,
+    "fields": {
+        "ip": "41.189.162.16",
+        "hits": 20,
+        "lat": 5.7,
+        "lng": -0.33333,
+        "region": "Achiaman",
+        "country_code": "GH",
+        "country_name": "Ghana",
+        "geonames_data": "{u'fcode': u'PPL', u'countryId': u'2300660', u'name': u'Achiaman', u'countryCode': u'GH', u'geonameId': 2306079, u'toponymName': u'Achiaman', u'fclName': u'city, village,...', u'fcodeName': u'populated place', u'countryName': u'Ghana', u'lat': u'5.7', u'lng': u'-0.33333', u'population': 202932, u'fcl': u'P', u'adminCode1': u'01', u'adminName1': u'Greater Accra'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1556,
+    "fields": {
+        "ip": "92.14.248.245",
+        "hits": 10,
+        "lat": 50.90395,
+        "lng": -1.40428,
+        "region": "Southampton",
+        "country_code": "GB",
+        "country_name": "United Kingdom",
+        "geonames_data": "{u'fcode': u'PPLA2', u'countryId': u'2635167', u'name': u'Southampton', u'countryCode': u'GB', u'geonameId': 2637487, u'toponymName': u'Southampton', u'fclName': u'city, village,...', u'fcodeName': u'seat of a second-order administrative division', u'countryName': u'United Kingdom', u'lat': u'50.90395', u'lng': u'-1.40428', u'population': 246201, u'fcl': u'P', u'adminCode1': u'ENG', u'adminName1': u'England'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1564,
+    "fields": {
+        "ip": "188.55.42.41",
+        "hits": 5,
+        "lat": 25.29194,
+        "lng": 51.42444,
+        "region": "Ar Rayyan",
+        "country_code": "QA",
+        "country_name": "Qatar",
+        "geonames_data": "{u'fcode': u'PPLA', u'countryId': u'289688', u'name': u'Ar Rayyan', u'countryCode': u'QA', u'geonameId': 289888, u'toponymName': u'Ar Rayy\\u0101n', u'fclName': u'city, village,...', u'fcodeName': u'seat of a first-order administrative division', u'countryName': u'Qatar', u'lat': u'25.29194', u'lng': u'51.42444', u'population': 272465, u'fcl': u'P', u'adminCode1': u'06', u'adminName1': u'Ar Rayy\\u0101n'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1588,
+    "fields": {
+        "ip": "188.54.239.45",
+        "hits": 5,
+        "lat": 21.42664,
+        "lng": 39.82563,
+        "region": "Mecca",
+        "country_code": "SA",
+        "country_name": "Saudi Arabia",
+        "geonames_data": "{u'fcode': u'PPLA', u'countryId': u'102358', u'name': u'Mecca', u'countryCode': u'SA', u'geonameId': 104515, u'toponymName': u'Mecca', u'fclName': u'city, village,...', u'fcodeName': u'seat of a first-order administrative division', u'countryName': u'Saudi Arabia', u'lat': u'21.42664', u'lng': u'39.82563', u'population': 1323624, u'fcl': u'P', u'adminCode1': u'14', u'adminName1': u'Makkah'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1604,
+    "fields": {
+        "ip": "151.40.93.212",
+        "hits": 2,
+        "lat": 43.77925,
+        "lng": 11.24626,
+        "region": "Florence",
+        "country_code": "IT",
+        "country_name": "Italy",
+        "geonames_data": "{u'fcode': u'PPLA', u'countryId': u'3175395', u'name': u'Florence', u'countryCode': u'IT', u'geonameId': 3176959, u'toponymName': u'Florence', u'fclName': u'city, village,...', u'fcodeName': u'seat of a first-order administrative division', u'countryName': u'Italy', u'lat': u'43.77925', u'lng': u'11.24626', u'adminName1': u'Tuscany', u'fcl': u'P', u'adminCode1': u'16', u'population': 349296}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1612,
+    "fields": {
+        "ip": "213.55.72.171",
+        "hits": 11,
+        "lat": 9.02497,
+        "lng": 38.74689,
+        "region": "Addis Ababa",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'fcode': u'PPLC', u'countryId': u'337996', u'name': u'Addis Ababa', u'countryCode': u'ET', u'geonameId': 344979, u'toponymName': u'Addis Ababa', u'fclName': u'city, village,...', u'fcodeName': u'capital of a political entity', u'countryName': u'Ethiopia', u'lat': u'9.02497', u'lng': u'38.74689', u'population': 2757729, u'fcl': u'P', u'adminCode1': u'44', u'adminName1': u'\\u0100d\\u012bs \\u0100beba'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1628,
+    "fields": {
+        "ip": "112.215.63.243",
+        "hits": 11,
+        "lat": -6.1744,
+        "lng": 106.8294,
+        "region": "Jakarta Jakarta Raya",
+        "country_code": "ID",
+        "country_name": "Indonesia",
+        "geonames_data": "{u'city': u'Jakarta', u'region_code': u'04', u'region_name': u'Jakarta Raya', u'ip': u'112.215.63.243', u'area_code': u'', u'zipcode': u'', u'longitude': 106.8294, u'metro_code': u'', u'latitude': -6.1744, u'country_code': u'ID', u'country_name': u'Indonesia'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1636,
+    "fields": {
+        "ip": "90.29.81.160",
+        "hits": 2,
+        "lat": 45.7485,
+        "lng": 4.8467,
+        "region": "Lyon Rh\u00f4ne-Alpes",
+        "country_code": "FR",
+        "country_name": "France",
+        "geonames_data": "{u'city': u'Lyon', u'region_code': u'B9', u'region_name': u'Rh\\xf4ne-Alpes', u'ip': u'90.29.81.160', u'area_code': u'', u'zipcode': u'', u'longitude': 4.8467, u'metro_code': u'', u'latitude': 45.7485, u'country_code': u'FR', u'country_name': u'France'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1652,
+    "fields": {
+        "ip": "213.55.115.188",
+        "hits": 46,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'213.55.115.188', u'area_code': u'', u'zipcode': u'', u'longitude': 38, u'metro_code': u'', u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1676,
+    "fields": {
+        "ip": "155.210.224.70",
+        "hits": 3,
+        "lat": 41.645,
+        "lng": -0.885,
+        "region": "Zaragoza Aragon",
+        "country_code": "ES",
+        "country_name": "Spain",
+        "geonames_data": "{u'city': u'Zaragoza', u'region_code': u'AR', u'region_name': u'Aragon', u'ip': u'155.210.224.70', u'time_zone': u'Europe/Madrid', u'longitude': -0.885, u'metro_code': 0, u'latitude': 41.645, u'country_code': u'ES', u'country_name': u'Spain', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1684,
+    "fields": {
+        "ip": "92.22.139.50",
+        "hits": 9,
+        "lat": 53.775,
+        "lng": -1.562,
+        "region": "Leeds England",
+        "country_code": "GB",
+        "country_name": "United Kingdom",
+        "geonames_data": "{u'city': u'Leeds', u'region_code': u'ENG', u'region_name': u'England', u'ip': u'92.22.139.50', u'time_zone': u'Europe/London', u'longitude': -1.562, u'metro_code': 0, u'latitude': 53.775, u'country_code': u'GB', u'country_name': u'United Kingdom', u'zip_code': u'LS11'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1708,
+    "fields": {
+        "ip": "41.13.32.135",
+        "hits": 13,
+        "lat": -26.206,
+        "lng": 28.05,
+        "region": "Johannesburg Gauteng",
+        "country_code": "ZA",
+        "country_name": "South Africa",
+        "geonames_data": "{u'city': u'Johannesburg', u'region_code': u'GP', u'region_name': u'Gauteng', u'ip': u'41.13.32.135', u'time_zone': u'Africa/Johannesburg', u'longitude': 28.05, u'metro_code': 0, u'latitude': -26.206, u'country_code': u'ZA', u'country_name': u'South Africa', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1724,
+    "fields": {
+        "ip": "41.220.68.240",
+        "hits": 1,
+        "lat": 6.453,
+        "lng": 3.396,
+        "region": "Lagos Lagos",
+        "country_code": "NG",
+        "country_name": "Nigeria",
+        "geonames_data": "{u'city': u'Lagos', u'region_code': u'LA', u'region_name': u'Lagos', u'ip': u'41.220.68.240', u'time_zone': u'Africa/Lagos', u'longitude': 3.396, u'metro_code': 0, u'latitude': 6.453, u'country_code': u'NG', u'country_name': u'Nigeria', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1732,
+    "fields": {
+        "ip": "41.57.81.26",
+        "hits": 276,
+        "lat": 6.5,
+        "lng": -9.5,
+        "region": " ",
+        "country_code": "LR",
+        "country_name": "Liberia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'41.57.81.26', u'time_zone': u'Africa/Monrovia', u'longitude': -9.5, u'metro_code': 0, u'latitude': 6.5, u'country_code': u'LR', u'country_name': u'Liberia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1748,
+    "fields": {
+        "ip": "115.76.86.107",
+        "hits": 1,
+        "lat": 21.033,
+        "lng": 105.85,
+        "region": "Hanoi Thanh Pho Ha Noi",
+        "country_code": "VN",
+        "country_name": "Vietnam",
+        "geonames_data": "{u'city': u'Hanoi', u'region_code': u'64', u'region_name': u'Thanh Pho Ha Noi', u'ip': u'115.76.86.107', u'time_zone': u'Asia/Ho_Chi_Minh', u'longitude': 105.85, u'metro_code': 0, u'latitude': 21.033, u'country_code': u'VN', u'country_name': u'Vietnam', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1756,
+    "fields": {
+        "ip": "155.41.231.33",
+        "hits": 3,
+        "lat": 42.345,
+        "lng": -71.1,
+        "region": "Boston Massachusetts",
+        "country_code": "US",
+        "country_name": "United States",
+        "geonames_data": "{u'city': u'Boston', u'region_code': u'MA', u'region_name': u'Massachusetts', u'ip': u'155.41.231.33', u'time_zone': u'America/New_York', u'longitude': -71.1, u'metro_code': 506, u'latitude': 42.345, u'country_code': u'US', u'country_name': u'United States', u'zip_code': u'02215'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1772,
+    "fields": {
+        "ip": "94.0.144.226",
+        "hits": 1,
+        "lat": 53.43,
+        "lng": -2.906,
+        "region": "Liverpool England",
+        "country_code": "GB",
+        "country_name": "United Kingdom",
+        "geonames_data": "{u'city': u'Liverpool', u'region_code': u'ENG', u'region_name': u'England', u'ip': u'94.0.144.226', u'time_zone': u'Europe/London', u'longitude': -2.906, u'metro_code': 0, u'latitude': 53.43, u'country_code': u'GB', u'country_name': u'United Kingdom', u'zip_code': u'L14'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1796,
+    "fields": {
+        "ip": "188.29.165.164",
+        "hits": 1,
+        "lat": 51.514,
+        "lng": -0.094,
+        "region": "London England",
+        "country_code": "GB",
+        "country_name": "United Kingdom",
+        "geonames_data": "{u'city': u'London', u'region_code': u'ENG', u'region_name': u'England', u'ip': u'188.29.165.164', u'time_zone': u'Europe/London', u'longitude': -0.094, u'metro_code': 0, u'latitude': 51.514, u'country_code': u'GB', u'country_name': u'United Kingdom', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1804,
+    "fields": {
+        "ip": "87.204.92.250",
+        "hits": 1,
+        "lat": 54.605,
+        "lng": 18.236,
+        "region": "Wejherowo Pomeranian Voivodeship",
+        "country_code": "PL",
+        "country_name": "Poland",
+        "geonames_data": "{u'city': u'Wejherowo', u'region_code': u'PM', u'region_name': u'Pomeranian Voivodeship', u'ip': u'87.204.92.250', u'time_zone': u'Europe/Warsaw', u'longitude': 18.236, u'metro_code': 0, u'latitude': 54.605, u'country_code': u'PL', u'country_name': u'Poland', u'zip_code': u'84-200'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1828,
+    "fields": {
+        "ip": "190.82.201.98",
+        "hits": 1,
+        "lat": -33.45,
+        "lng": -70.667,
+        "region": "Santiago Santiago Metropolitan",
+        "country_code": "CL",
+        "country_name": "Chile",
+        "geonames_data": "{u'city': u'Santiago', u'region_code': u'RM', u'region_name': u'Santiago Metropolitan', u'ip': u'190.82.201.98', u'time_zone': u'America/Santiago', u'longitude': -70.667, u'metro_code': 0, u'latitude': -33.45, u'country_code': u'CL', u'country_name': u'Chile', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1844,
+    "fields": {
+        "ip": "121.238.158.183",
+        "hits": 1,
+        "lat": 32.062,
+        "lng": 118.778,
+        "region": "Nanjing Jiangsu Sheng",
+        "country_code": "CN",
+        "country_name": "China",
+        "geonames_data": "{u'city': u'Nanjing', u'region_code': u'32', u'region_name': u'Jiangsu Sheng', u'ip': u'121.238.158.183', u'time_zone': u'Asia/Shanghai', u'longitude': 118.778, u'metro_code': 0, u'latitude': 32.062, u'country_code': u'CN', u'country_name': u'China', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1852,
+    "fields": {
+        "ip": "78.180.69.230",
+        "hits": 1,
+        "lat": 41.019,
+        "lng": 28.965,
+        "region": "Istanbul Istanbul",
+        "country_code": "TR",
+        "country_name": "Turkey",
+        "geonames_data": "{u'city': u'Istanbul', u'region_code': u'34', u'region_name': u'Istanbul', u'ip': u'78.180.69.230', u'time_zone': u'Europe/Istanbul', u'longitude': 28.965, u'metro_code': 0, u'latitude': 41.019, u'country_code': u'TR', u'country_name': u'Turkey', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1868,
+    "fields": {
+        "ip": "49.202.62.98",
+        "hits": 2,
+        "lat": 18.975,
+        "lng": 72.826,
+        "region": "Mumbai Maharashtra",
+        "country_code": "IN",
+        "country_name": "India",
+        "geonames_data": "{u'city': u'Mumbai', u'region_code': u'MH', u'region_name': u'Maharashtra', u'ip': u'49.202.62.98', u'time_zone': u'Asia/Kolkata', u'longitude': 72.826, u'metro_code': 0, u'latitude': 18.975, u'country_code': u'IN', u'country_name': u'India', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1876,
+    "fields": {
+        "ip": "213.140.59.8",
+        "hits": 1,
+        "lat": 28.0,
+        "lng": 3.0,
+        "region": " ",
+        "country_code": "DZ",
+        "country_name": "Algeria",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'213.140.59.8', u'time_zone': u'Africa/Algiers', u'longitude': 3, u'metro_code': 0, u'latitude': 28, u'country_code': u'DZ', u'country_name': u'Algeria', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1892,
+    "fields": {
+        "ip": "114.250.94.1",
+        "hits": 2,
+        "lat": 39.929,
+        "lng": 116.388,
+        "region": "Beijing Beijing Shi",
+        "country_code": "CN",
+        "country_name": "China",
+        "geonames_data": "{u'city': u'Beijing', u'region_code': u'11', u'region_name': u'Beijing Shi', u'ip': u'114.250.94.1', u'time_zone': u'Asia/Shanghai', u'longitude': 116.388, u'metro_code': 0, u'latitude': 39.929, u'country_code': u'CN', u'country_name': u'China', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1916,
+    "fields": {
+        "ip": "86.184.36.170",
+        "hits": 1,
+        "lat": 53.778,
+        "lng": -1.875,
+        "region": "Bradford England",
+        "country_code": "GB",
+        "country_name": "United Kingdom",
+        "geonames_data": "{u'city': u'Bradford', u'region_code': u'ENG', u'region_name': u'England', u'ip': u'86.184.36.170', u'time_zone': u'Europe/London', u'longitude': -1.875, u'metro_code': 0, u'latitude': 53.778, u'country_code': u'GB', u'country_name': u'United Kingdom', u'zip_code': u'BD13'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1924,
+    "fields": {
+        "ip": "155.41.159.66",
+        "hits": 2,
+        "lat": 42.345,
+        "lng": -71.1,
+        "region": "Boston Massachusetts",
+        "country_code": "US",
+        "country_name": "United States",
+        "geonames_data": "{u'city': u'Boston', u'region_code': u'MA', u'region_name': u'Massachusetts', u'ip': u'155.41.159.66', u'time_zone': u'America/New_York', u'longitude': -71.1, u'metro_code': 506, u'latitude': 42.345, u'country_code': u'US', u'country_name': u'United States', u'zip_code': u'02215'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1948,
+    "fields": {
+        "ip": "41.191.107.52",
+        "hits": 6,
+        "lat": 6.5,
+        "lng": -9.5,
+        "region": " ",
+        "country_code": "LR",
+        "country_name": "Liberia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'41.191.107.52', u'time_zone': u'Africa/Monrovia', u'longitude': -9.5, u'metro_code': 0, u'latitude': 6.5, u'country_code': u'LR', u'country_name': u'Liberia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1964,
+    "fields": {
+        "ip": "119.95.45.99",
+        "hits": 34,
+        "lat": 14.583,
+        "lng": 120.967,
+        "region": " ",
+        "country_code": "PH",
+        "country_name": "Philippines",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'119.95.45.99', u'time_zone': u'Asia/Manila', u'longitude': 120.967, u'metro_code': 0, u'latitude': 14.583, u'country_code': u'PH', u'country_name': u'Philippines', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1972,
+    "fields": {
+        "ip": "31.4.238.127",
+        "hits": 25,
+        "lat": 40.402,
+        "lng": -3.693,
+        "region": "Madrid Madrid",
+        "country_code": "ES",
+        "country_name": "Spain",
+        "geonames_data": "{u'city': u'Madrid', u'region_code': u'MD', u'region_name': u'Madrid', u'ip': u'31.4.238.127', u'time_zone': u'Europe/Madrid', u'longitude': -3.693, u'metro_code': 0, u'latitude': 40.402, u'country_code': u'ES', u'country_name': u'Spain', u'zip_code': u'28045'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1988,
+    "fields": {
+        "ip": "203.190.131.250",
+        "hits": 23,
+        "lat": 20.0,
+        "lng": 77.0,
+        "region": " ",
+        "country_code": "IN",
+        "country_name": "India",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'203.190.131.250', u'time_zone': u'Asia/Kolkata', u'longitude': 77, u'metro_code': 0, u'latitude': 20, u'country_code': u'IN', u'country_name': u'India', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 1996,
+    "fields": {
+        "ip": "41.191.107.36",
+        "hits": 7,
+        "lat": 6.5,
+        "lng": -9.5,
+        "region": " ",
+        "country_code": "LR",
+        "country_name": "Liberia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'41.191.107.36', u'time_zone': u'Africa/Monrovia', u'longitude': -9.5, u'metro_code': 0, u'latitude': 6.5, u'country_code': u'LR', u'country_name': u'Liberia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2012,
+    "fields": {
+        "ip": "197.250.193.166",
+        "hits": 11,
+        "lat": -6.0,
+        "lng": 35.0,
+        "region": " ",
+        "country_code": "TZ",
+        "country_name": "Tanzania",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.250.193.166', u'time_zone': u'Africa/Dar_es_Salaam', u'longitude': 35, u'metro_code': 0, u'latitude': -6, u'country_code': u'TZ', u'country_name': u'Tanzania', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2036,
+    "fields": {
+        "ip": "122.161.253.182",
+        "hits": 60,
+        "lat": 28.6,
+        "lng": 77.2,
+        "region": "New Delhi National Capital Territory of Delhi",
+        "country_code": "IN",
+        "country_name": "India",
+        "geonames_data": "{u'city': u'New Delhi', u'region_code': u'DL', u'region_name': u'National Capital Territory of Delhi', u'ip': u'122.161.253.182', u'time_zone': u'Asia/Kolkata', u'longitude': 77.2, u'metro_code': 0, u'latitude': 28.6, u'country_code': u'IN', u'country_name': u'India', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2044,
+    "fields": {
+        "ip": "157.99.42.17",
+        "hits": 11,
+        "lat": 48.859,
+        "lng": 2.342,
+        "region": "Paris \u00cele-de-France",
+        "country_code": "FR",
+        "country_name": "France",
+        "geonames_data": "{u'city': u'Paris', u'region_code': u'J', u'region_name': u'\\xcele-de-France', u'ip': u'157.99.42.17', u'time_zone': u'Europe/Paris', u'longitude': 2.342, u'metro_code': 0, u'latitude': 48.859, u'country_code': u'FR', u'country_name': u'France', u'zip_code': u'75001'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2068,
+    "fields": {
+        "ip": "43.243.36.215",
+        "hits": 2,
+        "lat": 20.0,
+        "lng": 77.0,
+        "region": " ",
+        "country_code": "IN",
+        "country_name": "India",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'43.243.36.215', u'time_zone': u'Asia/Kolkata', u'longitude': 77, u'metro_code': 0, u'latitude': 20, u'country_code': u'IN', u'country_name': u'India', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2084,
+    "fields": {
+        "ip": "197.156.95.171",
+        "hits": 1181,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.95.171', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2092,
+    "fields": {
+        "ip": "197.156.95.124",
+        "hits": 730,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.95.124', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2108,
+    "fields": {
+        "ip": "197.156.95.112",
+        "hits": 1568,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.95.112', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2116,
+    "fields": {
+        "ip": "83.178.54.178",
+        "hits": 1,
+        "lat": 59.329,
+        "lng": 18.069,
+        "region": " ",
+        "country_code": "SE",
+        "country_name": "Sweden",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'83.178.54.178', u'time_zone': u'Europe/Stockholm', u'longitude': 18.069, u'metro_code': 0, u'latitude': 59.329, u'country_code': u'SE', u'country_name': u'Sweden', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2132,
+    "fields": {
+        "ip": "73.39.0.140",
+        "hits": 1,
+        "lat": 38.935,
+        "lng": -77.029,
+        "region": "Washington District of Columbia",
+        "country_code": "US",
+        "country_name": "United States",
+        "geonames_data": "{u'city': u'Washington', u'region_code': u'DC', u'region_name': u'District of Columbia', u'ip': u'73.39.0.140', u'time_zone': u'America/New_York', u'longitude': -77.029, u'metro_code': 511, u'latitude': 38.935, u'country_code': u'US', u'country_name': u'United States', u'zip_code': u'20010'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2156,
+    "fields": {
+        "ip": "112.198.82.123",
+        "hits": 12,
+        "lat": 14.15,
+        "lng": 121.5,
+        "region": "Isabang Calabarzon",
+        "country_code": "PH",
+        "country_name": "Philippines",
+        "geonames_data": "{u'city': u'Isabang', u'region_code': u'40', u'region_name': u'Calabarzon', u'ip': u'112.198.82.123', u'time_zone': u'Asia/Manila', u'longitude': 121.5, u'metro_code': 0, u'latitude': 14.15, u'country_code': u'PH', u'country_name': u'Philippines', u'zip_code': u'1101'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2164,
+    "fields": {
+        "ip": "112.209.125.100",
+        "hits": 4,
+        "lat": 14.579,
+        "lng": 121.122,
+        "region": "Cainta Calabarzon",
+        "country_code": "PH",
+        "country_name": "Philippines",
+        "geonames_data": "{u'city': u'Cainta', u'region_code': u'40', u'region_name': u'Calabarzon', u'ip': u'112.209.125.100', u'time_zone': u'Asia/Manila', u'longitude': 121.122, u'metro_code': 0, u'latitude': 14.579, u'country_code': u'PH', u'country_name': u'Philippines', u'zip_code': u'1900'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2188,
+    "fields": {
+        "ip": "197.156.77.226",
+        "hits": 2649,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.77.226', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2204,
+    "fields": {
+        "ip": "213.55.108.49",
+        "hits": 16,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'213.55.108.49', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2212,
+    "fields": {
+        "ip": "197.156.95.122",
+        "hits": 4209,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.95.122', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2228,
+    "fields": {
+        "ip": "213.55.108.1",
+        "hits": 961,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'213.55.108.1', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2236,
+    "fields": {
+        "ip": "197.156.86.201",
+        "hits": 2608,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.86.201', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2252,
+    "fields": {
+        "ip": "197.156.95.21",
+        "hits": 2786,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.95.21', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2276,
+    "fields": {
+        "ip": "197.156.77.170",
+        "hits": 2198,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.77.170', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2284,
+    "fields": {
+        "ip": "197.156.77.243",
+        "hits": 1734,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.77.243', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2308,
+    "fields": {
+        "ip": "197.156.77.24",
+        "hits": 3425,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.77.24', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2324,
+    "fields": {
+        "ip": "197.156.86.139",
+        "hits": 895,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.86.139', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2332,
+    "fields": {
+        "ip": "197.156.77.80",
+        "hits": 2046,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.77.80', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2348,
+    "fields": {
+        "ip": "197.156.77.66",
+        "hits": 2035,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.77.66', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2356,
+    "fields": {
+        "ip": "197.156.77.151",
+        "hits": 1841,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.77.151', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2372,
+    "fields": {
+        "ip": "197.156.77.218",
+        "hits": 1976,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.77.218', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2396,
+    "fields": {
+        "ip": "197.156.77.203",
+        "hits": 1325,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.77.203', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2404,
+    "fields": {
+        "ip": "155.41.161.163",
+        "hits": 40,
+        "lat": 42.345,
+        "lng": -71.1,
+        "region": "Boston Massachusetts",
+        "country_code": "US",
+        "country_name": "United States",
+        "geonames_data": "{u'city': u'Boston', u'region_code': u'MA', u'region_name': u'Massachusetts', u'ip': u'155.41.161.163', u'time_zone': u'America/New_York', u'longitude': -71.1, u'metro_code': 506, u'latitude': 42.345, u'country_code': u'US', u'country_name': u'United States', u'zip_code': u'02215'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2428,
+    "fields": {
+        "ip": "223.176.177.144",
+        "hits": 1,
+        "lat": 28.667,
+        "lng": 77.217,
+        "region": "Delhi National Capital Territory of Delhi",
+        "country_code": "IN",
+        "country_name": "India",
+        "geonames_data": "{u'city': u'Delhi', u'region_code': u'DL', u'region_name': u'National Capital Territory of Delhi', u'ip': u'223.176.177.144', u'time_zone': u'Asia/Kolkata', u'longitude': 77.217, u'metro_code': 0, u'latitude': 28.667, u'country_code': u'IN', u'country_name': u'India', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2444,
+    "fields": {
+        "ip": "197.215.0.143",
+        "hits": 1,
+        "lat": 8.5,
+        "lng": -11.5,
+        "region": " ",
+        "country_code": "SL",
+        "country_name": "Sierra Leone",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.215.0.143', u'time_zone': u'Africa/Freetown', u'longitude': -11.5, u'metro_code': 0, u'latitude': 8.5, u'country_code': u'SL', u'country_name': u'Sierra Leone', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2452,
+    "fields": {
+        "ip": "41.191.107.56",
+        "hits": 12,
+        "lat": 6.5,
+        "lng": -9.5,
+        "region": " ",
+        "country_code": "LR",
+        "country_name": "Liberia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'41.191.107.56', u'time_zone': u'Africa/Monrovia', u'longitude': -9.5, u'metro_code': 0, u'latitude': 6.5, u'country_code': u'LR', u'country_name': u'Liberia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2468,
+    "fields": {
+        "ip": "197.215.0.130",
+        "hits": 1,
+        "lat": 8.5,
+        "lng": -11.5,
+        "region": " ",
+        "country_code": "SL",
+        "country_name": "Sierra Leone",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.215.0.130', u'time_zone': u'Africa/Freetown', u'longitude': -11.5, u'metro_code': 0, u'latitude': 8.5, u'country_code': u'SL', u'country_name': u'Sierra Leone', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2476,
+    "fields": {
+        "ip": "197.215.0.189",
+        "hits": 7,
+        "lat": 8.5,
+        "lng": -11.5,
+        "region": " ",
+        "country_code": "SL",
+        "country_name": "Sierra Leone",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.215.0.189', u'time_zone': u'Africa/Freetown', u'longitude': -11.5, u'metro_code': 0, u'latitude': 8.5, u'country_code': u'SL', u'country_name': u'Sierra Leone', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2492,
+    "fields": {
+        "ip": "213.55.108.7",
+        "hits": 2120,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'213.55.108.7', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2516,
+    "fields": {
+        "ip": "197.156.111.146",
+        "hits": 284,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.111.146', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2524,
+    "fields": {
+        "ip": "112.198.99.155",
+        "hits": 2,
+        "lat": 14.583,
+        "lng": 120.967,
+        "region": " ",
+        "country_code": "PH",
+        "country_name": "Philippines",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'112.198.99.155', u'time_zone': u'Asia/Manila', u'longitude': 120.967, u'metro_code': 0, u'latitude': 14.583, u'country_code': u'PH', u'country_name': u'Philippines', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2548,
+    "fields": {
+        "ip": "213.205.253.27",
+        "hits": 2,
+        "lat": 51.5,
+        "lng": -0.13,
+        "region": " ",
+        "country_code": "GB",
+        "country_name": "United Kingdom",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'213.205.253.27', u'time_zone': u'Europe/London', u'longitude': -0.13, u'metro_code': 0, u'latitude': 51.5, u'country_code': u'GB', u'country_name': u'United Kingdom', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2564,
+    "fields": {
+        "ip": "197.156.77.86",
+        "hits": 2825,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.77.86', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2572,
+    "fields": {
+        "ip": "197.156.86.183",
+        "hits": 2406,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.86.183', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2588,
+    "fields": {
+        "ip": "197.156.86.168",
+        "hits": 2032,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.86.168', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2596,
+    "fields": {
+        "ip": "197.37.252.76",
+        "hits": 1,
+        "lat": 30.05,
+        "lng": 31.367,
+        "region": " ",
+        "country_code": "EG",
+        "country_name": "Egypt",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.37.252.76', u'time_zone': u'Africa/Cairo', u'longitude': 31.367, u'metro_code': 0, u'latitude': 30.05, u'country_code': u'EG', u'country_name': u'Egypt', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2612,
+    "fields": {
+        "ip": "197.156.77.79",
+        "hits": 2712,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.77.79', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2636,
+    "fields": {
+        "ip": "197.156.77.255",
+        "hits": 2710,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.77.255', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2644,
+    "fields": {
+        "ip": "197.215.0.182",
+        "hits": 2,
+        "lat": 8.5,
+        "lng": -11.5,
+        "region": " ",
+        "country_code": "SL",
+        "country_name": "Sierra Leone",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.215.0.182', u'time_zone': u'Africa/Freetown', u'longitude': -11.5, u'metro_code': 0, u'latitude': 8.5, u'country_code': u'SL', u'country_name': u'Sierra Leone', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2668,
+    "fields": {
+        "ip": "197.156.95.185",
+        "hits": 957,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.95.185', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2684,
+    "fields": {
+        "ip": "213.55.108.61",
+        "hits": 10,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'213.55.108.61', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2692,
+    "fields": {
+        "ip": "197.156.86.242",
+        "hits": 1220,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.86.242', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2708,
+    "fields": {
+        "ip": "197.156.77.229",
+        "hits": 3576,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.77.229', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2716,
+    "fields": {
+        "ip": "197.156.77.63",
+        "hits": 2084,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.77.63', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2732,
+    "fields": {
+        "ip": "197.156.86.120",
+        "hits": 1488,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.86.120', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2756,
+    "fields": {
+        "ip": "197.156.77.114",
+        "hits": 1037,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.77.114', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2764,
+    "fields": {
+        "ip": "197.156.77.234",
+        "hits": 2235,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.77.234', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2788,
+    "fields": {
+        "ip": "197.156.77.245",
+        "hits": 1936,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.77.245', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2804,
+    "fields": {
+        "ip": "197.156.86.121",
+        "hits": 817,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.86.121', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2812,
+    "fields": {
+        "ip": "197.156.95.129",
+        "hits": 1986,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.95.129', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2828,
+    "fields": {
+        "ip": "197.156.77.112",
+        "hits": 2731,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.77.112', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2836,
+    "fields": {
+        "ip": "197.156.86.28",
+        "hits": 2111,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.86.28', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2852,
+    "fields": {
+        "ip": "197.156.86.170",
+        "hits": 1775,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.86.170', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2876,
+    "fields": {
+        "ip": "197.156.95.41",
+        "hits": 527,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.95.41', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2884,
+    "fields": {
+        "ip": "197.156.95.67",
+        "hits": 1316,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.95.67', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2908,
+    "fields": {
+        "ip": "197.156.77.180",
+        "hits": 2861,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.77.180', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2924,
+    "fields": {
+        "ip": "197.156.95.172",
+        "hits": 843,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.95.172', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2932,
+    "fields": {
+        "ip": "197.156.111.144",
+        "hits": 11,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.111.144', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2948,
+    "fields": {
+        "ip": "197.156.111.246",
+        "hits": 108,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.111.246', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2956,
+    "fields": {
+        "ip": "197.156.95.123",
+        "hits": 600,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.95.123', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 2972,
+    "fields": {
+        "ip": "197.156.111.243",
+        "hits": 490,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.111.243', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3004,
+    "fields": {
+        "ip": "197.156.111.252",
+        "hits": 228,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.111.252', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3028,
+    "fields": {
+        "ip": "197.156.77.171",
+        "hits": 1679,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.77.171', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3044,
+    "fields": {
+        "ip": "197.156.118.246",
+        "hits": 9,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.118.246', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3052,
+    "fields": {
+        "ip": "197.156.86.205",
+        "hits": 2157,
+        "lat": 8.983,
+        "lng": 38.7,
+        "region": "Nefas Silk Adis Abeba Astedader",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'Nefas Silk', u'region_code': u'AA', u'region_name': u'Adis Abeba Astedader', u'ip': u'197.156.86.205', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38.7, u'metro_code': 0, u'latitude': 8.983, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3076,
+    "fields": {
+        "ip": "197.156.118.236",
+        "hits": 137,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.118.236', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3092,
+    "fields": {
+        "ip": "197.156.86.77",
+        "hits": 1019,
+        "lat": 8.983,
+        "lng": 38.7,
+        "region": "Nefas Silk Adis Abeba Astedader",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'Nefas Silk', u'region_code': u'AA', u'region_name': u'Adis Abeba Astedader', u'ip': u'197.156.86.77', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38.7, u'metro_code': 0, u'latitude': 8.983, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3116,
+    "fields": {
+        "ip": "197.156.95.84",
+        "hits": 1514,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.95.84', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3124,
+    "fields": {
+        "ip": "197.156.77.14",
+        "hits": 2885,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.77.14', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3148,
+    "fields": {
+        "ip": "197.156.95.27",
+        "hits": 931,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.95.27', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3164,
+    "fields": {
+        "ip": "197.156.118.207",
+        "hits": 165,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.118.207', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3172,
+    "fields": {
+        "ip": "197.156.95.30",
+        "hits": 598,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.95.30', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3188,
+    "fields": {
+        "ip": "197.156.118.159",
+        "hits": 187,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.118.159', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3196,
+    "fields": {
+        "ip": "213.55.108.75",
+        "hits": 9,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'213.55.108.75', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3212,
+    "fields": {
+        "ip": "197.156.95.176",
+        "hits": 633,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.95.176', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3244,
+    "fields": {
+        "ip": "213.55.108.100",
+        "hits": 11,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'213.55.108.100', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3268,
+    "fields": {
+        "ip": "213.55.95.144",
+        "hits": 13,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'213.55.95.144', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3284,
+    "fields": {
+        "ip": "197.156.95.167",
+        "hits": 794,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.95.167', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3292,
+    "fields": {
+        "ip": "197.156.118.133",
+        "hits": 27,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.118.133', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3308,
+    "fields": {
+        "ip": "197.156.95.29",
+        "hits": 418,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.95.29', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3316,
+    "fields": {
+        "ip": "197.156.118.205",
+        "hits": 119,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.118.205', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3332,
+    "fields": {
+        "ip": "213.55.73.204",
+        "hits": 1770,
+        "lat": 6.974,
+        "lng": 45.341,
+        "region": "Warder Somali",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'Warder', u'region_code': u'SO', u'region_name': u'Somali', u'ip': u'213.55.73.204', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 45.341, u'metro_code': 0, u'latitude': 6.974, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3356,
+    "fields": {
+        "ip": "84.72.16.101",
+        "hits": 5,
+        "lat": 47.0,
+        "lng": 8.0,
+        "region": " ",
+        "country_code": "CH",
+        "country_name": "Switzerland",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'84.72.16.101', u'time_zone': u'Europe/Zurich', u'longitude': 8, u'metro_code': 0, u'latitude': 47, u'country_code': u'CH', u'country_name': u'Switzerland', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3364,
+    "fields": {
+        "ip": "197.156.111.166",
+        "hits": 155,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.111.166', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3388,
+    "fields": {
+        "ip": "67.207.101.2",
+        "hits": 20,
+        "lat": 37.316,
+        "lng": -121.934,
+        "region": "San Jose California",
+        "country_code": "US",
+        "country_name": "United States",
+        "geonames_data": "{u'city': u'San Jose', u'region_code': u'CA', u'region_name': u'California', u'ip': u'67.207.101.2', u'time_zone': u'America/Los_Angeles', u'longitude': -121.934, u'metro_code': 807, u'latitude': 37.316, u'country_code': u'US', u'country_name': u'United States', u'zip_code': u'95128'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3412,
+    "fields": {
+        "ip": "178.103.36.243",
+        "hits": 22,
+        "lat": 51.5,
+        "lng": -0.13,
+        "region": " ",
+        "country_code": "GB",
+        "country_name": "United Kingdom",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'178.103.36.243', u'time_zone': u'Europe/London', u'longitude': -0.13, u'metro_code': 0, u'latitude': 51.5, u'country_code': u'GB', u'country_name': u'United Kingdom', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3428,
+    "fields": {
+        "ip": "213.55.108.84",
+        "hits": 19,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'213.55.108.84', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3484,
+    "fields": {
+        "ip": "176.83.174.41",
+        "hits": 4,
+        "lat": 40.4,
+        "lng": -3.684,
+        "region": " ",
+        "country_code": "ES",
+        "country_name": "Spain",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'176.83.174.41', u'time_zone': u'', u'longitude': -3.684, u'metro_code': 0, u'latitude': 40.4, u'country_code': u'ES', u'country_name': u'Spain', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3508,
+    "fields": {
+        "ip": "197.134.59.248",
+        "hits": 1,
+        "lat": 30.05,
+        "lng": 31.367,
+        "region": " ",
+        "country_code": "EG",
+        "country_name": "Egypt",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.134.59.248', u'time_zone': u'Africa/Cairo', u'longitude': 31.367, u'metro_code': 0, u'latitude': 30.05, u'country_code': u'EG', u'country_name': u'Egypt', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3524,
+    "fields": {
+        "ip": "197.156.118.172",
+        "hits": 1,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.118.172', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3532,
+    "fields": {
+        "ip": "197.156.118.214",
+        "hits": 16,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.118.214', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3548,
+    "fields": {
+        "ip": "213.55.108.89",
+        "hits": 17,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'213.55.108.89', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3556,
+    "fields": {
+        "ip": "176.83.202.16",
+        "hits": 1,
+        "lat": 40.4,
+        "lng": -3.684,
+        "region": " ",
+        "country_code": "ES",
+        "country_name": "Spain",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'176.83.202.16', u'time_zone': u'', u'longitude': -3.684, u'metro_code': 0, u'latitude': 40.4, u'country_code': u'ES', u'country_name': u'Spain', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3572,
+    "fields": {
+        "ip": "169.159.116.83",
+        "hits": 1,
+        "lat": 10.0,
+        "lng": 8.0,
+        "region": " ",
+        "country_code": "NG",
+        "country_name": "Nigeria",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'169.159.116.83', u'time_zone': u'Africa/Lagos', u'longitude': 8, u'metro_code': 0, u'latitude': 10, u'country_code': u'NG', u'country_name': u'Nigeria', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3596,
+    "fields": {
+        "ip": "105.50.250.50",
+        "hits": 54,
+        "lat": 1.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "KE",
+        "country_name": "Kenya",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'105.50.250.50', u'time_zone': u'Africa/Nairobi', u'longitude': 38, u'metro_code': 0, u'latitude': 1, u'country_code': u'KE', u'country_name': u'Kenya', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3604,
+    "fields": {
+        "ip": "41.189.162.2",
+        "hits": 14,
+        "lat": 5.55,
+        "lng": -0.217,
+        "region": "Accra Greater Accra Region",
+        "country_code": "GH",
+        "country_name": "Ghana",
+        "geonames_data": "{u'city': u'Accra', u'region_code': u'AA', u'region_name': u'Greater Accra Region', u'ip': u'41.189.162.2', u'time_zone': u'Africa/Accra', u'longitude': -0.217, u'metro_code': 0, u'latitude': 5.55, u'country_code': u'GH', u'country_name': u'Ghana', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3628,
+    "fields": {
+        "ip": "41.66.205.126",
+        "hits": 1,
+        "lat": 8.0,
+        "lng": -2.0,
+        "region": " ",
+        "country_code": "GH",
+        "country_name": "Ghana",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'41.66.205.126', u'time_zone': u'Africa/Accra', u'longitude': -2, u'metro_code': 0, u'latitude': 8, u'country_code': u'GH', u'country_name': u'Ghana', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3644,
+    "fields": {
+        "ip": "41.190.2.66",
+        "hits": 15,
+        "lat": 6.453,
+        "lng": 3.396,
+        "region": "Lagos Lagos",
+        "country_code": "NG",
+        "country_name": "Nigeria",
+        "geonames_data": "{u'city': u'Lagos', u'region_code': u'LA', u'region_name': u'Lagos', u'ip': u'41.190.2.66', u'time_zone': u'Africa/Lagos', u'longitude': 3.396, u'metro_code': 0, u'latitude': 6.453, u'country_code': u'NG', u'country_name': u'Nigeria', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3652,
+    "fields": {
+        "ip": "176.83.205.135",
+        "hits": 2,
+        "lat": 40.4,
+        "lng": -3.684,
+        "region": " ",
+        "country_code": "ES",
+        "country_name": "Spain",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'176.83.205.135', u'time_zone': u'', u'longitude': -3.684, u'metro_code': 0, u'latitude': 40.4, u'country_code': u'ES', u'country_name': u'Spain', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3668,
+    "fields": {
+        "ip": "213.55.108.82",
+        "hits": 656,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'213.55.108.82', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3676,
+    "fields": {
+        "ip": "41.79.202.194",
+        "hits": 1,
+        "lat": 9.509,
+        "lng": -13.713,
+        "region": "Conakry Conakry Region",
+        "country_code": "GN",
+        "country_name": "Guinea",
+        "geonames_data": "{u'city': u'Conakry', u'region_code': u'C', u'region_name': u'Conakry Region', u'ip': u'41.79.202.194', u'time_zone': u'Africa/Conakry', u'longitude': -13.713, u'metro_code': 0, u'latitude': 9.509, u'country_code': u'GN', u'country_name': u'Guinea', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3692,
+    "fields": {
+        "ip": "114.4.79.202",
+        "hits": 2,
+        "lat": -6.175,
+        "lng": 106.829,
+        "region": "Jakarta Daerah Khusus Ibukota Jakarta",
+        "country_code": "ID",
+        "country_name": "Indonesia",
+        "geonames_data": "{u'city': u'Jakarta', u'region_code': u'JK', u'region_name': u'Daerah Khusus Ibukota Jakarta', u'ip': u'114.4.79.202', u'time_zone': u'Asia/Jakarta', u'longitude': 106.829, u'metro_code': 0, u'latitude': -6.175, u'country_code': u'ID', u'country_name': u'Indonesia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3716,
+    "fields": {
+        "ip": "216.15.27.214",
+        "hits": 3,
+        "lat": 38.921,
+        "lng": -77.039,
+        "region": "Washington District of Columbia",
+        "country_code": "US",
+        "country_name": "United States",
+        "geonames_data": "{u'city': u'Washington', u'region_code': u'DC', u'region_name': u'District of Columbia', u'ip': u'216.15.27.214', u'time_zone': u'America/New_York', u'longitude': -77.039, u'metro_code': 511, u'latitude': 38.921, u'country_code': u'US', u'country_name': u'United States', u'zip_code': u'20009'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3724,
+    "fields": {
+        "ip": "212.128.74.178",
+        "hits": 2,
+        "lat": 40.482,
+        "lng": -3.36,
+        "region": "Alcal\u00e1 de Henares Madrid",
+        "country_code": "ES",
+        "country_name": "Spain",
+        "geonames_data": "{u'city': u'Alcal\\xe1 de Henares', u'region_code': u'MD', u'region_name': u'Madrid', u'ip': u'212.128.74.178', u'time_zone': u'Europe/Madrid', u'longitude': -3.36, u'metro_code': 0, u'latitude': 40.482, u'country_code': u'ES', u'country_name': u'Spain', u'zip_code': u'28803'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3748,
+    "fields": {
+        "ip": "1.39.96.215",
+        "hits": 1,
+        "lat": 18.975,
+        "lng": 72.8258,
+        "region": "Mumbai Maharashtra",
+        "country_code": "IN",
+        "country_name": "India",
+        "geonames_data": "{u'city': u'Mumbai', u'region_code': u'MH', u'region_name': u'Maharashtra', u'ip': u'1.39.96.215', u'time_zone': u'Asia/Kolkata', u'longitude': 72.8258, u'metro_code': 0, u'latitude': 18.975, u'country_code': u'IN', u'country_name': u'India', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3764,
+    "fields": {
+        "ip": "106.194.83.59",
+        "hits": 5,
+        "lat": 18.975,
+        "lng": 72.8258,
+        "region": "Mumbai Maharashtra",
+        "country_code": "IN",
+        "country_name": "India",
+        "geonames_data": "{u'city': u'Mumbai', u'region_code': u'MH', u'region_name': u'Maharashtra', u'ip': u'106.194.83.59', u'time_zone': u'Asia/Kolkata', u'longitude': 72.8258, u'metro_code': 0, u'latitude': 18.975, u'country_code': u'IN', u'country_name': u'India', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3772,
+    "fields": {
+        "ip": "182.56.112.23",
+        "hits": 12,
+        "lat": 20.0,
+        "lng": 77.0,
+        "region": " ",
+        "country_code": "IN",
+        "country_name": "India",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'182.56.112.23', u'time_zone': u'Asia/Kolkata', u'longitude': 77, u'metro_code': 0, u'latitude': 20, u'country_code': u'IN', u'country_name': u'India', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3788,
+    "fields": {
+        "ip": "81.38.5.253",
+        "hits": 71,
+        "lat": 40.0311,
+        "lng": -3.6025,
+        "region": "Aranjuez Madrid",
+        "country_code": "ES",
+        "country_name": "Spain",
+        "geonames_data": "{u'city': u'Aranjuez', u'region_code': u'MD', u'region_name': u'Madrid', u'ip': u'81.38.5.253', u'time_zone': u'Europe/Madrid', u'longitude': -3.6025, u'metro_code': 0, u'latitude': 40.0311, u'country_code': u'ES', u'country_name': u'Spain', u'zip_code': u'28300'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3796,
+    "fields": {
+        "ip": "197.231.155.24",
+        "hits": 1,
+        "lat": 6.3106,
+        "lng": -10.8047,
+        "region": "Monrovia Montserrado County",
+        "country_code": "LR",
+        "country_name": "Liberia",
+        "geonames_data": "{u'city': u'Monrovia', u'region_code': u'MO', u'region_name': u'Montserrado County', u'ip': u'197.231.155.24', u'time_zone': u'Africa/Monrovia', u'longitude': -10.8047, u'metro_code': 0, u'latitude': 6.3106, u'country_code': u'LR', u'country_name': u'Liberia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3812,
+    "fields": {
+        "ip": "182.56.99.201",
+        "hits": 4,
+        "lat": 20.0,
+        "lng": 77.0,
+        "region": " ",
+        "country_code": "IN",
+        "country_name": "India",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'182.56.99.201', u'time_zone': u'Asia/Kolkata', u'longitude': 77, u'metro_code': 0, u'latitude': 20, u'country_code': u'IN', u'country_name': u'India', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3836,
+    "fields": {
+        "ip": "83.47.98.153",
+        "hits": 27,
+        "lat": 40.4,
+        "lng": -3.6833,
+        "region": " ",
+        "country_code": "ES",
+        "country_name": "Spain",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'83.47.98.153', u'time_zone': u'', u'longitude': -3.6833, u'metro_code': 0, u'latitude': 40.4, u'country_code': u'ES', u'country_name': u'Spain', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3844,
+    "fields": {
+        "ip": "45.119.141.6",
+        "hits": 1,
+        "lat": 28.6,
+        "lng": 77.2,
+        "region": "New Delhi National Capital Territory of Delhi",
+        "country_code": "IN",
+        "country_name": "India",
+        "geonames_data": "{u'city': u'New Delhi', u'region_code': u'DL', u'region_name': u'National Capital Territory of Delhi', u'ip': u'45.119.141.6', u'time_zone': u'Asia/Kolkata', u'longitude': 77.2, u'metro_code': 0, u'latitude': 28.6, u'country_code': u'IN', u'country_name': u'India', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3868,
+    "fields": {
+        "ip": "105.232.180.125",
+        "hits": 3,
+        "lat": -22.0,
+        "lng": 17.0,
+        "region": " ",
+        "country_code": "NA",
+        "country_name": "Namibia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'105.232.180.125', u'time_zone': u'Africa/Windhoek', u'longitude': 17, u'metro_code': 0, u'latitude': -22, u'country_code': u'NA', u'country_name': u'Namibia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3884,
+    "fields": {
+        "ip": "212.128.74.107",
+        "hits": 40,
+        "lat": 40.482,
+        "lng": -3.36,
+        "region": "Alcal\u00e1 de Henares Madrid",
+        "country_code": "ES",
+        "country_name": "Spain",
+        "geonames_data": "{u'city': u'Alcal\\xe1 de Henares', u'region_code': u'MD', u'region_name': u'Madrid', u'ip': u'212.128.74.107', u'time_zone': u'Europe/Madrid', u'longitude': -3.36, u'metro_code': 0, u'latitude': 40.482, u'country_code': u'ES', u'country_name': u'Spain', u'zip_code': u'28803'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3892,
+    "fields": {
+        "ip": "41.205.230.234",
+        "hits": 48,
+        "lat": 8.49,
+        "lng": -13.2342,
+        "region": "Freetown Western Area",
+        "country_code": "SL",
+        "country_name": "Sierra Leone",
+        "geonames_data": "{u'city': u'Freetown', u'region_code': u'W', u'region_name': u'Western Area', u'ip': u'41.205.230.234', u'time_zone': u'Africa/Freetown', u'longitude': -13.2342, u'metro_code': 0, u'latitude': 8.49, u'country_code': u'SL', u'country_name': u'Sierra Leone', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3908,
+    "fields": {
+        "ip": "111.118.248.6",
+        "hits": 3,
+        "lat": 32.9847,
+        "lng": 74.8583,
+        "region": "Patel Kashmir",
+        "country_code": "IN",
+        "country_name": "India",
+        "geonames_data": "{u'city': u'Patel', u'region_code': u'JK', u'region_name': u'Kashmir', u'ip': u'111.118.248.6', u'time_zone': u'Asia/Kolkata', u'longitude': 74.8583, u'metro_code': 0, u'latitude': 32.9847, u'country_code': u'IN', u'country_name': u'India', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3916,
+    "fields": {
+        "ip": "197.221.83.150",
+        "hits": 2,
+        "lat": 8.0,
+        "lng": -2.0,
+        "region": " ",
+        "country_code": "GH",
+        "country_name": "Ghana",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.221.83.150', u'time_zone': u'Africa/Accra', u'longitude': -2, u'metro_code': 0, u'latitude': 8, u'country_code': u'GH', u'country_name': u'Ghana', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3932,
+    "fields": {
+        "ip": "83.45.227.41",
+        "hits": 8,
+        "lat": 40.4,
+        "lng": -3.6833,
+        "region": " ",
+        "country_code": "ES",
+        "country_name": "Spain",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'83.45.227.41', u'time_zone': u'', u'longitude': -3.6833, u'metro_code': 0, u'latitude': 40.4, u'country_code': u'ES', u'country_name': u'Spain', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3956,
+    "fields": {
+        "ip": "88.10.175.217",
+        "hits": 2,
+        "lat": 40.4,
+        "lng": -3.6833,
+        "region": " ",
+        "country_code": "ES",
+        "country_name": "Spain",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'88.10.175.217', u'time_zone': u'', u'longitude': -3.6833, u'metro_code': 0, u'latitude': 40.4, u'country_code': u'ES', u'country_name': u'Spain', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3964,
+    "fields": {
+        "ip": "2.142.213.143",
+        "hits": 9,
+        "lat": 40.4,
+        "lng": -3.6833,
+        "region": " ",
+        "country_code": "ES",
+        "country_name": "Spain",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'2.142.213.143', u'time_zone': u'', u'longitude': -3.6833, u'metro_code': 0, u'latitude': 40.4, u'country_code': u'ES', u'country_name': u'Spain', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 3988,
+    "fields": {
+        "ip": "172.56.3.164",
+        "hits": 15,
+        "lat": 38.9057,
+        "lng": -76.9783,
+        "region": "Washington District of Columbia",
+        "country_code": "US",
+        "country_name": "United States",
+        "geonames_data": "{u'city': u'Washington', u'region_code': u'DC', u'region_name': u'District of Columbia', u'ip': u'172.56.3.164', u'time_zone': u'America/New_York', u'longitude': -76.9783, u'metro_code': 511, u'latitude': 38.9057, u'country_code': u'US', u'country_name': u'United States', u'zip_code': u'20002'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4004,
+    "fields": {
+        "ip": "88.19.157.212",
+        "hits": 4,
+        "lat": 40.4,
+        "lng": -3.6833,
+        "region": " ",
+        "country_code": "ES",
+        "country_name": "Spain",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'88.19.157.212', u'time_zone': u'', u'longitude': -3.6833, u'metro_code': 0, u'latitude': 40.4, u'country_code': u'ES', u'country_name': u'Spain', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4012,
+    "fields": {
+        "ip": "197.156.103.221",
+        "hits": 165,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.103.221', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4028,
+    "fields": {
+        "ip": "110.44.121.187",
+        "hits": 253,
+        "lat": 27.6667,
+        "lng": 85.3167,
+        "region": "Jawalakhel ",
+        "country_code": "NP",
+        "country_name": "Nepal",
+        "geonames_data": "{u'city': u'Jawalakhel', u'region_code': u'', u'region_name': u'', u'ip': u'110.44.121.187', u'time_zone': u'Asia/Kathmandu', u'longitude': 85.3167, u'metro_code': 0, u'latitude': 27.6667, u'country_code': u'NP', u'country_name': u'Nepal', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4036,
+    "fields": {
+        "ip": "83.33.123.129",
+        "hits": 3,
+        "lat": 36.8381,
+        "lng": -2.4597,
+        "region": "Almer\u00eda Andalusia",
+        "country_code": "ES",
+        "country_name": "Spain",
+        "geonames_data": "{u'city': u'Almer\\xeda', u'region_code': u'AN', u'region_name': u'Andalusia', u'ip': u'83.33.123.129', u'time_zone': u'Europe/Madrid', u'longitude': -2.4597, u'metro_code': 0, u'latitude': 36.8381, u'country_code': u'ES', u'country_name': u'Spain', u'zip_code': u'04001'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4052,
+    "fields": {
+        "ip": "105.112.33.230",
+        "hits": 8,
+        "lat": 6.4531,
+        "lng": 3.3958,
+        "region": "Lagos Lagos",
+        "country_code": "NG",
+        "country_name": "Nigeria",
+        "geonames_data": "{u'city': u'Lagos', u'region_code': u'LA', u'region_name': u'Lagos', u'ip': u'105.112.33.230', u'time_zone': u'Africa/Lagos', u'longitude': 3.3958, u'metro_code': 0, u'latitude': 6.4531, u'country_code': u'NG', u'country_name': u'Nigeria', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4076,
+    "fields": {
+        "ip": "197.156.103.177",
+        "hits": 44,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.103.177', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4084,
+    "fields": {
+        "ip": "42.107.175.154",
+        "hits": 8,
+        "lat": 20.0,
+        "lng": 77.0,
+        "region": " ",
+        "country_code": "IN",
+        "country_name": "India",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'42.107.175.154', u'time_zone': u'Asia/Kolkata', u'longitude': 77, u'metro_code': 0, u'latitude': 20, u'country_code': u'IN', u'country_name': u'India', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4108,
+    "fields": {
+        "ip": "197.156.103.186",
+        "hits": 4,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.103.186', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4124,
+    "fields": {
+        "ip": "178.27.58.80",
+        "hits": 4,
+        "lat": 49.4333,
+        "lng": 10.95,
+        "region": "Oberasbach Bavaria",
+        "country_code": "DE",
+        "country_name": "Germany",
+        "geonames_data": "{u'city': u'Oberasbach', u'region_code': u'BY', u'region_name': u'Bavaria', u'ip': u'178.27.58.80', u'time_zone': u'Europe/Berlin', u'longitude': 10.95, u'metro_code': 0, u'latitude': 49.4333, u'country_code': u'DE', u'country_name': u'Germany', u'zip_code': u'90522'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4132,
+    "fields": {
+        "ip": "197.156.103.31",
+        "hits": 54,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.103.31', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4148,
+    "fields": {
+        "ip": "197.157.232.254",
+        "hits": 10,
+        "lat": 8.5,
+        "lng": -11.5,
+        "region": " ",
+        "country_code": "SL",
+        "country_name": "Sierra Leone",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.157.232.254', u'time_zone': u'Africa/Freetown', u'longitude': -11.5, u'metro_code': 0, u'latitude': 8.5, u'country_code': u'SL', u'country_name': u'Sierra Leone', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4156,
+    "fields": {
+        "ip": "197.156.103.202",
+        "hits": 40,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.103.202', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4172,
+    "fields": {
+        "ip": "197.156.103.1",
+        "hits": 27,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.103.1', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4196,
+    "fields": {
+        "ip": "41.191.107.132",
+        "hits": 2,
+        "lat": 6.3106,
+        "lng": -10.8047,
+        "region": "Monrovia Montserrado County",
+        "country_code": "LR",
+        "country_name": "Liberia",
+        "geonames_data": "{u'city': u'Monrovia', u'region_code': u'MO', u'region_name': u'Montserrado County', u'ip': u'41.191.107.132', u'time_zone': u'Africa/Monrovia', u'longitude': -10.8047, u'metro_code': 0, u'latitude': 6.3106, u'country_code': u'LR', u'country_name': u'Liberia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4204,
+    "fields": {
+        "ip": "112.198.82.193",
+        "hits": 21,
+        "lat": 14.6488,
+        "lng": 121.0509,
+        "region": "Quezon City National Capital Region",
+        "country_code": "PH",
+        "country_name": "Philippines",
+        "geonames_data": "{u'city': u'Quezon City', u'region_code': u'00', u'region_name': u'National Capital Region', u'ip': u'112.198.82.193', u'time_zone': u'Asia/Manila', u'longitude': 121.0509, u'metro_code': 0, u'latitude': 14.6488, u'country_code': u'PH', u'country_name': u'Philippines', u'zip_code': u'0860'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4228,
+    "fields": {
+        "ip": "83.33.122.195",
+        "hits": 3,
+        "lat": 40.4172,
+        "lng": -3.684,
+        "region": " ",
+        "country_code": "ES",
+        "country_name": "Spain",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'83.33.122.195', u'time_zone': u'', u'longitude': -3.684, u'metro_code': 0, u'latitude': 40.4172, u'country_code': u'ES', u'country_name': u'Spain', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4244,
+    "fields": {
+        "ip": "202.58.99.139",
+        "hits": 1,
+        "lat": 11.5625,
+        "lng": 104.916,
+        "region": "Phnom Penh Phnom Penh",
+        "country_code": "KH",
+        "country_name": "Cambodia",
+        "geonames_data": "{u'city': u'Phnom Penh', u'region_code': u'12', u'region_name': u'Phnom Penh', u'ip': u'202.58.99.139', u'time_zone': u'Asia/Phnom_Penh', u'longitude': 104.916, u'metro_code': 0, u'latitude': 11.5625, u'country_code': u'KH', u'country_name': u'Cambodia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4252,
+    "fields": {
+        "ip": "202.58.99.192",
+        "hits": 1,
+        "lat": 11.5625,
+        "lng": 104.916,
+        "region": "Phnom Penh Phnom Penh",
+        "country_code": "KH",
+        "country_name": "Cambodia",
+        "geonames_data": "{u'city': u'Phnom Penh', u'region_code': u'12', u'region_name': u'Phnom Penh', u'ip': u'202.58.99.192', u'time_zone': u'Asia/Phnom_Penh', u'longitude': 104.916, u'metro_code': 0, u'latitude': 11.5625, u'country_code': u'KH', u'country_name': u'Cambodia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4268,
+    "fields": {
+        "ip": "202.58.99.61",
+        "hits": 1,
+        "lat": 11.5625,
+        "lng": 104.916,
+        "region": "Phnom Penh Phnom Penh",
+        "country_code": "KH",
+        "country_name": "Cambodia",
+        "geonames_data": "{u'city': u'Phnom Penh', u'region_code': u'12', u'region_name': u'Phnom Penh', u'ip': u'202.58.99.61', u'time_zone': u'Asia/Phnom_Penh', u'longitude': 104.916, u'metro_code': 0, u'latitude': 11.5625, u'country_code': u'KH', u'country_name': u'Cambodia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4276,
+    "fields": {
+        "ip": "150.107.7.141",
+        "hits": 1,
+        "lat": 13.0,
+        "lng": 105.0,
+        "region": " ",
+        "country_code": "KH",
+        "country_name": "Cambodia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'150.107.7.141', u'time_zone': u'Asia/Phnom_Penh', u'longitude': 105, u'metro_code': 0, u'latitude': 13, u'country_code': u'KH', u'country_name': u'Cambodia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4292,
+    "fields": {
+        "ip": "115.178.26.210",
+        "hits": 4,
+        "lat": 11.5625,
+        "lng": 104.916,
+        "region": "Phnom Penh Phnom Penh",
+        "country_code": "KH",
+        "country_name": "Cambodia",
+        "geonames_data": "{u'city': u'Phnom Penh', u'region_code': u'12', u'region_name': u'Phnom Penh', u'ip': u'115.178.26.210', u'time_zone': u'Asia/Phnom_Penh', u'longitude': 104.916, u'metro_code': 0, u'latitude': 11.5625, u'country_code': u'KH', u'country_name': u'Cambodia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4316,
+    "fields": {
+        "ip": "105.112.23.245",
+        "hits": 103,
+        "lat": 10.0,
+        "lng": 8.0,
+        "region": " ",
+        "country_code": "NG",
+        "country_name": "Nigeria",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'105.112.23.245', u'time_zone': u'Africa/Lagos', u'longitude': 8, u'metro_code': 0, u'latitude': 10, u'country_code': u'NG', u'country_name': u'Nigeria', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4324,
+    "fields": {
+        "ip": "103.235.198.55",
+        "hits": 36,
+        "lat": 27.7167,
+        "lng": 85.3167,
+        "region": "Kathmandu Central Region",
+        "country_code": "NP",
+        "country_name": "Nepal",
+        "geonames_data": "{u'city': u'Kathmandu', u'region_code': u'1', u'region_name': u'Central Region', u'ip': u'103.235.198.55', u'time_zone': u'Asia/Kathmandu', u'longitude': 85.3167, u'metro_code': 0, u'latitude': 27.7167, u'country_code': u'NP', u'country_name': u'Nepal', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4348,
+    "fields": {
+        "ip": "154.72.163.205",
+        "hits": 2,
+        "lat": 6.0,
+        "lng": 12.0,
+        "region": " ",
+        "country_code": "CM",
+        "country_name": "Cameroon",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'154.72.163.205', u'time_zone': u'Africa/Douala', u'longitude': 12, u'metro_code': 0, u'latitude': 6, u'country_code': u'CM', u'country_name': u'Cameroon', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4364,
+    "fields": {
+        "ip": "197.156.107.206",
+        "hits": 8,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.107.206', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4372,
+    "fields": {
+        "ip": "197.156.103.139",
+        "hits": 146,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.103.139', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4388,
+    "fields": {
+        "ip": "86.137.223.255",
+        "hits": 1,
+        "lat": 51.4964,
+        "lng": -0.1224,
+        "region": " ",
+        "country_code": "GB",
+        "country_name": "United Kingdom",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'86.137.223.255', u'time_zone': u'Europe/London', u'longitude': -0.1224, u'metro_code': 0, u'latitude': 51.4964, u'country_code': u'GB', u'country_name': u'United Kingdom', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4396,
+    "fields": {
+        "ip": "212.128.74.125",
+        "hits": 4,
+        "lat": 40.482,
+        "lng": -3.36,
+        "region": "Alcal\u00e1 de Henares Madrid",
+        "country_code": "ES",
+        "country_name": "Spain",
+        "geonames_data": "{u'city': u'Alcal\\xe1 de Henares', u'region_code': u'MD', u'region_name': u'Madrid', u'ip': u'212.128.74.125', u'time_zone': u'Europe/Madrid', u'longitude': -3.36, u'metro_code': 0, u'latitude': 40.482, u'country_code': u'ES', u'country_name': u'Spain', u'zip_code': u'28800'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4412,
+    "fields": {
+        "ip": "81.35.131.118",
+        "hits": 4,
+        "lat": 40.4238,
+        "lng": -3.5613,
+        "region": "Coslada Madrid",
+        "country_code": "ES",
+        "country_name": "Spain",
+        "geonames_data": "{u'city': u'Coslada', u'region_code': u'MD', u'region_name': u'Madrid', u'ip': u'81.35.131.118', u'time_zone': u'Europe/Madrid', u'longitude': -3.5613, u'metro_code': 0, u'latitude': 40.4238, u'country_code': u'ES', u'country_name': u'Spain', u'zip_code': u'28822'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4436,
+    "fields": {
+        "ip": "213.182.28.85",
+        "hits": 81,
+        "lat": 47.7167,
+        "lng": 10.3167,
+        "region": "Kempten (Allgaeu) Bavaria",
+        "country_code": "DE",
+        "country_name": "Germany",
+        "geonames_data": "{u'city': u'Kempten (Allgaeu)', u'region_code': u'BY', u'region_name': u'Bavaria', u'ip': u'213.182.28.85', u'time_zone': u'Europe/Berlin', u'longitude': 10.3167, u'metro_code': 0, u'latitude': 47.7167, u'country_code': u'DE', u'country_name': u'Germany', u'zip_code': u'87435'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4444,
+    "fields": {
+        "ip": "85.159.214.124",
+        "hits": 59,
+        "lat": 51.5092,
+        "lng": -0.0955,
+        "region": "London England",
+        "country_code": "GB",
+        "country_name": "United Kingdom",
+        "geonames_data": "{u'city': u'London', u'region_code': u'ENG', u'region_name': u'England', u'ip': u'85.159.214.124', u'time_zone': u'Europe/London', u'longitude': -0.0955, u'metro_code': 0, u'latitude': 51.5092, u'country_code': u'GB', u'country_name': u'United Kingdom', u'zip_code': u'EC4N'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4468,
+    "fields": {
+        "ip": "105.112.22.44",
+        "hits": 7,
+        "lat": 10.0,
+        "lng": 8.0,
+        "region": " ",
+        "country_code": "NG",
+        "country_name": "Nigeria",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'105.112.22.44', u'time_zone': u'Africa/Lagos', u'longitude': 8, u'metro_code': 0, u'latitude': 10, u'country_code': u'NG', u'country_name': u'Nigeria', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4484,
+    "fields": {
+        "ip": "178.79.187.223",
+        "hits": 20,
+        "lat": 51.5092,
+        "lng": -0.0955,
+        "region": "London England",
+        "country_code": "GB",
+        "country_name": "United Kingdom",
+        "geonames_data": "{u'city': u'London', u'region_code': u'ENG', u'region_name': u'England', u'ip': u'178.79.187.223', u'time_zone': u'Europe/London', u'longitude': -0.0955, u'metro_code': 0, u'latitude': 51.5092, u'country_code': u'GB', u'country_name': u'United Kingdom', u'zip_code': u'EC4N'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4492,
+    "fields": {
+        "ip": "104.154.159.105",
+        "hits": 1,
+        "lat": 37.4192,
+        "lng": -122.0574,
+        "region": "Mountain View California",
+        "country_code": "US",
+        "country_name": "United States",
+        "geonames_data": "{u'city': u'Mountain View', u'region_code': u'CA', u'region_name': u'California', u'ip': u'104.154.159.105', u'time_zone': u'America/Los_Angeles', u'longitude': -122.0574, u'metro_code': 807, u'latitude': 37.4192, u'country_code': u'US', u'country_name': u'United States', u'zip_code': u'94043'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4508,
+    "fields": {
+        "ip": "130.211.187.23",
+        "hits": 2,
+        "lat": 37.4192,
+        "lng": -122.0574,
+        "region": "Mountain View California",
+        "country_code": "US",
+        "country_name": "United States",
+        "geonames_data": "{u'city': u'Mountain View', u'region_code': u'CA', u'region_name': u'California', u'ip': u'130.211.187.23', u'time_zone': u'America/Los_Angeles', u'longitude': -122.0574, u'metro_code': 807, u'latitude': 37.4192, u'country_code': u'US', u'country_name': u'United States', u'zip_code': u'94043'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4516,
+    "fields": {
+        "ip": "35.184.37.93",
+        "hits": 2,
+        "lat": 37.4192,
+        "lng": -122.0574,
+        "region": "Mountain View California",
+        "country_code": "US",
+        "country_name": "United States",
+        "geonames_data": "{u'city': u'Mountain View', u'region_code': u'CA', u'region_name': u'California', u'ip': u'35.184.37.93', u'time_zone': u'America/Los_Angeles', u'longitude': -122.0574, u'metro_code': 807, u'latitude': 37.4192, u'country_code': u'US', u'country_name': u'United States', u'zip_code': u'94043'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4532,
+    "fields": {
+        "ip": "88.1.64.189",
+        "hits": 2,
+        "lat": 36.5236,
+        "lng": -5.0463,
+        "region": "Benahavis Andalusia",
+        "country_code": "ES",
+        "country_name": "Spain",
+        "geonames_data": "{u'city': u'Benahavis', u'region_code': u'AN', u'region_name': u'Andalusia', u'ip': u'88.1.64.189', u'time_zone': u'Europe/Madrid', u'longitude': -5.0463, u'metro_code': 0, u'latitude': 36.5236, u'country_code': u'ES', u'country_name': u'Spain', u'zip_code': u'29679'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4556,
+    "fields": {
+        "ip": "197.156.103.96",
+        "hits": 480,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.103.96', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4564,
+    "fields": {
+        "ip": "106.209.218.44",
+        "hits": 3,
+        "lat": 18.975,
+        "lng": 72.8258,
+        "region": " Maharashtra",
+        "country_code": "IN",
+        "country_name": "India",
+        "geonames_data": "{u'city': u'', u'region_code': u'MH', u'region_name': u'Maharashtra', u'ip': u'106.209.218.44', u'time_zone': u'Asia/Kolkata', u'longitude': 72.8258, u'metro_code': 0, u'latitude': 18.975, u'country_code': u'IN', u'country_name': u'India', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4588,
+    "fields": {
+        "ip": "189.214.3.112",
+        "hits": 2,
+        "lat": 20.8917,
+        "lng": -89.65,
+        "region": "M\u00e9rida Yucat\u00e1n",
+        "country_code": "MX",
+        "country_name": "Mexico",
+        "geonames_data": "{u'city': u'M\\xe9rida', u'region_code': u'YUC', u'region_name': u'Yucat\\xe1n', u'ip': u'189.214.3.112', u'time_zone': u'America/Merida', u'longitude': -89.65, u'metro_code': 0, u'latitude': 20.8917, u'country_code': u'MX', u'country_name': u'Mexico', u'zip_code': u'97210'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4604,
+    "fields": {
+        "ip": "197.156.107.175",
+        "hits": 46,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.107.175', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4612,
+    "fields": {
+        "ip": "197.156.107.52",
+        "hits": 415,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.107.52', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4628,
+    "fields": {
+        "ip": "103.254.166.83",
+        "hits": 15,
+        "lat": 33.0,
+        "lng": 65.0,
+        "region": " ",
+        "country_code": "AF",
+        "country_name": "Afghanistan",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'103.254.166.83', u'time_zone': u'Asia/Kabul', u'longitude': 65, u'metro_code': 0, u'latitude': 33, u'country_code': u'AF', u'country_name': u'Afghanistan', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4636,
+    "fields": {
+        "ip": "197.156.107.53",
+        "hits": 79,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.107.53', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4652,
+    "fields": {
+        "ip": "197.156.107.59",
+        "hits": 29,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.107.59', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4676,
+    "fields": {
+        "ip": "154.72.161.152",
+        "hits": 1,
+        "lat": 3.8667,
+        "lng": 11.5167,
+        "region": "Yaound\u00e9 Centre",
+        "country_code": "CM",
+        "country_name": "Cameroon",
+        "geonames_data": "{u'city': u'Yaound\\xe9', u'region_code': u'CE', u'region_name': u'Centre', u'ip': u'154.72.161.152', u'time_zone': u'Africa/Douala', u'longitude': 11.5167, u'metro_code': 0, u'latitude': 3.8667, u'country_code': u'CM', u'country_name': u'Cameroon', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4684,
+    "fields": {
+        "ip": "197.156.107.107",
+        "hits": 226,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.107.107', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4708,
+    "fields": {
+        "ip": "197.156.107.12",
+        "hits": 49,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.107.12', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4724,
+    "fields": {
+        "ip": "197.156.103.10",
+        "hits": 18,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.103.10', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4732,
+    "fields": {
+        "ip": "112.198.98.93",
+        "hits": 5,
+        "lat": 14.5955,
+        "lng": 120.9721,
+        "region": " ",
+        "country_code": "PH",
+        "country_name": "Philippines",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'112.198.98.93', u'time_zone': u'Asia/Manila', u'longitude': 120.9721, u'metro_code': 0, u'latitude': 14.5955, u'country_code': u'PH', u'country_name': u'Philippines', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4748,
+    "fields": {
+        "ip": "197.86.143.102",
+        "hits": 1,
+        "lat": -33.9167,
+        "lng": 18.4167,
+        "region": "Cape Town Western Cape",
+        "country_code": "ZA",
+        "country_name": "South Africa",
+        "geonames_data": "{u'city': u'Cape Town', u'region_code': u'WC', u'region_name': u'Western Cape', u'ip': u'197.86.143.102', u'time_zone': u'Africa/Johannesburg', u'longitude': 18.4167, u'metro_code': 0, u'latitude': -33.9167, u'country_code': u'ZA', u'country_name': u'South Africa', u'zip_code': u'7700'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4756,
+    "fields": {
+        "ip": "197.156.103.23",
+        "hits": 15,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.103.23', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4772,
+    "fields": {
+        "ip": "110.34.17.29",
+        "hits": 7,
+        "lat": 27.7167,
+        "lng": 85.3167,
+        "region": "Kathmandu Central Region",
+        "country_code": "NP",
+        "country_name": "Nepal",
+        "geonames_data": "{u'city': u'Kathmandu', u'region_code': u'1', u'region_name': u'Central Region', u'ip': u'110.34.17.29', u'time_zone': u'Asia/Kathmandu', u'longitude': 85.3167, u'metro_code': 0, u'latitude': 27.7167, u'country_code': u'NP', u'country_name': u'Nepal', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4796,
+    "fields": {
+        "ip": "197.156.107.246",
+        "hits": 24,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'197.156.107.246', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4804,
+    "fields": {
+        "ip": "41.78.249.102",
+        "hits": 12,
+        "lat": -13.5,
+        "lng": 34.0,
+        "region": " ",
+        "country_code": "MW",
+        "country_name": "Malawi",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'41.78.249.102', u'time_zone': u'Africa/Blantyre', u'longitude': 34, u'metro_code': 0, u'latitude': -13.5, u'country_code': u'MW', u'country_name': u'Malawi', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4828,
+    "fields": {
+        "ip": "154.72.163.76",
+        "hits": 4,
+        "lat": 3.8667,
+        "lng": 11.5167,
+        "region": "Yaound\u00e9 Centre",
+        "country_code": "CM",
+        "country_name": "Cameroon",
+        "geonames_data": "{u'city': u'Yaound\\xe9', u'region_code': u'CE', u'region_name': u'Centre', u'ip': u'154.72.163.76', u'time_zone': u'Africa/Douala', u'longitude': 11.5167, u'metro_code': 0, u'latitude': 3.8667, u'country_code': u'CM', u'country_name': u'Cameroon', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4844,
+    "fields": {
+        "ip": "35.188.99.247",
+        "hits": 2,
+        "lat": 37.4192,
+        "lng": -122.0574,
+        "region": "Mountain View California",
+        "country_code": "US",
+        "country_name": "United States",
+        "geonames_data": "{u'city': u'Mountain View', u'region_code': u'CA', u'region_name': u'California', u'ip': u'35.188.99.247', u'time_zone': u'America/Los_Angeles', u'longitude': -122.0574, u'metro_code': 807, u'latitude': 37.4192, u'country_code': u'US', u'country_name': u'United States', u'zip_code': u'94043'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4852,
+    "fields": {
+        "ip": "217.126.78.116",
+        "hits": 1,
+        "lat": 40.4329,
+        "lng": -3.8134,
+        "region": "Pozuelo de Alarc\u00f3n Madrid",
+        "country_code": "ES",
+        "country_name": "Spain",
+        "geonames_data": "{u'city': u'Pozuelo de Alarc\\xf3n', u'region_code': u'MD', u'region_name': u'Madrid', u'ip': u'217.126.78.116', u'time_zone': u'Europe/Madrid', u'longitude': -3.8134, u'metro_code': 0, u'latitude': 40.4329, u'country_code': u'ES', u'country_name': u'Spain', u'zip_code': u'28223'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4868,
+    "fields": {
+        "ip": "41.202.207.15",
+        "hits": 7,
+        "lat": 6.0,
+        "lng": 12.0,
+        "region": " ",
+        "country_code": "CM",
+        "country_name": "Cameroon",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'41.202.207.15', u'time_zone': u'Africa/Douala', u'longitude': 12, u'metro_code': 0, u'latitude': 6, u'country_code': u'CM', u'country_name': u'Cameroon', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4876,
+    "fields": {
+        "ip": "41.206.1.15",
+        "hits": 3,
+        "lat": 6.4531,
+        "lng": 3.3958,
+        "region": "Lagos Lagos",
+        "country_code": "NG",
+        "country_name": "Nigeria",
+        "geonames_data": "{u'city': u'Lagos', u'region_code': u'LA', u'region_name': u'Lagos', u'ip': u'41.206.1.15', u'time_zone': u'Africa/Lagos', u'longitude': 3.3958, u'metro_code': 0, u'latitude': 6.4531, u'country_code': u'NG', u'country_name': u'Nigeria', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4988,
+    "fields": {
+        "ip": "196.191.88.183",
+        "hits": 2,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'196.191.88.183', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 4996,
+    "fields": {
+        "ip": "202.70.70.143",
+        "hits": 3,
+        "lat": 27.7167,
+        "lng": 85.3167,
+        "region": "Kathmandu Central Region",
+        "country_code": "NP",
+        "country_name": "Nepal",
+        "geonames_data": "{u'city': u'Kathmandu', u'region_code': u'1', u'region_name': u'Central Region', u'ip': u'202.70.70.143', u'time_zone': u'Asia/Kathmandu', u'longitude': 85.3167, u'metro_code': 0, u'latitude': 27.7167, u'country_code': u'NP', u'country_name': u'Nepal', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 5012,
+    "fields": {
+        "ip": "49.244.169.85",
+        "hits": 1,
+        "lat": 27.7167,
+        "lng": 85.3167,
+        "region": "Kathmandu Central Region",
+        "country_code": "NP",
+        "country_name": "Nepal",
+        "geonames_data": "{u'city': u'Kathmandu', u'region_code': u'1', u'region_name': u'Central Region', u'ip': u'49.244.169.85', u'time_zone': u'Asia/Kathmandu', u'longitude': 85.3167, u'metro_code': 0, u'latitude': 27.7167, u'country_code': u'NP', u'country_name': u'Nepal', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 5036,
+    "fields": {
+        "ip": "202.70.70.57",
+        "hits": 23,
+        "lat": 27.7167,
+        "lng": 85.3167,
+        "region": "Kathmandu Central Region",
+        "country_code": "NP",
+        "country_name": "Nepal",
+        "geonames_data": "{u'city': u'Kathmandu', u'region_code': u'1', u'region_name': u'Central Region', u'ip': u'202.70.70.57', u'time_zone': u'Asia/Kathmandu', u'longitude': 85.3167, u'metro_code': 0, u'latitude': 27.7167, u'country_code': u'NP', u'country_name': u'Nepal', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 5044,
+    "fields": {
+        "ip": "202.70.70.218",
+        "hits": 32,
+        "lat": 27.7167,
+        "lng": 85.3167,
+        "region": "Kathmandu Central Region",
+        "country_code": "NP",
+        "country_name": "Nepal",
+        "geonames_data": "{u'city': u'Kathmandu', u'region_code': u'1', u'region_name': u'Central Region', u'ip': u'202.70.70.218', u'time_zone': u'Asia/Kathmandu', u'longitude': 85.3167, u'metro_code': 0, u'latitude': 27.7167, u'country_code': u'NP', u'country_name': u'Nepal', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 5068,
+    "fields": {
+        "ip": "106.77.138.164",
+        "hits": 1,
+        "lat": 23.0333,
+        "lng": 72.6167,
+        "region": " Gujarat",
+        "country_code": "IN",
+        "country_name": "India",
+        "geonames_data": "{u'city': u'', u'region_code': u'GJ', u'region_name': u'Gujarat', u'ip': u'106.77.138.164', u'time_zone': u'Asia/Kolkata', u'longitude': 72.6167, u'metro_code': 0, u'latitude': 23.0333, u'country_code': u'IN', u'country_name': u'India', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 5084,
+    "fields": {
+        "ip": "197.210.226.53",
+        "hits": 3,
+        "lat": 7.4361,
+        "lng": 5.4593,
+        "region": "Emure-Ekiti Ekiti State",
+        "country_code": "NG",
+        "country_name": "Nigeria",
+        "geonames_data": "{u'city': u'Emure-Ekiti', u'region_code': u'EK', u'region_name': u'Ekiti State', u'ip': u'197.210.226.53', u'time_zone': u'Africa/Lagos', u'longitude': 5.4593, u'metro_code': 0, u'latitude': 7.4361, u'country_code': u'NG', u'country_name': u'Nigeria', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 5092,
+    "fields": {
+        "ip": "41.202.207.16",
+        "hits": 11,
+        "lat": 2.3833,
+        "lng": 11.2833,
+        "region": "Ambam South",
+        "country_code": "CM",
+        "country_name": "Cameroon",
+        "geonames_data": "{u'city': u'Ambam', u'region_code': u'SU', u'region_name': u'South', u'ip': u'41.202.207.16', u'time_zone': u'Africa/Douala', u'longitude': 11.2833, u'metro_code': 0, u'latitude': 2.3833, u'country_code': u'CM', u'country_name': u'Cameroon', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 5108,
+    "fields": {
+        "ip": "154.72.137.182",
+        "hits": 2,
+        "lat": 3.8667,
+        "lng": 11.5167,
+        "region": "Yaound\u00e9 Centre",
+        "country_code": "CM",
+        "country_name": "Cameroon",
+        "geonames_data": "{u'city': u'Yaound\\xe9', u'region_code': u'CE', u'region_name': u'Centre', u'ip': u'154.72.137.182', u'time_zone': u'Africa/Douala', u'longitude': 11.5167, u'metro_code': 0, u'latitude': 3.8667, u'country_code': u'CM', u'country_name': u'Cameroon', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 5116,
+    "fields": {
+        "ip": "129.0.44.249",
+        "hits": 3,
+        "lat": 4.0503,
+        "lng": 9.7,
+        "region": "Douala Littoral",
+        "country_code": "CM",
+        "country_name": "Cameroon",
+        "geonames_data": "{u'city': u'Douala', u'region_code': u'LT', u'region_name': u'Littoral', u'ip': u'129.0.44.249', u'time_zone': u'Africa/Douala', u'longitude': 9.7, u'metro_code': 0, u'latitude': 4.0503, u'country_code': u'CM', u'country_name': u'Cameroon', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 5132,
+    "fields": {
+        "ip": "105.249.37.74",
+        "hits": 13,
+        "lat": -33.9258,
+        "lng": 18.4232,
+        "region": "Cape Town Western Cape",
+        "country_code": "ZA",
+        "country_name": "South Africa",
+        "geonames_data": "{u'city': u'Cape Town', u'region_code': u'WC', u'region_name': u'Western Cape', u'ip': u'105.249.37.74', u'time_zone': u'Africa/Johannesburg', u'longitude': 18.4232, u'metro_code': 0, u'latitude': -33.9258, u'country_code': u'ZA', u'country_name': u'South Africa', u'zip_code': u'7945'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 5156,
+    "fields": {
+        "ip": "110.34.28.110",
+        "hits": 57,
+        "lat": 27.7167,
+        "lng": 85.3167,
+        "region": "Kathmandu Central Region",
+        "country_code": "NP",
+        "country_name": "Nepal",
+        "geonames_data": "{u'city': u'Kathmandu', u'region_code': u'1', u'region_name': u'Central Region', u'ip': u'110.34.28.110', u'time_zone': u'Asia/Kathmandu', u'longitude': 85.3167, u'metro_code': 0, u'latitude': 27.7167, u'country_code': u'NP', u'country_name': u'Nepal', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 5164,
+    "fields": {
+        "ip": "104.237.145.115",
+        "hits": 1,
+        "lat": 40.7357,
+        "lng": -74.1724,
+        "region": "Newark New Jersey",
+        "country_code": "US",
+        "country_name": "United States",
+        "geonames_data": "{u'city': u'Newark', u'region_code': u'NJ', u'region_name': u'New Jersey', u'ip': u'104.237.145.115', u'time_zone': u'America/New_York', u'longitude': -74.1724, u'metro_code': 501, u'latitude': 40.7357, u'country_code': u'US', u'country_name': u'United States', u'zip_code': u'07175'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 5188,
+    "fields": {
+        "ip": "177.79.34.163",
+        "hits": 1,
+        "lat": -16.701,
+        "lng": -49.2669,
+        "region": "Goi\u00e2nia Goias",
+        "country_code": "BR",
+        "country_name": "Brazil",
+        "geonames_data": "{u'city': u'Goi\\xe2nia', u'region_code': u'GO', u'region_name': u'Goias', u'ip': u'177.79.34.163', u'time_zone': u'America/Sao_Paulo', u'longitude': -49.2669, u'metro_code': 0, u'latitude': -16.701, u'country_code': u'BR', u'country_name': u'Brazil', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 5204,
+    "fields": {
+        "ip": "103.78.55.158",
+        "hits": 2,
+        "lat": 23.7,
+        "lng": 90.375,
+        "region": " ",
+        "country_code": "BD",
+        "country_name": "Bangladesh",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'103.78.55.158', u'time_zone': u'Asia/Dhaka', u'longitude': 90.375, u'metro_code': 0, u'latitude': 23.7, u'country_code': u'BD', u'country_name': u'Bangladesh', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 5212,
+    "fields": {
+        "ip": "175.158.209.179",
+        "hits": 1,
+        "lat": 14.4736,
+        "lng": 121.0488,
+        "region": "Taguig Calabarzon",
+        "country_code": "PH",
+        "country_name": "Philippines",
+        "geonames_data": "{u'city': u'Taguig', u'region_code': u'40', u'region_name': u'Calabarzon', u'ip': u'175.158.209.179', u'time_zone': u'Asia/Manila', u'longitude': 121.0488, u'metro_code': 0, u'latitude': 14.4736, u'country_code': u'PH', u'country_name': u'Philippines', u'zip_code': u'1633'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 5228,
+    "fields": {
+        "ip": "5.38.15.178",
+        "hits": 2,
+        "lat": 25.2639,
+        "lng": 55.3081,
+        "region": "Dubai Dubai",
+        "country_code": "AE",
+        "country_name": "United Arab Emirates",
+        "geonames_data": "{u'city': u'Dubai', u'region_code': u'DU', u'region_name': u'Dubai', u'ip': u'5.38.15.178', u'time_zone': u'Asia/Dubai', u'longitude': 55.3081, u'metro_code': 0, u'latitude': 25.2639, u'country_code': u'AE', u'country_name': u'United Arab Emirates', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 5236,
+    "fields": {
+        "ip": "47.8.8.242",
+        "hits": 1,
+        "lat": 26.4667,
+        "lng": 80.35,
+        "region": "Kanpur Uttar Pradesh",
+        "country_code": "IN",
+        "country_name": "India",
+        "geonames_data": "{u'city': u'Kanpur', u'region_code': u'UP', u'region_name': u'Uttar Pradesh', u'ip': u'47.8.8.242', u'time_zone': u'Asia/Kolkata', u'longitude': 80.35, u'metro_code': 0, u'latitude': 26.4667, u'country_code': u'IN', u'country_name': u'India', u'zip_code': u'208001'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 5252,
+    "fields": {
+        "ip": "196.188.28.173",
+        "hits": 61,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'196.188.28.173', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 5276,
+    "fields": {
+        "ip": "36.252.32.37",
+        "hits": 2,
+        "lat": 27.6667,
+        "lng": 85.3333,
+        "region": "Patan Central Region",
+        "country_code": "NP",
+        "country_name": "Nepal",
+        "geonames_data": "{u'city': u'Patan', u'region_code': u'1', u'region_name': u'Central Region', u'ip': u'36.252.32.37', u'time_zone': u'Asia/Kathmandu', u'longitude': 85.3333, u'metro_code': 0, u'latitude': 27.6667, u'country_code': u'NP', u'country_name': u'Nepal', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 5284,
+    "fields": {
+        "ip": "70.195.80.104",
+        "hits": 17,
+        "lat": 38.5783,
+        "lng": -90.6666,
+        "region": " Missouri",
+        "country_code": "US",
+        "country_name": "United States",
+        "geonames_data": "{u'city': u'', u'region_code': u'MO', u'region_name': u'Missouri', u'ip': u'70.195.80.104', u'time_zone': u'America/Chicago', u'longitude': -90.6666, u'metro_code': 0, u'latitude': 38.5783, u'country_code': u'US', u'country_name': u'United States', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 5308,
+    "fields": {
+        "ip": "203.87.156.171",
+        "hits": 1,
+        "lat": 14.7004,
+        "lng": 121.081,
+        "region": "Quezon City National Capital Region",
+        "country_code": "PH",
+        "country_name": "Philippines",
+        "geonames_data": "{u'city': u'Quezon City', u'region_code': u'00', u'region_name': u'National Capital Region', u'ip': u'203.87.156.171', u'time_zone': u'Asia/Manila', u'longitude': 121.081, u'metro_code': 0, u'latitude': 14.7004, u'country_code': u'PH', u'country_name': u'Philippines', u'zip_code': u'1121'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 5324,
+    "fields": {
+        "ip": "196.190.0.45",
+        "hits": 40,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'196.190.0.45', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 5332,
+    "fields": {
+        "ip": "103.1.31.204",
+        "hits": 9,
+        "lat": 16.565,
+        "lng": 104.7527,
+        "region": "Savannakhet Khoueng Savannakhet",
+        "country_code": "LA",
+        "country_name": "Laos",
+        "geonames_data": "{u'city': u'Savannakhet', u'region_code': u'SV', u'region_name': u'Khoueng Savannakhet', u'ip': u'103.1.31.204', u'time_zone': u'Asia/Vientiane', u'longitude': 104.7527, u'metro_code': 0, u'latitude': 16.565, u'country_code': u'LA', u'country_name': u'Laos', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 5348,
+    "fields": {
+        "ip": "171.76.217.100",
+        "hits": 1,
+        "lat": 28.57,
+        "lng": 77.32,
+        "region": "Noida Uttar Pradesh",
+        "country_code": "IN",
+        "country_name": "India",
+        "geonames_data": "{u'city': u'Noida', u'region_code': u'UP', u'region_name': u'Uttar Pradesh', u'ip': u'171.76.217.100', u'time_zone': u'Asia/Kolkata', u'longitude': 77.32, u'metro_code': 0, u'latitude': 28.57, u'country_code': u'IN', u'country_name': u'India', u'zip_code': u'201301'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 5372,
+    "fields": {
+        "ip": "171.66.208.10",
+        "hits": 5,
+        "lat": 37.4178,
+        "lng": -122.172,
+        "region": "Stanford California",
+        "country_code": "US",
+        "country_name": "United States",
+        "geonames_data": "{u'city': u'Stanford', u'region_code': u'CA', u'region_name': u'California', u'ip': u'171.66.208.10', u'time_zone': u'America/Los_Angeles', u'longitude': -122.172, u'metro_code': 807, u'latitude': 37.4178, u'country_code': u'US', u'country_name': u'United States', u'zip_code': u'94305'}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 5396,
+    "fields": {
+        "ip": "77.154.204.227",
+        "hits": 1,
+        "lat": 48.8582,
+        "lng": 2.3387,
+        "region": " ",
+        "country_code": "FR",
+        "country_name": "France",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'77.154.204.227', u'time_zone': u'Europe/Paris', u'longitude': 2.3387, u'metro_code': 0, u'latitude': 48.8582, u'country_code': u'FR', u'country_name': u'France', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 5428,
+    "fields": {
+        "ip": "213.55.108.47",
+        "hits": 10,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'ip': u'213.55.108.47', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'latitude': 8, u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 5468,
+    "fields": {
+        "ip": "41.191.107.224",
+        "hits": 3,
+        "lat": 6.3106,
+        "lng": -10.8047,
+        "region": "Monrovia Montserrado County",
+        "country_code": "LR",
+        "country_name": "Liberia",
+        "geonames_data": "{u'city': u'Monrovia', u'region_code': u'MO', u'region_name': u'Montserrado County', u'ip': u'41.191.107.224', u'time_zone': u'Africa/Monrovia', u'longitude': -10.8047, u'metro_code': 0, u'latitude': 6.3106, u'country_code': u'LR', u'country_name': u'Liberia', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 5524,
+    "fields": {
+        "ip": "129.56.11.109",
+        "hits": 18,
+        "lat": 9.1805,
+        "lng": 7.1793,
+        "region": "Suleja Niger State",
+        "country_code": "NG",
+        "country_name": "Nigeria",
+        "geonames_data": "{u'city': u'Suleja', u'region_code': u'NI', u'region_name': u'Niger State', u'latitude': 9.1805, u'ip': u'129.56.11.109', u'time_zone': u'Africa/Lagos', u'longitude': 7.1793, u'metro_code': 0, u'__deprecation_message__': u'This API endpoint is deprecated and will stop working on July 1st, 2018. For more information please visit: https://github.com/apilayer/freegeoip#readme', u'country_code': u'NG', u'country_name': u'Nigeria', u'zip_code': u''}"
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 5548,
+    "fields": {
+        "ip": "196.190.7.5",
+        "hits": 3,
+        "lat": 8.0,
+        "lng": 38.0,
+        "region": " ",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": "{u'city': u'', u'region_code': u'', u'region_name': u'', u'latitude': 8, u'ip': u'196.190.7.5', u'time_zone': u'Africa/Addis_Ababa', u'longitude': 38, u'metro_code': 0, u'__deprecation_message__': u'This API endpoint is deprecated and will stop working on July 1st, 2018. For more information please visit: https://github.com/apilayer/freegeoip#readme', u'country_code': u'ET', u'country_name': u'Ethiopia', u'zip_code': u''}"
+    }
+}
+]

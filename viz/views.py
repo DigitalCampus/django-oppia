@@ -26,7 +26,7 @@ def summary_view(request):
             start_date = form.cleaned_data.get("start_date")
     else:
         data = {}
-        data['start_date'] = start_date
+        data['start_date'] = start_date.strftime("%Y-%m-%d")
         form = DateDiffForm(initial=data)
 
     # User registrations
