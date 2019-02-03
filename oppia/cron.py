@@ -19,7 +19,15 @@ def run(hours):
     oppia_cron(hours)
     print('cron completed')
 
-def oppia_cron(hours=0):    
+def oppia_cron(hours=0):   
+    
+    #check if cron already running
+    prop, created = SettingProperties.objects.get_or_create(key='oppia_cron_lock',int_value=1)
+    if not created:
+        print("Oppia cron is already running")
+        return
+    
+     
     now = time.time()
     path = os.path.join(settings.COURSE_UPLOAD_DIR, "temp")
 
@@ -41,6 +49,7 @@ def oppia_cron(hours=0):
     call_command('generate_media_images')
     
     SettingProperties.set_string('oppia_cron_last_run', timezone.now())
+    SettingProperties.delete_key('oppia_cron_lock')
 
 if __name__ == "__main__":
     import django

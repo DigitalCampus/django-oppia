@@ -56,6 +56,11 @@ class SettingProperties(models.Model):
         prop, created = SettingProperties.objects.get_or_create(key=property_key)
         prop.str_value = value
         prop.save()
+     
+    @staticmethod
+    def delete_key(property_key): 
+        SettingProperties.objects.get(key=property_key).delete()  
+    
 
     def __unicode__(self):
         return self.key
