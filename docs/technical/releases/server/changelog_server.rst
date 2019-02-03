@@ -48,6 +48,7 @@ Issue list:
 * 560: Add tests and data for viz models and functions - https://github.com/DigitalCampus/django-oppia/issues/560
 * 557: Unusual start date on the summary overview - https://github.com/DigitalCampus/django-oppia/issues/557
 * 526: Review and update server settings page - https://github.com/DigitalCampus/django-oppia/issues/526
+* 525: Remove development_server setting and use debug instead - https://github.com/DigitalCampus/django-oppia/issues/525
 
 Upgrade Notes
 ----------------

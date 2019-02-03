@@ -215,8 +215,6 @@ DEVICE_ADMIN_ENABLED = False
 GCM_DEVICE_MODEL = 'deviceadmin.models.UserDevice'
 GCM_APIKEY = 'OPPIA_GOOGLEAPIKEY'
 
-DEVELOPMENT_SERVER = True
-
 SCREENSHOT_GENERATOR_PROGRAM = "ffmpeg"
 SCREENSHOT_GENERATOR_PROGRAM_PARAMS = "-i %s -r 0.02 -s %dx%d -f image2 %s/frame-%%03d.png"
 
