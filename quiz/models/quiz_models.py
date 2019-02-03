@@ -41,6 +41,10 @@ class Quiz(models.Model):
             avg_score = 0
         return avg_score
 
+    @staticmethod
+    def get_no_attempts_by_user(quiz, user):
+        no_attempts = QuizAttempt.objects.filter(quiz=quiz, user=user).count()
+        return no_attempts
 
 class QuizQuestion(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)

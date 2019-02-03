@@ -308,7 +308,7 @@ def user_activity(request, user_id):
     end_date = timezone.now()
 
     course_ids = list(chain(cohort_courses.values_list('id', flat=True), other_courses.values_list('id', flat=True)))
-    activity = get_tracker_activities(start_date, end_date, course_ids=course_ids)
+    activity = get_tracker_activities(start_date, end_date, view_user, course_ids=course_ids)
 
     return render(request, 'oppia/profile/user-scorecard.html',
                               {'view_user': view_user,
@@ -343,10 +343,11 @@ def user_course_activity_view(request, user_id, course_id):
         except Quiz.DoesNotExist:
             quiz = None
 
+        no_attempts = quiz.get_no_attempts_by_user(quiz, view_user)
         attempts = QuizAttempt.objects.filter(quiz=quiz, user=view_user)
-        num_attempts = attempts.count()
+        
         passed = False
-        if num_attempts > 0:
+        if no_attempts > 0:
 
             quiz_maxscore = float(attempts[0].maxscore)
             attemps_stats = attempts.aggregate(max=Max('score'), min=Min('score'), avg=Avg('score'))
@@ -374,7 +375,7 @@ def user_course_activity_view(request, user_id, course_id):
 
         quiz = {'quiz': aq,
                 'quiz_order': aq.order,
-                'no_attempts': num_attempts,
+                'no_attempts': no_attempts,
                 'max_score': max_score,
                 'min_score': min_score,
                 'first_score': first_score,
@@ -391,7 +392,7 @@ def user_course_activity_view(request, user_id, course_id):
     start_date = timezone.now() - datetime.timedelta(days=31)
     end_date = timezone.now()
 
-    activity = get_tracker_activities(start_date, end_date, course=course)
+    activity = get_tracker_activities(start_date, end_date, view_user, course=course)
 
     order_options = ['quiz_order', 'no_attempts', 'max_score', 'min_score',
                      'first_score', 'latest_score', 'avg_score']
@@ -643,7 +644,7 @@ def delete_account_complete_view(request):
 
 # helper functions
 
-def get_tracker_activities(start_date, end_date, course_ids=[], course=None):
+def get_tracker_activities(start_date, end_date, user, course_ids=[], course=None):
     activity = []
     no_days = (end_date - start_date).days + 1
     if course:
@@ -651,7 +652,7 @@ def get_tracker_activities(start_date, end_date, course_ids=[], course=None):
     else: 
         trackers = Tracker.objects.filter(course__id__in=course_ids)
         
-    trackers.filter(user=view_user,
+    trackers.filter(user=user,
                       tracker_date__gte=start_date,
                       tracker_date__lte=end_date) \
                       .extra({'activity_date': "date(tracker_date)"}) \
