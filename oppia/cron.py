@@ -10,6 +10,7 @@ import subprocess
 
 from django.conf import settings
 from django.core.management import call_command
+from django.utils import timezone
 
 from settings.models import SettingProperties
 
@@ -38,6 +39,8 @@ def oppia_cron(hours=0):
 
     # create and new media images
     call_command('generate_media_images')
+    
+    SettingProperties.set_string('oppia_cron_last_run', timezone.now())
 
 if __name__ == "__main__":
     import django

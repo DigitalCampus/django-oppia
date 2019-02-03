@@ -50,6 +50,8 @@ Issue list:
 * 526: Review and update server settings page - https://github.com/DigitalCampus/django-oppia/issues/526
 * 525: Remove development_server setting and use debug instead - https://github.com/DigitalCampus/django-oppia/issues/525
 * 530: Move cron and cronsummary tasks to be under the oppiamobile directory? - https://github.com/DigitalCampus/django-oppia/issues/530
+* 364: Logging when cron was last run - https://github.com/DigitalCampus/django-oppia/issues/364
+
 
 Upgrade Notes
 ----------------

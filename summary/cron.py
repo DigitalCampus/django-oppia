@@ -2,6 +2,7 @@
 import time
 
 from datetime import date
+from django.utils import timezone
 
 
 def update_summaries(last_tracker_pk=0, last_points_pk=0):
@@ -13,6 +14,8 @@ def update_summaries(last_tracker_pk=0, last_points_pk=0):
     from settings.models import SettingProperties
     from summary.models import UserCourseSummary, CourseDailyStats, UserPointsSummary
 
+    SettingProperties.set_string('oppia_summary_cron_last_run', timezone.now())
+    
     # get last tracker and points PKs to be processed
     # (to avoid leaving some out if new trackers arrive while processing)
     try:
@@ -111,6 +114,7 @@ def update_summaries(last_tracker_pk=0, last_points_pk=0):
     # update last tracker and points PKs with the last one processed
     SettingProperties.objects.update_or_create(key='last_tracker_pk', defaults={"int_value": newest_tracker_pk})
     SettingProperties.objects.update_or_create(key='last_points_pk', defaults={"int_value": newest_points_pk})
+    
 
 
 def run():

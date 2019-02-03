@@ -44,6 +44,18 @@ class SettingProperties(models.Model):
         except SettingProperties.DoesNotExist:
             pass
         return default_value
+    
+    @staticmethod
+    def set_int(property_key, value):
+        prop, created = SettingProperties.objects.get_or_create(key=property_key)
+        prop.int_value = value
+        prop.save()
+        
+    @staticmethod
+    def set_string(property_key, value):
+        prop, created = SettingProperties.objects.get_or_create(key=property_key)
+        prop.str_value = value
+        prop.save()
 
     def __unicode__(self):
         return self.key
