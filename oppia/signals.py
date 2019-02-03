@@ -10,7 +10,6 @@ from django.dispatch import Signal
 from gamification.default_points import OPPIA_DEFAULT_POINTS
 from oppia.models import Points, Tracker, Activity
 from quiz.models import Quiz, QuizAttempt
-from oppia.utils.deprecation import RemovedInOppia0110Warning
 
 course_downloaded = Signal(providing_args=["course", "user"])
 
@@ -118,27 +117,6 @@ def quizattempt_callback(sender, **kwargs):
 
     return
 
-
-def createquiz_callback(sender, **kwargs):
-    warnings.warn(
-        "oppia.signals.createquiz_callback() is deprecated and will be removed in Oppia server 0.11.0.",
-        RemovedInOppia0110Warning, 2)
-    quiz = kwargs.get('instance')
-    created = kwargs.get('created')
-
-    if not apply_points(quiz.owner):
-        return
-
-    if created:
-        p = Points()
-        p.points = OPPIA_DEFAULT_POINTS['QUIZ_CREATED']
-        p.type = 'quizcreated'
-        p.description = "Quiz created: " + quiz.title
-        p.user = quiz.owner
-        p.save()
-    return
-
-
 def tracker_callback(sender, **kwargs):
 
     tracker = kwargs.get('instance')
@@ -187,32 +165,6 @@ def tracker_callback(sender, **kwargs):
 
     return
 
-
-def course_download_callback(sender, **kwargs):
-    warnings.warn(
-        "oppia.signals.course_download_callback() is deprecated and will be removed in Oppia server 0.11.0.",
-        RemovedInOppia0110Warning, 2)
-    user = kwargs.get('user')
-    course = kwargs.get('course')
-    if not apply_points(user):
-        return
-
-    if course.user == user and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
-        return
-
-    if not course.is_first_download(user):
-        return
-
-    p = Points()
-    p.points = OPPIA_DEFAULT_POINTS['COURSE_DOWNLOADED']
-    p.type = 'coursedownloaded'
-    p.description = "Course downloaded: " + course.get_title()
-    p.user = user
-    p.course = course
-    p.save()
-    return
-
-
 def badgeaward_callback(sender, **kwargs):
     award = kwargs.get('instance')
     if not apply_points(award.user):
@@ -226,8 +178,6 @@ def badgeaward_callback(sender, **kwargs):
     p.save()
     return
 
-course_downloaded.connect(course_download_callback)
 models.signals.post_save.connect(tracker_callback, sender=Tracker)
 models.signals.post_save.connect(signup_callback, sender=User)
-models.signals.post_save.connect(createquiz_callback, sender=Quiz)
 models.signals.post_save.connect(quizattempt_callback, sender=QuizAttempt)
