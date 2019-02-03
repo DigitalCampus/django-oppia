@@ -2,6 +2,7 @@
 import time
 
 from datetime import date
+from django.utils import timezone
 
 
 def update_summaries(last_tracker_pk=0, last_points_pk=0):
@@ -13,6 +14,14 @@ def update_summaries(last_tracker_pk=0, last_points_pk=0):
     from settings.models import SettingProperties
     from summary.models import UserCourseSummary, CourseDailyStats, UserPointsSummary
 
+    #check if cron already running
+    prop, created = SettingProperties.objects.get_or_create(key='oppia_summary_cron_lock',int_value=1)
+    if not created:
+        print("Oppia summary cron is already running")
+        return
+    
+    SettingProperties.set_string('oppia_summary_cron_last_run', timezone.now())
+    
     # get last tracker and points PKs to be processed
     # (to avoid leaving some out if new trackers arrive while processing)
     try:
@@ -20,13 +29,16 @@ def update_summaries(last_tracker_pk=0, last_points_pk=0):
         newest_points_pk = Points.objects.latest('id').id
     except Tracker.DoesNotExist:
         print("Tracker table is empty. Aborting cron...")
+        SettingProperties.delete_key('oppia_summary_cron_lock')
         return
     except Points.DoesNotExist:
         newest_points_pk = last_points_pk
+       
 
     print ('Last tracker processed: %d\nNewest tracker: %d\n' % (last_tracker_pk, newest_tracker_pk))
     if last_tracker_pk >= newest_tracker_pk:
         print('No new trackers to process. Aborting cron...')
+        SettingProperties.delete_key('oppia_summary_cron_lock')
         return
 
     first_tracker = (last_tracker_pk == 0)
@@ -111,6 +123,8 @@ def update_summaries(last_tracker_pk=0, last_points_pk=0):
     # update last tracker and points PKs with the last one processed
     SettingProperties.objects.update_or_create(key='last_tracker_pk', defaults={"int_value": newest_tracker_pk})
     SettingProperties.objects.update_or_create(key='last_points_pk', defaults={"int_value": newest_points_pk})
+    
+    SettingProperties.delete_key('oppia_summary_cron_lock')
 
 
 def run():
