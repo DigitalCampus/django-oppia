@@ -49,6 +49,7 @@ Issue list:
 * 557: Unusual start date on the summary overview - https://github.com/DigitalCampus/django-oppia/issues/557
 * 526: Review and update server settings page - https://github.com/DigitalCampus/django-oppia/issues/526
 * 525: Remove development_server setting and use debug instead - https://github.com/DigitalCampus/django-oppia/issues/525
+* 530: Move cron and cronsummary tasks to be under the oppiamobile directory? - https://github.com/DigitalCampus/django-oppia/issues/530
 
 Upgrade Notes
 ----------------
