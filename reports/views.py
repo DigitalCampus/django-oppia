@@ -1,4 +1,5 @@
 # oppia/reports/views.py
+from django.contrib.admin.views.decorators import staff_member_required
 from django.core import exceptions
 from django.db.models import Sum, Count
 from django.http.response import Http404
@@ -15,12 +16,10 @@ def menu_reports(request):
     #return [{'name': 'test', 'url':'/reports/1/'},{'name': 'test2', 'url':'/reports/2/'}]
     return [{'name': _('Completion Rates'), 'url': reverse('oppia_completion_rates')}]
 
-
+@staff_member_required
 def completion_rates(request):
 
-    courses, response = can_view_courses_list(request)
-    if response is not None:
-        return response
+    courses = Course.objects.filter(is_draft=False, is_archived=False).order_by('title')
 
     courses_list = []
     course_stats = list(UserCourseSummary.objects.filter(course__in=courses).values('course').annotate(users=Count('user'), completed=Sum('badges_achieved')))
@@ -46,10 +45,8 @@ def completion_rates(request):
                               {'courses_list': courses_list})
 
 
+@staff_member_required
 def course_completion_rates(request, course_id):
-
-    if not request.user.is_staff:
-        raise exceptions.PermissionDenied
 
     try:
         course = Course.objects.get(pk=course_id)
@@ -77,11 +74,3 @@ def course_completion_rates(request, course_id):
                                   'users_enroled_count': len(users_completed) + len(users_incompleted),
                                   'users_completed': users_completed,
                                   'users_incompleted': users_incompleted, })
-
-
-def can_view_courses_list(request):
-    if not request.user.is_staff:
-        raise exceptions.PermissionDenied
-    else:
-        courses = Course.objects.filter(is_draft=False, is_archived=False).order_by('title')
-    return courses, None
