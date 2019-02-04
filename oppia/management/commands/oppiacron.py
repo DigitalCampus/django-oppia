@@ -12,7 +12,6 @@ class Command(BaseCommand):
         # Optional argument to start the summary calculation from the beginning
         parser.add_argument(
             '--hours',
-            #action='store_int',
             dest='hours',
             help='no hours',
         )

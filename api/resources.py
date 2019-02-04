@@ -32,7 +32,6 @@ from oppia.models import Points, Award, Badge
 from profile.forms import RegisterForm
 from profile.models import UserProfile
 from oppia.signals import course_downloaded
-from oppia.utils.deprecation import RemovedInOppia0110Warning
 
 
 def check_required_params(bundle, required):
