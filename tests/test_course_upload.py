@@ -9,8 +9,6 @@ from tests.utils import *
 
 from tests.user_logins import *
 
-from oppia.forms.upload import UploadCourseStep1Form, UploadCourseStep2Form
-
 class CourseUploadTest(TestCase):
     fixtures = ['tests/test_user.json', 
                 'tests/test_oppia.json', 
