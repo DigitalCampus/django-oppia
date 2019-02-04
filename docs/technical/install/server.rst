@@ -218,6 +218,8 @@ Replace the ``ServerName`` ``localhost.oppia`` with your site's domain name and
 adjust any instances of ``/home/oppia/`` with the directory you used for 
 installing.
 
+.. _installcron:
+
 9. Set up cron tasks
 ---------------------
 
@@ -235,11 +237,7 @@ recommend putting these files in your ``/home/oppia/`` directory.
 	cd /home/oppia/
 	source env/bin/activate
 	
-	PYTHONPATH="/home/oppia/django-oppia/"
-	export PYTHONPATH
-	export DJANGO_SETTINGS_MODULE=oppiamobile.settings
-	
-	python /home/oppia/django-oppia/oppia/cron.py 48
+	python django-oppia/manage.py oppiacron --hours=48
 	
 ``cron-summary.sh``::
  
@@ -248,11 +246,7 @@ recommend putting these files in your ``/home/oppia/`` directory.
 	cd /home/oppia/
 	source env/bin/activate
 	
-	PYTHONPATH="/home/oppia/django-oppia/"
-	export PYTHONPATH
-	export DJANGO_SETTINGS_MODULE=oppiamobile.settings
-	
-	python /home/oppia/django-oppia/summary/cron.py
+	python django-oppia/manage.py update_summaries
 
 10. Contribute!
 ----------------
