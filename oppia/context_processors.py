@@ -4,7 +4,8 @@ from django.conf import settings
 import oppia
 from oppia.models import Points, Award
 from reports.views import menu_reports
-
+from settings import constants
+from settings.models import SettingProperties
 
 def get_points(request):
     if not request.user.is_authenticated:
@@ -25,7 +26,8 @@ def get_version(request):
 
 
 def get_settings(request):
-    return {'OPPIA_ALLOW_SELF_REGISTRATION': settings.OPPIA_ALLOW_SELF_REGISTRATION,
+    self_register = SettingProperties.get_int(constants.OPPIA_ALLOW_SELF_REGISTRATION, settings.OPPIA_ALLOW_SELF_REGISTRATION)
+    return {'OPPIA_ALLOW_SELF_REGISTRATION': self_register,
              'OPPIA_GOOGLE_ANALYTICS_ENABLED': settings.OPPIA_GOOGLE_ANALYTICS_ENABLED,
              'OPPIA_GOOGLE_ANALYTICS_CODE': settings.OPPIA_GOOGLE_ANALYTICS_CODE,
              'OPPIA_GOOGLE_ANALYTICS_DOMAIN': settings.OPPIA_GOOGLE_ANALYTICS_DOMAIN,

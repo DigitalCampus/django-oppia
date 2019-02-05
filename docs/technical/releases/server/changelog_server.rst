@@ -52,6 +52,7 @@ Issue list:
 * 530: Move cron and cronsummary tasks to be under the oppiamobile directory? - https://github.com/DigitalCampus/django-oppia/issues/530
 * 364: Logging when cron was last run - https://github.com/DigitalCampus/django-oppia/issues/364
 * 375: Implement cron lock - https://github.com/DigitalCampus/django-oppia/issues/375
+* 565: Copy the OPPIA_ALLOW_SELF_REGISTRATION setting.py into SettingProperties - https://github.com/DigitalCampus/django-oppia/issues/565
 
 Upgrade Notes
 ----------------
