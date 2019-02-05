@@ -1,6 +1,8 @@
 from django.test import TestCase
 from tastypie.test import ResourceTestCaseMixin
 
+from settings import constants
+from settings.models import SettingProperties
 
 class RegisterResourceTest(ResourceTestCaseMixin, TestCase):
     fixtures = ['tests/test_user.json']
@@ -202,3 +204,22 @@ class RegisterResourceTest(ResourceTestCaseMixin, TestCase):
         resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpBadRequest(resp)
         self.assertValidJSON(resp.content)
+        
+    def test_self_registration_disabled_cant_view(self):
+        # turn off self registration
+        SettingProperties.set_int(constants.OPPIA_ALLOW_SELF_REGISTRATION,0)
+        data = {
+            'username': 'demo3',
+            'password': 'secret',
+            'passwordagain': 'secret',
+            'email': 'demo3@me.com',
+            'firstname': 'demo',
+            'lastname': 'user',
+        }
+        response = self.api_client.post(self.url, format='json', data=data)
+        self.assertHttpBadRequest(response)
+        self.assertValidJSON(response.content)
+        
+        # turn back on
+        SettingProperties.set_int(constants.OPPIA_ALLOW_SELF_REGISTRATION,1)
+        

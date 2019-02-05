@@ -45,6 +45,9 @@ can create an account) on the server. Set this to ``False`` to prevent just
 anyone registering on your server - you will need to create their accounts 
 yourself instead using the standard Django user management.
 
+If you define a `OPPIA_ALLOW_SELF_REGISTRATION` property in the SettingProperties table (under the Django admin),
+that value will take precedence from the one defined in the ``settings_secret.py`` file
+
 
 OPPIA_SHOW_GRAVATARS
 --------------------------------

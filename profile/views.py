@@ -30,6 +30,8 @@ from profile.forms import LoginForm, RegisterForm, ResetForm, ProfileForm, Uploa
 from profile.models import UserProfile
 from quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
 from reports.signals import dashboard_accessed
+from settings import constants
+from settings.models import SettingProperties
 from summary.models import UserCourseSummary
 
 
@@ -89,7 +91,8 @@ def login_view(request):
 
 
 def register(request):
-    if not settings.OPPIA_ALLOW_SELF_REGISTRATION:
+    self_register = SettingProperties.get_int(constants.OPPIA_ALLOW_SELF_REGISTRATION, settings.OPPIA_ALLOW_SELF_REGISTRATION)
+    if not self_register:
         raise Http404
 
     if request.method == 'POST':  # if form submitted...
