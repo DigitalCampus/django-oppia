@@ -1,7 +1,24 @@
 Upgrading to OppiaMobile Server v0.11.0
 ===========================================
 
+In OppiaMobile Server v0.11.0, the project has been restructured, and there is
+a simplified installation process.
 
+To upgrade to this version, you should first:
 
-Run `pip install -r django-oppia/requirements.txt` after upgrading to this 
-version, since new packages	and an updated version of Django is used.
+* Install the new dependencies, run ``pip install -r django-oppia/requirements.txt``
+* Migrate the database, run ``python manage.py migrate``
+* Cache the static files, run ``python manage.py collectstatic``
+
+Then review the 
+`Server - Manual Installation <https://oppiamobile.readthedocs.io/en/0.11.0/technical/install/server.html>`_ 
+and make any necessary updates to your configuration, especially checking:
+
+* creating a ``settings_secret.py`` file (see item 2 in the install docs), and 
+  transferring over any settings you may have had in ``local_settings.py`` to 
+  this file.
+* running the tests and that the server runs locally (items 6 and 7 in the 
+  install docs) 
+* updating Apache webserver configuration file (item 8 in the install docs) 
+* updating how the cron commands are run (item 9 in the install docs)
+

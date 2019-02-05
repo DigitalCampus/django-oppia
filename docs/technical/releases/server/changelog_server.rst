@@ -6,9 +6,10 @@ OppiaMobile Server Change Log
 v0.11.0 - not yet released
 --------------------------------
 
-.. note:: 
-	In this release the project structure has changed, so you will need to make 
-	changes to your OppiaMobile server set up, see :doc:`upgrading/to_0_11_0`
+.. toctree::
+   :maxdepth: 1
+
+   upgrading/to_0_11_0
 
 	
 Key updates:
@@ -52,14 +53,9 @@ Issue list:
 * 530: Move cron and cronsummary tasks to be under the oppiamobile directory? - https://github.com/DigitalCampus/django-oppia/issues/530
 * 364: Logging when cron was last run - https://github.com/DigitalCampus/django-oppia/issues/364
 * 375: Implement cron lock - https://github.com/DigitalCampus/django-oppia/issues/375
-
-Upgrade Notes
-----------------
-
-.. toctree::
-   :maxdepth: 1
-
-   upgrading/to_0_11_0
+* 565: Copy the OPPIA_ALLOW_SELF_REGISTRATION setting.py into SettingProperties - https://github.com/DigitalCampus/django-oppia/issues/565
+* 558: Add upgrade docs to v0.11.0 - https://github.com/DigitalCampus/django-oppia/issues/558
+* 297: Docs for export process from Moodle to Oppia - https://github.com/DigitalCampus/django-oppia/issues/297
 
 Previous Versions
 ------------------

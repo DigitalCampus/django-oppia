@@ -32,7 +32,8 @@ from oppia.models import Points, Award, Badge
 from profile.forms import RegisterForm
 from profile.models import UserProfile
 from oppia.signals import course_downloaded
-
+from settings import constants
+from settings.models import SettingProperties
 
 def check_required_params(bundle, required):
     for r in required:
@@ -155,7 +156,8 @@ class RegisterResource(ModelResource):
         include_resource_uri = False
 
     def obj_create(self, bundle, **kwargs):
-        if not settings.OPPIA_ALLOW_SELF_REGISTRATION:
+        self_register = SettingProperties.get_int(constants.OPPIA_ALLOW_SELF_REGISTRATION, settings.OPPIA_ALLOW_SELF_REGISTRATION)
+        if not self_register:
             raise BadRequest(_(u'Registration is disabled on this server.'))
         required = ['username', 'password', 'passwordagain', 'email', 'firstname', 'lastname']
 

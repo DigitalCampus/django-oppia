@@ -30,16 +30,17 @@ For information about specific aspects of course creation for OppiaMobile, see:
    translations
    about
    testing
+   publish_to_oppia
 
 If you'd like to see an example of how we structured and set up the Antenatal 
 Care course you can see this at: 
-http://moodle.digital-campus.org/course/view.php?id=166 
+https://moodle.digital-campus.org/course/view.php?id=166 
 
 Once you have some content etc that you'd like to test on your phone, press the 
 'Export to Oppia Package' button in the right hand column. At the end of the 
 export output page, if it's all exported successfully, there will be a link to 
 download the course .zip package. So you can download this and copy it to the 
-/<storage_setting>/Android/data/org.digitalcampus.mobile.learning/files/download 
+``/<storage_setting>/Android/data/org.digitalcampus.mobile.learning/files/download`` 
 directory. The storage_setting path will depend on where you have the app 
 storage location set to.
 
