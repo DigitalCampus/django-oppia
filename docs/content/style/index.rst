@@ -9,7 +9,7 @@ javascript and related resources (images etc) will get exported to the course
 package too.
 
 You can see an example of the standard stylesheet and javascript in use on our 
-Moodle server at: http://moodle.digital-campus.org/mod/page/view.php?id=20628 
+Moodle server at: https://moodle.digital-campus.org/mod/page/view.php?id=20628 
 
 Creating your own style
 ------------------------
