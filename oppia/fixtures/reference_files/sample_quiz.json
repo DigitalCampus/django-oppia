@@ -1,0 +1,405 @@
+{
+    "description": "Planning Antenatal Care",
+    "id": 1791,
+    "lastupdated_date": "2014-09-21T19:50:20",
+    "owner": "\\/api\\/v1\\/user\\/378\\/",
+    "props": {
+        "allowtryagain": "1",
+        "availability": "0",
+        "courseversion": "20150910135957",
+        "digest": "4d46a0566501cdbc1f57b2b505c92a2d17703cr0s2a1p80a0",
+        "maxscore": 10,
+        "passthreshold": "80",
+        "showfeedback": "2"
+    },
+    "questions": [
+        {
+            "id": 18158,
+            "order": 1,
+            "question": {
+                "id": 18365,
+                "props": {
+                    "maxscore": 1
+                },
+                "responses": [
+                    {
+                        "id": 49320,
+                        "order": 1,
+                        "props": {
+                            "feedback": "Incorrect. The third visit during pregnancy should be at 32 weeks."
+                        },
+                        "score": "0.00",
+                        "title": "At 32 weeks"
+                    },
+                    {
+                        "id": 49321,
+                        "order": 2,
+                        "props": {
+                            "feedback": "Correct! According to the focused antenatal care (FANC) approach, the first visit during pregnancy must be after 16 weeks."
+                        },
+                        "score": "1.00",
+                        "title": "At 16 weeks"
+                    },
+                    {
+                        "id": 49322,
+                        "order": 3,
+                        "props": {
+                            "feedback": "Incorrect. The fourth visit of pregnancy should be after 36 weeks"
+                        },
+                        "score": "0.00",
+                        "title": "At 36 weeks"
+                    }
+                ],
+                "title": "According to the Focused Antenatal Care (FANC) approach, when should a pregnant woman first come for a visit?",
+                "type": "multichoice"
+            }
+        },
+        {
+            "id": 18159,
+            "order": 2,
+            "question": {
+                "id": 18366,
+                "props": {
+                    "maxscore": 1
+                },
+                "responses": [
+                    {
+                        "id": 49323,
+                        "order": 1,
+                        "props": {
+                            "feedback": "Incorrect. Unsafe abortion is one of the causes of maternal death but not the leading one."
+                        },
+                        "score": "0.00",
+                        "title": "Unsafe abortion"
+                    },
+                    {
+                        "id": 49324,
+                        "order": 2,
+                        "props": {
+                            "feedback": "Incorrect. High blood pressure is one of the causes of maternal death but not the leading one."
+                        },
+                        "score": "0.00",
+                        "title": "High blood pressure"
+                    },
+                    {
+                        "id": 49325,
+                        "order": 3,
+                        "props": {
+                            "feedback": "Correct! The leading cause of maternal death is haemorrhage or bleeding after childbirth"
+                        },
+                        "score": "1.00",
+                        "title": "Haemorrhage or bleeding after childbirth"
+                    }
+                ],
+                "title": "What is the leading cause of maternal death?",
+                "type": "multichoice"
+            }
+        },
+        {
+            "id": 18160,
+            "order": 3,
+            "question": {
+                "id": 18367,
+                "props": {
+                    "maxscore": 1
+                },
+                "responses": [
+                    {
+                        "id": 49326,
+                        "order": 1,
+                        "props": {
+                            "feedback": "Correct! The MMR for this region in 2002 is 100",
+                            "tolerance": "0"
+                        },
+                        "score": "1.00",
+                        "title": 100
+                    }
+                ],
+                "title": "In Region X in 2002, there were 10 maternal deaths and 10,000 live births. What was the maternal mortality ratio in Region X per 100,000 live births in that year?",
+                "type": "numerical"
+            }
+        },
+        {
+            "id": 18161,
+            "order": 4,
+            "question": {
+                "id": 18368,
+                "props": {
+                    "maxscore": 1
+                },
+                "responses": [
+                    {
+                        "id": 49327,
+                        "order": 1,
+                        "props": {
+                            "feedback": "Correct! There were 16 neonatal deaths per 1000 live births",
+                            "tolerance": "0"
+                        },
+                        "score": "1.00",
+                        "title": 16
+                    }
+                ],
+                "title": "Assume that there were 480 maternal deaths, 960 neonatal deaths and 60,000 live births in Region Y in the year 2005. Calculate the neonatal mortality rate in this region in that year.",
+                "type": "numerical"
+            }
+        },
+        {
+            "id": 18162,
+            "order": 5,
+            "question": {
+                "id": 18369,
+                "props": {
+                    "maxscore": 1
+                },
+                "responses": [
+                    {
+                        "id": 49328,
+                        "order": 1,
+                        "props": {
+                            "feedback": "Incorrect. These are some of the causes of neonatal mortality but not the main causes."
+                        },
+                        "score": "0.00",
+                        "title": "HIV\\/AIDS and preterm birth"
+                    },
+                    {
+                        "id": 49329,
+                        "order": 2,
+                        "props": {
+                            "feedback": "Correct! The main causes of neonatal mortality are Infection, asphyxia, and preterm birth"
+                        },
+                        "score": "1.00",
+                        "title": "Infection, asphyxia, and preterm birth"
+                    },
+                    {
+                        "id": 49330,
+                        "order": 3,
+                        "props": {
+                            "feedback": "Incorrect. These are some of the causes of neonatal mortality but not the main causes."
+                        },
+                        "score": "0.00",
+                        "title": "Diarrhea, Pneumonia, and Tetanus"
+                    }
+                ],
+                "title": "What are the main causes of newborn death or neonatal mortality?",
+                "type": "multichoice"
+            }
+        },
+        {
+            "id": 18163,
+            "order": 6,
+            "question": {
+                "id": 18370,
+                "props": {
+                    "maxscore": 1
+                },
+                "responses": [
+                    {
+                        "id": 49331,
+                        "order": 1,
+                        "props": {
+                            "feedback": "The total number of pregnant women is calculated as 4% of the population, which is 110 in a community of 2,750 people (2,750 x 4\\/100 = 110)\nIf every pregnant woman receives 4 FANC visits, a total number of 440 visits will be needed in one year (110x4)\n\\u00a0",
+                            "tolerance": "0"
+                        },
+                        "score": "1.00",
+                        "title": 440
+                    }
+                ],
+                "title": "The total number of people in your catchment area is 2,750. Calculate the total number of focused antenatal care (FANC) checkups you need to make in one year.",
+                "type": "numerical"
+            }
+        },
+        {
+            "id": 18164,
+            "order": 7,
+            "question": {
+                "id": 18371,
+                "props": {
+                    "maxscore": 1
+                },
+                "responses": [
+                    {
+                        "id": 49332,
+                        "order": 1,
+                        "props": {
+                            "feedback": "Correct! Improving the mother's health and nutrition and ensuring timely antenatal visits is critical to health and survival of both the mothers and their newborn"
+                        },
+                        "score": "0.33",
+                        "title": "Improving maternal health and nutrition during pregnancy"
+                    },
+                    {
+                        "id": 49333,
+                        "order": 2,
+                        "props": {
+                            "feedback": "Incorrect! Breastmilk is by far the best food for a baby as soon as he is born.\\u00a0"
+                        },
+                        "score": "0.00",
+                        "title": "Giving the newborn baby nutritious foods\\u00a0"
+                    },
+                    {
+                        "id": 49334,
+                        "order": 3,
+                        "props": {
+                            "feedback": "Correct! Clean and safe delivery will prevent infections of both the mother and the baby. Should complications arise, referring the mother to the nearest health facility will save both her and the baby.\\u00a0"
+                        },
+                        "score": "0.33",
+                        "title": "Ensuring clean and safe delivery"
+                    },
+                    {
+                        "id": 49335,
+                        "order": 4,
+                        "props": {
+                            "feedback": "Incorrect. A massage may be beneficial for the baby later but it certainly will not prevent newborn death.\\u00a0"
+                        },
+                        "score": "0.00",
+                        "title": "Gently massaging the baby\\u00a0"
+                    },
+                    {
+                        "id": 49336,
+                        "order": 5,
+                        "props": {
+                            "feedback": "Correct! Immediate postnatal care will promote breastfeeding and clean cord care - as well as preventing neonatal infections such as pneumonia, diarrhoea, malaria.\\u00a0"
+                        },
+                        "score": "0.33",
+                        "title": "Providing immediate postnatal care after delivery"
+                    }
+                ],
+                "title": "Many neonatal deaths can be prevented by which 3 interventions:",
+                "type": "multiselect"
+            }
+        },
+        {
+            "id": 18165,
+            "order": 8,
+            "question": {
+                "id": 18372,
+                "props": {
+                    "maxscore": 1
+                },
+                "responses": [
+                    {
+                        "id": 49337,
+                        "order": 1,
+                        "props": {
+                            "feedback": "Correct. Lifesaving drugs can help the mother if she has severe bleeding (postpartum haemorrhage), high blood pressure (pre-eclampsia and eclampsia) and maternal infection (sepsis)."
+                        },
+                        "score": "0.33",
+                        "title": "Lifesaving drugs"
+                    },
+                    {
+                        "id": 49338,
+                        "order": 2,
+                        "props": {
+                            "feedback": "Incorrect. \\u00a0Promoting healthy and adequate nutrition for the mother is important but is not the primary function of obstetric care services at the hospital or health facility."
+                        },
+                        "score": "0.00",
+                        "title": "Promote healthy nutrition\\u00a0"
+                    },
+                    {
+                        "id": 49339,
+                        "order": 3,
+                        "props": {
+                            "feedback": "Correct. Cesarean sections can be lifesaving if there are complications during labour."
+                        },
+                        "score": "0.33",
+                        "title": "Perform Cesarean sections\\u00a0"
+                    },
+                    {
+                        "id": 49340,
+                        "order": 4,
+                        "props": {
+                            "feedback": "Correct. Antibiotics can treat sepsis or other severe infections (e.g. Pneumonia)"
+                        },
+                        "score": "0.33",
+                        "title": "Antibiotics and transfusions"
+                    },
+                    {
+                        "id": 49341,
+                        "order": 5,
+                        "props": {
+                            "feedback": "Incorrect. Try again"
+                        },
+                        "score": "0.00",
+                        "title": "All of the above"
+                    }
+                ],
+                "title": "Many maternal deaths can be prevented by referring the mother in a timely manner to quality obstetric care services in a hospital or health facility.\nWhat 3 services can obstetric care provide that can save her life? \\u00a0",
+                "type": "multiselect"
+            }
+        },
+        {
+            "id": 18166,
+            "order": 9,
+            "question": {
+                "id": 18373,
+                "props": {
+                    "maxscore": 1
+                },
+                "responses": [
+                    {
+                        "id": 49342,
+                        "order": 1,
+                        "props": {
+                            "feedback": "Correct! It is true according the the UNICEF report on the State of the World's Children Report 2009 (http:\\/\\/www.unicef.org\\/sowc09\\/index.php)\\u00a0"
+                        },
+                        "score": "1.00",
+                        "title": "True"
+                    },
+                    {
+                        "id": 49343,
+                        "order": 2,
+                        "props": {
+                            "feedback": "Incorrect. It is true\\u00a0according the the UNICEF report on the State of the World's Children Report 2009 (http:\\/\\/www.unicef.org\\/sowc09\\/index.php)\\u00a0"
+                        },
+                        "score": "0.00",
+                        "title": "False"
+                    }
+                ],
+                "title": "A child born in a least developed country is almost 14 times more likely to die during the first 28 days of life than one born in an industrialised country",
+                "type": "multichoice"
+            }
+        },
+        {
+            "id": 18167,
+            "order": 10,
+            "question": {
+                "id": 18374,
+                "props": {
+                    "maxscore": 1
+                },
+                "responses": [
+                    {
+                        "id": 49344,
+                        "order": 1,
+                        "props": {
+                            "feedback": "Incorrect.\\u00a0"
+                        },
+                        "score": "0.00",
+                        "title": "Because she could save 1000's of lives"
+                    },
+                    {
+                        "id": 49345,
+                        "order": 2,
+                        "props": {
+                            "feedback": "Correct!"
+                        },
+                        "score": "1.00",
+                        "title": "Because all mothers and newborns are vulnerable and need care"
+                    },
+                    {
+                        "id": 49346,
+                        "order": 3,
+                        "props": {
+                            "feedback": "Incorrect. Try again"
+                        },
+                        "score": "0.00",
+                        "title": "So she can find a better job in another city or country"
+                    }
+                ],
+                "title": "Why is it important for Community Health Workers to identify and assist all pregnant women in the community?",
+                "type": "multichoice"
+            }
+        }
+    ],
+    "resource_uri": "\\/api\\/v1\\/quiz\\/1791\\/",
+    "title": "ANC1-ALL 1 Quiz"
+}
