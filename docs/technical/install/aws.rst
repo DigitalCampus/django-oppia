@@ -30,13 +30,6 @@ access via your web browser and log into the server using SSH. It is beyond the
 scope of this guide to give the full information about how to connect and 
 configure your AWS account instances.
 
-Allowed Hosts
----------------
-
-To make your AWS machine accessible, you will need to add the IP address (and/or domain name) to ALLOWED_HOSTS in 
-``/home/oppiamobile/oppia_web/oppia_web/settings.py``. This is due to an update in Django 1.8.16, see: 
-https://docs.djangoproject.com/en/1.11/releases/1.8.16/
-
 Passwords
 ----------
 When you install and launch your instance it is set up with a default set of 
@@ -46,7 +39,7 @@ usernames/passwords:
 * MySQL oppia user password: 'default' - this is the user that Django uses to 
   connect to your database. When you have changed this password you should also 
   update the django settings.py file (at: 
-  ``/home/oppiamobile/oppia_web/oppia_web/settings.py``) to reflect the new 
+  ``/home/oppiamobile/django-oppia/oppiamobile/settings_secret.py``) to reflect the new 
   database password.
 * Django super user: username 'admin' and password 'default'
 	
@@ -65,7 +58,6 @@ the following structure:
   Apache)
 * oppia-cron.sh (file): a shell script for running the OppiaMobile cron task - it's 
   unlikely you'll ever need to do anything with this file.
-* oppia_web (dir): the Django project files (containing settings.py and urls.py etc)
 * static (dir): the static directory for Django (this directory is served directly by 
   Apache)
 * upload (dir): stores the course uploads
@@ -97,12 +89,12 @@ Environment information
 -----------------------
 The current version of the instance is running:
 
-* Ubuntu 16.04 LTS Server
+* Ubuntu 18.04 LTS Server
 * Apache 2.4
 * Mysql 5.7
-* Django 1.11.6
+* Django 1.11.18
 * TastyPie 0.14.0
-* OppiaServer 0.10.0
+* OppiaServer 0.11.0
 
 
 Email configuration
@@ -114,7 +106,7 @@ saved as plain text files in the ``/tmp`` directory.
 To enable sending email you will need to:
 
 * configure your AWS account to enable email sending (using SES service)
-* comment out or remove the ``EMAIL_BACKEND`` and ``EMAIL_FILE_PATH`` directives 
-  in the ``/home/oppiamobile/oppia_web/oppia_web/settings.py`` file. 
-* update the ``SERVER_EMAIL`` directive in ``settings.py`` to use an email 
+* add ``EMAIL_BACKEND`` and ``EMAIL_FILE_PATH`` directives 
+  in the ``/home/oppiamobile/django-oppia/oppiamobile/settings_secret.py`` file. 
+* update the ``SERVER_EMAIL`` directive in ``settings_secret.py`` to use an email 
   address that is authorised to send via your SES.

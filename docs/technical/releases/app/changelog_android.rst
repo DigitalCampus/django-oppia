@@ -13,6 +13,8 @@ Issue list:
 
 * 774: Update to use most recent version of Gradle - https://github.com/DigitalCampus/oppia-mobile-android/issues/774
 * 643: Issue with new Gradle version - https://github.com/DigitalCampus/oppia-mobile-android/issues/643
+* 777: SonarQube - Use a logger to log this exception - https://github.com/DigitalCampus/oppia-mobile-android/issues/777
+* 778: SonarQube - Remove unnecessary type castings - https://github.com/DigitalCampus/oppia-mobile-android/issues/778
 
 .. _appv66:
 
@@ -44,7 +46,7 @@ Issue list:
 * 735: Points notification for media playback not showing - https://github.com/DigitalCampus/oppia-mobile-android/issues/735
 * 756: Offline registration upload - https://github.com/DigitalCampus/oppia-mobile-android/issues/756
 * 770: Update manifest (application section) to allow clear text traffic - https://github.com/DigitalCampus/oppia-mobile-android/issues/770
-
+* 763: Embedded course resources are never found by the app - https://github.com/DigitalCampus/oppia-mobile-android/issues/763
 
 .. _appv65:
 
