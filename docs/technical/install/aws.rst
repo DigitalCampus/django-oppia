@@ -38,7 +38,7 @@ usernames/passwords:
 * MySQL root password: 'default'
 * MySQL oppia user password: 'default' - this is the user that Django uses to 
   connect to your database. When you have changed this password you should also 
-  update the django settings.py file (at: 
+  update the settings file (at: 
   ``/home/oppiamobile/django-oppia/oppiamobile/settings_secret.py``) to reflect the new 
   database password.
 * Django super user: username 'admin' and password 'default'
