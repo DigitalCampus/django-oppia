@@ -272,10 +272,15 @@ class ResetPasswordResource(ModelResource):
         else:
             prefix = 'http://'
 
-        send_mail('OppiaMobile: Password reset', 'Here is your new password for OppiaMobile: ' + newpass
-                  + '\n\nWhen you next log in you can update your password to something more memorable.'
-                  + '\n\n' + prefix + bundle.request.META['SERVER_NAME'],
-                  settings.SERVER_EMAIL, [user.email], fail_silently=False)
+        emailer.send_oppia_email(
+                template_html = 'oppia/profile/email/password_reset.html',
+                template_text = 'oppia/profile/email/password_reset.txt',
+                subject="Password reset",
+                fail_silently=False,
+                recipients=[user.email],
+                new_password = newpass, 
+                site = prefix + request.META['SERVER_NAME']
+                )
 
         return bundle
 
