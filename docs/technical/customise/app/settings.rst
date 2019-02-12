@@ -22,7 +22,8 @@ General
 * ``OPPIA_SERVER_DEFAULT`` (string): the initial Oppia server URL. By default, the demo server https://demo.oppia-mobile.org/
 * ``SESSION_EXPIRATION_ENABLED`` (boolean): enable that the session of the current user expires after a certain inactivity time. False by default
 * ``SESSION_EXPIRATION_TIMEOUT`` (int): seconds of inactivity to expire a user's session (only works if the previous one is set to true)
-* ``DEVICEADMIN_ENABLED`` (boolean): enable de remote admin functionality. False by default
+* ``DEVICEADMIN_ENABLED`` (boolean): enable the remote admin functionality. False by default
+* ``OFFLINE_REGISTER_ENABLED`` (boolean): enable user to register an account even if offline. True by default
 
 Local admin settings (all false by default)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -40,11 +41,26 @@ but by this values you can control which specific actions are controlled by the 
 * ``ADMIN_PROTECT_COURSE_RESET`` (boolean): protect course reset by admin password
 * ``ADMIN_PROTECT_COURSE_INSTALL`` (boolean): protect course installs by admin password
 * ``ADMIN_PROTECT_COURSE_UPDATE`` (boolean): protect course update by admin password
+* ``ADMIN_PROTECT_ACTIVITY_SYNC`` (boolean): protect synchronising activity by admin password
+* ``ADMIN_PROTECT_ACTIVITY_EXPORT`` (boolean): protect exporting activity by admin password
 
 Main menu configurations
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+* ``MENU_ALLOW_MONITOR`` (boolean): show the "Monitor" option in the main menu
 * ``MENU_ALLOW_SETTINGS`` (boolean): show the "Settings" option in the main menu
 * ``MENU_ALLOW_COURSE_DOWNLOAD`` (boolean): show the "Install courses" option in the main menu
+* ``MENU_ALLOW_SYNC`` (boolean): show the "Sync" option in the main menu
 * ``MENU_ALLOW_LOGOUT`` (boolean): show the "Logout" option in the main menu
-* ``DOWNLOAD_COURSES_DISPLAY`` (int): max number of courses installed in wich the "download more courses" button still appears in the main activity. By default, just one.
+* ``MENU_ALLOW_DOWNLOAD`` (boolean): show the "Download" option in the main menu
+* ``MENU_ALLOW_LANGUAGE`` (boolean): show the "Language" option in the main menu
+* ``DOWNLOAD_COURSES_DISPLAY`` (int): max number of courses installed in which the "download more courses" button still appears in the main activity. By default, just one.
+
+Gamification
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* ``GAMIFICATION_MEDIA_CRITERIA`` (string): the criteria that should be used for determining if a media activity has been completed. ``threshold`` by default
+* ``GAMIFICATION_DEFAULT_MEDIA_THRESHOLD`` (int): if ``GAMIFICATION_MEDIA_CRITERIA`` is ``threshold``, then the minimum percent to consider if completed. ``80`` by default
+
+
+
