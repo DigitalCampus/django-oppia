@@ -23,6 +23,8 @@ from django.utils.translation import ugettext as _
 from tastypie.models import ApiKey
 
 import profile
+
+from oppia import emailer
 from oppia.models import Points, Award, Tracker, Activity
 from oppia.permissions import get_user, get_user_courses, can_view_course, can_edit_user
 from profile.forms import LoginForm, RegisterForm, ResetForm, ProfileForm, UploadProfileForm, \
@@ -142,11 +144,17 @@ def reset(request):
                 prefix = 'https://'
             else:
                 prefix = 'http://'
-            # TODO - better way to manage email message content
-            send_mail('OppiaMobile: Password reset', 'Here is your new password for OppiaMobile: ' + newpass
-                      + '\n\nWhen you next log in you can update your password to something more memorable.'
-                      + '\n\n' + prefix + request.META['SERVER_NAME'],
-                      settings.SERVER_EMAIL, [user.email], fail_silently=False)
+            
+            emailer.send_oppia_email(
+                template_html = 'oppia/profile/email/password_reset.html',
+                template_text = 'oppia/profile/email/password_reset.txt',
+                subject="Password reset",
+                fail_silently=False,
+                recipients=[user.email],
+                new_password = newpass, 
+                site = prefix + request.META['SERVER_NAME']
+                )
+            
             return HttpResponseRedirect('sent')
     else:
         form = ResetForm()  # An unbound form

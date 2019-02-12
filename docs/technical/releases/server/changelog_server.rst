@@ -56,6 +56,9 @@ Issue list:
 * 565: Copy the OPPIA_ALLOW_SELF_REGISTRATION setting.py into SettingProperties - https://github.com/DigitalCampus/django-oppia/issues/565
 * 558: Add upgrade docs to v0.11.0 - https://github.com/DigitalCampus/django-oppia/issues/558
 * 297: Docs for export process from Moodle to Oppia - https://github.com/DigitalCampus/django-oppia/issues/297
+* 561: Add app settings to docs - https://github.com/DigitalCampus/django-oppia/issues/561
+* 496: Improve how email templates are handled - https://github.com/DigitalCampus/django-oppia/issues/496
+
 
 Previous Versions
 ------------------
