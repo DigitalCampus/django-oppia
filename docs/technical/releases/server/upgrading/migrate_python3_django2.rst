@@ -6,6 +6,7 @@ These are basic notes/reference as I test and update the Oppia code
 Update virtual env
 ---------------------
 
+
 virtualenv -p /usr/bin/python3 env
 source env/bin/activate
 
@@ -32,6 +33,8 @@ pip install -r ../django-oppia/requirements.txt
 on live server might need new version of mod_wsgi:
 
 sudo apt-get install libapache2-mod-wsgi-py3
+
+Also update the path in the apache config file to the python site packages
 
 
 

@@ -22,7 +22,7 @@ class CourseGamificationEvent(models.Model):
         verbose_name = _(u'Course Gamification Event')
         verbose_name_plural = _(u'Course Gamification Events')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.event
 
 
@@ -37,7 +37,7 @@ class ActivityGamificationEvent(models.Model):
         verbose_name = _(u'Activity Gamification Event')
         verbose_name_plural = _(u'Activity Gamification Events')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.event
 
 
@@ -52,7 +52,7 @@ class MediaGamificationEvent(models.Model):
         verbose_name = _(u'Media Gamification Event')
         verbose_name_plural = _(u'Media Gamification Events')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.event
 
 
@@ -67,5 +67,5 @@ class QuizGamificationEvent(models.Model):
         verbose_name = _(u'Quiz Gamification Event')
         verbose_name_plural = _(u'Quiz Gamification Events')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.event

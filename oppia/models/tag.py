@@ -21,7 +21,7 @@ class Tag(models.Model):
         verbose_name = _('Tag')
         verbose_name_plural = _('Tags')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 

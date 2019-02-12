@@ -22,7 +22,7 @@ class Quiz(models.Model):
         verbose_name = _('Quiz')
         verbose_name_plural = _('Quizzes')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     def no_attempts(self):
@@ -65,7 +65,7 @@ class QuizProps(models.Model):
         verbose_name = _('QuizProp')
         verbose_name_plural = _('QuizProps')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
