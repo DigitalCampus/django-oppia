@@ -59,6 +59,7 @@ Implementers/Users Guide
    implementers/gamification/index
    implementers/integration/index
    implementers/viz/index
+   implementers/offline/index
 
 Training & Support
 -------------------

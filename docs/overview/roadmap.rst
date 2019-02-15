@@ -2,19 +2,17 @@ OppiaMobile Development Roadmap
 =================================
 
 
-Server v0.11.0 and App v6.6.0
+Server v0.12.0 and App v6.8.0
 ------------------------------
 
-* Improved django server project structure
-* Updated app welcome/login/registration screen
-* Restructured documentation
+* Support for Python 3 and Django 2.x
+* Adding more comprehensive (automated) release testing process (app)
+
 
 Short term
 -------------
 
 * Improved and more intuitive way to embed video/audio content. Requires updates to Moodle block and Oppia server.
-* Adding more comprehensive (automated) release testing process.
-* Support for Python 3 and Django 2.x
 
 
 Medium term 
