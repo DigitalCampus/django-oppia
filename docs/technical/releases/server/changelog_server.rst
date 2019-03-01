@@ -58,7 +58,8 @@ Issue list:
 * 297: Docs for export process from Moodle to Oppia - https://github.com/DigitalCampus/django-oppia/issues/297
 * 561: Add app settings to docs - https://github.com/DigitalCampus/django-oppia/issues/561
 * 496: Improve how email templates are handled - https://github.com/DigitalCampus/django-oppia/issues/496
-
+* 563: Remove oppia/cron.py and move it to the management command oppiacron.py - https://github.com/DigitalCampus/django-oppia/issues/563
+* 576: Use the db settings for storing/editing the ip2location and cartodb_update usernames, api_keys - https://github.com/DigitalCampus/django-oppia/issues/576
 
 Previous Versions
 ------------------

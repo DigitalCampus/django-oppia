@@ -15,6 +15,7 @@ Issue list:
 * 643: Issue with new Gradle version - https://github.com/DigitalCampus/oppia-mobile-android/issues/643
 * 777: SonarQube - Use a logger to log this exception - https://github.com/DigitalCampus/oppia-mobile-android/issues/777
 * 778: SonarQube - Remove unnecessary type castings - https://github.com/DigitalCampus/oppia-mobile-android/issues/778
+* 787: Points screen make app crash - https://github.com/DigitalCampus/oppia-mobile-android/issues/787
 
 .. _appv66:
 
