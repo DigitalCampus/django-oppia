@@ -46,7 +46,7 @@ def get_query_string(p, new_params, remove, context):
     Add and remove query parameters. From `django.contrib.admin`.
     """
     for r in remove:
-        for k in p.keys():
+        for k in p.copy().keys():
             if k.startswith(r):
                 del p[k]
     for k, v in new_params.items():

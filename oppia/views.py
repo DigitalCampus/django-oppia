@@ -728,6 +728,7 @@ def cohort_course_view(request, cohort_id, course_id):
         if course_stats:
             course_stats = course_stats[0]
             data = {'user': user,
+                'user_display': str(user),
                 'no_quizzes_completed': course_stats.quizzes_passed,
                 'pretest_score': course_stats.pretest_score,
                 'no_activities_completed': course_stats.completed_activities,
@@ -737,6 +738,7 @@ def cohort_course_view(request, cohort_id, course_id):
         else:
             #The user has no activity registered
             data = {'user': user,
+                'user_display': str(user),
                 'no_quizzes_completed': 0,
                 'pretest_score': 0,
                 'no_activities_completed': 0,
@@ -746,9 +748,9 @@ def cohort_course_view(request, cohort_id, course_id):
 
         students.append(data)
 
-    order_options = ['user', 'no_quizzes_completed', 'pretest_score',
+    order_options = ['user_display', 'no_quizzes_completed', 'pretest_score',
                      'no_activities_completed', 'no_points', 'no_badges', 'no_media_viewed']
-    default_order = 'user'
+    default_order = 'pretest_score'
 
     ordering = request.GET.get('order_by', default_order)
     inverse_order = ordering.startswith('-')

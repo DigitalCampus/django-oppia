@@ -5,7 +5,7 @@ from django.db.models import Sum
 from django.utils.translation import ugettext_lazy as _
 
 from oppia.models import Points
-from user_course_summary import UserCourseSummary
+from summary.models.user_course_summary import UserCourseSummary
 
 class UserPointsSummary(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
