@@ -663,12 +663,13 @@ def get_tracker_activities(start_date, end_date, user, course_ids=[], course=Non
     else: 
         trackers = Tracker.objects.filter(course__id__in=course_ids)
         
-    trackers.filter(user=user,
+    trackers = trackers.filter(user=user,
                       tracker_date__gte=start_date,
                       tracker_date__lte=end_date) \
                       .extra({'activity_date': "date(tracker_date)"}) \
                       .values('activity_date') \
                       .annotate(count=Count('id'))
+
     for i in range(0, no_days, +1):
         temp = start_date + datetime.timedelta(days=i)
         count = next((dct['count'] for dct in trackers if dct['activity_date'] == temp.date()), 0)
