@@ -7,6 +7,9 @@ $oppia-light: #9aca3c;
 $oppia-mid: #689e3a;
 $oppia-dark: #628817;
 
+$navbar-dark-color:         #fff;
+
+
 $font-family-brand: 'Lato', sans-serif;
 $font-family-emphasis: 'Montserrat', sans-serif;
 
@@ -25,6 +28,11 @@ body {
 }
 .flex-grow {
    flex: 1;
+}
+
+.hidden {
+    display: none!important;
+    visibility: hidden!important;
 }
 
 // Import all Bootstrap extensions
