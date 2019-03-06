@@ -9,11 +9,12 @@
 {% block content %}
 <h2>{% trans 'Courses' %}</h2>
 
-
+<div class="form-row align-items-center">
 {% if tag_list %}
+	<div class="col-auto mr-3 py-2">
 	<form method="post" class="inline-form">
-    <span class="glyphicon glyphicon-tag" aria-hidden="true"></span> {% trans 'Filter by tag: ' %}
-	<select name="tag" id="course-tag-filter">
+    <i class="fas fa-tags mr-1 text-primary"></i> {% trans 'Filter by tag: ' %}
+	<select class="form-control" name="tag" id="course-tag-filter">
 		<option value="{% url 'oppia_course' %}">{% trans 'All courses' %}</option>
 		{% for tag in tag_list %}
 		 		<option value="{% url 'oppia_tag_courses' tag.id %}" {% if current_tag|slugify == tag.id|slugify %}selected="selected"{% endif %}>
@@ -22,18 +23,19 @@
 		{% endfor %}
 	</select>
 	</form>
-
+	</div>
 {% endif %}
-
-    <form method="get" class="inline-form">
-	<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> {% trans 'Filter by visibility: ' %}
-	<select name="visibility" id="course-visibility-filter">
+	<div class="col-auto">
+    <form method="get">
+	<i class="fas fa-eye mr-1 text-primary"></i> </span> {% trans 'Filter by visibility: ' %}
+	<select class="form-control" name="visibility" id="course-visibility-filter">
         <option value="">{% trans 'All' %}</option>
         <option value="draft" {% ifequal course_filter "draft" %} selected="selected"{% endifequal %}>{% trans 'Draft' %}</option>
 		<option value="archived" {% ifequal course_filter "archived" %} selected="selected"{% endifequal %}>{% trans 'Archived' %}</option>
 	</select>
 	</form>
-
+	</div>
+</div>
 
 {% if page.object_list %}
 
@@ -57,10 +59,10 @@
 						<strong>{{ course.title|title_lang:LANGUAGE_CODE }}</strong>
 					{% endif %}	
 				{% if course.is_draft %}
-					- <em>{% trans 'draft' %}</em>
+					<span class="badge badge-secondary ml-2">{% trans 'draft' %}</span>
 				{% endif %}	
 				{% if course.is_archived %}
-					- <em>{% trans 'archived' %}</em>
+					<span class="badge badge-secondary ml-2">{% trans 'archived' %}</span>
 				{% endif %}<br/>
 				<small>{% trans 'Tags:' %} {{ course.get_tags }}</small></td>
 				<td>{{ course.lastupdated_date }} </td>

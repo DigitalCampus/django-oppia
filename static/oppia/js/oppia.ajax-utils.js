@@ -35,8 +35,8 @@ function applySelectableBehaviour(selectable){
         else
             btn = container.find('[data-selectable-id="'+username_or_btn+'"] .btn-add');
         btn.toggleClass('disabled', enable)
-            .find('.glyphicon-ok').toggleClass('hidden', (!enable)).end()
-            .find('.glyphicon-plus').toggleClass('hidden', enable).end();
+            .find('.fa-check-circle').toggleClass('hidden', (!enable)).end()
+            .find('.fa-plus').toggleClass('hidden', enable).end();
     }
 
     function updateSelectableItems(){
