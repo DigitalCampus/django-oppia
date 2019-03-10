@@ -84,7 +84,7 @@ and install this to use.
 
 #. Navigate to ``/home/oppia/`` and run::
 	
-	$ virtualenv env
+	$ virtualenv -p /usr/bin/python3 env
 	
 #. Run::
 
@@ -105,7 +105,7 @@ and install this to use.
    specifically for that database server. If you are using a different database 
    server, then use the appropriate one for your database server::
    
-    (env)$ pip install mysql-python
+    (env)$ pip install mysqlclient
     
 #. You should now have all the required libraries set up and installed. 
 
