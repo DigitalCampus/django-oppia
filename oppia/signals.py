@@ -31,6 +31,8 @@ def signup_callback(sender, **kwargs):
     if not apply_points(user):
         return
 
+    # We are calculating points in the app, so don't assign them here
+    '''
     if created:
         p = Points()
         p.points = OPPIA_DEFAULT_POINTS['REGISTER']
@@ -39,6 +41,7 @@ def signup_callback(sender, **kwargs):
         p.user = user
         p.save()
     return
+    '''
 
 
 def quizattempt_callback(sender, **kwargs):
@@ -133,18 +136,13 @@ def tracker_callback(sender, **kwargs):
     print tracker.uuid
 
     if not apply_points(tracker.user):
-
-        print 'Not applying points to user'
         return
 
     if tracker.course is not None and tracker.course.user == tracker.user and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
-        print 'not points to owner'
         return
 
     if tracker.event not in NON_ACTIVITY_EVENTS:
-        print 'activity event'
         if not tracker.activity_exists():
-            print 'activity doesnt exist!'
             return
 
         type = 'activity_completed'
@@ -163,7 +161,6 @@ def tracker_callback(sender, **kwargs):
             description = "Activity completed: " + tracker.get_activity_title()
 
     if tracker.points is not None:
-        print 'getting default points'
         points = tracker.points
         type = tracker.event
         if not description:
@@ -175,7 +172,6 @@ def tracker_callback(sender, **kwargs):
             if not tracker.completed:
                 return
 
-    print 'saving points'
     p = Points()
     p.points = points
     p.type = type
