@@ -14,6 +14,7 @@ from quiz.models import Quiz, QuizAttempt
 course_downloaded = Signal(providing_args=["course", "user"])
 
 
+
 # rules for applying points (or not)
 def apply_points(user):
     if not settings.OPPIA_POINTS_ENABLED:
@@ -118,37 +119,55 @@ def quizattempt_callback(sender, **kwargs):
 
     return
 
+
+NON_ACTIVITY_EVENTS = [
+    'course_downloaded', 'register'
+]
+
+
 def tracker_callback(sender, **kwargs):
 
     tracker = kwargs.get('instance')
+    description = None
+
+    print tracker.uuid
 
     if not apply_points(tracker.user):
-        return
 
-    if not tracker.activity_exists():
+        print 'Not applying points to user'
         return
 
     if tracker.course is not None and tracker.course.user == tracker.user and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
+        print 'not points to owner'
         return
 
-    type = 'activity_completed'
-    points = OPPIA_DEFAULT_POINTS['ACTIVITY_COMPLETED']
-    if tracker.get_activity_type() == "media":
-        description = "Media played: " + tracker.get_activity_title()
-        type = 'mediaplayed'
-        if tracker.is_first_tracker_today():
-            points = OPPIA_DEFAULT_POINTS['MEDIA_STARTED']
+    if tracker.event not in NON_ACTIVITY_EVENTS:
+        print 'activity event'
+        if not tracker.activity_exists():
+            print 'activity doesnt exist!'
+            return
+
+        type = 'activity_completed'
+        points = OPPIA_DEFAULT_POINTS['ACTIVITY_COMPLETED']
+        if tracker.get_activity_type() == "media":
+            description = "Media played: " + tracker.get_activity_title()
+            type = 'mediaplayed'
+            if tracker.is_first_tracker_today():
+                points = OPPIA_DEFAULT_POINTS['MEDIA_STARTED']
+            else:
+                points = 0
+            points += (OPPIA_DEFAULT_POINTS['MEDIA_PLAYING_POINTS_PER_INTERVAL'] * math.floor(tracker.time_taken / OPPIA_DEFAULT_POINTS['MEDIA_PLAYING_INTERVAL']))
+            if points > OPPIA_DEFAULT_POINTS['MEDIA_MAX_POINTS']:
+                points = OPPIA_DEFAULT_POINTS['MEDIA_MAX_POINTS']
         else:
-            points = 0
-        points += (OPPIA_DEFAULT_POINTS['MEDIA_PLAYING_POINTS_PER_INTERVAL'] * math.floor(tracker.time_taken / OPPIA_DEFAULT_POINTS['MEDIA_PLAYING_INTERVAL']))
-        if points > OPPIA_DEFAULT_POINTS['MEDIA_MAX_POINTS']:
-            points = OPPIA_DEFAULT_POINTS['MEDIA_MAX_POINTS']
-    else:
-        description = "Activity completed: " + tracker.get_activity_title()
+            description = "Activity completed: " + tracker.get_activity_title()
 
     if tracker.points is not None:
+        print 'getting default points'
         points = tracker.points
         type = tracker.event
+        if not description:
+            description = tracker.event
     else:
         if tracker.get_activity_type() is not "media":
             if not tracker.is_first_tracker_today():
@@ -156,6 +175,7 @@ def tracker_callback(sender, **kwargs):
             if not tracker.completed:
                 return
 
+    print 'saving points'
     p = Points()
     p.points = points
     p.type = type
