@@ -22,3 +22,11 @@ and make any necessary updates to your configuration, especially checking:
 * updating Apache webserver configuration file (item 8 in the install docs) 
 * updating how the cron commands are run (item 9 in the install docs)
 
+(Optional) Activity Map Visualisation
+---------------------------------------
+
+If you are using the activity map visualisation, the OPPIA_HOSTNAME, 
+OPPIA_CARBODB_ACCOUNT and OPPIA_CARBODB_KEY, are now stored in the Admin 
+settings table, so you no longer need to specify these in the cron command file 
+which updates the activity map on CartoDB. 
+
