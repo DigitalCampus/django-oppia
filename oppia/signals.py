@@ -61,7 +61,8 @@ def quizattempt_callback(sender, **kwargs):
         p.user = quiz_attempt.user
         p.description = quiz_attempt.event
         p.course = course
-        p.save()
+        # Points are sent in the quiz attempt tracker, so don't save them twice
+        # p.save()
         return
 
     # Check user doesn't own the quiz
