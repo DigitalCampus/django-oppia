@@ -283,6 +283,7 @@ def user_activity(request, user_id):
         if course_stats:
             course_stats = course_stats[0]
             data = {'course': course,
+                    'course_display': str(course),
                     'no_quizzes_completed': course_stats.quizzes_passed,
                     'pretest_score': course_stats.pretest_score,
                     'no_activities_completed': course_stats.completed_activities,
@@ -291,6 +292,7 @@ def user_activity(request, user_id):
                     'no_badges': course_stats.badges_achieved, }
         else:
             data = {'course': course,
+                    'course_display': str(course),
                     'no_quizzes_completed': 0,
                     'pretest_score': None,
                     'no_activities_completed': 0,
@@ -300,9 +302,9 @@ def user_activity(request, user_id):
 
         courses.append(data)
 
-    order_options = ['course', 'no_quizzes_completed', 'pretest_score',
+    order_options = ['course_display', 'no_quizzes_completed', 'pretest_score',
                      'no_activities_completed', 'no_points', 'no_badges', 'no_media_viewed']
-    default_order = 'course'
+    default_order = 'course_display'
 
     ordering = request.GET.get('order_by', default_order)
     inverse_order = ordering.startswith('-')
