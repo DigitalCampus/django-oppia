@@ -89,8 +89,8 @@ the status bar will show the name of the device it is connected to.
 .. image:: images/bluetooth-pair.png
     :align: center
 
-Transfering courses
------------------
+Transferring courses
+--------------------
 
 Once the connection has been established, a list of the available courses will show up. Under each course title, you can
 see the total transfer size for this course, that includes the course package and the related media files. Pressing the
