@@ -7,7 +7,7 @@
       {% if page.has_previous %}
           <li class="page-item">
           <a class="page-link" href="{{ ajax_url }}{% query_string "" "page" %}&page={{ page.previous_page_number }}" aria-label="Previous">
-            <span aria-hidden="true"><span class="glyphicon glyphicon-chevron-left"></span></span>
+            <span aria-hidden="true"><i class="fas fa-chevron-left"></i></span>
           </a>
          </li>
       {% endif %}
@@ -32,7 +32,7 @@
     {% if page.has_next %}
           <li class="page-item">
           <a class="page-link" href="{{ ajax_url }}{% query_string "" "page" %}&page={{ page.next_page_number }}" aria-label="Next">
-            <span aria-hidden="true"><span class="glyphicon glyphicon-chevron-right"></span></span>
+            <span aria-hidden="true"><span class="fas fa-chevron-right"></span></span>
           </a>
          </li>
       {% endif %}

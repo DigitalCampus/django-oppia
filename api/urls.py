@@ -2,6 +2,7 @@ from django.conf import settings
 from django.conf.urls import url, include
 from tastypie.api import Api
 
+from activitylog.views import post_activitylog
 from api.media import upload_view
 from api.publish import publish_view
 from api.resources import TrackerResource, CourseResource, TagResource, PointsResource, AwardsResource, BadgesResource, \
@@ -42,5 +43,5 @@ urlpatterns = [
     url(r'^', include(get_api('v1').urls)),
     url(r'^publish/$', publish_view, name="oppia_publish"),
     url(r'^media/$', upload_view, name="oppia_upload_media_api"),
-
+    url(r'^activitylog/$', post_activitylog, name="oppia_upload_activitylog"),
 ]

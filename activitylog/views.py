@@ -8,10 +8,11 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.core import exceptions
 from django.urls import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render, get_object_or_404
 from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
+from django.views.decorators.csrf import csrf_exempt
 
 from tastypie.models import ApiKey
 
@@ -97,12 +98,45 @@ def process_uploaded_file(request, json_data):
                 print(_(u"No user api key found for %s" % user['username']))
 
 
+def process_activitylog(request, contents):
+    # open file and process
+    json_data = json.loads(contents)
+    if not validate_server(request, json_data):
+        return False
+    else:
+        process_uploaded_file(request, json_data)
+        return True
+
+
+def validate_server(request, data):
+    url_comp = request.build_absolute_uri().split('/')
+    server_url = "%(protocol)s//%(domain)s" % ({'protocol': url_comp[0], 'domain': url_comp[2]})
+
+    if 'server' in data and data['server'].startswith(server_url):
+        print 'Server check ok'
+        return True
+    else:
+        print 'Different tracker server: {}'.format(data['server'])
+        messages.warning(request, _(
+            "The server in the activity log file does not match with the current one"))
+        return False
+
+@csrf_exempt
+def post_activitylog(request):
+    if request.method != 'PATCH':
+        return HttpResponse(status=405)
+
+    json_data = json.loads(request.body)
+    success = process_activitylog(request, request.body)
+    if success:
+        return HttpResponse()
+    else:
+        return HttpResponseBadRequest()
+
+
 def upload_view(request):
     if not request.user.userprofile.get_can_upload_activitylog():
         raise exceptions.PermissionDenied
-
-    url_comp = request.build_absolute_uri().split('/')
-    server_url = "%(protocol)s//%(domain)s" % ({ 'protocol': url_comp[0], 'domain': url_comp[2]})
 
     if request.method == 'POST':
         form = UploadActivityLogForm(request.POST, request.FILES)
@@ -116,14 +150,10 @@ def upload_view(request):
 
             # open file and process
             file_data = open(uploaded_activity_log.file.path, 'rb').read()
-            json_data = json.loads(file_data)
-
-            if 'server' in json_data and json_data['server'].startswith(server_url):
-                process_uploaded_file(request, json_data)
+            success = process_activitylog(request, file_data)
+            if success:
                 return HttpResponseRedirect(reverse('oppia_activitylog_upload_success'))
-            else:
-                messages.warning(request, _(
-                    "The server in the activity log file does not match with the current one" ))
+
 
     form = UploadActivityLogForm()
     return render(request, 'oppia/activitylog/upload.html',

@@ -15,7 +15,7 @@ class CohortForm(forms.Form):
                                required=False,
                                help_text=_("A comma separated list of usernames"), )
     students = forms.CharField(widget=forms.Textarea(),
-                               required=True,
+                               required=False,
                                help_text=_("A comma separated list of usernames"), )
     start_date = forms.CharField(required=True,
                                      error_messages={'required': _('Please enter a valid date'),
@@ -42,6 +42,6 @@ class CohortForm(forms.Form):
                     'courses',
                     'teachers',
                     'students',
-                    css_class='hidden-fields'
+                    css_class='d-none'
                 ),
             )

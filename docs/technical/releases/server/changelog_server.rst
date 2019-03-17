@@ -60,6 +60,12 @@ Issue list:
 * 496: Improve how email templates are handled - https://github.com/DigitalCampus/django-oppia/issues/496
 * 563: Remove oppia/cron.py and move it to the management command oppiacron.py - https://github.com/DigitalCampus/django-oppia/issues/563
 * 576: Use the db settings for storing/editing the ip2location and cartodb_update usernames, api_keys - https://github.com/DigitalCampus/django-oppia/issues/576
+* 533: Styling with BootStrap 4 - https://github.com/DigitalCampus/django-oppia/issues/533
+* 555: Cohort add/edit form doesn't show the list of available teachers/students - https://github.com/DigitalCampus/django-oppia/issues/555
+* 575: TypeError: 'Tracker' object has no attribute '__getitem__' - https://github.com/DigitalCampus/django-oppia/issues/575
+* 554: Cohort add/edit form has some layout issues - https://github.com/DigitalCampus/django-oppia/issues/554
+* 573:  Update/review docs for how the bluetooth transfer works - https://github.com/DigitalCampus/django-oppia/issues/573
+* 574: Update/review docs for how the activity log transfer works - https://github.com/DigitalCampus/django-oppia/issues/574
 
 Previous Versions
 ------------------
