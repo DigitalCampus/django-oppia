@@ -13,7 +13,7 @@
 {% if tag_list %}
 	<div class="col-auto mr-3 py-2">
 	<form method="post" class="inline-form">
-    <i class="fas fa-tags mr-1 text-primary"></i> {% trans 'Filter by tag: ' %}
+    <em class="fas fa-tags mr-1 text-primary"></em> {% trans 'Filter by tag: ' %}
 	<select class="form-control" name="tag" id="course-tag-filter">
 		<option value="{% url 'oppia_course' %}">{% trans 'All courses' %}</option>
 		{% for tag in tag_list %}
@@ -27,7 +27,7 @@
 {% endif %}
 	<div class="col-auto">
     <form method="get">
-	<i class="fas fa-eye mr-1 text-primary"></i> </span> {% trans 'Filter by visibility: ' %}
+	<em class="fas fa-eye mr-1 text-primary"></em> </span> {% trans 'Filter by visibility: ' %}
 	<select class="form-control" name="visibility" id="course-visibility-filter">
         <option value="">{% trans 'All' %}</option>
         <option value="draft" {% ifequal course_filter "draft" %} selected="selected"{% endifequal %}>{% trans 'Draft' %}</option>
