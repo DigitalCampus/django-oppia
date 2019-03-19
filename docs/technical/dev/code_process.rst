@@ -1,8 +1,25 @@
-Branches and Release Process
-================================
+Issue, Branch and Release Processes
+====================================
 
-This page describes the code branch management convention that OppiaMobile 
-follows (for all 3 components), and the release process/checklist.
+This page describes the issue and code branch management convention that 
+OppiaMobile follows (for all 3 components), and the release process/checklist.
+
+Issues, Branches and Pull Requests
+------------------------------------
+
+Issue branches should be related to only one issue, and be based on the current
+release branch. This avoids situations where issue branches cannot be merged 
+into the release branch as they are dependent on other issue branches.
+
+There may be some cases where multiple issues are addressed on the same issue 
+branch, but then these should be very closely related issues.
+
+Similarly, pull requests should be related to one issue (and issue branch).
+
+Pull requests should include new/updated documentation and automated tests. The 
+documentation and tests are part and parcel of the technical development work 
+for any issue.
+
 
 Branch Management
 ---------------------------------

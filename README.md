@@ -1,8 +1,6 @@
 OppiaMobile - django-oppia
 ===========================
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=django_oppia&metric=alert_status)](https://sonarcloud.io/dashboard?id=django_oppia)
-
 django-oppia is the server side component for the OppiaMobile learning platform
 
 For documentation please visit: https://oppiamobile.readthedocs.io
