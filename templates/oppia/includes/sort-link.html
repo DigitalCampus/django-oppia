@@ -3,7 +3,7 @@
 <a
     {% if ordered_ascending or ordered_descending %}class="sorted" {% endif %}
     href="{{ ajax_url }}{% query_string "" "page,order_by" %}&order_by={% if ordered_ascending %}-{% endif %}{{ orderby }}">
-    <i class="fas
+    <em class="fas
     {% if ordered_ascending %}
         fa-sort-amount-down
     {% elif ordered_descending %}
@@ -11,5 +11,5 @@
     {% else %}
         fa-sort
     {% endif %}
-    "></i>
+    "></em>
 {{ title }}</a>

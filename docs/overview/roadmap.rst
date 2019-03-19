@@ -12,6 +12,7 @@ Server v0.12.0 and App v6.8.0
 Short term
 -------------
 
+* Initial integration for DHIS2
 * Improved and more intuitive way to embed video/audio content. Requires updates to Moodle block and Oppia server.
 
 
