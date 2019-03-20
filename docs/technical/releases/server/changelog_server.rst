@@ -66,6 +66,9 @@ Issue list:
 * 554: Cohort add/edit form has some layout issues - https://github.com/DigitalCampus/django-oppia/issues/554
 * 573:  Update/review docs for how the bluetooth transfer works - https://github.com/DigitalCampus/django-oppia/issues/573
 * 574: Update/review docs for how the activity log transfer works - https://github.com/DigitalCampus/django-oppia/issues/574
+* 579: Media viewed not being displayed correctly - https://github.com/DigitalCampus/django-oppia/issues/579
+* 580: Course download points being left out - https://github.com/DigitalCampus/django-oppia/issues/580
+* 581: Quiz attempt points being added twice - https://github.com/DigitalCampus/django-oppia/issues/581
 
 Previous Versions
 ------------------
