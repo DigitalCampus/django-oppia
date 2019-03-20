@@ -14,6 +14,7 @@ from quiz.models import Quiz, QuizAttempt
 course_downloaded = Signal(providing_args=["course", "user"])
 
 
+
 # rules for applying points (or not)
 def apply_points(user):
     if not settings.OPPIA_POINTS_ENABLED:
@@ -30,6 +31,8 @@ def signup_callback(sender, **kwargs):
     if not apply_points(user):
         return
 
+    # We are calculating points in the app, so don't assign them here
+    '''
     if created:
         p = Points()
         p.points = OPPIA_DEFAULT_POINTS['REGISTER']
@@ -38,6 +41,7 @@ def signup_callback(sender, **kwargs):
         p.user = user
         p.save()
     return
+    '''
 
 
 def quizattempt_callback(sender, **kwargs):
@@ -61,7 +65,8 @@ def quizattempt_callback(sender, **kwargs):
         p.user = quiz_attempt.user
         p.description = quiz_attempt.event
         p.course = course
-        p.save()
+        # Points are sent in the quiz attempt tracker, so don't save them twice
+        # p.save()
         return
 
     # Check user doesn't own the quiz
@@ -117,37 +122,49 @@ def quizattempt_callback(sender, **kwargs):
 
     return
 
+
+NON_ACTIVITY_EVENTS = [
+    'course_downloaded', 'register'
+]
+
+
 def tracker_callback(sender, **kwargs):
 
     tracker = kwargs.get('instance')
+    description = None
+
+    print tracker.uuid
 
     if not apply_points(tracker.user):
-        return
-
-    if not tracker.activity_exists():
         return
 
     if tracker.course is not None and tracker.course.user == tracker.user and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
         return
 
-    type = 'activity_completed'
-    points = OPPIA_DEFAULT_POINTS['ACTIVITY_COMPLETED']
-    if tracker.get_activity_type() == "media":
-        description = "Media played: " + tracker.get_activity_title()
-        type = 'mediaplayed'
-        if tracker.is_first_tracker_today():
-            points = OPPIA_DEFAULT_POINTS['MEDIA_STARTED']
+    if tracker.event not in NON_ACTIVITY_EVENTS:
+        if not tracker.activity_exists():
+            return
+
+        type = 'activity_completed'
+        points = OPPIA_DEFAULT_POINTS['ACTIVITY_COMPLETED']
+        if tracker.get_activity_type() == "media":
+            description = "Media played: " + tracker.get_activity_title()
+            type = 'mediaplayed'
+            if tracker.is_first_tracker_today():
+                points = OPPIA_DEFAULT_POINTS['MEDIA_STARTED']
+            else:
+                points = 0
+            points += (OPPIA_DEFAULT_POINTS['MEDIA_PLAYING_POINTS_PER_INTERVAL'] * math.floor(tracker.time_taken / OPPIA_DEFAULT_POINTS['MEDIA_PLAYING_INTERVAL']))
+            if points > OPPIA_DEFAULT_POINTS['MEDIA_MAX_POINTS']:
+                points = OPPIA_DEFAULT_POINTS['MEDIA_MAX_POINTS']
         else:
-            points = 0
-        points += (OPPIA_DEFAULT_POINTS['MEDIA_PLAYING_POINTS_PER_INTERVAL'] * math.floor(tracker.time_taken / OPPIA_DEFAULT_POINTS['MEDIA_PLAYING_INTERVAL']))
-        if points > OPPIA_DEFAULT_POINTS['MEDIA_MAX_POINTS']:
-            points = OPPIA_DEFAULT_POINTS['MEDIA_MAX_POINTS']
-    else:
-        description = "Activity completed: " + tracker.get_activity_title()
+            description = "Activity completed: " + tracker.get_activity_title()
 
     if tracker.points is not None:
         points = tracker.points
         type = tracker.event
+        if not description:
+            description = tracker.event
     else:
         if tracker.get_activity_type() is not "media":
             if not tracker.is_first_tracker_today():

@@ -58,6 +58,7 @@ class UserCourseSummary (models.Model):
         self.quizzes_passed = Course.get_no_quizzes_completed(self.course, self.user)
         self.badges_achieved = Award.get_userawards(self.user, self.course)
         self.completed_activities = Course.get_activities_completed(self.course, self.user)
+        self.media_viewed = Course.get_media_viewed(self.course, self.user)
 
         ### Update the data in the database
         self.save()
