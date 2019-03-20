@@ -27,21 +27,8 @@ def apply_points(user):
 def signup_callback(sender, **kwargs):
 
     user = kwargs.get('instance')
-    created = kwargs.get('created')
     if not apply_points(user):
         return
-
-    # We are calculating points in the app, so don't assign them here
-    '''
-    if created:
-        p = Points()
-        p.points = OPPIA_DEFAULT_POINTS['REGISTER']
-        p.type = 'signup'
-        p.description = "Initial registration"
-        p.user = user
-        p.save()
-    return
-    '''
 
 
 def quizattempt_callback(sender, **kwargs):
@@ -57,17 +44,6 @@ def quizattempt_callback(sender, **kwargs):
         acts = Activity.objects.filter(digest=digest)
         for a in acts:
             course = a.section.course
-
-    if quiz_attempt.points is not None:
-        p = Points()
-        p.points = quiz_attempt.points
-        p.type = 'quiz_attempt'
-        p.user = quiz_attempt.user
-        p.description = quiz_attempt.event
-        p.course = course
-        # Points are sent in the quiz attempt tracker, so don't save them twice
-        # p.save()
-        return
 
     # Check user doesn't own the quiz
     if quiz.owner == quiz_attempt.user:
@@ -133,7 +109,7 @@ def tracker_callback(sender, **kwargs):
     tracker = kwargs.get('instance')
     description = None
 
-    print tracker.uuid
+    print(tracker.uuid)
 
     if not apply_points(tracker.user):
         return
