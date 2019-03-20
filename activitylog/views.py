@@ -114,10 +114,10 @@ def validate_server(request, data):
     server_url = "%(protocol)s//%(domain)s" % ({'protocol': url_comp[0], 'domain': url_comp[2]})
 
     if 'server' in data and data['server'].startswith(server_url):
-        print 'Server check ok'
+        print('Server check ok')
         return True
     else:
-        print 'Different tracker server: {}'.format(data['server'])
+        print('Different tracker server: {}'.format(data['server']))
         messages.warning(request, _(
             "The server in the activity log file does not match with the current one"))
         return False
@@ -127,7 +127,7 @@ def post_activitylog(request):
     if request.method != 'PATCH':
         return HttpResponse(status=405)
 
-    json_data = json.loads(request.body)
+    json.loads(request.body)
     success = process_activitylog(request, request.body)
     if success:
         return HttpResponse()
