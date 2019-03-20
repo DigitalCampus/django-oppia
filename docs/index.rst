@@ -19,9 +19,16 @@ Overview
    overview/features
    overview/architecture
    overview/roadmap
-   overview/governance
    overview/acknowledgements
    
+Governance
+------------
+
+.. toctree::
+   :maxdepth: 1
+
+   governance/model
+   governance/prioritisation
 
 Technical
 ----------
