@@ -22,6 +22,17 @@ and make any necessary updates to your configuration, especially checking:
 * updating Apache webserver configuration file (item 8 in the install docs) 
 * updating how the cron commands are run (item 9 in the install docs)
 
+Update Summaries
+------------------
+
+As media views were not being calculated correctly (see 
+`#579 <https://github.com/DigitalCampus/django-oppia/issues/579>`_), after 
+upgrading, remember 
+to update summaries from the beginning, with::
+
+``manage.py update_summaries --fromstart``
+
+
 (Optional) Activity Map Visualisation
 ---------------------------------------
 
