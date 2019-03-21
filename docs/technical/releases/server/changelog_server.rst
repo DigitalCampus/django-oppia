@@ -14,7 +14,7 @@ v0.11.0 - Released 20 Mar 2019
 	
 Key updates:
 
-* Upgrading to Django 1.11.19
+* Upgrading to Django 1.11.20
 * Restructuring of project to match Django best practice
 * Extra automated tests
 * Improved documentation structure and updates
@@ -70,7 +70,7 @@ Issue list:
 * 580: Course download points being left out - https://github.com/DigitalCampus/django-oppia/issues/580
 * 581: Quiz attempt points being added twice - https://github.com/DigitalCampus/django-oppia/issues/581
 * 590: Quiz points added twice - from tests - https://github.com/DigitalCampus/django-oppia/issues/590
-* 592: Move to Django 1.11.19 on v0.11.0 branch & master - https://github.com/DigitalCampus/django-oppia/issues/592
+* 592: Move to Django 1.11.20 on v0.11.0 branch & master - https://github.com/DigitalCampus/django-oppia/issues/592
 
 Previous Versions
 ------------------
