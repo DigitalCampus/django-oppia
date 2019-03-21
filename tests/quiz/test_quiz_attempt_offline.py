@@ -104,14 +104,14 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertEqual(quizattempt_count_start + 1, quizattempt_count_end)
         self.assertEqual(quizattemptresponse_count_start + 3, quizattemptresponse_count_end)
 
-        # check that the points info has been added
+        # check that the points info has not been added, else the points get counted twice
         points_count_end = Points.objects.all().count()
-        self.assertEqual(points_count_start + 1, points_count_end)
+        self.assertEqual(points_count_start, points_count_end)
 
         latest_points = Points.objects.latest('date')
 
-        self.assertEqual(latest_points.points, 54)
-        self.assertEqual(latest_points.type, 'quiz_attempt')
+        self.assertEqual(latest_points.points, 100)
+        self.assertEqual(latest_points.type, 'signup')
 
         # check that all data is there
         response_data = self.deserialize(resp)

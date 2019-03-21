@@ -69,6 +69,7 @@ Issue list:
 * 579: Media viewed not being displayed correctly - https://github.com/DigitalCampus/django-oppia/issues/579
 * 580: Course download points being left out - https://github.com/DigitalCampus/django-oppia/issues/580
 * 581: Quiz attempt points being added twice - https://github.com/DigitalCampus/django-oppia/issues/581
+* 590: Quiz points added twice - from tests - https://github.com/DigitalCampus/django-oppia/issues/590
 
 Previous Versions
 ------------------
