@@ -17,10 +17,9 @@ Key updates:
 
 Issue list:
 
-* 539: Moving to python 3 and django 2 - https://github.com/DigitalCampus/django-oppia/issues/539
-* 468: RemovedInDjango20Warning - update for deprecation/changes - https://github.com/DigitalCampus/django-oppia/issues/468
-* 571: For python 3 - replace __unicode__ with __str__ in models - https://github.com/DigitalCampus/django-oppia/issues/571
-
+* 539: Moving to python 3 and django 2 (`#539 <https://github.com/DigitalCampus/django-oppia/issues/539>`_)
+* 468: RemovedInDjango20Warning - update for deprecation/changes (`#468 <https://github.com/DigitalCampus/django-oppia/issues/468>`_)
+* 571: For python 3 - replace __unicode__ with __str__ in models (`#571 <https://github.com/DigitalCampus/django-oppia/issues/571>`_)
 
 Previous Versions
 ------------------
