@@ -240,7 +240,7 @@ def upload_step1(request):
             if course:
                 return HttpResponseRedirect(reverse('oppia_upload2', args=[course.id]))  # Redirect after POST
             else:
-                os.remove(settings.COURSE_UPLOAD_DIR + request.FILES['course_file'].name)
+                os.remove(os.path.join(settings.COURSE_UPLOAD_DIR, request.FILES['course_file'].name))
     else:
         form = UploadCourseStep1Form()  # An unbound form
 

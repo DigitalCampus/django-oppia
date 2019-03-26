@@ -20,7 +20,7 @@ from quiz.models import Quiz, Question, QuizQuestion, Response, ResponseProps, Q
 
 
 def handle_uploaded_file(f, extract_path, request, user):
-    zipfilepath = settings.COURSE_UPLOAD_DIR + f.name
+    zipfilepath = os.path.join(settings.COURSE_UPLOAD_DIR, f.name)
 
     with open(zipfilepath, 'wb+') as destination:
         for chunk in f.chunks():
@@ -123,7 +123,7 @@ def process_course(extract_path, f, mod_name, request, user):
 
     tmp_path = replace_zip_contents(xml_path, doc, mod_name, extract_path)
     # Extract the final file into the courses area for preview
-    zipfilepath = settings.COURSE_UPLOAD_DIR + f.name
+    zipfilepath = os.path.join(settings.COURSE_UPLOAD_DIR, f.name)
     shutil.copy(tmp_path + ".zip", zipfilepath)
 
     course_preview_path = settings.MEDIA_ROOT + "courses/"
@@ -436,7 +436,7 @@ def clean_old_course(req, oldsections, old_course_filename, course):
 
     if old_course_filename is not None and old_course_filename != course.filename:
         try:
-            os.remove(settings.COURSE_UPLOAD_DIR + old_course_filename)
+            os.remove( os.path.join(settings.COURSE_UPLOAD_DIR, old_course_filename) )
         except OSError:
             pass
         
