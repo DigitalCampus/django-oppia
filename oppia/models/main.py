@@ -3,6 +3,7 @@ import datetime
 import json
 from xml.dom.minidom import *
 
+import os
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
@@ -37,7 +38,7 @@ class Course(models.Model):
         return self.get_title(self)
 
     def getAbsPath(self):
-        return settings.COURSE_UPLOAD_DIR + self.filename
+        return os.path.join(settings.COURSE_UPLOAD_DIR, self.filename)
 
     def get_title(self, lang='en'):
         try:
