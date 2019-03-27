@@ -71,6 +71,7 @@ Issue list:
 * 581: Quiz attempt points being added twice - https://github.com/DigitalCampus/django-oppia/issues/581
 * 590: Quiz points added twice - from tests - https://github.com/DigitalCampus/django-oppia/issues/590
 * 592: Move to Django 1.11.20 on v0.11.0 branch & master - https://github.com/DigitalCampus/django-oppia/issues/592
+* 570: Make sure use of COURSE_UPLOAD_DIR always uses os.path.join() - https://github.com/DigitalCampus/django-oppia/issues/570
 
 Previous Versions
 ------------------
