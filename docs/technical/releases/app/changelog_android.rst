@@ -16,6 +16,7 @@ Issue list:
 * 777: SonarQube - Use a logger to log this exception - https://github.com/DigitalCampus/oppia-mobile-android/issues/777
 * 778: SonarQube - Remove unnecessary type castings - https://github.com/DigitalCampus/oppia-mobile-android/issues/778
 * 787: Points screen make app crash - https://github.com/DigitalCampus/oppia-mobile-android/issues/787
+* 790: When course parsing fails, the course folder is not removed - https://github.com/DigitalCampus/oppia-mobile-android/issues/790
 
 .. _appv66:
 

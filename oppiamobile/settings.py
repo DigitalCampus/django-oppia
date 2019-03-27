@@ -89,8 +89,8 @@ SITE_ID = 1
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
-STATIC_ROOT = ROOT_DIR + '/static'
-MEDIA_ROOT = ROOT_DIR + '/media'
+STATIC_ROOT = os.path.join(ROOT_DIR, 'static')
+MEDIA_ROOT = os.path.join(ROOT_DIR, 'media')
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 STATICFILES_FINDERS = [
@@ -151,7 +151,7 @@ LOGIN_EXEMPT_URLS = (
 )
 
 # OppiaMobile Settings
-COURSE_UPLOAD_DIR = ROOT_DIR + '/upload'
+COURSE_UPLOAD_DIR = os.path.join(ROOT_DIR, 'upload')
 
 OPPIA_METADATA = {
     'NETWORK': True,  

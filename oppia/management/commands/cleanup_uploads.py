@@ -28,7 +28,7 @@ class Command(BaseCommand):
                 courses = Course.objects.filter(filename=filename)
                 if courses.count() == 0:
                     #delete the file
-                    os.remove(settings.COURSE_UPLOAD_DIR + filename)
+                    os.remove(os.path.join(settings.COURSE_UPLOAD_DIR, filename))
                     print("Removed: " + filename)
 
         """
