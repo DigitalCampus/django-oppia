@@ -159,14 +159,13 @@ class RegisterResource(ModelResource):
         self_register = SettingProperties.get_int(constants.OPPIA_ALLOW_SELF_REGISTRATION, settings.OPPIA_ALLOW_SELF_REGISTRATION)
         if not self_register:
             raise BadRequest(_(u'Registration is disabled on this server.'))
-        required = ['username', 'password', 'passwordagain', 'email', 'firstname', 'lastname']
-
+        required = ['username', 'password', 'passwordagain', 'firstname', 'lastname']
         check_required_params(bundle, required)
 
         data = {'username': bundle.data['username'],
                 'password': bundle.data['password'],
                 'password_again': bundle.data['passwordagain'],
-                'email': bundle.data['email'],
+                'email': bundle.data['email'] if 'email' in bundle.data else '',
                 'first_name': bundle.data['firstname'],
                 'last_name': bundle.data['lastname'], }
         rf = RegisterForm(data)
@@ -179,7 +178,7 @@ class RegisterResource(ModelResource):
         else:
             username = bundle.data['username']
             password = bundle.data['password']
-            email = bundle.data['email']
+            email = bundle.data['email'] if 'email' in bundle.data else ''
             first_name = bundle.data['firstname']
             last_name = bundle.data['lastname']
         try:
