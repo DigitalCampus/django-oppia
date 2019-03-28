@@ -2,12 +2,26 @@ OppiaMobile Android App Change Log
 ====================================
 
 
-.. _appv67:
+.. _appv68:
 
-v67 (6.7.0) - not yet released
+v68 (6.8.0) - not yet released
 --------------------------------------
 
 Key updates:
+
+
+Issue list:
+
+
+.. _appv67:
+
+v67 (6.7.0) - Released 28 Mar 2019
+--------------------------------------
+
+Key updates:
+
+* Fixes for video views
+* Update gradle version
 
 Issue list:
 
@@ -17,6 +31,7 @@ Issue list:
 * 778: SonarQube - Remove unnecessary type castings - https://github.com/DigitalCampus/oppia-mobile-android/issues/778
 * 787: Points screen make app crash - https://github.com/DigitalCampus/oppia-mobile-android/issues/787
 * 790: When course parsing fails, the course folder is not removed - https://github.com/DigitalCampus/oppia-mobile-android/issues/790
+* 781: Fix issue with video  views not being tracked - https://github.com/DigitalCampus/oppia-mobile-android/issues/781
 
 .. _appv66:
 
