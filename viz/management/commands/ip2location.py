@@ -8,7 +8,7 @@ from django.db.models import Count
 from django.utils.translation import ugettext_lazy as _
 
 from oppia.models import Tracker
-from viz import UserLocationVisualization
+from viz.models import UserLocationVisualization
 
 
 class Command(BaseCommand):
