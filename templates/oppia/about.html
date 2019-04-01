@@ -15,11 +15,18 @@
 {% endblocktrans %}
 
 <h3>{% trans 'Acknowledgements' %}</h3>
-{% static "oppia/images/UK-AID-Standard-RGB.jpg" as ukaid_logo%}
+{% static "oppia/images/UK-AID-Standard-RGB.jpg" as ukaid_logo %}
+{% static "oppia/images/mPoweringlogo.jpg" as mpowering_logo %}
+{% static "oppia/images/UAHlogo.jpg" as uah_logo%}
+
 {% blocktrans %} 
-	<p>The development of OppiaMobile has been made possible by funding from:</p>
+	<p>The development of OppiaMobile has been made possible with support and funding from:</p>
 	
-	<img src="{{ ukaid_logo }}" alt="UKAID logo"/>
+	<img src="{{ ukaid_logo }}" alt="UKAID logo" style="margin-right:30px"/>
+	
+	<img src="{{ mpowering_logo }}" alt="mPowering logo" style="margin-right:30px"/>
+	
+	<img src="{{ uah_logo }}" alt="UAH logo" style="margin-right:30px"/>
 	
 	<p>Acknowledgements and contributors to the code include:</p>
 		<ul>

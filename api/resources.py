@@ -534,7 +534,7 @@ class CourseResource(ModelResource):
         try:
             # add scheduling XML file
             if has_completed_trackers:
-                file_to_download = settings.COURSE_UPLOAD_DIR + "temp/" + str(request.user.id) + "-" + course.filename
+                file_to_download = os.path.join(settings.COURSE_UPLOAD_DIR, "temp", str(request.user.id) + "-" + course.filename)
                 shutil.copy2(course.getAbsPath(), file_to_download)
                 zip = zipfile.ZipFile(file_to_download, 'a')
                 if has_completed_trackers:
