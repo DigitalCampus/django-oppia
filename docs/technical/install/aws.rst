@@ -92,7 +92,7 @@ The current version of the instance is running:
 * Ubuntu 18.04 LTS Server
 * Apache 2.4
 * Mysql 5.7
-* Django 1.11.18
+* Django 1.11.20
 * TastyPie 0.14.0
 * OppiaServer 0.11.0
 
