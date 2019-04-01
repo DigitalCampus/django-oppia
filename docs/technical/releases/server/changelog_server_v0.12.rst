@@ -20,6 +20,7 @@ Issue list:
 * 539: Moving to python 3 and django 2 (`#539 <https://github.com/DigitalCampus/django-oppia/issues/539>`_)
 * 468: RemovedInDjango20Warning - update for deprecation/changes (`#468 <https://github.com/DigitalCampus/django-oppia/issues/468>`_)
 * 571: For python 3 - replace __unicode__ with __str__ in models (`#571 <https://github.com/DigitalCampus/django-oppia/issues/571>`_)
+* 591: Update media_url_check to remove urllib2 dependency (`#591 <https://github.com/DigitalCampus/django-oppia/issues/591>`_)
 
 Previous Versions
 ------------------

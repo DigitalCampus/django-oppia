@@ -34,7 +34,7 @@ def update_via_freegeoip(t):
     url = 'https://freegeoip.net/json/%s' % (t['ip'])
     print(t['ip'] + " : " + url)
     try:
-        u = urllib.urlopen(url, timeout=10)
+        u = urllib.request.urlopen(url, timeout=10)
         data = u.read()
         data_json = json.loads(data, "utf-8")
         print(data_json)

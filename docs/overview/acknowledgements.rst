@@ -1,11 +1,14 @@
 Acknowledgements
 ================
 
-The development of the OppiaMobile platform has been supported with funding from:
+The development of OppiaMobile has been made possible with support and funding 
+from:
 
 .. figure::  images/UK-AID-Standard-RGB.jpg
 
-.. figure::  images/mPoweringlogo.resized.jpg
+.. figure::  images/mPoweringlogo.jpg
+
+.. figure::  images/UAHlogo.jpg
 
 
 Contributors
