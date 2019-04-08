@@ -1,6 +1,7 @@
 {% extends "base.html" %} 
 {% load i18n %} 
 {% load static %}
+{% load settings_value %}
 {% block extra_head_title %}
 	{% trans 'About' %}
 {% endblock extra_head_title %}
@@ -8,10 +9,11 @@
 {% block content %}
 <h2>{% trans 'About' %}</h2>
 
+{% settings_value 'OPPIA_ANDROID_PACKAGEID' as package_id %}
 {% blocktrans %} 
 	<p><a href="https://digital-campus.org/oppiamobile/overview/">OppiaMobile</a> is the mobile learning platform from <a href="https://digital-campus.org">Digital Campus</a> to deliver learning content, multimedia and quizzes on your smartphone. All the content and activities can
 	be accessed and used even when you don't have an internet connection available on your mobile.</p>
-	<p>To get started with our courses, <a href="https://play.google.com/store/apps/details?id=org.digitalcampus.mobile.learning">download the OppiaMobile app</a>. 
+	<p>To get started with our courses, <a href="https://play.google.com/store/apps/details?id={{package_id}}">download the OppiaMobile app</a>. 
 {% endblocktrans %}
 
 <h3>{% trans 'Acknowledgements' %}</h3>
