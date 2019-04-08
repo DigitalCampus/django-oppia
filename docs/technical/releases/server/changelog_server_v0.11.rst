@@ -1,6 +1,21 @@
 OppiaMobile Server Change Log
 ================================
 
+
+.. _serverv0.11.1:
+
+v0.11.1 - not yet released
+--------------------------------
+
+Key updates:
+
+Issue list:
+
+* 600: On about page use download link from the server settings - https://github.com/DigitalCampus/django-oppia/issues/600
+
+
+
+
 .. _serverv0.11.0:
 
 v0.11.0 - Released 20 Mar 2019

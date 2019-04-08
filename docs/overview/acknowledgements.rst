@@ -1,15 +1,39 @@
 Acknowledgements
 ================
 
-The development of OppiaMobile has been made possible with support and funding 
-from:
+Partners
+-------------
 
-.. figure::  images/UK-AID-Standard-RGB.jpg
+The development of OppiaMobile is made possible with the support and 
+collaboration of our partners:
 
-.. figure::  images/mPoweringlogo.jpg
+.. image::  images/UAHlogo.jpg
+   :alt: UAH logo
+   :target: https://uah.es/
+   :align: center
 
-.. figure::  images/UAHlogo.jpg
+.. image::  images/LMH-logo.png
+   :alt: Last Mile Health logo
+   :target: https://lastmilehealth.org/
+   :align: center   
 
+.. image::  images/CHA-logo.png
+   :alt: Community Health Academy logo
+   :target: https://lastmilehealth.org/chacademy/
+   :align: center   
+
+Previous funders:
+-------------------
+
+.. image::  images/UK-AID-Standard-RGB.jpg
+   :alt: UK AID logo
+   :target: https://devtracker.dfid.gov.uk/
+   :align: center
+   
+.. image::  images/mPoweringlogo.jpg
+   :alt: mPowering logo
+   :target: https://mpoweringhealth.org/
+   :align: center
 
 Contributors
 -------------------
@@ -27,3 +51,4 @@ Contributors
 * `Lebanese Alternative Learning <http://lal.ngo>`_ - Arabic (Lebanese) translation and funding for drag and drop quizzes
 * `Last Mile Health <http://lastmilehealth.org/>`_ - Funding for additional development
 * David Gil de Gómez Pérez - technical development, performance improvements and bug fixes
+* `Lex Myers <https://github.com/lexm/>`_
