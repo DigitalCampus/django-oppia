@@ -133,7 +133,7 @@ def tracker_callback(sender, **kwargs):
     tracker = kwargs.get('instance')
     description = None
 
-    print tracker.uuid
+    print(tracker.uuid)
 
     if not apply_points(tracker.user):
         return
