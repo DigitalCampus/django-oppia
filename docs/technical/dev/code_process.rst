@@ -86,11 +86,31 @@ App Release Process/Checklist
 Before making pull request from issue branch to release branch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+#. Add/update unit/automated tests
+#. Run tests framework and confirm all tests are passing 
+   [:doc:`../testing/index`]
+#. Add/Update documentation for any new or changed functionality/processes/
+   settings
+#. Update the relevant GitHub project to show the issue is for review 
+
+
 Merging issue branch into release branch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+#. Merge code in (as above and resolve and conflicts from other branches)
+#. Run tests framework and confirm all tests are passing
+#. Update release notes (adding issue resolved)
+#. Close issue on Github
+
 Merging release branch into master, for final release
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+#. Merge code in (as above and resolve and conflicts from other branches)
+#. Run tests framework
+#. Date the release (on release notes)
+#. Tag the release in git
+#. Update roadmap
+#. Release...
 
 Creating new release branch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
