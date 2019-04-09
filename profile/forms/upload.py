@@ -1,6 +1,5 @@
 # oppia/profile/forms.py
 import hashlib
-import urllib
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Div, HTML, Field, Row, Column
@@ -12,6 +11,7 @@ from django.urls import reverse
 from django.core.validators import validate_email
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
+
 class UploadProfileForm(forms.Form):
     upload_file = forms.FileField(
         required=True,
