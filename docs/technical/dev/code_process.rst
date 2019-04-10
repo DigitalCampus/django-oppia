@@ -70,6 +70,7 @@ Merging release branch into master, for final release
 #. Merge code in (as above and resolve and conflicts from other branches)
 #. Run Django tests framework
 #. Run Sonar tests framework
+#. Run QA tests (see: .....)
 #. Date the release (on release notes)
 #. Tag the release in git
 #. Update roadmap
