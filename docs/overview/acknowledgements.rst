@@ -22,14 +22,19 @@ collaboration of our partners:
    :target: https://lastmilehealth.org/chacademy/
    :align: center   
 
-Previous funders:
+Previous funders
 -------------------
 
-.. image::  images/UK-AID-Standard-RGB.jpg
+.. image::  images/ukaid.png
    :alt: UK AID logo
-   :target: https://devtracker.dfid.gov.uk/
+   :target: https://dfid.gov.uk/
    :align: center
-   
+ 
+.. image::  images/aecid-logo.png
+   :alt: AECID logo
+   :target: http://www.aecid.es/
+   :align: center
+     
 .. image::  images/mPoweringlogo.jpg
    :alt: mPowering logo
    :target: https://mpoweringhealth.org/

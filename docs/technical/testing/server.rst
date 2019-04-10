@@ -5,7 +5,7 @@ The Oppia server uses `Django's inbuilt unit testing framework
 <https://docs.djangoproject.com/en/1.11/topics/testing/overview/>`_ .
 
 All the unit tests can be found under: 
-https://github.com/DigitalCampus/django-oppia/tree/master/oppia/tests
+https://github.com/DigitalCampus/django-oppia/tree/master/tests
 
 Run the tests on your Oppia server
 -----------------------------------
