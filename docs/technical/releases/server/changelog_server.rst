@@ -13,7 +13,7 @@ Key updates:
 Issue list:
 
 * 600: On about page use download link from the server settings - https://github.com/DigitalCampus/django-oppia/issues/600
-
+* 596: Update acknowledgement page/s - https://github.com/DigitalCampus/django-oppia/issues/596
 
 
 .. _serverv0.11.0:
