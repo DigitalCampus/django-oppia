@@ -9,7 +9,7 @@ Automated tests can go a long way, but some areas still need manual testing,
 especially before we have much wider code coverage.
 
 Before an app release is handed over, the `QA checklist template <https://docs.google.com/spreadsheets/d/1EVUIzAIbM_efK4SYq2gF1uxTK9LclyB9pcgJaXxQXQ0>`_ 
-will be completed, and 
+will be completed, and all tests passing before release.
 
 Workflow:
 
