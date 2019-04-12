@@ -2,7 +2,7 @@ Issue, Branch and Release Processes
 ====================================
 
 This page describes the issue and code branch management convention that 
-OppiaMobile follows (for all 3 components), and the release process/checklist.
+OppiaMobile follows, and the release process/checklist.
 
 Issues, Branches and Pull Requests
 ------------------------------------
@@ -48,8 +48,8 @@ Before making pull request from issue branch to release branch
 #. Add/update unit/automated tests
 #. Run Django tests framework and confirm all tests are passing 
    [:doc:`../testing/index`]
-#. Run Sonar test framework [add link/info]
-#. Check code for PEP8 compliance [add link/info]
+#. Run Sonar test framework [:doc:`./sonarqube`]
+#. Check code for PEP8 compliance [:doc:`./pep8`]
 #. Add/Update documentation for any new or changed functionality/processes/
    settings
 #. Update the relevant GitHub project to show the issue is for review 
@@ -70,16 +70,13 @@ Merging release branch into master, for final release
 #. Merge code in (as above and resolve and conflicts from other branches)
 #. Run Django tests framework
 #. Run Sonar tests framework
-#. Run QA tests (see: .....)
+#. Run QA tests (:doc:`./qa`)
 #. Date the release (on release notes)
 #. Tag the release in git
 #. Update roadmap
 #. Release...
-
-Creating new release branch
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-#. 
+#. Create a new release branch - based from the master, with the updated 
+   version number
 
 App Release Process/Checklist
 -----------------------------
@@ -108,25 +105,10 @@ Merging release branch into master, for final release
 
 #. Merge code in (as above and resolve and conflicts from other branches)
 #. Run tests framework
+#. Run QA tests (:doc:`./qa`)
 #. Date the release (on release notes)
 #. Tag the release in git
 #. Update roadmap
 #. Release...
-
-Creating new release branch
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Block Release Process/Checklist
----------------------------------
-
-Before making pull request from issue branch to release branch
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Merging issue branch into release branch
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Merging release branch into master, for final release
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Creating new release branch
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#. Create a new release branch - based from the master, with the updated 
+   version number
