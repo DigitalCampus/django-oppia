@@ -2,6 +2,7 @@ OppiaMobile Server Change Log
 ================================
 
 
+
 .. _serverv0.11.1:
 
 v0.11.1 - not yet released
@@ -12,8 +13,9 @@ Key updates:
 Issue list:
 
 * 600: On about page use download link from the server settings - https://github.com/DigitalCampus/django-oppia/issues/600
-
-
+* 596: Update acknowledgement page/s - https://github.com/DigitalCampus/django-oppia/issues/596
+* 529: Review and complete code process docs - https://github.com/DigitalCampus/django-oppia/issues/529
+* 606: Add QA checklist and template - https://github.com/DigitalCampus/django-oppia/issues/606
 
 
 .. _serverv0.11.0:
@@ -29,7 +31,7 @@ v0.11.0 - Released 20 Mar 2019
 	
 Key updates:
 
-* Upgrading to Django 1.11.18
+* Upgrading to Django 1.11.20
 * Restructuring of project to match Django best practice
 * Extra automated tests
 * Improved documentation structure and updates
@@ -84,6 +86,8 @@ Issue list:
 * 579: Media viewed not being displayed correctly - https://github.com/DigitalCampus/django-oppia/issues/579
 * 580: Course download points being left out - https://github.com/DigitalCampus/django-oppia/issues/580
 * 581: Quiz attempt points being added twice - https://github.com/DigitalCampus/django-oppia/issues/581
+* 590: Quiz points added twice - from tests - https://github.com/DigitalCampus/django-oppia/issues/590
+* 592: Move to Django 1.11.20 on v0.11.0 branch & master - https://github.com/DigitalCampus/django-oppia/issues/592
 * 570: Make sure use of COURSE_UPLOAD_DIR always uses os.path.join() - https://github.com/DigitalCampus/django-oppia/issues/570
 
 Previous Versions
