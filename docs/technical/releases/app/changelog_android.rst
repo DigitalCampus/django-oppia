@@ -13,6 +13,7 @@ Key updates:
 Issue list:
 
 * 804: Update acknowledgements page - https://github.com/DigitalCampus/oppia-mobile-android/issues/804
+* Bluetooth Hotfix
 
 .. _appv67:
 
