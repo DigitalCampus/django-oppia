@@ -15,6 +15,13 @@ Issue list:
 * 804: Update acknowledgements page - https://github.com/DigitalCampus/oppia-mobile-android/issues/804
 * Bluetooth Hotfix
 
+Issues fixed in previous version/s - but recently updated on Github issue lists:
+
+* 708: Course & Activity getTitle - https://github.com/DigitalCampus/oppia-mobile-android/issues/708
+* 679: Update and solve dependencies for Gradle v3.+ - https://github.com/DigitalCampus/oppia-mobile-android/issues/679
+* 524: Launch activity from an SMS message - https://github.com/DigitalCampus/oppia-mobile-android/issues/524
+* 252: In quizzes how to shuffle the response options - https://github.com/DigitalCampus/oppia-mobile-android/issues/252
+
 .. _appv67:
 
 v67 (6.7.0) - Released 28 Mar 2019
