@@ -18,6 +18,7 @@ Issue list:
 * 606: Add QA checklist and template - https://github.com/DigitalCampus/django-oppia/issues/606
 * 607: Update links to digital-campus/oppiamobile - https://github.com/DigitalCampus/django-oppia/issues/607
 * 608: Update links to community site - https://github.com/DigitalCampus/django-oppia/issues/608
+* 603: Review the requirements.txt and look at using some of the more recent versions - https://github.com/DigitalCampus/django-oppia/issues/603
 
 .. _serverv0.11.0:
 
