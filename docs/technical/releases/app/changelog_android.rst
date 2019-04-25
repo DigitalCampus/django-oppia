@@ -14,6 +14,9 @@ Issue list:
 
 * 804: Update acknowledgements page - https://github.com/DigitalCampus/oppia-mobile-android/issues/804
 * Bluetooth Hotfix
+* 802: Control when an offline-registered user gets internet access - https://github.com/DigitalCampus/oppia-mobile-android/issues/802
+* 806: Update links to digital-campus/oppiamobile - https://github.com/DigitalCampus/oppia-mobile-android/issues/806
+* 807: Update links to community site - https://github.com/DigitalCampus/oppia-mobile-android/issues/807
 
 Issues fixed in previous version/s - but recently updated on Github issue lists:
 
