@@ -1,6 +1,6 @@
 Getting Help
 ================
 
-To get help using OppiaMobile, please post a message on our Google Groups forum 
-at: https://groups.google.com/forum/#!forum/oppiamobile
+To get help using OppiaMobile, please post a message in the 
+`OppiaMobile Community site <https://community.oppia-mobile.org/>`_ 
 

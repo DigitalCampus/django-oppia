@@ -58,5 +58,4 @@ download.
 
 If you have any queries, comments or suggestions on how to improve these
 instructions, the course authoring process or any other aspect of OppiaMobile, 
-please post them on the `OppiaMobile Google Forum 
-<https://groups.google.com/forum/#!forum/oppiamobile>`_ 
+please post them in the `OppiaMobile Community site <https://community.oppia-mobile.org/>`_ 

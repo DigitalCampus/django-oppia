@@ -16,7 +16,8 @@ Issue list:
 * 596: Update acknowledgement page/s - https://github.com/DigitalCampus/django-oppia/issues/596
 * 529: Review and complete code process docs - https://github.com/DigitalCampus/django-oppia/issues/529
 * 606: Add QA checklist and template - https://github.com/DigitalCampus/django-oppia/issues/606
-
+* 607: Update links to digital-campus/oppiamobile - https://github.com/DigitalCampus/django-oppia/issues/607
+* 608: Update links to community site - https://github.com/DigitalCampus/django-oppia/issues/608
 
 .. _serverv0.11.0:
 

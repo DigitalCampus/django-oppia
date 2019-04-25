@@ -19,7 +19,8 @@ Submitting Bug Reports or Feature Requests
 Need Help or have Questions?
 -----------------------------
 
-If you have a question or need help with any aspect of the OppiaMobile platform, then please join our Google Groups Forum (https://groups.google.com/forum/#!forum/oppiamobile)
+If you have a question or need help with any aspect of the OppiaMobile platform, then please join the OppiaMobile Community site at 
+https://community.oppia-mobile.org/
 
 Submitting Code Updates
 ------------------------
