@@ -14,7 +14,7 @@ class RegisterForm(forms.Form):
     email = forms.CharField(validators=[validate_email],
                             error_messages={'invalid': _(u'Please enter a valid e-mail address.'),
                                             'required': _(u'Please enter your e-mail address.')},
-                            required=True)
+                            required=False)
     password = forms.CharField(widget=forms.PasswordInput,
                                error_messages={'required': _(u'Please enter a password.'),
                                                'min_length': _(u'Your password should be at least 6 characters long.')},
@@ -65,10 +65,10 @@ class RegisterForm(forms.Form):
 
     def clean(self):
         cleaned_data = self.cleaned_data
-        email = cleaned_data.get("email")
-        password = cleaned_data.get("password")
-        password_again = cleaned_data.get("password_again")
-        username = cleaned_data.get("username")
+        email = cleaned_data.get('email', '')
+        password = cleaned_data.get('password')
+        password_again = cleaned_data.get('password_again')
+        username = cleaned_data.get('username')
 
         # check the username not already used
         num_rows = User.objects.filter(username=username).count()
@@ -76,8 +76,7 @@ class RegisterForm(forms.Form):
             raise forms.ValidationError(_(u"Username has already been registered, please select another."))
 
         # check the email address not already used
-        num_rows = User.objects.filter(email=email).count()
-        if num_rows != 0:
+        if email and User.objects.filter(email=email).exists():
             raise forms.ValidationError(_(u"Email has already been registered"))
 
         # check the password are the same

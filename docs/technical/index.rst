@@ -8,7 +8,6 @@ OppiaMobile Technical Documentation
    dev/index
    install/index
    manage/index
-   dev/contribute
    customise/server/index
    customise/app/index
    releases/index

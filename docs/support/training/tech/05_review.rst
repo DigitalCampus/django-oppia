@@ -27,4 +27,4 @@ Activities
 Follow up 
 -----------
 
-* Sign up to OppiaMobile Google Groups - https://groups.google.com/forum/#!forum/oppiamobile 
+* Sign up to `OppiaMobile Community site <https://community.oppia-mobile.org/>`_  
