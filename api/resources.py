@@ -166,7 +166,7 @@ class RegisterResource(ModelResource):
         data = {'username': bundle.data['username'],
                 'password': bundle.data['password'],
                 'password_again': bundle.data['passwordagain'],
-                'email': bundle.data['email'],
+                'email': bundle.data['email'] if 'email' in bundle.data else '',
                 'first_name': bundle.data['firstname'],
                 'last_name': bundle.data['lastname'], }
         rf = RegisterForm(data)

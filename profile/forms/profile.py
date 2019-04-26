@@ -19,7 +19,7 @@ class ProfileForm(forms.Form):
                                required=False, help_text=_(u'You cannot edit your username.'))
     email = forms.CharField(validators=[validate_email],
                             error_messages={'invalid': _(u'Please enter a valid e-mail address.')},
-                            required=True)
+                            required=False)
     password = forms.CharField(widget=forms.PasswordInput,
                                required=False,
                                min_length=6,
@@ -113,8 +113,8 @@ class ProfileForm(forms.Form):
         # check email not used by anyone else
         email = cleaned_data.get("email")
         username = cleaned_data.get("username")
-        num_rows = User.objects.exclude(username__exact=username).filter(email=email).count()
-        if num_rows != 0:
+
+        if email and User.objects.exclude(username__exact=username).filter(email=email).exists():
             raise forms.ValidationError(_(u"Email address already in use"))
 
         # if password entered then check they are the same
