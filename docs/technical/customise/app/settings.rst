@@ -15,8 +15,10 @@ API keys), so any changes you make to it will not be visible in your repository.
 List of configurable values
 ---------------------------
 
-General
-^^^^^^^
+.. _general_settings:
+
+General settings
+^^^^^^^^^^^^^^^^^
 
 * ``MINT_API_KEY`` (string): the Splunk Mint API key to use for the crash reports
 * ``OPPIA_SERVER_DEFAULT`` (string): the initial Oppia server URL. By default, the demo server https://demo.oppia-mobile.org/

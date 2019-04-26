@@ -257,6 +257,6 @@ server code so everyone can benefit. If you find an issue, but aren't sure how
 to fix it, then please 
 `file an issue on Github <https://github.com/DigitalCampus/django-oppia/issues>`_
 
-If you need any help, then please post a message on the 
-`OppiaMobile Google Group <https://groups.google.com/forum/#!forum/oppiamobile>`_ 
+If you need any help, then please post a message in the 
+`OppiaMobile Community site <https://community.oppia-mobile.org/>`_ 
 
