@@ -21,7 +21,7 @@ class RegisterViewTest(TestCase):
             'password': 'password'
         }
         res = self.client.post(self.url, data=unfilled_form)
-        self.assertFormError(res, 'form', 'email', 'Please enter your e-mail address.')
+        self.assertFormError(res, 'form', 'password_again', 'Please enter your password again.')
 
     # check passwords dont match
     def test_password_not_match(self):
