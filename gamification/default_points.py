@@ -1,6 +1,9 @@
 
-OPPIA_DEFAULT_POINTS = {
+OPPIA_GLOBAL_DEFAULT_POINTS = {
         'REGISTER': 100,  # given when user first registers
+    }
+
+OPPIA_COURSE_DEFAULT_POINTS = {
         'QUIZ_FIRST_ATTEMPT': 20,  # for the first attempt at a quiz
         'QUIZ_ATTEMPT': 10,  # for any subsequent attempts at a quiz
         'QUIZ_FIRST_ATTEMPT_THRESHOLD': 100,  # Threshold for getting bonus points for first attempt at quiz (must be 0-100)
@@ -12,3 +15,7 @@ OPPIA_DEFAULT_POINTS = {
         'MEDIA_MAX_POINTS': 200,  # the maximum number of points available for any single media play
         'COURSE_DOWNLOADED': 50,  # for downloading a course
     }
+
+OPPIA_DEFAULT_POINTS = OPPIA_GLOBAL_DEFAULT_POINTS.copy()
+OPPIA_DEFAULT_POINTS.update(OPPIA_COURSE_DEFAULT_POINTS)
+

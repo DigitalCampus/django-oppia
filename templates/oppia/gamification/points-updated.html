@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{{ course.title|title_lang:LANGUAGE_CODE }}
+{% endblock extra_head_title %}
+
+{% block content %}
+
+    <div class="container">
+		<h2>{{ course.title|title_lang:LANGUAGE_CODE }} - {% trans "Points Updated" %}</h2> 
+	    
+	    
+	    <p></p>
+	</div>
+	
+{% endblock %}

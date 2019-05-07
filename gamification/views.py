@@ -7,8 +7,9 @@ import xml.dom.minidom
 
 from django.conf import settings
 from django.contrib.admin.views.decorators import staff_member_required
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse
 from django.utils import timezone
 
 from gamification.forms import EditPointsForm
@@ -65,12 +66,21 @@ def edit_points(request, course_id):
         form = EditPointsForm(request.POST, initial = current_points)
         if form.is_valid():
             save_course_points(request, form, course)
+            
+            return HttpResponseRedirect(reverse('oppia_gamification_points_updated', args=[course.id]))  # Redirect after POST
     else:
         form = EditPointsForm(initial = current_points)
 
     return render(request, 'oppia/gamification/edit-points.html',
                               {'course': course,
                                   'form': form })
+
+
+@staff_member_required
+def points_updated(request, course_id):
+    course = Course.objects.get(id=course_id)
+    return render(request, 'oppia/gamification/points-updated.html',
+                              {'course': course })
     
 def load_course_points(doc):
     course_points = []
@@ -81,7 +91,6 @@ def load_course_points(doc):
                 event_points['event'] = event.getAttribute("name")
                 event_points['points'] = event.firstChild.nodeValue
                 course_points.append(event_points)
-                print(event_points)
     except IndexError: #xml does not have the gamification/events tag/s
         pass
     return course_points
@@ -93,8 +102,6 @@ def save_course_points(request, form, course):
     zip.close()
     doc = xml.dom.minidom.parseString(xml_content)
     for x in form.cleaned_data:
-        print(x)
-        print(form.cleaned_data[x])
         try:
             for meta in doc.getElementsByTagName("meta")[:1]:
                 for event in meta.getElementsByTagName("gamification")[:1][0].getElementsByTagName("event"):
@@ -108,12 +115,12 @@ def save_course_points(request, form, course):
     try:
         os.makedirs(temp_zip_path)
     except OSError:
-        pass # leaf dir for user already exists
+        pass # leaf dir for user id already exists
     
     remove_from_zip(course_zip_file, temp_zip_path, course.shortname, module_xml)
     
     with zipfile.ZipFile(course_zip_file, 'a') as z:
-        z.writestr(module_xml, doc.toprettyxml())
+        z.writestr(module_xml, doc.toprettyxml(indent='',newl=''))
             
 def remove_from_zip(zipfname, temp_zip_path, course_shortname, *filenames):
     try:
@@ -122,7 +129,6 @@ def remove_from_zip(zipfname, temp_zip_path, course_shortname, *filenames):
             with zipfile.ZipFile(tempname, 'w') as zipwrite:
                 for item in zipread.infolist():
                     if item.filename not in filenames:
-                        print(item.filename)
                         data = zipread.read(item.filename)
                         zipwrite.writestr(item, data)
         shutil.copy(tempname, zipfname)
