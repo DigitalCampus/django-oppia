@@ -70,7 +70,10 @@
 					<a href="{% url 'oppia_course_download' course.id %}">{% trans 'download course' %}</a>
 				</td>
                 <td>
-                    {% if course.can_edit %} <a href="{% url 'oppia_course_edit' course.id %}" class="btn btn-default btn-primary">{% trans 'Edit' %}</a> {% endif %}
+                    {% if course.can_edit %} 
+                    	<a href="{% url 'oppia_course_edit' course.id %}" class="btn btn-default btn-primary">{% trans 'Edit' %}</a>
+                    	<a href="{% url 'oppia_gamification_edit_points' course.id %}" class="btn btn-default btn-primary">{% trans 'Update Points' %}</a>  
+                    {% endif %}
                 </td>
 			</tr>
 	{% endfor %}

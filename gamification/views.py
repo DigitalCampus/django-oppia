@@ -14,6 +14,8 @@ from django.utils import timezone
 
 from gamification.forms import EditPointsForm
 from oppia.models import Points, Course
+from oppia.permissions import *
+from gamification.default_points import OPPIA_COURSE_DEFAULT_POINTS
 
 
 @staff_member_required
@@ -49,8 +51,10 @@ def leaderboard_export(request, course_id=None):
 
     return JsonResponse(response_data)
 
-@staff_member_required
 def edit_points(request, course_id):
+    if not can_edit_course(request, course_id):
+        raise exceptions.PermissionDenied
+    
     course = Course.objects.get(id=course_id)
     course_zip_file = os.path.join(settings.COURSE_UPLOAD_DIR, course.filename)
     zip = zipfile.ZipFile(course_zip_file,'r')
@@ -75,9 +79,9 @@ def edit_points(request, course_id):
                               {'course': course,
                                   'form': form })
 
-
-@staff_member_required
 def points_updated(request, course_id):
+    if not can_edit_course(request, course_id):
+        raise exceptions.PermissionDenied
     course = Course.objects.get(id=course_id)
     return render(request, 'oppia/gamification/points-updated.html',
                               {'course': course })
@@ -92,7 +96,11 @@ def load_course_points(doc):
                 event_points['points'] = event.firstChild.nodeValue
                 course_points.append(event_points)
     except IndexError: #xml does not have the gamification/events tag/s
-        pass
+        for event, points in OPPIA_COURSE_DEFAULT_POINTS.items():
+            event_points = {}
+            event_points['event'] = event.lower()
+            event_points['points'] = points
+            course_points.append(event_points)
     return course_points
 
 def save_course_points(request, form, course):
@@ -101,14 +109,27 @@ def save_course_points(request, form, course):
     xml_content = zip.read(course.shortname + "/module.xml")
     zip.close()
     doc = xml.dom.minidom.parseString(xml_content)
+    
+    add_gamification_node = False
     for x in form.cleaned_data:
         try:
-            for meta in doc.getElementsByTagName("meta")[:1]:
-                for event in meta.getElementsByTagName("gamification")[:1][0].getElementsByTagName("event"):
-                    if event.getAttribute("name") == x:
-                        event.firstChild.nodeValue = form.cleaned_data[x]
+            meta = doc.getElementsByTagName("meta")[:1][0]
+            for event in meta.getElementsByTagName("gamification")[:1][0].getElementsByTagName("event"):
+                if event.getAttribute("name") == x:
+                    event.firstChild.nodeValue = form.cleaned_data[x]
         except IndexError: #xml does not have the gamification/events tag/s
-            pass
+            add_gamification_node = True
+    
+    if add_gamification_node:
+        meta = doc.getElementsByTagName("meta")[:1][0]
+        gamification = doc.createElement("gamification")
+        for x in form.cleaned_data:
+            event = doc.createElement("event")
+            event.setAttribute("name", x)
+            value = doc.createTextNode(str(form.cleaned_data[x]))
+            event.appendChild(value)
+            gamification.appendChild(event)
+        meta.appendChild(gamification)
     
     temp_zip_path = os.path.join(settings.COURSE_UPLOAD_DIR, 'temp', str(request.user.id))
     module_xml = course.shortname + '/module.xml'
