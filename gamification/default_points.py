@@ -11,8 +11,4 @@ OPPIA_DEFAULT_POINTS = {
         'MEDIA_PLAYING_POINTS_PER_INTERVAL': 5,  # no points per interval media is playing
         'MEDIA_MAX_POINTS': 200,  # the maximum number of points available for any single media play
         'COURSE_DOWNLOADED': 50,  # for downloading a course
-
-    # TODO  - these values are deprecated and will be removed in v0.11.0
-        'QUIZ_ATTEMPT_OWNER': 5,  # given to the quiz owner when another user attempts their quiz
-        'QUIZ_CREATED': 200,  # for creating a quiz
     }

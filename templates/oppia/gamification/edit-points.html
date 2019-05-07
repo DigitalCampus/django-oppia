@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{{ course.title|title_lang:LANGUAGE_CODE }}
+{% endblock extra_head_title %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    <div class="container">
+		<h2>{{ course.title|title_lang:LANGUAGE_CODE }} - {% trans "Edit Points" %}</h2> 
+	    
+	    <div class="row">
+	    	<div class="col-md-11">{% include "includes/messages.html" %}</div>
+	    </div>
+	
+		{% crispy form %}
+	</div>
+	
+{% endblock %}
