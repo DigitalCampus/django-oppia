@@ -60,7 +60,7 @@ def edit_course_points(request, course_id):
     
     course = Course.objects.get(id=course_id)
     doc = get_module_xml(course, 'r')
-    current_points = load_course_points(doc)  
+    current_points = load_course_points(request, doc, course)  
     
     if request.method == 'POST':
         form = EditCoursePointsForm(request.POST, initial = current_points)
@@ -97,7 +97,7 @@ def edit_activity_points(request, course_id):
                               {'course': course })
 
     
-def load_course_points(doc):
+def load_course_points(request, doc, course):
     course_points = []
     try:
         for meta in doc.getElementsByTagName("meta")[:1]:
@@ -106,13 +106,10 @@ def load_course_points(doc):
                 event_points['event'] = event.getAttribute("name")
                 event_points['points'] = event.firstChild.nodeValue
                 course_points.append(event_points)
+        return course_points
     except IndexError: #xml does not have the gamification/events tag/s
-        for event, points in OPPIA_COURSE_DEFAULT_POINTS.items():
-            event_points = {}
-            event_points['event'] = event.lower()
-            event_points['points'] = points
-            course_points.append(event_points)
-    return course_points
+        initialise_course_points(request, course, OPPIA_DEFAULT_POINTS)
+        return OPPIA_DEFAULT_POINTS
 
 def save_course_points(request, form, course):
     
@@ -183,3 +180,12 @@ def remove_from_zip(zipfname, temp_zip_path, course_shortname, *filenames):
     finally:
         shutil.rmtree(temp_zip_path)
 
+def initialise_course_points(request, course, course_points):
+    CourseGamificationEvent.objects.filter(course=course).delete()
+    for event in course_points:
+        course_game_event = CourseGamificationEvent()
+        course_game_event.user = request.user
+        course_game_event.course = course
+        course_game_event.event = event['event']
+        course_game_event.points = event['points']
+        course_game_event.save()
