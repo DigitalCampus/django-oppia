@@ -12,10 +12,13 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
 
-from gamification.forms import EditPointsForm
-from oppia.models import Points, Course
+from gamification.default_points import *
+from gamification.forms import EditCoursePointsForm
+from gamification.models import *
+from oppia.models import Points, Course, Section, Activity
 from oppia.permissions import *
-from gamification.default_points import OPPIA_COURSE_DEFAULT_POINTS
+
+from pydoc import doc
 
 
 @staff_member_required
@@ -51,31 +54,24 @@ def leaderboard_export(request, course_id=None):
 
     return JsonResponse(response_data)
 
-def edit_points(request, course_id):
+def edit_course_points(request, course_id):
     if not can_edit_course(request, course_id):
         raise exceptions.PermissionDenied
     
     course = Course.objects.get(id=course_id)
-    course_zip_file = os.path.join(settings.COURSE_UPLOAD_DIR, course.filename)
-    zip = zipfile.ZipFile(course_zip_file,'r')
-    xml_content = zip.read(course.shortname + "/module.xml")
-    zip.close()
-    # load existing course level points from the XML
-    doc = xml.dom.minidom.parseString(xml_content)
-    current_points = load_course_points(doc)
-    #TODO if no course points then set to the defaults
-    
+    doc = get_module_xml(course, 'r')
+    current_points = load_course_points(doc)  
     
     if request.method == 'POST':
-        form = EditPointsForm(request.POST, initial = current_points)
+        form = EditCoursePointsForm(request.POST, initial = current_points)
         if form.is_valid():
             save_course_points(request, form, course)
             
-            return HttpResponseRedirect(reverse('oppia_gamification_points_updated', args=[course.id]))  # Redirect after POST
+            return HttpResponseRedirect(reverse('oppia_gamification_course_points_updated', args=[course.id]))  # Redirect after POST
     else:
-        form = EditPointsForm(initial = current_points)
+        form = EditCoursePointsForm(initial = current_points)
 
-    return render(request, 'oppia/gamification/edit-points.html',
+    return render(request, 'oppia/gamification/edit-course-points.html',
                               {'course': course,
                                   'form': form })
 
@@ -83,8 +79,23 @@ def points_updated(request, course_id):
     if not can_edit_course(request, course_id):
         raise exceptions.PermissionDenied
     course = Course.objects.get(id=course_id)
-    return render(request, 'oppia/gamification/points-updated.html',
+    return render(request, 'oppia/gamification/course-points-updated.html',
                               {'course': course })
+
+
+def edit_activity_points(request, course_id):
+    if not can_edit_course(request, course_id):
+        raise exceptions.PermissionDenied
+    
+    course = Course.objects.get(id=course_id)
+    doc = get_module_xml(course, 'r')
+    
+    sections = Section.objects.filter(course=course).order_by('order')
+    
+    
+    return render(request, 'oppia/gamification/edit-activity-points.html',
+                              {'course': course })
+
     
 def load_course_points(doc):
     course_points = []
@@ -104,11 +115,8 @@ def load_course_points(doc):
     return course_points
 
 def save_course_points(request, form, course):
-    course_zip_file = os.path.join(settings.COURSE_UPLOAD_DIR, course.filename)
-    zip = zipfile.ZipFile(course_zip_file,'a')
-    xml_content = zip.read(course.shortname + "/module.xml")
-    zip.close()
-    doc = xml.dom.minidom.parseString(xml_content)
+    
+    doc = get_module_xml(course, 'a')
     
     add_gamification_node = False
     for x in form.cleaned_data:
@@ -131,6 +139,16 @@ def save_course_points(request, form, course):
             gamification.appendChild(event)
         meta.appendChild(gamification)
     
+    # update the gamification tables
+    CourseGamificationEvent.objects.filter(course=course).delete()
+    for x in form.cleaned_data:
+        course_game_event = CourseGamificationEvent()
+        course_game_event.user = request.user
+        course_game_event.course = course
+        course_game_event.event = x
+        course_game_event.points = form.cleaned_data[x]
+        course_game_event.save()
+    
     temp_zip_path = os.path.join(settings.COURSE_UPLOAD_DIR, 'temp', str(request.user.id))
     module_xml = course.shortname + '/module.xml'
     try:
@@ -138,11 +156,20 @@ def save_course_points(request, form, course):
     except OSError:
         pass # leaf dir for user id already exists
     
+    course_zip_file = os.path.join(settings.COURSE_UPLOAD_DIR, course.filename)
     remove_from_zip(course_zip_file, temp_zip_path, course.shortname, module_xml)
     
     with zipfile.ZipFile(course_zip_file, 'a') as z:
         z.writestr(module_xml, doc.toprettyxml(indent='',newl=''))
-            
+
+def get_module_xml(course, mode): 
+    course_zip_file = os.path.join(settings.COURSE_UPLOAD_DIR, course.filename)
+    zip = zipfile.ZipFile(course_zip_file, mode)
+    xml_content = zip.read(course.shortname + "/module.xml")
+    zip.close()
+    doc = xml.dom.minidom.parseString(xml_content)
+    return doc
+     
 def remove_from_zip(zipfname, temp_zip_path, course_shortname, *filenames):
     try:
         tempname = os.path.join(temp_zip_path, course_shortname +'.zip')

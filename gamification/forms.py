@@ -6,12 +6,12 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 
-class EditPointsForm(forms.Form):
+class EditCoursePointsForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         initial = kwargs.pop('initial', None)
         
-        super(EditPointsForm, self).__init__( * args, ** kwargs)
+        super(EditCoursePointsForm, self).__init__( * args, ** kwargs)
         for object in initial:
             self.fields[object['event']] = forms.IntegerField(initial=int(object['points']), label=object['event'])
         
@@ -32,6 +32,5 @@ class EditPointsForm(forms.Form):
      
 
     def clean(self):
-        cleaned_data = super(EditPointsForm, self).clean()
-
+        cleaned_data = super(EditCoursePointsForm, self).clean()
         return cleaned_data
