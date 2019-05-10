@@ -12,6 +12,8 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from tastypie.models import create_api_key
 
+from gamification.default_points import *
+
 from quiz.models import QuizAttempt, Quiz
 
 models.signals.post_save.connect(create_api_key, sender=User)
@@ -262,6 +264,36 @@ class Activity(models.Model):
                 prev_activity = None
         return prev_activity
 
+    def get_event_points(self):
+        from gamification.models import CourseGamificationEvent, ActivityGamificationEvent
+        event_points = []
+        
+        # first check if there are specific points for this activity
+        activity_custom_points = ActivityGamificationEvent.objects.filter(activity=self)
+        if activity_custom_points.count() > 0:
+            source = _('Custom Points')
+            return { 'events': activity_custom_points, 'source': source }
+        
+        # if not, then check the points for the course as a whole or then the global default points
+        if self.type == self.PAGE:
+            course_custom_points = CourseGamificationEvent.objects.filter(course__section__activity=self, event__startswith='activity_')
+            if course_custom_points.count() > 0:
+                source = _('Inherited from course')
+                return { 'events': course_custom_points, 'source': source }
+            else:
+                source = _('Inherited from global defaults')
+                return { 'events': OPPIA_ACTIVITY_DEFAULT_POINTS, 'source': source }
+            
+        if self.type == self.QUIZ:
+            course_custom_points = CourseGamificationEvent.objects.filter(course__section__activity=self, event__startswith='quiz_')
+            if course_custom_points.count() > 0:
+                source = _('Inherited from course')
+                return { 'events': course_custom_points, 'source': source }
+            else:
+                source = _('Inherited from global defaults')
+                return { 'events': OPPIA_QUIZ_DEFAULT_POINTS, 'source': source }
+        
+        return event_points
 
 class Media(models.Model):
     URL_MAX_LENGTH = 250
