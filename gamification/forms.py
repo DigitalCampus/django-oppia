@@ -42,8 +42,11 @@ class EditActivityPointsForm(forms.Form):
         
         super(EditActivityPointsForm, self).__init__( * args, ** kwargs)
         for event in initial:
-            self.fields[event.event] = forms.IntegerField(initial=int(event.points), label=event.event)
-        
+            try:
+                self.fields[event.event] = forms.IntegerField(initial=int(event.points), label=event.event)
+            except AttributeError:
+                self.fields[event['event']] = forms.IntegerField(initial=int(event['points']), label=event['event'])
+                
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
         self.helper.label_class = 'col-lg-18'
@@ -51,8 +54,11 @@ class EditActivityPointsForm(forms.Form):
         self.helper.layout = Layout()
         
         for event in initial:
-            self.helper.layout.append(event.event)
-        
+            try:
+                self.helper.layout.append(event.event)
+            except AttributeError:
+                self.helper.layout.append(event['event'])
+                
         self.helper.layout.append(     
                 Div(
                    Submit('submit', _(u'Update points'), css_class='btn btn-default'),

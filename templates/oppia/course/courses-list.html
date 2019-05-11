@@ -72,7 +72,8 @@
                 <td>
                     {% if course.can_edit %} 
                     	<a href="{% url 'oppia_course_edit' course.id %}" class="btn btn-default btn-primary">{% trans 'Edit' %}</a>
-                    	<a href="{% url 'oppia_gamification_edit_course_points' course.id %}" class="btn btn-default btn-primary">{% trans 'Update Points' %}</a>  
+                    	<a href="{% url 'oppia_gamification_edit_course_points' course.id %}" class="btn btn-default btn-primary">{% trans 'Update Course Points' %}</a>  
+                    	<a href="{% url 'oppia_gamification_view_activity_points' course.id %}" class="btn btn-default btn-primary">{% trans 'Update Activity Points' %}</a> 
                     {% endif %}
                 </td>
 			</tr>
