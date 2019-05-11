@@ -19,6 +19,7 @@ from oppia.models import Points, Course, Section, Activity
 from oppia.permissions import *
 
 from pydoc import doc
+from platform import node
 
 
 @staff_member_required
@@ -116,15 +117,15 @@ def edit_activity_points(request, course_id, activity_id):
     
 def load_course_points(request, doc, course):
     course_points = []
-    try:
-        for meta in doc.getElementsByTagName("meta")[:1]:
-            for event in meta.getElementsByTagName("gamification")[:1][0].getElementsByTagName("event"):
-                event_points = {}
-                event_points['event'] = event.getAttribute("name")
-                event_points['points'] = event.firstChild.nodeValue
-                course_points.append(event_points)
+    gamification_node = get_course_gamification_node(doc)
+    if gamification_node:
+        for event in gamification_node.getElementsByTagName("event"):
+            event_points = {}
+            event_points['event'] = event.getAttribute("name")
+            event_points['points'] = event.firstChild.nodeValue
+            course_points.append(event_points)
         return course_points
-    except IndexError: #xml does not have the gamification/events tag/s
+    else:
         initialise_course_points(request, course, OPPIA_DEFAULT_POINTS)
         return OPPIA_DEFAULT_POINTS
 
@@ -132,17 +133,14 @@ def save_course_points(request, form, course):
     
     doc = get_module_xml(course, 'a')
     
-    add_gamification_node = False
-    for x in form.cleaned_data:
-        try:
-            meta = doc.getElementsByTagName("meta")[:1][0]
-            for event in meta.getElementsByTagName("gamification")[:1][0].getElementsByTagName("event"):
+    gamification_node = get_course_gamification_node(doc)
+    
+    if gamification_node:
+        for x in form.cleaned_data:
+            for event in gamification_node.getElementsByTagName("event"):
                 if event.getAttribute("name") == x:
                     event.firstChild.nodeValue = form.cleaned_data[x]
-        except IndexError: #xml does not have the gamification/events tag/s
-            add_gamification_node = True
-    
-    if add_gamification_node:
+    else:
         meta = doc.getElementsByTagName("meta")[:1][0]
         gamification = doc.createElement("gamification")
         for x in form.cleaned_data:
@@ -176,8 +174,7 @@ def save_activity_points(request, form, course, activity):
     
     for activity_node in activity_nodes:
         if activity_node.getAttribute("digest") == activity.digest:
-            update_node = activity_node
-                
+            update_node = activity_node            
     if update_node == None:
         return
     
@@ -219,6 +216,13 @@ def get_module_xml(course, mode):
     zip.close()
     doc = xml.dom.minidom.parseString(xml_content)
     return doc
+
+def get_course_gamification_node(doc):
+    meta = doc.getElementsByTagName("meta")[:1][0]
+    for node in meta.childNodes:
+        if node.nodeType == node.ELEMENT_NODE and node.tagName == 'gamification':
+            return node
+    return None
   
 def rewrite_zip_file(request, course, doc):
     temp_zip_path = os.path.join(settings.COURSE_UPLOAD_DIR, 'temp', str(request.user.id))
