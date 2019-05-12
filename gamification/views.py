@@ -1,4 +1,5 @@
 
+import datetime
 import json
 import os
 import shutil
@@ -162,6 +163,7 @@ def save_course_points(request, form, course):
         course_game_event.save()
     
     rewrite_zip_file(request, course, doc)
+    update_course_version_no(request, course)
 
 def save_activity_points(request, form, course, activity):
     
@@ -207,7 +209,7 @@ def save_activity_points(request, form, course, activity):
         activity_game_event.save()
             
     rewrite_zip_file(request, course, doc)
-
+    update_course_version_no(request, course)
 
 def get_module_xml(course, mode): 
     course_zip_file = os.path.join(settings.COURSE_UPLOAD_DIR, course.filename)
@@ -224,6 +226,20 @@ def get_course_gamification_node(doc):
             return node
     return None
   
+def update_course_version_no(request, course):
+    new_version_id = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+    #update db
+    course.version = new_version_id
+    course.lastupdated_date = timezone.now()
+    course.save()
+    
+    #update module.xml
+    doc = get_module_xml(course, 'a')
+    meta = doc.getElementsByTagName("meta")[:1][0]
+    version_id = meta.getElementsByTagName("versionid")[0]
+    version_id.firstChild.nodeValue = new_version_id
+    rewrite_zip_file(request, course, doc)
+    
 def rewrite_zip_file(request, course, doc):
     temp_zip_path = os.path.join(settings.COURSE_UPLOAD_DIR, 'temp', str(request.user.id))
     module_xml = course.shortname + '/module.xml'
