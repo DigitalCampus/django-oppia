@@ -27,7 +27,6 @@ def apply_points(user):
 def signup_callback(sender, **kwargs):
 
     user = kwargs.get('instance')
-    created = kwargs.get('created')
     if not apply_points(user):
         return
 
