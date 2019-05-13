@@ -44,14 +44,14 @@ OPPIA_DEFAULT_POINTS = OPPIA_COURSE_DEFAULT_POINTS \
                          + OPPIA_MEDIA_DEFAULT_POINTS
                          
 GAMIFICATION_EVENT_HELPER = {
-        'media_started': {'label': _(u'Media started'), 'helper': _(u'')},
-        'media_playing_points_per_interval': {'label': _(u'Media points per interval'), 'helper': _(u'')},
-        'media_playing_interval': {'label': _(u'Media playing interval'), 'helper': _(u'')},
-        'media_max_points': {'label': _(u'Media max points'), 'helper': _(u'')},
-        'activity_completed': {'label': _(u'Activity Completed'), 'helper': _(u'')},
-        'quiz_first_attempt_bonus': {'label': _(u'Quiz first attempt bonus'), 'helper': _(u'')},
-        'quiz_first_attempt_threshold': {'label': _(u'Quiz first attempt threshold'), 'helper': _(u'')},
-        'quiz_attempt': {'label': _(u'Quiz attempt'), 'helper': _(u'')},
-        'quiz_first_attempt': {'label': _(u'Quiz first attempt'), 'helper': _(u'')},
+        'media_started': {'label': _(u'Media started'), 'helper': _(u'Number of points for opening media')},
+        'media_playing_points_per_interval': {'label': _(u'Media points per interval'), 'helper': _(u'Number of points per interval of having media open')},
+        'media_playing_interval': {'label': _(u'Media playing interval'), 'helper': _(u'Number of seconds to get the points per interval')},
+        'media_max_points': {'label': _(u'Media max points'), 'helper': _(u'Maximum number of points for any media play')},
+        'activity_completed': {'label': _(u'Activity Completed'), 'helper': _(u'Number of points for completing and activity')},
+        'quiz_first_attempt_bonus': {'label': _(u'Quiz first attempt bonus'), 'helper': _(u'Bonus points for getting above the threshold on first attempt at a quiz')},
+        'quiz_first_attempt_threshold': {'label': _(u'Quiz first attempt threshold'), 'helper': _(u'Threshold to get the first attempt bonus (should be 1-100)')},
+        'quiz_attempt': {'label': _(u'Quiz attempt'), 'helper': _(u'Number of points for attempting a quiz')},
+        'quiz_first_attempt': {'label': _(u'Quiz first attempt'), 'helper': _(u'Number of points for first attempt at a quiz')},
         'course_downloaded': {'label': _(u'Course downloaded'), 'helper': _(u'Number of points for downloading the course')},
     }
