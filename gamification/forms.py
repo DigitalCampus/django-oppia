@@ -1,10 +1,12 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Div
+
 from django import forms
 from django.conf import settings
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
+from gamification.default_points import *
 
 class EditCoursePointsForm(forms.Form):
 
@@ -12,8 +14,10 @@ class EditCoursePointsForm(forms.Form):
         initial = kwargs.pop('initial', None)
         
         super(EditCoursePointsForm, self).__init__( * args, ** kwargs)
-        for object in initial:
-            self.fields[object['event']] = forms.IntegerField(initial=int(object['points']), label=object['event'])
+        for event in initial:
+            self.fields[event['event']] = forms.IntegerField(initial=int(event['points']), 
+                                                             label=GAMIFICATION_EVENT_HELPER[event['event']]['label'],
+                                                             help_text= GAMIFICATION_EVENT_HELPER[event['event']]['helper'])
         
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
@@ -43,9 +47,13 @@ class EditActivityPointsForm(forms.Form):
         super(EditActivityPointsForm, self).__init__( * args, ** kwargs)
         for event in initial:
             try:
-                self.fields[event.event] = forms.IntegerField(initial=int(event.points), label=event.event)
+                self.fields[event.event] = forms.IntegerField(initial=int(event.points), 
+                                                              label=GAMIFICATION_EVENT_HELPER[event.event]['label'],
+                                                              help_text= GAMIFICATION_EVENT_HELPER[event.event]['helper'])
             except AttributeError:
-                self.fields[event['event']] = forms.IntegerField(initial=int(event['points']), label=event['event'])
+                self.fields[event['event']] = forms.IntegerField(initial=int(event['points']), 
+                                                                 label=GAMIFICATION_EVENT_HELPER[event['event']]['label'],
+                                                                 help_text= GAMIFICATION_EVENT_HELPER[event['event']]['helper'])
                 
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'

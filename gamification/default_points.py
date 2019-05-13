@@ -1,4 +1,6 @@
 
+from django.utils.translation import ugettext_lazy as _
+
 OPPIA_GLOBAL_DEFAULT_POINTS = [
         {'event': 'register', 
          'points': 100 }  # given when user first registers
@@ -34,9 +36,22 @@ OPPIA_MEDIA_DEFAULT_POINTS = [
          'points': 5 },  # no points per interval media is playing
         {'event': 'media_max_points', 
          'points': 200 }  # the maximum number of points available for any single media play
-    ]    
+    ]
     
 OPPIA_DEFAULT_POINTS = OPPIA_COURSE_DEFAULT_POINTS \
                          + OPPIA_QUIZ_DEFAULT_POINTS \
                          + OPPIA_ACTIVITY_DEFAULT_POINTS \
                          + OPPIA_MEDIA_DEFAULT_POINTS
+                         
+GAMIFICATION_EVENT_HELPER = {
+        'media_started': {'label': _(u'Media started'), 'helper': _(u'')},
+        'media_playing_points_per_interval': {'label': _(u'Media points per interval'), 'helper': _(u'')},
+        'media_playing_interval': {'label': _(u'Media playing interval'), 'helper': _(u'')},
+        'media_max_points': {'label': _(u'Media max points'), 'helper': _(u'')},
+        'activity_completed': {'label': _(u'Activity Completed'), 'helper': _(u'')},
+        'quiz_first_attempt_bonus': {'label': _(u'Quiz first attempt bonus'), 'helper': _(u'')},
+        'quiz_first_attempt_threshold': {'label': _(u'Quiz first attempt threshold'), 'helper': _(u'')},
+        'quiz_attempt': {'label': _(u'Quiz attempt'), 'helper': _(u'')},
+        'quiz_first_attempt': {'label': _(u'Quiz first attempt'), 'helper': _(u'')},
+        'course_downloaded': {'label': _(u'Course downloaded'), 'helper': _(u'Number of points for downloading the course')},
+    }
