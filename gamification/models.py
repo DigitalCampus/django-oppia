@@ -11,6 +11,33 @@ from oppia.models import Course, Activity, Media
 from quiz.models import Quiz
 
 
+class DefaultGamificationEvent(models.Model):
+    GLOBAL = 'global'
+    COURSE = 'course'
+    ACTIVITY = 'activity'
+    QUIZ = 'quiz'
+    MEDIA = 'media'
+    LEVELS = (
+        (GLOBAL, 'Global'),
+        (COURSE, 'Course'),
+        (ACTIVITY, 'Activity'),
+        (QUIZ, 'Quiz'),
+        (MEDIA, 'Media')
+    )
+    
+    event = models.CharField(max_length=100)
+    points = models.IntegerField()
+    level = models.CharField(max_length=20, choices=LEVELS)
+    label = models.CharField(max_length=100)
+    helper_text = models.TextField(null=True, default=None)
+
+    class Meta:
+        verbose_name = _(u'Default Gamification Event')
+        verbose_name_plural = _(u'Default Gamification Events')
+
+    def __unicode__(self):
+        return self.event
+    
 class CourseGamificationEvent(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)

@@ -6,7 +6,7 @@ from django.conf import settings
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
-from gamification.default_points import *
+from gamification.models import DefaultGamificationEvent
 
 class EditCoursePointsForm(forms.Form):
 
@@ -15,9 +15,15 @@ class EditCoursePointsForm(forms.Form):
         
         super(EditCoursePointsForm, self).__init__( * args, ** kwargs)
         for event in initial:
-            self.fields[event['event']] = forms.IntegerField(initial=int(event['points']), 
-                                                             label=GAMIFICATION_EVENT_HELPER[event['event']]['label'],
-                                                             help_text= GAMIFICATION_EVENT_HELPER[event['event']]['helper'])
+            try:
+                self.fields[event.event] = forms.IntegerField(initial=event.points, 
+                                                              label=event.label,
+                                                              help_text= event.helper_text)
+            except AttributeError:
+                default_event = DefaultGamificationEvent.objects.get(event=event.event)
+                self.fields[event.event] = forms.IntegerField(initial=event.points, 
+                                                              label=default_event.label,
+                                                              help_text= default_event.helper_text)
         
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
@@ -26,7 +32,7 @@ class EditCoursePointsForm(forms.Form):
         self.helper.layout = Layout()
         
         for object in initial:
-            self.helper.layout.append(object['event'])
+            self.helper.layout.append(object.event)
         
         self.helper.layout.append(     
                 Div(
@@ -47,13 +53,15 @@ class EditActivityPointsForm(forms.Form):
         super(EditActivityPointsForm, self).__init__( * args, ** kwargs)
         for event in initial:
             try:
+                default_event = DefaultGamificationEvent.objects.get(event=event.event)
                 self.fields[event.event] = forms.IntegerField(initial=int(event.points), 
-                                                              label=GAMIFICATION_EVENT_HELPER[event.event]['label'],
-                                                              help_text= GAMIFICATION_EVENT_HELPER[event.event]['helper'])
+                                                              label=default_event.label,
+                                                              help_text= default_event.helper_text)
             except AttributeError:
-                self.fields[event['event']] = forms.IntegerField(initial=int(event['points']), 
-                                                                 label=GAMIFICATION_EVENT_HELPER[event['event']]['label'],
-                                                                 help_text= GAMIFICATION_EVENT_HELPER[event['event']]['helper'])
+                default_event = DefaultGamificationEvent.objects.get(event=event.event)
+                self.fields[event.event.event] = forms.IntegerField(initial=int(event.points), 
+                                                                 label=default_event.label,
+                                                                 help_text= default_event.helper_text)
                 
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'

@@ -13,7 +13,6 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
 
-from gamification.default_points import *
 from gamification.forms import EditCoursePointsForm, EditActivityPointsForm
 from gamification.models import *
 from oppia.models import Points, Course, Section, Activity
@@ -60,7 +59,7 @@ def edit_course_points(request, course_id):
     if not can_edit_course(request, course_id):
         raise exceptions.PermissionDenied
     
-    course = Course.objects.get(id=course_id)
+    course = get_object_or_404(Course, pk=course_id)
     doc = get_module_xml(course, 'r')
     current_points = load_course_points(request, doc, course)  
     
@@ -80,7 +79,7 @@ def edit_course_points(request, course_id):
 def course_points_updated(request, course_id):
     if not can_edit_course(request, course_id):
         raise exceptions.PermissionDenied
-    course = Course.objects.get(id=course_id)
+    course = get_object_or_404(Course, pk=course_id)
     return render(request, 'oppia/gamification/course-points-updated.html',
                               {'course': course })
 
@@ -89,7 +88,7 @@ def view_activity_points(request, course_id):
     if not can_edit_course(request, course_id):
         raise exceptions.PermissionDenied
     
-    course = Course.objects.get(id=course_id)
+    course = get_object_or_404(Course, pk=course_id)
     sections = Section.objects.filter(course=course).order_by('order')
     
     return render(request, 'oppia/gamification/view-activity-points.html',
@@ -100,8 +99,8 @@ def edit_activity_points(request, course_id, activity_id):
     if not can_edit_course(request, course_id):
         raise exceptions.PermissionDenied
     
-    course = Course.objects.get(id=course_id)
-    activity = Activity.objects.get(id=activity_id)
+    course = get_object_or_404(Course, pk=course_id)
+    activity = get_object_or_404(Activity, pk=activity_id, section__course=course)
     
     if request.method == 'POST':
         form = EditActivityPointsForm(request.POST, initial = activity.get_event_points()['events'])
@@ -117,18 +116,13 @@ def edit_activity_points(request, course_id, activity_id):
                                'form': form })
     
 def load_course_points(request, doc, course):
-    course_points = []
-    gamification_node = get_course_gamification_node(doc)
-    if gamification_node:
-        for event in gamification_node.getElementsByTagName("event"):
-            event_points = {}
-            event_points['event'] = event.getAttribute("name")
-            event_points['points'] = event.firstChild.nodeValue
-            course_points.append(event_points)
-        return course_points
+    course_custom_points = CourseGamificationEvent.objects.filter(course=course)
+    if course_custom_points.count() > 0:
+        return course_custom_points
     else:
-        initialise_course_points(request, course, OPPIA_DEFAULT_POINTS)
-        return OPPIA_DEFAULT_POINTS
+        course_default_points = DefaultGamificationEvent.objects.exclude(level=DefaultGamificationEvent.GLOBAL)
+        initialise_course_points(request, course, course_default_points)
+        return course_default_points
 
 def save_course_points(request, form, course):
     
@@ -273,6 +267,6 @@ def initialise_course_points(request, course, course_points):
         course_game_event = CourseGamificationEvent()
         course_game_event.user = request.user
         course_game_event.course = course
-        course_game_event.event = event['event']
-        course_game_event.points = event['points']
+        course_game_event.event = event.event
+        course_game_event.points = event.points
         course_game_event.save()
