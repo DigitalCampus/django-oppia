@@ -388,7 +388,7 @@ class Tracker(models.Model):
             track.setAttribute('completed', str(t.completed))
             track.setAttribute('type', t.type)
             track.setAttribute('event', t.event)
-            track.setAttribute('points', t.points)
+            track.setAttribute('points', str(t.points))
             if t.type == 'quiz':
                 try:
                     quiz = doc.createElement('quiz')
@@ -400,7 +400,7 @@ class Tracker(models.Model):
                     quiz.setAttribute('passed', str(t.completed))
                     quiz.setAttribute("course", course.shortname)
                     quiz.setAttribute("event", quiz_attempt[0].event)
-                    quiz.setAttribute("points", quiz_attempt[0].points)
+                    quiz.setAttribute("points", str(quiz_attempt[0].points))
                     track.appendChild(quiz)
                 except ValueError:
                     pass
