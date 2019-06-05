@@ -246,7 +246,7 @@ def rewrite_zip_file(request, course, doc):
     remove_from_zip(course_zip_file, temp_zip_path, course.shortname, module_xml)
     
     with zipfile.ZipFile(course_zip_file, 'a') as z:
-        z.writestr(module_xml, doc.toprettyxml(indent='',newl='\n'))
+        z.writestr(module_xml, doc.toprettyxml(indent='',newl=''))
        
 def remove_from_zip(zipfname, temp_zip_path, course_shortname, *filenames):
     try:
