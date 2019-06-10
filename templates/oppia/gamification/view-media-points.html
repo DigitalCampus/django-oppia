@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{{ course.title|title_lang:LANGUAGE_CODE }}
+{% endblock extra_head_title %}
+
+
+{% block content %}
+
+    <div class="container">
+		<h2>{{ course.title|title_lang:LANGUAGE_CODE }} - {% trans "Edit Media Points" %}</h2> 
+	    
+	    <div class="row">
+	    	<div class="col-md-11">{% include "includes/messages.html" %}</div>
+	    </div>
+	    
+	    <div class="table-responsive">
+	         <table class="table table-striped-expandable">
+	         	 <thead>
+	                <tr>
+	                  <th>{% trans 'Title' %}</th>
+	                  <th>{% trans 'Events and Points' %}</th>
+	                  <th>{% trans 'Source' %}</th>
+	                  <th>{% trans 'Options' %}</th>
+	                </tr>
+	              </thead>
+	              <tbody>
+	    {% for m in media %}
+	    	
+	    		<tr>
+	    		<td>{{ m.filename }}</td>
+	    			<td>
+	    			{% for event in m.get_event_points.events %}
+	    				{{ event.event }} - {{ event.points }}<br/>
+	    			{% endfor %}</td>
+	    		<td>{{ m.get_event_points.source }}</td>
+	    		<td><a href="{% url 'oppia_gamification_edit_media_points' course.id m.id %}" class="btn btn-default btn-primary">{% trans 'Edit' %}</a></td>
+	    		</tr>
+			 	
+	   {% endfor %}
+	    	 </tbody>
+		 		</table>
+			</div>  
+		    
+	
+	</div>
+	
+{% endblock %}

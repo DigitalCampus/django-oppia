@@ -13,7 +13,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
 
-from gamification.forms import EditCoursePointsForm, EditActivityPointsForm
+from gamification.forms import EditCoursePointsForm, EditActivityPointsForm, EditMediaPointsForm
 from gamification.models import *
 from oppia.models import Points, Course, Section, Activity
 from oppia.permissions import *
@@ -114,6 +114,38 @@ def edit_activity_points(request, course_id, activity_id):
                               {'course': course,
                                'activity': activity,
                                'form': form })
+ 
+ 
+def view_media_points(request, course_id):
+    if not can_edit_course(request, course_id):
+        raise exceptions.PermissionDenied
+    
+    course = get_object_or_404(Course, pk=course_id)
+    media = Media.objects.filter(course=course)
+    
+    return render(request, 'oppia/gamification/view-media-points.html',
+                              {'course': course,
+                               'media': media }) 
+
+def edit_media_points(request, course_id, media_id):
+    if not can_edit_course(request, course_id):
+        raise exceptions.PermissionDenied
+    
+    course = get_object_or_404(Course, pk=course_id)
+    media = get_object_or_404(Media, pk=media_id)
+    
+    if request.method == 'POST':
+        form = EditMediaPointsForm(request.POST, initial = media.get_event_points()['events'])
+        if form.is_valid():
+            save_media_points(request, form, course, media)
+            return HttpResponseRedirect(reverse('oppia_gamification_view_media_points', args=[course_id]))  # Redirect after POST
+    else:
+        form = EditMediaPointsForm(initial = media.get_event_points()['events'])
+    
+    return render(request, 'oppia/gamification/edit-media-points.html',
+                              {'course': course,
+                               'media': media,
+                               'form': form })
     
 def load_course_points(request, doc, course):
     course_custom_points = CourseGamificationEvent.objects.filter(course=course)
@@ -205,6 +237,59 @@ def save_activity_points(request, form, course, activity):
     rewrite_zip_file(request, course, doc)
     update_course_version_no(request, course)
 
+
+def save_media_points(request, form, course, media):
+    
+    doc = get_module_xml(course, 'a')
+    
+    add_gamification_node = False
+
+    media_element_list = [node for node in doc.firstChild.childNodes if node.nodeName == 'media']
+    media_element = None
+    if len(media_element_list) > 0:
+        media_element = media_element_list[0]
+
+    update_node = None
+    
+    for file_node in media_element.childNodes:
+        if file_node.nodeName == 'file' and file_node.getAttribute("digest") == media.digest:
+            update_node = file_node            
+    if update_node == None:
+        return
+    
+    try:
+        for x in form.cleaned_data:
+            for event in update_node.getElementsByTagName("gamification")[:1][0].getElementsByTagName("event"):
+                if event.getAttribute("name") == x:
+                    event.firstChild.nodeValue = form.cleaned_data[x]
+    except IndexError: #xml does not have the gamification/events tag/s
+        add_gamification_node = True
+
+    if add_gamification_node:
+        gamification = doc.createElement("gamification")
+        for x in form.cleaned_data:
+            event = doc.createElement("event")
+            event.setAttribute("name", x)
+            value = doc.createTextNode(str(form.cleaned_data[x]))
+            event.appendChild(value)
+            gamification.appendChild(event)
+        update_node.appendChild(gamification)
+    
+    # update the gamification tables
+    MediaGamificationEvent.objects.filter(media=media).delete()
+    for x in form.cleaned_data:
+        media_game_event = MediaGamificationEvent()
+        media_game_event.user = request.user
+        media_game_event.media = media
+        media_game_event.event = x
+        media_game_event.points = form.cleaned_data[x]
+        media_game_event.save()
+            
+    rewrite_zip_file(request, course, doc)
+    update_course_version_no(request, course)
+
+
+
 def get_module_xml(course, mode): 
     course_zip_file = os.path.join(settings.COURSE_UPLOAD_DIR, course.filename)
     zip = zipfile.ZipFile(course_zip_file, mode)
@@ -217,6 +302,12 @@ def get_course_gamification_node(doc):
     meta = doc.getElementsByTagName("meta")[:1][0]
     for node in meta.childNodes:
         if node.nodeType == node.ELEMENT_NODE and node.tagName == 'gamification':
+            return node
+    return None
+
+def findChildNodeByName(parent, name):
+    for node in parent.childNodes:
+        if node.nodeType == node.ELEMENT_NODE and node.localName == name:
             return node
     return None
   
