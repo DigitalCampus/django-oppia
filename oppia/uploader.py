@@ -13,8 +13,7 @@ from django.contrib import messages
 from django.utils import timezone
 from django.utils.translation import ugettext as _
 
-from gamification.models import CourseGamificationEvent, ActivityGamificationEvent, MediaGamificationEvent, \
-    QuizGamificationEvent
+from gamification.models import CourseGamificationEvent, ActivityGamificationEvent, MediaGamificationEvent
 from oppia.models import Course, Section, Activity, Media
 from quiz.models import Quiz, Question, QuizQuestion, Response, ResponseProps, QuestionProps, QuizProps
 
@@ -336,12 +335,12 @@ def parse_and_save_quiz(req, user, activity, act_xml):
         except Activity.DoesNotExist:
             updated_content = create_quiz(user, quiz_obj, act_xml)
     else:
-        updated_content = create_quiz(user, quiz_obj, act_xml)
+        updated_content = create_quiz(user, quiz_obj, act_xml, activity)
 
     return updated_content
 
 
-def create_quiz(user, quiz_obj, act_xml):
+def create_quiz(user, quiz_obj, act_xml, activity):
 
     quiz = Quiz()
     quiz.owner = user
@@ -353,10 +352,10 @@ def create_quiz(user, quiz_obj, act_xml):
     if act_xml.getElementsByTagName('gamification')[:1]:
         events = parse_gamification_events(act_xml.getElementsByTagName('gamification')[0])
         # remove anything existing for this course
-        QuizGamificationEvent.objects.filter(quiz=quiz).delete()
+        ActivityGamificationEvent.objects.filter(activity=activity).delete()
         # add new
         for event in events:
-            e = QuizGamificationEvent(user=user, quiz=quiz, event=event['name'], points=event['points'])
+            e = ActivityGamificationEvent(user=user, activity=activity, event=event['name'], points=event['points'])
             e.save()
 
     quiz_obj['id'] = quiz.pk

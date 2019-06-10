@@ -82,17 +82,3 @@ class MediaGamificationEvent(models.Model):
     def __unicode__(self):
         return self.event
 
-
-class QuizGamificationEvent(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
-    created_date = models.DateTimeField('date created', default=timezone.now)
-    event = models.CharField(max_length=100)
-    points = models.IntegerField()
-
-    class Meta:
-        verbose_name = _(u'Quiz Gamification Event')
-        verbose_name_plural = _(u'Quiz Gamification Events')
-
-    def __unicode__(self):
-        return self.event
