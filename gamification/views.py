@@ -149,7 +149,7 @@ def edit_media_points(request, course_id, media_id):
     
 def load_course_points(request, doc, course):
     course_custom_points = CourseGamificationEvent.objects.filter(course=course)
-    if course_custom_points.count() > 0:
+    if len(course_custom_points) > 0:
         return course_custom_points
     else:
         course_default_points = DefaultGamificationEvent.objects.exclude(level=DefaultGamificationEvent.GLOBAL)
