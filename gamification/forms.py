@@ -20,10 +20,9 @@ class EditCoursePointsForm(forms.Form):
                                                               label=event.label,
                                                               help_text= event.helper_text)
             except AttributeError:
-                default_event = DefaultGamificationEvent.objects.get(event=event.event)
                 self.fields[event.event] = forms.IntegerField(initial=event.points, 
-                                                              label=default_event.label,
-                                                              help_text= default_event.helper_text)
+                                                              label=event.get_label(),
+                                                              help_text= event.get_helper_text())
         
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
@@ -53,15 +52,14 @@ class EditActivityPointsForm(forms.Form):
         super(EditActivityPointsForm, self).__init__( * args, ** kwargs)
         for event in initial:
             try:
-                default_event = DefaultGamificationEvent.objects.get(event=event.event)
                 self.fields[event.event] = forms.IntegerField(initial=int(event.points), 
-                                                              label=default_event.label,
-                                                              help_text= default_event.helper_text)
+                                                              label=event.get_label(),
+                                                              help_text= event.get_helper_text())
             except AttributeError:
                 default_event = DefaultGamificationEvent.objects.get(event=event.event)
                 self.fields[event.event.event] = forms.IntegerField(initial=int(event.points), 
                                                                  label=default_event.label,
-                                                                 help_text= default_event.helper_text)
+                                                                 help_text= event.get_helper_text())
                 
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
@@ -93,15 +91,14 @@ class EditMediaPointsForm(forms.Form):
         super(EditMediaPointsForm, self).__init__( * args, ** kwargs)
         for event in initial:
             try:
-                default_event = DefaultGamificationEvent.objects.get(event=event.event)
                 self.fields[event.event] = forms.IntegerField(initial=int(event.points), 
-                                                              label=default_event.label,
-                                                              help_text= default_event.helper_text)
+                                                              label=event.get_label(),
+                                                              help_text= event.get_helper_text())
             except AttributeError:
                 default_event = DefaultGamificationEvent.objects.get(event=event.event)
                 self.fields[event.event.event] = forms.IntegerField(initial=int(event.points), 
-                                                                 label=default_event.label,
-                                                                 help_text= default_event.helper_text)
+                                                                 label=event.get_label(),
+                                                                 help_text= event.get_helper_text())
                 
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
