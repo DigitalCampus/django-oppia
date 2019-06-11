@@ -268,7 +268,7 @@ class Activity(models.Model):
         
         # first check if there are specific points for this activity
         activity_custom_points = ActivityGamificationEvent.objects.filter(activity=self)
-        if activity_custom_points.count() > 0:
+        if len(activity_custom_points) > 0:
             source = _('Custom Points')
             return { 'events': activity_custom_points, 'source': source }
         
@@ -276,7 +276,7 @@ class Activity(models.Model):
         if self.type == self.PAGE:
             course_custom_points = CourseGamificationEvent.objects.filter(course__section__activity=self, event__startswith='activity_')
             
-            if course_custom_points.count() > 0:
+            if len(course_custom_points) > 0:
                 source = _('Inherited from course')
                 return { 'events': course_custom_points, 'source': source }
             else:
@@ -286,7 +286,7 @@ class Activity(models.Model):
             
         if self.type == self.QUIZ:
             course_custom_points = CourseGamificationEvent.objects.filter(course__section__activity=self, event__startswith='quiz_')
-            if course_custom_points.count() > 0:
+            if len(course_custom_points) > 0:
                 source = _('Inherited from course')
                 return { 'events': course_custom_points, 'source': source }
             else:
