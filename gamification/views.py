@@ -15,6 +15,7 @@ from django.utils import timezone
 
 from gamification.forms import EditCoursePointsForm, EditActivityPointsForm, EditMediaPointsForm
 from gamification.models import *
+from gamification.xml_writer import GamificationXMLWriter
 from oppia.models import Points, Course, Section, Activity
 from oppia.permissions import *
 
@@ -55,13 +56,13 @@ def leaderboard_export(request, course_id=None):
 
     return JsonResponse(response_data)
 
+
 def edit_course_points(request, course_id):
     if not can_edit_course(request, course_id):
         raise exceptions.PermissionDenied
     
     course = get_object_or_404(Course, pk=course_id)
-    doc = get_module_xml(course, 'r')
-    current_points = load_course_points(request, doc, course)  
+    current_points = load_course_points(request, course)
     
     if request.method == 'POST':
         form = EditCoursePointsForm(request.POST, initial = current_points)
@@ -94,6 +95,7 @@ def view_activity_points(request, course_id):
     return render(request, 'oppia/gamification/view-activity-points.html',
                               {'course': course,
                                'sections': sections })
+
 
 def edit_activity_points(request, course_id, activity_id):
     if not can_edit_course(request, course_id):
@@ -146,8 +148,9 @@ def edit_media_points(request, course_id, media_id):
                               {'course': course,
                                'media': media,
                                'form': form })
-    
-def load_course_points(request, doc, course):
+
+
+def load_course_points(request, course):
     course_custom_points = CourseGamificationEvent.objects.filter(course=course)
     if len(course_custom_points) > 0:
         return course_custom_points
@@ -155,176 +158,6 @@ def load_course_points(request, doc, course):
         course_default_points = DefaultGamificationEvent.objects.exclude(level=DefaultGamificationEvent.GLOBAL)
         initialise_course_points(request, course, course_default_points)
         return course_default_points
-
-def save_course_points(request, form, course):
-    
-    doc = get_module_xml(course, 'a')
-    
-    gamification_node = get_course_gamification_node(doc)
-    
-    if gamification_node:
-        for x in form.cleaned_data:
-            for event in gamification_node.getElementsByTagName("event"):
-                if event.getAttribute("name") == x:
-                    event.firstChild.nodeValue = form.cleaned_data[x]
-    else:
-        meta = doc.getElementsByTagName("meta")[:1][0]
-        gamification = doc.createElement("gamification")
-        for x in form.cleaned_data:
-            event = doc.createElement("event")
-            event.setAttribute("name", x)
-            value = doc.createTextNode(str(form.cleaned_data[x]))
-            event.appendChild(value)
-            gamification.appendChild(event)
-        meta.appendChild(gamification)
-    
-    # update the gamification tables
-    CourseGamificationEvent.objects.filter(course=course).delete()
-    for x in form.cleaned_data:
-        course_game_event = CourseGamificationEvent()
-        course_game_event.user = request.user
-        course_game_event.course = course
-        course_game_event.event = x
-        course_game_event.points = form.cleaned_data[x]
-        course_game_event.save()
-    
-    rewrite_zip_file(request, course, doc)
-    update_course_version_no(request, course)
-
-def save_activity_points(request, form, course, activity):
-    
-    doc = get_module_xml(course, 'a')
-    
-    add_gamification_node = False
-
-    activity_nodes = doc.getElementsByTagName("activity")
-    update_node = None
-    
-    for activity_node in activity_nodes:
-        if activity_node.getAttribute("digest") == activity.digest:
-            update_node = activity_node            
-    if update_node == None:
-        return
-    
-    try:
-        for x in form.cleaned_data:
-            for event in update_node.getElementsByTagName("gamification")[:1][0].getElementsByTagName("event"):
-                if event.getAttribute("name") == x:
-                    event.firstChild.nodeValue = form.cleaned_data[x]
-    except IndexError: #xml does not have the gamification/events tag/s
-        add_gamification_node = True
-
-    if add_gamification_node:
-        gamification = doc.createElement("gamification")
-        for x in form.cleaned_data:
-            event = doc.createElement("event")
-            event.setAttribute("name", x)
-            value = doc.createTextNode(str(form.cleaned_data[x]))
-            event.appendChild(value)
-            gamification.appendChild(event)
-        update_node.appendChild(gamification)
-    
-    # update the gamification tables
-    ActivityGamificationEvent.objects.filter(activity=activity).delete()
-    for x in form.cleaned_data:
-        activity_game_event = ActivityGamificationEvent()
-        activity_game_event.user = request.user
-        activity_game_event.activity = activity
-        activity_game_event.event = x
-        activity_game_event.points = form.cleaned_data[x]
-        activity_game_event.save()
-            
-    rewrite_zip_file(request, course, doc)
-    update_course_version_no(request, course)
-
-
-def save_media_points(request, form, course, media):
-    
-    doc = get_module_xml(course, 'a')
-    
-    add_gamification_node = False
-
-    media_element_list = [node for node in doc.firstChild.childNodes if node.nodeName == 'media']
-    media_element = None
-    if len(media_element_list) > 0:
-        media_element = media_element_list[0]
-
-    update_node = None
-    
-    for file_node in media_element.childNodes:
-        if file_node.nodeName == 'file' and file_node.getAttribute("digest") == media.digest:
-            update_node = file_node            
-    if update_node == None:
-        return
-    
-    try:
-        for x in form.cleaned_data:
-            for event in update_node.getElementsByTagName("gamification")[:1][0].getElementsByTagName("event"):
-                if event.getAttribute("name") == x:
-                    event.firstChild.nodeValue = form.cleaned_data[x]
-    except IndexError: #xml does not have the gamification/events tag/s
-        add_gamification_node = True
-
-    if add_gamification_node:
-        gamification = doc.createElement("gamification")
-        for x in form.cleaned_data:
-            event = doc.createElement("event")
-            event.setAttribute("name", x)
-            value = doc.createTextNode(str(form.cleaned_data[x]))
-            event.appendChild(value)
-            gamification.appendChild(event)
-        update_node.appendChild(gamification)
-    
-    # update the gamification tables
-    MediaGamificationEvent.objects.filter(media=media).delete()
-    for x in form.cleaned_data:
-        media_game_event = MediaGamificationEvent()
-        media_game_event.user = request.user
-        media_game_event.media = media
-        media_game_event.event = x
-        media_game_event.points = form.cleaned_data[x]
-        media_game_event.save()
-            
-    rewrite_zip_file(request, course, doc)
-    update_course_version_no(request, course)
-
-
-
-def get_module_xml(course, mode): 
-    course_zip_file = os.path.join(settings.COURSE_UPLOAD_DIR, course.filename)
-    zip = zipfile.ZipFile(course_zip_file, mode)
-    xml_content = zip.read(course.shortname + "/module.xml")
-    zip.close()
-    doc = xml.dom.minidom.parseString(xml_content)
-    return doc
-
-def get_course_gamification_node(doc):
-    meta = doc.getElementsByTagName("meta")[:1][0]
-    for node in meta.childNodes:
-        if node.nodeType == node.ELEMENT_NODE and node.tagName == 'gamification':
-            return node
-    return None
-
-def findChildNodeByName(parent, name):
-    for node in parent.childNodes:
-        if node.nodeType == node.ELEMENT_NODE and node.localName == name:
-            return node
-    return None
-  
-def update_course_version_no(request, course):
-    new_version_id = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-    #update db
-    course.version = new_version_id
-    course.lastupdated_date = timezone.now()
-    course.save()
-    
-    #update module.xml
-    doc = get_module_xml(course, 'a')
-    meta = doc.getElementsByTagName("meta")[:1][0]
-    version_id = meta.getElementsByTagName("versionid")[0]
-    version_id.firstChild.nodeValue = new_version_id
-    rewrite_zip_file(request, course, doc)
-
 
 
 def initialise_course_points(request, course, course_points):
@@ -336,3 +169,51 @@ def initialise_course_points(request, course, course_points):
         course_game_event.event = event.event
         course_game_event.points = event.points
         course_game_event.save()
+
+
+def save_course_points(request, form, course):
+    # update the gamification tables
+    CourseGamificationEvent.objects.filter(course=course).delete()
+    for x in form.cleaned_data:
+        course_game_event = CourseGamificationEvent()
+        course_game_event.user = request.user
+        course_game_event.course = course
+        course_game_event.event = x
+        course_game_event.points = form.cleaned_data[x]
+        course_game_event.save()
+
+    writer = GamificationXMLWriter(course)
+    new_version = writer.update_gamification(request.user)
+
+
+def save_activity_points(request, form, course, activity):
+    # update the gamification tables
+    ActivityGamificationEvent.objects.filter(activity=activity).delete()
+    for x in form.cleaned_data:
+        activity_game_event = ActivityGamificationEvent()
+        activity_game_event.user = request.user
+        activity_game_event.activity = activity
+        activity_game_event.event = x
+        activity_game_event.points = form.cleaned_data[x]
+        activity_game_event.save()
+
+    writer = GamificationXMLWriter(course)
+    new_version = writer.update_gamification(request.user)
+
+
+def save_media_points(request, form, course, media):
+    MediaGamificationEvent.objects.filter(media=media).delete()
+    for x in form.cleaned_data:
+        media_game_event = MediaGamificationEvent()
+        media_game_event.user = request.user
+        media_game_event.media = media
+        media_game_event.event = x
+        media_game_event.points = form.cleaned_data[x]
+        media_game_event.save()
+
+    writer = GamificationXMLWriter(course)
+    new_version = writer.update_gamification(request.user)
+
+
+
+
