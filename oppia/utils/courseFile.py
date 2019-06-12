@@ -20,7 +20,7 @@ def remove_from_zip(zipfname, temp_zip_path, course_shortname, *filenames):
         shutil.rmtree(temp_zip_path)
 
 
-def rewrite_xml_contents(user, course, doc):
+def rewrite_xml_contents(user, course, xml_doc):
     temp_zip_path = os.path.join(settings.COURSE_UPLOAD_DIR, 'temp', str(user.id))
     module_xml = course.shortname + '/module.xml'
     try:
@@ -31,7 +31,7 @@ def rewrite_xml_contents(user, course, doc):
     course_zip_file = os.path.join(settings.COURSE_UPLOAD_DIR, course.filename)
     remove_from_zip(course_zip_file, temp_zip_path, course.shortname, module_xml)
 
-    xml_content = doc.toprettyxml(indent='', newl='', encoding='utf-8')
+    xml_content = xml_doc.toprettyxml(indent='', newl='', encoding='utf-8')
 
     with zipfile.ZipFile(course_zip_file, 'a') as z:
         z.writestr(module_xml, xml_content)
