@@ -72,7 +72,7 @@ class GamificationEvent(models.Model):
 
 
 class CourseGamificationEvent(GamificationEvent):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='gamification_events')
 
     class Meta:
         verbose_name = _(u'Course Gamification Event')
@@ -80,7 +80,7 @@ class CourseGamificationEvent(GamificationEvent):
 
 
 class ActivityGamificationEvent(GamificationEvent):
-    activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
+    activity = models.ForeignKey(Activity, on_delete=models.CASCADE, related_name='gamification_events')
 
     class Meta:
         verbose_name = _(u'Activity Gamification Event')
@@ -88,7 +88,7 @@ class ActivityGamificationEvent(GamificationEvent):
 
 
 class MediaGamificationEvent(GamificationEvent):
-    media = models.ForeignKey(Media, on_delete=models.CASCADE)
+    media = models.ForeignKey(Media, on_delete=models.CASCADE, related_name='gamification_events')
 
     class Meta:
         verbose_name = _(u'Media Gamification Event')

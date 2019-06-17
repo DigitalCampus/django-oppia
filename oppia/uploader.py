@@ -14,6 +14,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext as _
 
 from gamification.models import CourseGamificationEvent, ActivityGamificationEvent, MediaGamificationEvent
+from gamification.xml_writer import GamificationXMLWriter
 from oppia.models import Course, Section, Activity, Media
 from quiz.models import Quiz, Question, QuizQuestion, Response, ResponseProps, QuestionProps, QuizProps
 
@@ -106,12 +107,16 @@ def process_course(extract_path, f, mod_name, request, user):
     # save gamification events
     if 'gamification' in meta_info:
         events = parse_gamification_events(meta_info['gamification'])
-        # remove anything existing for this course
-        CourseGamificationEvent.objects.filter(course=course).delete()
-        # add new
         for event in events:
-            e = CourseGamificationEvent(user=user, course=course, event=event['name'], points=event['points'])
-            e.save()
+            # Only add events if the didn't exist previously
+            e, created = CourseGamificationEvent.objects.get_or_create(
+                course=course, event=event['name'],
+                defaults={'points': event['points'], 'user': request.user})
+
+            if created:
+                messages.info(request, _('Gamification for "%(event)s" at course level added') % {'event': e.event})
+
+
 
     process_quizzes_locally = False
     if 'exportversion' in meta_info and meta_info['exportversion'] >= settings.OPPIA_EXPORT_LOCAL_MINVERSION:
@@ -127,6 +132,9 @@ def process_course(extract_path, f, mod_name, request, user):
 
     course_preview_path = settings.MEDIA_ROOT + "courses/"
     ZipFile(zipfilepath).extractall(path=course_preview_path)
+
+    writer = GamificationXMLWriter(course)
+    writer.update_gamification(request.user)
 
     return course, 200
 
@@ -204,12 +212,17 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
                     # save gamification events
                     if file_element.getElementsByTagName('gamification')[:1]:
                         events = parse_gamification_events(file_element.getElementsByTagName('gamification')[0])
-                        # remove anything existing for this course
-                        MediaGamificationEvent.objects.filter(media=media).delete()
-                        # add new
+
                         for event in events:
-                            e = MediaGamificationEvent(user=user, media=media, event=event['name'], points=event['points'])
-                            e.save()
+                            # Only add events if the didn't exist previously
+                            e, created = MediaGamificationEvent.objects.get_or_create(
+                                media=media, event=event['name'],
+                                defaults={'points': event['points'], 'user': req.user})
+
+                            if created:
+                                messages.info(req, _('Gamification for "%(event)s" at course level added') % {
+                                    'event': e.event})
+
 
 
 def parse_and_save_activity(req, user, section, act, new_course, process_quiz_locally, is_baseline=False):
@@ -295,12 +308,16 @@ def parse_and_save_activity(req, user, section, act, new_course, process_quiz_lo
     # save gamification events
     if act.getElementsByTagName('gamification')[:1]:
         events = parse_gamification_events(act.getElementsByTagName('gamification')[0])
-        # remove anything existing for this course
-        ActivityGamificationEvent.objects.filter(activity=activity).delete()
-        # add new
         for event in events:
-            e = ActivityGamificationEvent(user=user, activity=activity, event=event['name'], points=event['points'])
-            e.save()
+
+            e, created = ActivityGamificationEvent.objects.get_or_create(
+                activity=activity, event=event['name'],
+                defaults={'points': event['points'], 'user': req.user})
+
+            if created:
+                messages.info(req, _('Gamification for "%(event)s" at activity "%(act)s" added') % {
+                    'event': e.event, 'act':activity})
+
 
 
 def parse_and_save_quiz(req, user, activity, act_xml):
@@ -333,30 +350,20 @@ def parse_and_save_quiz(req, user, activity, act_xml):
             quiz_act = Activity.objects.get(digest=quiz_digest)
             updated_content = quiz_act.content
         except Activity.DoesNotExist:
-            updated_content = create_quiz(user, quiz_obj, act_xml)
+            updated_content = create_quiz(req, quiz_obj, act_xml, activity)
     else:
-        updated_content = create_quiz(user, quiz_obj, act_xml, activity)
+        updated_content = create_quiz(req, quiz_obj, act_xml, activity)
 
     return updated_content
 
 
-def create_quiz(user, quiz_obj, act_xml, activity):
+def create_quiz(req, quiz_obj, act_xml, activity=None):
 
     quiz = Quiz()
-    quiz.owner = user
+    quiz.owner = req.user
     quiz.title = quiz_obj['title']
     quiz.description = quiz_obj['description']
     quiz.save()
-
-    # save gamification events
-    if act_xml.getElementsByTagName('gamification')[:1]:
-        events = parse_gamification_events(act_xml.getElementsByTagName('gamification')[0])
-        # remove anything existing for this course
-        ActivityGamificationEvent.objects.filter(activity=activity).delete()
-        # add new
-        for event in events:
-            e = ActivityGamificationEvent(user=user, activity=activity, event=event['name'], points=event['points'])
-            e.save()
 
     quiz_obj['id'] = quiz.pk
 
@@ -364,7 +371,7 @@ def create_quiz(user, quiz_obj, act_xml, activity):
     create_quiz_props(quiz, quiz_obj)
 
     # add quiz questions
-    create_quiz_questions(user, quiz, quiz_obj)
+    create_quiz_questions(req.user, quiz, quiz_obj)
 
     return json.dumps(quiz_obj)
 
