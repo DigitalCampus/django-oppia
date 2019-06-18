@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{{ course.title|title_lang:LANGUAGE_CODE }}
+{% endblock extra_head_title %}
+
+
+{% block content %}
+
+    <div class="container">
+		<h2>{{ course.title|title_lang:LANGUAGE_CODE }} - Gamification </h2>
+	    
+	    <div class="row">
+	    	<div class="col-md-11">{% include "includes/messages.html" %}</div>
+	    </div>
+
+
+		<h4  class="mt-4">Course global settings <a href="#" class="ml-2" data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></a> </h4>
+		<div class="row">
+		{% for events in default_points.course|split_half %}
+			<div class="col-md-6">
+			<table class="table-sm table-borderless gamification-points">
+			{% for event in events %}
+				{% if not event.event in course.events %}
+					{% include 'oppia/gamification/points_row.html' with event=event.event points=event.points level='global' %}
+				{% else %}
+					{% with course_event=course.events|lookup:event.event %}
+						{% include 'oppia/gamification/points_row.html' with event=event.event points=course_event level='custom' %}
+					{% endwith %}
+				{% endif %}
+			{% endfor %}
+			</table>
+				</div>
+		{% endfor %}
+		</div>
+
+
+
+		<h4 class="mt-4">Activities</h4>
+	<div class="table-responsive">
+		 <table class="table table-striped-expandable">
+		{% for activity in activities %}
+			 <tr>
+				 <td>{{activity}} <a href="#" class="ml-2" data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></a></td>
+				 <td>
+					 <table class="table-sm table-borderless gamification-points">
+
+			{% if activity.type == 'quiz' %}
+
+				{% for event in default_points.quiz %}
+					{% if not event.event in activity.events %}
+						{% if event.event in course.events %}
+							{% with course_event=course.events|lookup:event.event %}
+					 			{% include 'oppia/gamification/points_row.html' with event=event.event points=course_event level='course' %}
+							{% endwith %}
+						{% else %}
+						 	{% include 'oppia/gamification/points_row.html' with event=event.event points=event.points level='global' %}
+						{% endif %}
+					{% endif %}
+				{% endfor %}
+			{% else %}
+				{% for event in default_points.activity %}
+					{% if not event.event in activity.events %}
+						{% if event.event in course.events %}
+							{% with course_event=course.events|lookup:event.event %}
+								{% include 'oppia/gamification/points_row.html' with event=event.event points=course_event level='course' %}
+							{% endwith %}
+						{% else %}
+							{% include 'oppia/gamification/points_row.html' with event=event.event points=event.points level='global' %}
+						{% endif %}
+					{% endif %}
+				{% endfor %}
+
+			{% endif %}
+
+			{% if activity.events %}
+				{% for event,points in activity.events.items %}
+					{% include 'oppia/gamification/points_row.html' with event=event points=points level='custom' %}
+
+				{% endfor %}
+			{% endif %}
+						 </table>
+			</td>
+				 </tr>
+		{% endfor %}
+		 </table>
+	</div>
+
+
+	    {% for section in sections %}
+	    	<h4>{{ section.title|title_lang:LANGUAGE_CODE }}</h4>
+	    	<div class="table-responsive">
+	         <table class="table table-striped-expandable">
+	         	 <thead>
+	                <tr>
+	                  <th>{% trans 'Title' %}</th>
+	                  <th>{% trans 'Events and Points' %}</th>
+	                  <th>{% trans 'Source' %}</th>
+	                  <th>{% trans 'Options' %}</th>
+	                </tr>
+	              </thead>
+	              <tbody>
+			    	{% for activity in section.activities %}
+			    		<tr>
+			    		<td>{{ activity.title|title_lang:LANGUAGE_CODE }}</td>
+			    			<td>
+			    			{% for event in activity.get_event_points.events %}
+			    				{{ event.event }} - {{ event.points }}<br/>
+			    			{% endfor %}</td>
+			    		<td>{{ activity.get_event_points.source }}</td>
+			    		<td><a href="{% url 'oppia_gamification_edit_activity_points' course.id activity.id %}" class="btn btn-default btn-primary">{% trans 'Edit' %}</a></td>
+			    		</tr>
+			    	{% endfor %}
+				 </tbody>
+		 		</table>
+			</div>   	
+	   {% endfor %}
+	    
+		    
+	
+	</div>
+	
+{% endblock %}

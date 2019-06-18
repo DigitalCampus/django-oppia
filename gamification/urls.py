@@ -7,7 +7,9 @@ urlpatterns = [
     url(r'^leaderboard/export/(?P<course_id>\d+)/$', oppia_gamification_views.leaderboard_export, name="oppia_gamification_leaderboard_export_course"),
     url(r'^points/course/(?P<course_id>\d+)/edit/$', oppia_gamification_views.edit_course_points, name="oppia_gamification_edit_course_points"),
     url(r'^points/course/(?P<course_id>\d+)/updated/$', oppia_gamification_views.course_points_updated, name="oppia_gamification_course_points_updated"),
-    
+
+    url(r'^points/course/(?P<course_id>\d+)/$', oppia_gamification_views.edit_course_gamification, name="oppia_gamification_edit_course"),
+
     url(r'^points/activity/(?P<course_id>\d+)/view/$', oppia_gamification_views.view_activity_points, name="oppia_gamification_view_activity_points"),
     url(r'^points/activity/(?P<course_id>\d+)/edit/(?P<activity_id>\d+)/$', oppia_gamification_views.edit_activity_points, name="oppia_gamification_edit_activity_points"),
     

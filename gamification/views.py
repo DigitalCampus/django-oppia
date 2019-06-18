@@ -215,5 +215,40 @@ def save_media_points(request, form, course, media):
     new_version = writer.update_gamification(request.user)
 
 
+def edit_course_gamification(request, course_id):
+    if not can_edit_course(request, course_id):
+        raise exceptions.PermissionDenied
+
+    course = get_object_or_404(Course, pk=course_id)
+    activities = Activity.objects.filter(section__course=course).prefetch_related('gamification_events')
+    media = Media.objects.filter(course=course)
+
+    default_points = {
+        'course': DefaultGamificationEvent.objects.exclude(level=DefaultGamificationEvent.GLOBAL),
+        'activity': DefaultGamificationEvent.objects.filter(level=DefaultGamificationEvent.ACTIVITY),
+        'quiz': DefaultGamificationEvent.objects.filter(level=DefaultGamificationEvent.QUIZ),
+        'media': DefaultGamificationEvent.objects.filter(level=DefaultGamificationEvent.MEDIA),
+    }
+
+    course_events = CourseGamificationEvent.objects.filter(course=course)
+    course.events = {}
+    for event in course_events:
+        course.events[event.event] = event.points
+
+
+    for activity in activities:
+        activity.events = {}
+        for event in activity.gamification_events.all():
+            activity.events[event.event] = event.points
+
+
+
+    return render(request, 'oppia/gamification/edit.html',
+                  {
+                    'default_points':default_points,
+                  'course': course,
+                   'course_events': course_events,
+                   'activities':activities,
+                   'media': media})
 
 
