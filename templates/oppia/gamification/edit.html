@@ -17,7 +17,21 @@
 	    </div>
 
 
-		<h4  class="mt-4">Course global settings <a href="#" class="ml-2" data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></a> </h4>
+		<div class="list-group mb-2 mt-4">
+		<a class="list-group-item list-group-item-action bg-primary text-light" data-toggle="collapse" href="#global-settings" role="button" aria-expanded="false">
+			<h5>Course global settings
+				<span class="badge badge-light">{{default_points.course|length}}</span>
+			</h5>
+		</a>
+
+		<div class="collapse" id="global-settings">
+			<div class="card">
+				<div class="card-body pt-0">
+
+
+
+
+			 <a href="#" class="ml-2" data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></a>
 		<div class="row">
 		{% for events in default_points.course|split_half %}
 			<div class="col-md-6">
@@ -35,13 +49,33 @@
 				</div>
 		{% endfor %}
 		</div>
+				</div>
+			</div>
+		</div>
+		</div>
+
+		<div class="list-group mb-2">
+		<a class="list-group-item list-group-item-action bg-secondary text-light">
+			<h5>Activities</h5>
+		</a>
+
+		{% regroup activities by section as section_list %}
+
+		{% for section in section_list %}
 
 
+		<a class="list-group-item list-group-item-action bg-light" data-toggle="collapse" href="#section{{forloop.counter0}}" role="button" aria-expanded="false">
+			<h5>{{section.grouper}}
+				<span class="badge badge-light">{{section.list|length}}</span></h5>
+		</a>
 
-		<h4 class="mt-4">Activities</h4>
-	<div class="table-responsive">
+		<div class="collapse" id="section{{forloop.counter0}}">
+			<div class="card">
+				<div class="card-body pt-0">
+
+		<div class="table-responsive">
 		 <table class="table table-striped-expandable">
-		{% for activity in activities %}
+		{% for activity in section.list %}
 			 <tr>
 				 <td>{{activity}} <a href="#" class="ml-2" data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></a></td>
 				 <td>
@@ -84,10 +118,62 @@
 						 </table>
 			</td>
 				 </tr>
+
+		{% endfor %}
+		 </table>
+			</div>
+	</div>
+				</div>
+			</div>
+
+		{% endfor %}
+
+		</div>
+
+		<div class="list-group mb-2">
+
+			<a class="list-group-item list-group-item-action bg-secondary text-light" data-toggle="collapse" href="#media-elements" role="button" aria-expanded="false">
+			<h5>Media elements
+				<span class="badge badge-light">{{media|length}}</span></h5>
+		</a>
+
+		<div class="collapse" id="media-elements">
+			<div class="card">
+				<div class="card-body pt-0">
+
+	<div class="table-responsive">
+		 <table class="table table-striped-expandable">
+		{% for m in media %}
+			 <tr>
+				 <td>{{m}} <a href="#" class="ml-2" data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></a></td>
+				 <td>
+					 <table class="table-sm table-borderless gamification-points">
+
+				{% for event in default_points.media %}
+					{% if not event.event in m.events %}
+						{% if event.event in course.events %}
+							{% with course_event=course.events|lookup:event.event %}
+								{% include 'oppia/gamification/points_row.html' with event=event.event points=course_event level='course' %}
+							{% endwith %}
+						{% else %}
+							{% include 'oppia/gamification/points_row.html' with event=event.event points=event.points level='global' %}
+						{% endif %}
+					{% endif %}
+				{% endfor %}
+
+			{% if m.events %}
+				{% for event,points in m.events.items %}
+					{% include 'oppia/gamification/points_row.html' with event=event points=points level='custom' %}
+				{% endfor %}
+			{% endif %}
+			 </table>
+			</td>
+				 </tr>
 		{% endfor %}
 		 </table>
 	</div>
-
+				</div></div>
+			</div>
 
 	    {% for section in sections %}
 	    	<h4>{{ section.title|title_lang:LANGUAGE_CODE }}</h4>

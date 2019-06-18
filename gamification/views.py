@@ -220,8 +220,8 @@ def edit_course_gamification(request, course_id):
         raise exceptions.PermissionDenied
 
     course = get_object_or_404(Course, pk=course_id)
-    activities = Activity.objects.filter(section__course=course).prefetch_related('gamification_events')
-    media = Media.objects.filter(course=course)
+    activities = Activity.objects.filter(section__course=course).select_related('section').prefetch_related('gamification_events')
+    media = Media.objects.filter(course=course).prefetch_related('gamification_events')
 
     default_points = {
         'course': DefaultGamificationEvent.objects.exclude(level=DefaultGamificationEvent.GLOBAL),
@@ -235,12 +235,16 @@ def edit_course_gamification(request, course_id):
     for event in course_events:
         course.events[event.event] = event.points
 
-
     for activity in activities:
         activity.events = {}
         for event in activity.gamification_events.all():
             activity.events[event.event] = event.points
 
+
+    for m in media:
+        m.events = {}
+        for event in m.gamification_events.all():
+            m.events[event.event] = event.points
 
 
     return render(request, 'oppia/gamification/edit.html',
