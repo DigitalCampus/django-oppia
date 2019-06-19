@@ -2,11 +2,8 @@ table.gamification-points, .gamification-input{
     code{
         color:$oppia-dark;
     }
-    .fas{
-        color:#aaa;
-    }
 }
-
+table.gamification-points .fas{ color:#aaa; }
 .points-pill{
     display:inline-block;
     padding:0.2rem 0.6rem;
@@ -21,5 +18,8 @@ table.gamification-points, .gamification-input{
     &.custom{
         color: $orange;
         border:2px solid $orange;
+    }
+    .fas{
+        color:inherit!important;
     }
 }

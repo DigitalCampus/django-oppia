@@ -13,9 +13,8 @@
 		<h2>{{ course.title|title_lang:LANGUAGE_CODE }} - Gamification </h2>
 	    
 	    <div class="row">
-	    	<div class="col-md-11">{% include "includes/messages.html" %}</div>
+	    	<div class="col-md-12">{% include "includes/messages.html" %}</div>
 	    </div>
-
 
 		<div class="list-group mb-2 mt-4">
 		<a class="list-group-item list-group-item-action bg-primary text-light collapsed" data-toggle="collapse" href="#global-settings" role="button" aria-expanded="false">
@@ -58,7 +57,7 @@
 
 		<div class="list-group mb-2">
 		<a class="list-group-item list-group-item-action bg-secondary text-light">
-			<h6>Activities</h6>
+			<h6>Topics</h6>
 		</a>
 
 		{% regroup activities by section as section_list %}
@@ -68,16 +67,16 @@
 
 		<a class="list-group-item list-group-item-action bg-light collapsed" data-toggle="collapse" href="#section{{forloop.counter0}}" role="button" aria-expanded="false">
 			<h6>{{section.grouper}}
-				<span class="badge badge-primary">{{section.list|length}}</span></h6>
+				<span class="badge badge-secondary">{{section.list|length}} activities</span></h6>
 			<i class="fas fa-chevron-down expand-btn"></i>
 		</a>
 
 		<div class="collapse" id="section{{forloop.counter0}}">
 			<div class="card">
-				<div class="card-body pt-0">
+				<div class="card-body py-0">
 
 		<div class="table-responsive">
-		 <table class="table table-striped-expandable">
+		 <table class="table table-striped-expandable mb-0">
 		{% for activity in section.list %}
 			 <tr class="gamification-config">
 				 <td  style="width:50%;">
@@ -141,6 +140,8 @@
 
 		</div>
 
+
+		{% if media %}
 		<div class="list-group mb-2">
 
 			<a class="list-group-item list-group-item-action bg-secondary text-light collapsed" data-toggle="collapse" href="#media-elements" role="button" aria-expanded="false">
@@ -190,7 +191,7 @@
 	</div>
 				</div></div>
 			</div>
-
+		{% endif %}
 
 <form method='POST' id="gamification-events-form" data-prefix="{{events_formset.prefix}}">
 	{% csrf_token %}
@@ -202,15 +203,21 @@
 		 </table>
 	 </div>
 
-	  <button type="submit" class="btn btn-primary mt-3" name='sampleform'>Save</button>
-
+	<div class="values" style="display:none;"></div>
+	<div class="text-center">
+	  <button type="submit" class="btn btn-lg btn-primary mt-3" name='sampleform'>Save</button>
+	</div>
  </form>
 
 <div class="gamification-input" style="display:none;">
 	<div class="form-row">
 		<div class="col"><code class="event">activity_completed</code></div>
 		<div class="col"><input type="number" class="form-control" /></div>
-		<div class="col pl-0"><button class="btn btn-primary">Add</button></div>
+		<div class="col pl-0">
+			<button class="btn btn-primary" data-action="add"><i class="fas fa-check"></i> </button>
+			<button class="btn btn-secondary" data-action="remove"><i class="fas fa-trash"></i> </button>
+		</div>
+
 	</div>
 </div>
 
@@ -236,8 +243,12 @@ $(function(){
 				var event = $(elem);
 				var eventName = event.attr('data-event')
 				var input = gamifInput.clone().find('.event').text(eventName).end().appendTo(custom).show();
+				console.log(event.attr('data-custom'));
 				var point = input.find('input').val(event.attr('data-points'));
-				input.find('button').on('click', function(){
+				var removeBtn = input.find('button[data-action="remove"]');
+				removeBtn.toggle(event.attr('data-custom') !== undefined );
+
+				input.find('button[data-action="add"]').on('click', function(){
 					var newPoints = $('<span>'+point.val()+'</span>')
 							.addClass('points-pill custom')
 							.attr('data-event', eventName)
@@ -245,6 +256,23 @@ $(function(){
 							.attr('data-type', type);
 					event.find('.points-pill.custom').parent('td').remove()
 					event.append($('<td>').append(newPoints));
+					removeBtn.show();
+				});
+
+				removeBtn.on('click', function(){
+					event.find('.points-pill.custom').parent('td').remove();
+
+					if (event.attr('data-custom') !== undefined){
+						var newPoints = $('<span><i class="fas fa-times"></i></span>')
+							.addClass('points-pill custom delete')
+							.attr('data-event', eventName)
+							.attr('data-pk', event.attr('data-pk'))
+							.attr('data-type', type);
+						event.append($('<td>').append(newPoints));
+					}
+					else{
+						removeBtn.hide();
+					}
 				});
 			});
 			$(this).addClass('custom');
@@ -253,6 +281,7 @@ $(function(){
 
 	var form = $('#gamification-events-form');
 	var prefix = form.attr('data-prefix');
+	var formValues = form.find('.values');
 	var emptyForm = $('#empty-form');
 	var totalForms = $('#id_'+prefix+'-TOTAL_FORMS');
 
@@ -262,12 +291,13 @@ $(function(){
 			var event = $(elem);
 			eventInput = $( emptyForm.html().replace(/__prefix__/g, i));
 			eventInput
-				.find('[name$="points"]').val(event.text()).end()
+				.find('[name$="points"]').val(event.hasClass('delete') ? 0 : event.text()).end()
 				.find('[name$="event"]').val(event.attr('data-event')).end()
 				.find('[name$="level"]').val(event.attr('data-type')).end()
-				.find('[name$="reference"]').val(event.attr('data-pk')).end();
+				.find('[name$="reference"]').val(event.attr('data-pk')).end()
+				.find('[name$="DELETE"]').prop('checked', event.hasClass('delete')).end();
 
-			form.append(eventInput);
+			formValues.append(eventInput);
 			totalForms.val(i+1);
 		});
 	 });

@@ -225,19 +225,32 @@ def edit_course_gamification(request, course_id):
                 reference = form.cleaned_data.get('reference')
                 defaults = {'points': points, 'user': request.user}
 
+                to_delete = formset.can_delete and formset._should_delete_form(form)
+
                 updated = True
                 if level == 'course':
-                    CourseGamificationEvent.objects.update_or_create(course_id=reference, event=event, defaults=defaults)
+                    if to_delete:
+                        CourseGamificationEvent.objects.filter(course_id=reference, event=event).delete()
+                    else:
+                        CourseGamificationEvent.objects.update_or_create(course_id=reference, event=event, defaults=defaults)
                 elif level == 'activity':
-                    ActivityGamificationEvent.objects.update_or_create(activity_id=reference, event=event, defaults=defaults)
+                    if to_delete:
+                        ActivityGamificationEvent.objects.filter(activity_id=reference, event=event).delete()
+                    else:
+                        ActivityGamificationEvent.objects.update_or_create(activity_id=reference, event=event, defaults=defaults)
                 elif level == 'media':
-                    MediaGamificationEvent.objects.update_or_create(media_id=reference, event=event, defaults=defaults)
+                    if to_delete:
+                        MediaGamificationEvent.objects.filter(media_id=reference, event=event).delete()
+                    else:
+                        MediaGamificationEvent.objects.update_or_create(media_id=reference, event=event,
+                                                                        defaults=defaults)
 
             if updated:
                 writer = GamificationXMLWriter(course)
                 new_version = writer.update_gamification(request.user)
                 messages.success(request, 'Course XML updated. New version: {}'.format(new_version))
-
+        else:
+            print formset.errors
     else:
         formset = EventsFormset(prefix='events')
 
