@@ -7,8 +7,7 @@ $oppia-light: #9aca3c;
 $oppia-mid: #689e3a;
 $oppia-dark: #628817;
 
-$navbar-dark-color:         #fff;
-
+$navbar-dark-color: #fff;
 
 $font-family-brand: 'Lato', sans-serif;
 $font-family-emphasis: 'Montserrat', sans-serif;
@@ -40,3 +39,4 @@ body {
 @import './components/buttons';
 @import './components/charts';
 @import './components/tables';
+@import './components/gamification';
