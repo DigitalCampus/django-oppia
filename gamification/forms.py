@@ -56,9 +56,8 @@ class EditActivityPointsForm(forms.Form):
                                                               label=event.get_label(),
                                                               help_text= event.get_helper_text())
             except AttributeError:
-                default_event = DefaultGamificationEvent.objects.get(event=event.event)
                 self.fields[event.event.event] = forms.IntegerField(initial=int(event.points), 
-                                                                 label=default_event.label,
+                                                                 label=event.get_label(),
                                                                  help_text= event.get_helper_text())
                 
         self.helper = FormHelper()
@@ -95,7 +94,6 @@ class EditMediaPointsForm(forms.Form):
                                                               label=event.get_label(),
                                                               help_text= event.get_helper_text())
             except AttributeError:
-                default_event = DefaultGamificationEvent.objects.get(event=event.event)
                 self.fields[event.event.event] = forms.IntegerField(initial=int(event.points), 
                                                                  label=event.get_label(),
                                                                  help_text= event.get_helper_text())
@@ -121,3 +119,12 @@ class EditMediaPointsForm(forms.Form):
     def clean(self):
         cleaned_data = super(EditMediaPointsForm, self).clean()
         return cleaned_data
+
+
+class GamificationEventForm(forms.Form):
+    level = forms.CharField()
+    event = forms.CharField()
+    points = forms.IntegerField()
+    reference = forms.IntegerField()
+
+

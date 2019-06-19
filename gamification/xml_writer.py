@@ -97,15 +97,11 @@ class GamificationXMLWriter:
 
     def add_events_or_remove_node(self, node, events):
         if len(events) > 0:
-            print len(node.childNodes)
 
             # Remove previous event nodes
             while node.hasChildNodes():
                 node.removeChild(node.firstChild)
 
-            print len(node.childNodes)
-
-            print len(events)
             for event in events:
                 print event
                 points = self.xml.createTextNode(str(event.points))
@@ -114,7 +110,6 @@ class GamificationXMLWriter:
                 event_node.appendChild(points)
                 node.appendChild(event_node)
 
-            print len(node.childNodes)
         else:
             # if there are no events set, we can remove the empty gamification node
             self.removeNode(node)

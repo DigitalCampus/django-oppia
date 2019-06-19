@@ -1,26 +1,16 @@
 
-import datetime
-import json
-import os
-import shutil
-import zipfile
-import xml.dom.minidom
-
-from django.conf import settings
+from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.forms import formset_factory
+from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
-from django.utils import timezone
 
-from gamification.forms import EditCoursePointsForm, EditActivityPointsForm, EditMediaPointsForm
+from gamification.forms import EditCoursePointsForm, EditActivityPointsForm, EditMediaPointsForm, GamificationEventForm
 from gamification.models import *
 from gamification.xml_writer import GamificationXMLWriter
-from oppia.models import Points, Course, Section, Activity
+from oppia.models import Points, Section, Activity
 from oppia.permissions import *
-
-from pydoc import doc
-from platform import node
 
 
 @staff_member_required
@@ -220,6 +210,38 @@ def edit_course_gamification(request, course_id):
         raise exceptions.PermissionDenied
 
     course = get_object_or_404(Course, pk=course_id)
+
+    EventsFormset = formset_factory(GamificationEventForm, extra=0, can_delete=True)
+    if request.method == 'POST':
+        formset = EventsFormset(request.POST, request.FILES, prefix='events')
+        if formset.is_valid():
+
+            updated = False
+            for form in formset:
+                # extract name from each form and save
+                event = form.cleaned_data.get('event')
+                level = form.cleaned_data.get('level')
+                points = form.cleaned_data.get('points')
+                reference = form.cleaned_data.get('reference')
+                defaults = {'points': points, 'user': request.user}
+
+                updated = True
+                if level == 'course':
+                    CourseGamificationEvent.objects.update_or_create(course_id=reference, event=event, defaults=defaults)
+                elif level == 'activity':
+                    ActivityGamificationEvent.objects.update_or_create(activity_id=reference, event=event, defaults=defaults)
+                elif level == 'media':
+                    MediaGamificationEvent.objects.update_or_create(media_id=reference, event=event, defaults=defaults)
+
+            if updated:
+                writer = GamificationXMLWriter(course)
+                new_version = writer.update_gamification(request.user)
+                messages.success(request, 'Course XML updated. New version: {}'.format(new_version))
+
+    else:
+        formset = EventsFormset(prefix='events')
+
+
     activities = Activity.objects.filter(section__course=course).select_related('section').prefetch_related('gamification_events')
     media = Media.objects.filter(course=course).prefetch_related('gamification_events')
 
@@ -240,7 +262,6 @@ def edit_course_gamification(request, course_id):
         for event in activity.gamification_events.all():
             activity.events[event.event] = event.points
 
-
     for m in media:
         m.events = {}
         for event in m.gamification_events.all():
@@ -250,9 +271,8 @@ def edit_course_gamification(request, course_id):
     return render(request, 'oppia/gamification/edit.html',
                   {
                     'default_points':default_points,
-                  'course': course,
+                    'course': course,
+                      'events_formset':formset,
                    'course_events': course_events,
                    'activities':activities,
                    'media': media})
-
-
