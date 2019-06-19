@@ -18,30 +18,30 @@
 
 
 		<div class="list-group mb-2 mt-4">
-		<a class="list-group-item list-group-item-action bg-primary text-light" data-toggle="collapse" href="#global-settings" role="button" aria-expanded="false">
-			<h5>Course global settings
+		<a class="list-group-item list-group-item-action bg-primary text-light collapsed" data-toggle="collapse" href="#global-settings" role="button" aria-expanded="false">
+			<h6>Course global settings
 				<span class="badge badge-light">{{default_points.course|length}}</span>
-			</h5>
+			</h6>
+			<i class="fas fa-chevron-down expand-btn"></i>
 		</a>
 
-		<div class="collapse" id="global-settings">
+		<div class="collapse gamification-config" id="global-settings">
 			<div class="card">
-				<div class="card-body pt-0">
+				<div class="card-body">
 
 
 
 
-			 <a href="#" class="ml-2" data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></a>
 		<div class="row">
 		{% for events in default_points.course|split_half %}
 			<div class="col-md-6">
 			<table class="table-sm table-borderless gamification-points">
 			{% for event in events %}
 				{% if not event.event in course.events %}
-					{% include 'oppia/gamification/points_row.html' with event=event.event points=event.points level='global' %}
+					{% include 'oppia/gamification/points_row.html' with event=event.event points=event.points level='global' id=course.id %}
 				{% else %}
 					{% with course_event=course.events|lookup:event.event %}
-						{% include 'oppia/gamification/points_row.html' with event=event.event points=course_event level='custom' %}
+						{% include 'oppia/gamification/points_row.html' with event=event.event points=course_event level='custom' id=course.id %}
 					{% endwith %}
 				{% endif %}
 			{% endfor %}
@@ -49,14 +49,16 @@
 				</div>
 		{% endfor %}
 		</div>
-				</div>
+				<a class="ml-2 btn btn-light collapsed" aria-expanded="false" data-toggle="collapse" href="#custom-course"><i class="fas fa-pen mr-2"></i> Edit settings</a>
+				<div class="custom-gamification pt-2 collapse" data-type="course" id="custom-course"></div>
+			</div>
 			</div>
 		</div>
 		</div>
 
 		<div class="list-group mb-2">
 		<a class="list-group-item list-group-item-action bg-secondary text-light">
-			<h5>Activities</h5>
+			<h6>Activities</h6>
 		</a>
 
 		{% regroup activities by section as section_list %}
@@ -64,9 +66,10 @@
 		{% for section in section_list %}
 
 
-		<a class="list-group-item list-group-item-action bg-light" data-toggle="collapse" href="#section{{forloop.counter0}}" role="button" aria-expanded="false">
-			<h5>{{section.grouper}}
-				<span class="badge badge-light">{{section.list|length}}</span></h5>
+		<a class="list-group-item list-group-item-action bg-light collapsed" data-toggle="collapse" href="#section{{forloop.counter0}}" role="button" aria-expanded="false">
+			<h6>{{section.grouper}}
+				<span class="badge badge-primary">{{section.list|length}}</span></h6>
+			<i class="fas fa-chevron-down expand-btn"></i>
 		</a>
 
 		<div class="collapse" id="section{{forloop.counter0}}">
@@ -76,8 +79,16 @@
 		<div class="table-responsive">
 		 <table class="table table-striped-expandable">
 		{% for activity in section.list %}
-			 <tr>
-				 <td>{{activity}} <a href="#" class="ml-2" data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></a></td>
+			 <tr class="gamification-config">
+				 <td  style="width:50%;">
+					 {{activity}}
+					 <a href="#!" class="ml-2" data-toggle="tooltip" title="Edit"><i data-toggle="collapse" href="#custom{{activity.pk}}" class="fas fa-pen"></i></a>
+
+					 <div class="custom-gamification collapse pt-2" data-type="activity" id="custom{{activity.pk}}">
+
+					 </div>
+
+				 </td>
 				 <td>
 					 <table class="table-sm table-borderless gamification-points">
 
@@ -87,10 +98,10 @@
 					{% if not event.event in activity.events %}
 						{% if event.event in course.events %}
 							{% with course_event=course.events|lookup:event.event %}
-					 			{% include 'oppia/gamification/points_row.html' with event=event.event points=course_event level='course' %}
+					 			{% include 'oppia/gamification/points_row.html' with event=event.event points=course_event level='course' id=activity.id %}
 							{% endwith %}
 						{% else %}
-						 	{% include 'oppia/gamification/points_row.html' with event=event.event points=event.points level='global' %}
+						 	{% include 'oppia/gamification/points_row.html' with event=event.event points=event.points level='global' id=activity.id %}
 						{% endif %}
 					{% endif %}
 				{% endfor %}
@@ -99,10 +110,10 @@
 					{% if not event.event in activity.events %}
 						{% if event.event in course.events %}
 							{% with course_event=course.events|lookup:event.event %}
-								{% include 'oppia/gamification/points_row.html' with event=event.event points=course_event level='course' %}
+								{% include 'oppia/gamification/points_row.html' with event=event.event points=course_event level='course' id=activity.id %}
 							{% endwith %}
 						{% else %}
-							{% include 'oppia/gamification/points_row.html' with event=event.event points=event.points level='global' %}
+							{% include 'oppia/gamification/points_row.html' with event=event.event points=event.points level='global' id=activity.id %}
 						{% endif %}
 					{% endif %}
 				{% endfor %}
@@ -111,7 +122,7 @@
 
 			{% if activity.events %}
 				{% for event,points in activity.events.items %}
-					{% include 'oppia/gamification/points_row.html' with event=event points=points level='custom' %}
+					{% include 'oppia/gamification/points_row.html' with event=event points=points level='custom' id=activity.id %}
 
 				{% endfor %}
 			{% endif %}
@@ -132,9 +143,10 @@
 
 		<div class="list-group mb-2">
 
-			<a class="list-group-item list-group-item-action bg-secondary text-light" data-toggle="collapse" href="#media-elements" role="button" aria-expanded="false">
-			<h5>Media elements
-				<span class="badge badge-light">{{media|length}}</span></h5>
+			<a class="list-group-item list-group-item-action bg-secondary text-light collapsed" data-toggle="collapse" href="#media-elements" role="button" aria-expanded="false">
+			<h6>Media elements
+				<span class="badge badge-light">{{media|length}}</span></h6>
+				<i class="fas fa-chevron-down expand-btn"></i>
 		</a>
 
 		<div class="collapse" id="media-elements">
@@ -144,8 +156,12 @@
 	<div class="table-responsive">
 		 <table class="table table-striped-expandable">
 		{% for m in media %}
-			 <tr>
-				 <td>{{m}} <a href="#" class="ml-2" data-toggle="tooltip" title="Edit"><i class="fas fa-pen"></i></a></td>
+			 <tr class="gamification-config">
+				 <td style="min-width:50%;">
+					 {{m}}
+					 <a href="#!" class="ml-2" data-toggle="tooltip" title="Edit"><i data-toggle="collapse" href="#custom-m-{{m.pk}}" class="fas fa-pen"></i></a>
+				 	<div class="custom-gamification collapse pt-2" data-type="media" id="custom-m-{{m.pk}}"></div>
+				 </td>
 				 <td>
 					 <table class="table-sm table-borderless gamification-points">
 
@@ -153,17 +169,17 @@
 					{% if not event.event in m.events %}
 						{% if event.event in course.events %}
 							{% with course_event=course.events|lookup:event.event %}
-								{% include 'oppia/gamification/points_row.html' with event=event.event points=course_event level='course' %}
+								{% include 'oppia/gamification/points_row.html' with event=event.event points=course_event level='course' id=m.id %}
 							{% endwith %}
 						{% else %}
-							{% include 'oppia/gamification/points_row.html' with event=event.event points=event.points level='global' %}
+							{% include 'oppia/gamification/points_row.html' with event=event.event points=event.points level='global' id=m.id%}
 						{% endif %}
 					{% endif %}
 				{% endfor %}
 
 			{% if m.events %}
 				{% for event,points in m.events.items %}
-					{% include 'oppia/gamification/points_row.html' with event=event points=points level='custom' %}
+					{% include 'oppia/gamification/points_row.html' with event=event points=points level='custom' id=m.id %}
 				{% endfor %}
 			{% endif %}
 			 </table>
@@ -175,37 +191,87 @@
 				</div></div>
 			</div>
 
-	    {% for section in sections %}
-	    	<h4>{{ section.title|title_lang:LANGUAGE_CODE }}</h4>
-	    	<div class="table-responsive">
-	         <table class="table table-striped-expandable">
-	         	 <thead>
-	                <tr>
-	                  <th>{% trans 'Title' %}</th>
-	                  <th>{% trans 'Events and Points' %}</th>
-	                  <th>{% trans 'Source' %}</th>
-	                  <th>{% trans 'Options' %}</th>
-	                </tr>
-	              </thead>
-	              <tbody>
-			    	{% for activity in section.activities %}
-			    		<tr>
-			    		<td>{{ activity.title|title_lang:LANGUAGE_CODE }}</td>
-			    			<td>
-			    			{% for event in activity.get_event_points.events %}
-			    				{{ event.event }} - {{ event.points }}<br/>
-			    			{% endfor %}</td>
-			    		<td>{{ activity.get_event_points.source }}</td>
-			    		<td><a href="{% url 'oppia_gamification_edit_activity_points' course.id activity.id %}" class="btn btn-default btn-primary">{% trans 'Edit' %}</a></td>
-			    		</tr>
-			    	{% endfor %}
-				 </tbody>
-		 		</table>
-			</div>   	
-	   {% endfor %}
-	    
-		    
-	
+
+<form method='POST' id="gamification-events-form" data-prefix="{{events_formset.prefix}}">
+	{% csrf_token %}
+	{{ events_formset.management_form }}
+
+	 <div id="empty-form" style="display:none">
+		 <table class="no_error">
+			 {{ events_formset.empty_form.as_p }}
+		 </table>
+	 </div>
+
+	  <button type="submit" class="btn btn-primary mt-3" name='sampleform'>Save</button>
+
+ </form>
+
+<div class="gamification-input" style="display:none;">
+	<div class="form-row">
+		<div class="col"><code class="event">activity_completed</code></div>
+		<div class="col"><input type="number" class="form-control" /></div>
+		<div class="col pl-0"><button class="btn btn-primary">Add</button></div>
+	</div>
+</div>
+
 	</div>
 	
 {% endblock %}
+
+{% block extra_scripts %}
+<script type="text/javascript">
+$(function(){
+
+	var gamifInput = $('.gamification-input');
+
+	$('.gamification-config [data-toggle="collapse"]').on('click', function(){
+
+		if (!$(this).hasClass('custom')){
+			var config = $(this).parents('.gamification-config');
+			var custom = config.find('.custom-gamification');
+			var points = config.find('.gamification-points .gamification-config-points');
+			var type = custom.attr('data-type');
+
+			$.each(points, function(i, elem){
+				var event = $(elem);
+				var eventName = event.attr('data-event')
+				var input = gamifInput.clone().find('.event').text(eventName).end().appendTo(custom).show();
+				var point = input.find('input').val(event.attr('data-points'));
+				input.find('button').on('click', function(){
+					var newPoints = $('<span>'+point.val()+'</span>')
+							.addClass('points-pill custom')
+							.attr('data-event', eventName)
+							.attr('data-pk', event.attr('data-pk'))
+							.attr('data-type', type);
+					event.find('.points-pill.custom').parent('td').remove()
+					event.append($('<td>').append(newPoints));
+				});
+			});
+			$(this).addClass('custom');
+		}
+	});
+
+	var form = $('#gamification-events-form');
+	var prefix = form.attr('data-prefix');
+	var emptyForm = $('#empty-form');
+	var totalForms = $('#id_'+prefix+'-TOTAL_FORMS');
+
+	form.on('submit', function(e) {
+
+		$('.points-pill.custom').each(function(i, elem){
+			var event = $(elem);
+			eventInput = $( emptyForm.html().replace(/__prefix__/g, i));
+			eventInput
+				.find('[name$="points"]').val(event.text()).end()
+				.find('[name$="event"]').val(event.attr('data-event')).end()
+				.find('[name$="level"]').val(event.attr('data-type')).end()
+				.find('[name$="reference"]').val(event.attr('data-pk')).end();
+
+			form.append(eventInput);
+			totalForms.val(i+1);
+		});
+	 });
+
+});
+</script>
+{% endblock extra_scripts %}
