@@ -1,4 +1,4 @@
-django==1.11.20
+django==1.11.21
 django-tastypie==0.14.0
 django-tablib==3.2
 django-crispy-forms==1.7.2
