@@ -1,0 +1,59 @@
+{% load static %}
+{% load i18n %}
+
+<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-primary" role="navigation">
+  <a class="navbar-brand" href="{% url 'oppia_home' %}"><img class="mr-2" src="{% static "oppia/images/dc_logo.png" %}" height="24" alt="{% trans 'app_name' %} {% trans 'logo' %}"/>{% trans 'app_name' %}</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+    <div class="collapse navbar-collapse" id="main-menu">
+	<ul class="navbar-nav ml-auto mt-2 mt-lg-0 ml-4">
+        <li class="nav-item"><a class="nav-link" href="{% url 'oppia_course' %}">{% trans 'menu_courses' %}</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'oppia_av_home' %}">{% trans 'Media' %}</a></li>
+            {% if user.userprofile.get_can_upload %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="upload-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans 'Upload' %}<strong class="caret"></strong></a>
+                    <div class="dropdown-menu" aria-labelledby="upload-menu">
+                        <a class="dropdown-item" href="{% url 'oppia_upload' %}">{% trans 'Course' %}</a>
+                        <a class="dropdown-item" href="{% url 'oppia_av_upload' %}">{% trans 'Media' %}</a>
+                        <a class="dropdown-item" href="{% url 'oppia_media_embed_helper' %}">{% trans 'Media Embed Helper' %}</a>
+                        {% if user.is_staff %}
+                            <a class="dropdown-item" href="{% url 'oppia_activitylog_upload' %}">{% trans 'Activity Log' %}</a>
+                        {% endif %}
+                    </div>
+                </li>
+            {% endif %}
+       {% if user.is_staff %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'oppia_cohorts' %}">{% trans 'Cohorts' %}</a></li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="analytics-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans 'Analytics' %}</a>
+                <div class="dropdown-menu" aria-labelledby="analytics-menu">
+                    <a class="dropdown-item" href="{% url 'oppia_viz_summary' %}">{% trans 'Summary Overview' %}</a>
+                    <a class="dropdown-item" href="{% url 'oppia_viz_map' %}">{% trans 'Activity Map' %}</a>
+                    {% for report in OPPIA_REPORTS %}
+                        <a class="dropdown-item" href="{{ report.url }}">{{ report.name }}</a>
+
+                    {% endfor %}
+                </div>
+            </li>
+       {% endif %}
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="profile-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans 'My Oppia' %}<strong class="caret"></strong></a>
+            <div class="dropdown-menu" aria-labelledby="profile-menu">
+                <a class="dropdown-item" href="{% url 'profile_user_activity' user.id %}">{% trans 'Scorecard' %}</a>
+                {% if not user.is_staff %}
+                <a class="dropdown-item" href="{% url 'profile_points' %}">{% trans 'Points' %}</a>
+                <a class="dropdown-item" href="{% url 'profile_badges' %}">{% trans 'Badges' %}</a>
+                {% endif %}
+                <a class="dropdown-item" href="{% url 'profile_edit' %}">{% trans 'Edit Profile' %}</a>
+                <a class="dropdown-item" href="{% url 'profile_logout' %}">{% trans 'Logout' %}</a>
+
+            </div>
+        </li>
+    </ul>
+  </div>
+</nav>

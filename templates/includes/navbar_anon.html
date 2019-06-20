@@ -1,0 +1,19 @@
+{% load static %}
+{% load i18n %}
+
+<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-primary" role="navigation">
+    <a class="navbar-brand" href="{% url 'oppia_home' %}"><img class="mr-2" src="{% static "oppia/images/dc_logo.png" %}" height="24" alt="{% trans 'app_name' %} {% trans 'logo' %}"/>{% trans 'app_name' %}</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+    <div class="collapse navbar-collapse" id="main-menu">
+        <ul class="navbar-nav ml-auto mt-2 mt-lg-0 ml-4">
+            <li class="nav-item"><a class="nav-link" href="{% url 'profile_login' %}?next={{ request.path }}">{% trans 'Login' %}</a></li>
+            {% if OPPIA_ALLOW_SELF_REGISTRATION %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'profile_register' %}?next={{ request.path }}">{% trans 'Register' %}</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
