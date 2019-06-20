@@ -122,9 +122,10 @@ class EditMediaPointsForm(forms.Form):
 
 
 class GamificationEventForm(forms.Form):
-    level = forms.CharField()
-    event = forms.CharField()
-    points = forms.IntegerField()
-    reference = forms.IntegerField()
+    level = forms.CharField(widget=forms.HiddenInput())
+    event = forms.CharField(widget=forms.HiddenInput())
+    points = forms.IntegerField(widget=forms.HiddenInput())
+    reference = forms.IntegerField(widget=forms.HiddenInput())
+
 
 
