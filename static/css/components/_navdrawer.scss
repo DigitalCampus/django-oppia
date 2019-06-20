@@ -1,0 +1,32 @@
+@media (min-width: 992px){
+    .navdrawer-permanent-lg {
+        z-index: map-get($navdrawer-elevation-shadow, elevation);
+    }
+    .navdrawer-permanent-lg + #main-content, .navbar-drawer .container{
+        margin-left:$navdrawer-width;
+    }
+    .navdrawer-permanent-lg + #main-content .modal.show{
+        padding-left:$navdrawer-width;
+    }
+}
+.navdrawer-permanent-lg ~ #top-bar{
+    margin-left:$navdrawer-width;
+}
+
+@media (max-width: 992px){
+    .navbar-toggler.always-show{
+        display:block;
+    }
+}
+
+@media (max-width: 992px){
+    .navbar-toggler.always-show[aria-expanded="true"]{
+        margin-left:18.5rem;
+        z-index:200;
+    }
+}
+@media (max-width: 380px){
+    .navbar-toggler.always-show[aria-expanded="true"]{
+        margin-left: calc(100% - 2.2rem);
+    }
+}
