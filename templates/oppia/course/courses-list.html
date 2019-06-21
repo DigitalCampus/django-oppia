@@ -8,8 +8,8 @@
 
 
 {% block header %}
-<div class="jumbotron">
-	<h2>{% trans 'Courses' %}</h2>
+<div class="jumbotron mb-3">
+	<h3>{% trans 'Courses' %}</h3>
 </div>
 {% endblock header %}
 
@@ -75,10 +75,10 @@
 				<td>{{ course.total_downloads }} downloads by {{ course.distinct_downloads }} users<br/>
 					<a href="{% url 'oppia_course_download' course.id %}">{% trans 'download course' %}</a>
 				</td>
-                <td>
+                <td class="py-1">
                     {% if course.can_edit %} 
-                    	<a href="{% url 'oppia_course_edit' course.id %}" class="btn btn-default btn-primary">{% trans 'Edit' %}</a>
-                    	<a href="{% url 'oppia_gamification_edit_course' course.id %}" class="btn btn-default btn-primary">{% trans 'Edit Gamification' %}</a>  
+                    	<a href="{% url 'oppia_course_edit' course.id %}" data-toggle="tooltip" title="{% trans 'Edit' %}" class="btn btn-inline btn-outline-primary"><i class="fas fa-2x fa-edit"></i> </a>
+                    	<a href="{% url 'oppia_gamification_edit_course' course.id %}" data-toggle="tooltip" title="{% trans 'Edit Gamification' %}" class="btn btn-inline btn-outline-primary"><i class="fas fa-2x fa-gamepad"></i></a>
                     {% endif %}
                 </td>
 			</tr>

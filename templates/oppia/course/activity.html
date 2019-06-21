@@ -61,15 +61,15 @@
 {% endblock extra_scripts %}
 
 {% block header %}
-<div class="jumbotron pb-2">
+<div class="jumbotron pb-2 mb-3">
 		<div class="row">
 			<div class="col-md-8">
 				<h3>{{ course.title|title_lang:LANGUAGE_CODE }}
 				{% if course.is_draft %}
-					<span class="badge badge-dark ml-2">{% trans 'draft' %}</span>
+					<span class="badge badge-dark ml-2"><small>{% trans 'draft' %}</small></span>
 				{% endif %}
 				{% if course.is_archived %}
-					<span class="badge badge-dark ml-2">{% trans 'archived' %}</span>
+					<span class="badge badge-dark ml-2"><small>{% trans 'archived' %}</small></span>
 				{% endif %}
 				</h3>
 				<p><em>{% trans 'Tags:' %} {{ course.get_tags}}</em></p>

@@ -206,12 +206,30 @@
         </style>
     {% endblock extra_styles %}
 
-{% endif %} 
+{% endif %}
+
+
+{% block header %}
+<div class="jumbotron mb-5 py-2">
+    <div class="row">
+        <div class="col"><h3 class="mt-3"><i class="material-icons mr-2">arrow_upward</i>{% trans 'Summary Overview' %}</h3></div>
+        <div class="col">
+            <form method="POST">
+	            {% csrf_token %}
+            <div class="input-group">
+              {% include 'common/form/input.html' with field=form.start_date %}
+              <div class="input-group-append">
+                <button type="submit" class="btn btn-light">{% trans 'Go' %}</button>
+              </div>
+            </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+{% endblock header %}
+
 {% block content %}
-
-<h2>{% trans 'Summary Overview' %}</h2>
-
-{% crispy form %}
 
 <h3>{% trans 'User Registrations' %}</h3>
 

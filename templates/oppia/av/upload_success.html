@@ -7,9 +7,14 @@
 {% endblock extra_head_title %}
 
 
+{% block header %}
+<div class="jumbotron mb-3">
+	<h3><i class="material-icons mr-2">arrow_upward</i>{{ title }}</h3>
+</div>
+{% endblock header %}
+
 {% block content %}
 <div class="container">
-	<h2>{{ title }}</h2>
     {% blocktrans with media.file.url as download_media %}
      <p>Your file has been successfully uploaded.</p>
      <p>The media is now available for download at: <a href="{{ download_media }}" target="_blank">{{ download_media }}</a> </p>

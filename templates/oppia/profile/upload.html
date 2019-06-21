@@ -7,32 +7,19 @@
 	{% trans 'Upload users' %}
 {% endblock extra_head_title %}
 
+
+{% block header %}
+<div class="jumbotron mb-4 ">
+	<h3>{% trans 'Upload users' %}</h3>
+</div>
+{% endblock header %}
+
 {% block content %}
 
-<h2>{% trans 'Upload users' %}</h2>
-
-{% blocktrans %}
-<p>You may only upload a 'CSV' file.</p>
-<p>The following columns/fields are required:</p>
-<ul>
-	<li>username</li>
-	<li>email</li>
-	<li>firstname</li>
-	<li>lastname</li>
-</ul>
-
-<p>You may also optionally add the following columns/fields:</p>
-<ul>
-	<li>password (note: if you do not add a password, one will be randomly generated)</li>
-	<li>organisation</li>
-	<li>phone_no</li>
-	<li>other columns that match your user profile definition</li>
-</ul>
-
-{% endblocktrans %}
-
-{% if results %}
-	<h3>{% trans 'Upload results' %}</h3>
+<div class="row">
+	<div class="col-md-5 mb-4">
+		{% if results %}
+	<h4>{% trans 'Upload results' %}</h4>
 	<div class="table-responsive">
          <table class="table table-striped-expandable">
          	 <thead>
@@ -53,7 +40,35 @@
  	</div>
 {% endif %}
 
-<h3>{% trans 'Upload user file ' %}</h3>
-{% crispy form %}
+		<h4>{% trans 'Upload user file' %}</h4>
+		{% crispy form %}
+	</div>
+	<div class="col-md-7">
+		{% blocktrans %}
+		<p>You may only upload a 'CSV' file.</p>
+		<p>The following columns/fields are required:</p>
+		<ul>
+			<li><code>username</code></li>
+			<li><code>email</code></li>
+			<li><code>firstname</code></li>
+			<li><code>lastname</code></li>
+		</ul>
+
+		<p>You may also optionally add the following columns/fields:</p>
+		<ul>
+			<li><code>password</code> (note: if you do not add a password, one will be randomly generated)</li>
+			<li><code>organisation</code></li>
+			<li><code>phone_no</code></li>
+			<li>other columns that match your user profile definition</li>
+		</ul>
+		{% endblocktrans %}
+	</div>
+</div>
+
+
+
+
+
+
 
 {% endblock %}

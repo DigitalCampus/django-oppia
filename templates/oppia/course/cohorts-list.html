@@ -6,9 +6,14 @@
 	{% trans 'Cohorts' %}
 {% endblock extra_head_title %}
 
-{% block content %}
 
-<h2>{% trans 'Cohorts' %}</h2>
+{% block header %}
+<div class="jumbotron mb-3">
+	<h3>{% trans 'Cohorts' %}</h3>
+</div>
+{% endblock header %}
+
+{% block content %}
 
 {% if cohorts %}
 	<div class="table-responsive">
