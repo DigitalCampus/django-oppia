@@ -80,35 +80,36 @@
             <ul class="navdrawer-nav">
                 <li class="nav-item">
                 <a class="nav-link pl-5" href="{% url 'profile_upload' %}">
-              <i class="material-icons mr-3">arrow_upward</i> {% trans 'Upload users' %}
+              <i class="material-icons mr-3">account_circle</i> {% trans 'Upload users' %}
                 </a>
                 </li>
 
                 <li class="nav-item">
-                <a class="nav-link pl-5" href="{% url 'profile_search_users' %}">
-                  <i class="material-icons mr-3">search</i> Course
+                <a class="nav-link pl-5" href="{% url 'oppia_upload' %}">
+                  <i class="material-icons mr-3">book</i> {% trans 'Course' %}
                 </a>
                 </li>
 
                 <li class="nav-item">
-                <a class="nav-link pl-5" href="{% url 'profile_search_users' %}">
-                  <i class="material-icons mr-3">search</i> Media
+                <a class="nav-link pl-5" href="{% url 'oppia_av_upload' %}">
+                  <i class="material-icons mr-3">video_library</i> {% trans 'Media' %}
                 </a>
                 </li>
 
                 <li class="nav-item">
-                <a class="nav-link pl-5" href="{% url 'profile_search_users' %}">
-                  <i class="material-icons mr-3">search</i> Media embed helper
+                <a class="nav-link pl-5" href="{% url 'oppia_media_embed_helper' %}">
+                  <i class="material-icons mr-3">art_track</i> {% trans 'Media Embed Helper' %}
                 </a>
                 </li>
 
                 <li class="nav-item">
-                <a class="nav-link pl-5" href="{% url 'profile_search_users' %}">
-                  <i class="material-icons mr-3">search</i> Activity logs
+                <a class="nav-link pl-5" href="{% url 'oppia_activitylog_upload' %}">
+                  <i class="material-icons mr-3">list_alt</i> {% trans 'Activity Log' %}
                 </a>
                 </li>
             </ul>
         </div>
+
 
         <p class="navdrawer-subheader"> <i class="material-icons mr-1">group</i> {% trans 'Admin' %}</p>
         <ul class="navdrawer-nav">
