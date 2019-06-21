@@ -6,12 +6,14 @@
 	{{ course.title|title_lang:LANGUAGE_CODE }}
 {% endblock extra_head_title %}
 
+{% block header %}
+<div class="jumbotron mb-4">
+	<h3><a href="{% url 'oppia_recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a> <i class="material-icons md-18 ">arrow_forward_ios</i> {% trans 'title_quizzes' %}</h3>
+	<p><em>{% trans 'Tags:' %} {{ course.get_tags}}</em></p>
+</div>
+{% endblock header %}
 
 {% block content %}
-
-<h2><a href="{% url 'oppia_recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a></h2>
-<p><em>{% trans 'Tags:' %} {{ course.get_tags}}</em></p>
-
 
 <div class="table-responsive">
     <table class="table">

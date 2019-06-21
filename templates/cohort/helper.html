@@ -49,7 +49,7 @@
      <div class="col-sm-6" id="add-courses-block" style="display:none;">
      <h4>{% trans 'Available courses' %}</h4>
          <div id="available-courses" class="available-items">
-            {% include "course/courses-paginated-list.html" with ajax_url=courses_list_url page=courses_page page_ordering=c_ordering %}
+            {% include "course/list_page.html" with ajax_url=courses_list_url page=courses_page page_ordering=c_ordering %}
          </div>
     </div>
 </div>
