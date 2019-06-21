@@ -86,7 +86,7 @@ def login_view(request):
     else:
         form = LoginForm(initial={'next': filter_redirect(request.GET), })
 
-    return render(request, 'oppia/form.html',
+    return render(request, 'common/form/form.html',
                               {'username': username,
                                'form': form,
                                'title': _(u'Login')})
@@ -123,7 +123,7 @@ def register(request):
     else:
         form = RegisterForm(initial={'next': filter_redirect(request.GET), })
 
-    return render(request, 'oppia/form.html',
+    return render(request, 'common/form/form.html',
                               {'form': form,
                                'title': _(u'Register'), })
 
@@ -146,8 +146,8 @@ def reset(request):
                 prefix = 'http://'
             
             emailer.send_oppia_email(
-                template_html = 'oppia/profile/email/password_reset.html',
-                template_text = 'oppia/profile/email/password_reset.txt',
+                template_html = 'profile/email/password_reset.html',
+                template_text = 'profile/email/password_reset.txt',
                 subject="Password reset",
                 fail_silently=False,
                 recipients=[user.email],
@@ -159,7 +159,7 @@ def reset(request):
     else:
         form = ResetForm()  # An unbound form
 
-    return render(request, 'oppia/form.html',
+    return render(request, 'common/form/form.html',
                   {'form': form,
                    'title': _(u'Reset password')})
 
@@ -210,14 +210,14 @@ def edit(request, user_id=0):
                                     'job_title': user_profile.job_title,
                                     'organisation': user_profile.organisation, })
 
-    return render(request, 'oppia/profile/profile.html',
+    return render(request, 'profile/profile.html',
                   {'form': form, })
 
 
 def export_mydata_view(request, data_type):
     if data_type == 'activity':
         my_activity = Tracker.objects.filter(user=request.user)
-        return render(request, 'oppia/profile/export/activity.html',
+        return render(request, 'profile/export/activity.html',
                   {'activity': my_activity})
     elif data_type == 'quiz':
         my_quizzes = []
@@ -228,15 +228,15 @@ def export_mydata_view(request, data_type):
             data['quizattemptresponses'] = QuizAttemptResponse.objects.filter(quizattempt=mqa)
             my_quizzes.append(data)
 
-        return render(request, 'oppia/profile/export/quiz_attempts.html',
+        return render(request, 'profile/export/quiz_attempts.html',
                   {'quiz_attempts': my_quizzes})
     elif data_type == 'points':
         points = Points.objects.filter(user=request.user)
-        return render(request, 'oppia/profile/export/points.html',
+        return render(request, 'profile/export/points.html',
                   {'points': points})
     elif data_type == 'badges':
         badges = Award.objects.filter(user=request.user)
-        return render(request, 'oppia/profile/export/badges.html',
+        return render(request, 'profile/export/badges.html',
                   {'badges': badges})
     else:
         raise Http404
@@ -257,13 +257,13 @@ def points(request):
         mypoints = paginator.page(page)
     except (EmptyPage, InvalidPage):
         mypoints = paginator.page(paginator.num_pages)
-    return render(request, 'oppia/profile/points.html',
+    return render(request, 'profile/points.html',
                               {'page': mypoints, })
 
 
 def badges(request):
     awards = Award.objects.filter(user=request.user).order_by('-award_date')
-    return render(request, 'oppia/profile/badges.html',
+    return render(request, 'profile/badges.html',
                               {'awards': awards, })
 
 
@@ -323,7 +323,7 @@ def user_activity(request, user_id):
     course_ids = list(chain(cohort_courses.values_list('id', flat=True), other_courses.values_list('id', flat=True)))
     activity = get_tracker_activities(start_date, end_date, view_user, course_ids=course_ids)
 
-    return render(request, 'oppia/profile/user-scorecard.html',
+    return render(request, 'profile/user-scorecard.html',
                               {'view_user': view_user,
                                'courses': courses,
                                'page_ordering': ('-' if inverse_order else '') + ordering,
@@ -420,7 +420,7 @@ def user_course_activity_view(request, user_id, course_id):
 
     quizzes.sort(key=operator.itemgetter(ordering), reverse=inverse_order)
 
-    return render(request, 'oppia/profile/user-course-scorecard.html',
+    return render(request, 'profile/user-course-scorecard.html',
                               {'view_user': view_user,
                                'course': course,
                                'quizzes': quizzes,
@@ -506,7 +506,7 @@ def upload_view(request):
         results = []
         form = UploadProfileForm()
 
-    return render(request, 'oppia/profile/upload.html',
+    return render(request, 'profile/upload.html',
                               {'form': form,
                                'results': results})
 
@@ -577,7 +577,7 @@ def search_users(request):
     except (EmptyPage, InvalidPage):
         users = paginator.page(paginator.num_pages)
 
-    return render(request, 'oppia/profile/search_user.html',
+    return render(request, 'profile/search_user.html',
                               {'quicksearch': query_string,
                                 'search_form': search_form,
                                 'advanced_search': filtered,
@@ -599,7 +599,7 @@ def export_users(request):
     if request.is_ajax():
         template = 'users-paginated-list.html'
 
-    return render(request, 'oppia/profile/' + template,
+    return render(request, 'profile/' + template,
                               {'page': users,
                                   'page_ordering': ordering,
                                   'users_list_template': 'export'})
@@ -607,7 +607,7 @@ def export_users(request):
 @staff_member_required
 def list_users(request):
     ordering, users = get_paginated_users(request)
-    return render(request, 'oppia/profile/users-paginated-list.html',
+    return render(request, 'profile/users-paginated-list.html',
                               {'page': users,
                                   'page_ordering': ordering,
                                   'users_list_template': 'select',
@@ -647,13 +647,13 @@ def delete_account_view(request):
     else:
         form = DeleteAccountForm(initial={'username': request.user.username})  # An unbound form
 
-    return render(request, 'oppia/profile/delete_account.html',
+    return render(request, 'profile/delete_account.html',
                   {'form': form})
 
    
 def delete_account_complete_view(request):
 
-    return render(request, 'oppia/profile/delete_account_complete.html')
+    return render(request, 'profile/delete_account_complete.html')
 
 # helper functions
 

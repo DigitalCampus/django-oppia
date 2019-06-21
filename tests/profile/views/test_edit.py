@@ -405,25 +405,25 @@ class EditProfileViewTest(TestCase):
     def test_export_data_activity_user(self):
         self.client.login(username=NORMAL_USER['user'], password=NORMAL_USER['password'])
         response = self.client.get(reverse('profile_export_mydata', args=['activity']))
-        self.assertTemplateUsed(response, 'oppia/profile/export/activity.html')
+        self.assertTemplateUsed(response, 'profile/export/activity.html')
         self.assertEqual(response.status_code, 200)       
     
     def test_export_data_quiz_user(self):    
         self.client.login(username=NORMAL_USER['user'], password=NORMAL_USER['password'])
         response = self.client.get(reverse('profile_export_mydata', args=['quiz']))
-        self.assertTemplateUsed(response, 'oppia/profile/export/quiz_attempts.html')
+        self.assertTemplateUsed(response, 'profile/export/quiz_attempts.html')
         self.assertEqual(response.status_code, 200)   
      
     def test_export_data_points_user(self):    
         self.client.login(username=NORMAL_USER['user'], password=NORMAL_USER['password'])
         response = self.client.get(reverse('profile_export_mydata', args=['points']))
-        self.assertTemplateUsed(response, 'oppia/profile/export/points.html')
+        self.assertTemplateUsed(response, 'profile/export/points.html')
         self.assertEqual(response.status_code, 200)  
     
     def test_export_data_badges_user(self):        
         self.client.login(username=NORMAL_USER['user'], password=NORMAL_USER['password'])
         response = self.client.get(reverse('profile_export_mydata', args=['badges']))
-        self.assertTemplateUsed(response, 'oppia/profile/export/badges.html')
+        self.assertTemplateUsed(response, 'profile/export/badges.html')
         self.assertEqual(response.status_code, 200)  
     
     def test_export_data_other_user(self):     

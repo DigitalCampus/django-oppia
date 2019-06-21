@@ -18,7 +18,7 @@ class ReportCompletionRatesViewTest(TestCase):
         super(ReportCompletionRatesViewTest, self).setUp() 
         
     def test_view_completion_rates(self):
-        template = 'oppia/reports/completion_rates.html'
+        template = 'reports/completion_rates.html'
         url = reverse('oppia_completion_rates')
         allowed_users = [ADMIN_USER, STAFF_USER]
         disallowed_users = [TEACHER_USER, NORMAL_USER]
@@ -36,7 +36,7 @@ class ReportCompletionRatesViewTest(TestCase):
     
     def test_view_course_completion_rates_valid_course(self):
         url = reverse('course_completion_rates', args=[1])
-        template = 'oppia/reports/course_completion_rates.html'
+        template = 'reports/course_completion_rates.html'
         allowed_users = [ADMIN_USER, STAFF_USER]
         disallowed_users = [TEACHER_USER, NORMAL_USER]
         

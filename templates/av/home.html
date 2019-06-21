@@ -26,13 +26,13 @@
 	              </thead>
 	              <tbody>
 	              {% for media in page.object_list %}
-	              	  {% include 'oppia/av/media_row.html' %}
+	              	  {% include 'av/media_row.html' %}
 	              {% endfor %}
 	              </tbody>
 	 		</table>
 		</div>
 		
-		{% include "oppia/includes/pagination.html" %}	
+		{% include "common/pagination.html" %}
 	{% endif %}
 </div>
 {% endblock %}

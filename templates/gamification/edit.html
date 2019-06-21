@@ -56,10 +56,10 @@
 			<table class="table-sm table-borderless gamification-points">
 			{% for event in events %}
 				{% if not event.event in course.events %}
-					{% include 'oppia/gamification/points_row.html' with event=event.event points=event.points level='global' id=course.id %}
+					{% include 'gamification/points_row.html' with event=event.event points=event.points level='global' id=course.id %}
 				{% else %}
 					{% with course_event=course.events|lookup:event.event %}
-						{% include 'oppia/gamification/points_row.html' with event=event.event points=course_event level='custom' id=course.id %}
+						{% include 'gamification/points_row.html' with event=event.event points=course_event level='custom' id=course.id %}
 					{% endwith %}
 				{% endif %}
 			{% endfor %}
@@ -116,10 +116,10 @@
 					{% if not event.event in activity.events %}
 						{% if event.event in course.events %}
 							{% with course_event=course.events|lookup:event.event %}
-					 			{% include 'oppia/gamification/points_row.html' with event=event.event points=course_event level='course' id=activity.id %}
+					 			{% include 'gamification/points_row.html' with event=event.event points=course_event level='course' id=activity.id %}
 							{% endwith %}
 						{% else %}
-						 	{% include 'oppia/gamification/points_row.html' with event=event.event points=event.points level='global' id=activity.id %}
+						 	{% include 'gamification/points_row.html' with event=event.event points=event.points level='global' id=activity.id %}
 						{% endif %}
 					{% endif %}
 				{% endfor %}
@@ -128,10 +128,10 @@
 					{% if not event.event in activity.events %}
 						{% if event.event in course.events %}
 							{% with course_event=course.events|lookup:event.event %}
-								{% include 'oppia/gamification/points_row.html' with event=event.event points=course_event level='course' id=activity.id %}
+								{% include 'gamification/points_row.html' with event=event.event points=course_event level='course' id=activity.id %}
 							{% endwith %}
 						{% else %}
-							{% include 'oppia/gamification/points_row.html' with event=event.event points=event.points level='global' id=activity.id %}
+							{% include 'gamification/points_row.html' with event=event.event points=event.points level='global' id=activity.id %}
 						{% endif %}
 					{% endif %}
 				{% endfor %}
@@ -140,7 +140,7 @@
 
 			{% if activity.events %}
 				{% for event,points in activity.events.items %}
-					{% include 'oppia/gamification/points_row.html' with event=event points=points level='custom' id=activity.id %}
+					{% include 'gamification/points_row.html' with event=event points=points level='custom' id=activity.id %}
 
 				{% endfor %}
 			{% endif %}
@@ -189,17 +189,17 @@
 					{% if not event.event in m.events %}
 						{% if event.event in course.events %}
 							{% with course_event=course.events|lookup:event.event %}
-								{% include 'oppia/gamification/points_row.html' with event=event.event points=course_event level='course' id=m.id %}
+								{% include 'gamification/points_row.html' with event=event.event points=course_event level='course' id=m.id %}
 							{% endwith %}
 						{% else %}
-							{% include 'oppia/gamification/points_row.html' with event=event.event points=event.points level='global' id=m.id%}
+							{% include 'gamification/points_row.html' with event=event.event points=event.points level='global' id=m.id%}
 						{% endif %}
 					{% endif %}
 				{% endfor %}
 
 			{% if m.events %}
 				{% for event,points in m.events.items %}
-					{% include 'oppia/gamification/points_row.html' with event=event points=points level='custom' id=m.id %}
+					{% include 'gamification/points_row.html' with event=event points=points level='custom' id=m.id %}
 				{% endfor %}
 			{% endif %}
 			 </table>

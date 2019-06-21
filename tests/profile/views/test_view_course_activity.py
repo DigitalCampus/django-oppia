@@ -15,7 +15,7 @@ class CourseActivityViewTest(TestCase):
 
     def setUp(self):
         super(CourseActivityViewTest, self).setUp()
-        self.template = 'oppia/profile/user-course-scorecard.html'
+        self.template = 'profile/user-course-scorecard.html'
         self.course_id = 1
         self.reverse_url = 'profile_user_course_activity'
         

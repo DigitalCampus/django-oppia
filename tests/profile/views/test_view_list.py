@@ -15,7 +15,7 @@ class UserSearchActivityViewTest(TestCase):
 
     def setUp(self):
         super(UserSearchActivityViewTest, self).setUp()
-        self.template = 'oppia/profile/users-paginated-list.html'
+        self.template = 'profile/users-paginated-list.html'
         self.url = reverse('profile_list_users')
         
         

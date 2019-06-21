@@ -35,7 +35,7 @@ class LoginViewTest(TestCase):
     def test_already_logged_in_user(self):        
         self.client.login(username=NORMAL_USER['user'], password=NORMAL_USER['password'])
         response = self.client.get(reverse('profile_login'), follow=True)
-        self.assertTemplateUsed(response, 'oppia/profile/user-scorecard.html')
+        self.assertTemplateUsed(response, 'profile/user-scorecard.html')
         self.assertEqual(response.status_code, 200)
         
         

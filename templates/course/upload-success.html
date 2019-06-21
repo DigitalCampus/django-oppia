@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block header %}
+<div class="jumbotron mb-4">
+	<h2>{% trans 'page_title_upload_course' %}</h2>
+    {% if course_title %}<h4>{{ course_title|title_lang:LANGUAGE_CODE }}</h4> {% endif %}
+</div>
+{% endblock header %}
+
+{% block content %}
+{% include "includes/messages.html" %}	
+{% blocktrans %}
+<p>Your course was successfully uploaded</p>
+{% endblocktrans %}
+    
+{% endblock %}

@@ -6,25 +6,25 @@
      <thead>
         <tr>
         {% if users_list_template %}
-            {% with "oppia/profile/list/header-user-"|add:users_list_template|add:".html" as header_template_path %}
+            {% with "profile/list/header-user-"|add:users_list_template|add:".html" as header_template_path %}
                 {% include header_template_path %}
             {% endwith %}
         {% else %}
-            {% include 'oppia/profile/list/header-user-default.html' %}
+            {% include 'profile/list/header-user-default.html' %}
         {% endif %}
         </tr>
       </thead>
       <tbody {% if users_list_template %} id="{{ users_list_template }}" {% endif %}>
 
     {% if users_list_template %}
-        {% with "oppia/profile/list/row-user-"|add:users_list_template|add:".html" as row_template_path %}
+        {% with "profile/list/row-user-"|add:users_list_template|add:".html" as row_template_path %}
             {% for user in page.object_list %}
                 {% include row_template_path %}
             {% endfor %}
         {% endwith %}
     {% else %}
         {% for user in page.object_list %}
-            {% include 'oppia/profile/list/row-user-default.html' %}
+            {% include 'profile/list/row-user-default.html' %}
         {% endfor %}
 
     {% endif %}
@@ -33,4 +33,4 @@
 </table>
 </div>
 
-{% include "oppia/includes/pagination.html" %}
+{% include "common/pagination.html" %}
