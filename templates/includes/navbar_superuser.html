@@ -49,7 +49,7 @@
 
         <div class="navdrawer-divider my-0"></div>
 
-        <ul class="navdrawer-nav">
+        <ul class="navdrawer-nav mb-0">
             <li class="nav-item">
             <a class="nav-link" href="{% url 'oppia_course' %}">
               <i class="material-icons mr-3">book</i> {% trans 'menu_courses' %}
@@ -67,19 +67,54 @@
               <i class="material-icons mr-3">school</i> {% trans 'Cohorts' %}
             </a>
             </li>
+
+            <li class="nav-item">
+            <a class="nav-link collapsed position-relative" data-toggle="collapse" href="#upload-menu" role="button" aria-expanded="false">
+              <i class="material-icons mr-3">arrow_upward</i> Upload
+                <i class="fas fa-chevron-down expand-btn"></i>
+            </a>
+            </li>
         </ul>
+
+        <div class="collapse" id="upload-menu">
+            <ul class="navdrawer-nav">
+                <li class="nav-item">
+                <a class="nav-link pl-5" href="{% url 'profile_upload' %}">
+              <i class="material-icons mr-3">arrow_upward</i> {% trans 'Upload users' %}
+                </a>
+                </li>
+
+                <li class="nav-item">
+                <a class="nav-link pl-5" href="{% url 'profile_search_users' %}">
+                  <i class="material-icons mr-3">search</i> Course
+                </a>
+                </li>
+
+                <li class="nav-item">
+                <a class="nav-link pl-5" href="{% url 'profile_search_users' %}">
+                  <i class="material-icons mr-3">search</i> Media
+                </a>
+                </li>
+
+                <li class="nav-item">
+                <a class="nav-link pl-5" href="{% url 'profile_search_users' %}">
+                  <i class="material-icons mr-3">search</i> Media embed helper
+                </a>
+                </li>
+
+                <li class="nav-item">
+                <a class="nav-link pl-5" href="{% url 'profile_search_users' %}">
+                  <i class="material-icons mr-3">search</i> Activity logs
+                </a>
+                </li>
+            </ul>
+        </div>
 
         <p class="navdrawer-subheader"> <i class="material-icons mr-1">group</i> {% trans 'Admin' %}</p>
         <ul class="navdrawer-nav">
             <li class="nav-item">
             <a class="nav-link" href="{% url 'profile_search_users' %}">
               <i class="material-icons mr-3">search</i> {% trans 'Search users' %}
-            </a>
-            </li>
-
-            <li class="nav-item">
-            <a class="nav-link" href="{% url 'profile_upload' %}">
-              <i class="material-icons mr-3">arrow_upward</i> {% trans 'Upload users' %}
             </a>
             </li>
 

@@ -30,3 +30,15 @@
         margin-left: calc(100% - 2.2rem);
     }
 }
+
+.debug-alert{
+    position:fixed;
+    left:50%;
+    bottom:auto;
+    top:0;
+    margin-left:-12rem;
+    max-width:24rem;
+    margin-bottom:0;
+    margin-right:0;
+
+}

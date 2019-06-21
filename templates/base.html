@@ -18,6 +18,7 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
     <!-- favicon -->
 	<link rel="apple-touch-icon" sizes="180x180" href="{% static "oppia/images/favicon/apple-touch-icon.png" %}">
@@ -34,38 +35,39 @@
 
 <body class="d-flex flex-column" {% block extra_body %}{% endblock extra_body %}>
 
-<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-primary" role="navigation">
-  {% include "includes/header.html" %}
-</nav>
-
 {% if DEBUG %}
-         <div class="alert alert-danger alert-dismissable">
-         	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-             {% trans 'This is a development server, anything added here will not be shared on the live site' %}
-         </div>
-     {% endif %}
+     <div class="fixed-bottom alert alert-danger alert-dismissable debug-alert" style="z-index:200;">
+        <a href="#" class="close ml-2" data-dismiss="alert" aria-label="close">&times;</a>
+        <i class="material-icons mr-2 float-left">bug_report</i>
+        {% trans 'This is a development server, anything added here will not be shared on the live site' %}
+     </div>
+ {% endif %}
 
-<section class="container-fluid flex-grow">
-    <div class="main">
-    {% block content %}
-    {% endblock content %}
-	</div> <!--  end main -->
-</section> <!--  end container -->
+{% include "includes/header.html" %}
 
+<div id="main-content">
+    {% block header %}
+    {% endblock header %}
 
-<footer class="bg-light text-dark mt-4">
-    <div class="container-fluid py-3">
-        <div class="row">
-            <div class="col-md-9 pb-2 text-center text-md-left">
-                    <a href="{% url 'oppia_about' %}">{% trans 'footer_about' %}</a> |
-                    <a href="{% url 'oppia_about' %}#terms">{% trans 'footer_terms' %}</a>
+    <section class="container-fluid flex-grow">
+        <div class="main">
+        {% block content %}
+        {% endblock content %}
+        </div> <!--  end main -->
+    </section> <!--  end container -->
 
-
+    <footer class="bg-light text-dark mt-4">
+        <div class="container-fluid py-3">
+            <div class="row">
+                <div class="col-md-9 pb-2 text-center text-md-left">
+                        <a href="{% url 'oppia_about' %}">{% trans 'footer_about' %}</a> |
+                        <a href="{% url 'oppia_about' %}#terms">{% trans 'footer_terms' %}</a>
+                </div>
+                <div class="col-md-3 small align-self-end pb-2 text-center text-md-right">{{ version }} &copy; {% now "Y" %} <a href="http://digital-campus.org">Digital Campus</a></div>
             </div>
-            <div class="col-md-3 small align-self-end pb-2 text-center text-md-right">{{ version }} &copy; {% now "Y" %} <a href="http://digital-campus.org">Digital Campus</a></div>
         </div>
-    </div>
-</footer>
+    </footer>
+</div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>

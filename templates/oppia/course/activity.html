@@ -59,17 +59,44 @@
       }
 </script>
 {% endblock extra_scripts %}
+
+{% block header %}
+<div class="jumbotron pb-2">
+		<div class="row">
+			<div class="col-md-8">
+				<h3>{{ course.title|title_lang:LANGUAGE_CODE }}
+				{% if course.is_draft %}
+					<span class="badge badge-dark ml-2">{% trans 'draft' %}</span>
+				{% endif %}
+				{% if course.is_archived %}
+					<span class="badge badge-dark ml-2">{% trans 'archived' %}</span>
+				{% endif %}
+				</h3>
+				<p><em>{% trans 'Tags:' %} {{ course.get_tags}}</em></p>
+			</div>
+			<div class="col-md-4 text-right">
+				<a href="{% url 'oppia_course_edit' course.id %}" class="btn btn-light mr-2">{% trans 'Edit' %}</a>
+				<a href="#" class="btn btn-secondary">Gamification settings</a>
+			</div>
+	</div>
+
+
+</div>
+{% endblock header %}
+
+
 {% block content %}
 
-<h2>{{ course.title|title_lang:LANGUAGE_CODE }}</h2>
-<p><em>{% trans 'Tags:' %} {{ course.get_tags}}</em></p>
-	
+
 <h3>{% trans 'courses_recent_activity' %}</h3>
 <div id="attempts_chart_div" class="graph">{% trans 'graph_generating'%}</div>
 
 {% include "includes/messages.html" %}	
+<div class="container">
 {% crispy form %}
-	
+
+</div>
+
 {% if leaderboard %}
 <h3>{% trans 'home_leaderboard' %}</h3>
 {% include "oppia/includes/leaderboard.html" %}

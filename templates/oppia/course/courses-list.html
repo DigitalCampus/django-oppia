@@ -6,8 +6,14 @@
 	{% trans 'Courses' %}
 {% endblock extra_head_title %}
 
+
+{% block header %}
+<div class="jumbotron">
+	<h2>{% trans 'Courses' %}</h2>
+</div>
+{% endblock header %}
+
 {% block content %}
-<h2>{% trans 'Courses' %}</h2>
 
 <div class="form-row align-items-center">
 {% if tag_list %}
@@ -59,10 +65,10 @@
 						<strong>{{ course.title|title_lang:LANGUAGE_CODE }}</strong>
 					{% endif %}	
 				{% if course.is_draft %}
-					<span class="badge badge-secondary ml-2">{% trans 'draft' %}</span>
+					<span class="badge badge-dark ml-2">{% trans 'draft' %}</span>
 				{% endif %}	
 				{% if course.is_archived %}
-					<span class="badge badge-secondary ml-2">{% trans 'archived' %}</span>
+					<span class="badge badge-dark ml-2">{% trans 'archived' %}</span>
 				{% endif %}<br/>
 				<small>{% trans 'Tags:' %} {{ course.get_tags }}</small></td>
 				<td>{{ course.lastupdated_date }} </td>
