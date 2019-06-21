@@ -6,8 +6,13 @@
 	{% trans 'Completion rates' %}
 {% endblock extra_head_title %}
 
+{% block header %}
+<div class="jumbotron mb-4">
+	<h3>{% trans 'Completion Rates' %}</h3>
+</div>
+{% endblock header %}
+
 {% block content %}
-<h2>{% trans 'Completion Rates' %}</h2>
 
 {% if courses_list %}
 

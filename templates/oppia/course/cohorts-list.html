@@ -38,8 +38,8 @@
 				<a href="{% url 'oppia_cohort_course_view' cohort.id course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a><br/>
 			{% endfor %}
 			</td>
-			<td>
-				<a href="{% url 'oppia_cohort_edit' cohort.id %}" class="btn btn-default btn-primary">{% trans 'Edit' %}</a>
+			<td class="py-1">
+				<a href="{% url 'oppia_cohort_edit' cohort.id %}" data-toggle="tooltip" title="{% trans 'Edit' %}" class="btn btn-inline btn-outline-primary"><i class="fas fa-2x fa-edit"></i> </a>
 			</td>	
 		</tr> 
 	{% endfor %}

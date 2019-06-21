@@ -7,11 +7,30 @@
 {% endblock extra_head_title %}
 
 
+{% block header %}
+<div class="jumbotron mb-4 py-3">
+	<div class="row">
+		<div class="col-md-7">
+			<h2><i class="fas fa-gamepad mt-2 mr-3"></i>Gamification</h2>
+			{{ course.title|title_lang:LANGUAGE_CODE }}
+		</div>
+		<div class="col-md-5">
+			<h5 class="mb-0 badge badge-info">Legend</h5><br>
+			<i class="fas lead mr-2 fa-globe-africa text-info" ></i> Global settings<br>
+			<i class="fas lead mr-2 fa-cog text-info"></i> Custom points <br>
+            <i class="fas lead mr-2 fa-level-down-alt text-info" ></i> Inherited from course <br>
+
+		</div>
+	</div>
+
+
+</div>
+{% endblock header %}
+
+
 {% block content %}
 
     <div class="container">
-		<h2>{{ course.title|title_lang:LANGUAGE_CODE }} - Gamification </h2>
-	    
 	    <div class="row">
 	    	<div class="col-md-12">{% include "includes/messages.html" %}</div>
 	    </div>
@@ -56,7 +75,7 @@
 		</div>
 
 		<div class="list-group mb-2">
-		<a class="list-group-item list-group-item-action bg-secondary text-light">
+		<a class="list-group-item list-group-item-action bg-info text-light">
 			<h6>Topics</h6>
 		</a>
 
@@ -67,7 +86,7 @@
 
 		<a class="list-group-item list-group-item-action bg-light collapsed" data-toggle="collapse" href="#section{{forloop.counter0}}" role="button" aria-expanded="false">
 			<h6>{{section.grouper}}
-				<span class="badge badge-secondary">{{section.list|length}} activities</span></h6>
+				<span class="badge badge-info">{{section.list|length}} activities</span></h6>
 			<i class="fas fa-chevron-down expand-btn"></i>
 		</a>
 
@@ -144,7 +163,7 @@
 		{% if media %}
 		<div class="list-group mb-2">
 
-			<a class="list-group-item list-group-item-action bg-secondary text-light collapsed" data-toggle="collapse" href="#media-elements" role="button" aria-expanded="false">
+			<a class="list-group-item list-group-item-action bg-info text-light collapsed" data-toggle="collapse" href="#media-elements" role="button" aria-expanded="false">
 			<h6>Media elements
 				<span class="badge badge-light">{{media|length}}</span></h6>
 				<i class="fas fa-chevron-down expand-btn"></i>
@@ -214,8 +233,8 @@
 		<div class="col"><code class="event">activity_completed</code></div>
 		<div class="col"><input type="number" class="form-control" /></div>
 		<div class="col pl-0">
-			<button class="btn btn-primary" data-action="add"><i class="fas fa-check"></i> </button>
-			<button class="btn btn-secondary" data-action="remove"><i class="fas fa-trash"></i> </button>
+			<button class="btn btn-primary btn-inline" data-action="add"><i class="fas fa-check"></i> </button>
+			<button class="btn btn-dark btn-inline" data-action="remove"><i class="fas fa-trash"></i> </button>
 		</div>
 
 	</div>

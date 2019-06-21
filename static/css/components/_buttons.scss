@@ -3,7 +3,7 @@
         font-family: $font-family-emphasis;
         font-weight:500;
     }
-    &.btn-inline{ min-width:auto; }
+    &.btn-inline{ min-width:auto; max-width:initial;}
     &.btn-em{ font-weight: 600; }
 }
 

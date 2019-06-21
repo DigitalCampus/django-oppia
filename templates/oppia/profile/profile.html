@@ -7,9 +7,14 @@
 	{% trans 'Profile' %}
 {% endblock extra_head_title %}
 
-{% block content %}
 
-<h2>{% trans 'Profile' %}</h2>
+{% block header %}
+<div class="jumbotron mb-4 ">
+	<h3>Profile</h3>
+</div>
+{% endblock header %}
+
+{% block content %}
 
 {% include "includes/messages.html" %}	
 

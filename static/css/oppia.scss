@@ -6,7 +6,7 @@ $oppia-lighter: #c1e552;
 $oppia-light: #9aca3c;
 $oppia-mid: #689e3a;
 $oppia-dark: #628817;
-
+$info-color: #828d83;
 $navbar-dark-color: #fff;
 
 $font-family-brand: 'Lato', sans-serif;
@@ -23,6 +23,12 @@ $secondary: (
   dark:  darken($oppia-dark, 10%),
   light: lighten($oppia-dark, 10%)
 );
+$info: (
+  color: $info-color,
+  dark:  darken($info-color, 10%),
+  light: lighten($info-color, 10%)
+);
+
 
 $body-bg: #fcfcfc;
 $jumbotron-bg: $oppia-light;

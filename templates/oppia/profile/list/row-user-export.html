@@ -2,18 +2,21 @@
 {% load display_functions %}
 
 <tr id="{{ user.username }}" data-selectable-id="{{ user.username }}">
-    <td class="col-xs-7 col-sm-7 ">{% if OPPIA_SHOW_GRAVATARS %} {{ user|gravatar:24 }} {% endif %}
-        {{ user.first_name }} {{ user.last_name }}
+    <td class="col-xs-7 col-sm-7 pt-2">{% if OPPIA_SHOW_GRAVATARS %} {{ user|gravatar:24 }} {% endif %}
+        <div class="form-inline">
+        <span class="mr-2"> {{ user.first_name }} {{ user.last_name }}</span>
         <input type="hidden" name="apikey" value="{{ user.apiKey }}" />
         <input type="hidden" name="email" value="{{ user.email }}" />
         <input type="hidden" name="username" value="{{ user.username }}" />
         <input type="hidden" name="first_name" value="{{ user.first_name }}" />
         <input type="hidden" name="last_name" value="{{ user.last_name }}" />
-        <input type="text" name="password" placeholder="{% trans 'Password' %}" class="password removing" style="display:none;float:right;" />
+
+        <input type="text" name="password" placeholder="{% trans 'Password' %}" class="form-control password removing float-right pt-0" style="display:none;" />
+            </div>
     </td>
     <td class="col-xs-3 col-sm-3 ">{{ user.date_joined|date:"d/m/Y" }}</td>
-    <td class="col-xs-2 col-sm-2 text-right">
-        <button class="btn btn-sm btn-primary btn-add"><em class="fas fa-plus"></em> <em class="far fa-check-circle hidden"></em> </button>
-        <button class="btn btn-sm btn-primary btn-remove removing" style="display: none;"><em class="fas fa-minus"></em> </button>
+    <td class="col-xs-2 col-sm-2 text-right pt-2">
+        <button class="btn btn-sm btn-primary btn-inline btn-add"><em class="fas fa-plus"></em> <em class="far fa-check-circle hidden"></em> </button>
+        <button class="btn btn-sm btn-primary btn-inline btn-remove removing" style="display: none;"><em class="fas fa-minus"></em> </button>
     </td>
 </tr>
