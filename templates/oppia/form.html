@@ -6,9 +6,13 @@
 	{{ title }}
 {% endblock extra_head_title %}
 
-{% block content %}
+{% block header %}
+<div class="jumbotron mb-4 ">
+	<h3>{{ title }}</h3>
+</div>
+{% endblock header %}
 
-<h2>{{ title }}</h2>
+{% block content %}
 
 {% crispy form %}
 

@@ -1,8 +1,14 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load display_functions %}
+
+{% block header %}
+<div class="jumbotron mb-4">
+	<h3>{% trans 'page_title_points' %}</h3>
+</div>
+{% endblock header %}
+
 {% block content %}
-<h2>{% trans 'page_title_points' %}</h2>
 
 {% if page.object_list.count > 0 %}
     

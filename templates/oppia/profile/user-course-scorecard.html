@@ -8,9 +8,15 @@
 	{{ view_user.first_name }} {{ view_user.last_name }} &gt; {{ course.title|title_lang:LANGUAGE_CODE }}
 {% endblock extra_head_title %}
 
+{% block header %}
+<div class="jumbotron mb-4 ">
+<h3><a href="{% url 'profile_user_activity' view_user.id %}">{{ view_user.first_name }} {{ view_user.last_name }}</a> <i class="material-icons md-18 ">arrow_forward_ios</i> {{ course.title|title_lang:LANGUAGE_CODE }}</h3>
+</div>
+{% endblock header %}
+
+
 {% block content %}
 
-<h2><a href="{% url 'profile_user_activity' view_user.id %}">{{ view_user.first_name }} {{ view_user.last_name }}</a> &gt; {{ course.title|title_lang:LANGUAGE_CODE }}</h2>
 
 <div class="row">
 
@@ -28,12 +34,15 @@
                 </div>
                 </div>
         </div>
-        <div class="row summary">
-            <div class="col-xs-4">{% if pretest_score %} {{ pretest_score|floatformat:0 }}%{% else %}-{% endif %}<span>Pre-test</span></div>
-            <div class="col-xs-4 attempted">{{ quizzes_attempted }}<span>Attempted</span></div>
-            <div class="col-xs-4 passed"> {{ quizzes_passed }}<span>Passed</span></div>
-        </div>
+
         <h3>{% trans 'Quizzes' %}</h3>
+
+        <div class="row summary mb-2">
+            <div class="col">{% if pretest_score %} {{ pretest_score|floatformat:0 }}%{% else %}-{% endif %}<span>Pre-test</span></div>
+            <div class="col attempted">{{ quizzes_attempted }}<span>Attempted</span></div>
+            <div class="col passed"> {{ quizzes_passed }}<span>Passed</span></div>
+        </div>
+
         <div class="quizzes">
             {% for q in quizzes %}
                 {% if q.quiz.section.order %}
@@ -44,6 +53,7 @@
                 {% endif %}
             {% endfor %}
         </div>
+
     </div>
 </div>
 

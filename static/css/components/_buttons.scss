@@ -8,7 +8,6 @@
 }
 
 [data-toggle="collapse"]{
-
     &:not(.collapsed) .expand-btn{
         transform:rotate(180deg);
     }
@@ -20,7 +19,7 @@
         position:absolute;
         right:20px;
         top:50%;
-        margin-top:-15px;
+        margin-top:-7px;
         transition: transform 0.3s;
 
     }
