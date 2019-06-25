@@ -10,7 +10,8 @@ from tests.utils import get_api_key, get_api_url
 
 class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
     fixtures = ['tests/test_user.json', 
-                'tests/test_oppia.json']
+                'tests/test_oppia.json',
+                'default_gamification_events.json']
 
     def setUp(self):
         super(TrackerResourceTest, self).setUp()

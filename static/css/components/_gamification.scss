@@ -1,0 +1,25 @@
+table.gamification-points, .gamification-input{
+    code{
+        color:$oppia-dark;
+    }
+}
+table.gamification-points .fas{ color:#aaa; }
+.points-pill{
+    display:inline-block;
+    padding:0.2rem 0.6rem;
+    min-width:3rem;
+    text-align:center;
+    color: $oppia-light;
+    border:2px solid $oppia-light;
+    border-radius:0.5rem;
+    font-weight:bold;
+    font-family: $font-family-emphasis;
+
+    &.custom{
+        color: $orange;
+        border:2px solid $orange;
+    }
+    .fas{
+        color:inherit!important;
+    }
+}

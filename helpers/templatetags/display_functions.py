@@ -4,6 +4,7 @@ import json
 import math
 import urllib
 
+import itertools
 from django import template
 from django.template.defaultfilters import stringfilter
 from django.utils.safestring import mark_safe
@@ -55,3 +56,30 @@ def gravatar(user, size):
     return mark_safe(
         '<img src="{0}" alt="gravatar for {1}" class="gravatar" width="{2}" height="{2}"/>'.format(gravatar_url, user, size)
         )
+
+@register.filter(name='lookup')
+def lookup(value, key):
+    return value.get(key)
+
+
+@register.filter
+def chunks(value, chunk_length):
+    """
+    Breaks a list up into a list of lists of size <chunk_length>
+    """
+    clen = int(chunk_length)
+    i = iter(value)
+    while True:
+        chunk = list(itertools.islice(i, clen))
+        if chunk:
+            yield chunk
+        else:
+            break
+
+@register.filter
+def split_half(list):
+    """
+    Breaks a list up into a list of two lists of half size
+    """
+    half = len(list) // 2
+    return [list[:half], list[half:]]

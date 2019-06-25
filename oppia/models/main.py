@@ -262,6 +262,39 @@ class Activity(models.Model):
                 prev_activity = None
         return prev_activity
 
+    def get_event_points(self):
+        from gamification.models import DefaultGamificationEvent, CourseGamificationEvent, ActivityGamificationEvent
+        event_points = []
+        
+        # first check if there are specific points for this activity
+        activity_custom_points = ActivityGamificationEvent.objects.filter(activity=self)
+        if len(activity_custom_points) > 0:
+            source = _('Custom Points')
+            return { 'events': activity_custom_points, 'source': source }
+        
+        # if not, then check the points for the course as a whole or then the global default points
+        if self.type == self.PAGE:
+            course_custom_points = CourseGamificationEvent.objects.filter(course__section__activity=self, event__startswith='activity_')
+            
+            if len(course_custom_points) > 0:
+                source = _('Inherited from course')
+                return { 'events': course_custom_points, 'source': source }
+            else:
+                default_activity_events = DefaultGamificationEvent.objects.filter(level=DefaultGamificationEvent.ACTIVITY)
+                source = _('Inherited from global defaults')
+                return { 'events': default_activity_events, 'source': source }
+            
+        if self.type == self.QUIZ:
+            course_custom_points = CourseGamificationEvent.objects.filter(course__section__activity=self, event__startswith='quiz_')
+            if len(course_custom_points) > 0:
+                source = _('Inherited from course')
+                return { 'events': course_custom_points, 'source': source }
+            else:
+                default_quiz_events = DefaultGamificationEvent.objects.filter(level=DefaultGamificationEvent.QUIZ)
+                source = _('Inherited from global defaults')
+                return { 'events': default_quiz_events, 'source': source }
+        
+        return event_points
 
 class Media(models.Model):
     URL_MAX_LENGTH = 250
@@ -279,6 +312,26 @@ class Media(models.Model):
 
     def __str__(self):
         return self.filename
+
+    def get_event_points(self):
+        from gamification.models import DefaultGamificationEvent, CourseGamificationEvent, MediaGamificationEvent
+        
+        # first check if there are specific points for this activity
+        media_custom_points = MediaGamificationEvent.objects.filter(media=self)
+        if media_custom_points.count() > 0:
+            source = _('Custom Points')
+            return { 'events': media_custom_points, 'source': source }
+        
+        # if not, then check the points for the course as a whole or then the global default points
+        course_custom_points = CourseGamificationEvent.objects.filter(course=self.course, event__startswith='media_')
+        
+        if course_custom_points.count() > 0:
+            source = _('Inherited from course')
+            return { 'events': course_custom_points, 'source': source }
+        else:
+            default_media_events = DefaultGamificationEvent.objects.filter(level=DefaultGamificationEvent.MEDIA)
+            source = _('Inherited from global defaults')
+            return { 'events': default_media_events, 'source': source }
 
 
 class Tracker(models.Model):
