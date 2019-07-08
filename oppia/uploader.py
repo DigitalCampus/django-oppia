@@ -46,7 +46,7 @@ def handle_uploaded_file(f, extract_path, request, user):
     try:
         course, response = process_course(extract_path, f, mod_name, request, user)
     except Exception as e:
-        messages.error(request, e.message, extra_tags="danger")
+        messages.error(request, e, extra_tags="danger")
         return False, 500
     finally:
         # remove the temp upload files
