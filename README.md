@@ -9,3 +9,4 @@ For information on how to contribute, submit bug reports and feature requests, p
 
 For help and support, please join our OppiaMobile Community site at https://community.oppia-mobile.org/ 
 
+I'm learning so I add this line ;)
