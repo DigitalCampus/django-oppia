@@ -21,7 +21,7 @@
                  </div>
              </div>
          </div>
-         <table class="table table-fixed selected-items-table" id="selected-courses-table" {% if not selected_courses %} style="display:none;" {% endif %} >
+         <table class="table selected-items-table" id="selected-courses-table" {% if not selected_courses %} style="display:none;" {% endif %} >
              <thead>
                 <tr>
                   <th>{% trans 'Course' %}</th>
@@ -30,13 +30,13 @@
               </thead>
               <tbody class="selected-items" id="selected-courses" style="max-height:300px;">
               {% for course in selected_courses %}
-                <tr id="{{ course.shortname }}" data-selectable-id="{{ course.shortname }}">
-                    <td class="col-xs-2 col-sm-1">
-                        <a class="btn btn-sm btn-primary btn-add" style="display: none;"><em class="fas fa-plus"></em> <em class="far fa-check-circle hidden"></em> </a>
-                        <a class="btn btn-sm btn-primary btn-remove removing" ><em class="fas fa-minus"></em> </a>
+                <tr id="{{ course.shortname }}"  data-selectable-id="{{ course.shortname }}">
+                    <td class="actions">
+                        <a class="btn btn-sm btn-inline btn-primary btn-add" style="display: none;"><em class="fas fa-plus"></em> <em class="far fa-check-circle hidden"></em> </a>
+                        <a class="btn btn-sm btn-inline btn-primary btn-remove removing" ><em class="fas fa-minus"></em> </a>
                     </td>
-                    <td class="col-xs-7 col-sm-7">{{ course.title | title_lang:LANGUAGE_CODE }}</td>
-                    <td class="col-xs-3 col-sm-4">{{ course.lastupdated_date|date:"d/m/Y" }}</td>
+                    <td >{{ course.title | title_lang:LANGUAGE_CODE }}</td>
+                    <td >{{ course.lastupdated_date|date:"d/m/Y" }}</td>
                 </tr>
               {% endfor %}
             </tbody>
@@ -71,7 +71,7 @@
                  </div>
              </div>
          </div>
-         <table class="table table-fixed selected-items-table" id="selected-teachers-table" {% if not selected_teachers %} style="display:none;" {% endif %}>
+         <table class="table selected-items-table" id="selected-teachers-table" {% if not selected_teachers %} style="display:none;" {% endif %}>
              <thead>
                 <tr>
                   <th>{% trans 'Teacher' %}</th>
@@ -81,14 +81,14 @@
               <tbody class="selected-items" id="selected-teachers" style="max-height:300px;">
               {% for teacher in selected_teachers %}
                 <tr id="{{ teacher.username }}" data-selectable-id="{{ teacher.username }}">
-                    <td class="col-xs-2 col-sm-1">
-                        <a class="btn btn-sm btn-primary btn-add" style="display: none;"><em class="fas fa-plus"></em> <em class="far fa-check-circle hidden"></em> </a>
-                        <a class="btn btn-sm btn-primary btn-remove removing" ><em class="fas fa-minus"></em> </a>
+                    <td class="actions">
+                        <a class="btn btn-sm btn-inline btn-primary btn-add" style="display: none;"><em class="fas fa-plus"></em> <em class="far fa-check-circle hidden"></em> </a>
+                        <a class="btn btn-sm btn-inline btn-primary btn-remove removing" ><em class="fas fa-minus"></em> </a>
                     </td>
-                    <td class="col-xs-7 col-sm-7 ">{% if OPPIA_SHOW_GRAVATARS %} {{ teacher|gravatar:24 }} {% endif %}
+                    <td>{% if OPPIA_SHOW_GRAVATARS %} {{ teacher|gravatar:24 }} {% endif %}
                         {{ teacher.first_name }} {{ teacher.last_name }}
                     </td>
-                    <td class="col-xs-3 col-sm-4 ">{{ teacher.date_joined|date:"d/m/Y" }}</td>
+                    <td>{{ teacher.date_joined|date:"d/m/Y" }}</td>
                 </tr>
               {% endfor %}
             </tbody>
@@ -99,7 +99,7 @@
 
 
      <div class="col-sm-6" id="add-teachers-block" style="display:none;">
-     <h4>{% trans 'Available teachers' %} {{users_list_url}}</h4>
+     <h4>{% trans 'Available teachers' %}</h4>
          <div id="available-teachers" class="available-items">
          {% include "profile/users-paginated-list.html" with ajax_url=users_list_url %}
          </div>
@@ -123,7 +123,7 @@
                  </div>
              </div>
          </div>
-         <table class="table table-fixed selected-items-table" id="selected-students-table" {% if not selected_students %} style="display:none;" {% endif %}>
+         <table class="table selected-items-table" id="selected-students-table" {% if not selected_students %} style="display:none;" {% endif %}>
              <thead>
                 <tr>
                   <th>{% trans 'User' %}</th>
@@ -133,14 +133,14 @@
               <tbody class="selected-items" id="selected-students" style="max-height:300px;">
               {% for student in selected_students %}
                 <tr id="{{ student.username }}" data-selectable-id="{{ student.username }}">
-                    <td class="col-xs-2 col-sm-1">
-                        <a class="btn btn-sm btn-primary btn-add" style="display: none;"><em class="fas fa-plus"></em> <em class="far fa-check-circle hidden"></em> </a>
-                        <a class="btn btn-sm btn-primary btn-remove removing"><em class="fas fa-minus"></em> </a>
+                    <td class="actions">
+                        <a class="btn btn-sm btn-inline btn-primary btn-add" style="display: none;"><em class="fas fa-plus"></em> <em class="far fa-check-circle hidden"></em> </a>
+                        <a class="btn btn-sm btn-inline btn-primary btn-remove removing"><em class="fas fa-minus"></em> </a>
                     </td>
-                    <td class="col-xs-7 col-sm-7 ">{% if OPPIA_SHOW_GRAVATARS %} {{ student|gravatar:24 }} {% endif %}
+                    <td>{% if OPPIA_SHOW_GRAVATARS %} {{ student|gravatar:24 }} {% endif %}
                         {{ student.first_name }} {{ student.last_name }}
                     </td>
-                    <td class="col-xs-3 col-sm-4 ">{{ student.date_joined|date:"d/m/Y" }}</td>
+                    <td >{{ student.date_joined|date:"d/m/Y" }}</td>
                 </tr>
               {% endfor %}
             </tbody>

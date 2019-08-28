@@ -57,7 +57,10 @@ table.sortable .sorted:hover{
 .table-fixed tr {
     clear:left;
 }
-
+.table td.actions{
+    width:80px !important;
+    padding-right:0;
+}
 .search-block{
     border:1px solid #DDD;
     border-radius: 4px;

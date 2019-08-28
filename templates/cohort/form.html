@@ -12,9 +12,18 @@
 	{% trans 'Cohort' %}
 {% endblock extra_head_title %}
 
-{% block content %}
+{% block header %}
+<div class="jumbotron mb-4">
+    <div class="row">
+			<div class="col-md-10">
+				<h3><a href="{% url 'oppia_cohorts' %}">{% trans 'Cohorts' %}</a> <i class="material-icons md-18 ">arrow_forward_ios</i> {{ form.description.value }}</h3>
+			</div>
+	</div>
 
-<h2>{% trans 'Cohort' %}</h2>
+</div>
+{% endblock header %}
+
+{% block content %}
 
 
 
