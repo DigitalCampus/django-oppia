@@ -7,9 +7,13 @@
 	{% trans 'Delete Account' %}
 {% endblock extra_head_title %}
 
-{% block content %}
+{% block header %}
+<div class="jumbotron mb-4 ">
+	<h3>{% trans 'Delete Account' %}</h3>
+</div>
+{% endblock header %}
 
-<h2>{% trans 'Delete Account' %}</h2>
+{% block content %}
 
 <div class="alert alert-danger" role="alert">
 	{% blocktrans %}
@@ -19,8 +23,7 @@
 	{% endblocktrans %}
 </div>
         
-{% include "includes/messages.html" %}	
-
+{% include "includes/messages.html" %}
 
 {% crispy form %}
 
