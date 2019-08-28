@@ -31,15 +31,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 ]
 
-if settings.DEBUG:
-    import debug_toolbar
-    urlpatterns = [
-        url('__debug__/', include(debug_toolbar.urls)),
-
-        # For django versions before 2.0:
-        # url(r'^__debug__/', include(debug_toolbar.urls)),
-
-    ] + urlpatterns
 
 if settings.DEVICE_ADMIN_ENABLED:
     gcmpatterns = [ url(r'^deviceadmin/', include('deviceadmin.urls')), ]
