@@ -2,7 +2,7 @@
 {% load display_functions %}
 
 <tr id="{{ user.username }}" data-selectable-id="{{ user.username }}">
-    <td class="col-xs-7 col-sm-7 pt-2">{% if OPPIA_SHOW_GRAVATARS %} {{ user|gravatar:24 }} {% endif %}
+    <td>{% if OPPIA_SHOW_GRAVATARS %} {{ user|gravatar:24 }} {% endif %}
         <div class="form-inline">
         <span class="mr-2"> {{ user.first_name }} {{ user.last_name }}</span>
         <input type="hidden" name="apikey" value="{{ user.apiKey }}" />
@@ -14,8 +14,8 @@
         <input type="text" name="password" placeholder="{% trans 'Password' %}" class="form-control password removing float-right pt-0" style="display:none;" />
             </div>
     </td>
-    <td class="col-xs-3 col-sm-3 ">{{ user.date_joined|date:"d/m/Y" }}</td>
-    <td class="col-xs-2 col-sm-2 text-right pt-2">
+    <td>{{ user.date_joined|date:"d/m/Y" }}</td>
+    <td class="actions">
         <button class="btn btn-sm btn-primary btn-inline btn-add"><em class="fas fa-plus"></em> <em class="far fa-check-circle hidden"></em> </button>
         <button class="btn btn-sm btn-primary btn-inline btn-remove removing" style="display: none;"><em class="fas fa-minus"></em> </button>
     </td>

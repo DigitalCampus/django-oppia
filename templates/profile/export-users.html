@@ -24,20 +24,22 @@
         </div>
 
         <div class="table-responsive col-sm-6">
-        <h3>Selected users</h3>
-             <div class="panel panel-default explanation" id="explanation">
-                 <div class="panel-heading"></div>
-                 <div class="panel-body">
-                 Add users from the "Available users" lists by clicking the button with the <em class="fas fa-plus"></em> sign.
+            <h3>Selected users</h3>
+            <div class="alert alert-light explanation mt-4 p-4" role="alert" id="explanation">
+              <h4 class="alert-heading">Well done!</h4>
+              <p>
+                  Add users from the "Available users" lists by clicking the button with the <em class="fas fa-plus"></em> sign.
                  Then, you'll have to enter the user's password for each of them before downloading the CSV to include in the app.
-                 <br/><br/>
-                 If you want to remove one selected user, press the button with the <em class="fas fa-minus"></em> sign by its side.
-                 </div>
-             </div>
-             <table class="table table-fixed selected-items-table" id="selected-users-table">
+              </p>
+                <hr>
+              <p class="mb-0">If you want to remove one selected user, press the button with the <em class="fas fa-minus"></em> sign by its side.</p>
+            </div>
+
+             <table class="table selected-items-table" id="selected-users-table">
                  <thead>
                     <tr>
                       <th>{% trans 'User' %}</th>
+                        <th>{% trans 'Registration date' %}</th>
                       <th></th>
                     </tr>
                   </thead>
