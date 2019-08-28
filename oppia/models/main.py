@@ -34,7 +34,7 @@ class Course(models.Model):
         verbose_name = _('Course')
         verbose_name_plural = _('Courses')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.get_title(self)
 
     def getAbsPath(self):
@@ -168,7 +168,7 @@ class Section(models.Model):
         verbose_name = _('Section')
         verbose_name_plural = _('Sections')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.get_title()
 
     def get_title(self, lang='en'):
@@ -210,7 +210,7 @@ class Activity(models.Model):
     content = models.TextField(blank=True, null=True, default=None)
     description = models.TextField(blank=True, null=True, default=None)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.get_title()
 
     class Meta:
@@ -310,7 +310,7 @@ class Media(models.Model):
         verbose_name = _('Media')
         verbose_name_plural = _('Media')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.filename
 
     def get_event_points(self):
@@ -357,7 +357,7 @@ class Tracker(models.Model):
         verbose_name = _('Tracker')
         verbose_name_plural = _('Trackers')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.agent
 
     def is_first_tracker_today(self):

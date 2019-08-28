@@ -1,5 +1,6 @@
 # oppia/content/views.py
 import hashlib
+import json
 import math
 import os
 import subprocess
@@ -17,10 +18,6 @@ from content.forms import MediaEmbedHelperForm
 Processes the media file found at the given URL and provides the embed code and sample images for embedding into Moodle.
 
 NOTE: for this to run you will need to have ffmpeg and avprobe installed
-For Ubuntu these can be installed by:
-
-ffmpeg see: https://launchpad.net/~mc3man/+archive/ubuntu/trusty-media
-avprobe: sudo apt-get install libav-tools
 
 '''
 
@@ -96,7 +93,7 @@ def process_media_file(media_guid, media_url, media_local_file, download_error, 
 
 def check_media_link(media_url, media_local_file, download_error, processed_media):
     try:
-        urllib.urlretrieve(media_url, filename=media_local_file)
+        urllib.request.urlretrieve(media_url, media_local_file)
     except IOError as err:
         download_error = err
         processed_media['success'] = False
@@ -105,16 +102,19 @@ def check_media_link(media_url, media_local_file, download_error, processed_medi
 
 
 def get_length(filename):
-    result = subprocess.Popen([settings.MEDIA_PROCESSOR_PROGRAM, filename], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-
-    duration_list = [x for x in result.stdout.readlines() if "Duration" in x]
-    if len(duration_list) != 0:
-        time_components = duration_list[0].split(',')[0].split(':')
-        hours = int(time_components[1])
-        mins = int(time_components[2])
-        secs = math.floor(float(time_components[3]))
-        media_length = (hours * 60 * 60) + (mins * 60) + secs
-        return True, int(media_length)
+    result = subprocess.Popen([settings.MEDIA_PROCESSOR_PROGRAM, 
+                               filename, 
+                               '-print_format', 
+                               'json', 
+                               '-show_streams', 
+                               '-loglevel', 
+                               'quiet'],
+                               stdout = subprocess.PIPE, 
+                               stderr = subprocess.STDOUT)
+                
+    duration = float(json.loads(result.stdout.read())['streams'][0]['duration'])
+    if duration != 0:
+        return True, duration
     else:
         return False, 0
 

@@ -1,6 +1,5 @@
 # oppia/permissions.py
 
-from __builtin__ import True
 from itertools import chain
 
 from django.conf import settings

@@ -1,7 +1,7 @@
 # oppia/viz/admin.py
 from django.contrib import admin
 
-from models import UserLocationVisualization
+from viz.models import UserLocationVisualization
 
 
 class UserLocationVisualizationAdmin(admin.ModelAdmin):

@@ -22,15 +22,6 @@ ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, os.pardir))
 ALLOWED_HOSTS = []
 DEBUG = True
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'oppia',
-        'USER': 'YOUR_DB_USERNAME',
-        'PASSWORD': 'YOUR_DB_PASSWORD',
-    }
-}
-
 MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -228,9 +219,9 @@ MEDIA_PROCESSOR_PROGRAM_PARAMS = ""
 # Import secret_settings.py (if exists)
 # > see settings_secret.py.template for reference
 try:
-    from settings_secret import *
+    from oppiamobile.settings_secret import *
 except ImportError:
-    pass
+    print("settings_secret.py file could not be found.")
 
 
 if DEVICE_ADMIN_ENABLED:

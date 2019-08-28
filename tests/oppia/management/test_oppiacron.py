@@ -15,9 +15,9 @@ class OppiaCronTest(TestCase):
     def test_oppiacron_output(self):
         out = StringIO()
         call_command('oppiacron', stdout=out)
-        self.assertEquals(u'', out.getvalue())
+        self.assertEqual(u'', out.getvalue())
         
     def test_oppiacron_hours_output(self):
         out = StringIO()
         call_command('oppiacron', '--hours=48', stdout=out)
-        self.assertEquals(u'', out.getvalue())
+        self.assertEqual(u'', out.getvalue())

@@ -6,8 +6,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
-from forms import UploadMediaForm
-from models import UploadedMedia, UploadedMediaImage
+from av.forms import UploadMediaForm
+from av.models import UploadedMedia, UploadedMediaImage
 
 from av import handler
 

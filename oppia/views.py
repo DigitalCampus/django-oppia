@@ -25,7 +25,7 @@ from profile.views import get_paginated_users
 from quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
 from reports.signals import dashboard_accessed
 from summary.models import UserCourseSummary, CourseDailyStats
-from uploader import handle_uploaded_file
+from oppia.uploader import handle_uploaded_file
 
 
 def server_view(request):
@@ -113,7 +113,7 @@ def home_view(request):
     return render(request, 'oppia/home.html',
                               {'form': form,
                                'activity_graph_data': activity,
-                               'leaderboard': leaderboard})
+                               'leaderboard': leaderboard })
 
 
 def teacher_home_view(request):

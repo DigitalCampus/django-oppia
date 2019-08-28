@@ -158,7 +158,7 @@ def edit_course_gamification(request, course_id):
                 new_version = writer.update_gamification(request.user)
                 messages.success(request, 'Course XML updated. New version: {}'.format(new_version))
         else:
-            print formset.errors
+            print(formset.errors)
     else:
         formset = EventsFormset(prefix='events')
 

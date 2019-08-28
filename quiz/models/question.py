@@ -24,7 +24,7 @@ class Question(models.Model):
         verbose_name = _('Question')
         verbose_name_plural = _('Questions')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     def get_maxscore(self):
@@ -41,5 +41,5 @@ class QuestionProps(models.Model):
         verbose_name = _('QuestionProp')
         verbose_name_plural = _('QuestionProps')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name

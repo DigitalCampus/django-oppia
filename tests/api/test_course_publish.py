@@ -16,8 +16,8 @@ class CoursePublishResourceTest(TestCase):
     def setUp(self):
         self.client = Client()
         self.url = '/api/publish/'
-        self.course_file = open('./oppia/fixtures/reference_files/anc_course.zip','r') 
-        self.video_file = open('./oppia/fixtures/reference_files/sample_video.m4v','r')
+        self.course_file_path = './oppia/fixtures/reference_files/anc_test_course.zip' 
+        self.video_file_path = './oppia/fixtures/reference_files/sample_video.m4v'
         
     # test only POST is available
     def test_no_get(self):
@@ -26,32 +26,44 @@ class CoursePublishResourceTest(TestCase):
     
     # test all params have been sent
     def test_required_params(self):
+        course_file = open(self.course_file_path,'rb') 
+        
         # no username
-        response = self.client.post(self.url, { 'tags': 'demo', 'password': 'secret', 'is_draft': False, api.COURSE_FILE_FIELD: self.course_file })
+        response = self.client.post(self.url, { 'tags': 'demo', 'password': 'secret', 'is_draft': False, api.COURSE_FILE_FIELD: course_file })
         self.assertEqual(response.status_code, 400)
         
         # no password
-        response = self.client.post(self.url, { 'username': 'demo', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: self.course_file })
+        response = self.client.post(self.url, { 'username': 'demo', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: course_file })
         self.assertEqual(response.status_code, 400)
         
         # no tags
-        response = self.client.post(self.url, { 'username': 'demo', 'password': 'secret', 'is_draft': False, api.COURSE_FILE_FIELD: self.course_file })
+        response = self.client.post(self.url, { 'username': 'demo', 'password': 'secret', 'is_draft': False, api.COURSE_FILE_FIELD: course_file })
         self.assertEqual(response.status_code, 400)
         
         # no is_draft
-        response = self.client.post(self.url, { 'username': 'demo', 'password': 'secret', 'tags': 'demo', api.COURSE_FILE_FIELD: self.course_file})
+        response = self.client.post(self.url, { 'username': 'demo', 'password': 'secret', 'tags': 'demo', api.COURSE_FILE_FIELD: course_file})
         self.assertEqual(response.status_code, 400)
+        
+        course_file.close() # shouldn't be strictly necessary to close the file, but avoids ResourceWarnings about unclosed files
         
     # test tags not empty
     def test_tags_not_empty(self):
-        response = self.client.post(self.url, { 'username': 'admin', 'password': 'password', 'tags': '', 'is_draft': False, api.COURSE_FILE_FIELD: self.course_file })
+        course_file = open(self.course_file_path,'rb') 
+        
+        response = self.client.post(self.url, { 'username': 'admin', 'password': 'password', 'tags': '', 'is_draft': False, api.COURSE_FILE_FIELD: course_file })
         self.assertEqual(response.status_code, 400)
+        
+        course_file.close() # shouldn't be strictly necessary to close the file, but avoids ResourceWarnings about unclosed files
         
     # test is user has correct permissions or not to upload
     def test_upload_permission_admin(self):
+        course_file = open(self.course_file_path,'rb') 
+        
         # admin can upload
-        response = self.client.post(self.url, { 'username': 'admin', 'password': 'password', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: self.course_file })
+        response = self.client.post(self.url, { 'username': 'admin', 'password': 'password', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: course_file })
         self.assertEqual(response.status_code, 201)
+        
+        course_file.close() # shouldn't be strictly necessary to close the file, but avoids ResourceWarnings about unclosed files
       
     def test_upload_permission_staff(self):  
         #set course owner to staff
@@ -60,9 +72,12 @@ class CoursePublishResourceTest(TestCase):
         course.user = user
         course.save()
         
+        course_file = open(self.course_file_path,'rb') 
         # staff can upload
-        response = self.client.post(self.url, { 'username': 'staff', 'password': 'password', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: self.course_file })
+        response = self.client.post(self.url, { 'username': 'staff', 'password': 'password', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: course_file })
         self.assertEqual(response.status_code, 201)
+        
+        course_file.close() # shouldn't be strictly necessary to close the file, but avoids ResourceWarnings about unclosed files
         
     def test_upload_permission_teacher(self):
         #set course owner to teacher
@@ -71,27 +86,42 @@ class CoursePublishResourceTest(TestCase):
         course.user = user
         course.save()
         
+        course_file = open(self.course_file_path,'rb') 
+        
         # teacher can upload
-        response = self.client.post(self.url, { 'username': 'teacher', 'password': 'password', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: self.course_file })
+        response = self.client.post(self.url, { 'username': 'teacher', 'password': 'password', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: course_file })
         self.assertEqual(response.status_code, 201)
         
+        course_file.close() # shouldn't be strictly necessary to close the file, but avoids ResourceWarnings about unclosed files
+        
     def test_upload_permission_user(self):
+        course_file = open(self.course_file_path,'rb') 
         # normal user cannot upload
-        response = self.client.post(self.url, { 'username': 'demo', 'password': 'password', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: self.course_file })
+        response = self.client.post(self.url, { 'username': 'demo', 'password': 'password', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: course_file })
         self.assertEqual(response.status_code, 401)
+        
+        course_file.close() # shouldn't be strictly necessary to close the file, but avoids ResourceWarnings about unclosed files
         
     # test user has given correct password
     def test_unauthorised_user(self):
+        course_file = open(self.course_file_path,'rb')
+        
         # normal user cannot upload
-        response = self.client.post(self.url, { 'username': 'admin', 'password': 'wrong_password', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: self.course_file })
+        response = self.client.post(self.url, { 'username': 'admin', 'password': 'wrong_password', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: course_file })
         self.assertEqual(response.status_code, 401)
+        
+        course_file.close() # shouldn't be strictly necessary to close the file, but avoids ResourceWarnings about unclosed files
         
     # test file is correct format
     def test_file_format(self):
+        
+        video_file = open(self.video_file_path,'rb')
+        
         # send video file instead
-        response = self.client.post(self.url, { 'username': 'admin', 'password': 'password', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: self.video_file })
+        response = self.client.post(self.url, { 'username': 'admin', 'password': 'password', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: video_file })
         self.assertEqual(response.status_code, 400)
         
+        video_file.close() # shouldn't be strictly necessary to close the file, but avoids ResourceWarnings about unclosed files
         
     # test if user is trying to overwrite course they don't already own
     def test_overwriting_course_non_owner(self):
@@ -101,9 +131,13 @@ class CoursePublishResourceTest(TestCase):
         course.user = user
         course.save()
         
+        course_file = open(self.course_file_path,'rb')
+        
         # teacher attempts to update
-        response = self.client.post(self.url, { 'username': 'teacher', 'password': 'password', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: self.course_file })
+        response = self.client.post(self.url, { 'username': 'teacher', 'password': 'password', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: course_file })
         self.assertEqual(response.status_code, 401)
+        
+        course_file.close() # shouldn't be strictly necessary to close the file, but avoids ResourceWarnings about unclosed files
     
     # check file size of course
     def test_course_filesize_limit(self):
@@ -111,8 +145,12 @@ class CoursePublishResourceTest(TestCase):
         setting.int_value = 1000
         setting.save()
         
-        response = self.client.post(self.url, { 'username': 'admin', 'password': 'password', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: self.course_file })
+        course_file = open(self.course_file_path,'rb')
+        
+        response = self.client.post(self.url, { 'username': 'admin', 'password': 'password', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: course_file })
         self.assertEqual(response.status_code, 400)
+        
+        course_file.close() # shouldn't be strictly necessary to close the file, but avoids ResourceWarnings about unclosed files
         
         
     # TODO - check overwriting course with older version

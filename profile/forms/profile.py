@@ -52,8 +52,9 @@ class ProfileForm(forms.Form):
         self.helper.field_class = 'col-lg-4'
         if settings.OPPIA_SHOW_GRAVATARS:
             gravatar_url = "https://www.gravatar.com/avatar.php?"
-            gravatar_url += urllib.urlencode({
-                'gravatar_id': hashlib.md5(email).hexdigest(),
+            gravatar_id = hashlib.md5(str(email).encode('utf-8')).hexdigest()
+            gravatar_url +=  urllib.parse.urlencode({
+                'gravatar_id': gravatar_id,
                 'size': 64
             })
             self.helper.layout = Layout(

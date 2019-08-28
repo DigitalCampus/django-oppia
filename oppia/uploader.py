@@ -46,7 +46,7 @@ def handle_uploaded_file(f, extract_path, request, user):
     try:
         course, response = process_course(extract_path, f, mod_name, request, user)
     except Exception as e:
-        messages.error(request, e.message, extra_tags="danger")
+        messages.error(request, e, extra_tags="danger")
         return False, 500
     finally:
         # remove the temp upload files
@@ -111,7 +111,7 @@ def process_course(extract_path, f, mod_name, request, user):
             # Only add events if the didn't exist previously
             e, created = CourseGamificationEvent.objects.get_or_create(
                 course=course, event=event['name'],
-                defaults={'points': event['points'], 'user': request.user})
+                defaults={'points': event['points'], 'user': user})
 
             if created:
                 messages.info(request, _('Gamification for "%(event)s" at course level added') % {'event': e.event})
@@ -350,17 +350,17 @@ def parse_and_save_quiz(req, user, activity, act_xml):
             quiz_act = Activity.objects.get(digest=quiz_digest)
             updated_content = quiz_act.content
         except Activity.DoesNotExist:
-            updated_content = create_quiz(req, quiz_obj, act_xml, activity)
+            updated_content = create_quiz(req, user, quiz_obj, act_xml, activity)
     else:
-        updated_content = create_quiz(req, quiz_obj, act_xml, activity)
+        updated_content = create_quiz(req, user, quiz_obj, act_xml, activity)
 
     return updated_content
 
 
-def create_quiz(req, quiz_obj, act_xml, activity=None):
+def create_quiz(req, user, quiz_obj, act_xml, activity=None):
 
     quiz = Quiz()
-    quiz.owner = req.user
+    quiz.owner = user
     quiz.title = quiz_obj['title']
     quiz.description = quiz_obj['description']
     quiz.save()
@@ -371,7 +371,7 @@ def create_quiz(req, quiz_obj, act_xml, activity=None):
     create_quiz_props(quiz, quiz_obj)
 
     # add quiz questions
-    create_quiz_questions(req.user, quiz, quiz_obj)
+    create_quiz_questions(user, quiz, quiz_obj)
 
     return json.dumps(quiz_obj)
 

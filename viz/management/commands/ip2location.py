@@ -3,6 +3,8 @@
 Management command to get user locations based on their IP address in the Tracker model
 """
 
+import urllib
+
 from django.core.management.base import BaseCommand
 from django.db.models import Count
 from django.utils.translation import ugettext_lazy as _
@@ -32,7 +34,7 @@ def update_via_freegeoip(t):
     url = 'https://freegeoip.net/json/%s' % (t['ip'])
     print(t['ip'] + " : " + url)
     try:
-        u = urllib2.urlopen(urllib2.Request(url), timeout=10)
+        u = urllib.request.urlopen(url, timeout=10)
         data = u.read()
         data_json = json.loads(data, "utf-8")
         print(data_json)
@@ -51,4 +53,4 @@ def update_via_freegeoip(t):
         viz.geonames_data = data_json
         viz.save()
 
-    time.sleep(commands.DEFAULT_SLEEP)
+    time.sleep(5)

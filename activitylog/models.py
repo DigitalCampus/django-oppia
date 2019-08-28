@@ -22,7 +22,7 @@ class UploadedActivityLog(models.Model):
         verbose_name = _(u'Uploaded Activity Log')
         verbose_name_plural = _(u'Uploaded Activity Log')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.file.name
 
     

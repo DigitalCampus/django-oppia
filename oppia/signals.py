@@ -44,17 +44,6 @@ def quizattempt_callback(sender, **kwargs):
         for a in acts:
             course = a.section.course
 
-    if quiz_attempt.points is not None:
-        p = Points()
-        p.points = quiz_attempt.points
-        p.type = 'quiz_attempt'
-        p.user = quiz_attempt.user
-        p.description = quiz_attempt.event
-        p.course = course
-        # Points are sent in the quiz attempt tracker, so don't save them twice
-        # p.save()
-        return
-
     # Check user doesn't own the quiz
     if quiz.owner == quiz_attempt.user:
         return

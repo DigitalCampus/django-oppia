@@ -19,7 +19,7 @@ class Response(models.Model):
         verbose_name = _('Response')
         verbose_name_plural = _('Responses')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
 
@@ -32,5 +32,5 @@ class ResponseProps(models.Model):
         verbose_name = _('ResponseProp')
         verbose_name_plural = _('ResponseProps')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name

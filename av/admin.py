@@ -1,7 +1,7 @@
 # oppia/av/admin.py
 from django.contrib import admin
 
-from models import UploadedMedia, UploadedMediaImage
+from av.models import UploadedMedia, UploadedMediaImage
 
 
 class UploadedMediaAdmin(admin.ModelAdmin):

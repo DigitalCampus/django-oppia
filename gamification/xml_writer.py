@@ -36,7 +36,7 @@ class GamificationXMLWriter:
 
     def load_course_xml_content(self, mode='r'):
         course_zip_file = os.path.join(settings.COURSE_UPLOAD_DIR, self.course.filename)
-        print course_zip_file
+        print(course_zip_file)
 
         zip = zipfile.ZipFile(course_zip_file, mode)
         self.xml_contents = zip.read(self.course.shortname + "/module.xml")
@@ -103,7 +103,7 @@ class GamificationXMLWriter:
                 node.removeChild(node.firstChild)
 
             for event in events:
-                print event
+                print(event)
                 points = self.xml.createTextNode(str(event.points))
                 event_node = self.xml.createElement("event")
                 event_node.setAttribute("name", event.event)
@@ -142,16 +142,16 @@ class GamificationXMLWriter:
 
     def update_gamification(self, user):
 
-        print 'parsing course XML'
+        print('parsing course XML')
         self.load_course_xml_content(mode='r')
 
-        print 'Updating gamification XML nodes...'
+        print('Updating gamification XML nodes...')
         self.update_course_gamification()
         self.update_activity_gamification()
         self.update_media_gamification()
 
         version = self.update_course_version()
-        print 'Writing new course XML contents...'
+        print('Writing new course XML contents...')
         courseFile.rewrite_xml_contents(user, self.course, self.xml)
 
         return version
