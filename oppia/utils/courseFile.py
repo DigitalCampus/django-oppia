@@ -15,7 +15,7 @@ def remove_from_zip(zipfname, temp_zip_path, course_shortname, *filenames):
                     if item.filename not in filenames:
                         data = zipread.read(item.filename)
                         zipwrite.writestr(item, data)
-        shutil.copy(tempname, zipfname)
+        shutil.copyfile(tempname, zipfname)
     finally:
         shutil.rmtree(temp_zip_path)
 
