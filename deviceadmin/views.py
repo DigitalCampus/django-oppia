@@ -31,7 +31,7 @@ def user_devices_list(request):
     except (EmptyPage, InvalidPage):
         devices = paginator.page(paginator.num_pages)
 
-    return render(request, 'oppia/deviceadmin/list.html',
+    return render(request, 'deviceadmin/list.html',
                               {'page': devices, 'page_ordering': ordering})
 
 

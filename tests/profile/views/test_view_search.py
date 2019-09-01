@@ -15,7 +15,7 @@ class UserSearchActivityViewTest(TestCase):
 
     def setUp(self):
         super(UserSearchActivityViewTest, self).setUp()
-        self.template = 'oppia/profile/search_user.html'
+        self.template = 'profile/search_user.html'
         self.url = reverse('profile_search_users')
         
     def test_view_search(self):

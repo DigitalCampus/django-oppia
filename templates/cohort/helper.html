@@ -1,0 +1,159 @@
+{% load i18n %}
+{% load display_functions %}
+
+{% url 'profile_list_users' as users_list_url %}
+{% url 'oppia_course' as courses_list_url %}
+
+<hr>
+<div class="row selectable-group">
+    <div class="table-responsive col-sm-6">
+    <h4>{% trans 'Selected courses' %}</h4>
+         <div class="panel panel-default explanation" {% if selected_courses %} style="display:none;" {% endif %}>
+             <div class="panel-heading"></div>
+             <div class="panel-body">
+                 <div class="text-center" >
+                     <p style="font-size:1.3em;"> {% trans 'No courses selected yet.' %}</p>
+
+                 </div>
+                <div id="courses-display" class="collapse">
+                    Add courses from the "Available courses" lists by clicking the button with the <em class="fas fa-plus"></em> sign.
+                    If you want to remove one selected course, press the button with the <em class="fas fa-minus"></em> sign by its side.
+                 </div>
+             </div>
+         </div>
+         <table class="table selected-items-table" id="selected-courses-table" {% if not selected_courses %} style="display:none;" {% endif %} >
+             <thead>
+                <tr>
+                  <th>{% trans 'Course' %}</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody class="selected-items" id="selected-courses" style="max-height:300px;">
+              {% for course in selected_courses %}
+                <tr id="{{ course.shortname }}"  data-selectable-id="{{ course.shortname }}">
+                    <td class="actions">
+                        <a class="btn btn-sm btn-inline btn-primary btn-add" style="display: none;"><em class="fas fa-plus"></em> <em class="far fa-check-circle hidden"></em> </a>
+                        <a class="btn btn-sm btn-inline btn-primary btn-remove removing" ><em class="fas fa-minus"></em> </a>
+                    </td>
+                    <td >{{ course.title | title_lang:LANGUAGE_CODE }}</td>
+                    <td >{{ course.lastupdated_date|date:"d/m/Y" }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="text-center"><a href="#courses-display" data-show="#add-courses-block" class="btn btn-primary btn-table-toggle btn-default" data-toggle="collapse">Add courses</a></div>
+    </div>
+
+
+     <div class="col-sm-6" id="add-courses-block" style="display:none;">
+     <h4>{% trans 'Available courses' %}</h4>
+         <div id="available-courses" class="available-items">
+            {% include "course/list_page.html" with ajax_url=courses_list_url page=courses_page page_ordering=c_ordering %}
+         </div>
+    </div>
+</div>
+
+<hr>
+<div class="row selectable-group">
+    <div class="table-responsive col-sm-6">
+    <h4>{% trans 'Selected teachers' %}</h4>
+         <div class="panel panel-default explanation" {% if selected_teachers %} style="display:none;" {% endif %}>
+             <div class="panel-heading"></div>
+             <div class="panel-body">
+                 <div class="text-center" >
+                     <p style="font-size:1.3em;"> {% trans 'No teachers selected yet.' %}</p>
+
+                 </div>
+                <div id="teachers-display" class="collapse">
+                    Add students from the "Available teachers" lists by clicking the button with the <em class="fas fa-plus"></em> sign.
+                    If you want to remove one selected teacher, press the button with the <em class="fas fa-minus"></em> sign by its side.
+                 </div>
+             </div>
+         </div>
+         <table class="table selected-items-table" id="selected-teachers-table" {% if not selected_teachers %} style="display:none;" {% endif %}>
+             <thead>
+                <tr>
+                  <th>{% trans 'Teacher' %}</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody class="selected-items" id="selected-teachers" style="max-height:300px;">
+              {% for teacher in selected_teachers %}
+                <tr id="{{ teacher.username }}" data-selectable-id="{{ teacher.username }}">
+                    <td class="actions">
+                        <a class="btn btn-sm btn-inline btn-primary btn-add" style="display: none;"><em class="fas fa-plus"></em> <em class="far fa-check-circle hidden"></em> </a>
+                        <a class="btn btn-sm btn-inline btn-primary btn-remove removing" ><em class="fas fa-minus"></em> </a>
+                    </td>
+                    <td>{% if OPPIA_SHOW_GRAVATARS %} {{ teacher|gravatar:24 }} {% endif %}
+                        {{ teacher.first_name }} {{ teacher.last_name }}
+                    </td>
+                    <td>{{ teacher.date_joined|date:"d/m/Y" }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="text-center"><a href="#teachers-display" data-show="#add-teachers-block" class="btn btn-primary btn-table-toggle btn-default" data-toggle="collapse">Add teachers</a></div>
+    </div>
+
+
+     <div class="col-sm-6" id="add-teachers-block" style="display:none;">
+     <h4>{% trans 'Available teachers' %}</h4>
+         <div id="available-teachers" class="available-items">
+         {% include "profile/users-paginated-list.html" with ajax_url=users_list_url %}
+         </div>
+    </div>
+</div>
+
+<hr>
+<div class="row selectable-group">
+    <div class="table-responsive col-sm-6">
+    <h4>{% trans 'Selected students' %}</h4>
+         <div class="panel panel-default explanation" {% if selected_students %} style="display:none;" {% endif %}>
+             <div class="panel-heading"></div>
+             <div class="panel-body">
+                 <div class="text-center" >
+                     <p style="font-size:1.3em;"> {% trans 'No students selected yet.' %}</p>
+
+                 </div>
+                <div id="students-display" class="collapse">
+                    Add students from the "Available students" lists by clicking the button with the <em class="fas fa-plus"></em> sign.
+                    If you want to remove one selected student, press the button with the <em class="fas fa-minus"></em> sign by its side.
+                 </div>
+             </div>
+         </div>
+         <table class="table selected-items-table" id="selected-students-table" {% if not selected_students %} style="display:none;" {% endif %}>
+             <thead>
+                <tr>
+                  <th>{% trans 'User' %}</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody class="selected-items" id="selected-students" style="max-height:300px;">
+              {% for student in selected_students %}
+                <tr id="{{ student.username }}" data-selectable-id="{{ student.username }}">
+                    <td class="actions">
+                        <a class="btn btn-sm btn-inline btn-primary btn-add" style="display: none;"><em class="fas fa-plus"></em> <em class="far fa-check-circle hidden"></em> </a>
+                        <a class="btn btn-sm btn-inline btn-primary btn-remove removing"><em class="fas fa-minus"></em> </a>
+                    </td>
+                    <td>{% if OPPIA_SHOW_GRAVATARS %} {{ student|gravatar:24 }} {% endif %}
+                        {{ student.first_name }} {{ student.last_name }}
+                    </td>
+                    <td >{{ student.date_joined|date:"d/m/Y" }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="text-center"><a href="#students-display" data-show="#add-students-block" class="btn btn-primary btn-table-toggle btn-default" data-toggle="collapse">Add students</a></div>
+    </div>
+
+
+     <div class="col-sm-6" id="add-students-block" style="display:none;">
+     <h4>{% trans 'Available students' %}</h4>
+         <div id="available-students" class="available-items">
+         {% include "profile/users-paginated-list.html" with ajax_url=users_list_url %}
+         </div>
+    </div>
+</div>

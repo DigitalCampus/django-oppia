@@ -186,7 +186,7 @@ def render_courses_list(request, courses, params=None):
     params['tag_list'] = tag_list
     params['course_filter'] = course_filter
 
-    return render(request, 'oppia/course/courses-list.html', params)
+    return render(request, 'course/list.html', params)
 
 
 def courses_list_view(request):
@@ -194,7 +194,7 @@ def courses_list_view(request):
     if request.is_ajax():
         #if we are requesting via ajax, just show the course list
         ordering, courses = get_paginated_courses(request)
-        return render(request, 'oppia/course/courses-paginated-list.html',
+        return render(request, 'course/list_page.html',
                               {'page': courses,
                                   'page_ordering': ordering,
                                   'ajax_url': request.path})
@@ -244,7 +244,7 @@ def upload_step1(request):
     else:
         form = UploadCourseStep1Form()  # An unbound form
 
-    return render(request, 'oppia/upload.html',
+    return render(request, 'course/form.html',
                               {'form': form,
                                'title': _(u'Upload Course - step 1')})
 
@@ -268,7 +268,7 @@ def upload_step2(request, course_id, editing=False):
                                     'is_draft': course.is_draft, })  # An unbound form
 
     page_title = _(u'Upload Course - step 2') if not editing else _(u'Edit course')
-    return render(request, 'oppia/upload.html',
+    return render(request, 'course/form.html',
                               {'form': form,
                                'course_title': course.title,
                                'editing': editing,
@@ -371,7 +371,7 @@ def recent_activity(request, course_id):
         dates = generate_graph_data(monthly_stats, True)
 
     leaderboard = Points.get_leaderboard(10, course)
-    return render(request, 'oppia/course/activity.html',
+    return render(request, 'course/activity.html',
                               {'course': course,
                                'monthly': interval == 'months',
                                'form': form,
@@ -427,7 +427,7 @@ def recent_activity_detail(request, course_id):
     except (EmptyPage, InvalidPage):
         tracks = paginator.page(paginator.num_pages)
 
-    return render(request, 'oppia/course/activity-detail.html',
+    return render(request, 'course/activity-detail.html',
                               {'course': course,
                                'form': form,
                                'page': tracks, })
@@ -465,7 +465,7 @@ def cohort_list_view(request):
         raise exceptions.PermissionDenied
 
     cohorts = Cohort.objects.all()
-    return render(request, 'oppia/course/cohorts-list.html',
+    return render(request, 'cohort/list.html',
                               {'cohorts': cohorts, })
 
 
@@ -547,7 +547,7 @@ def cohort_add(request):
     ordering, users = get_paginated_users(request)
     c_ordering, courses = get_paginated_courses(request)
 
-    return render(request, 'oppia/cohort-form.html', {
+    return render(request, 'cohort/form.html', {
                                 'form': form,
                                 'page': users,
                                 'courses_page': courses,
@@ -583,7 +583,7 @@ def cohort_view(request, cohort_id):
     # get leaderboard
     leaderboard = cohort.get_leaderboard(10)
 
-    return render(request, 'oppia/course/cohort-activity.html',
+    return render(request, 'cohort/activity.html',
                               {'cohort': cohort,
                                'activity_graph_data': student_activity,
                                'leaderboard': leaderboard, })
@@ -613,7 +613,7 @@ def cohort_leaderboard_view(request, cohort_id):
     except (EmptyPage, InvalidPage):
         leaderboard = paginator.page(paginator.num_pages)
     
-    return render(request, 'oppia/course/cohort-leaderboard.html',
+    return render(request, 'cohort/leaderboard.html',
                               {'cohort': cohort,
                                'page': leaderboard, })
 
@@ -684,7 +684,7 @@ def cohort_edit(request, cohort_id):
     ordering, users = get_paginated_users(request)
     c_ordering, courses = get_paginated_courses(request)
 
-    return render(request, 'oppia/cohort-form.html', {
+    return render(request, 'cohort/form.html', {
                             'form': form,
                             'page': users,
                             'selected_teachers': teachers_selected,
@@ -763,7 +763,7 @@ def cohort_course_view(request, cohort_id, course_id):
 
     students.sort(key=operator.itemgetter(ordering), reverse=inverse_order)
 
-    return render(request, 'oppia/course/cohort-course-activity.html',
+    return render(request, 'cohort/course-activity.html',
                               {'course': course,
                                'cohort': cohort,
                                'course_media_count': media_count,
@@ -805,7 +805,7 @@ def course_quiz(request, course_id):
                 quizzes.append(q)
         except Quiz.DoesNotExist:
             pass
-    return render(request, 'oppia/course/quizzes.html',
+    return render(request, 'course/quizzes.html',
                               {'course': course,
                                'quizzes': quizzes})
 
@@ -831,7 +831,7 @@ def course_quiz_attempts(request, course_id, quiz_id):
     except (EmptyPage, InvalidPage):
         paginator.page(paginator.num_pages)
 
-    return render(request, 'oppia/course/quiz-attempts.html',
+    return render(request, 'course/quiz-attempts.html',
                               {'course': course,
                                'quiz': quiz,
                                'page': attempts})
@@ -847,7 +847,7 @@ def course_feedback(request, course_id):
             q = quizobjs[0]
             feedback.append(q)
 
-    return render(request, 'oppia/course/feedback.html',
+    return render(request, 'course/feedback.html',
                               {'course': course,
                                'feedback': feedback})
 
@@ -873,7 +873,7 @@ def course_feedback_responses(request, course_id, quiz_id):
     except (EmptyPage, InvalidPage):
         paginator.page(paginator.num_pages)
 
-    return render(request, 'oppia/course/feedback-responses.html',
+    return render(request, 'course/feedback-responses.html',
                               {'course': course,
                                'quiz': quiz,
                                'page': attempts})
@@ -888,7 +888,7 @@ def app_launch_activity_redirect_view(request):
     # get activity and redirect
     activity = get_object_or_404(Activity, digest=digest)
 
-    return render(request, 'oppia/course/activity_digest.html',
+    return render(request, 'course/activity_digest.html',
                   {
                       'activity': activity,
                         'digest': digest

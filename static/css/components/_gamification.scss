@@ -16,8 +16,8 @@ table.gamification-points .fas{ color:#aaa; }
     font-family: $font-family-emphasis;
 
     &.custom{
-        color: $orange;
-        border:2px solid $orange;
+        color:  theme-color-dark(warning);
+        border:2px solid theme-color-dark(warning);
     }
     .fas{
         color:inherit!important;

@@ -1,0 +1,326 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{{ course.title|title_lang:LANGUAGE_CODE }}
+{% endblock extra_head_title %}
+
+
+{% block header %}
+<div class="jumbotron mb-4 py-3">
+	<div class="row">
+		<div class="col-md-7">
+			<h2><i class="fas fa-gamepad mt-2 mr-3"></i>Gamification</h2>
+			{{ course.title|title_lang:LANGUAGE_CODE }}
+		</div>
+		<div class="col-md-5">
+			<h5 class="mb-0 badge badge-info">Legend</h5><br>
+			<i class="fas lead mr-2 fa-globe-africa text-info" ></i> Global settings<br>
+			<i class="fas lead mr-2 fa-cog text-info"></i> Custom points <br>
+            <i class="fas lead mr-2 fa-level-down-alt text-info" ></i> Inherited from course <br>
+
+		</div>
+	</div>
+
+
+</div>
+{% endblock header %}
+
+
+{% block content %}
+
+    <div class="container">
+	    <div class="row">
+	    	<div class="col-md-12">{% include "includes/messages.html" %}</div>
+	    </div>
+
+		<div class="list-group mb-2 mt-4">
+		<a class="list-group-item list-group-item-action bg-primary text-light collapsed" data-toggle="collapse" href="#global-settings" role="button" aria-expanded="false">
+			<h6>Course global settings
+				<span class="badge badge-light">{{default_points.course|length}}</span>
+			</h6>
+			<i class="fas fa-chevron-down expand-btn"></i>
+		</a>
+
+		<div class="collapse gamification-config" id="global-settings">
+			<div class="card">
+				<div class="card-body">
+
+
+
+
+		<div class="row">
+		{% for events in default_points.course|split_half %}
+			<div class="col-md-6">
+			<table class="table-sm table-borderless gamification-points">
+			{% for event in events %}
+				{% if not event.event in course.events %}
+					{% include 'gamification/points_row.html' with event=event.event points=event.points level='global' id=course.id %}
+				{% else %}
+					{% with course_event=course.events|lookup:event.event %}
+						{% include 'gamification/points_row.html' with event=event.event points=course_event level='custom' id=course.id %}
+					{% endwith %}
+				{% endif %}
+			{% endfor %}
+			</table>
+				</div>
+		{% endfor %}
+		</div>
+				<a class="ml-2 btn btn-light collapsed" aria-expanded="false" data-toggle="collapse" href="#custom-course"><i class="fas fa-pen mr-2"></i> Edit settings</a>
+				<div class="custom-gamification pt-2 collapse" data-type="course" id="custom-course"></div>
+			</div>
+			</div>
+		</div>
+		</div>
+
+		<div class="list-group mb-2">
+		<a class="list-group-item list-group-item-action bg-info text-light">
+			<h6>Topics</h6>
+		</a>
+
+		{% regroup activities by section as section_list %}
+
+		{% for section in section_list %}
+
+
+		<a class="list-group-item list-group-item-action bg-light collapsed" data-toggle="collapse" href="#section{{forloop.counter0}}" role="button" aria-expanded="false">
+			<h6>{{section.grouper}}
+				<span class="badge badge-info">{{section.list|length}} activities</span></h6>
+			<i class="fas fa-chevron-down expand-btn"></i>
+		</a>
+
+		<div class="collapse" id="section{{forloop.counter0}}">
+			<div class="card">
+				<div class="card-body py-0">
+
+		<div class="table-responsive">
+		 <table class="table table-striped-expandable mb-0">
+		{% for activity in section.list %}
+			 <tr class="gamification-config">
+				 <td  style="width:50%;">
+					 {{activity}}
+					 <a href="#!" class="ml-2" data-toggle="tooltip" title="Edit"><i data-toggle="collapse" href="#custom{{activity.pk}}" class="fas fa-pen"></i></a>
+
+					 <div class="custom-gamification collapse pt-2" data-type="activity" id="custom{{activity.pk}}">
+
+					 </div>
+
+				 </td>
+				 <td>
+					 <table class="table-sm table-borderless gamification-points">
+
+			{% if activity.type == 'quiz' %}
+
+				{% for event in default_points.quiz %}
+					{% if not event.event in activity.events %}
+						{% if event.event in course.events %}
+							{% with course_event=course.events|lookup:event.event %}
+					 			{% include 'gamification/points_row.html' with event=event.event points=course_event level='course' id=activity.id %}
+							{% endwith %}
+						{% else %}
+						 	{% include 'gamification/points_row.html' with event=event.event points=event.points level='global' id=activity.id %}
+						{% endif %}
+					{% endif %}
+				{% endfor %}
+			{% else %}
+				{% for event in default_points.activity %}
+					{% if not event.event in activity.events %}
+						{% if event.event in course.events %}
+							{% with course_event=course.events|lookup:event.event %}
+								{% include 'gamification/points_row.html' with event=event.event points=course_event level='course' id=activity.id %}
+							{% endwith %}
+						{% else %}
+							{% include 'gamification/points_row.html' with event=event.event points=event.points level='global' id=activity.id %}
+						{% endif %}
+					{% endif %}
+				{% endfor %}
+
+			{% endif %}
+
+			{% if activity.events %}
+				{% for event,points in activity.events.items %}
+					{% include 'gamification/points_row.html' with event=event points=points level='custom' id=activity.id %}
+
+				{% endfor %}
+			{% endif %}
+						 </table>
+			</td>
+				 </tr>
+
+		{% endfor %}
+		 </table>
+			</div>
+	</div>
+				</div>
+			</div>
+
+		{% endfor %}
+
+		</div>
+
+
+		{% if media %}
+		<div class="list-group mb-2">
+
+			<a class="list-group-item list-group-item-action bg-info text-light collapsed" data-toggle="collapse" href="#media-elements" role="button" aria-expanded="false">
+			<h6>Media elements
+				<span class="badge badge-light">{{media|length}}</span></h6>
+				<i class="fas fa-chevron-down expand-btn"></i>
+		</a>
+
+		<div class="collapse" id="media-elements">
+			<div class="card">
+				<div class="card-body pt-0">
+
+	<div class="table-responsive">
+		 <table class="table table-striped-expandable">
+		{% for m in media %}
+			 <tr class="gamification-config">
+				 <td style="min-width:50%;">
+					 {{m}}
+					 <a href="#!" class="ml-2" data-toggle="tooltip" title="Edit"><i data-toggle="collapse" href="#custom-m-{{m.pk}}" class="fas fa-pen"></i></a>
+				 	<div class="custom-gamification collapse pt-2" data-type="media" id="custom-m-{{m.pk}}"></div>
+				 </td>
+				 <td>
+					 <table class="table-sm table-borderless gamification-points">
+
+				{% for event in default_points.media %}
+					{% if not event.event in m.events %}
+						{% if event.event in course.events %}
+							{% with course_event=course.events|lookup:event.event %}
+								{% include 'gamification/points_row.html' with event=event.event points=course_event level='course' id=m.id %}
+							{% endwith %}
+						{% else %}
+							{% include 'gamification/points_row.html' with event=event.event points=event.points level='global' id=m.id%}
+						{% endif %}
+					{% endif %}
+				{% endfor %}
+
+			{% if m.events %}
+				{% for event,points in m.events.items %}
+					{% include 'gamification/points_row.html' with event=event points=points level='custom' id=m.id %}
+				{% endfor %}
+			{% endif %}
+			 </table>
+			</td>
+				 </tr>
+		{% endfor %}
+		 </table>
+	</div>
+				</div></div>
+			</div>
+		{% endif %}
+
+<form method='POST' id="gamification-events-form" data-prefix="{{events_formset.prefix}}">
+	{% csrf_token %}
+	{{ events_formset.management_form }}
+
+	 <div id="empty-form" style="display:none">
+		 <table class="no_error">
+			 {{ events_formset.empty_form.as_p }}
+		 </table>
+	 </div>
+
+	<div class="values" style="display:none;"></div>
+	<div class="text-center">
+	  <button type="submit" class="btn btn-lg btn-primary mt-3" name='sampleform'>Save</button>
+	</div>
+ </form>
+
+<div class="gamification-input" style="display:none;">
+	<div class="form-row">
+		<div class="col"><code class="event">activity_completed</code></div>
+		<div class="col"><input type="number" class="form-control" /></div>
+		<div class="col pl-0">
+			<button class="btn btn-primary btn-inline" data-action="add"><i class="fas fa-check"></i> </button>
+			<button class="btn btn-dark btn-inline" data-action="remove"><i class="fas fa-trash"></i> </button>
+		</div>
+
+	</div>
+</div>
+
+	</div>
+	
+{% endblock %}
+
+{% block extra_scripts %}
+<script type="text/javascript">
+$(function(){
+
+	var gamifInput = $('.gamification-input');
+
+	$('.gamification-config [data-toggle="collapse"]').on('click', function(){
+
+		if (!$(this).hasClass('custom')){
+			var config = $(this).parents('.gamification-config');
+			var custom = config.find('.custom-gamification');
+			var points = config.find('.gamification-points .gamification-config-points');
+			var type = custom.attr('data-type');
+
+			$.each(points, function(i, elem){
+				var event = $(elem);
+				var eventName = event.attr('data-event')
+				var input = gamifInput.clone().find('.event').text(eventName).end().appendTo(custom).show();
+				console.log(event.attr('data-custom'));
+				var point = input.find('input').val(event.attr('data-points'));
+				var removeBtn = input.find('button[data-action="remove"]');
+				removeBtn.toggle(event.attr('data-custom') !== undefined );
+
+				input.find('button[data-action="add"]').on('click', function(){
+					var newPoints = $('<span>'+point.val()+'</span>')
+							.addClass('points-pill custom')
+							.attr('data-event', eventName)
+							.attr('data-pk', event.attr('data-pk'))
+							.attr('data-type', type);
+					event.find('.points-pill.custom').parent('td').remove()
+					event.append($('<td>').append(newPoints));
+					removeBtn.show();
+				});
+
+				removeBtn.on('click', function(){
+					event.find('.points-pill.custom').parent('td').remove();
+
+					if (event.attr('data-custom') !== undefined){
+						var newPoints = $('<span><i class="fas fa-times"></i></span>')
+							.addClass('points-pill custom delete')
+							.attr('data-event', eventName)
+							.attr('data-pk', event.attr('data-pk'))
+							.attr('data-type', type);
+						event.append($('<td>').append(newPoints));
+					}
+					else{
+						removeBtn.hide();
+					}
+				});
+			});
+			$(this).addClass('custom');
+		}
+	});
+
+	var form = $('#gamification-events-form');
+	var prefix = form.attr('data-prefix');
+	var formValues = form.find('.values');
+	var emptyForm = $('#empty-form');
+	var totalForms = $('#id_'+prefix+'-TOTAL_FORMS');
+
+	form.on('submit', function(e) {
+
+		$('.points-pill.custom').each(function(i, elem){
+			var event = $(elem);
+			eventInput = $( emptyForm.html().replace(/__prefix__/g, i));
+			eventInput
+				.find('[name$="points"]').val(event.hasClass('delete') ? 0 : event.text()).end()
+				.find('[name$="event"]').val(event.attr('data-event')).end()
+				.find('[name$="level"]').val(event.attr('data-type')).end()
+				.find('[name$="reference"]').val(event.attr('data-pk')).end()
+				.find('[name$="DELETE"]').prop('checked', event.hasClass('delete')).end();
+
+			formValues.append(eventInput);
+			totalForms.val(i+1);
+		});
+	 });
+
+});
+</script>
+{% endblock extra_scripts %}

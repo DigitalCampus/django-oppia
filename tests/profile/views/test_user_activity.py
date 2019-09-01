@@ -15,7 +15,7 @@ class UserActivityViewTest(TestCase):
 
     def setUp(self):
         super(UserActivityViewTest, self).setUp()
-        self.template = 'oppia/profile/user-scorecard.html'
+        self.template = 'profile/user-scorecard.html'
         self.unauthorised_template = '403.html'
         
     def test_view_own_activity(self):

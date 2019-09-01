@@ -156,6 +156,6 @@ def upload_view(request):
 
 
     form = UploadActivityLogForm()
-    return render(request, 'oppia/activitylog/upload.html',
+    return render(request, 'activitylog/upload.html',
                               {'form': form,
                                'title': _(u'Upload Activity Log')})

@@ -189,7 +189,7 @@ def edit_course_gamification(request, course_id):
             m.events[event.event] = event.points
 
 
-    return render(request, 'oppia/gamification/edit.html',
+    return render(request, 'gamification/edit.html',
                   {
                     'default_points':default_points,
                     'course': course,

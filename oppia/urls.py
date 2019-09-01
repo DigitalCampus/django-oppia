@@ -20,7 +20,7 @@ urlpatterns = [
     url(r'^leaderboard/$', oppia_views.leaderboard_view, name="oppia_leaderboard"),
     url(r'^upload/$', oppia_views.upload_step1, name="oppia_upload"),
     url(r'^upload2/(?P<course_id>\d+)$', oppia_views.upload_step2, name="oppia_upload2"),
-    url(r'^upload2/success/$', TemplateView.as_view(template_name="oppia/upload-success.html"), name="oppia_upload_success"),
+    url(r'^upload2/success/$', TemplateView.as_view(template_name="course/upload-success.html"), name="oppia_upload_success"),
     url(r'^course/$', oppia_views.courses_list_view, name="oppia_course"),
     url(r'^course/tag/(?P<tag_id>\d+)/$', oppia_views.tag_courses_view, name="oppia_tag_courses"),
     url(r'^course/(?P<course_id>\d+)/$', oppia_views.recent_activity, name="oppia_recent_activity"),

@@ -1,0 +1,74 @@
+{% extends "base.html" %} 
+{% load i18n %} 
+{% load display_functions %} 
+{% load crispy_forms_tags %}
+
+{% block extra_head_title %}
+	{% trans 'Upload users' %}
+{% endblock extra_head_title %}
+
+
+{% block header %}
+<div class="jumbotron mb-4 ">
+	<h3><i class="material-icons mr-2">arrow_upward</i> {% trans 'Upload users' %}</h3>
+</div>
+{% endblock header %}
+
+{% block content %}
+
+<div class="row">
+	<div class="col-md-5 mb-4">
+		{% if results %}
+	<h4>{% trans 'Upload results' %}</h4>
+	<div class="table-responsive">
+         <table class="table table-striped-expandable">
+         	 <thead>
+                <tr>
+                  <th>{% trans 'Username' %}</th>
+                  <th>{% trans 'Results' %}</th>
+                </tr>
+              </thead>
+              <tbody>
+	{% for r in results %}
+				<tr>
+					<td>{{ r.username }}</td>
+					<td>{{ r.message }}</td>
+				</tr>
+	{% endfor %}
+			</tbody>
+ 		</table>
+ 	</div>
+{% endif %}
+
+		<h4>{% trans 'Upload user file' %}</h4>
+		{% crispy form %}
+	</div>
+	<div class="col-md-7">
+		{% blocktrans %}
+		<p>You may only upload a 'CSV' file.</p>
+		<p>The following columns/fields are required:</p>
+		<ul>
+			<li><code>username</code></li>
+			<li><code>email</code></li>
+			<li><code>firstname</code></li>
+			<li><code>lastname</code></li>
+		</ul>
+
+		<p>You may also optionally add the following columns/fields:</p>
+		<ul>
+			<li><code>password</code> (note: if you do not add a password, one will be randomly generated)</li>
+			<li><code>organisation</code></li>
+			<li><code>phone_no</code></li>
+			<li>other columns that match your user profile definition</li>
+		</ul>
+		{% endblocktrans %}
+	</div>
+</div>
+
+
+
+
+
+
+
+{% endblock %}

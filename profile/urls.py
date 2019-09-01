@@ -13,7 +13,7 @@ urlpatterns = [
     url(r'^logout/$', django_contrib_auth_views.LogoutView.as_view(), {'template_name': 'oppia/logout.html', }, name="profile_logout"),
     url(r'^setlang/$', django_views_i18n.set_language, name="profile_set_language"),
     url(r'^reset/$', oppia_profile_views.reset, name="profile_reset"),
-    url(r'^reset/sent/$', TemplateView.as_view(template_name="oppia/profile/reset-sent.html"), name="profile_reset_sent"),
+    url(r'^reset/sent/$', TemplateView.as_view(template_name="profile/reset-sent.html"), name="profile_reset_sent"),
     url(r'^edit/$', oppia_profile_views.edit, name="profile_edit"),
     url(r'^edit/(?P<user_id>\d+)/$', oppia_profile_views.edit, name="profile_edit_user"),
     url(r'^points/$', oppia_profile_views.points, name="profile_points"),
