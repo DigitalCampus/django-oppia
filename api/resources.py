@@ -33,6 +33,7 @@ from oppia.models import Points, Award, Badge
 from profile.forms import RegisterForm
 from profile.models import UserProfile
 from oppia.signals import course_downloaded
+from oppia import emailer
 from settings import constants
 from settings.models import SettingProperties
 
