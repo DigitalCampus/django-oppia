@@ -133,7 +133,14 @@ def publish_view(request):
 
 def get_messages_array(request):
     msgs = messages.get_messages(request)
+    valid = True
     response = []
+    errors = []
     for msg in msgs:
-        response.append({'tags': msg.tags, 'message': msg.message})
-    return response
+        if 'error' in msg.tags:
+            valid = False
+            errors.append({'tags': msg.tags, 'message': str(msg) })
+        else:
+            response.append({'tags': msg.tags, 'message': msg.message})
+
+    return response if valid else errors
