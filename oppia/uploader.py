@@ -4,9 +4,9 @@ import codecs
 import json
 import os
 import shutil
-import xml.dom.minidom
-from xml.sax.saxutils import unescape
 from zipfile import ZipFile, BadZipfile
+
+import xml.etree.ElementTree as ET
 
 from django.conf import settings
 from django.contrib import messages
@@ -16,6 +16,7 @@ from django.utils.translation import ugettext as _
 from gamification.models import CourseGamificationEvent, ActivityGamificationEvent, MediaGamificationEvent
 from gamification.xml_writer import GamificationXMLWriter
 from oppia.models import Course, Section, Activity, Media
+from oppia.utils.courseFile import unescape_xml
 from quiz.models import Quiz, Question, QuizQuestion, Response, ResponseProps, QuestionProps, QuizProps
 
 
@@ -63,7 +64,7 @@ def process_course(extract_path, f, mod_name, request, user):
         return False, 400
 
     # parse the module.xml file
-    doc = xml.dom.minidom.parse(xml_path)
+    doc = ET.parse(xml_path)
     meta_info = parse_course_meta(doc)
 
     new_course = False
@@ -117,7 +118,6 @@ def process_course(extract_path, f, mod_name, request, user):
                 messages.info(request, _('Gamification for "%(event)s" at course level added') % {'event': e.event})
 
 
-
     process_quizzes_locally = False
     if 'exportversion' in meta_info and meta_info['exportversion'] >= settings.OPPIA_EXPORT_LOCAL_MINVERSION:
         process_quizzes_locally = True
@@ -141,87 +141,82 @@ def process_course(extract_path, f, mod_name, request, user):
 
 def parse_course_contents(req, xml_doc, course, user, new_course, process_quizzes_locally):
     # add in any baseline activities
-    for meta in xml_doc.getElementsByTagName("meta")[:1]:
-        if meta.getElementsByTagName("activity").length > 0:
+    for meta in xml_doc.findall('meta')[:1]:
+        activities = meta.findall("activity")
+        if len(activities) > 0:
             section = Section(
                 course=course,
                 title='{"en": "Baseline"}',
                 order=0
             )
             section.save()
-            for act in meta.getElementsByTagName("activity"):
+            for act in activities:
                 parse_and_save_activity(req, user, section, act, new_course, process_quizzes_locally, is_baseline=True)
 
     # add all the sections and activities
-    for structure in xml_doc.getElementsByTagName("structure")[:1]:
+    structure = xml_doc.find("structure")
+    if len(structure.findall("section")) == 0:
+        course.delete()
+        messages.info(req, _("There don't appear to be any activities in this upload file."))
+        return
 
-        if structure.getElementsByTagName("section").length == 0:
-            course.delete()
-            messages.info(req, _("There don't appear to be any activities in this upload file."))
-            return
+    for idx, s in enumerate(structure.findall("section")):
 
-        for idx, s in enumerate(structure.getElementsByTagName("section")):
+        activities = s.find('activities')
+        # Check if the section contains any activity (to avoid saving an empty one)
+        if activities is None or len(activities.findall('activity')) == 0:
+            messages.info(req, _("Section ") + str(idx + 1) + _(" does not contain any activities."))
+            continue
 
-            # Check if the section contains any activity (to avoid saving an empty one)
-            activities = s.getElementsByTagName("activities")[:1]
-            if not activities or activities[0].getElementsByTagName("activity").length == 0:
-                messages.info(req, _("Section ") + str(idx + 1) + _(" does not contain any activities."))
-                continue
+        title = {}
+        for t in s.findall('title'):
+            title[t.get('lang')] = t.text
 
-            title = {}
-            for t in s.childNodes:
-                if t.nodeName == 'title':
-                    title[t.getAttribute('lang')] = t.firstChild.nodeValue
-            section = Section(
-                course=course,
-                title=json.dumps(title),
-                order=s.getAttribute("order")
-            )
-            section.save()
+        section = Section(
+            course=course,
+            title=json.dumps(title),
+            order=s.get('order')
+        )
+        section.save()
 
-            for activities in s.getElementsByTagName("activities")[:1]:
-                for act in activities.getElementsByTagName("activity"):
-                    parse_and_save_activity(req, user, section, act, new_course, process_quizzes_locally)
+        for act in activities.findall("activity"):
+            parse_and_save_activity(req, user, section, act, new_course, process_quizzes_locally)
 
-    media_element_list = [node for node in xml_doc.firstChild.childNodes if node.nodeName == 'media']
-    media_element = None
-    if len(media_element_list) > 0:
-        media_element = media_element_list[0]
 
+    media_element = xml_doc.find('media')
     if media_element is not None:
-        for file_element in media_element.childNodes:
-            if file_element.nodeName == 'file':
-                media = Media()
-                media.course = course
-                media.filename = file_element.getAttribute("filename")
-                url = file_element.getAttribute("download_url")
-                media.digest = file_element.getAttribute("digest")
+        for file_element in media_element.findall('file'):
+            media = Media()
+            media.course = course
+            media.filename = file_element.get("filename")
+            url = file_element.get("download_url")
+            media.digest = file_element.get("digest")
 
-                if len(url) > Media.URL_MAX_LENGTH:
-                    messages.info(req, _('File %(filename)s has a download URL larger than the maximum length permitted. The media file has not been registered, so it won\'t be tracked. Please, fix this issue and upload the course again.') % {'filename': media.filename})
-                else:
-                    media.download_url = url
-                    # get any optional attributes
-                    for attr_name, attr_value in file_element.attributes.items():
-                        if attr_name == "length":
-                            media.media_length = attr_value
-                        if attr_name == "filesize":
-                            media.filesize = attr_value
+            if len(url) > Media.URL_MAX_LENGTH:
+                messages.info(req, _('File %(filename)s has a download URL larger than the maximum length permitted. The media file has not been registered, so it won\'t be tracked. Please, fix this issue and upload the course again.') % {'filename': media.filename})
+            else:
+                media.download_url = url
+                # get any optional attributes
+                for attr_name, attr_value in file_element.attrib.items():
+                    if attr_name == "length":
+                        media.media_length = attr_value
+                    if attr_name == "filesize":
+                        media.filesize = attr_value
 
-                    media.save()
-                    # save gamification events
-                    if file_element.getElementsByTagName('gamification')[:1]:
-                        events = parse_gamification_events(file_element.getElementsByTagName('gamification')[0])
+                media.save()
+                # save gamification events
+                gamification = file_element.find('gamification')
+                events = parse_gamification_events(gamification)
 
-                        for event in events:
-                            # Only add events if the didn't exist previously
-                            e, created = MediaGamificationEvent.objects.get_or_create(
-                                media=media, event=event['name'],
-                                defaults={'points': event['points'], 'user': req.user})
+                for event in events:
+                    # Only add events if the didn't exist previously
+                    e, created = MediaGamificationEvent.objects.get_or_create(
+                        media=media, event=event['name'],
+                        defaults={'points': event['points'], 'user': req.user})
 
-                            if created:
-                                messages.info(req, _('Gamification for "%(event)s" at course level added') % {
-                                    'event': e.event})
+                    if created:
+                        messages.info(req, _('Gamification for "%(event)s" at course level added') % {
+                            'event': e.event})
 
 
 
@@ -235,43 +230,39 @@ def parse_and_save_activity(req, user, section, act, new_course, process_quiz_lo
     :param is_baseline: is the activity part of the baseline?
     :return: None
     """
-    temp_title = {}
-    for t in act.getElementsByTagName("title"):
-        temp_title[t.getAttribute('lang')] = t.firstChild.nodeValue
-    title = json.dumps(temp_title)
+
+    title = {}
+    for t in act.findall('title'):
+        title[t.get('lang')] = t.text
+    title = json.dumps(title) if title else None
+
+    description = {}
+    for t in act.findall('description'):
+        description[t.get('lang')] = t.text
+    description = json.dumps(description) if description else None
 
     content = ""
-    act_type = act.getAttribute("type")
+    act_type = act.get("type")
     if act_type == "page" or act_type == "url":
         temp_content = {}
-        for t in act.getElementsByTagName("location"):
-            if t.firstChild and t.getAttribute('lang'):
-                temp_content[t.getAttribute('lang')] = t.firstChild.nodeValue
+        for t in act.findall("location"):
+            if t.text:
+                temp_content[t.get('lang')] = t.text
         content = json.dumps(temp_content)
     elif act_type == "quiz" or act_type == "feedback":
-        for c in act.getElementsByTagName("content"):
-            content = c.firstChild.nodeValue
+        for c in act.findall("content"):
+            content = c.text
     elif act_type == "resource":
-        for c in act.getElementsByTagName("location"):
-            content = c.firstChild.nodeValue
+        for c in act.findall("location"):
+            content = c.text
     else:
         content = None
 
     image = None
-    if act.getElementsByTagName("image"):
-        for i in act.getElementsByTagName("image"):
-            image = i.getAttribute('filename')
+    for i in act.findall("image"):
+        image = i.get('filename')
 
-    if act.getElementsByTagName("description"):
-        description = {}
-        for d in act.getElementsByTagName("description"):
-            if d.firstChild and d.getAttribute('lang'):
-                description[d.getAttribute('lang')] = d.firstChild.nodeValue
-        description = json.dumps(description)
-    else:
-        description = None
-
-    digest = act.getAttribute("digest")
+    digest = act.get("digest")
     existed = False
     try:
         activity = Activity.objects.get(digest=digest)
@@ -282,8 +273,8 @@ def parse_and_save_activity(req, user, section, act, new_course, process_quiz_lo
     activity.section = section
     activity.title = title
     activity.type = act_type
-    activity.order = act.getAttribute("order")
-    activity.digest = act.getAttribute("digest")
+    activity.order = act.get("order")
+    activity.digest = digest
     activity.baseline = is_baseline
     activity.image = image
     activity.content = content
@@ -300,23 +291,22 @@ def parse_and_save_activity(req, user, section, act, new_course, process_quiz_lo
     if (act_type == "quiz") and process_quiz_locally:
         updated_json = parse_and_save_quiz(req, user, activity, act)
         # we need to update the JSON contents both in the XML and in the activity data
-        act.getElementsByTagName("content")[0].firstChild.nodeValue = updated_json
+        act.find("content")[0].text = updated_json
         activity.content = updated_json
 
     activity.save()
 
     # save gamification events
-    if act.getElementsByTagName('gamification')[:1]:
-        events = parse_gamification_events(act.getElementsByTagName('gamification')[0])
-        for event in events:
+    gamification = act.find('gamification')
+    events = parse_gamification_events(gamification)
+    for event in events:
+        e, created = ActivityGamificationEvent.objects.get_or_create(
+            activity=activity, event=event['name'],
+            defaults={'points': event['points'], 'user': req.user})
 
-            e, created = ActivityGamificationEvent.objects.get_or_create(
-                activity=activity, event=event['name'],
-                defaults={'points': event['points'], 'user': req.user})
-
-            if created:
-                messages.info(req, _('Gamification for "%(event)s" at activity "%(act)s" added') % {
-                    'event': e.event, 'act':activity})
+        if created:
+            messages.info(req, _('Gamification for "%(event)s" at activity "%(act)s" added') % {
+                'event': e.event, 'act':activity})
 
 
 
@@ -376,57 +366,53 @@ def create_quiz(req, user, quiz_obj, act_xml, activity=None):
     return json.dumps(quiz_obj)
 
 
+def get_content(elem, nodeName):
+    for node in elem.findall(nodeName):
+        return None if node is None else node.text
+    return None
+
 def parse_course_meta(xml_doc):
 
     meta_info = {'versionid': 0, 'shortname': ''}
-    for meta in xml_doc.getElementsByTagName("meta")[:1]:
-        for v in meta.getElementsByTagName("versionid")[:1]:
-            meta_info['versionid'] = int(v.firstChild.nodeValue)
+    for meta in xml_doc.findall('meta')[:1]:
+        meta_info['versionid'] = int(meta.find('versionid').text)
 
-        temp_title = {}
-        for t in meta.childNodes:
-            if t.nodeName == "title":
-                temp_title[t.getAttribute('lang')] = t.firstChild.nodeValue
-        meta_info['title'] = json.dumps(temp_title)
+        title = {}
+        for t in meta.findall('title'):
+            title[t.get('lang')] = t.text
+        meta_info['title'] = json.dumps(title)
 
-        temp_description = {}
-        for t in meta.childNodes:
-            if t.nodeName == "description":
-                if t.firstChild is not None:
-                    temp_description[t.getAttribute('lang')] = t.firstChild.nodeValue
-                else:
-                    temp_description[t.getAttribute('lang')] = None
-        meta_info['description'] = json.dumps(temp_description)
+        description = {}
+        for t in meta.findall('description'):
+            description[t.get('lang')] = t.text
+        meta_info['description'] = json.dumps(description)
 
-        for sn in meta.getElementsByTagName("shortname")[:1]:
-            meta_info['shortname'] = sn.firstChild.nodeValue
-
-        for v in meta.getElementsByTagName("exportversion")[:1]:
-            meta_info['exportversion'] = int(v.firstChild.nodeValue)
-
-        for g in meta.getElementsByTagName("gamification"):
-            meta_info['gamification'] = g
+        meta_info['shortname'] = get_content(meta,'shortname')
+        exportversion = meta.find('exportversion')
+        if exportversion:
+            meta_info['exportversion'] = exportversion
+        meta_info['gamification'] = meta.find('gamification')
 
     return meta_info
 
 
 def parse_gamification_events(element):
     events = []
-    for e in element.getElementsByTagName("event"):
-        event_name = e.getAttribute('name')
-        points = e.firstChild.nodeValue
-        events.append({'name': event_name, 'points': points})
+    if element is not None:
+        for e in element.findall("event"):
+            event_name = e.get('name')
+            points = e.text
+            events.append({'name': event_name, 'points': points})
     return events
 
 
-def replace_zip_contents(xml_path, xml_doc, mod_name, dest):
-    fh = codecs.open(xml_path, mode="w", encoding="utf-8")
-    new_xml = xml_doc.toxml("utf-8").decode('utf-8')
-    new_xml = unescape(new_xml, {"&apos;": "'", "&quot;": '"', "&nbsp;": " "})
-    new_xml = new_xml.replace('&nbsp;', ' ').replace('&amp;', '&').replace('&quot;', '"')
+def replace_zip_contents(xml_path, xml_doc, mod_name, dest, encoding='utf-8'):
 
-    fh.write(new_xml)
-    fh.close()
+    with codecs.open(xml_path, mode="w", encoding=encoding) as fh:
+        new_xml = ET.tostring(xml_doc.getroot(), encoding=encoding).decode('utf-8')
+        new_xml = unescape_xml(new_xml)
+        fh.write("<?xml version='1.0' encoding='%s'?>\n" % encoding)
+        fh.write(new_xml)
 
     tmp_zipfilepath = os.path.join(dest, 'tmp_course')
     shutil.make_archive(tmp_zipfilepath, 'zip', dest, base_dir=mod_name)
