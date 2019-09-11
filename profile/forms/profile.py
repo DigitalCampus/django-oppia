@@ -48,8 +48,8 @@ class ProfileForm(forms.Form):
             username = kw['username']
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
-        self.helper.label_class = 'col-lg-2'
-        self.helper.field_class = 'col-lg-4'
+        self.helper.label_class = 'col-lg-2 col-md-3 col-sm-4'
+        self.helper.field_class = 'col-lg-5 col-md-7 col-sm-8'
         if settings.OPPIA_SHOW_GRAVATARS:
             gravatar_url = "https://www.gravatar.com/avatar.php?"
             gravatar_id = hashlib.md5(str(email).encode('utf-8')).hexdigest()
@@ -78,14 +78,14 @@ class ProfileForm(forms.Form):
                 'job_title',
                 'organisation',
                 Div(
-                    HTML("""<h3 class='col-lg-offset-2 col-lg-4'>""" + _(u'Change password') + """</h3>"""),
+                    HTML("""<h4 class='mt-5 mb-3'>""" + _(u'Change password') + """</h4>"""),
                 ),
-                Div(HTML("""<div style='clear:both'</div>""")),
+                Div(HTML("""<div style='clear:both'></div>""")),
                 'password',
                 'password_again',
                 Div(
-                    Submit('submit', _(u'Save Profile'), css_class='btn btn-default'),
-                    css_class='col-lg-offset-2 col-lg-4',
+                    Submit('submit', _(u'Save Profile'), css_class='btn btn-default mt-3'),
+                    css_class='text-center col-lg-offset-2 col-lg-6',
                 ),
             )
         else:
@@ -98,14 +98,14 @@ class ProfileForm(forms.Form):
                 'job_title',
                 'organisation',
                 Div(
-                    HTML("""<h3 class='col-lg-offset-2 col-lg-4'>""" + _(u'Change password') + """</h3>"""),
+                    HTML("""<h4 class='mt-5 mb-3'>""" + _(u'Change password') + """</h4>"""),
                 ),
-                Div(HTML("""<div style='clear:both'</div>""")),
+                Div(HTML("""<div style='clear:both'></div>""")),
                 'password',
                 'password_again',
                 Div(
-                    Submit('submit', _(u'Save Profile'), css_class='btn btn-default'),
-                    css_class='col-lg-offset-2 col-lg-4',
+                    Submit('submit', _(u'Save Profile'), css_class='btn btn-default mt-3'),
+                    css_class='text-center  col-lg-6',
                 ),
             )
 

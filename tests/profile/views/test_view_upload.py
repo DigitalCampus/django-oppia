@@ -16,7 +16,7 @@ class UserUploadActivityViewTest(TestCase):
 
     def setUp(self):
         super(UserUploadActivityViewTest, self).setUp()
-        self.template = 'oppia/profile/upload.html'
+        self.template = 'profile/upload.html'
         self.url = reverse('profile_upload')
         
     def test_view_upload(self):

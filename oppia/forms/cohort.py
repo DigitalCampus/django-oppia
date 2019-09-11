@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class CohortHelperDiv(Div):
-    template = "oppia/includes/cohort-helper.html"
+    template = "cohort/helper.html"
 
 
 class CohortForm(forms.Form):

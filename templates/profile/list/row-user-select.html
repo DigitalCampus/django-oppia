@@ -1,0 +1,13 @@
+{% load i18n %}
+{% load display_functions %}
+
+<tr id="{{ user.username }}" data-selectable-id="{{ user.username }}">
+    <td class="actions">
+        <a class="btn btn-sm btn-primary btn-inline btn-add"><em class="fas fa-plus"></em> <em class="far fa-check-circle hidden"></em> </a>
+        <a class="btn btn-sm btn-primary btn-inline btn-remove removing" style="display: none;"><em class="fas fa-minus"></em> </a>
+    </td>
+    <td>{% if OPPIA_SHOW_GRAVATARS %} {{ user|gravatar:24 }} {% endif %}
+        {{ user.first_name }} {{ user.last_name }}
+    </td>
+    <td>{{ user.date_joined|date:"d/m/Y" }}</td>
+</tr>

@@ -30,7 +30,7 @@ class VisualisationsTest(TestCase):
             self.client.login(username=allowed_user['user'], password=allowed_user['password'])
             response = self.client.get(reverse('oppia_viz_summary'))
             
-            self.assertTemplateUsed(response, 'oppia/viz/summary.html')
+            self.assertTemplateUsed(response, 'viz/summary.html')
             self.assertEqual(response.status_code, 200)
         
 
@@ -44,21 +44,21 @@ class VisualisationsTest(TestCase):
         self.client.login(username=ADMIN_USER['user'], password=ADMIN_USER['password'])
         start_date = timezone.now() - datetime.timedelta(days=31)
         response = self.client.post(reverse('oppia_viz_summary'), data={'start_date': start_date})
-        self.assertTemplateUsed(response, 'oppia/viz/summary.html')
+        self.assertTemplateUsed(response, 'viz/summary.html')
         self.assertEqual(response.status_code, 200)
         
     def test_view_summary_future_date(self):
         self.client.login(username=ADMIN_USER['user'], password=ADMIN_USER['password'])
         start_date = timezone.now() + datetime.timedelta(days=31)
         response = self.client.post(reverse('oppia_viz_summary'), data={'start_date': start_date})
-        self.assertTemplateUsed(response, 'oppia/viz/summary.html')
+        self.assertTemplateUsed(response, 'viz/summary.html')
         self.assertEqual(response.status_code, 200)
         
     def test_view_summary_invalid_date(self):   
         self.client.login(username=ADMIN_USER['user'], password=ADMIN_USER['password'])
         start_date = "not a valid date"
         response = self.client.post(reverse('oppia_viz_summary'), data={'start_date': start_date})
-        self.assertTemplateUsed(response, 'oppia/viz/summary.html')
+        self.assertTemplateUsed(response, 'viz/summary.html')
         self.assertEqual(response.status_code, 200)
     
     # map 
@@ -69,7 +69,7 @@ class VisualisationsTest(TestCase):
         for allowed_user in allowed_users:
             self.client.login(username=allowed_user['user'], password=allowed_user['password'])
             response = self.client.get(reverse('oppia_viz_map'))
-            self.assertTemplateUsed(response, 'oppia/viz/map.html')
+            self.assertTemplateUsed(response, 'viz/map.html')
             self.assertEqual(response.status_code, 200)
      
     # test summary helper methods

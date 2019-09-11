@@ -31,6 +31,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'oppia.middleware.LoginRequiredMiddleware',
+
 ]
 
 
@@ -122,7 +123,7 @@ USE_L10N = True
 gettext = lambda s: s
 LANGUAGES = ('en', gettext('English'))
 
-CRISPY_TEMPLATE_PACK = 'bootstrap3'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Login and logout settings
 # https://docs.djangoproject.com/en/1.11/ref/settings/#login-redirect-url

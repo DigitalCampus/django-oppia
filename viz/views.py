@@ -47,7 +47,7 @@ def summary_view(request):
     # Searches
     searches, previous_searches = summary_get_searches(start_date)
 
-    return render(request, 'oppia/viz/summary.html',
+    return render(request, 'viz/summary.html',
                               {'form': form,
                                'user_registrations': user_registrations,
                                'previous_user_registrations': previous_user_registrations,
@@ -64,7 +64,7 @@ def summary_view(request):
 
 
 def map_view(request):
-    return render(request, 'oppia/viz/map.html')
+    return render(request, 'viz/map.html')
 
 
 # helper functions

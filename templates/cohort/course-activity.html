@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+{% load sort_link %}
+{% load static %}
+
+{% block extra_head_title %}
+	{{ cohort.description }} &gt; {{ course.title|title_lang:LANGUAGE_CODE}}
+{% endblock extra_head_title %}
+
+{% block header %}
+<div class="jumbotron mb-4">
+	<h4><a href="{% url 'oppia_cohorts' %}">{% trans 'Cohorts' %}</a>
+		<i class="material-icons md-18 ">arrow_forward_ios</i>
+	<a href="{% url 'oppia_cohort_view' cohort.id %}">{{ cohort.description }}</a>
+		<i class="material-icons md-18 ">arrow_forward_ios</i>
+		{{ course.title|title_lang:LANGUAGE_CODE}}
+	</h4>
+</div>
+{% endblock header %}
+
+
+{% block content %}
+
+<h3>{% trans 'Recent Activity' %}</h3>
+
+{% include "oppia/includes/activity-graph.html" %}	
+
+
+<h3>{% trans 'Students' %}</h3>
+
+<div class="table-responsive">
+         <table class="table table-striped-expandable">
+         	<thead>
+                <tr>
+                  <th>{% sort_link 'user_display' 'Student' %}</th>
+                  <th>{% sort_link 'pretest_score' 'Pre-test Score' %}</th>
+                  <th>{% sort_link 'no_activities_completed' 'Activities Completed' %}</th>
+                  <th>{% sort_link 'no_quizzes_completed' 'Quizzes Completed' %}</th>
+                  <th>{% sort_link 'no_points' 'Points' %}</th>
+                  <th>{% sort_link 'no_badges' 'Badges' %}</th>
+                {% if course_media_count > 0 %}
+                  <th>{% sort_link 'no_media_viewed' 'Media viewed' %}</th>
+                {% endif %}
+                </tr>
+              </thead>
+             <tbody>
+				{% for student in students %}
+					<tr>
+						<td><a href="{% url 'profile_user_course_activity' student.user.id course.id %}">{{ student.user.first_name }} {{ student.user.last_name }}</a></td>
+						<td>
+							{% if student.pretest_score %}
+								{{ student.pretest_score }}%
+							{% else %}
+								--
+							{% endif %}
+						</td>
+						<td>{{ student.no_activities_completed }}/{{ course.get_no_activities }}</td>
+						<td>{{ student.no_quizzes_completed }}/{{ course.get_no_quizzes }}</td>
+						<td>{{ student.no_points }}</td>
+						<td>
+							{% if student.no_badges > 0 %}
+								<span class="badges"
+									title="{% trans 'Badge' %}"><img
+									src="{% static "oppia/images/badge.png" %}"
+									alt="{% trans 'Badge' %}" /></span>
+							{% else %}
+								&nbsp;
+							{% endif %}
+						</td>
+                        {% if course_media_count > 0 %}
+                        <td>
+                            {{ student.no_media_viewed }}/{{ course_media_count }}
+                        </td>
+                        {% endif %}
+					</tr>
+				{% endfor %}
+			</tbody>
+ 		</table>
+	</div>
+
+{% endblock %}

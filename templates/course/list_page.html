@@ -1,0 +1,29 @@
+{% load i18n %}
+{% load display_functions %}
+{% load sort_link %}
+
+<div class="table-responsive">
+<table class="table" style="margin-bottom:0;">
+     <thead>
+        <tr>
+            <th style="width:80px !important;"></th>
+            <th class="">{% sort_link 'title' 'Name' %}</th>
+            <th class="">{% sort_link 'lastupdated_date' 'Last updated' %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for course in page.object_list %}
+        <tr id="{{ course.shortname }}" data-selectable-id="{{ course.shortname }}">
+            <td class="actions">
+                <a class="btn btn-sm btn-inline btn-primary btn-add"><em class="fas fa-plus"></em> <em class="far fa-check-circle hidden"></em> </a>
+                <a class="btn btn-sm btn-inline btn-primary btn-remove removing" style="display: none;"><em class="fas fa-minus"></em> </a>
+            </td>
+            <td>{{ course.title | title_lang:LANGUAGE_CODE }}</td>
+            <td>{{ course.lastupdated_date|date:"d/m/Y" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+{% include "common/pagination.html" %}

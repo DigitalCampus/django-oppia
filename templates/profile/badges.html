@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block header %}
+<div class="jumbotron mb-4">
+	<h3>{% trans 'page_title_badges' %}</h3>
+</div>
+{% endblock header %}
+
+{% block content %}
+{% if awards %}
+	<div class="table-responsive">
+         <table class="table table-striped">
+         	 <thead>
+                <tr>
+                  <th>{% trans 'Award Date' %}</th>
+                  <th>{% trans 'Description' %}</th>
+                </tr>
+              </thead>
+              <tbody>
+	{% for b in awards %}
+		 <tr>
+           <td>{{ b.award_date }}</td>
+           <td><img src="{{ MEDIA_URL }}{{ b.badge_icon }}" height="50px" alt="{% trans 'Badge icon'%}"/> {{ b.description }} </td>
+         </tr>
+	{% endfor %}
+			</tbody>
+ 		</table>
+	</div>
+{% else %}
+	{% blocktrans %}<p>You don't have any badges yet</p>{% endblocktrans %}
+{% endif %}
+{% endblock %}

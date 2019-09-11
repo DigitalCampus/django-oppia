@@ -16,7 +16,7 @@ class MediaPublishResourceTest(TestCase):
     def setUp(self):
         self.client = Client()
         self.url = '/api/media/'
-        self.course_file_path = './oppia/fixtures/reference_files/anc_course.zip' 
+        self.course_file_path = './oppia/fixtures/reference_files/anc_test_course.zip' 
         self.video_file_path = './oppia/fixtures/reference_files/sample_video.m4v'
         
     # test only POST is available
@@ -30,7 +30,7 @@ class MediaPublishResourceTest(TestCase):
         video_file = open(self.video_file_path,'rb')
         
         # no username
-        response = self.client.post(self.url, { 'password': 'secret', 'media_file': self.video_file })
+        response = self.client.post(self.url, { 'password': 'secret', 'media_file': video_file })
         self.assertRaises(forms.ValidationError)
         self.assertEqual(response.status_code, 400)
         

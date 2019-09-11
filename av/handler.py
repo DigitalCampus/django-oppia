@@ -20,7 +20,9 @@ def upload(request, user):
                                       update_user=user, )
         uploaded_media.file = request.FILES["media_file"]
         uploaded_media.save()
-        md5 = hashlib.md5(open(uploaded_media.file.path, 'rb').read()).hexdigest()
+        file = open(uploaded_media.file.path, 'rb')
+        md5 = hashlib.md5(file.read()).hexdigest()
+        file.close()
         uploaded_media.md5 = md5
         uploaded_media.save()
     

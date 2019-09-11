@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+{% load sort_link %}
+{% load static %}
+
+{% block extra_head_title %}
+	{{ view_user.first_name }} {{ view_user.last_name }}
+{% endblock extra_head_title %}
+
+{% block header %}
+<div class="jumbotron mb-4 ">
+	<div class="row">
+			<div class="col-md-8">
+				<h3 class="mb-0">{{ view_user.first_name }} {{ view_user.last_name }}</h3>
+				{{view_user.username}}
+			</div>
+			<div class="col-md-4 text-right">
+				<a href="{% url 'profile_edit_user' view_user.id %}" class="btn btn-light mr-2">{% trans 'Edit' %}</a>
+			</div>
+	</div>
+</div>
+{% endblock header %}
+
+{% block content %}
+
+
+<h3>{% trans 'Recent activity' %}</h3>
+{% include "oppia/includes/activity-graph.html" %}	
+
+<h3>{% trans 'Courses' %}</h3>
+{% if courses %}
+	<div class="table-responsive">
+         <table class="table table-striped sortable">
+         	<thead>
+                <tr>
+                  <th>{% sort_link 'course' 'Course' %}</th>
+                  <th>{% sort_link 'pretest_score' 'Pre-test Score' %}</th>
+                  <th>{% sort_link 'no_activities_completed' 'Activities Completed' %}</th>
+                  <th>{% sort_link 'no_quizzes_completed' 'Quizzes Completed' %}</th>
+                  <th>{% sort_link 'no_points' 'Points' %}</th>
+                  <th>{% sort_link 'no_badges' 'Badges' %}</th>
+                  <th>{% sort_link 'no_media_viewed' 'Media viewed' %}</th>
+                </tr>
+              </thead>
+             <tbody>
+				{% for c in courses %}
+					<tr>
+						<td>
+                            <div class="list-pie" data-total="{{ c.course.get_no_activities }}" data-completed="{{ c.no_activities_completed }}" ></div>
+                            <a href="{% url 'profile_user_course_activity' view_user.id c.course.id%}">{{ c.course.title|title_lang:LANGUAGE_CODE }}</a></td>
+						<td>
+							{% if c.pretest_score %}
+								{{ c.pretest_score|floatformat:1 }}%
+							{% else %}
+								--
+							{% endif %}
+						</td>
+						<td>
+                            {{ c.no_activities_completed }}/{{ c.course.get_no_activities }}
+                        </td>
+						<td>{{ c.no_quizzes_completed }}/{{ c.course.get_no_quizzes }}</td>
+						<td>{{ c.no_points }}</td>
+						<td>
+							{% if c.no_badges > 0 %}
+								<span class="badges"
+									title="{% trans 'Badge' %}"><img
+									src="{% static "oppia/images/badge.png" %}"
+									alt="{% trans 'Badge' %}" /></span>
+							{% else %}
+								&nbsp;
+							{% endif %}
+						</td>
+                        <td>
+                            {% if c.course.get_no_media > 0 %}
+                                {{ c.no_media_viewed }}/{{ c.course.get_no_media }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+					</tr>
+				{% endfor %}
+			</tbody>
+ 		</table>
+	</div>
+{% else %}
+	{% blocktrans %}<p>Not participated in any courses.</p>{% endblocktrans %}
+{% endif %}
+
+
+{% endblock %}
+
+{% block extra_styles %}
+    <link href="{% static "oppia/circliful/circliful.css" %}" rel="stylesheet"/>
+{% endblock extra_styles %}
+
+{% block extra_scripts %}
+	<script src="{% static "oppia/circliful/circliful.min.js" %}"></script>
+	<script type="text/javascript">
+	    $(function(){
+            $('.list-pie').each(function(){
+                var pie = $(this);
+                percent = pie.data('completed') * 100 / pie.data('total');
+                pie.circliful({ percent: percent, foregroundColor:"#4bb7d6", backgroundColor:"#fff", foregroundBorderWidth:6 });
+            });
+        });
+
+	</script>
+{% endblock extra_scripts %}

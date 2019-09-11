@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+{% load crispy_forms_tags %}
+
+{% block extra_head_title %}
+	{{ course.title|title_lang:LANGUAGE_CODE }}
+{% endblock extra_head_title %}
+
+{% block extra_body %}
+	onload="setUpDatePicker();"
+{% endblock extra_body %}
+	
+{% block extra_scripts %}
+	<script type='text/javascript' src='https://www.google.com/jsapi'></script>
+	<script type="text/javascript">
+
+	{% include "oppia/includes/init-date-picker-js.html" %}
+	
+	// Load the Visualization API and the piechart package.
+	google.load('visualization', '1.0', {'packages':['corechart']});
+
+	// Set a callback to run when the Google Visualization API is loaded.
+	google.setOnLoadCallback(drawChart);
+	function drawChart() {
+
+		var data = new google.visualization.DataTable();
+		data.addColumn('date', "{% trans 'Date' %}");
+		data.addColumn('number', "{% trans 'Total' %}");
+		data.addColumn('number', "{% trans 'Page completed' %}");
+		data.addColumn('number', "{% trans 'Quiz completed' %}");
+		data.addColumn('number', "{% trans 'Media viewed' %}");
+		data.addColumn('number', "{% trans 'Resources viewed' %}");
+		data.addRows( {{ data|length }} );
+		
+		{% for date,activity in data %}
+			data.setValue({{ forloop.counter0 }},0,new Date({{ date| date:'Y' }},{{ date|date:'n' }}-1,{{date|date:'j'}}));
+			data.setValue({{ forloop.counter0 }},1,{{ activity.total }});
+			data.setValue({{ forloop.counter0 }},2,{{ activity.page }});
+			data.setValue({{ forloop.counter0 }},3,{{ activity.quiz }});
+			data.setValue({{ forloop.counter0 }},4,{{ activity.media }});
+			data.setValue({{ forloop.counter0 }},5,{{ activity.resource }});
+		{% endfor %}
+
+		var chartOptions = {
+			width: "100%",
+			height: 400,
+			vAxis: {title: "{% trans 'No. attempts' %}"},
+			pointSize:5,
+			chartArea: {left:100,width:"70%",height:"75%"},
+			backgroundColor: 'transparent',
+			legend: {position:'right'}
+		};
+		{% if monthly %}
+			chartOptions['hAxis'] = { format: 'MMM yyyy' };
+		{% endif %}
+        var chart = new google.visualization.LineChart(document.getElementById('attempts_chart_div'));
+        chart.draw(data, chartOptions);
+      }
+</script>
+{% endblock extra_scripts %}
+
+{% block header %}
+<div class="jumbotron pb-2 mb-3">
+		<div class="row">
+			<div class="col-md-8">
+				<h3>{{ course.title|title_lang:LANGUAGE_CODE }}
+				{% if course.is_draft %}
+					<span class="badge badge-dark ml-2"><small>{% trans 'draft' %}</small></span>
+				{% endif %}
+				{% if course.is_archived %}
+					<span class="badge badge-dark ml-2"><small>{% trans 'archived' %}</small></span>
+				{% endif %}
+				</h3>
+				<p><em>{% trans 'Tags:' %} {{ course.get_tags}}</em></p>
+			</div>
+			<div class="col-md-4 text-right">
+				<a href="{% url 'oppia_course_edit' course.id %}" class="btn btn-light mr-2 mb-3">{% trans 'Edit' %}</a>
+				<a href="{% url 'oppia_gamification_edit_course' course.id %}" class="btn btn-secondary mb-3">Gamification settings</a>
+			</div>
+	</div>
+
+
+</div>
+{% endblock header %}
+
+
+{% block content %}
+
+
+<h3>{% trans 'courses_recent_activity' %}</h3>
+<div id="attempts_chart_div" class="graph">{% trans 'graph_generating'%}</div>
+
+{% include "includes/messages.html" %}	
+<div class="container">
+{% crispy form %}
+
+</div>
+
+{% if leaderboard %}
+<h3>{% trans 'home_leaderboard' %}</h3>
+{% include "oppia/includes/leaderboard.html" %}
+{% endif %}
+{% endblock %}

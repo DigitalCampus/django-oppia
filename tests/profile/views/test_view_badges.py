@@ -23,7 +23,7 @@ class BadgesViewTest(TestCase):
         for allowed_user in allowed_users:
             self.client.login(username=allowed_user['user'], password=allowed_user['password'])
             response = self.client.get(url)
-            self.assertTemplateUsed(response, 'oppia/profile/badges.html')
+            self.assertTemplateUsed(response, 'profile/badges.html')
             self.assertEqual(response.status_code, 200)
         
         

@@ -7,8 +7,13 @@
 	{% trans 'Media Embed Helper' %}
 {% endblock extra_head_title %}
 
+{% block header %}
+<div class="jumbotron mb-4 ">
+	<h3>{% trans 'Media Embed Helper' %}</h3>
+</div>
+{% endblock header %}
+
 {% block content %}
-<h2>{% trans 'Media Embed Helper' %}</h2>
 
 {% crispy form %}
 

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{{ title }}
+{% endblock extra_head_title %}
+
+{% block header %}
+<div class="jumbotron mb-3">
+	<h3>{{ title }}</h3>
+</div>
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+	{% if page.object_list %}
+		<div class="table-responsive">
+	         <table class="table table-striped">
+				 <thead>
+	                <tr>
+	                  <th>{% trans 'Image' %}</th>
+	                  <th>{% trans 'Media' %}</th>
+	                  <th>{% trans 'Embed Code' %}</th>
+	                </tr>
+	              </thead>
+	              <tbody>
+	              {% for media in page.object_list %}
+	              	  {% include 'av/media_row.html' %}
+	              {% endfor %}
+	              </tbody>
+	 		</table>
+		</div>
+		
+		{% include "common/pagination.html" %}
+	{% endif %}
+</div>
+{% endblock %}

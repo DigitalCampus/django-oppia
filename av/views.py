@@ -32,7 +32,7 @@ def home_view(request):
     except (EmptyPage, InvalidPage):
         media = paginator.page(paginator.num_pages)
 
-    return render(request, 'oppia/av/home.html',
+    return render(request, 'av/home.html',
                               {'title': _(u'Uploaded Media'),
                                 'page': media})
 
@@ -51,7 +51,7 @@ def upload_view(request):
     else:
         form = UploadMediaForm()  # An unbound form
 
-    return render(request, 'oppia/av/upload.html',
+    return render(request, 'av/upload.html',
                               {'form': form,
                                'title': _(u'Upload Media')})
 
@@ -64,7 +64,7 @@ def upload_success_view(request, id):
 
     embed_code = media.get_embed_code(request.build_absolute_uri(media.file.url))
 
-    return render(request, 'oppia/av/upload_success.html',
+    return render(request, 'av/upload_success.html',
                               {'title': _(u'Upload Media'),
                                'media': media,
                                'embed_code': embed_code})
@@ -78,7 +78,7 @@ def media_view(request, id):
 
     embed_code = media.get_embed_code(request.build_absolute_uri(media.file.url))
 
-    return render(request, 'oppia/av/view.html',
+    return render(request, 'av/view.html',
                               {'title': _(u'Media'),
                                'media': media,
                                'embed_code': embed_code})

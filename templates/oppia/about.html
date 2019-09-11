@@ -6,8 +6,14 @@
 	{% trans 'About' %}
 {% endblock extra_head_title %}
 
+{% block header %}
+<div class="jumbotron mb-4">
+	<h3>{% trans 'About' %}</h3>
+</div>
+{% endblock header %}
+
+
 {% block content %}
-<h2>{% trans 'About' %}</h2>
 
 {% settings_value 'OPPIA_ANDROID_PACKAGEID' as package_id %}
 {% blocktrans %} 

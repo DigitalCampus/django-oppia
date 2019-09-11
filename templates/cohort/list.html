@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{% trans 'Cohorts' %}
+{% endblock extra_head_title %}
+
+
+{% block header %}
+<div class="jumbotron mb-3">
+	<h3>{% trans 'Cohorts' %}</h3>
+</div>
+{% endblock header %}
+
+{% block content %}
+
+{% if cohorts %}
+	<div class="table-responsive">
+         <table class="table table-striped-expandable">
+         	<thead>
+                <tr>
+                  <th>{% trans 'Cohort' %}</th>
+                  <th>{% trans 'No Teachers' %}</th>
+                  <th>{% trans 'No Students' %}</th>
+                  <th>{% trans 'Courses' %}</th>
+                  <th>{% trans 'Options' %}</th>
+                </tr>
+              </thead>
+              <tbody>
+	{% for cohort in cohorts %}
+		<tr>
+			<td><a href="{% url 'oppia_cohort_view' cohort.id %}">{{ cohort.description }}</a></td>
+			<td>{{ cohort.no_teacher_members }}</td>
+			<td>{{ cohort.no_student_members }}</td>
+			<td>
+			{% for course in cohort.get_courses %}
+				<a href="{% url 'oppia_cohort_course_view' cohort.id course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a><br/>
+			{% endfor %}
+			</td>
+			<td class="py-1">
+				<a href="{% url 'oppia_cohort_edit' cohort.id %}" data-toggle="tooltip" title="{% trans 'Edit' %}" class="btn btn-inline btn-outline-primary"><i class="fas fa-2x fa-edit"></i> </a>
+			</td>	
+		</tr> 
+	{% endfor %}
+	</tbody>
+ 		</table>
+	</div>
+{% else %}
+	<p>{% trans 'No cohorts' %}</p>
+	
+{% endif %}
+
+<p><a href="{% url 'oppia_cohort_add' %}" class="btn btn-default btn-primary">{% trans 'Add a cohort' %}</a></p>
+
+{% endblock %}

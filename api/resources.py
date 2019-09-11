@@ -27,11 +27,13 @@ from tastypie.utils import trailing_slash, timezone
 from tastypie.validation import Validation
 
 from api.serializers import PrettyJSONSerializer, CourseJSONSerializer, UserJSONSerializer
+from oppia import emailer
 from oppia.models import Activity, Tracker, Course, Media, Cohort, Tag, CourseTag
 from oppia.models import Points, Award, Badge
 from profile.forms import RegisterForm
 from profile.models import UserProfile
 from oppia.signals import course_downloaded
+from oppia import emailer
 from settings import constants
 from settings.models import SettingProperties
 
@@ -272,13 +274,13 @@ class ResetPasswordResource(ModelResource):
             prefix = 'http://'
 
         emailer.send_oppia_email(
-                template_html = 'oppia/profile/email/password_reset.html',
-                template_text = 'oppia/profile/email/password_reset.txt',
+                template_html = 'profile/email/password_reset.html',
+                template_text = 'profile/email/password_reset.txt',
                 subject="Password reset",
                 fail_silently=False,
                 recipients=[user.email],
                 new_password = newpass, 
-                site = prefix + request.META['SERVER_NAME']
+                site = prefix + bundle.request.META['SERVER_NAME']
                 )
 
         return bundle

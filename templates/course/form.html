@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{{ title }}{% if course_title %}: {{ course_title|title_lang:LANGUAGE_CODE }} {% endif %}
+{% endblock extra_head_title %}
+
+{% load crispy_forms_tags %}
+
+
+{% block header %}
+<div class="jumbotron mb-4">
+	<h3>{{ title }}</h3>
+{% if course_title %}<h4>{{ course_title|title_lang:LANGUAGE_CODE }}</h4> {% endif %}
+</div>
+{% endblock header %}
+
+
+
+{% block content %}
+
+    <div class="container">
+
+    <div class="row">
+    <div class="col-md-11">{% include "includes/messages.html" %}</div>
+    </div>
+
+
+{% crispy form %}
+</div>
+{% endblock %}
