@@ -47,10 +47,10 @@
     display: block;
     color: #111;
 }
-.course-scorecard .summary .attempted{ color: #74B042; }
-.course-scorecard .summary .passed{ color: #9aca3c; }
-.quizzes .quiz.attempted{ background-color: #74B042; }
-.quizzes .quiz.passed{ background-color: #9aca3c; }
+.course-scorecard .summary .attempted{ color: $oppia-mid; }
+.course-scorecard .summary .passed{ color: $oppia-light; }
+.quizzes .quiz.attempted{ background-color: $oppia-mid; }
+.quizzes .quiz.passed{ background-color: $oppia-light; }
 
 .course-scorecard .piechart{
     width:280px;
