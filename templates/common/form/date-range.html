@@ -1,6 +1,6 @@
 <form method="{{ form_method|default:'post' }}" class="date-picker-selector" data-drop="{{ drop|default:'down' }}">
     {% csrf_token %}
-    <div class="d-inline-flex flex-row" data-type="range">
+    <div class="d-{% if dateform.interval %}inline-{% endif %}flex flex-row" data-type="range">
         <div class="hidden">
         {{ dateform.start_date }}
         {{ dateform.end_date }}
@@ -10,15 +10,19 @@
             <label>Date range</label>
             <div class="input-group ">
           <input class="form-control daterange" type="text" name="date_range" placeholder="Desde - hasta...">
-          <span class="input-group-btn">
-            <button class="btn btn-flat narrow" type="button"><i class="material-icons">event</i></button>
-          </span>
+            {% if dateform.interval %}
+              <span class="input-group-btn">
+                <button class="btn btn-flat narrow" type="button"><i class="material-icons">event</i></button>
+              </span>
+            {% endif %}
         </div>
         </div>
-        <div class="form-group w-50 mr-3">
+        {% if dateform.interval %}
+        <div class="form-group w-50">
                 {% include "common/form/select.html" with field=dateform.interval not_floating=True %}
         </div>
+        {% endif %}
 
-        <input type="submit" name="submit" value="Go" class="btn btn-primary align-self-center" id="submit-id-submit">
+        <input type="submit" name="submit" value="Go" class="btn btn-primary align-self-center ml-3" id="submit-id-submit">
     </div>
 </form>

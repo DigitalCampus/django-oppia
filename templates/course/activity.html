@@ -7,8 +7,6 @@
 {% endblock extra_head_title %}
 
 {% block extra_scripts %}
-	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 	<script type='text/javascript' src='https://www.google.com/jsapi'></script>
 	<script type="text/javascript">
 
@@ -80,7 +78,7 @@
 
 {% block content %}
 
-<h3>{% trans 'courses_recent_activity' %}</h3>
+<h3>{% trans 'courses_recent_activity' %} <a href="{% url 'oppia_recent_activity_detail' course.pk %}" class="btn btn-sm btn-light ml-3">View detail activity</a> </h3>
 <div id="attempts_chart_div" class="graph">{% trans 'graph_generating'%}</div>
 
 {% include "includes/messages.html" %}	
