@@ -2,6 +2,7 @@
 
 import codecs
 import json
+import logging
 import os
 import shutil
 from zipfile import ZipFile, BadZipfile
@@ -19,6 +20,8 @@ from oppia.models import Course, Section, Activity, Media
 from oppia.utils.courseFile import unescape_xml
 from quiz.models import Quiz, Question, QuizQuestion, Response, ResponseProps, QuestionProps, QuizProps
 
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
 
 def handle_uploaded_file(f, extract_path, request, user):
     zipfilepath = os.path.join(settings.COURSE_UPLOAD_DIR, f.name)
@@ -47,7 +50,8 @@ def handle_uploaded_file(f, extract_path, request, user):
     try:
         course, response = process_course(extract_path, f, mod_name, request, user)
     except Exception as e:
-        messages.error(request, e, extra_tags="danger")
+        logger.error(e)
+        messages.error(request, str(e), extra_tags="danger")
         return False, 500
     finally:
         # remove the temp upload files
@@ -130,7 +134,7 @@ def process_course(extract_path, f, mod_name, request, user):
     zipfilepath = os.path.join(settings.COURSE_UPLOAD_DIR, f.name)
     shutil.copy(tmp_path + ".zip", zipfilepath)
 
-    course_preview_path = settings.MEDIA_ROOT + "courses/"
+    course_preview_path = os.path.join(settings.MEDIA_ROOT, "courses")
     ZipFile(zipfilepath).extractall(path=course_preview_path)
 
     writer = GamificationXMLWriter(course)
