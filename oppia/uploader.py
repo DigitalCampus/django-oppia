@@ -134,7 +134,7 @@ def process_course(extract_path, f, mod_name, request, user):
     zipfilepath = os.path.join(settings.COURSE_UPLOAD_DIR, f.name)
     shutil.copy(tmp_path + ".zip", zipfilepath)
 
-    course_preview_path = settings.MEDIA_ROOT + "courses/"
+    course_preview_path = os.path.join(settings.MEDIA_ROOT, "courses")
     ZipFile(zipfilepath).extractall(path=course_preview_path)
 
     writer = GamificationXMLWriter(course)
