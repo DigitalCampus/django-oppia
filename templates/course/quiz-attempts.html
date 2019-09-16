@@ -21,8 +21,8 @@ onload="init();"
 {% block header %}
 <div class="jumbotron mb-4">
 	<h3><a href="{% url 'oppia_recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a>
-		<i class="material-icons md-18 ">arrow_forward_ios</i> <a href="{% url 'oppia_course_quiz' course.id %}">{% trans 'title_quizzes' %}</a>
-		<i class="material-icons md-18 ">arrow_forward_ios</i> {{ quiz.title|title_lang:LANGUAGE_CODE }}
+		<em class="material-icons md-18 ">arrow_forward_ios</em> <a href="{% url 'oppia_course_quiz' course.id %}">{% trans 'title_quizzes' %}</a>
+		<em class="material-icons md-18 ">arrow_forward_ios</em> {{ quiz.title|title_lang:LANGUAGE_CODE }}
 	</h3>
 	<p><em>{% trans 'Tags:' %} {{ course.get_tags}}</em></p>
 </div>

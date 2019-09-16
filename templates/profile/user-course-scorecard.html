@@ -10,7 +10,7 @@
 
 {% block header %}
 <div class="jumbotron mb-4 ">
-<h3><a href="{% url 'profile_user_activity' view_user.id %}">{{ view_user.first_name }} {{ view_user.last_name }}</a> <i class="material-icons md-18 ">arrow_forward_ios</i> {{ course.title|title_lang:LANGUAGE_CODE }}</h3>
+<h3><a href="{% url 'profile_user_activity' view_user.id %}">{{ view_user.first_name }} {{ view_user.last_name }}</a> <em class="material-icons md-18 ">arrow_forward_ios</em> {{ course.title|title_lang:LANGUAGE_CODE }}</h3>
 </div>
 {% endblock header %}
 
