@@ -25,6 +25,7 @@ def process_uploaded_trackers(request, user, user_api_key):
     for tracker in user['trackers']:
         url_comp = request.build_absolute_uri().split('/')
         url = ('%(protocol)s//%(domain)s/api/v1/tracker/?username=%(username)s&api_key=%(api_key)s' % {'protocol': url_comp[0], 'domain': url_comp[2], 'username': user['username'], 'api_key': user_api_key.key})
+        print(url)
         data = json.dumps(tracker).encode("utf-8")
         req = urllib.request.Request(url)
         req.add_header('Content-Type', 'application/json; charset=utf-8')
