@@ -21,7 +21,10 @@
     {% endblocktrans %}
     
     <h3>{% trans 'Embed code for Moodle' %}</h3>
-    <code>{{ embed_code }}</code>
+    <pre>
+        <code data-lang="html">{{ embed_code }}</code>
+    </pre>
+
     <a href="{% url 'oppia_av_upload' %}" class="btn btn-primary btn btn-default">{% trans 'Upload another media file' %}</a>
 </div>
 {% endblock %}

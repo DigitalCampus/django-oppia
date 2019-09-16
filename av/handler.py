@@ -50,7 +50,7 @@ def upload(request, user):
 
     
 def get_length(filepath):
-    result = subprocess.Popen([settings.MEDIA_PROCESSOR_PROGRAM, filepath], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    result = subprocess.Popen([settings.MEDIA_PROCESSOR_PROGRAM, filepath], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, encoding='utf8')
     duration_list = [x for x in result.stdout.readlines() if "Duration" in x]
 
     time_components = duration_list[0].split(',')[0].split(':')
