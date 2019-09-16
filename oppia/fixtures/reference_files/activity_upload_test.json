@@ -1,6 +1,6 @@
 {
     "export_date": "Sat Jan 02 04:39:02 GMT+00:00 2016",
-    "server": "http://127.0.0.1/",
+    "server": "http://testserver",
     "users": [
         {
             "username": "mrsmith",
