@@ -1,9 +1,7 @@
 @mixin form-validation-state($state, $color) {
   .#{$state}-feedback {
     @include typography-caption;
-
     color: $color;
-    display: none;
     margin-top: $textfield-margin-y;
     width: 100%;
 
