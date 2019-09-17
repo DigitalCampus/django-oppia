@@ -14,18 +14,18 @@
     
 <table>
 	<tr>
-		<th>{% trans 'Submitted Date' %} (*1)</th>
-		<th>{% trans 'Tracker Date' %}  (*2)</th>
-		<th>{% trans 'IP Address' %}</th>
-		<th>{% trans 'User Agent' %} (*3)</th>
-		<th>{% trans 'Data' %} (*4)</th>
-		<th>{% trans 'Course' %} </th>
-		<th>{% trans 'Section' %} </th>
-		<th>{% trans 'Activity' %} </th>
-		<th>{% trans 'Activity Type' %} </th>
-		<th>{% trans 'Completed' %} (*5)</th>
-		<th>{% trans 'Time Taken (in seconds)' %}</th>
-		<th>{% trans 'Language' %} (*6)</th>
+		<th scope="col">{% trans 'Submitted Date' %} (*1)</th>
+		<th scope="col">{% trans 'Tracker Date' %}  (*2)</th>
+		<th scope="col">{% trans 'IP Address' %}</th>
+		<th scope="col">{% trans 'User Agent' %} (*3)</th>
+		<th scope="col">{% trans 'Data' %} (*4)</th>
+		<th scope="col">{% trans 'Course' %} </th>
+		<th scope="col">{% trans 'Section' %} </th>
+		<th scope="col">{% trans 'Activity' %} </th>
+		<th scope="col">{% trans 'Activity Type' %} </th>
+		<th scope="col">{% trans 'Completed' %} (*5)</th>
+		<th scope="col">{% trans 'Time Taken (in seconds)' %}</th>
+		<th scope="col">{% trans 'Language' %} (*6)</th>
 	</tr>
 {% for a in activity %}
 	<tr>

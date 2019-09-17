@@ -29,7 +29,7 @@
 			{% if course.is_archived %}
 				<span class="badge badge-dark ml-2"><small>{% trans 'archived' %}</small></span>
 			{% endif %}
-				<i class="material-icons md-18 ">arrow_forward_ios</i>  {% trans 'Detail activity' %}
+				<em class="material-icons md-18 ">arrow_forward_ios</em>  {% trans 'Detail activity' %}
 			</h3>
 			<p><em>{% trans 'Tags:' %} {{ course.get_tags}}</em></p>
 		</div>
@@ -55,12 +55,12 @@
          <table class="table">
          	 <thead>
                 <tr>
-                  <th>{% trans 'table_header_tracker_date' %}</th>
-                  <th>{% trans 'table_header_tracker_user' %}</th>
-                  <th>{% trans 'table_header_tracker_type' %}</th>
-                  <th>{% trans 'table_header_tracker_activity' %}</th>
-                  <th>{% trans 'table_header_tracker_timetaken' %}</th>
-                  <th>{% trans 'table_header_tracker_lang' %}</th>
+                  <th scope="col">{% trans 'table_header_tracker_date' %}</th>
+                  <th scope="col">{% trans 'table_header_tracker_user' %}</th>
+                  <th scope="col">{% trans 'table_header_tracker_type' %}</th>
+                  <th scope="col">{% trans 'table_header_tracker_activity' %}</th>
+                  <th scope="col">{% trans 'table_header_tracker_timetaken' %}</th>
+                  <th scope="col">{% trans 'table_header_tracker_lang' %}</th>
                 </tr>
               </thead>
               <tbody>
@@ -95,8 +95,8 @@
         			 <table class="table table-striped">
 			         	 <thead>
 			                <tr>
-			                  <th>{% trans 'Name' %}</th>
-			                  <th>{% trans 'Value' %}</th>
+			                  <th scope="col">{% trans 'Name' %}</th>
+			                  <th scope="col">{% trans 'Value' %}</th>
 			                </tr>
 			              </thead>
 			              <tbody>
