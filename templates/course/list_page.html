@@ -4,11 +4,12 @@
 
 <div class="table-responsive">
 <table class="table" style="margin-bottom:0;">
+	 <caption>{% trans 'Courses' %}</caption>
      <thead>
         <tr>
-            <th style="width:80px !important;"></th>
-            <th class="">{% sort_link 'title' 'Name' %}</th>
-            <th class="">{% sort_link 'lastupdated_date' 'Last updated' %}</th>
+            <th style="width:80px !important;" scope="col"></th>
+            <th class="" scope="col">{% sort_link 'title' 'Name' %}</th>
+            <th class="" scope="col">{% sort_link 'lastupdated_date' 'Last updated' %}</th>
         </tr>
       </thead>
       <tbody>

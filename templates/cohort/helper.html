@@ -22,6 +22,7 @@
              </div>
          </div>
          <table class="table selected-items-table" id="selected-courses-table" {% if not selected_courses %} style="display:none;" {% endif %} >
+         	 <caption>{% trans 'Selected courses' %}</caption>
              <thead>
                 <tr>
                   <th scope="col">{% trans 'Course' %}</th>
@@ -72,6 +73,7 @@
              </div>
          </div>
          <table class="table selected-items-table" id="selected-teachers-table" {% if not selected_teachers %} style="display:none;" {% endif %}>
+         	 <caption>{% trans 'Selected teachers' %}</caption>
              <thead>
                 <tr>
                   <th scope="col">{% trans 'Teacher' %}</th>
@@ -124,6 +126,7 @@
              </div>
          </div>
          <table class="table selected-items-table" id="selected-students-table" {% if not selected_students %} style="display:none;" {% endif %}>
+             <caption>{% trans 'Selected students' %}</caption>
              <thead>
                 <tr>
                   <th scope="col">{% trans 'User' %}</th>

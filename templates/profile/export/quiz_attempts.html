@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load display_functions %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<title>{% trans 'Exporting Quiz Responses' %} - {% trans 'app_name' %}</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -12,6 +12,7 @@
 <body>
     
 <table>
+	<caption class="d-none">{% trans "Quiz attempts" %}</caption>
 	<tr>
 		<th scope="col">{% trans 'Quiz' %}</th>
 		<th scope="col">{% trans 'Attempt Date' %} (*1)</th>

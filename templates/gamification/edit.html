@@ -54,15 +54,19 @@
 		{% for events in default_points.course|split_half %}
 			<div class="col-md-6">
 			<table class="table-sm table-borderless gamification-points">
-			{% for event in events %}
-				{% if not event.event in course.events %}
-					{% include 'gamification/points_row.html' with event=event.event points=event.points level='global' id=course.id %}
-				{% else %}
-					{% with course_event=course.events|lookup:event.event %}
-						{% include 'gamification/points_row.html' with event=event.event points=course_event level='custom' id=course.id %}
-					{% endwith %}
-				{% endif %}
-			{% endfor %}
+				<caption>{% trans 'Course default points' %}</caption>
+				<th scope="col" class="d-none"></th>
+				<th scope="col" class="d-none"></th>
+				<th scope="col" class="d-none"></th>
+				{% for event in events %}
+					{% if not event.event in course.events %}
+						{% include 'gamification/points_row.html' with event=event.event points=event.points level='global' id=course.id %}
+					{% else %}
+						{% with course_event=course.events|lookup:event.event %}
+							{% include 'gamification/points_row.html' with event=event.event points=course_event level='custom' id=course.id %}
+						{% endwith %}
+					{% endif %}
+				{% endfor %}
 			</table>
 				</div>
 		{% endfor %}
@@ -96,59 +100,65 @@
 
 		<div class="table-responsive">
 		 <table class="table table-striped-expandable mb-0">
-		{% for activity in section.list %}
-			 <tr class="gamification-config">
-				 <td  style="width:50%;">
-					 {{activity}}
-					 <a href="#!" class="ml-2" data-toggle="tooltip" title="Edit"><i data-toggle="collapse" href="#custom{{activity.pk}}" class="fas fa-pen"></em></a>
-
-					 <div class="custom-gamification collapse pt-2" data-type="activity" id="custom{{activity.pk}}">
-
-					 </div>
-
-				 </td>
-				 <td>
-					 <table class="table-sm table-borderless gamification-points">
-
-			{% if activity.type == 'quiz' %}
-
-				{% for event in default_points.quiz %}
-					{% if not event.event in activity.events %}
-						{% if event.event in course.events %}
-							{% with course_event=course.events|lookup:event.event %}
-					 			{% include 'gamification/points_row.html' with event=event.event points=course_event level='course' id=activity.id %}
-							{% endwith %}
-						{% else %}
-						 	{% include 'gamification/points_row.html' with event=event.event points=event.points level='global' id=activity.id %}
-						{% endif %}
-					{% endif %}
-				{% endfor %}
-			{% else %}
-				{% for event in default_points.activity %}
-					{% if not event.event in activity.events %}
-						{% if event.event in course.events %}
-							{% with course_event=course.events|lookup:event.event %}
-								{% include 'gamification/points_row.html' with event=event.event points=course_event level='course' id=activity.id %}
-							{% endwith %}
-						{% else %}
-							{% include 'gamification/points_row.html' with event=event.event points=event.points level='global' id=activity.id %}
-						{% endif %}
-					{% endif %}
-				{% endfor %}
-
-			{% endif %}
-
-			{% if activity.events %}
-				{% for event,points in activity.events.items %}
-					{% include 'gamification/points_row.html' with event=event points=points level='custom' id=activity.id %}
-
-				{% endfor %}
-			{% endif %}
-						 </table>
-			</td>
-				 </tr>
-
-		{% endfor %}
+		 	<caption class="d-none">{% trans "Sections" %}</caption>
+		 	<th scope="col" class="d-none"></th>
+		 	<th scope="col" class="d-none"></th>
+			{% for activity in section.list %}
+				 <tr class="gamification-config">
+					 <td  style="width:50%;">
+						 {{activity}}
+						 <a href="#!" class="ml-2" data-toggle="tooltip" title="Edit"><em data-toggle="collapse" href="#custom{{activity.pk}}" class="fas fa-pen"></em></a>
+	
+						 <div class="custom-gamification collapse pt-2" data-type="activity" id="custom{{activity.pk}}">
+	
+						 </div>
+	
+					 </td>
+					 <td>
+						 <table class="table-sm table-borderless gamification-points">
+						 	<caption class="d-none">{% trans "Activities" %}</caption>
+						 	<th scope="col" class="d-none"></th>
+						 	<th scope="col" class="d-none"></th>
+						 	<th scope="col" class="d-none"></th>
+							{% if activity.type == 'quiz' %}
+				
+								{% for event in default_points.quiz %}
+									{% if not event.event in activity.events %}
+										{% if event.event in course.events %}
+											{% with course_event=course.events|lookup:event.event %}
+									 			{% include 'gamification/points_row.html' with event=event.event points=course_event level='course' id=activity.id %}
+											{% endwith %}
+										{% else %}
+										 	{% include 'gamification/points_row.html' with event=event.event points=event.points level='global' id=activity.id %}
+										{% endif %}
+									{% endif %}
+								{% endfor %}
+							{% else %}
+								{% for event in default_points.activity %}
+									{% if not event.event in activity.events %}
+										{% if event.event in course.events %}
+											{% with course_event=course.events|lookup:event.event %}
+												{% include 'gamification/points_row.html' with event=event.event points=course_event level='course' id=activity.id %}
+											{% endwith %}
+										{% else %}
+											{% include 'gamification/points_row.html' with event=event.event points=event.points level='global' id=activity.id %}
+										{% endif %}
+									{% endif %}
+								{% endfor %}
+				
+							{% endif %}
+	
+							{% if activity.events %}
+								{% for event,points in activity.events.items %}
+									{% include 'gamification/points_row.html' with event=event points=points level='custom' id=activity.id %}
+				
+								{% endfor %}
+							{% endif %}
+							 </table>
+				</td>
+					 </tr>
+	
+			{% endfor %}
 		 </table>
 			</div>
 	</div>
@@ -175,35 +185,41 @@
 
 	<div class="table-responsive">
 		 <table class="table table-striped-expandable">
-		{% for m in media %}
-			 <tr class="gamification-config">
-				 <td style="min-width:50%;">
-					 {{m}}
-					 <a href="#!" class="ml-2" data-toggle="tooltip" title="Edit"><i data-toggle="collapse" href="#custom-m-{{m.pk}}" class="fas fa-pen"></em></a>
-				 	<div class="custom-gamification collapse pt-2" data-type="media" id="custom-m-{{m.pk}}"></div>
-				 </td>
-				 <td>
-					 <table class="table-sm table-borderless gamification-points">
-
-				{% for event in default_points.media %}
-					{% if not event.event in m.events %}
-						{% if event.event in course.events %}
-							{% with course_event=course.events|lookup:event.event %}
-								{% include 'gamification/points_row.html' with event=event.event points=course_event level='course' id=m.id %}
-							{% endwith %}
-						{% else %}
-							{% include 'gamification/points_row.html' with event=event.event points=event.points level='global' id=m.id%}
-						{% endif %}
-					{% endif %}
-				{% endfor %}
-
-			{% if m.events %}
-				{% for event,points in m.events.items %}
-					{% include 'gamification/points_row.html' with event=event points=points level='custom' id=m.id %}
-				{% endfor %}
-			{% endif %}
-			 </table>
-			</td>
+		 	<caption class="d-none">{% trans "Media" %}</caption>
+		 	<th scope="col" class="d-none"></th>
+		 	<th scope="col" class="d-none"></th>
+			{% for m in media %}
+				 <tr class="gamification-config">
+					 <td style="min-width:50%;">
+						 {{m}}
+						 <a href="#!" class="ml-2" data-toggle="tooltip" title="Edit"><em data-toggle="collapse" href="#custom-m-{{m.pk}}" class="fas fa-pen"></em></a>
+					 	<div class="custom-gamification collapse pt-2" data-type="media" id="custom-m-{{m.pk}}"></div>
+					 </td>
+					 <td>
+						 <table class="table-sm table-borderless gamification-points">
+							<caption class="d-none">{% trans "Media points" %}</caption>
+						 	<th scope="col" class="d-none"></th>
+						 	<th scope="col" class="d-none"></th>
+						 	<th scope="col" class="d-none"></th>
+							{% for event in default_points.media %}
+								{% if not event.event in m.events %}
+									{% if event.event in course.events %}
+										{% with course_event=course.events|lookup:event.event %}
+											{% include 'gamification/points_row.html' with event=event.event points=course_event level='course' id=m.id %}
+										{% endwith %}
+									{% else %}
+										{% include 'gamification/points_row.html' with event=event.event points=event.points level='global' id=m.id%}
+									{% endif %}
+								{% endif %}
+							{% endfor %}
+	
+							{% if m.events %}
+								{% for event,points in m.events.items %}
+									{% include 'gamification/points_row.html' with event=event points=points level='custom' id=m.id %}
+								{% endfor %}
+							{% endif %}
+			 			</table>
+					</td>
 				 </tr>
 		{% endfor %}
 		 </table>
@@ -218,6 +234,8 @@
 
 	 <div id="empty-form" style="display:none">
 		 <table class="no_error">
+		 	 <caption class="d-none">{% trans "Events form" %}</caption>
+		 	 <th scope="col" class="d-none"></th>
 			 {{ events_formset.empty_form.as_p }}
 		 </table>
 	 </div>
