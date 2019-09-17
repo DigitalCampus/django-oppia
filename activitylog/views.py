@@ -19,7 +19,6 @@ from activitylog.forms import UploadActivityLogForm
 from activitylog.models import UploadedActivityLog
 from api.resources import TrackerResource
 from helpers.api.tasty_resource import create_resource
-from oppia.permissions import user_can_upload
 from profile.models import UserProfile
 from quiz.api.resources import QuizAttemptResource
 
@@ -53,9 +52,7 @@ def process_uploaded_file(request, json_data):
             username = user['username']
             print(_(u"processing activity log for %s" % username))
 
-
             if User.objects.filter(username=username).count() == 0:
-
                 print(_(u"New user!"))
                 # User was registered offline, we create a new one
                 req_user = User(
@@ -111,13 +108,17 @@ def validate_server(request, data):
     url_comp = request.build_absolute_uri().split('/')
     server_url = "%(protocol)s//%(domain)s" % ({'protocol': url_comp[0], 'domain': url_comp[2]})
 
-    if 'server' in data and data['server'].startswith(server_url):
-        print('Server check ok')
-        return True
+    if 'server' in data:
+        if data['server'].startswith(server_url):
+            return True
+        else:
+            print('Different tracker server: {}'.format(data['server']))
+            messages.warning(request, _(
+                "The server in the activity log file does not match with the current one"))
+            return False
     else:
-        print('Different tracker server: {}'.format(data['server']))
         messages.warning(request, _(
-            "The server in the activity log file does not match with the current one"))
+            "The activity log file seems to be in a wrong format"))
         return False
 
 @csrf_exempt
@@ -148,13 +149,13 @@ def upload_view(request):
             uploaded_activity_log.save()
 
             # open file and process
-            file_data = open(uploaded_activity_log.file.path, 'rb').read()
-            success = process_activitylog(request, file_data)
-            if success:
-                return HttpResponseRedirect(reverse('oppia_activitylog_upload_success'))
-
-
-    form = UploadActivityLogForm()
+            with open(uploaded_activity_log.file.path, 'rb') as file:
+                file_data = file.read()
+                success = process_activitylog(request, file_data)
+                if success:
+                    return HttpResponseRedirect(reverse('oppia_activitylog_upload_success'))
+    else:
+        form = UploadActivityLogForm()
     return render(request, 'activitylog/upload.html',
                               {'form': form,
                                'title': _(u'Upload Activity Log')})
