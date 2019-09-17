@@ -5,16 +5,33 @@ from itertools import chain
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core import exceptions
+from django.core.exceptions import PermissionDenied
 from django.http import Http404, HttpResponseForbidden
 
 from oppia.models import Course, Participant, Cohort
+from profile.models import UserProfile
 
 
-def can_upload(request):
-    if settings.OPPIA_STAFF_ONLY_UPLOAD is True and not request.user.is_staff and request.user.userprofile.can_upload is False:
-        return False
+def can_upload(user):
+    if settings.OPPIA_STAFF_ONLY_UPLOAD is True:
+        return user.is_superuser or user.is_staff
     else:
-        return True
+        try:
+            profile = UserProfile.objects.get(user=user)
+            return profile.get_can_upload()
+        except UserProfile.DoesNotExist:
+            return False
+
+
+def user_can_upload(function):
+    def wrap(request, *args, **kwargs):
+        if can_upload(request.user):
+            return function(request, *args, **kwargs)
+        else:
+            raise PermissionDenied
+    wrap.__doc__ = function.__doc__
+    wrap.__name__ = function.__name__
+    return wrap
 
 
 def check_owner(request, id):

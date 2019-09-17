@@ -6,18 +6,16 @@ import urllib
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
-from django.core import exceptions
-from django.urls import reverse
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest
-from django.shortcuts import render, get_object_or_404
-from django.template import RequestContext
+from django.shortcuts import render
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
-
 from tastypie.models import ApiKey
 
 from activitylog.forms import UploadActivityLogForm
 from activitylog.models import UploadedActivityLog
+from oppia.permissions import user_can_upload
 from profile.models import UserProfile
 
 
@@ -134,11 +132,8 @@ def post_activitylog(request):
     else:
         return HttpResponseBadRequest()
 
-
+@user_can_upload
 def upload_view(request):
-    if not request.user.userprofile.get_can_upload_activitylog():
-        raise exceptions.PermissionDenied
-
     if request.method == 'POST':
         form = UploadActivityLogForm(request.POST, request.FILES)
         if form.is_valid():

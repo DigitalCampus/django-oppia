@@ -1,15 +1,15 @@
 # oppia/av/views.py
 
-from django.core import exceptions
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
-from av.forms import UploadMediaForm
-from av.models import UploadedMedia, UploadedMediaImage
 
 from av import handler
+from av.forms import UploadMediaForm
+from av.models import UploadedMedia, UploadedMediaImage
+from oppia.permissions import user_can_upload
 
 
 def home_view(request):
@@ -36,11 +36,8 @@ def home_view(request):
                               {'title': _(u'Uploaded Media'),
                                 'page': media})
 
-
+@user_can_upload
 def upload_view(request):
-    if not request.user.userprofile.get_can_upload():
-        raise exceptions.PermissionDenied
-
     if request.method == 'POST':
         result = handler.upload(request, request.user)
 
@@ -55,11 +52,8 @@ def upload_view(request):
                               {'form': form,
                                'title': _(u'Upload Media')})
 
-
+@user_can_upload
 def upload_success_view(request, id):
-    if not request.user.userprofile.get_can_upload():
-        raise exceptions.PermissionDenied
-
     media = get_object_or_404(UploadedMedia, pk=id)
 
     embed_code = media.get_embed_code(request.build_absolute_uri(media.file.url))
@@ -69,11 +63,8 @@ def upload_success_view(request, id):
                                'media': media,
                                'embed_code': embed_code})
 
-
+@user_can_upload
 def media_view(request, id):
-    if not request.user.userprofile.get_can_upload():
-        raise exceptions.PermissionDenied
-
     media = get_object_or_404(UploadedMedia, pk=id)
 
     embed_code = media.get_embed_code(request.build_absolute_uri(media.file.url))
@@ -83,11 +74,8 @@ def media_view(request, id):
                                'media': media,
                                'embed_code': embed_code})
 
-
+@user_can_upload
 def set_default_image_view(request, image_id):
-    if not request.user.userprofile.get_can_upload():
-        raise exceptions.PermissionDenied
-
     media = UploadedMedia.objects.get(images__pk=image_id)
 
     # reset all images to not be default
