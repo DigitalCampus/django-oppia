@@ -1,12 +1,7 @@
 {% extends "base.html" %} 
 {% load i18n %} 
-{% load display_functions %} 
-{% load crispy_forms_tags %}
+{% load display_functions %}
 {% load static %}
-
-{% block extra_body %}
-		onload="setUpDatePicker();"
-{% endblock extra_body %}
 
 {% block extra_head_title %}
 	{% trans 'Cohort' %}
@@ -25,11 +20,18 @@
 
 {% block content %}
 
-
-
 <form id="cohort-form" class="form-horizontal" method="post">
+    {% csrf_token %}
 
-{% crispy form %}
+    <div class="col-md-6">
+    {% include 'common/form/input.html' with field=form.description %}
+    {% include "common/form/date-range.html" with dateform=form omit_form_tag=True %}
+    </div>
+    <div class="d-none">
+        {{form.teachers}}
+        {{form.courses}}
+        {{form.students}}
+    </div>
 
     {% include "cohort/helper.html" %}
 
@@ -50,7 +52,6 @@
     <script src="{% static "oppia/js/oppia.chart-utils.js" %}"></script>
     <script src="{% static "oppia/js/oppia.ajax-utils.js" %}"></script>
     <script type="text/javascript">
-    {% include "oppia/includes/init-date-picker-js.html" %}
 
     $(function() {
         $('.btn-table-toggle').on('click', function(){

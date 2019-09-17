@@ -17,14 +17,16 @@
 
                   <input type="text" name="q" {% if quicksearch %}value="{{ quicksearch }}" {% endif %}class="form-control" aria-label="{% trans 'Search' %}" placeholder="{% trans 'Search...' %}">
                   <span class="input-group-btn"><button class="btn btn-flat mr-3" type="submit" ><em class="fas fa-search"></em></button></span></span>
-                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#advanced-search" aria-expanded="false" aria-controls="collapseExample">Advanced search
-  </button>
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#advanced-search" aria-expanded="false" aria-controls="collapseExample">Advanced search</button>
             </div>
 
         </div>
     </div>
 
-    <div id="advanced-search" class="collapse mt-4   {% if advanced_search %}show{% endif %}">
+    <div id="advanced-search" class="collapse mt-4  {% if advanced_search %}show{% endif %}">
+        <div class="row"><div class="col-sm-11 col-md-7">
+            {% include "common/form/date-range.html" with dateform=search_form omit_form_tag=True %}
+        </div></div>
             {% crispy search_form %}
     </div>
 
@@ -35,17 +37,8 @@
 
 {% block content %}
 
-
 <div class="search-block">
-
 {% include "profile/users-paginated-list.html" %}
 </div>
 
 {% endblock content %}
-
-{% block extra_scripts %}
-	<script type="text/javascript">
-        {% include "oppia/includes/init-date-picker-js.html" %}
-        $(setUpDatePicker);
-    </script>
-{% endblock extra_scripts %}

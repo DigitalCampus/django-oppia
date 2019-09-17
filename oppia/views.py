@@ -661,6 +661,7 @@ def cohort_edit(request, cohort_id):
 
             CourseCohort.objects.filter(cohort=cohort).delete()
             courses = form.cleaned_data.get("courses").strip().split(",")
+            print(courses)
             if len(courses) > 0:
                 for c in courses:
                     try:
@@ -670,6 +671,9 @@ def cohort_edit(request, cohort_id):
                         pass
 
             return HttpResponseRedirect('../../')
+        else:
+            print(form.errors)
+            print('Form invalidad!!')
 
     else:
         form = CohortForm(initial={'description': cohort.description,
