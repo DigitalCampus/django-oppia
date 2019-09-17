@@ -3,15 +3,15 @@
     <td class="px-2"><span class="points-pill">{{points}}</span> </td>
     <td class="px-2">
         {% if level == 'custom' %}
-             <i class="fas fa-2x fa-cog" data-toggle="tooltip" title="Custom points" data-placement="right"></i>
+             <em class="fas fa-2x fa-cog" data-toggle="tooltip" title="Custom points" data-placement="right"></em>
         {% endif %}
 
         {% if level == 'course' %}
-            <i class="fas fa-2x fa-level-down-alt" data-toggle="tooltip" title="Inherited from course" data-placement="right"></i>
+            <em class="fas fa-2x fa-level-down-alt" data-toggle="tooltip" title="Inherited from course" data-placement="right"></em>
         {% endif %}
 
         {% if level == 'global' %}
-        <i class="fas fa-2x fa-globe-africa" data-toggle="tooltip" title="Global settings" data-placement="right"></i>
+        <em class="fas fa-2x fa-globe-africa" data-toggle="tooltip" title="Global settings" data-placement="right"></em>
 
         {% endif %}
         </td>
