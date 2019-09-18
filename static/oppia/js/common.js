@@ -8,6 +8,7 @@ $(function(){
         options = {
 			cancelClass: 'btn-flat text-primary',
 			applyClass: 'btn-light', drops:dropDirection,
+			autoApply: true,
 			locale:{
 				format:datePickerFormat
 			}
