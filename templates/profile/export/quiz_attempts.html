@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load display_functions %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<title>{% trans 'Exporting Quiz Responses' %} - {% trans 'app_name' %}</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -12,15 +12,16 @@
 <body>
     
 <table>
+	<caption class="d-none">{% trans "Quiz attempts" %}</caption>
 	<tr>
-		<th>{% trans 'Quiz' %}</th>
-		<th>{% trans 'Attempt Date' %} (*1)</th>
-		<th>{% trans 'Submitted Date' %} (*2)</th>
-		<th>{% trans 'Score' %}</th>
-		<th>{% trans 'Max score available for the quiz' %}</th>
-		<th>{% trans 'IP Address' %}</th>
-		<th>{% trans 'User Agent' %} (*3)</th>
-		<th>{% trans 'Questions & Responses' %} (*3)</th>
+		<th scope="col">{% trans 'Quiz' %}</th>
+		<th scope="col">{% trans 'Attempt Date' %} (*1)</th>
+		<th scope="col">{% trans 'Submitted Date' %} (*2)</th>
+		<th scope="col">{% trans 'Score' %}</th>
+		<th scope="col">{% trans 'Max score available for the quiz' %}</th>
+		<th scope="col">{% trans 'IP Address' %}</th>
+		<th scope="col">{% trans 'User Agent' %} (*3)</th>
+		<th scope="col">{% trans 'Questions & Responses' %} (*3)</th>
 	</tr>
 {% for qa in quiz_attempts %}
 	<tr>

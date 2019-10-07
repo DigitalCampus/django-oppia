@@ -10,7 +10,7 @@
 
 {% block header %}
 <div class="jumbotron mb-4 ">
-	<h3><i class="material-icons mr-2">arrow_upward</i> {% trans 'Upload users' %}</h3>
+	<h3><em class="material-icons mr-2">arrow_upward</em> {% trans 'Upload users' %}</h3>
 </div>
 {% endblock header %}
 
@@ -22,10 +22,11 @@
 	<h4>{% trans 'Upload results' %}</h4>
 	<div class="table-responsive">
          <table class="table table-striped-expandable">
+         	 <caption class="d-none">{% trans "Upload results" %}</caption>
          	 <thead>
                 <tr>
-                  <th>{% trans 'Username' %}</th>
-                  <th>{% trans 'Results' %}</th>
+                  <th scope="col">{% trans 'Username' %}</th>
+                  <th scope="col">{% trans 'Results' %}</th>
                 </tr>
               </thead>
               <tbody>

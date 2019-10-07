@@ -8,7 +8,7 @@
 
 {% block header %}
 <div class="jumbotron mb-4">
-	<h3><a href="{% url 'oppia_recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a> <i class="material-icons md-18 ">arrow_forward_ios</i> {% trans 'title_quizzes' %}</h3>
+	<h3><a href="{% url 'oppia_recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a> <em class="material-icons md-18 ">arrow_forward_ios</em> {% trans 'title_quizzes' %}</h3>
 	<p><em>{% trans 'Tags:' %} {{ course.get_tags}}</em></p>
 </div>
 {% endblock header %}
@@ -17,10 +17,11 @@
 
 <div class="table-responsive">
     <table class="table">
+    	 <caption>{% trans 'Quizzes' %}</caption>
     	 <thead>
            <tr>
-             <th>{% trans 'table_header_quiz_title' %}</th>
-             <th>{% trans 'table_header_quiz_no_attempts' %}</th>
+             <th scope="col">{% trans 'table_header_quiz_title' %}</th>
+             <th scope="col">{% trans 'table_header_quiz_no_attempts' %}</th>
            </tr>
          </thead>
          <tbody>

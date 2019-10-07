@@ -13,12 +13,13 @@
 {% if page.object_list.count > 0  %}
     <div class="table-responsive">
          <table class="table table-striped">
+             <caption>{% trans 'Leaderboard' %}</caption>
          	 <thead>
                 <tr>
-                  <th>#</th>
-                  <th>{% trans 'User' %}</th>
-                  <th>{% trans 'Points' %}</th>
-                  <th>{% trans 'Badges' %}</th>
+                  <th scope="col">#</th>
+                  <th scope="col">{% trans 'User' %}</th>
+                  <th scope="col">{% trans 'Points' %}</th>
+                  <th scope="col">{% trans 'Badges' %}</th>
                 </tr>
               </thead>
               <tbody>

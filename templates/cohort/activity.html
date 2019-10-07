@@ -10,7 +10,7 @@
 <div class="jumbotron mb-4">
     <div class="row">
 			<div class="col-md-10">
-				<h3><a href="{% url 'oppia_cohorts' %}">{% trans 'Cohorts' %}</a> <i class="material-icons md-18 ">arrow_forward_ios</i> {{ cohort.description }}</h3>
+				<h3><a href="{% url 'oppia_cohorts' %}">{% trans 'Cohorts' %}</a> <em class="material-icons md-18 ">arrow_forward_ios</em> {{ cohort.description }}</h3>
 			</div>
 			<div class="col-md-2 text-right">
 				<a href="{% url 'oppia_cohort_edit' cohort.id %}" class="btn btn-light mr-2">{% trans 'Edit' %}</a>
@@ -35,10 +35,11 @@
 <h3>{% trans 'Courses' %}</h3>
 <div class="table-responsive">
          <table class="table table-striped">
+         	 <caption>{% trans 'Courses' %}</caption>
          	 <thead>
                 <tr>
-                  <th>#</th>
-                  <th>{% trans 'Course' %}</th>
+                  <th scope="col">#</th>
+                  <th scope="col">{% trans 'Course' %}</th>
                 </tr>
               </thead>
               <tbody>

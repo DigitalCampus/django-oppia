@@ -11,9 +11,9 @@
 {% block header %}
 <div class="jumbotron mb-4">
 	<h4><a href="{% url 'oppia_cohorts' %}">{% trans 'Cohorts' %}</a>
-		<i class="material-icons md-18 ">arrow_forward_ios</i>
+		<em class="material-icons md-18 ">arrow_forward_ios</em>
 	<a href="{% url 'oppia_cohort_view' cohort.id %}">{{ cohort.description }}</a>
-		<i class="material-icons md-18 ">arrow_forward_ios</i>
+		<em class="material-icons md-18 ">arrow_forward_ios</em>
 		{{ course.title|title_lang:LANGUAGE_CODE}}
 	</h4>
 </div>
@@ -31,16 +31,17 @@
 
 <div class="table-responsive">
          <table class="table table-striped-expandable">
+         	<caption>{% trans 'Students' %}</caption>
          	<thead>
                 <tr>
-                  <th>{% sort_link 'user_display' 'Student' %}</th>
-                  <th>{% sort_link 'pretest_score' 'Pre-test Score' %}</th>
-                  <th>{% sort_link 'no_activities_completed' 'Activities Completed' %}</th>
-                  <th>{% sort_link 'no_quizzes_completed' 'Quizzes Completed' %}</th>
-                  <th>{% sort_link 'no_points' 'Points' %}</th>
-                  <th>{% sort_link 'no_badges' 'Badges' %}</th>
+                  <th scope="col">{% sort_link 'user_display' 'Student' %}</th>
+                  <th scope="col">{% sort_link 'pretest_score' 'Pre-test Score' %}</th>
+                  <th scope="col">{% sort_link 'no_activities_completed' 'Activities Completed' %}</th>
+                  <th scope="col">{% sort_link 'no_quizzes_completed' 'Quizzes Completed' %}</th>
+                  <th scope="col">{% sort_link 'no_points' 'Points' %}</th>
+                  <th scope="col">{% sort_link 'no_badges' 'Badges' %}</th>
                 {% if course_media_count > 0 %}
-                  <th>{% sort_link 'no_media_viewed' 'Media viewed' %}</th>
+                  <th scope="col">{% sort_link 'no_media_viewed' 'Media viewed' %}</th>
                 {% endif %}
                 </tr>
               </thead>

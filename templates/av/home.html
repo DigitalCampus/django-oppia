@@ -17,11 +17,12 @@
 	{% if page.object_list %}
 		<div class="table-responsive">
 	         <table class="table table-striped">
+	         <caption>{{ title }}</caption>
 				 <thead>
 	                <tr>
-	                  <th>{% trans 'Image' %}</th>
-	                  <th>{% trans 'Media' %}</th>
-	                  <th>{% trans 'Embed Code' %}</th>
+	                  <th scope="col">{% trans 'Image' %}</th>
+	                  <th scope="col">{% trans 'Media' %}</th>
+	                  <th scope="col">{% trans 'Embed Code' %}</th>
 	                </tr>
 	              </thead>
 	              <tbody>

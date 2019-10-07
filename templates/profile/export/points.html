@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load display_functions %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<title>{% trans 'Exporting Points' %} - {% trans 'app_name' %}</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -12,13 +12,14 @@
 <body>
     
 <table>
+	<caption class="d-none">{% trans "Points" %}</caption>
 	<tr>
-		<th>{% trans 'Course' %}</th>
-		<th>{% trans 'Points' %}</th>
-		<th>{% trans 'Date' %}</th>
-		<th>{% trans 'Description' %}</th>
-		<th>{% trans 'Data' %}</th>
-		<th>{% trans 'Type' %}</th>
+		<th scope="col">{% trans 'Course' %}</th>
+		<th scope="col">{% trans 'Points' %}</th>
+		<th scope="col">{% trans 'Date' %}</th>
+		<th scope="col">{% trans 'Description' %}</th>
+		<th scope="col">{% trans 'Data' %}</th>
+		<th scope="col">{% trans 'Type' %}</th>
 	</tr>
 {% for p in points %}
 	<tr>

@@ -1,24 +1,18 @@
 {% extends "base.html" %} 
 {% load i18n %} 
-{% load display_functions %} 
-{% load crispy_forms_tags %}
+{% load display_functions %}
 {% load static %}
 
 {% block extra_head_title %}
 	{% trans 'Summary Overview' %}
 {% endblock extra_head_title %}
 
-{% block extra_body %}
-	onload="setUpDatePicker();"
-{% endblock extra_body %}
 
 {% if user.is_authenticated %}
 	{% block extra_scripts %}
     <script src="{% static "oppia/js/oppia.chart-utils.js" %}"></script>
 	<script type='text/javascript' src='https://www.google.com/jsapi'></script>
 	<script type="text/javascript">
-
-        {% include "oppia/includes/init-date-picker-js.html" %}
 
         function getMonthlyDatatable(rowCount){
             var datatable = new google.visualization.DataTable();
@@ -212,7 +206,7 @@
 {% block header %}
 <div class="jumbotron mb-5 py-2">
     <div class="row">
-        <div class="col"><h3 class="mt-3"><i class="material-icons mr-2">timeline</i>{% trans 'Summary Overview' %}</h3></div>
+        <div class="col"><h3 class="mt-3"><em class="material-icons mr-2">timeline</em>{% trans 'Summary Overview' %}</h3></div>
         <div class="col">
             <form method="POST">
 	            {% csrf_token %}

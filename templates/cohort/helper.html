@@ -22,10 +22,11 @@
              </div>
          </div>
          <table class="table selected-items-table" id="selected-courses-table" {% if not selected_courses %} style="display:none;" {% endif %} >
+         	 <caption>{% trans 'Selected courses' %}</caption>
              <thead>
                 <tr>
-                  <th>{% trans 'Course' %}</th>
-                  <th></th>
+                  <th scope="col">{% trans 'Course' %}</th>
+                  <th scope="col"></th>
                 </tr>
               </thead>
               <tbody class="selected-items" id="selected-courses" style="max-height:300px;">
@@ -72,10 +73,11 @@
              </div>
          </div>
          <table class="table selected-items-table" id="selected-teachers-table" {% if not selected_teachers %} style="display:none;" {% endif %}>
+         	 <caption>{% trans 'Selected teachers' %}</caption>
              <thead>
                 <tr>
-                  <th>{% trans 'Teacher' %}</th>
-                  <th></th>
+                  <th scope="col">{% trans 'Teacher' %}</th>
+                  <th scope="col"></th>
                 </tr>
               </thead>
               <tbody class="selected-items" id="selected-teachers" style="max-height:300px;">
@@ -124,10 +126,11 @@
              </div>
          </div>
          <table class="table selected-items-table" id="selected-students-table" {% if not selected_students %} style="display:none;" {% endif %}>
+             <caption>{% trans 'Selected students' %}</caption>
              <thead>
                 <tr>
-                  <th>{% trans 'User' %}</th>
-                  <th></th>
+                  <th scope="col">{% trans 'User' %}</th>
+                  <th scope="col"></th>
                 </tr>
               </thead>
               <tbody class="selected-items" id="selected-students" style="max-height:300px;">

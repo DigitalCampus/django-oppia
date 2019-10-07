@@ -11,10 +11,11 @@
 {% if awards %}
 	<div class="table-responsive">
          <table class="table table-striped">
+         	 <caption class="d-none">{% trans "Badges" %}</caption>
          	 <thead>
                 <tr>
-                  <th>{% trans 'Award Date' %}</th>
-                  <th>{% trans 'Description' %}</th>
+                  <th scope="col">{% trans 'Award Date' %}</th>
+                  <th scope="col">{% trans 'Description' %}</th>
                 </tr>
               </thead>
               <tbody>

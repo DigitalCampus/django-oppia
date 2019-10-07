@@ -32,15 +32,16 @@
 {% if courses %}
 	<div class="table-responsive">
          <table class="table table-striped sortable">
+         	<caption class="d-none">{% trans "Courses" %}</caption>
          	<thead>
                 <tr>
-                  <th>{% sort_link 'course' 'Course' %}</th>
-                  <th>{% sort_link 'pretest_score' 'Pre-test Score' %}</th>
-                  <th>{% sort_link 'no_activities_completed' 'Activities Completed' %}</th>
-                  <th>{% sort_link 'no_quizzes_completed' 'Quizzes Completed' %}</th>
-                  <th>{% sort_link 'no_points' 'Points' %}</th>
-                  <th>{% sort_link 'no_badges' 'Badges' %}</th>
-                  <th>{% sort_link 'no_media_viewed' 'Media viewed' %}</th>
+                  <th scope="col">{% sort_link 'course' 'Course' %}</th>
+                  <th scope="col">{% sort_link 'pretest_score' 'Pre-test Score' %}</th>
+                  <th scope="col">{% sort_link 'no_activities_completed' 'Activities Completed' %}</th>
+                  <th scope="col">{% sort_link 'no_quizzes_completed' 'Quizzes Completed' %}</th>
+                  <th scope="col">{% sort_link 'no_points' 'Points' %}</th>
+                  <th scope="col">{% sort_link 'no_badges' 'Badges' %}</th>
+                  <th scope="col">{% sort_link 'no_media_viewed' 'Media viewed' %}</th>
                 </tr>
               </thead>
              <tbody>

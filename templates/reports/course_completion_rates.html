@@ -9,7 +9,7 @@
 
 {% block header %}
 <div class="jumbotron mb-4">
-	<h3><a href="{% url 'oppia_completion_rates' %}">{% trans 'Completion Rates' %}</a> <i class="material-icons md-18 ">arrow_forward_ios</i> {{ course.title|title_lang:LANGUAGE_CODE }}</h3>
+	<h3><a href="{% url 'oppia_completion_rates' %}">{% trans 'Completion Rates' %}</a> <em class="material-icons md-18 ">arrow_forward_ios</em> {{ course.title|title_lang:LANGUAGE_CODE }}</h3>
     <p><em>{% trans 'Tags:' %} {{ course.get_tags}}</em></p>
 </div>
 {% endblock header %}
@@ -23,16 +23,17 @@
 
 <div class="table-responsive">
      <table class="table table-striped">
+     	 <caption class="d-none">{% trans "Course completiong rates" %}</caption>
          <thead>
             <tr>
-              <th>{% trans 'User' %}</th>
-              <th>{% trans 'Activities completed' %}</th>
+              <th scope="col">{% trans 'User' %}</th>
+              <th scope="col">{% trans 'Activities completed' %}</th>
             </tr>
           </thead>
           <tbody>
           {% if users_completed %}
           <tr>
-              <th colspan="2">{% trans 'Users completed:' %} {{ users_completed|length }}</th>
+              <th colspan="2" scope="col">{% trans 'Users completed:' %} {{ users_completed|length }}</th>
           </tr>
           {% endif %}
     {% for u in users_completed %}
@@ -47,7 +48,7 @@
     {% endfor %}
          {% if users_incompleted %}
         <tr>
-              <th colspan="2">{% trans 'Users in progress:' %} {{ users_incompleted|length }}</th>
+              <th colspan="2" scope="col">{% trans 'Users in progress:' %} {{ users_incompleted|length }}</th>
           </tr>
           {% endif %}
     {% for u in users_incompleted %}

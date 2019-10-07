@@ -453,7 +453,7 @@ class TrackerResource(ModelResource):
         request = convert_post_to_patch(request)
         deserialized = self.deserialize(request, request.body,
                                         format=request.META.get('CONTENT_TYPE', 'application/json'))
-        for data in deserialized["objects"]:
+        for data in deserialized.get("objects"):
             data = self.alter_deserialized_detail_data(request, data)
             bundle = self.build_bundle(data=dict_strip_unicode_keys(data))
             bundle.request.user = request.user

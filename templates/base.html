@@ -2,7 +2,7 @@
 {% load sass_tags %}
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>{% block extra_head_title %}{% endblock extra_head_title %} - {% trans 'app_name' %}</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -38,7 +38,7 @@
 {% if DEBUG %}
      <div class="fixed-bottom alert alert-danger alert-dismissable debug-alert" style="z-index:200;">
         <a href="#" class="close ml-2" data-dismiss="alert" aria-label="close">&times;</a>
-        <i class="material-icons mr-2 float-left">bug_report</i>
+        <em class="material-icons mr-2 float-left">bug_report</em>
         {% trans 'This is a development server, anything added here will not be shared on the live site' %}
      </div>
  {% endif %}
@@ -71,9 +71,10 @@
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script src="{% static 'oppia/js/material.min.js' %}"></script>
 <script src="{% static 'oppia/js/common.js' %}"></script>
 

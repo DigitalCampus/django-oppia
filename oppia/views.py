@@ -227,11 +227,9 @@ def tag_courses_view(request, tag_id):
     dashboard_accessed.send(sender=None, request=request, data=None)
     return render_courses_list(request, courses, {'current_tag': tag_id})
 
-        
-def upload_step1(request):
-    if not request.user.userprofile.get_can_upload():
-        raise exceptions.PermissionDenied
 
+@user_can_upload
+def upload_step1(request):
     if request.method == 'POST':
         form = UploadCourseStep1Form(request.POST, request.FILES)
         if form.is_valid():  # All validation rules pass
@@ -249,9 +247,10 @@ def upload_step1(request):
                                'title': _(u'Upload Course - step 1')})
 
 
+@user_can_upload
 def upload_step2(request, course_id, editing=False):
 
-    if (editing and not can_edit_course(request, course_id)) or not request.user.userprofile.get_can_upload():
+    if (editing and not can_edit_course(request, course_id)):
         raise exceptions.PermissionDenied
 
     course = Course.objects.get(pk=course_id)
@@ -661,6 +660,7 @@ def cohort_edit(request, cohort_id):
 
             CourseCohort.objects.filter(cohort=cohort).delete()
             courses = form.cleaned_data.get("courses").strip().split(",")
+            print(courses)
             if len(courses) > 0:
                 for c in courses:
                     try:
@@ -670,6 +670,9 @@ def cohort_edit(request, cohort_id):
                         pass
 
             return HttpResponseRedirect('../../')
+        else:
+            print(form.errors)
+            print('Form invalidad!!')
 
     else:
         form = CohortForm(initial={'description': cohort.description,

@@ -5,6 +5,7 @@ from crispy_forms.bootstrap import FieldWithButtons
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Div, Row
 from django import forms
+from django.forms import DateInput
 from django.utils.translation import ugettext_lazy as _
 
 class DateDiffForm(forms.Form):
@@ -12,6 +13,7 @@ class DateDiffForm(forms.Form):
         required=True,
         error_messages={'required': _('Please enter a valid date'),
                         'invalid': _('Please enter a valid date')},
+        widget=DateInput(attrs={'class':'date-picker-selector single'})
     )
 
     def __init__(self, *args, **kwargs):

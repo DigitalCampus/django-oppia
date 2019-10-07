@@ -81,7 +81,7 @@ def save_course_points(request, form, course):
         course_game_event.save()
 
     writer = GamificationXMLWriter(course)
-    new_version = writer.update_gamification(request.user)
+    writer.update_gamification(request.user)
 
 
 def save_activity_points(request, form, course, activity):
@@ -96,7 +96,7 @@ def save_activity_points(request, form, course, activity):
         activity_game_event.save()
 
     writer = GamificationXMLWriter(course)
-    new_version = writer.update_gamification(request.user)
+    writer.update_gamification(request.user)
 
 
 def save_media_points(request, form, course, media):
@@ -110,7 +110,7 @@ def save_media_points(request, form, course, media):
         media_game_event.save()
 
     writer = GamificationXMLWriter(course)
-    new_version = writer.update_gamification(request.user)
+    writer.update_gamification(request.user)
 
 
 def edit_course_gamification(request, course_id):
@@ -119,9 +119,9 @@ def edit_course_gamification(request, course_id):
 
     course = get_object_or_404(Course, pk=course_id)
 
-    EventsFormset = formset_factory(GamificationEventForm, extra=0, can_delete=True)
+    events_formset = formset_factory(GamificationEventForm, extra=0, can_delete=True)
     if request.method == 'POST':
-        formset = EventsFormset(request.POST, request.FILES, prefix='events')
+        formset = events_formset(request.POST, request.FILES, prefix='events')
         if formset.is_valid():
 
             updated = False
@@ -160,7 +160,7 @@ def edit_course_gamification(request, course_id):
         else:
             print(formset.errors)
     else:
-        formset = EventsFormset(prefix='events')
+        formset = events_formset(prefix='events')
 
 
     activities = Activity.objects.filter(section__course=course).select_related('section').prefetch_related('gamification_events')
