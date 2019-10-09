@@ -5,7 +5,8 @@ from integrations import views as oppia_integrations_views
 
 urlpatterns = [
         url(r'^$', oppia_integrations_views.integrations, name="oppia_integrations"),
-        url(r'^dhis2/', include('dhis2.urls')),
+        url(r'^dhis/', include('integrations.dhis.urls')),
+        #url(r'^xapi/', include('xapi.urls')),
         ]
 
 

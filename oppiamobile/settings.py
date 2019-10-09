@@ -73,7 +73,6 @@ INSTALLED_APPS = [
     'tastypie',
     'helpers',
     'integrations',
-    'integrations.dhis2',
     'crispy_forms',
     'sass_processor',
     'sorl.thumbnail',
