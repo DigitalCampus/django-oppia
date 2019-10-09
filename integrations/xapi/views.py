@@ -5,11 +5,16 @@ import tablib
 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponse, Http404
+from django.shortcuts import render 
 from django.template import RequestContext
 from django.utils import timezone
 
 from oppia.models import Course, Tracker, Activity
-from oppia.quiz.models import Quiz, QuizAttempt
+from quiz.models import Quiz, QuizAttempt
+
+@staff_member_required
+def home(request):
+    return render(request, 'integrations/xapi/index.html')
 
 @staff_member_required
 def csv_export(request):
