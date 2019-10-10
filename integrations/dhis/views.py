@@ -1,5 +1,6 @@
 # integrations/dhis/views.py
 import datetime
+import dateutil.relativedelta
 import json
 import tablib
 
@@ -22,9 +23,10 @@ def home(request):
 
 @staff_member_required
 def export_latest(request):
-    data = create_csv(timezone.now().year, timezone.now().month)
+    last_month = datetime.datetime.now() + dateutil.relativedelta.relativedelta(months=-1)
+    data = create_csv(last_month.year, last_month.month)
     response = HttpResponse(data.csv, content_type='application/text;charset=utf-8')
-    response['Content-Disposition'] = "attachment; filename=dhis-export-latest.csv" 
+    response['Content-Disposition'] = "attachment; filename=dhis-export-{year}-{month}.csv".format(year=last_month.year,month=last_month.month)  
 
     return response
 
