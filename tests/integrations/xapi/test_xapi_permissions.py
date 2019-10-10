@@ -13,7 +13,7 @@ class XAPIIntegrationViewsTest(TestCase):
                 'tests/test_permissions.json']
 
     def setUp(self):
-        super(xAPIIntegrationViewsTest, self).setUp()
+        super(XAPIIntegrationViewsTest, self).setUp()
         self.login_url = reverse('profile_login')
     
     def get_view(self, route, user=None):
