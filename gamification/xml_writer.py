@@ -23,13 +23,13 @@ class GamificationXMLWriter:
         self.xml = None
         self.xml_contents = None
 
-    def findChildNodeByName(self, parent, name):
+    def find_child_node_by_name(self, parent, name):
         for node in parent.childNodes:
             if node.nodeType == node.ELEMENT_NODE and node.tagName == name:
                 return node
         return None
 
-    def removeNode(self, node):
+    def remove_node(self, node):
         parent = node.parentNode
         parent.removeChild(node)
 
@@ -61,7 +61,7 @@ class GamificationXMLWriter:
         if parent == None:
             return None
 
-        node = self.findChildNodeByName(parent, GAMIFICATION_NODE)
+        node = self.find_child_node_by_name(parent, GAMIFICATION_NODE)
         if not node:
             # If we didn't find it, create a new node
             node = self.xml.createElement(GAMIFICATION_NODE)
@@ -86,7 +86,7 @@ class GamificationXMLWriter:
     def get_or_create_media_node(self, media):
 
         file_node = None
-        media_node = self.findChildNodeByName(self.xml.firstChild, MEDIA_NODE)
+        media_node = self.find_child_node_by_name(self.xml.firstChild, MEDIA_NODE)
         for node in media_node.getElementsByTagName('file'):
             if node.getAttribute(ACTIVITY_DIGEST_ATTR) == media.digest:
                 file_node = node
@@ -110,7 +110,7 @@ class GamificationXMLWriter:
 
         else:
             # if there are no events set, we can remove the empty gamification node
-            self.removeNode(node)
+            self.remove_node(node)
 
 
     def update_course_gamification(self):

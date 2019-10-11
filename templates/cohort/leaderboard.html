@@ -7,13 +7,18 @@
 	{% trans 'Leaderboard' %}
 {% endblock extra_head_title %}
 
-{% block content %}
-<h3><a href="{% url 'oppia_cohort_view' cohort.id %}">{{ cohort.description }}</a> &gt; {% trans 'Leaderboard' %}</h3>
+{% block header %}
+<div class="jumbotron mb-3 ">
+	<h3><em class="fas fa-trophy mr-2"></em> <a href="{% url 'oppia_cohort_view' cohort.id %}">{{ cohort.description }}</a> &gt; {% trans 'Leaderboard' %}</h3>
+</div>
+{% endblock header %}
 
-{% if page.object_list.count > 0  %}
+{% block content %}
+
+{% if page.object_list %}
     <div class="table-responsive">
          <table class="table table-striped">
-             <caption>{% trans 'Leaderboard' %}</caption>
+             <caption class="d-none">{% trans 'Leaderboard' %}</caption>
          	 <thead>
                 <tr>
                   <th scope="col">#</th>

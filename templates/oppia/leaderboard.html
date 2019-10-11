@@ -18,7 +18,7 @@
 
 {% block content %}
 
-{% if page.object_list.count > 0  %}
+{% if page.object_list %}
     <div class="table-responsive">
          <table class="table table-striped">
          	 <caption class="d-none">{% trans "Leaderboard" %}</caption>
@@ -57,5 +57,4 @@
 	</div>
 	{% include "common/pagination.html" %}
 {% endif %}
-
 {% endblock %}

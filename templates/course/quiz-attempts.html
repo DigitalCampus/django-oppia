@@ -31,7 +31,7 @@
 {% if page.object_list %}
 	<div class="table-responsive">
          <table class="table">
-             <caption>{% trans 'Quiz attempts' %}</caption>
+             <caption class="d-none">{% trans 'Quiz attempts' %}</caption>
          	 <thead>
                 <tr>
                   <th scope="col">{% trans 'table_header_attempt_date' %}</th>
@@ -57,7 +57,7 @@
 			<td colspan="6">
 				 <div class="table-responsive">
         			 <table class="table table-striped">
-        			 	 <caption>{% trans 'Quiz attempt detail' %}</caption>
+        			 	 <caption class="d-none">{% trans 'Quiz attempt detail' %}</caption>
 			         	 <thead>
 			                <tr>
 			                  <th scope="col">{% trans 'Question' %}</th>

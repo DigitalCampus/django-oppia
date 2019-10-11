@@ -2,8 +2,8 @@ from tastypie.exceptions import BadRequest
 from tastypie.utils import dict_strip_unicode_keys
 
 
-def create_resource(ResourceModel, request, obj_dict):
-    res = ResourceModel()
+def create_resource(resource_model, request, obj_dict):
+    res = resource_model()
 
     data = res.alter_deserialized_detail_data(request, obj_dict)
     bundle = res.build_bundle(data=dict_strip_unicode_keys(data), request=request)
