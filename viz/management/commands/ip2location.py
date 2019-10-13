@@ -25,19 +25,19 @@ class Command(BaseCommand):
                 cached = UserLocationVisualization.objects.get(ip=t['ip'])
                 cached.hits = t['count_hits']
                 cached.save()
-                print("hits updated")
+                self.stdout.write("hits updated")
             except UserLocationVisualization.DoesNotExist:
                 update_via_freegeoip(t)
 
 
 def update_via_freegeoip(t):
     url = 'https://freegeoip.net/json/%s' % (t['ip'])
-    print(t['ip'] + " : " + url)
+    self.stdout.write(t['ip'] + " : " + url)
     try:
         u = urllib.request.urlopen(url, timeout=10)
         data = u.read()
         data_json = json.loads(data, "utf-8")
-        print(data_json)
+        self.stdout.write(data_json)
     except:
         return
 

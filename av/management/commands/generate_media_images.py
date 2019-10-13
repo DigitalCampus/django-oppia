@@ -33,25 +33,25 @@ class Command(BaseCommand):
             cache_dir = os.path.join(settings.MEDIA_ROOT, "cache", "temp", os.path.basename(m.file.name))
             if not os.path.exists(cache_dir):
                 os.makedirs(cache_dir)
-                print("  > Created output dir " + cache_dir)
+                self.stdout.write("  > Created output dir " + cache_dir)
 
-            print("  > Generating miniatures... \r", )
+            self.stdout.write("  > Generating miniatures... \r", )
             image_generator_command = ("%s %s" % (settings.SCREENSHOT_GENERATOR_PROGRAM, settings.SCREENSHOT_GENERATOR_PROGRAM_PARAMS)) % (m.file.path, content.SCREENSHOT_IMAGE_WIDTH, content.SCREENSHOT_IMAGE_HEIGHT, cache_dir)
             ffmpeg = subprocess.Popen(image_generator_command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True)
             
             self.process_ffmpeg_output(ffmpeg)
             
-            print("  > Generating miniatures... 100% \r\n", )
+            self.stdout.write("  > Generating miniatures... 100% \r\n", )
 
             # Now get the images generated and add to the db
             self.add_images_to_db(cache_dir,m)
 
-        print("\n  > Process completed.")
+        self.stdout.write("\n  > Process completed.")
         
     def add_images_to_db(self, cache_dir, media):
         image_file_list = os.listdir(cache_dir)
         for filename in image_file_list:
-            print(filename)
+            self.stdout.write(filename)
             media_image = UploadedMediaImage(create_user=media.create_user, uploaded_media=media)
             data = None
             with open(os.path.join(cache_dir, filename), 'rb') as f:
@@ -69,4 +69,4 @@ class Command(BaseCommand):
                     frame = int(line.split(" ")[3])
                 if frame > current_frame:
                     current_frame = frame
-                    print("  > Generating miniatures... " + str(frame * 10) + "% \r", )
+                    self.stdout.write("  > Generating miniatures... " + str(frame * 10) + "% \r", )
