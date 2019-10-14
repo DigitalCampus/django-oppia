@@ -29,7 +29,7 @@ class Command(BaseCommand):
                 if courses.count() == 0:
                     #delete the file
                     os.remove(os.path.join(settings.COURSE_UPLOAD_DIR, filename))
-                    print("Removed: " + filename)
+                    self.stdout.write("Removed: " + filename)
 
         """
         Flag up courses that don't have files
@@ -37,4 +37,4 @@ class Command(BaseCommand):
         courses = Course.objects.all()
         for course in courses:
             if not os.path.isfile(os.path.join(settings.COURSE_UPLOAD_DIR, course.filename)):
-                print("FILE MISSING: %s for %s " % (course.filename, course.title))
+                self.stdout.write("FILE MISSING: %s for %s " % (course.filename, course.title))

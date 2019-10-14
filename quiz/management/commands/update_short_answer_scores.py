@@ -71,7 +71,7 @@ class Command(BaseCommand):
                 quiz_threshold = QuizProps.objects.get(name='passthreshold', quiz=quiz_attempt.quiz)
 
                 if quiz_score_percent >= quiz_threshold:
-                    print(quiz_score_percent + ":" + quiz_threshold)
+                    self.stdout.write(quiz_score_percent + ":" + quiz_threshold)
                     try:
                         tracker = Tracker.objects.get(user=quiz_attempt.user, uuid=quiz_attempt.instance_id)
                         tracker.completed = True
@@ -80,4 +80,4 @@ class Command(BaseCommand):
                     except Tracker.DoesNotExist:
                         pass
 
-            print("Max QAR id - " + str(max_qar_id))
+            self.stdout.write("Max QAR id - " + str(max_qar_id))
