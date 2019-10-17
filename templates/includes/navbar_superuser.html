@@ -161,8 +161,13 @@
         </ul>
 
 		<div class="navdrawer-divider"></div>
-		<p class="navdrawer-subheader"><em class="material-icons mr-1">extension</em>{% trans 'Integrations' %}</p>
+
 		<ul class="navdrawer-nav">
+			<li class="nav-item">
+			<a class="nav-link" href="{% url 'oppia_integrations_home' %}">
+				<em class="material-icons mr-1">extension</em> {% trans 'Integrations' %}
+			</a>
+			</li>
             <li class="nav-item">
             <a class="nav-link" href="{% url 'oppia_integrations_dhis_home' %}">
               <em class="material-icons mr-3">perm_media</em> {% trans 'DHIS2' %}
