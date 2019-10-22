@@ -47,7 +47,7 @@ setup(
         "pytz",
         "django-gcm >= 1.2.0",
         "defusedxml==0.5.0",
-        "Pillow==5.4.1",
+        "Pillow==6.2.0",
         "sorl-thumbnail==12.5.0",
     ],
 )
