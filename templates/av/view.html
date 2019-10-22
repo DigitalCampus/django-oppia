@@ -28,9 +28,8 @@
 	   	{% for image in media.images.all %}
 	   		<div class="media-image">
 		  		{% thumbnail image.image "220x150" crop="center" as im %}
-					<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{% trans 'Media image'%}>
+					<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{% trans 'Media image'%}"/>
 				{% endthumbnail %}
-				<br/>
 				{% if image.default_image %}
 					[{% trans 'default' %}]
 				{% else %}
