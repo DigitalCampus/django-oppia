@@ -370,8 +370,8 @@ def create_quiz(req, user, quiz_obj, act_xml, activity=None):
     return json.dumps(quiz_obj)
 
 
-def get_content(elem, nodeName):
-    for node in elem.findall(nodeName):
+def get_content(elem, node_name):
+    for node in elem.findall(node_name):
         return None if node is None else node.text
     return None
 
