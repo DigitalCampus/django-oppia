@@ -62,5 +62,5 @@ class SettingProperties(models.Model):
         SettingProperties.objects.get(key=property_key).delete()  
     
 
-    def __str__(self):
+    def __unicode__(self):
         return self.key

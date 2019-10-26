@@ -18,7 +18,7 @@ class Badge(models.Model):
         verbose_name = _('Badge')
         verbose_name_plural = _('Badges')
 
-    def __str__(self):
+    def __unicode__(self):
         return self.description
 
 
@@ -32,7 +32,7 @@ class Award(models.Model):
         verbose_name = _('Award')
         verbose_name_plural = _('Awards')
 
-    def __str__(self):
+    def __unicode__(self):
         return self.description
 
     @staticmethod
