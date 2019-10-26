@@ -9,8 +9,8 @@ from oppia.models.main import Course
 
 class CoursePublishingLog(models.Model):
 
-    course = models.ForeignKey(Course, null=False, on_delete=models.CASCADE)
-    new_version = models.BigIntegerField()
+    course = models.ForeignKey(Course, null=True, on_delete=models.CASCADE)
+    new_version = models.BigIntegerField(null=True)
     old_version = models.BigIntegerField(null=True)
     log_date = models.DateTimeField('log_date', default=timezone.now)
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)

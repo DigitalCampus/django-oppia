@@ -210,7 +210,7 @@ class Activity(models.Model):
     content = models.TextField(blank=True, null=True, default=None)
     description = models.TextField(blank=True, null=True, default=None)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.get_title()
 
     class Meta:
