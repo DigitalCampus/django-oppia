@@ -3,7 +3,7 @@ from django.contrib import admin
 from oppia.models import Course, Section, Activity, Tracker, Media, Cohort, CourseManager
 from oppia.models import Participant, Tag, CourseTag
 from oppia.models import Badge, Award, Points, AwardCourse
-from oppia.models import CourseCohort
+from oppia.models import CourseCohort, CoursePublishingLog
 
 
 class TrackerAdmin(admin.ModelAdmin):
@@ -57,6 +57,8 @@ class AwardAdmin(admin.ModelAdmin):
 class CourseTagAdmin(admin.ModelAdmin):
     list_display = ('course', 'tag')
 
+class CoursePublishingLogAdmin(admin.ModelAdmin):
+    list_display = ('course', 'new_version', 'old_version', 'user', 'action', 'data')
 
 class CourseManagerAdmin(admin.ModelAdmin):
     list_display = ('user', 'course')
@@ -89,3 +91,4 @@ admin.site.register(Section, SectionAdmin)
 admin.site.register(Tag, TagAdmin)
 admin.site.register(Tracker, TrackerAdmin)
 admin.site.register(CourseManager, CourseManagerAdmin)
+admin.site.register(CoursePublishingLog, CoursePublishingLogAdmin)

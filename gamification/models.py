@@ -38,7 +38,8 @@ class DefaultGamificationEvent(models.Model):
     def __unicode__(self):
         return self.event
 
-
+    def __str__(self):
+        return self.event
 
 class GamificationEvent(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -56,6 +57,9 @@ class GamificationEvent(models.Model):
     def __unicode__(self):
         return self.event
 
+    def __str__(self):
+        return self.event
+    
     @property
     def default_event(self):
         if not self.__default_event:
@@ -85,6 +89,9 @@ class ActivityGamificationEvent(GamificationEvent):
     def __unicode__(self):
         return self.event
     
+    def __str__(self):
+        return self.event
+    
     class Meta:
         verbose_name = _(u'Activity Gamification Event')
         verbose_name_plural = _(u'Activity Gamification Events')
@@ -99,4 +106,7 @@ class MediaGamificationEvent(GamificationEvent):
         verbose_name_plural = _(u'Media Gamification Events')
 
     def __unicode__(self):
+        return self.event
+    
+    def __str__(self):
         return self.event

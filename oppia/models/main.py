@@ -36,6 +36,9 @@ class Course(models.Model):
 
     def __unicode__(self):
         return self.get_title(self)
+    
+    def __str__(self):
+        return self.get_title(self)
 
     def getAbsPath(self):
         return os.path.join(settings.COURSE_UPLOAD_DIR, self.filename)
@@ -171,6 +174,9 @@ class Section(models.Model):
     def __unicode__(self):
         return self.get_title()
 
+    def __str__(self):
+        return self.get_title()
+    
     def get_title(self, lang='en'):
         try:
             titles = json.loads(self.title)
@@ -213,6 +219,9 @@ class Activity(models.Model):
     def __unicode__(self):
         return self.get_title()
 
+    def __str__(self):
+        return self.get_title()
+    
     class Meta:
         verbose_name = _('Activity')
         verbose_name_plural = _('Activities')
@@ -313,6 +322,9 @@ class Media(models.Model):
     def __unicode__(self):
         return self.filename
 
+    def __str__(self):
+        return self.filename
+    
     def get_event_points(self):
         from gamification.models import DefaultGamificationEvent, CourseGamificationEvent, MediaGamificationEvent
         
@@ -360,6 +372,9 @@ class Tracker(models.Model):
     def __unicode__(self):
         return self.agent
 
+    def __str__(self):
+        return self.agent
+    
     def is_first_tracker_today(self):
         olddate = timezone.now() + datetime.timedelta(hours=-24)
         no_attempts_today = Tracker.objects.filter(user=self.user, digest=self.digest, completed=True, submitted_date__gte=olddate).count()

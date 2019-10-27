@@ -25,6 +25,9 @@ class Quiz(models.Model):
     def __unicode__(self):
         return self.title
 
+    def __str__(self):
+        return self.title
+    
     def no_attempts(self):
         no_attempts = QuizAttempt.objects.filter(quiz=self).count()
         return no_attempts
@@ -67,7 +70,9 @@ class QuizProps(models.Model):
 
     def __unicode__(self):
         return self.name
-
+    
+    def __str__(self):
+        return self.name
 
 class QuizAttempt(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

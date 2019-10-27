@@ -19,6 +19,9 @@ class Cohort(models.Model):
 
     def __unicode__(self):
         return self.description
+    
+    def __str__(self):
+        return self.description
 
     def no_student_members(self):
         return Participant.objects.filter(cohort=self, role=Participant.STUDENT).count()

@@ -25,6 +25,8 @@ class UploadedActivityLog(models.Model):
     def __unicode__(self):
         return self.file.name
 
+    def __str__(self):
+        return self.file.name
     
 @receiver(post_delete, sender=UploadedActivityLog)
 def activity_log_delete_file(sender, instance, **kwargs):

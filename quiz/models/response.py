@@ -22,7 +22,9 @@ class Response(models.Model):
     def __unicode__(self):
         return self.title
 
-
+    def __str__(self):
+        return self.title
+    
 class ResponseProps(models.Model):
     response = models.ForeignKey(Response, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
@@ -34,3 +36,7 @@ class ResponseProps(models.Model):
 
     def __unicode__(self):
         return self.name
+    
+    def __str__(self):
+        return self.name
+    
