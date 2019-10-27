@@ -10,7 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 
-from oppia.models import Tag, CourseTag
+from oppia.models import Tag, CourseTag, CoursePublishingLog
 from settings import constants
 from settings.models import SettingProperties
 from oppia.uploader import handle_uploaded_file
@@ -48,18 +48,23 @@ def check_required_fields(request, validation_errors):
         course_file = request.FILES[api.COURSE_FILE_FIELD]
         if course_file is not None and course_file.content_type != 'application/zip' and course_file.content_type != 'application/x-zip-compressed':
              validation_errors.append("You may only upload a zip file")
+             msg_text = _(u"Invalid zip file")
+             CoursePublishingLog(action="invalid_zip", data=msg_text).save()
              
     return validation_errors
 
-def check_upload_file_size_type(file, validation_errors):
+def check_upload_file_size(file, validation_errors):
     max_upload = SettingProperties.get_int(constants.MAX_UPLOAD_SIZE, settings.OPPIA_MAX_UPLOAD_SIZE)
     if file is not None and file.size > max_upload:
         size = int(math.floor(max_upload / 1024 / 1024))
         validation_errors.append((_(u"Your file is larger than the maximum allowed (%(size)d Mb). You may want to check your course for large includes, such as images etc.") % {'size': size, }))
+        msg_text = _(u"Maximum course file upload size exceeded")
+        CoursePublishingLog(action="over_max_upload", data=msg_text).save()
 
+    '''
     if file is not None and file.content_type != 'application/zip' and file.content_type != 'application/x-zip-compressed':
         validation_errors.append(_(u"You may only upload a zip file"))
-
+    '''
     return validation_errors
 
 
@@ -87,7 +92,7 @@ def publish_view(request):
 
     validation_errors = []
     validation_errors = check_required_fields(request, validation_errors)
-    validation_errors = check_upload_file_size_type(request.FILES[api.COURSE_FILE_FIELD], validation_errors)
+    validation_errors = check_upload_file_size(request.FILES[api.COURSE_FILE_FIELD], validation_errors)
 
     if validation_errors:
         return JsonResponse({'errors': validation_errors}, status=400, )
@@ -125,11 +130,17 @@ def publish_view(request):
         add_course_tags(user, course, tags)
 
         msgs = get_messages_array(request)
+        CoursePublishingLog(course=course, 
+                                new_version=course.version, 
+                                user=user, 
+                                action="course_published", 
+                                data=_(u'Course published via API')).save()
         if len(msgs) > 0:
             return JsonResponse({'messages': msgs}, status=201)
         else:
             return HttpResponse(status=201)
 
+        
 
 def get_messages_array(request):
     msgs = messages.get_messages(request)

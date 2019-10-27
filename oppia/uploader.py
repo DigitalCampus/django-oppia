@@ -34,7 +34,7 @@ def handle_uploaded_file(f, extract_path, request, user):
         zip_file = ZipFile(zipfilepath)
         zip_file.extractall(path=extract_path)
     except BadZipfile:
-        msg_text = _("Invalid zip file")
+        msg_text = _(u"Invalid zip file")
         messages.error(request, msg_text, extra_tags="danger")
         CoursePublishingLog(user=user, action="invalid_zip", data=msg_text).save()
         return False, 500
@@ -45,7 +45,7 @@ def handle_uploaded_file(f, extract_path, request, user):
 
     # check there is at least a sub dir
     if mod_name == '':
-        msg_text = _("Invalid zip file")
+        msg_text = _(u"Invalid zip file")
         messages.info(request, msg_text, extra_tags="danger")
         CoursePublishingLog(user=user, action="invalid_zip", data=msg_text).save()
         return False, 400
@@ -69,10 +69,11 @@ def process_course(extract_path, f, mod_name, request, user):
     xml_path = os.path.join(extract_path, mod_name, "module.xml")
     # check that the module.xml file exists
     if not os.path.isfile(xml_path):
-        messages.info(request, _("Zip file does not contain a module.xml file"), extra_tags="danger")
+        msg_text = _(u"Zip file does not contain a module.xml file")
+        messages.info(request, msg_text, extra_tags="danger")
         CoursePublishingLog(user=user, 
                             action="no_module_xml", 
-                            data=_("Zip file does not contain a module.xml file")).save()
+                            data=msg_text).save()
         return False, 400
 
     # parse the module.xml file
@@ -88,16 +89,18 @@ def process_course(extract_path, f, mod_name, request, user):
         course = Course.objects.get(shortname=meta_info['shortname'])
         # check that the current user is allowed to wipe out the other course
         if course.user != user:
-            msg_text = _("Sorry, only the original owner may update this course")
+            msg_text = _(u"Sorry, only the original owner may update this course")
             messages.info(request, msg_text)
             CoursePublishingLog(course=course, 
+                                new_version=meta_info['versionid'], 
+                                old_version=course.version, 
                                 user=user, 
                                 action="permissions_error", 
                                 data=msg_text).save()
             return False, 401
         # check if course version is older
         if course.version > meta_info['versionid']:
-            msg_text = _("A newer version of this course already exists")
+            msg_text = _(u"A newer version of this course already exists")
             messages.info(request, msg_text)
             CoursePublishingLog(course=course, 
                                 new_version=meta_info['versionid'], 
@@ -141,7 +144,7 @@ def process_course(extract_path, f, mod_name, request, user):
                 defaults={'points': event['points'], 'user': user})
 
             if created:
-                msg_text = _('Gamification for "%(event)s" at course level added') % {'event': e.event}
+                msg_text = _(u'Gamification for "%(event)s" at course level added') % {'event': e.event}
                 messages.info(request, msg_text) 
                 CoursePublishingLog(course=course, 
                                 new_version=meta_info['versionid'], 
@@ -167,7 +170,7 @@ def process_course(extract_path, f, mod_name, request, user):
 
     writer = GamificationXMLWriter(course)
     writer.update_gamification(request.user)
-
+                               
     return course, 200
 
 
@@ -180,7 +183,7 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
     structure = xml_doc.find("structure")
     if len(structure.findall("section")) == 0:
         course.delete()
-        msg_text = _("There don't appear to be any activities in this upload file.")
+        msg_text = _(u"There don't appear to be any activities in this upload file.")
         messages.info(req, msg_text)
         CoursePublishingLog(course=course, 
                                 user=user, 
@@ -227,7 +230,7 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
             media.digest = file_element.get("digest")
 
             if len(url) > Media.URL_MAX_LENGTH:
-                msg_text = _('File %(filename)s has a download URL larger than the maximum length permitted. The media file has not been registered, so it won\'t be tracked. Please, fix this issue and upload the course again.') % {'filename': media.filename}
+                msg_text = _(u'File %(filename)s has a download URL larger than the maximum length permitted. The media file has not been registered, so it won\'t be tracked. Please, fix this issue and upload the course again.') % {'filename': media.filename}
                 messages.info(req, msg_text)
                 CoursePublishingLog(course=course, 
                                 user=user, 
@@ -254,7 +257,7 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
                         defaults={'points': event['points'], 'user': req.user})
 
                     if created:
-                        msg_text = _('Gamification for "%(event)s" at course level added') % {'event': e.event}
+                        msg_text = _(u'Gamification for "%(event)s" at course level added') % {'event': e.event}
                         messages.info(req, msg_text)
                         CoursePublishingLog(course=course, 
                                 user=user, 
@@ -335,15 +338,18 @@ def parse_and_save_activity(req, user, course, section, act, new_course, process
     activity.description = description
 
     if not existed and not new_course:
-        msg_text = _('Activity "%(act)s"(%(digest)s) did not exist previously.') % {'act': activity.title, 'digest': activity.digest}
+        msg_text = _(u'Activity "%(act)s"(%(digest)s) did not exist previously.') % {'act': activity.title, 'digest': activity.digest}
         messages.warning(req, msg_text)
         CoursePublishingLog(course=course, 
                                 user=user, 
                                 action="activity_added", 
                                 data=msg_text).save()
     else:
-        msg_text = _('Activity "%(act)s"(%(digest)s) previously existed. Updated with new information') % {'act': activity.title, 'digest':activity.digest}
+        msg_text = _(u'Activity "%(act)s"(%(digest)s) previously existed. Updated with new information') % {'act': activity.title, 'digest':activity.digest}
+        '''
+        If we also want to show the activities that previously existed, uncomment this next line
         messages.info(req, msg_text)
+        '''
         CoursePublishingLog(course=course, 
                                 user=user, 
                                 action="activity_updated", 
@@ -366,7 +372,7 @@ def parse_and_save_activity(req, user, course, section, act, new_course, process
             defaults={'points': event['points'], 'user': req.user})
 
         if created:
-            msg_text = _('Gamification for "%(event)s" at activity "%(act)s" added') % {'event': e.event, 'act':activity}
+            msg_text = _(u'Gamification for "%(event)s" at activity "%(act)s"(%(digest)s) added') % {'event': e.event, 'act':activity.title, 'digest': activity.digest}
             messages.info(req, msg_text)
             CoursePublishingLog(course=course, 
                                 user=user, 
@@ -486,7 +492,7 @@ def clean_old_course(req, user, oldsections, old_course_filename, course):
     for section in oldsections:
         sec = Section.objects.get(pk=section)
         for act in sec.activities():
-            msg_text = _('Activity "%(act)s"(%(digest)s) is no longer in the course.') % {'act': act, 'digest': act.digest}
+            msg_text = _(u'Activity "%(act)s"(%(digest)s) is no longer in the course.') % {'act': act.title, 'digest': act.digest}
             messages.info(req, msg_text)
             CoursePublishingLog(course=course, 
                                 user=user, 
