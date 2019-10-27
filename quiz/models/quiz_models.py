@@ -22,9 +22,12 @@ class Quiz(models.Model):
         verbose_name = _('Quiz')
         verbose_name_plural = _('Quizzes')
 
-    def __str__(self):
+    def __unicode__(self):
         return self.title
 
+    def __str__(self):
+        return self.title
+    
     def no_attempts(self):
         no_attempts = QuizAttempt.objects.filter(quiz=self).count()
         return no_attempts
@@ -65,9 +68,11 @@ class QuizProps(models.Model):
         verbose_name = _('QuizProp')
         verbose_name_plural = _('QuizProps')
 
+    def __unicode__(self):
+        return self.name
+    
     def __str__(self):
         return self.name
-
 
 class QuizAttempt(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -32,9 +32,12 @@ class UploadedMedia(models.Model):
         verbose_name = _(u'Uploaded Media')
         verbose_name_plural = _(u'Uploaded Media')
 
+    def __unicode__(self):
+        return self.file.name
+    
     def __str__(self):
         return self.file.name
-
+    
     def get_embed_code(self, uri):
         try:
             return EMBED_TEMPLATE % (os.path.basename(self.file.name), uri, self.md5, self.file.size, self.length)
@@ -83,9 +86,11 @@ class UploadedMediaImage(models.Model):
         verbose_name = _(u'Uploaded Media Image')
         verbose_name_plural = _(u'Uploaded Media Images')
 
-    def __str__(self):
+    def __unicode__(self):
         return self.image.name
 
+    def __str__(self):
+        return self.image.name
 
 @receiver(post_delete, sender=UploadedMediaImage)
 def uploaded_media_image_delete_file(sender, instance, **kwargs):

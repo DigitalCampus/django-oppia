@@ -34,6 +34,9 @@ class Course(models.Model):
         verbose_name = _('Course')
         verbose_name_plural = _('Courses')
 
+    def __unicode__(self):
+        return self.get_title(self)
+    
     def __str__(self):
         return self.get_title(self)
 
@@ -168,9 +171,12 @@ class Section(models.Model):
         verbose_name = _('Section')
         verbose_name_plural = _('Sections')
 
-    def __str__(self):
+    def __unicode__(self):
         return self.get_title()
 
+    def __str__(self):
+        return self.get_title()
+    
     def get_title(self, lang='en'):
         try:
             titles = json.loads(self.title)
@@ -210,9 +216,12 @@ class Activity(models.Model):
     content = models.TextField(blank=True, null=True, default=None)
     description = models.TextField(blank=True, null=True, default=None)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.get_title()
 
+    def __str__(self):
+        return self.get_title()
+    
     class Meta:
         verbose_name = _('Activity')
         verbose_name_plural = _('Activities')
@@ -310,9 +319,12 @@ class Media(models.Model):
         verbose_name = _('Media')
         verbose_name_plural = _('Media')
 
-    def __str__(self):
+    def __unicode__(self):
         return self.filename
 
+    def __str__(self):
+        return self.filename
+    
     def get_event_points(self):
         from gamification.models import DefaultGamificationEvent, CourseGamificationEvent, MediaGamificationEvent
         
@@ -357,9 +369,12 @@ class Tracker(models.Model):
         verbose_name = _('Tracker')
         verbose_name_plural = _('Trackers')
 
-    def __str__(self):
+    def __unicode__(self):
         return self.agent
 
+    def __str__(self):
+        return self.agent
+    
     def is_first_tracker_today(self):
         olddate = timezone.now() + datetime.timedelta(hours=-24)
         no_attempts_today = Tracker.objects.filter(user=self.user, digest=self.digest, completed=True, submitted_date__gte=olddate).count()

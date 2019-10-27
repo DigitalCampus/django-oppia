@@ -18,7 +18,7 @@ from helpers.forms.dates import DateRangeIntervalForm, DateRangeForm, DateDiffFo
 from oppia.forms.cohort import CohortForm
 from oppia.forms.upload import UploadCourseStep1Form, UploadCourseStep2Form
 from oppia.models import Activity, Points
-from oppia.models import Tracker, Tag, CourseTag, CourseCohort
+from oppia.models import Tracker, Tag, CourseTag, CourseCohort, CoursePublishingLog
 from oppia.permissions import *
 from profile.models import UserProfile
 from profile.views import get_paginated_users
@@ -261,6 +261,11 @@ def upload_step2(request, course_id, editing=False):
             #add the tags
             add_course_tags(form, course, request.user)
             redirect = 'oppia_course' if editing else 'oppia_upload_success'
+            CoursePublishingLog(course=course, 
+                                new_version=course.version, 
+                                user=request.user, 
+                                action="course_published", 
+                                data=_(u'Course published via file upload')).save()
             return HttpResponseRedirect(reverse(redirect))  # Redirect after POST
     else:
         form = UploadCourseStep2Form(initial={'tags': course.get_tags(),

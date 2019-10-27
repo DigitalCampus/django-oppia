@@ -17,6 +17,9 @@ class Cohort(models.Model):
         verbose_name = _('Cohort')
         verbose_name_plural = _('Cohorts')
 
+    def __unicode__(self):
+        return self.description
+    
     def __str__(self):
         return self.description
 

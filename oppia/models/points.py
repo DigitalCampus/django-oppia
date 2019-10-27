@@ -34,9 +34,12 @@ class Points(models.Model):
         verbose_name = _('Points')
         verbose_name_plural = _('Points')
 
-    def __str__(self):
+    def __unicode__(self):
         return self.description
 
+    def __str__(self):
+        return self.description
+    
     @staticmethod
     def get_leaderboard(count=0, course=None):
 
