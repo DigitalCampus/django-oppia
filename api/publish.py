@@ -111,6 +111,11 @@ def publish_view(request):
     extract_path = os.path.join(settings.COURSE_UPLOAD_DIR, 'temp', str(user.id))
     course, status_code = handle_uploaded_file(request.FILES[api.COURSE_FILE_FIELD], extract_path, request, user)
     
+    CoursePublishingLog(course=course if course else None, 
+                                new_version=course.version if course else None, 
+                                user=user, 
+                                action="api_file_uploaded", 
+                                data=request.FILES[api.COURSE_FILE_FIELD].name).save()
     if course is False:
         status = status_code if status_code is not None else 500
         response_data = {
@@ -133,7 +138,7 @@ def publish_view(request):
         CoursePublishingLog(course=course, 
                                 new_version=course.version, 
                                 user=user, 
-                                action="course_published", 
+                                action="api_course_published", 
                                 data=_(u'Course published via API')).save()
         if len(msgs) > 0:
             return JsonResponse({'messages': msgs}, status=201)
