@@ -348,7 +348,7 @@ class EditProfileViewTest(TestCase):
                      'last_name': 'user',
                      'password': 'newpassword',
                      'password_again': 'newpassword'}
-        response = self.client.post(reverse('profile_edit_user', 
+        response = self.client.post(reverse('profile_edit_user',
                                             args=[2]), data=post_data)
         self.assertEqual(response.status_code, 200)
 
@@ -419,7 +419,7 @@ class EditProfileViewTest(TestCase):
     def test_delete_account_admin(self):
         self.client.login(username=ADMIN_USER['user'],
                           password=ADMIN_USER['password'])
-        post_data = { 'username': 'admin', 'password': 'password'}
+        post_data = {'username': 'admin', 'password': 'password'}
         response = self.client.post(reverse('profile_delete_account'),
                                     data=post_data)
         self.assertRedirects(response,
@@ -430,7 +430,7 @@ class EditProfileViewTest(TestCase):
     def test_delete_account_staff(self):
         self.client.login(username=STAFF_USER['user'],
                           password=STAFF_USER['password'])
-        post_data = { 'username': 'staff', 'password': 'password'}
+        post_data = {'username': 'staff', 'password': 'password'}
         response = self.client.post(reverse('profile_delete_account'),
                                     data=post_data)
         self.assertRedirects(response,
@@ -441,7 +441,7 @@ class EditProfileViewTest(TestCase):
     def test_delete_account_teacher(self):
         self.client.login(username=TEACHER_USER['user'],
                           password=TEACHER_USER['password'])
-        post_data = { 'username': 'teacher', 'password': 'password'}
+        post_data = {'username': 'teacher', 'password': 'password'}
         response = self.client.post(reverse('profile_delete_account'),
                                     data=post_data)
         self.assertRedirects(response,
@@ -452,7 +452,7 @@ class EditProfileViewTest(TestCase):
     def test_delete_account_user(self):
         self.client.login(username=NORMAL_USER['user'],
                           password=NORMAL_USER['password'])
-        post_data = { 'username': 'demo', 'password': 'password'}
+        post_data = {'username': 'demo', 'password': 'password'}
         response = self.client.post(reverse('profile_delete_account'),
                                     data=post_data)
         self.assertRedirects(response,
@@ -463,7 +463,7 @@ class EditProfileViewTest(TestCase):
     def test_delete_account_wrong_password(self):
         self.client.login(username=NORMAL_USER['user'],
                           password=NORMAL_USER['password'])
-        post_data = { 'username': 'demo', 'password': 'wrongpassword'}
+        post_data = {'username': 'demo', 'password': 'wrongpassword'}
         self.client.post(reverse('profile_delete_account'), data=post_data)
         self.assertRaisesMessage(forms.ValidationError,
                                  'Invalid password. Please try again. ')

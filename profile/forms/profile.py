@@ -38,7 +38,7 @@ class ProfileForm(forms.Form):
     organisation = forms.CharField(max_length=100, required=False)
 
     def __init__(self, *args, **kwargs):
-        super(ProfileForm, self).__init__( * args, ** kwargs)
+        super(ProfileForm, self).__init__(* args, ** kwargs)
         if len(args) == 1:
             email = args[0]['email']
             username = args[0]['username']

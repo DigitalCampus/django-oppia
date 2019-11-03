@@ -449,7 +449,7 @@ def export_tracker_detail(request, course_id):
 
     headers = ('Date', 'UserId', 'Type', 'Activity Title', 'Section Title', 'Time Taken', 'IP Address', 'User Agent', 'Language')
     data = []
-    data = tablib.Dataset( * data, headers=headers)
+    data = tablib.Dataset(* data, headers=headers)
     trackers = Tracker.objects.filter(course=course).order_by('-tracker_date')
     for t in trackers:
         try:

@@ -42,7 +42,7 @@ class RegisterForm(forms.Form):
     organisation = forms.CharField(max_length=100, required=False)
 
     def __init__(self, *args, **kwargs):
-        super(RegisterForm, self).__init__( * args, ** kwargs)
+        super(RegisterForm, self).__init__(* args, ** kwargs)
         self.helper = FormHelper()
         self.helper.form_action = reverse('profile_register')
         self.helper.form_class = 'form-horizontal'

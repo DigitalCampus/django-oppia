@@ -14,7 +14,7 @@ class EditCoursePointsForm(forms.Form):
     def __init__(self, *args, **kwargs):
         initial = kwargs.pop('initial', None)
 
-        super(EditCoursePointsForm, self).__init__( * args, ** kwargs)
+        super(EditCoursePointsForm, self).__init__(* args, ** kwargs)
         for event in initial:
             try:
                 self.fields[event.event] = forms.IntegerField(initial=event.points,
@@ -52,7 +52,7 @@ class EditActivityPointsForm(forms.Form):
     def __init__(self, *args, **kwargs):
         initial = kwargs.pop('initial', None)
 
-        super(EditActivityPointsForm, self).__init__( * args, ** kwargs)
+        super(EditActivityPointsForm, self).__init__(* args, ** kwargs)
         for event in initial:
             try:
                 self.fields[event.event] = forms.IntegerField(initial=int(event.points),
@@ -93,7 +93,7 @@ class EditMediaPointsForm(forms.Form):
     def __init__(self, *args, **kwargs):
         initial = kwargs.pop('initial', None)
 
-        super(EditMediaPointsForm, self).__init__( * args, ** kwargs)
+        super(EditMediaPointsForm, self).__init__(* args, ** kwargs)
         for event in initial:
             try:
                 self.fields[event.event] = forms.IntegerField(initial=int(event.points),

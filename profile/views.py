@@ -517,7 +517,7 @@ def get_query(query_string, search_fields):
     '''
     query = None  # Query to search in every field
     for field_name in search_fields:
-        q = Q( ** {"%s__icontains" % field_name: query_string})
+        q = Q(** {"%s__icontains" % field_name: query_string})
         query = q if query is None else (query | q)
 
     return query
@@ -548,7 +548,7 @@ def search_users(request):
     if search_form.is_valid():
         filters = get_filters_from_row(search_form)
         if filters:
-            users = users.filter( ** filters)
+            users = users.filter(** filters)
             filtered = True
 
     if not filtered:

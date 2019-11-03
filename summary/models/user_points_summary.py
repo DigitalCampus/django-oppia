@@ -26,7 +26,7 @@ class UserPointsSummary(models.Model):
         if newest_points_pk > 0:
             filters['pk__lte'] = newest_points_pk
 
-        new_points = Points.objects.filter( ** filters).aggregate(total=Sum('points'))['total']
+        new_points = Points.objects.filter(** filters).aggregate(total=Sum('points'))['total']
 
         if not new_points:
             return

@@ -24,7 +24,7 @@ class UploadMediaForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
-        super(UploadMediaForm, self).__init__( * args, ** kwargs)
+        super(UploadMediaForm, self).__init__(* args, ** kwargs)
         self.helper = FormHelper()
         self.helper.form_action = reverse('oppia_av_upload')
         self.helper.form_class = 'form-horizontal'

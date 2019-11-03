@@ -19,7 +19,7 @@ class UploadProfileForm(forms.Form):
         error_messages={'required': _('Please select a file to upload')}, )
 
     def __init__(self, *args, **kwargs):
-        super(UploadProfileForm, self).__init__( * args, ** kwargs)
+        super(UploadProfileForm, self).__init__(* args, ** kwargs)
         self.helper = FormHelper()
         self.helper.form_action = reverse('profile_upload')
         self.helper.form_class = 'form-horizontal'

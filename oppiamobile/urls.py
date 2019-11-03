@@ -34,5 +34,5 @@ urlpatterns = [
 
 
 if settings.DEVICE_ADMIN_ENABLED:
-    gcmpatterns = [ url(r'^deviceadmin/', include('deviceadmin.urls')), ]
+    gcmpatterns = [url(r'^deviceadmin/', include('deviceadmin.urls')), ]
     urlpatterns += gcmpatterns

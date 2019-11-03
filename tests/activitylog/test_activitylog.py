@@ -53,7 +53,7 @@ class UploadActivityLogTest(TestCase):
 
         self.client.login(username=ADMIN_USER['user'],
                           password=ADMIN_USER['password'])
-        
+
         with open(self.basic_activity_log, 'rb') as activity_log_file:
             response = self.client.post(self.url,
                                         {'activity_log_file': activity_log_file})

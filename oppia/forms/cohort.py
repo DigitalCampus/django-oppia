@@ -28,7 +28,7 @@ class CohortForm(forms.Form):
                               help_text=_("A comma separated list of course codes"), )
 
     def __init__(self, *args, **kwargs):
-        super(CohortForm, self).__init__( * args, ** kwargs)
+        super(CohortForm, self).__init__(* args, ** kwargs)
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
         self.helper.form_tag = False

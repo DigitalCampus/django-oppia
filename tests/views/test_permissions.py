@@ -62,7 +62,7 @@ class PermissionsViewTest(TestCase):
         res = self.get_view(route, NORMAL_USER)
         self.assertRedirects(res, route + 'login/?next=' + route)
     # Upload courses view
-    
+
     def test_anon_cantview_upload_courses(self):
         self.assert_must_login('oppia_upload')
 
@@ -77,7 +77,7 @@ class PermissionsViewTest(TestCase):
 
     def test_user_with_canupload_canview_upload_courses(self):
         self.assert_can_view('oppia_upload', TEACHER_USER)
-        
+
     # Bulk upload users view
 
     def test_anon_cantview_bulk_upload(self):
@@ -91,7 +91,7 @@ class PermissionsViewTest(TestCase):
 
     def test_student_cantview_bulk_upload(self):
         self.assert_unauthorized('profile_upload', NORMAL_USER)
-    
+
     # View cohort list
 
     def test_anon_cantview_cohorts(self):
@@ -173,7 +173,7 @@ class PermissionsViewTest(TestCase):
 
     def test_student_cantview_add_cohort(self):
         self.assert_unauthorized('oppia_cohort_add', NORMAL_USER)
-    
+
     # courses list view
 
     def test_anon_cantview_courses_list(self):
@@ -193,7 +193,7 @@ class PermissionsViewTest(TestCase):
         res = self.assert_can_view('oppia_course', NORMAL_USER)
         # check that the number of courses dont include the draft ones
         self.assertEqual(res.context['page'].paginator.count, 2)
-        
+
     # View course recent activity
 
     def test_anon_cantview_course_activity(self):

@@ -29,7 +29,7 @@ class UploadHelpersTest(TestCase):
 
         create_quiz_props(quiz, quiz_obj)
 
-        # now check the props have been saved correctly 
+        # now check the props have been saved correctly
         # (using the sample quiz file)
         quiz_prop_count = QuizProps.objects.filter(quiz=quiz).count()
         self.assertEqual(quiz_prop_count, 7)

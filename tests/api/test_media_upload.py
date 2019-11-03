@@ -44,8 +44,8 @@ class MediaPublishResourceTest(TestCase):
 
         # shouldn't be strictly necessary to close the file,
         # but avoids ResourceWarnings about unclosed files
-        video_file.close() 
-        
+        video_file.close()
+
     # check authentication check working correctly
     def test_authentication(self):
 

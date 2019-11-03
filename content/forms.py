@@ -15,7 +15,7 @@ class MediaEmbedHelperForm(forms.Form):
                 error_messages={'required': _('Please enter the media url')}, )
 
     def __init__(self, *args, **kwargs):
-        super(MediaEmbedHelperForm, self).__init__( * args, ** kwargs)
+        super(MediaEmbedHelperForm, self).__init__(* args, ** kwargs)
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
         self.helper.label_class = 'col-lg-2'

@@ -18,7 +18,7 @@ class UserSearchForm(forms.Form):
     end_date = forms.CharField(required=False, label=False)
 
     def __init__(self, *args, **kwargs):
-        super(UserSearchForm, self).__init__( * args, ** kwargs)
+        super(UserSearchForm, self).__init__(* args, ** kwargs)
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
         self.helper.label_class = 'col-sm-3 col-md-2 col-lg-2 control-label'

@@ -17,7 +17,7 @@ class UploadCourseStep1Form(forms.Form):
                 error_messages={'required': _('Please select a file to upload')}, )
 
     def __init__(self, *args, **kwargs):
-        super(UploadCourseStep1Form, self).__init__( * args, ** kwargs)
+        super(UploadCourseStep1Form, self).__init__(* args, ** kwargs)
 
         max_upload = SettingProperties.get_int(constants.MAX_UPLOAD_SIZE, settings.OPPIA_MAX_UPLOAD_SIZE)
         self.fields['course_file'].help_text = _('Max size %(size)d Mb') % {'size': int(math.floor(max_upload / 1024 / 1024))}
@@ -61,7 +61,7 @@ class UploadCourseStep2Form(forms.Form):
                 required=False, )
 
     def __init__(self, *args, **kwargs):
-        super(UploadCourseStep2Form, self).__init__( * args, ** kwargs)
+        super(UploadCourseStep2Form, self).__init__(* args, ** kwargs)
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
         self.helper.label_class = 'col-lg-2'
