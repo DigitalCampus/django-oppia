@@ -27,9 +27,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if options['hours']:
-            hours=options['hours']
+            hours = options['hours']
         else:
-            hours=0
+            hours = 0
 
         # check if cron already running
         prop, created = SettingProperties.objects.get_or_create(key='oppia_cron_lock', int_value=1)

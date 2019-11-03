@@ -9,7 +9,7 @@ from django.conf import settings
 
 def remove_from_zip(zipfname, temp_zip_path, course_shortname, *filenames):
     try:
-        tempname = os.path.join(temp_zip_path, course_shortname +'.zip')
+        tempname = os.path.join(temp_zip_path, course_shortname + '.zip')
         with zipfile.ZipFile(zipfname, 'r') as zipread:
             with zipfile.ZipFile(tempname, 'w') as zipwrite:
                 for item in zipread.infolist():
