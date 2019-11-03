@@ -51,8 +51,8 @@ class UploadActivityLogTest(TestCase):
             response = self.client.post(self.url, { 'activity_log_file': activity_log_file })
 
         # should be redirected to the update step 2 form
-        self.assertRedirects(response, 
-                             reverse('oppia_activitylog_upload_success'), 
+        self.assertRedirects(response,
+                             reverse('oppia_activitylog_upload_success'),
                              302,
                              200)
 
@@ -69,8 +69,8 @@ class UploadActivityLogTest(TestCase):
             response = self.client.post(self.url, { 'activity_log_file': activity_log_file })
 
         # should be redirected to the update step 2 form
-        self.assertRedirects(response, 
-                             reverse('oppia_activitylog_upload_success'), 
+        self.assertRedirects(response,
+                             reverse('oppia_activitylog_upload_success'),
                              302,
                              200)
 

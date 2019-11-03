@@ -146,7 +146,7 @@ def summary_get_course_activity(start_date):
 
     last_month = timezone.now() - datetime.timedelta(days=131)
 
-    hit_by_course = CourseDailyStats.objects.filter(day__gte=last_month, 
+    hit_by_course = CourseDailyStats.objects.filter(day__gte=last_month,
                                                     course__isnull=False) \
                                             .values('course_id') \
                                             .annotate(total_hits=Sum('total')) \

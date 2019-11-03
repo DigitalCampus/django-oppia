@@ -553,7 +553,7 @@ def cohort_add(request):
     ordering, users = get_paginated_users(request)
     c_ordering, courses = get_paginated_courses(request)
 
-    return render(request, 'cohort/form.html', 
+    return render(request, 'cohort/form.html',
                   {'form': form,
                    'page': users,
                    'courses_page': courses,
@@ -692,7 +692,7 @@ def cohort_edit(request, cohort_id):
     ordering, users = get_paginated_users(request)
     c_ordering, courses = get_paginated_courses(request)
 
-    return render(request, 'cohort/form.html', 
+    return render(request, 'cohort/form.html',
                   {'form': form,
                    'page': users,
                    'selected_teachers': teachers_selected,
