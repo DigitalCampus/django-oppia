@@ -6,7 +6,7 @@ from django.views.generic import TemplateView
 from oppia import views as oppia_views
 
 
-#Custom HTTP response pages
+# Custom HTTP response pages
 handler403 = 'oppia.permissions.oppia_403_handler'
 
 urlpatterns = [

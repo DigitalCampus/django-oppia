@@ -37,7 +37,7 @@ class UserCourseSummary (models.Model):
         t = time.time()
         self_trackers = Tracker.objects.filter(user=self.user, course=self.course, pk__gt=last_tracker_pk, pk__lte=newest_tracker_pk)
 
-        ### Add the values that are directly obtained from the last pks
+        # Add the values that are directly obtained from the last pks
         self.total_activity = (0 if first_tracker else self.total_activity) + self_trackers.count()
         self.total_downloads = (0 if first_tracker else self.total_downloads) + self_trackers.filter(type='download').count()
 
@@ -53,14 +53,14 @@ class UserCourseSummary (models.Model):
         if new_points:
             self.points = (0 if first_points else self.points) + new_points
 
-        ### Values that need to be recalculated (as the course digests may vary)
+        # Values that need to be recalculated (as the course digests may vary)
         self.pretest_score = Course.get_pre_test_score(self.course, self.user)
         self.quizzes_passed = Course.get_no_quizzes_completed(self.course, self.user)
         self.badges_achieved = Award.get_userawards(self.user, self.course)
         self.completed_activities = Course.get_activities_completed(self.course, self.user)
         self.media_viewed = Course.get_media_viewed(self.course, self.user)
 
-        ### Update the data in the database
+        # Update the data in the database
         self.save()
 
         elapsed_time = time.time() - t
