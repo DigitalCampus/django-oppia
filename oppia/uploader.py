@@ -23,6 +23,7 @@ from quiz.models import Quiz, Question, QuizQuestion, Response, ResponseProps, Q
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 
+
 def handle_uploaded_file(f, extract_path, request, user):
     zipfilepath = os.path.join(settings.COURSE_UPLOAD_DIR, f.name)
 
@@ -71,8 +72,8 @@ def process_course(extract_path, f, mod_name, request, user):
     if not os.path.isfile(xml_path):
         msg_text = _(u"Zip file does not contain a module.xml file")
         messages.info(request, msg_text, extra_tags="danger")
-        CoursePublishingLog(user=user, 
-                            action="no_module_xml", 
+        CoursePublishingLog(user=user,
+                            action="no_module_xml",
                             data=msg_text).save()
         return False, 400
 
@@ -91,22 +92,22 @@ def process_course(extract_path, f, mod_name, request, user):
         if course.user != user:
             msg_text = _(u"Sorry, only the original owner may update this course")
             messages.info(request, msg_text)
-            CoursePublishingLog(course=course, 
-                                new_version=meta_info['versionid'], 
-                                old_version=course.version, 
-                                user=user, 
-                                action="permissions_error", 
+            CoursePublishingLog(course=course,
+                                new_version=meta_info['versionid'],
+                                old_version=course.version,
+                                user=user,
+                                action="permissions_error",
                                 data=msg_text).save()
             return False, 401
         # check if course version is older
         if course.version > meta_info['versionid']:
             msg_text = _(u"A newer version of this course already exists")
             messages.info(request, msg_text)
-            CoursePublishingLog(course=course, 
-                                new_version=meta_info['versionid'], 
-                                old_version=course.version, 
-                                user=user, 
-                                action="newer_version_exists", 
+            CoursePublishingLog(course=course,
+                                new_version=meta_info['versionid'],
+                                old_version=course.version,
+                                user=user,
+                                action="newer_version_exists",
                                 data=msg_text).save()
             return False, 400
 
@@ -125,7 +126,7 @@ def process_course(extract_path, f, mod_name, request, user):
         new_course = True
 
     old_course_version = course.version
-    
+
     course.shortname = meta_info['shortname']
     course.title = meta_info['title']
     course.description = meta_info['description']
@@ -145,12 +146,12 @@ def process_course(extract_path, f, mod_name, request, user):
 
             if created:
                 msg_text = _(u'Gamification for "%(event)s" at course level added') % {'event': e.event}
-                messages.info(request, msg_text) 
-                CoursePublishingLog(course=course, 
-                                new_version=meta_info['versionid'], 
-                                old_version=old_course_version, 
-                                user=user, 
-                                action="gamification_added", 
+                messages.info(request, msg_text)
+                CoursePublishingLog(course=course,
+                                new_version=meta_info['versionid'],
+                                old_version=old_course_version,
+                                user=user,
+                                action="gamification_added",
                                 data=msg_text).save()
 
     process_quizzes_locally = False
@@ -170,12 +171,12 @@ def process_course(extract_path, f, mod_name, request, user):
 
     writer = GamificationXMLWriter(course)
     writer.update_gamification(request.user)
-                               
+
     return course, 200
 
 
 def parse_course_contents(req, xml_doc, course, user, new_course, process_quizzes_locally):
-    
+
     # add in any baseline activities
     parse_baseline_activities(req, xml_doc, course, user, new_course, process_quizzes_locally)
 
@@ -185,13 +186,13 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
         course.delete()
         msg_text = _(u"There don't appear to be any activities in this upload file.")
         messages.info(req, msg_text)
-        CoursePublishingLog(course=course, 
-                                user=user, 
-                                action="no_activities", 
+        CoursePublishingLog(course=course,
+                                user=user,
+                                action="no_activities",
                                 data=msg_text).save()
         return
 
-    
+
     for idx, s in enumerate(structure.findall("section")):
 
         activities = s.find('activities')
@@ -199,9 +200,9 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
         if activities is None or len(activities.findall('activity')) == 0:
             msg_text =  _("Section ") + str(idx + 1) + _(" does not contain any activities.")
             messages.info(req, msg_text)
-            CoursePublishingLog(course=course, 
-                                user=user, 
-                                action="no_activities", 
+            CoursePublishingLog(course=course,
+                                user=user,
+                                action="no_activities",
                                 data=msg_text).save()
             continue
 
@@ -218,7 +219,7 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
 
         for act in activities.findall("activity"):
             parse_and_save_activity(req, user, course, section, act, new_course, process_quizzes_locally)
-    
+
 
     media_element = xml_doc.find('media')
     if media_element is not None:
@@ -232,9 +233,9 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
             if len(url) > Media.URL_MAX_LENGTH:
                 msg_text = _(u'File %(filename)s has a download URL larger than the maximum length permitted. The media file has not been registered, so it won\'t be tracked. Please, fix this issue and upload the course again.') % {'filename': media.filename}
                 messages.info(req, msg_text)
-                CoursePublishingLog(course=course, 
-                                user=user, 
-                                action="media_url_too_long", 
+                CoursePublishingLog(course=course,
+                                user=user,
+                                action="media_url_too_long",
                                 data=msg_text).save()
             else:
                 media.download_url = url
@@ -259,11 +260,11 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
                     if created:
                         msg_text = _(u'Gamification for "%(event)s" at course level added') % {'event': e.event}
                         messages.info(req, msg_text)
-                        CoursePublishingLog(course=course, 
-                                user=user, 
-                                action="course_gamification_added", 
+                        CoursePublishingLog(course=course,
+                                user=user,
+                                action="course_gamification_added",
                                 data=msg_text).save()
-                        
+
 def parse_baseline_activities(req, xml_doc, course, user, new_course, process_quizzes_locally):
     for meta in xml_doc.findall('meta')[:1]:
         activities = meta.findall("activity")
@@ -340,9 +341,9 @@ def parse_and_save_activity(req, user, course, section, act, new_course, process
     if not existed and not new_course:
         msg_text = _(u'Activity "%(act)s"(%(digest)s) did not exist previously.') % {'act': activity.title, 'digest': activity.digest}
         messages.warning(req, msg_text)
-        CoursePublishingLog(course=course, 
-                                user=user, 
-                                action="activity_added", 
+        CoursePublishingLog(course=course,
+                                user=user,
+                                action="activity_added",
                                 data=msg_text).save()
     else:
         msg_text = _(u'Activity "%(act)s"(%(digest)s) previously existed. Updated with new information') % {'act': activity.title, 'digest':activity.digest}
@@ -350,9 +351,9 @@ def parse_and_save_activity(req, user, course, section, act, new_course, process
         If we also want to show the activities that previously existed, uncomment this next line
         messages.info(req, msg_text)
         '''
-        CoursePublishingLog(course=course, 
-                                user=user, 
-                                action="activity_updated", 
+        CoursePublishingLog(course=course,
+                                user=user,
+                                action="activity_updated",
                                 data=msg_text).save()
 
     if (act_type == "quiz") and process_quiz_locally:
@@ -374,9 +375,9 @@ def parse_and_save_activity(req, user, course, section, act, new_course, process
         if created:
             msg_text = _(u'Gamification for "%(event)s" at activity "%(act)s"(%(digest)s) added') % {'event': e.event, 'act':activity.title, 'digest': activity.digest}
             messages.info(req, msg_text)
-            CoursePublishingLog(course=course, 
-                                user=user, 
-                                action="activity_gamification_added", 
+            CoursePublishingLog(course=course,
+                                user=user,
+                                action="activity_gamification_added",
                                 data=msg_text).save()
 
 def parse_and_save_quiz(req, user, activity, act_xml):
@@ -440,6 +441,7 @@ def get_content(elem, node_name):
         return None if node is None else node.text
     return None
 
+
 def parse_course_meta(xml_doc):
 
     meta_info = {'versionid': 0, 'shortname': ''}
@@ -494,9 +496,9 @@ def clean_old_course(req, user, oldsections, old_course_filename, course):
         for act in sec.activities():
             msg_text = _(u'Activity "%(act)s"(%(digest)s) is no longer in the course.') % {'act': act.title, 'digest': act.digest}
             messages.info(req, msg_text)
-            CoursePublishingLog(course=course, 
-                                user=user, 
-                                action="activity_removed", 
+            CoursePublishingLog(course=course,
+                                user=user,
+                                action="activity_removed",
                                 data=msg_text).save()
         sec.delete()
 
@@ -505,7 +507,7 @@ def clean_old_course(req, user, oldsections, old_course_filename, course):
             os.remove( os.path.join(settings.COURSE_UPLOAD_DIR, old_course_filename) )
         except OSError:
             pass
-        
+
 # helper functions
 
 def create_quiz_props(quiz, quiz_obj):
@@ -515,6 +517,7 @@ def create_quiz_props(quiz, quiz_obj):
                 quiz=quiz, name=prop,
                 value=quiz_obj['props'][prop]
             ).save()
+
 
 def create_quiz_questions(user, quiz, quiz_obj ):
     for q in quiz_obj['questions']:

@@ -14,9 +14,9 @@ urlpatterns = [
     url(r'^$', oppia_views.home_view, name="oppia_home"),
     url(r'^server/$', oppia_views.server_view, name="oppia_server"),
     url(r'^about/$', oppia_views.about_view, name="oppia_about"),
-    
+
     url(r'^teacher/$', oppia_views.teacher_home_view, name="oppia_teacher_home"),
-    
+
     url(r'^leaderboard/$', oppia_views.leaderboard_view, name="oppia_leaderboard"),
     url(r'^upload/$', oppia_views.upload_step1, name="oppia_upload"),
     url(r'^upload2/(?P<course_id>\d+)$', oppia_views.upload_step2, name="oppia_upload2"),
@@ -32,7 +32,7 @@ urlpatterns = [
     url(r'^course/(?P<course_id>\d+)/quiz/(?P<quiz_id>\d+)/attempts/$', oppia_views.course_quiz_attempts, name="oppia_course_quiz_attempts"),
     url(r'^course/(?P<course_id>\d+)/feedback/$', oppia_views.course_feedback, name="oppia_course_feedback"),
     url(r'^course/(?P<course_id>\d+)/feedback/(?P<quiz_id>\d+)/responses/$', oppia_views.course_feedback_responses, name="oppia_course_feedback_responses"),
-    
+
     url(r'^cohort/$', oppia_views.cohort_list_view, name="oppia_cohorts"),
     url(r'^cohort/add/$', oppia_views.cohort_add, name="oppia_cohort_add"),
     url(r'^cohort/(?P<cohort_id>\d+)/edit/$', oppia_views.cohort_edit, name="oppia_cohort_edit"),

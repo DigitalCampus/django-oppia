@@ -39,7 +39,7 @@ class Award(models.Model):
 
     def __str__(self):
         return self.description
-    
+
     @staticmethod
     def get_userawards(user, course=None):
         awards = Award.objects.filter(user=user)

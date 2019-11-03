@@ -36,7 +36,7 @@ class Course(models.Model):
 
     def __unicode__(self):
         return self.get_title(self)
-    
+
     def __str__(self):
         return self.get_title(self)
 
@@ -151,7 +151,7 @@ class Course(models.Model):
         acts = Media.objects.filter(course=course).values_list('digest')
         return Tracker.objects.filter(course=course, user=user, digest__in=acts).values_list('digest').distinct().count()
 
-        
+
 class CourseManager(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -176,7 +176,7 @@ class Section(models.Model):
 
     def __str__(self):
         return self.get_title()
-    
+
     def get_title(self, lang='en'):
         try:
             titles = json.loads(self.title)
@@ -221,7 +221,7 @@ class Activity(models.Model):
 
     def __str__(self):
         return self.get_title()
-    
+
     class Meta:
         verbose_name = _('Activity')
         verbose_name_plural = _('Activities')
@@ -274,17 +274,17 @@ class Activity(models.Model):
     def get_event_points(self):
         from gamification.models import DefaultGamificationEvent, CourseGamificationEvent, ActivityGamificationEvent
         event_points = []
-        
+
         # first check if there are specific points for this activity
         activity_custom_points = ActivityGamificationEvent.objects.filter(activity=self)
         if len(activity_custom_points) > 0:
             source = _('Custom Points')
             return { 'events': activity_custom_points, 'source': source }
-        
+
         # if not, then check the points for the course as a whole or then the global default points
         if self.type == self.PAGE:
             course_custom_points = CourseGamificationEvent.objects.filter(course__section__activity=self, event__startswith='activity_')
-            
+
             if len(course_custom_points) > 0:
                 source = _('Inherited from course')
                 return { 'events': course_custom_points, 'source': source }
@@ -292,7 +292,7 @@ class Activity(models.Model):
                 default_activity_events = DefaultGamificationEvent.objects.filter(level=DefaultGamificationEvent.ACTIVITY)
                 source = _('Inherited from global defaults')
                 return { 'events': default_activity_events, 'source': source }
-            
+
         if self.type == self.QUIZ:
             course_custom_points = CourseGamificationEvent.objects.filter(course__section__activity=self, event__startswith='quiz_')
             if len(course_custom_points) > 0:
@@ -302,7 +302,7 @@ class Activity(models.Model):
                 default_quiz_events = DefaultGamificationEvent.objects.filter(level=DefaultGamificationEvent.QUIZ)
                 source = _('Inherited from global defaults')
                 return { 'events': default_quiz_events, 'source': source }
-        
+
         return event_points
 
 class Media(models.Model):
@@ -324,19 +324,19 @@ class Media(models.Model):
 
     def __str__(self):
         return self.filename
-    
+
     def get_event_points(self):
         from gamification.models import DefaultGamificationEvent, CourseGamificationEvent, MediaGamificationEvent
-        
+
         # first check if there are specific points for this activity
         media_custom_points = MediaGamificationEvent.objects.filter(media=self)
         if media_custom_points.count() > 0:
             source = _('Custom Points')
             return { 'events': media_custom_points, 'source': source }
-        
+
         # if not, then check the points for the course as a whole or then the global default points
         course_custom_points = CourseGamificationEvent.objects.filter(course=self.course, event__startswith='media_')
-        
+
         if course_custom_points.count() > 0:
             source = _('Inherited from course')
             return { 'events': course_custom_points, 'source': source }
@@ -374,7 +374,7 @@ class Tracker(models.Model):
 
     def __str__(self):
         return self.agent
-    
+
     def is_first_tracker_today(self):
         olddate = timezone.now() + datetime.timedelta(hours=-24)
         no_attempts_today = Tracker.objects.filter(user=self.user, digest=self.digest, completed=True, submitted_date__gte=olddate).count()

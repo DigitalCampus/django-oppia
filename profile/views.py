@@ -144,17 +144,17 @@ def reset(request):
                 prefix = 'https://'
             else:
                 prefix = 'http://'
-            
+
             emailer.send_oppia_email(
                 template_html = 'profile/email/password_reset.html',
                 template_text = 'profile/email/password_reset.txt',
                 subject="Password reset",
                 fail_silently=False,
                 recipients=[user.email],
-                new_password = newpass, 
+                new_password = newpass,
                 site = prefix + request.META['SERVER_NAME']
                 )
-            
+
             return HttpResponseRedirect('sent')
     else:
         form = ResetForm()  # An unbound form
@@ -165,14 +165,14 @@ def reset(request):
 
 
 def edit(request, user_id=0):
-        
+
     if user_id != 0 and can_edit_user(request, user_id):
         view_user = User.objects.get(pk=user_id)
     elif user_id == 0:
-        view_user = request.user    
+        view_user = request.user
     else:
         raise exceptions.PermissionDenied
-        
+
     key = ApiKey.objects.get(user=view_user)
     if request.method == 'POST':
         form = ProfileForm(request.POST)
@@ -190,7 +190,7 @@ def edit(request, user_id=0):
             user_profile.job_title = form.cleaned_data.get("job_title")
             user_profile.organisation = form.cleaned_data.get("organisation")
             user_profile.save()
-        
+
             messages.success(request, _(u"Profile updated"))
 
             # if password should be changed
@@ -201,7 +201,7 @@ def edit(request, user_id=0):
                 messages.success(request, _(u"Password updated"))
     else:
         user_profile, created = UserProfile.objects.get_or_create(user=view_user)
-        
+
         form = ProfileForm(initial={'username': view_user.username,
                                     'email': view_user.email,
                                     'first_name': view_user.first_name,
@@ -358,7 +358,7 @@ def user_course_activity_view(request, user_id, course_id):
 
         no_attempts = quiz.get_no_attempts_by_user(quiz, view_user)
         attempts = QuizAttempt.objects.filter(quiz=quiz, user=view_user)
-        
+
         passed = False
         if no_attempts > 0:
 
@@ -539,13 +539,13 @@ def get_filters_from_row(search_form):
 
 @staff_member_required
 def search_users(request):
-    
+
     users = User.objects
 
     filtered = False
     search_form = UserSearchForm(request.GET,request.FILES)
-    if search_form.is_valid(): 
-        filters = get_filters_from_row(search_form)           
+    if search_form.is_valid():
+        filters = get_filters_from_row(search_form)
         if filters:
             users = users.filter( ** filters)
             filtered = True
@@ -650,7 +650,7 @@ def delete_account_view(request):
     return render(request, 'profile/delete_account.html',
                   {'form': form})
 
-   
+
 def delete_account_complete_view(request):
 
     return render(request, 'profile/delete_account_complete.html')
@@ -662,9 +662,9 @@ def get_tracker_activities(start_date, end_date, user, course_ids=[], course=Non
     no_days = (end_date - start_date).days + 1
     if course:
         trackers = Tracker.objects.filter(course=course)
-    else: 
+    else:
         trackers = Tracker.objects.filter(course__id__in=course_ids)
-        
+
     trackers = trackers.filter(user=user,
                       tracker_date__gte=start_date,
                       tracker_date__lte=end_date) \
@@ -676,5 +676,5 @@ def get_tracker_activities(start_date, end_date, user, course_ids=[], course=Non
         temp = start_date + datetime.timedelta(days=i)
         count = next((dct['count'] for dct in trackers if dct['activity_date'] == temp.date()), 0)
         activity.append([temp.strftime("%d %b %Y"), count])
-        
+
     return activity

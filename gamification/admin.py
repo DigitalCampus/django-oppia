@@ -15,7 +15,7 @@ class ActivityGamificationEventAdmin(admin.ModelAdmin):
 
 class MediaGamificationEventAdmin(admin.ModelAdmin):
     list_display = ('media', 'event', 'points')
-    
+
 class DefaultGamificationEventAdmin(admin.ModelAdmin):
     list_display = ('event', 'points', 'level')
 

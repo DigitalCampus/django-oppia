@@ -76,7 +76,7 @@ class QuizResource(ModelResource):
         self.log_throttled_access(request)
         return self.create_response(request, object_list)
 
-        
+
 class QuizQuestionResource(ModelResource):
     question = fields.ToOneField('quiz.api.resources.QuestionResource', 'question', full=True)
 
@@ -128,7 +128,7 @@ class QuestionPropsResource(ModelResource):
         validation = QuestionOwnerValidation()
         always_return_data = True
 
-    
+
 class ResponseResource(ModelResource):
     question = fields.ForeignKey(QuestionResource, 'question')
     props = fields.ToManyField('quiz.api.resources.ResponsePropsResource', 'responseprops_set', related_name='response', full=True, null=True)
@@ -164,7 +164,7 @@ class ResponsePropsResource(ModelResource):
         validation = ResponseOwnerValidation()
         always_return_data = True
 
-           
+
 class QuizPropsResource(ModelResource):
     quiz = fields.ForeignKey(QuizResource, 'quiz')
 

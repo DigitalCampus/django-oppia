@@ -9,13 +9,13 @@ from tests.user_logins import *
 
 
 class UploadActivityLogTest(TestCase):
-    
-    fixtures = ['tests/test_user.json', 
-                'tests/test_oppia.json', 
-                'tests/test_quiz.json', 
+
+    fixtures = ['tests/test_user.json',
+                'tests/test_oppia.json',
+                'tests/test_quiz.json',
                 'tests/test_permissions.json',
                 'default_gamification_events.json']
-    
+
     def setUp(self):
         self.client = Client()
         self.url = reverse('oppia_activitylog_upload')
@@ -43,7 +43,7 @@ class UploadActivityLogTest(TestCase):
         self.assertEqual(len(messages), 1)
         self.assertContains(response, 'wrong format')
 
-      
+
     def test_correct_file(self):
         tracker_count_start = Tracker.objects.all().count()
 

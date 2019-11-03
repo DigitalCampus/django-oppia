@@ -1,5 +1,5 @@
-{% extends "base.html" %} 
-{% load i18n %} 
+{% extends "base.html" %}
+{% load i18n %}
 {% load display_functions %}
 {% load static %}
 
@@ -133,7 +133,7 @@
 	        new google.visualization
                     .AreaChart(document.getElementById('course_activity_cumulative_chart_div'))
 	                .draw(dsets['activity_aggr'], getDefaultAreaChartConfig('{% trans 'Course Activity (cumulative)' %}'));
-	        
+	
 	        var data8 = new google.visualization.DataTable();
 			data8.addColumn('string', "{% trans 'Course' %}");
 			data8.addColumn('number', "{% trans 'Total' %}");

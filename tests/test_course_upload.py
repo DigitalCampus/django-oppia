@@ -10,17 +10,17 @@ from tests.utils import *
 from tests.user_logins import *
 
 class CourseUploadTest(TestCase):
-    fixtures = ['tests/test_user.json', 
-                'tests/test_oppia.json', 
-                'tests/test_quiz.json', 
+    fixtures = ['tests/test_user.json',
+                'tests/test_oppia.json',
+                'tests/test_quiz.json',
                 'tests/test_permissions.json']
-    
-    course_file_path = './oppia/fixtures/reference_files/anc_test_course.zip' 
+
+    course_file_path = './oppia/fixtures/reference_files/anc_test_course.zip'
     media_file_path = './oppia/fixtures/reference_files/sample_video.m4v'
-    
+
     def setUp(self):
         super(CourseUploadTest, self).setUp()
-    
+
     def test_upload_template(self):
 
         with open(self.course_file_path,'rb') as course_file:

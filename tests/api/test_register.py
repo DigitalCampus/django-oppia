@@ -204,7 +204,7 @@ class RegisterResourceTest(ResourceTestCaseMixin, TestCase):
         resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpBadRequest(resp)
         self.assertValidJSON(resp.content)
-        
+
     def test_self_registration_disabled_cant_view(self):
         # turn off self registration
         SettingProperties.set_int(constants.OPPIA_ALLOW_SELF_REGISTRATION,0)
@@ -219,7 +219,7 @@ class RegisterResourceTest(ResourceTestCaseMixin, TestCase):
         response = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpBadRequest(response)
         self.assertValidJSON(response.content)
-        
+
         # turn back on
         SettingProperties.set_int(constants.OPPIA_ALLOW_SELF_REGISTRATION,1)
-        
+

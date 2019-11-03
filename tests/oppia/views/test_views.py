@@ -29,7 +29,7 @@ class OppiaViewsTest(TestCase):
         response = self.client.get(reverse('oppia_about'))
         self.assertTemplateUsed(response, 'oppia/about.html')
         self.assertEqual(response.status_code, 200)
-    
+
     def test_server(self):
         response = self.client.get(reverse('oppia_server'))
         self.assertTemplateUsed(response, 'oppia/server.html')
@@ -41,8 +41,8 @@ class OppiaViewsTest(TestCase):
         self.assertIsNotNone(response.json()['max_upload'])
          # check it can load as json object
         self.assertEqual(response.status_code, 200)
-    
-    # TODO :   
+
+    # TODO :
     # course_download_view
     # tag_courses_view
     # add_course_tags
@@ -56,9 +56,9 @@ class OppiaViewsTest(TestCase):
     # course_feedback
     # course_feedback_responses
     # app_launch_activity_redirect_view
-    
-    
-    
-    
+
+
+
+
     # TODO test login redirected correctly for all pages
     # except those with login exempt

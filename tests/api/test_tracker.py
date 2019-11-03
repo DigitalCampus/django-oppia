@@ -9,7 +9,7 @@ from tests.utils import get_api_key, get_api_url
 
 
 class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
-    fixtures = ['tests/test_user.json', 
+    fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json']
 
     def setUp(self):
@@ -169,7 +169,7 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         response_data = self.deserialize(resp)
         self.assertTrue('points' in response_data)
         self.assertTrue('badges' in response_data)
-        
+
     def test_patch_unique_uuid(self):
         activity1 = {
             'digest': '18ec12e5653a40431f453cce35811fa4',  # page

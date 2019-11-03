@@ -235,9 +235,9 @@ def upload_step1(request):
         if form.is_valid():  # All validation rules pass
             extract_path = os.path.join(settings.COURSE_UPLOAD_DIR, 'temp', str(request.user.id))
             course, resp = handle_uploaded_file(request.FILES['course_file'], extract_path, request, request.user)
-            CoursePublishingLog(course=course, 
-                                user=request.user, 
-                                action="file_uploaded", 
+            CoursePublishingLog(course=course,
+                                user=request.user,
+                                action="file_uploaded",
                                 data=request.FILES['course_file'].name).save()
             if course:
                 return HttpResponseRedirect(reverse('oppia_upload2', args=[course.id]))  # Redirect after POST
@@ -265,10 +265,10 @@ def upload_step2(request, course_id, editing=False):
             #add the tags
             add_course_tags(form, course, request.user)
             redirect = 'oppia_course' if editing else 'oppia_upload_success'
-            CoursePublishingLog(course=course, 
-                                new_version=course.version, 
-                                user=request.user, 
-                                action="upload_course_published", 
+            CoursePublishingLog(course=course,
+                                new_version=course.version,
+                                user=request.user,
+                                action="upload_course_published",
                                 data=_(u'Course published via file upload')).save()
             return HttpResponseRedirect(reverse(redirect))  # Redirect after POST
     else:
@@ -304,8 +304,8 @@ def add_course_tags(form, course, user):
                 ct.course = course
                 ct.tag = tag
                 ct.save()
-    
-    
+
+
 def generate_graph_data(dates_types_stats, is_monthly=False):
     dates = []
 
@@ -620,7 +620,7 @@ def cohort_leaderboard_view(request, cohort_id):
         leaderboard = paginator.page(page)
     except (EmptyPage, InvalidPage):
         leaderboard = paginator.page(paginator.num_pages)
-    
+
     return render(request, 'cohort/leaderboard.html',
                               {'cohort': cohort,
                                'page': leaderboard, })

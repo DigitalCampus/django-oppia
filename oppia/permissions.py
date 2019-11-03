@@ -66,10 +66,11 @@ def get_user(request, view_user_id):
     else:
         try:
             view_user = User.objects.get(pk=view_user_id)
-            courses = Course.objects.filter(coursecohort__cohort__participant__user=view_user,
-                                        coursecohort__cohort__participant__role=Participant.STUDENT) \
-                                .filter(coursecohort__cohort__participant__user=request.user,
-                                        coursecohort__cohort__participant__role=Participant.TEACHER).count()
+            courses = Course.objects.filter(
+                coursecohort__cohort__participant__user=view_user,
+                coursecohort__cohort__participant__role=Participant.STUDENT) \
+                .filter(coursecohort__cohort__participant__user=request.user,
+                        coursecohort__cohort__participant__role=Participant.TEACHER).count()
             if courses > 0:
                 return view_user, None
             else:
@@ -84,13 +85,13 @@ def get_user_courses(request, view_user):
         # get all courses user has taken part in
         # plus all those they are students on
         cohort_courses = Course.objects.filter(coursecohort__cohort__participant__user=view_user,
-                                        coursecohort__cohort__participant__role=Participant.STUDENT).distinct().order_by('title')
+                                               coursecohort__cohort__participant__role=Participant.STUDENT).distinct().order_by('title')
         other_courses = Course.objects.filter(tracker__user=view_user).exclude(pk__in=cohort_courses.values_list('id', flat=True)).distinct().order_by('title')
     else:
         cohort_courses = Course.objects.filter(coursecohort__cohort__participant__user=view_user,
-                                        coursecohort__cohort__participant__role=Participant.STUDENT) \
-                                .filter(coursecohort__cohort__participant__user=request.user,
-                                        coursecohort__cohort__participant__role=Participant.TEACHER).distinct().order_by('title')
+                                               coursecohort__cohort__participant__role=Participant.STUDENT) \
+            .filter(coursecohort__cohort__participant__user=request.user,
+                    coursecohort__cohort__participant__role=Participant.TEACHER).distinct().order_by('title')
         other_courses = Course.objects.none()
 
     all_courses = list(chain(cohort_courses, other_courses))
@@ -134,7 +135,7 @@ def can_view_cohort(request, cohort_id):
         if request.user.is_staff:
             return cohort, None
         return Cohort.objects.get(pk=cohort_id, participant__user=request.user, participant__role=Participant.TEACHER), None
-    except:
+    except Cohort.DoesNotExist:
         raise exceptions.PermissionDenied
     raise exceptions.PermissionDenied
 

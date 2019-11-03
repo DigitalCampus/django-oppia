@@ -34,10 +34,10 @@ class UploadedMedia(models.Model):
 
     def __unicode__(self):
         return self.file.name
-    
+
     def __str__(self):
         return self.file.name
-    
+
     def get_embed_code(self, uri):
         try:
             return EMBED_TEMPLATE % (os.path.basename(self.file.name), uri, self.md5, self.file.size, self.length)
@@ -73,7 +73,7 @@ def uploaded_media_delete_file(sender, instance, **kwargs):
 def image_file_name(instance, filename):
     return os.path.join('uploaded/images', filename[0:2], filename[2:4], filename)
 
-       
+
 class UploadedMediaImage(models.Model):
 
     create_user = models.ForeignKey(User, related_name='media_image_create_user', null=True, on_delete=models.SET_NULL)

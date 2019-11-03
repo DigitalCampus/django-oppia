@@ -1,5 +1,5 @@
-{% extends "base.html" %} 
-{% load i18n %} 
+{% extends "base.html" %}
+{% load i18n %}
 {% load display_functions %}
 {% load settings_value %}
 {% load crispy_forms_tags %}
@@ -37,7 +37,7 @@
     {% static "oppia/images/dc-logo-150x150.png" as oppia_logo %}
 
 	{% settings_value 'OPPIA_ANDROID_PACKAGEID' as package_id %}
-	{% blocktrans %} 
+	{% blocktrans %}
 	<div style="text-align:center; margin-top:20px;">
 		<img src="{{ oppia_logo }}" alt="OppiaMobile logo"/>
 	</div>
@@ -49,6 +49,6 @@
 	</div>
 	{% endblocktrans %}
 
-{% endif %} 
+{% endif %}
 
 {% endblock %}

@@ -48,9 +48,9 @@ class UploadMediaForm(forms.Form):
 
         '''
         check this file hasn't already been uploaded
-        the media_file might either by a TemporaryUploadedFile or an InMemoryUploadedFile - so need to handle generation of the md5 differently in each case         
+        the media_file might either by a TemporaryUploadedFile or an InMemoryUploadedFile - so need to handle generation of the md5 differently in each case
         '''
-        
+
         if isinstance(media_file, TemporaryUploadedFile):
             md5 = hashlib.md5(open(media_file.temporary_file_path(), 'rb').read()).hexdigest()
         elif isinstance(media_file, InMemoryUploadedFile) or isinstance(media_file, SimpleUploadedFile):

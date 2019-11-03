@@ -157,7 +157,7 @@ LOGIN_EXEMPT_URLS = (
 COURSE_UPLOAD_DIR = os.path.join(ROOT_DIR, 'upload')
 
 OPPIA_METADATA = {
-    'NETWORK': True,  
+    'NETWORK': True,
     'DEVICE_ID': True,
     'SIM_SERIAL': True,
     'WIFI_ON': True,

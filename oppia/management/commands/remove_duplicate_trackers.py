@@ -35,7 +35,7 @@ class Command(BaseCommand):
             exclude = Tracker.objects.filter(uuid=tracker['uuid']).aggregate(min_id=Min('id'))
             deleted = Tracker.objects.filter(uuid=tracker['uuid']).exclude(id=exclude['min_id']).delete()
             print(_(u"%d duplicate tracker(s) removed for UUID %s based on min id" % (deleted[0], tracker['uuid'])))
-            
+
         """
         Remember to run summary cron from start
         """

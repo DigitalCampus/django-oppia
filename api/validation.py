@@ -17,5 +17,5 @@ class TrackerValidation(Validation):
             Media.objects.get(digest=bundle.obj.digest)
         except Media.DoesNotExist:
             pass
-        
+
         return errors

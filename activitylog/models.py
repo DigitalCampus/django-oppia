@@ -27,7 +27,7 @@ class UploadedActivityLog(models.Model):
 
     def __str__(self):
         return self.file.name
-    
+
 @receiver(post_delete, sender=UploadedActivityLog)
 def activity_log_delete_file(sender, instance, **kwargs):
     file_to_delete = instance.file.path

@@ -41,7 +41,7 @@ def media_embed_helper(request):
 
             download_error, processed_media = process_media_file(
                 media_guid, media_url, media_local_file, download_error, processed_media)
-            
+
             # try to delete the temp media file
             try:
                 os.remove(media_local_file)
@@ -57,7 +57,7 @@ def media_embed_helper(request):
 
 
 def process_media_file(media_guid, media_url, media_local_file, download_error, processed_media):
-    
+
     if download_error is None and can_execute(settings.SCREENSHOT_GENERATOR_PROGRAM) and can_execute(settings.MEDIA_PROCESSOR_PROGRAM):
 
         # get the basic meta info
@@ -87,7 +87,7 @@ def process_media_file(media_guid, media_url, media_local_file, download_error, 
             processed_media['error'] = download_error.strerror
         else:
             processed_media['error'] = _("ffmpeg_missing")
-    
+
     return download_error, processed_media
 
 
@@ -102,16 +102,16 @@ def check_media_link(media_url, media_local_file, download_error, processed_medi
 
 
 def get_length(filename):
-    result = subprocess.Popen([settings.MEDIA_PROCESSOR_PROGRAM, 
-                               filename, 
-                               '-print_format', 
-                               'json', 
-                               '-show_streams', 
-                               '-loglevel', 
+    result = subprocess.Popen([settings.MEDIA_PROCESSOR_PROGRAM,
+                               filename,
+                               '-print_format',
+                               'json',
+                               '-show_streams',
+                               '-loglevel',
                                'quiet'],
-                               stdout = subprocess.PIPE, 
+                               stdout = subprocess.PIPE,
                                stderr = subprocess.STDOUT)
-                
+
     duration = float(json.loads(result.stdout.read())['streams'][0]['duration'])
     if duration != 0:
         return True, duration

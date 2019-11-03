@@ -29,7 +29,7 @@ class Question(models.Model):
 
     def __str__(self):
         return self.title
-    
+
     def get_maxscore(self):
         props = QuestionProps.objects.get(question=self, name='maxscore')
         return float(props.value)
@@ -46,6 +46,6 @@ class QuestionProps(models.Model):
 
     def __unicode__(self):
         return self.name
-    
+
     def __str__(self):
         return self.name

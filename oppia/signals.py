@@ -22,7 +22,7 @@ def apply_points(user):
         return False
     return True
 
-        
+
 def signup_callback(sender, **kwargs):
 
     user = kwargs.get('instance')
@@ -54,7 +54,7 @@ def quizattempt_callback(sender, **kwargs):
     # find out is user is part of the cohort for this course
     if course is not None and course.user == quiz_attempt.user and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
         return
-     
+
     if quiz_attempt.is_first_attempt():
         # If it's the first time they've attempted this quiz award points
         p = Points()
@@ -155,6 +155,7 @@ def tracker_callback(sender, **kwargs):
 
     return
 
+
 def badgeaward_callback(sender, **kwargs):
     award = kwargs.get('instance')
     if not apply_points(award.user):
@@ -167,6 +168,7 @@ def badgeaward_callback(sender, **kwargs):
     p.user = award.user
     p.save()
     return
+
 
 models.signals.post_save.connect(tracker_callback, sender=Tracker)
 models.signals.post_save.connect(signup_callback, sender=User)

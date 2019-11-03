@@ -1,7 +1,7 @@
 '''
  Checks the media download urls to ensure they are valid links
- 
- For full instructions, see the documentation at 
+
+ For full instructions, see the documentation at
  https://oppiamobile.readthedocs.org/en/latest/
 '''
 

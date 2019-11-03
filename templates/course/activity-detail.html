@@ -50,7 +50,7 @@
 	{% include "includes/messages.html" %}	
 
 	</div>
-    
+
     <div class="table-responsive">
          <table class="table">
              <caption class="d-none">{% trans 'Trackers' %}</caption>
@@ -70,7 +70,7 @@
 			<td>{{ t.tracker_date|date:"d M Y H:i" }}</td>
 			<td>{% if OPPIA_SHOW_GRAVATARS %}
        				{{ t.user|gravatar:24 }}
-       			{% endif %} 
+       			{% endif %}
        			{% if request.user.is_staff %}
 					<a href="{% url 'profile_user_activity' t.user.id %}">{{ t.user.first_name }} {{ t.user.last_name }}</a>
 				{% else %}
@@ -81,7 +81,7 @@
 					{{ t.get_media_title }}
 				{% else %}
 					{% if t.activity_title %}
-						{{ t.activity_title|title_lang:LANGUAGE_CODE }} 
+						{{ t.activity_title|title_lang:LANGUAGE_CODE }}
 					{% endif %}
 					{% if t.section_title %}
 						({{ t.section_title|title_lang:LANGUAGE_CODE }})
@@ -115,7 +115,7 @@
 	{% endfor %}
 			</tbody>
  		</table>
-	</div> 
+	</div>
 	{% include "common/pagination.html" %}
 	
 	{% include "oppia/includes/tracker_export.html" %}

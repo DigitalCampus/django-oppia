@@ -46,8 +46,8 @@ class QuizJSONSerializer(Serializer):
                 # ignore this since the title doesn't supply lang info, so just continue as plain string
                 pass
 
-    
-            
+
+
             if 'props' in question['question']:
                 question['question']['p'] = {}
                 for p in question['question']['props']:

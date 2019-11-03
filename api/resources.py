@@ -279,7 +279,7 @@ class ResetPasswordResource(ModelResource):
                 subject="Password reset",
                 fail_silently=False,
                 recipients=[user.email],
-                new_password = newpass, 
+                new_password = newpass,
                 site = prefix + bundle.request.META['SERVER_NAME']
                 )
 

@@ -77,7 +77,7 @@ def summary_get_registrations(start_date):
                         annotate(count=Count('id')).order_by('year', 'month')
 
     previous_user_registrations = User.objects.filter(date_joined__lt=start_date).count()
-    
+
     return user_registrations, previous_user_registrations
 
 def summary_get_countries(start_date):
@@ -98,7 +98,7 @@ def summary_get_countries(start_date):
     if i > 20:
         hits_percent = float(other_country_activity * 100.0 / total_hits['total_hits'])
         country_activity.append({'country_code': None, 'country_name': _('Other'), 'hits_percent': hits_percent})
-        
+
     return total_countries, country_activity
 
 def summary_get_languages(start_date):
@@ -118,7 +118,7 @@ def summary_get_languages(start_date):
     if i > 10:
         hits_percent = float(other_languages * 100.0 / total_hits['total_hits'])
         languages.append({'lang': _('Other'), 'hits_percent': hits_percent})
-        
+
     return languages
 
 def summary_get_downloads(start_date):
@@ -130,7 +130,7 @@ def summary_get_downloads(start_date):
     previous_course_downloads = CourseDailyStats.objects.filter(day__lt=start_date, type='download').aggregate(total=Sum('total')).get('total', 0)
     if previous_course_downloads is None:
         previous_course_downloads = 0
-        
+
     return course_downloads, previous_course_downloads
 
 def summary_get_course_activity(start_date):
@@ -145,7 +145,7 @@ def summary_get_course_activity(start_date):
         previous_course_activity = 0
 
     last_month = timezone.now() - datetime.timedelta(days=131)
-    
+
     hit_by_course = CourseDailyStats.objects \
                         .filter(day__gte=last_month, course__isnull=False).values('course_id') \
                         .annotate(total_hits=Sum('total')).order_by('-total_hits')
@@ -165,7 +165,7 @@ def summary_get_course_activity(start_date):
     if i > 10:
         hits_percent = float(other_course_activity * 100.0 / total_hits)
         hot_courses.append({'course': _('Other'), 'hits_percent': hits_percent})
-        
+
     return course_activity, previous_course_activity, hot_courses
 
 def summary_get_searches(start_date):
@@ -178,6 +178,6 @@ def summary_get_searches(start_date):
     previous_searches = CourseDailyStats.objects.filter(day__lt=start_date, type='search').aggregate(total=Sum('total')).get('total', 0)
     if previous_searches is None:
         previous_searches = 0
-        
+
     return searches, previous_searches
 

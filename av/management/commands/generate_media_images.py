@@ -38,16 +38,16 @@ class Command(BaseCommand):
             self.stdout.write("  > Generating miniatures... \r", )
             image_generator_command = ("%s %s" % (settings.SCREENSHOT_GENERATOR_PROGRAM, settings.SCREENSHOT_GENERATOR_PROGRAM_PARAMS)) % (m.file.path, content.SCREENSHOT_IMAGE_WIDTH, content.SCREENSHOT_IMAGE_HEIGHT, cache_dir)
             ffmpeg = subprocess.Popen(image_generator_command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True)
-            
+
             self.process_ffmpeg_output(ffmpeg)
-            
+
             self.stdout.write("  > Generating miniatures... 100% \r\n", )
 
             # Now get the images generated and add to the db
             self.add_images_to_db(cache_dir,m)
 
         self.stdout.write("\n  > Process completed.")
-        
+
     def add_images_to_db(self, cache_dir, media):
         image_file_list = os.listdir(cache_dir)
         for filename in image_file_list:
@@ -58,7 +58,7 @@ class Command(BaseCommand):
                 data = f.read()
             media_image.image.save(filename, ContentFile(data))
             media_image.save()
-            
+
     def process_ffmpeg_output(self, ffmpeg):
         current_frame = 0
         for line in iter(ffmpeg.stdout.readline, ''):

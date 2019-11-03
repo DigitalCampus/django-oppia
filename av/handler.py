@@ -25,7 +25,7 @@ def upload(request, user):
         file.close()
         uploaded_media.md5 = md5
         uploaded_media.save()
-    
+
         try:
             media_full_path = os.path.join(settings.MEDIA_ROOT, uploaded_media.file.name)
             media_length = get_length(media_full_path)
@@ -48,7 +48,7 @@ def upload(request, user):
                 errors.append(e)
         return {'result': UploadedMedia.UPLOAD_STATUS_FAILURE, 'form': form, 'errors': errors}
 
-    
+
 def get_length(filepath):
     result = subprocess.Popen([settings.MEDIA_PROCESSOR_PROGRAM, filepath], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, encoding='utf8')
     duration_list = [x for x in result.stdout.readlines() if "Duration" in x]

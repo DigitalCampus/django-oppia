@@ -35,7 +35,7 @@ class Command(BaseCommand):
             exclude = QuizAttempt.objects.filter(instance_id=quiz_attempt['instance_id']).aggregate(max_id=Max('id'))
             deleted = QuizAttempt.objects.filter(instance_id=quiz_attempt['instance_id']).exclude(id=exclude['max_id']).delete()
             self.stdout.write(_(u"%d duplicate quiz attempt(s) removed for instance_id %s based on max id" % (deleted[0], quiz_attempt['instance_id'])))
-            
+
         """
         Remember to run summary cron from start
         """

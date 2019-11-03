@@ -12,14 +12,17 @@ from django.utils.translation import ugettext_lazy as _
 
 class UploadActivityLogForm(forms.Form):
     activity_log_file = forms.FileField(
-                help_text=_(u'File types accepted: %s' % ', '.join(settings.OPPIA_UPLOAD_TRACKER_FILE_TYPES)),
+                help_text=_(u'File types accepted: %s' % ', '
+                            .join(settings.OPPIA_UPLOAD_TRACKER_FILE_TYPES)),
                 required=True,
                 label=_(u'Activity Log'),
-                error_messages={'required': _(u'Please select an activity log file to upload')},
+                error_messages={'required':
+                                _(u'Please select an activity log file to \
+                                    upload')},
                 )
 
     def __init__(self, *args, **kwargs):
-        super(UploadActivityLogForm, self).__init__( * args, ** kwargs)
+        super(UploadActivityLogForm, self).__init__(* args, ** kwargs)
         self.helper = FormHelper()
         self.helper.form_action = reverse('oppia_activitylog_upload')
         self.helper.form_class = 'form-horizontal'
@@ -37,5 +40,8 @@ class UploadActivityLogForm(forms.Form):
         cleaned_data = super(UploadActivityLogForm, self).clean()
         activity_log_file = cleaned_data.get("activity_log_file")
 
-        if activity_log_file is not None and activity_log_file.content_type not in settings.OPPIA_UPLOAD_TRACKER_FILE_TYPES:
-            raise forms.ValidationError(_(u"You may only upload an activity log file which is one of the following types: %s" % ', '.join(settings.OPPIA_UPLOAD_TRACKER_FILE_TYPES)))
+        if activity_log_file is not None \
+                and activity_log_file.content_type \
+                not in settings.OPPIA_UPLOAD_TRACKER_FILE_TYPES:
+            raise forms.ValidationError(
+                _(u"You may only upload an activity log file which is one of the following types: %s" % ', '.join(settings.OPPIA_UPLOAD_TRACKER_FILE_TYPES)))

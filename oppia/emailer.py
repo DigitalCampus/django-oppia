@@ -3,6 +3,7 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 
+
 def send_oppia_email(
         from_email=settings.SERVER_EMAIL,
         template_html=None,
@@ -38,4 +39,3 @@ def send_oppia_email(
         fail_silently=fail_silently,
         html_message=html_content,
     )
-    
