@@ -35,7 +35,7 @@ class Command(BaseCommand):
         # update any existing points
         for c in carto_db_data['rows']:
             location = UserLocationVisualization.objects.filter(lat=c['lat'], lng=c['lng']).aggregate(total=Sum('hits'))
-            if location['total'] != None and c['total_hits'] != location['total']:
+            if location['total'] is not None and c['total_hits'] != location['total']:
                 self.stdout.write("found - will update")
                 cartodb_id = c['cartodb_id']
                 sql = "UPDATE %s SET total_hits=%d WHERE cartodb_id=%d AND source_site='%s'" % (CARTODB_TABLE, location['total'], cartodb_id, source_site)

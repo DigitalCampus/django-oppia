@@ -56,7 +56,7 @@ class GamificationXMLWriter:
         return new_version_id
 
     def get_or_create_gamication_node(self, parent):
-        if parent == None:
+        if parent is None:
             return None
 
         node = self.find_child_node_by_name(parent, GAMIFICATION_NODE)
