@@ -518,7 +518,8 @@ def clean_old_course(req, user, oldsections, old_course_filename, course):
 
     if old_course_filename is not None and old_course_filename != course.filename:
         try:
-            os.remove( os.path.join(settings.COURSE_UPLOAD_DIR, old_course_filename) )
+            os.remove(os.path.join(settings.COURSE_UPLOAD_DIR, 
+                                   old_course_filename))
         except OSError:
             pass
 
@@ -533,7 +534,7 @@ def create_quiz_props(quiz, quiz_obj):
             ).save()
 
 
-def create_quiz_questions(user, quiz, quiz_obj ):
+def create_quiz_questions(user, quiz, quiz_obj):
     for q in quiz_obj['questions']:
 
         question = Question(owner=user,

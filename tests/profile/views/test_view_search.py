@@ -25,12 +25,17 @@ class UserSearchActivityViewTest(TestCase):
         disallowed_users = [TEACHER_USER, NORMAL_USER]
 
         for allowed_user in allowed_users:
-            self.client.login(username=allowed_user['user'], password=allowed_user['password'])
+            self.client.login(username=allowed_user['user'], 
+                              password=allowed_user['password'])
             response = self.client.get(self.url)
-            self.assertTemplateUsed(response, self.template )
+            self.assertTemplateUsed(response, self.template)
             self.assertEqual(response.status_code, 200)
 
         for disallowed_user in disallowed_users:
-            self.client.login(username=disallowed_user['user'], password=disallowed_user['password'])
+            self.client.login(username=disallowed_user['user'], 
+                              password=disallowed_user['password'])
             response = self.client.get(self.url)
-            self.assertRedirects(response, '/admin/login/?next=' + self.url, 302, 200)
+            self.assertRedirects(response,
+                                 '/admin/login/?next=' + self.url,
+                                 302,
+                                 200)

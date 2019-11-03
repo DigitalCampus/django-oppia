@@ -26,16 +26,22 @@ class UploadActivityLogTest(TestCase):
 
     def test_no_file(self):
         # no file
-        self.client.login(username=ADMIN_USER['user'], password=ADMIN_USER['password'])
+        self.client.login(username=ADMIN_USER['user'],
+                          password=ADMIN_USER['password'])
         response = self.client.post(self.url, {})
         self.assertEqual(response.status_code, 200)
-        self.assertFormError(response, 'form', 'activity_log_file', 'Please select an activity log file to upload')
+        self.assertFormError(response,
+                             'form',
+                             'activity_log_file',
+                             'Please select an activity log file to upload')
 
     def test_wrong_format_file(self):
-        self.client.login(username=ADMIN_USER['user'], password=ADMIN_USER['password'])
+        self.client.login(username=ADMIN_USER['user'],
+                          password=ADMIN_USER['password'])
         # Commented out until we can figure out the problem with testserver making http requests
         with open(self.wrong_activity_file, 'rb') as activity_log_file:
-            response = self.client.post(self.url, { 'activity_log_file': activity_log_file })
+            response = self.client.post(self.url,
+                                        {'activity_log_file': activity_log_file})
 
         messages = list(response.context['messages'])
         self.assertEqual(response.status_code, 200)
@@ -45,10 +51,12 @@ class UploadActivityLogTest(TestCase):
     def test_correct_file(self):
         tracker_count_start = Tracker.objects.all().count()
 
-        self.client.login(username=ADMIN_USER['user'], password=ADMIN_USER['password'])
+        self.client.login(username=ADMIN_USER['user'],
+                          password=ADMIN_USER['password'])
         # Commented out until we can figure out the problem with testserver making http requests
         with open(self.basic_activity_log, 'rb') as activity_log_file:
-            response = self.client.post(self.url, { 'activity_log_file': activity_log_file })
+            response = self.client.post(self.url,
+                                        {'activity_log_file': activity_log_file})
 
         # should be redirected to the update step 2 form
         self.assertRedirects(response,
@@ -63,10 +71,12 @@ class UploadActivityLogTest(TestCase):
         tracker_count_start = Tracker.objects.all().count()
         user_count_start = User.objects.all().count()
 
-        self.client.login(username=ADMIN_USER['user'], password=ADMIN_USER['password'])
+        self.client.login(username=ADMIN_USER['user'],
+                          password=ADMIN_USER['password'])
         # Commented out until we can figure out the problem with testserver making http requests
         with open(self.new_user_activity, 'rb') as activity_log_file:
-            response = self.client.post(self.url, { 'activity_log_file': activity_log_file })
+            response = self.client.post(self.url,
+                                        {'activity_log_file': activity_log_file})
 
         # should be redirected to the update step 2 form
         self.assertRedirects(response,

@@ -113,7 +113,7 @@ def home_view(request):
     return render(request, 'oppia/home.html',
                   {'form': form,
                    'activity_graph_data': activity,
-                   'leaderboard': leaderboard })
+                   'leaderboard': leaderboard})
 
 
 def teacher_home_view(request):

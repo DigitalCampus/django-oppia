@@ -29,25 +29,46 @@ class CoursePublishResourceTest(TestCase):
     def test_required_params(self):
         with open(self.course_file_path, 'rb') as course_file:
             # no username
-            response = self.client.post(self.url, { 'tags': 'demo', 'password': 'secret', 'is_draft': False, api.COURSE_FILE_FIELD: course_file })
+            response = self.client.post(self.url,
+                                        {'tags': 'demo',
+                                         'password': 'secret',
+                                         'is_draft': False,
+                                         api.COURSE_FILE_FIELD: course_file})
             self.assertEqual(response.status_code, 400)
 
             # no password
-            response = self.client.post(self.url, { 'username': 'demo', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: course_file })
+            response = self.client.post(self.url,
+                                        {'username': 'demo',
+                                         'tags': 'demo',
+                                         'is_draft': False,
+                                         api.COURSE_FILE_FIELD: course_file})
             self.assertEqual(response.status_code, 400)
 
             # no tags
-            response = self.client.post(self.url, { 'username': 'demo', 'password': 'secret', 'is_draft': False, api.COURSE_FILE_FIELD: course_file })
+            response = self.client.post(self.url,
+                                        {'username': 'demo',
+                                         'password': 'secret',
+                                         'is_draft': False,
+                                         api.COURSE_FILE_FIELD: course_file})
             self.assertEqual(response.status_code, 400)
 
             # no is_draft
-            response = self.client.post(self.url, { 'username': 'demo', 'password': 'secret', 'tags': 'demo', api.COURSE_FILE_FIELD: course_file})
+            response = self.client.post(self.url,
+                                        {'username': 'demo',
+                                         'password': 'secret',
+                                         'tags': 'demo',
+                                         api.COURSE_FILE_FIELD: course_file})
             self.assertEqual(response.status_code, 400)
 
     # test tags not empty
     def test_tags_not_empty(self):
         with open(self.course_file_path, 'rb') as course_file:
-            response = self.client.post(self.url, { 'username': 'admin', 'password': 'password', 'tags': '', 'is_draft': False, api.COURSE_FILE_FIELD: course_file })
+            response = self.client.post(self.url,
+                                        {'username': 'admin',
+                                         'password': 'password',
+                                         'tags': '',
+                                         'is_draft': False,
+                                         api.COURSE_FILE_FIELD: course_file})
             self.assertEqual(response.status_code, 400)
 
     # test is user has correct permissions or not to upload
@@ -56,7 +77,12 @@ class CoursePublishResourceTest(TestCase):
 
         with open(self.course_file_path, 'rb') as course_file:
             # admin can upload
-            response = self.client.post(self.url, { 'username': 'admin', 'password': 'password', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: course_file })
+            response = self.client.post(self.url,
+                                        {'username': 'admin',
+                                         'password': 'password',
+                                         'tags': 'demo',
+                                         'is_draft': False,
+                                         api.COURSE_FILE_FIELD: course_file})
             self.assertEqual(response.status_code, 201)
 
             # check record added to course publishing log
@@ -74,7 +100,12 @@ class CoursePublishResourceTest(TestCase):
 
         with open(self.course_file_path, 'rb') as course_file:
             # staff can upload
-            response = self.client.post(self.url, { 'username': 'staff', 'password': 'password', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: course_file })
+            response = self.client.post(self.url,
+                                        {'username': 'staff',
+                                         'password': 'password',
+                                         'tags': 'demo',
+                                         'is_draft': False,
+                                         api.COURSE_FILE_FIELD: course_file})
             self.assertEqual(response.status_code, 201)
 
             # check record added to course publishing log
@@ -92,7 +123,12 @@ class CoursePublishResourceTest(TestCase):
 
         with open(self.course_file_path, 'rb') as course_file:
             # teacher can upload
-            response = self.client.post(self.url, { 'username': 'teacher', 'password': 'password', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: course_file })
+            response = self.client.post(self.url,
+                                        {'username': 'teacher',
+                                         'password': 'password',
+                                         'tags': 'demo',
+                                         'is_draft': False,
+                                         api.COURSE_FILE_FIELD: course_file})
             self.assertEqual(response.status_code, 201)
 
             # check record added to course publishing log
@@ -105,7 +141,12 @@ class CoursePublishResourceTest(TestCase):
 
         with open(self.course_file_path, 'rb') as course_file:
             # normal user cannot upload
-            response = self.client.post(self.url, { 'username': 'demo', 'password': 'password', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: course_file })
+            response = self.client.post(self.url,
+                                        {'username': 'demo',
+                                         'password': 'password',
+                                         'tags': 'demo',
+                                         'is_draft': False,
+                                         api.COURSE_FILE_FIELD: course_file})
             self.assertEqual(response.status_code, 401)
 
             # check record added to course publishing log
@@ -116,7 +157,12 @@ class CoursePublishResourceTest(TestCase):
     def test_unauthorised_user(self):
         with open(self.course_file_path, 'rb') as course_file:
             # normal user cannot upload
-            response = self.client.post(self.url, { 'username': 'admin', 'password': 'wrong_password', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: course_file })
+            response = self.client.post(self.url,
+                                        {'username': 'admin',
+                                         'password': 'wrong_password',
+                                         'tags': 'demo',
+                                         'is_draft': False,
+                                         api.COURSE_FILE_FIELD: course_file})
             self.assertEqual(response.status_code, 401)
 
     # test file is correct format
@@ -126,7 +172,12 @@ class CoursePublishResourceTest(TestCase):
 
         with open(self.video_file_path, 'rb') as video_file:
             # send video file instead
-            response = self.client.post(self.url, { 'username': 'admin', 'password': 'password', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: video_file })
+            response = self.client.post(self.url,
+                                        {'username': 'admin',
+                                         'password': 'password',
+                                         'tags': 'demo',
+                                         'is_draft': False,
+                                         api.COURSE_FILE_FIELD: video_file})
             self.assertEqual(response.status_code, 400)
 
             # check record added to course publishing log
@@ -145,7 +196,12 @@ class CoursePublishResourceTest(TestCase):
 
         with open(self.course_file_path, 'rb') as course_file:
             # teacher attempts to update
-            response = self.client.post(self.url, { 'username': 'teacher', 'password': 'password', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: course_file })
+            response = self.client.post(self.url,
+                                        {'username': 'teacher',
+                                         'password': 'password',
+                                         'tags': 'demo',
+                                         'is_draft': False,
+                                         api.COURSE_FILE_FIELD: course_file})
             self.assertEqual(response.status_code, 401)
 
             # check record added to course publishing log
@@ -162,7 +218,12 @@ class CoursePublishResourceTest(TestCase):
         old_no_cpls = CoursePublishingLog.objects.filter(action='over_max_upload').count()
 
         with open(self.course_file_path, 'rb') as course_file:
-            response = self.client.post(self.url, { 'username': 'admin', 'password': 'password', 'tags': 'demo', 'is_draft': False, api.COURSE_FILE_FIELD: course_file })
+            response = self.client.post(self.url,
+                                        {'username': 'admin',
+                                         'password': 'password',
+                                         'tags': 'demo',
+                                         'is_draft': False,
+                                         api.COURSE_FILE_FIELD: course_file})
             self.assertEqual(response.status_code, 400)
 
             # check record added to course publishing log

@@ -31,7 +31,7 @@ class MediaUploadResourceTest(TestCase):
         media_file = SimpleUploadedFile(media_file_content.name, media_file_content.read(), content_type="video/m4v")
 
         self.client.login(username=ADMIN_USER['user'], password=ADMIN_USER['password'])
-        response = self.client.post(reverse('oppia_av_upload'), {'media_file': media_file })
+        response = self.client.post(reverse('oppia_av_upload'), {'media_file': media_file})
         self.assertRedirects(response, reverse('oppia_av_upload_success', args=[1]), 302, 200)
 
         media_file_content.close()

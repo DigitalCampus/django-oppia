@@ -155,7 +155,7 @@ def get_messages_array(request):
     for msg in msgs:
         if 'error' in msg.tags:
             valid = False
-            errors.append({'tags': msg.tags, 'message': str(msg) })
+            errors.append({'tags': msg.tags, 'message': str(msg)})
         else:
             response.append({'tags': msg.tags, 'message': msg.message})
 

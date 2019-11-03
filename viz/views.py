@@ -60,7 +60,7 @@ def summary_view(request):
                    'previous_course_activity': previous_course_activity,
                    'hot_courses': hot_courses,
                    'searches': searches,
-                   'previous_searches': previous_searches })
+                   'previous_searches': previous_searches})
 
 
 def map_view(request):

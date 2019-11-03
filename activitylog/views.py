@@ -81,7 +81,7 @@ def process_uploaded_file(request, json_data):
                 if (created):
                     messages.warning(request, _(
                         u"Generated new ApiKey for %(username)s : %(apikey)s" % {
-                            'username': username, 'apikey': user_api_key.key }), 'danger')
+                            'username': username, 'apikey': user_api_key.key}), 'danger')
 
                 if 'trackers' in user:
                     process_uploaded_trackers(request, user['trackers'], req_user, user_api_key)
