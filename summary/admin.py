@@ -49,6 +49,7 @@ class UserPointsAdmin(admin.ModelAdmin):
 
     update_summary.short_description = "Update summary"
 
+
 admin.site.register(UserCourseSummary, UserCourseSummaryAdmin)
 admin.site.register(CourseDailyStats, CourseDailyStatsAdmin)
 admin.site.register(UserPointsSummary, UserPointsAdmin)

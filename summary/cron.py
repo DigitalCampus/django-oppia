@@ -34,7 +34,7 @@ def update_summaries(last_tracker_pk=0, last_points_pk=0):
     except Points.DoesNotExist:
         newest_points_pk = last_points_pk
 
-    print ('Last tracker processed: %d\nNewest tracker: %d\n' % (last_tracker_pk, newest_tracker_pk))
+    print('Last tracker processed: %d\nNewest tracker: %d\n' % (last_tracker_pk, newest_tracker_pk))
     if last_tracker_pk >= newest_tracker_pk:
         print('No new trackers to process. Aborting cron...')
         SettingProperties.delete_key('oppia_summary_cron_lock')
@@ -140,6 +140,7 @@ def run():
 
     elapsed_time = time.time() - start
     print('cron completed, took %.2f seconds' % elapsed_time)
+
 
 if __name__ == "__main__":
     import django

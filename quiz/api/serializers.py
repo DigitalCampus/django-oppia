@@ -69,7 +69,6 @@ class QuizJSONSerializer(Serializer):
                 except:
                     qmaxscore = qmaxscore
 
-           # for response in question['response']:
             for r in question['question']['responses']:
                 del r['question']
                 del r['resource_uri']

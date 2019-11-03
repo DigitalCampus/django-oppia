@@ -298,7 +298,7 @@ class TrackerValidation(Validation):
         if bundle.data and 'type' in bundle.data and bundle.data['type'] == 'search':
             # if the tracker is a search, we check that the needed values are present
             json_data = json.loads(bundle.data['data'])
-            if not 'query' in json_data or not 'results_count' in json_data:
+            if 'query' not in json_data or 'results_count' not in json_data:
                 errors['search'] = 'You must include the search term and the results count'
 
         # check this tracker hasn't already been submitted (based on the UUID)

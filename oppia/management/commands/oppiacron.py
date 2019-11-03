@@ -58,4 +58,4 @@ class Command(BaseCommand):
         call_command('generate_media_images')
 
         SettingProperties.set_string('oppia_cron_last_run', timezone.now())
-        SettingProperties.delete_key('oppia_cron_lock') 
+        SettingProperties.delete_key('oppia_cron_lock')

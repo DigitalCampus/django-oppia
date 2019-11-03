@@ -40,7 +40,7 @@ class OppiaViewsTest(TestCase):
         self.assertIsNotNone(response.json()['name'])
         self.assertIsNotNone(response.json()['admin_email'])
         self.assertIsNotNone(response.json()['max_upload'])
-         # check it can load as json object
+        # check it can load as json object
         self.assertEqual(response.status_code, 200)
 
     # TODO :

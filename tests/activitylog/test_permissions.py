@@ -40,7 +40,7 @@ class PermissionsViewTest(TestCase):
         self.assertRedirects(res, login_url)
         return res
 
-    #upload activity log file
+    # upload activity log file
     def test_anon_cantview_av_upload(self):
         self.assert_must_login('oppia_activitylog_upload')
 

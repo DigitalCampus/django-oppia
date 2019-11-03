@@ -394,7 +394,7 @@ def user_course_activity_view(request, user_id, course_id):
                 'latest_score': latest_score,
                 'avg_score': avg_score,
                 'passed': passed
-                 }
+                }
         quizzes.append(quiz)
 
     activities_completed = course.get_activities_completed(course, view_user)
@@ -565,7 +565,7 @@ def search_users(request):
         ordering = 'first_name'
 
     users = users.order_by(ordering)
-    paginator = Paginator(users, profile.SEARCH_USERS_RESULTS_PER_PAGE) # Show 25 per page
+    paginator = Paginator(users, profile.SEARCH_USERS_RESULTS_PER_PAGE)
 
     # Make sure page request is an int. If not, deliver first page.
     try:

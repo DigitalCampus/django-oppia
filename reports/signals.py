@@ -21,4 +21,5 @@ def dashboard_accessed_callback(sender, **kwargs):
 
     return
 
+
 dashboard_accessed.connect(dashboard_accessed_callback)

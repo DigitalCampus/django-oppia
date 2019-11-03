@@ -36,9 +36,9 @@ class MediaUploadResourceTest(TestCase):
                           password=ADMIN_USER['password'])
         response = self.client.post(reverse('oppia_av_upload'),
                                     {'media_file': media_file})
-        self.assertRedirects(response, reverse('oppia_av_upload_success',
-                                               args=[1]),
-                                               302,
-                                               200)
+        self.assertRedirects(response,
+                             reverse('oppia_av_upload_success', args=[1]),
+                             302,
+                             200)
 
         media_file_content.close()

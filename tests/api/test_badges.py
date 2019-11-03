@@ -20,7 +20,7 @@ class BadgesResourceTest(ResourceTestCaseMixin, TestCase):
         }
         self.url = get_api_url('badges')
 
-     # check post not allowed
+    # check post not allowed
     def test_post_invalid(self):
         self.assertHttpMethodNotAllowed(self.api_client.post(self.url, format='json', data={}))
 
