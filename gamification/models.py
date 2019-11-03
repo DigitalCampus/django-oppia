@@ -41,6 +41,7 @@ class DefaultGamificationEvent(models.Model):
     def __str__(self):
         return self.event
 
+
 class GamificationEvent(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_date = models.DateTimeField('date created', default=timezone.now)

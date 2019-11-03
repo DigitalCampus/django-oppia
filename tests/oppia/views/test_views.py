@@ -5,6 +5,7 @@ from django.test.client import Client
 
 from tests.utils import *
 
+
 class OppiaViewsTest(TestCase):
     def setUp(self):
         self.client = Client()

@@ -7,6 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 from oppia.models import Points
 from summary.models.user_course_summary import UserCourseSummary
 
+
 class UserPointsSummary(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     points = models.IntegerField(blank=False, null=False, default=0)

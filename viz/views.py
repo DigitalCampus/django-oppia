@@ -68,7 +68,6 @@ def map_view(request):
 
 
 # helper functions
-
 def summary_get_registrations(start_date):
     user_registrations = User.objects.filter(date_joined__gte=start_date). \
                         extra(select={'month': 'extract( month from date_joined )',
@@ -79,6 +78,7 @@ def summary_get_registrations(start_date):
     previous_user_registrations = User.objects.filter(date_joined__lt=start_date).count()
 
     return user_registrations, previous_user_registrations
+
 
 def summary_get_countries(start_date):
     hits_by_country = UserLocationVisualization.objects.all().values('country_code', 'country_name').annotate(country_total_hits=Sum('hits')).order_by('-country_total_hits')
@@ -101,6 +101,7 @@ def summary_get_countries(start_date):
 
     return total_countries, country_activity
 
+
 def summary_get_languages(start_date):
     hit_by_language = Tracker.objects.filter(user__is_staff=False).exclude(lang=None).values('lang').annotate(total_hits=Count('id')).order_by('-total_hits')
     total_hits = Tracker.objects.filter(user__is_staff=False).exclude(lang=None).aggregate(total_hits=Count('id'))
@@ -121,6 +122,7 @@ def summary_get_languages(start_date):
 
     return languages
 
+
 def summary_get_downloads(start_date):
     course_downloads = CourseDailyStats.objects.filter(day__gte=start_date, type='download') \
                         .extra({'month': 'month(day)', 'year': 'year(day)'}) \
@@ -132,6 +134,7 @@ def summary_get_downloads(start_date):
         previous_course_downloads = 0
 
     return course_downloads, previous_course_downloads
+
 
 def summary_get_course_activity(start_date):
     course_activity = CourseDailyStats.objects.filter(day__gte=start_date) \
@@ -169,6 +172,7 @@ def summary_get_course_activity(start_date):
         hot_courses.append({'course': _('Other'), 'hits_percent': hits_percent})
 
     return course_activity, previous_course_activity, hot_courses
+
 
 def summary_get_searches(start_date):
     searches = CourseDailyStats.objects.filter(day__gte=start_date, type='search') \

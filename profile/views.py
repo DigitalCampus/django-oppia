@@ -522,6 +522,7 @@ def get_query(query_string, search_fields):
 
     return query
 
+
 def get_filters_from_row(search_form):
     filters = {}
     for row in search_form.cleaned_data:
@@ -535,6 +536,7 @@ def get_filters_from_row(search_form):
             else:
                 filters[row] = search_form.cleaned_data[row]
     return filters
+
 
 @staff_member_required
 def search_users(request):
@@ -583,6 +585,7 @@ def search_users(request):
                    'page': users,
                    'page_ordering': ordering})
 
+
 @staff_member_required
 def export_users(request):
 
@@ -602,6 +605,7 @@ def export_users(request):
                   {'page': users,
                    'page_ordering': ordering,
                    'users_list_template': 'export'})
+
 
 @staff_member_required
 def list_users(request):
@@ -654,8 +658,8 @@ def delete_account_complete_view(request):
 
     return render(request, 'profile/delete_account_complete.html')
 
-# helper functions
 
+# helper functions
 def get_tracker_activities(start_date, end_date, user, course_ids=[], course=None):
     activity = []
     no_days = (end_date - start_date).days + 1

@@ -269,6 +269,7 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
                                             action="course_gamification_added",
                                             data=msg_text).save()
 
+
 def parse_baseline_activities(req, xml_doc, course, user, new_course, process_quizzes_locally):
     for meta in xml_doc.findall('meta')[:1]:
         activities = meta.findall("activity")
@@ -288,6 +289,7 @@ def parse_baseline_activities(req, xml_doc, course, user, new_course, process_qu
                                         new_course,
                                         process_quizzes_locally,
                                         is_baseline=True)
+
 
 def parse_and_save_activity(req, user, course, section, act, new_course, process_quiz_locally, is_baseline=False):
     """
@@ -390,6 +392,7 @@ def parse_and_save_activity(req, user, course, section, act, new_course, process
                                 user=user,
                                 action="activity_gamification_added",
                                 data=msg_text).save()
+
 
 def parse_and_save_quiz(req, user, activity, act_xml):
     """
@@ -519,8 +522,8 @@ def clean_old_course(req, user, oldsections, old_course_filename, course):
         except OSError:
             pass
 
-# helper functions
 
+# helper functions
 def create_quiz_props(quiz, quiz_obj):
     for prop in quiz_obj['props']:
         if prop is not 'id':

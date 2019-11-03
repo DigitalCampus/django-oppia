@@ -25,6 +25,7 @@ class Response(models.Model):
     def __str__(self):
         return self.title
 
+
 class ResponseProps(models.Model):
     response = models.ForeignKey(Response, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)

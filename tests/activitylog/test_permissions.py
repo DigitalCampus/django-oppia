@@ -2,6 +2,7 @@ from django.test import TestCase
 from tests.utils import *
 from tests.user_logins import *
 
+
 class PermissionsViewTest(TestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',

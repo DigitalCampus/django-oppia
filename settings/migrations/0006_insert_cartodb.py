@@ -17,6 +17,7 @@ def insert_cartodb(apps, schema_editor):
     if current is None:
         SettingProperties.set_string(constants.OPPIA_CARBODB_KEY, None)
 
+
 class Migration(migrations.Migration):
 
     dependencies = [

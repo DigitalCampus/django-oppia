@@ -304,6 +304,7 @@ class Activity(models.Model):
 
         return event_points
 
+
 class Media(models.Model):
     URL_MAX_LENGTH = 250
 

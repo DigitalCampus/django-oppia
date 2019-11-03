@@ -5,6 +5,7 @@ from crispy_forms.layout import Layout, Submit, Div, HTML, Field, Row, Column
 from django import forms
 from django.utils.translation import ugettext as _
 
+
 class UserSearchForm(forms.Form):
     username = forms.CharField(max_length=100, min_length=2, required=False)
     first_name = forms.CharField(max_length=100, min_length=2, required=False)

@@ -3,6 +3,7 @@ from django.test import TestCase
 from settings.models import SettingProperties
 from summary.cron import update_summaries
 
+
 class SummaryCronTest(TestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',

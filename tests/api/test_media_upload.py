@@ -1,11 +1,11 @@
 # tests/api/test_course_publish.py
+import api
 
 from django import forms
 from django.test import TestCase
 from django.test.client import Client
-
-import api
 from django.contrib.auth.models import User
+
 
 class MediaPublishResourceTest(TestCase):
     fixtures = ['tests/test_user.json',

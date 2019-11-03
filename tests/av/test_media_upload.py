@@ -12,6 +12,7 @@ from av.models import UploadedMedia
 
 from tests.user_logins import *
 
+
 class MediaUploadResourceTest(TestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',

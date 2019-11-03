@@ -119,6 +119,7 @@ def validate_server(request, data):
             "The activity log file seems to be in a wrong format"))
         return False
 
+
 @csrf_exempt
 def post_activitylog(request):
     if request.method != 'PATCH':
@@ -130,6 +131,7 @@ def post_activitylog(request):
         return HttpResponse()
     else:
         return HttpResponseBadRequest()
+
 
 @user_can_upload
 def upload_view(request):

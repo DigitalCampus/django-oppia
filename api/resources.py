@@ -37,6 +37,7 @@ from oppia import emailer
 from settings import constants
 from settings.models import SettingProperties
 
+
 def check_required_params(bundle, required):
     for r in required:
         try:

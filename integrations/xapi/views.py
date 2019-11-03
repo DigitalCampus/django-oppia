@@ -12,9 +12,11 @@ from django.utils import timezone
 from oppia.models import Course, Tracker, Activity
 from quiz.models import Quiz, QuizAttempt
 
+
 @staff_member_required
 def home(request):
     return render(request, 'integrations/xapi/index.html')
+
 
 @staff_member_required
 def csv_export(request):

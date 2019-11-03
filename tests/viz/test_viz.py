@@ -10,6 +10,7 @@ from tests.user_logins import *
 
 from viz.views import *
 
+
 class VisualisationsTest(TestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',

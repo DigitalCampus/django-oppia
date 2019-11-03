@@ -8,6 +8,7 @@ from django import forms
 from django.forms import DateInput
 from django.utils.translation import ugettext_lazy as _
 
+
 class DateDiffForm(forms.Form):
     start_date = forms.DateField(
         required=True,

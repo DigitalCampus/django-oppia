@@ -53,6 +53,7 @@ def check_required_fields(request, validation_errors):
 
     return validation_errors
 
+
 def check_upload_file_size(file, validation_errors):
     max_upload = SettingProperties.get_int(constants.MAX_UPLOAD_SIZE, settings.OPPIA_MAX_UPLOAD_SIZE)
     if file is not None and file.size > max_upload:

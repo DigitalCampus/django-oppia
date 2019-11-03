@@ -6,6 +6,7 @@ from django.test.client import Client
 from tests.utils import *
 from tests.user_logins import *
 
+
 class DHISIntegrationViewsTest(TestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',

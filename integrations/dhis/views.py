@@ -14,12 +14,14 @@ from django.utils.translation import ugettext_lazy as _
 
 from oppia.models import Tracker
 
+
 @staff_member_required
 def home(request):
     # get all the months/years that trackers exist for
     monthly_exports = Tracker.objects.all().datetimes('submitted_date', 'month', 'DESC')
     return render(request, 'integrations/dhis/index.html',
                   {'monthly_exports': monthly_exports})
+
 
 @staff_member_required
 def export_latest(request):
@@ -30,6 +32,7 @@ def export_latest(request):
 
     return response
 
+
 @staff_member_required
 def export_month(request, year, month):
     data = create_csv(year, month)
@@ -37,6 +40,7 @@ def export_month(request, year, month):
     response['Content-Disposition'] = "attachment; filename=dhis-export-{year}-{month}.csv".format(year=year,month=month)
 
     return response
+
 
 def create_csv(year, month):
     headers = ('username',

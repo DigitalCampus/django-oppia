@@ -7,6 +7,7 @@ from django.test.client import Client
 from oppia.uploader import create_quiz_props, create_quiz_questions
 from quiz.models import *
 
+
 class UploadHelpersTest(TestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',

@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from tests.user_logins import *
 from tests.defaults import *
 
+
 class UserUploadActivityViewTest(TestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',

@@ -4,6 +4,7 @@ from django.test import TestCase
 from settings import constants
 from settings.models import SettingProperties
 
+
 class RegisterViewTest(TestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',

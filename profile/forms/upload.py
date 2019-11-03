@@ -12,6 +12,7 @@ from django.core.validators import validate_email
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
+
 class UploadProfileForm(forms.Form):
     upload_file = forms.FileField(
         required=True,

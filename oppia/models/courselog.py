@@ -7,6 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from oppia.models.main import Course
 
+
 class CoursePublishingLog(models.Model):
 
     course = models.ForeignKey(Course, null=True, on_delete=models.CASCADE)

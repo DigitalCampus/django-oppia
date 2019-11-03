@@ -16,6 +16,7 @@ def menu_reports(request):
     #return [{'name': 'test', 'url':'/reports/1/'},{'name': 'test2', 'url':'/reports/2/'}]
     return [{'name': _('Completion Rates'), 'url': reverse('oppia_completion_rates')}]
 
+
 @staff_member_required
 def completion_rates(request):
 

@@ -4,6 +4,7 @@ from tests.utils import *
 
 from tests.user_logins import *
 
+
 class AVPagesViewTest(TestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',

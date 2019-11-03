@@ -12,6 +12,7 @@ from django.utils import timezone
 
 from settings.models import SettingProperties
 
+
 class Command(BaseCommand):
     help = 'OppiaMobile cron command'
 

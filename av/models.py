@@ -92,6 +92,7 @@ class UploadedMediaImage(models.Model):
     def __str__(self):
         return self.image.name
 
+
 @receiver(post_delete, sender=UploadedMediaImage)
 def uploaded_media_image_delete_file(sender, instance, **kwargs):
     image_to_delete = os.path.join(settings.MEDIA_ROOT, instance.image.name)

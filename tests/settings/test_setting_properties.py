@@ -2,6 +2,7 @@
 from django.test import TestCase
 from settings.models import SettingProperties
 
+
 class SettingPropertiesTest(TestCase):
 
     def test_self_name_int(self):

@@ -8,6 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from quiz.models import Question
 
+
 class Quiz(models.Model):
     owner = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     created_date = models.DateTimeField('date created', default=timezone.now)
@@ -49,6 +50,7 @@ class Quiz(models.Model):
         no_attempts = QuizAttempt.objects.filter(quiz=quiz, user=user).count()
         return no_attempts
 
+
 class QuizQuestion(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
@@ -73,6 +75,7 @@ class QuizProps(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class QuizAttempt(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

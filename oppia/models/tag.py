@@ -27,6 +27,7 @@ class Tag(models.Model):
     def __str__(self):
         return self.name
 
+
 class CourseTag(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)

@@ -8,6 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from gamification.models import DefaultGamificationEvent
 
+
 class EditCoursePointsForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
@@ -81,6 +82,7 @@ class EditActivityPointsForm(forms.Form):
     def clean(self):
         cleaned_data = super(EditActivityPointsForm, self).clean()
         return cleaned_data
+
 
 class EditMediaPointsForm(forms.Form):
 

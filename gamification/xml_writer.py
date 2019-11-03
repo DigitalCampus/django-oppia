@@ -16,6 +16,7 @@ ACTIVITY_NODE = 'activity'
 MEDIA_NODE = 'media'
 ACTIVITY_DIGEST_ATTR = 'digest'
 
+
 class GamificationXMLWriter:
 
     def __init__(self, course):

@@ -4,6 +4,7 @@ from tastypie.test import ResourceTestCaseMixin
 from settings import constants
 from settings.models import SettingProperties
 
+
 class RegisterResourceTest(ResourceTestCaseMixin, TestCase):
     fixtures = ['tests/test_user.json']
 
