@@ -14,7 +14,7 @@ class DateDiffForm(forms.Form):
         required=True,
         error_messages={'required': _('Please enter a valid date'),
                         'invalid': _('Please enter a valid date')},
-        widget=DateInput(attrs={'class':'date-picker-selector single'})
+        widget=DateInput(attrs={'class': 'date-picker-selector single'})
     )
 
     def __init__(self, *args, **kwargs):

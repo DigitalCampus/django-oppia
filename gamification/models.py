@@ -94,7 +94,7 @@ class ActivityGamificationEvent(GamificationEvent):
     class Meta:
         verbose_name = _(u'Activity Gamification Event')
         verbose_name_plural = _(u'Activity Gamification Events')
-        
+
 
 class MediaGamificationEvent(GamificationEvent):
     media = models.ForeignKey(Media, on_delete=models.CASCADE, related_name='gamification_events')

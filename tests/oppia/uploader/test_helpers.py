@@ -31,9 +31,9 @@ class UploadHelpersTest(TestCase):
 
         # now check the props have been saved correctly (using the sample quiz file)
         quiz_prop_count = QuizProps.objects.filter(quiz=quiz).count()
-        self.assertEqual(quiz_prop_count,7)
+        self.assertEqual(quiz_prop_count, 7)
 
-        digest = QuizProps.objects.get(quiz=quiz,name='digest')
+        digest = QuizProps.objects.get(quiz=quiz, name='digest')
         self.assertEqual(digest.value,  "4d46a0566501cdbc1f57b2b505c92a2d17703cr0s2a1p80a0")
 
     def test_create_quiz_questions(self):

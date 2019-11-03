@@ -27,7 +27,7 @@ class MediaUploadResourceTest(TestCase):
 
     def test_upload_template(self):
 
-        media_file_content = open(self.media_file_path,'rb')
+        media_file_content = open(self.media_file_path, 'rb')
         media_file = SimpleUploadedFile(media_file_content.name, media_file_content.read(), content_type="video/m4v")
 
         self.client.login(username=ADMIN_USER['user'], password=ADMIN_USER['password'])

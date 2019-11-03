@@ -28,7 +28,7 @@ def export_latest(request):
     last_month = datetime.datetime.now() + dateutil.relativedelta.relativedelta(months=-1)
     data = create_csv(last_month.year, last_month.month)
     response = HttpResponse(data.csv, content_type='application/text;charset=utf-8')
-    response['Content-Disposition'] = "attachment; filename=dhis-export-{year}-{month}.csv".format(year=last_month.year,month=last_month.month)
+    response['Content-Disposition'] = "attachment; filename=dhis-export-{year}-{month}.csv".format(year=last_month.year, month=last_month.month)
 
     return response
 
@@ -37,7 +37,7 @@ def export_latest(request):
 def export_month(request, year, month):
     data = create_csv(year, month)
     response = HttpResponse(data.csv, content_type='application/text;charset=utf-8')
-    response['Content-Disposition'] = "attachment; filename=dhis-export-{year}-{month}.csv".format(year=year,month=month)
+    response['Content-Disposition'] = "attachment; filename=dhis-export-{year}-{month}.csv".format(year=year, month=month)
 
     return response
 

@@ -91,7 +91,7 @@ SITE_ID = 1
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(ROOT_DIR, 'static')
 MEDIA_ROOT = os.path.join(ROOT_DIR, 'media')
 ADMIN_MEDIA_PREFIX = '/static/admin/'

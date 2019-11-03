@@ -544,7 +544,7 @@ def search_users(request):
     users = User.objects
 
     filtered = False
-    search_form = UserSearchForm(request.GET,request.FILES)
+    search_form = UserSearchForm(request.GET, request.FILES)
     if search_form.is_valid():
         filters = get_filters_from_row(search_form)
         if filters:

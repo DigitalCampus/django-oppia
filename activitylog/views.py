@@ -30,7 +30,7 @@ def process_uploaded_trackers(request, trackers, user, user_api_key):
         else:
             messages.warning(request, _(
                 u"Already uploaded: tracker activity %(uuid)s for %(username)s added" % {'username': user.username,
-                                                                                         'uuid': tracker.get('digest')}),'danger')
+                                                                                         'uuid': tracker.get('digest')}), 'danger')
 
 
 def process_uploaded_quizresponses(request, quiz_responses, user, user_api_key):

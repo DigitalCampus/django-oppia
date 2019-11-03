@@ -27,7 +27,7 @@ class MediaPublishResourceTest(TestCase):
     # test all params have been sent
     def test_required_params(self):
 
-        video_file = open(self.video_file_path,'rb')
+        video_file = open(self.video_file_path, 'rb')
 
         # no username
         response = self.client.post(self.url,
@@ -47,7 +47,7 @@ class MediaPublishResourceTest(TestCase):
     # check authentication check working correctly
     def test_authentication(self):
 
-        video_file = open(self.video_file_path,'rb')
+        video_file = open(self.video_file_path, 'rb')
         # incorrect username
         response = self.client.post(self.url,
                                     {'username': 'demouser',
@@ -62,8 +62,8 @@ class MediaPublishResourceTest(TestCase):
                                      'media_file': video_file})
         self.assertEqual(response.status_code, 401)
 
-        video_file.close() 
-        # shouldn't be strictly necessary to close the file, 
+        video_file.close()
+        # shouldn't be strictly necessary to close the file,
         # but avoids ResourceWarnings about unclosed files
 
     # test is user has correct permissions or not to upload
@@ -73,7 +73,7 @@ class MediaPublishResourceTest(TestCase):
         user.is_active = False
         user.save()
 
-        video_file = open(self.video_file_path,'rb')
+        video_file = open(self.video_file_path, 'rb')
 
         response = self.client.post(self.url,
                                     {'username': 'demo',
@@ -81,7 +81,7 @@ class MediaPublishResourceTest(TestCase):
                                      'media_file': video_file})
         self.assertEqual(response.status_code, 401)
 
-        video_file.close() 
+        video_file.close()
         # shouldn't be strictly necessary to close the file,
         # but avoids ResourceWarnings about unclosed files
 
@@ -93,8 +93,8 @@ class MediaPublishResourceTest(TestCase):
     def test_upload(self):
 
         '''
-        TODO - the test framework seems to only recognise the file as 
-        'application/octet-stream', so upload ways fails as incorrect 
+        TODO - the test framework seems to only recognise the file as
+        'application/octet-stream', so upload ways fails as incorrect
         mime-type is found
 
         # normal user
@@ -118,7 +118,7 @@ class MediaPublishResourceTest(TestCase):
     # test file type
     def test_filetype(self):
 
-        course_file = open(self.course_file_path,'rb')
+        course_file = open(self.course_file_path, 'rb')
 
         # send zip file
         response = self.client.post(self.url,
@@ -127,7 +127,7 @@ class MediaPublishResourceTest(TestCase):
                                      'media_file': course_file})
         self.assertEqual(response.status_code, 400)
 
-        course_file.close() 
+        course_file.close()
         # shouldn't be strictly necessary to close the file,
         # but avoids ResourceWarnings about unclosed files
 

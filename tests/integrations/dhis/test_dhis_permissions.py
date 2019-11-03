@@ -19,7 +19,8 @@ class DHISIntegrationViewsTest(TestCase):
 
     def get_view(self, route, user=None):
         if user is not None:
-            self.client.login(username=user['user'], password=user['password'])
+            self.client.login(username=user['user'],
+                              password=user['password'])
         return self.client.get(route)
 
     # test permissions for home
@@ -79,27 +80,32 @@ class DHISIntegrationViewsTest(TestCase):
     # test permissions and response for other months
 
     def test_anon_cantview_integrations_monthly(self):
-        route = reverse('oppia_integrations_dhis_export_month', kwargs={'year':2019, 'month': 10})
+        route = reverse('oppia_integrations_dhis_export_month',
+                        kwargs={'year': 2019, 'month': 10})
         res = self.get_view(route, None)
         self.assertRedirects(res, self.login_url + '?next=/integrations/dhis/export/2019/10')
 
     def test_admin_canview_integrations_monthly(self):
-        route = reverse('oppia_integrations_dhis_export_month', kwargs={'year':2019, 'month': 10})
+        route = reverse('oppia_integrations_dhis_export_month',
+                        kwargs={'year': 2019, 'month': 10})
         res = self.get_view(route, ADMIN_USER)
         self.assertEqual(res.status_code, 200)
 
     def test_staff_canview_integrations_monthly(self):
-        route = reverse('oppia_integrations_dhis_export_month', kwargs={'year':2019, 'month': 10})
+        route = reverse('oppia_integrations_dhis_export_month',
+                        kwargs={'year': 2019, 'month': 10})
         res = self.get_view(route, STAFF_USER)
         self.assertEqual(res.status_code, 200)
 
     def test_student_cantview_integrations_monthly(self):
-        route = reverse('oppia_integrations_dhis_export_month', kwargs={'year':2019, 'month': 10})
+        route = reverse('oppia_integrations_dhis_export_month',
+                        kwargs={'year': 2019, 'month': 10})
         res = self.get_view(route, NORMAL_USER)
         self.assertRedirects(res, '/admin/login/?next=/integrations/dhis/export/2019/10')
 
     def test_user_with_canupload_integrations_monthly(self):
-        route = reverse('oppia_integrations_dhis_export_month', kwargs={'year':2019, 'month': 10})
+        route = reverse('oppia_integrations_dhis_export_month',
+                        kwargs={'year': 2019, 'month': 10})
         res = self.get_view(route, TEACHER_USER)
         self.assertRedirects(res, '/admin/login/?next=/integrations/dhis/export/2019/10')
 

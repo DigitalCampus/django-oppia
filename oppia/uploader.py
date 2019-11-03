@@ -359,7 +359,7 @@ def parse_and_save_activity(req, user, course, section, act, new_course, process
                             action="activity_added",
                             data=msg_text).save()
     else:
-        msg_text = _(u'Activity "%(act)s"(%(digest)s) previously existed. Updated with new information') % {'act': activity.title, 'digest':activity.digest}
+        msg_text = _(u'Activity "%(act)s"(%(digest)s) previously existed. Updated with new information') % {'act': activity.title, 'digest': activity.digest}
         '''
         If we also want to show the activities that previously existed, uncomment this next line
         messages.info(req, msg_text)
@@ -386,7 +386,7 @@ def parse_and_save_activity(req, user, course, section, act, new_course, process
             defaults={'points': event['points'], 'user': req.user})
 
         if created:
-            msg_text = _(u'Gamification for "%(event)s" at activity "%(act)s"(%(digest)s) added') % {'event': e.event, 'act':activity.title, 'digest': activity.digest}
+            msg_text = _(u'Gamification for "%(event)s" at activity "%(act)s"(%(digest)s) added') % {'event': e.event, 'act': activity.title, 'digest': activity.digest}
             messages.info(req, msg_text)
             CoursePublishingLog(course=course,
                                 user=user,
@@ -472,7 +472,7 @@ def parse_course_meta(xml_doc):
             description[t.get('lang')] = t.text
         meta_info['description'] = json.dumps(description)
 
-        meta_info['shortname'] = get_content(meta,'shortname')
+        meta_info['shortname'] = get_content(meta, 'shortname')
         exportversion = meta.find('exportversion')
         if exportversion:
             meta_info['exportversion'] = exportversion
@@ -518,7 +518,7 @@ def clean_old_course(req, user, oldsections, old_course_filename, course):
 
     if old_course_filename is not None and old_course_filename != course.filename:
         try:
-            os.remove(os.path.join(settings.COURSE_UPLOAD_DIR, 
+            os.remove(os.path.join(settings.COURSE_UPLOAD_DIR,
                                    old_course_filename))
         except OSError:
             pass

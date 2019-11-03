@@ -118,7 +118,9 @@ def edit_course_gamification(request, course_id):
 
     course = get_object_or_404(Course, pk=course_id)
 
-    events_formset = formset_factory(GamificationEventForm, extra=0, can_delete=True)
+    events_formset = formset_factory(GamificationEventForm,
+                                     extra=0,
+                                     can_delete=True)
     if request.method == 'POST':
         formset = events_formset(request.POST, request.FILES, prefix='events')
         if formset.is_valid():
@@ -187,10 +189,9 @@ def edit_course_gamification(request, course_id):
             m.events[event.event] = event.points
 
     return render(request, 'gamification/edit.html',
-                  {
-                    'default_points':default_points,
-                    'course': course,
-                      'events_formset':formset,
+                  {'default_points': default_points,
+                   'course': course,
+                   'events_formset': formset,
                    'course_events': course_events,
-                   'activities':activities,
+                   'activities': activities,
                    'media': media})

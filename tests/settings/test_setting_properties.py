@@ -24,7 +24,7 @@ class SettingPropertiesTest(TestCase):
         value = "testval"
         SettingProperties.set_string(key, value)
         retreived_value = SettingProperties.get_string(key, "default")
-        self.assertEqual(value,retreived_value)
+        self.assertEqual(value, retreived_value)
 
     def test_set_string_default(self):
         key = "testkey1"

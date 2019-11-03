@@ -44,7 +44,7 @@ class Command(BaseCommand):
             self.stdout.write("  > Generating miniatures... 100% \r\n", )
 
             # Now get the images generated and add to the db
-            self.add_images_to_db(cache_dir,m)
+            self.add_images_to_db(cache_dir, m)
 
         self.stdout.write("\n  > Process completed.")
 
