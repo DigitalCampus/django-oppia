@@ -49,7 +49,7 @@ def title_lang(title, lang):
 def gravatar(user, size):
     gravatar_url = "https://www.gravatar.com/avatar.php?"
     gravatar_id = hashlib.md5(str(user.email).encode('utf-8')).hexdigest()
-    gravatar_url +=  urllib.parse.urlencode({
+    gravatar_url += urllib.parse.urlencode({
         'gravatar_id': gravatar_id,
         'size': str(size)
     })

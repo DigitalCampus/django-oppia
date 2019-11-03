@@ -33,4 +33,4 @@ class UserSearchActivityViewTest(TestCase):
         for disallowed_user in disallowed_users:
             self.client.login(username=disallowed_user['user'], password=disallowed_user['password'])
             response = self.client.get(self.url)
-            self.assertRedirects(response, '/admin/login/?next=' +  self.url, 302, 200)
+            self.assertRedirects(response, '/admin/login/?next=' + self.url, 302, 200)

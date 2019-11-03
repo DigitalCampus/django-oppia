@@ -197,7 +197,7 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
         activities = s.find('activities')
         # Check if the section contains any activity (to avoid saving an empty one)
         if activities is None or len(activities.findall('activity')) == 0:
-            msg_text =  _("Section ") + str(idx + 1) + _(" does not contain any activities.")
+            msg_text = _("Section ") + str(idx + 1) + _(" does not contain any activities.")
             messages.info(req, msg_text)
             CoursePublishingLog(course=course,
                                 user=user,

@@ -32,7 +32,7 @@ class ReportCompletionRatesViewTest(TestCase):
         for disallowed_user in disallowed_users:
             self.client.login(username=disallowed_user['user'], password=disallowed_user['password'])
             response = self.client.get(url)
-            self.assertRedirects(response, '/admin/login/?next=' +  url, 302, 200)
+            self.assertRedirects(response, '/admin/login/?next=' + url, 302, 200)
 
     def test_view_course_completion_rates_valid_course(self):
         url = reverse('course_completion_rates', args=[1])
@@ -49,7 +49,7 @@ class ReportCompletionRatesViewTest(TestCase):
         for disallowed_user in disallowed_users:
             self.client.login(username=disallowed_user['user'], password=disallowed_user['password'])
             response = self.client.get(url)
-            self.assertRedirects(response, '/admin/login/?next=' +  url, 302, 200)
+            self.assertRedirects(response, '/admin/login/?next=' + url, 302, 200)
 
     def test_view_course_completion_rates_invalid_course(self):
         url = reverse('course_completion_rates', args=[999])
@@ -64,5 +64,5 @@ class ReportCompletionRatesViewTest(TestCase):
         for disallowed_user in disallowed_users:
             self.client.login(username=disallowed_user['user'], password=disallowed_user['password'])
             response = self.client.get(url)
-            self.assertRedirects(response, '/admin/login/?next=' +  url, 302, 200)
+            self.assertRedirects(response, '/admin/login/?next=' + url, 302, 200)
             

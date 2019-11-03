@@ -53,7 +53,7 @@ class ProfileForm(forms.Form):
         if settings.OPPIA_SHOW_GRAVATARS:
             gravatar_url = "https://www.gravatar.com/avatar.php?"
             gravatar_id = hashlib.md5(str(email).encode('utf-8')).hexdigest()
-            gravatar_url +=  urllib.parse.urlencode({
+            gravatar_url += urllib.parse.urlencode({
                 'gravatar_id': gravatar_id,
                 'size': 64
             })
