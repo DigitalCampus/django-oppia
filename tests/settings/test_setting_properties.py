@@ -114,4 +114,4 @@ class SettingPropertiesTest(TestCase):
         SettingProperties.set_string(key, value)
         retreived_value = SettingProperties.get_property("some non key",
                                                          "not here")
-        self.assertEqual("not here", retreived_value)        
+        self.assertEqual("not here", retreived_value)

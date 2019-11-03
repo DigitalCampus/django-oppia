@@ -41,4 +41,4 @@ class MediaUploadResourceTest(TestCase):
                                                302,
                                                200)
 
-        media_file_content.close()        
+        media_file_content.close()

@@ -114,4 +114,4 @@ class DHISIntegrationViewsTest(TestCase):
                         kwargs={'year': 2019, 'month': 10})
         res = self.get_view(route, TEACHER_USER)
         self.assertRedirects(res,
-                             '/admin/login/?next=/integrations/dhis/export/2019/10')        
+                             '/admin/login/?next=/integrations/dhis/export/2019/10')

@@ -73,4 +73,4 @@ class GamificationPermissionsTest(TestCase):
                           password=NORMAL_USER['password'])
         response = self.client.get(reverse('oppia_gamification_edit_course',
                                            args=[55]))
-        self.assertEqual(response.status_code, 403)        
+        self.assertEqual(response.status_code, 403)

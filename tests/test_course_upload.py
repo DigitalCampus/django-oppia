@@ -33,4 +33,4 @@ class CourseUploadTest(TestCase):
             self.assertRedirects(response, reverse('oppia_upload2',
                                                    args=[1]),
                                                    302,
-                                                   200) 
+                                                   200)

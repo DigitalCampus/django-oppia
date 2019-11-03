@@ -79,4 +79,4 @@ class XAPIIntegrationViewsTest(TestCase):
         route = reverse('oppia_integrations_xapi_csv_export')
         res = self.get_view(route, TEACHER_USER)
         self.assertRedirects(res,
-                             '/admin/login/?next=/integrations/xapi/export/')   
+                             '/admin/login/?next=/integrations/xapi/export/')

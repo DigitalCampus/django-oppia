@@ -26,7 +26,8 @@ class UserSearchForm(forms.Form):
         self.helper.form_method = 'GET'
         self.helper.layout = Layout(
             'username', 'first_name', 'last_name', 'email',
-            Row(Div('is_active', css_class='col-sm-4'), Div('is_staff', css_class='col-sm-4')),
+            Row(Div('is_active', css_class='col-sm-4'),
+                Div('is_staff', css_class='col-sm-4')),
             Div(
                 Submit('submit', _('Search'), css_class='btn btn-default'),
                 css_class='col-lg-7 col-md-7 col-sm-11 text-right',

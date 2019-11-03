@@ -41,7 +41,9 @@ def csv_export(request):
     data = []
     data = tablib.Dataset(*data, headers=headers)
 
-    trackers = Tracker.objects.filter(submitted_date__gte=start_date, submitted_date__lte=end_date, type=Activity.QUIZ)
+    trackers = Tracker.objects.filter(submitted_date__gte=start_date,
+                                      submitted_date__lte=end_date,
+                                      type=Activity.QUIZ)
 
     for tracker in trackers:
         # Get the matching quiz attempt object
@@ -71,7 +73,8 @@ def csv_export(request):
                     )
                 )
 
-    response = HttpResponse(data.csv, content_type='application/text;charset=utf-8')
+    response = HttpResponse(data.csv,
+                            content_type='application/text;charset=utf-8')
     response['Content-Disposition'] = "attachment; filename=xapi-export.csv"
 
     return response

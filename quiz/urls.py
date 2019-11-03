@@ -21,5 +21,4 @@ def get_api(version_name):
 
 urlpatterns = [
     url(r'^api/', include(get_api('v1').urls)),
-
 ]

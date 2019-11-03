@@ -23,7 +23,3 @@ class AVPagesViewTest(TestCase):
             response = self.client.get(url)
             self.assertTemplateUsed(response, 'av/home.html')
             self.assertEqual(response.status_code, 200)
-
-    #  TODO:
-    # test viewing AV page (need to add sample data for this)
-    # test set_as_default image (and who can view/do this - admin/staff only?)

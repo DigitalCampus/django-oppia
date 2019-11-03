@@ -80,4 +80,4 @@ class ReportCompletionRatesViewTest(TestCase):
             self.assertRedirects(response,
                                  '/admin/login/?next=' + url,
                                  302,
-                                 200)            
+                                 200)

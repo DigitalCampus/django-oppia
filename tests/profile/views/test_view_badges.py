@@ -26,4 +26,4 @@ class BadgesViewTest(TestCase):
                               password=allowed_user['password'])
             response = self.client.get(url)
             self.assertTemplateUsed(response, 'profile/badges.html')
-            self.assertEqual(response.status_code, 200)        
+            self.assertEqual(response.status_code, 200)

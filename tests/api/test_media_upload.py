@@ -129,6 +129,6 @@ class MediaPublishResourceTest(TestCase):
                                      'media_file': course_file})
         self.assertEqual(response.status_code, 400)
 
-        course_file.close()
         # shouldn't be strictly necessary to close the file,
-        # but avoids ResourceWarnings about unclosed files        
+        # but avoids ResourceWarnings about unclosed files
+        course_file.close()

@@ -56,4 +56,4 @@ class UploadHelpersTest(TestCase):
 
         # check no questions
         no_questions = QuizQuestion.objects.filter(quiz=quiz).count()
-        self.assertEqual(no_questions, 10)        
+        self.assertEqual(no_questions, 10)

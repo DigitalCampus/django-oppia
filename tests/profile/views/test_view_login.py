@@ -41,4 +41,4 @@ class LoginViewTest(TestCase):
                           password=NORMAL_USER['password'])
         response = self.client.get(reverse('profile_login'), follow=True)
         self.assertTemplateUsed(response, 'profile/user-scorecard.html')
-        self.assertEqual(response.status_code, 200)        
+        self.assertEqual(response.status_code, 200)

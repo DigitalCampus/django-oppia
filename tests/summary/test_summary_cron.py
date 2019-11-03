@@ -22,7 +22,8 @@ class SummaryCronTest(TestCase):
 
         # check new details on pks
         tracker_id = SettingProperties.get_int('last_tracker_pk', 0)
-        self.assertEqual(tracker_id, 1472216) # this id is from the test_tracker data
+        self.assertEqual(tracker_id, 1472216) 
+        # this id is from the test_tracker data
 
         # check unlocked again
         lock = SettingProperties.get_int('oppia_summary_cron_lock', 999)
@@ -44,4 +45,4 @@ class SummaryCronTest(TestCase):
         SettingProperties.delete_key('oppia_summary_cron_lock')
         # check unlocked again
         lock = SettingProperties.get_int('oppia_summary_cron_lock', 999)
-        self.assertEqual(lock, 999)        
+        self.assertEqual(lock, 999)

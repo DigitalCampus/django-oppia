@@ -46,4 +46,4 @@ class IntegrationViewsTest(TestCase):
     def test_user_with_canupload_integrations_home(self):
         route = reverse('oppia_integrations_home')
         res = self.get_view(route, TEACHER_USER)
-        self.assertRedirects(res, '/admin/login/?next=/integrations/')        
+        self.assertRedirects(res, '/admin/login/?next=/integrations/')
