@@ -48,19 +48,19 @@ def summary_view(request):
     searches, previous_searches = summary_get_searches(start_date)
 
     return render(request, 'viz/summary.html',
-                              {'form': form,
-                               'user_registrations': user_registrations,
-                               'previous_user_registrations': previous_user_registrations,
-                               'total_countries': total_countries,
-                               'country_activity': country_activity,
-                               'languages': languages,
-                               'course_downloads': course_downloads,
-                               'previous_course_downloads': previous_course_downloads,
-                               'course_activity': course_activity,
-                               'previous_course_activity': previous_course_activity,
-                               'hot_courses': hot_courses,
-                               'searches': searches,
-                               'previous_searches': previous_searches, })
+                  {'form': form,
+                   'user_registrations': user_registrations,
+                   'previous_user_registrations': previous_user_registrations,
+                   'total_countries': total_countries,
+                   'country_activity': country_activity,
+                   'languages': languages,
+                   'course_downloads': course_downloads,
+                   'previous_course_downloads': previous_course_downloads,
+                   'course_activity': course_activity,
+                   'previous_course_activity': previous_course_activity,
+                   'hot_courses': hot_courses,
+                   'searches': searches,
+                   'previous_searches': previous_searches })
 
 
 def map_view(request):
@@ -146,9 +146,11 @@ def summary_get_course_activity(start_date):
 
     last_month = timezone.now() - datetime.timedelta(days=131)
 
-    hit_by_course = CourseDailyStats.objects \
-                        .filter(day__gte=last_month, course__isnull=False).values('course_id') \
-                        .annotate(total_hits=Sum('total')).order_by('-total_hits')
+    hit_by_course = CourseDailyStats.objects.filter(day__gte=last_month, 
+                                                    course__isnull=False) \
+                                            .values('course_id') \
+                                            .annotate(total_hits=Sum('total')) \
+                                            .order_by('-total_hits')
     total_hits = sum(cstats['total_hits'] for cstats in hit_by_course)
 
     i = 0

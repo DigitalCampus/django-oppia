@@ -32,7 +32,7 @@ def user_devices_list(request):
         devices = paginator.page(paginator.num_pages)
 
     return render(request, 'deviceadmin/list.html',
-                              {'page': devices, 'page_ordering': ordering})
+                  {'page': devices, 'page_ordering': ordering})
 
 
 def send_message_to_device(request):

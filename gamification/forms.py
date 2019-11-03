@@ -57,8 +57,8 @@ class EditActivityPointsForm(forms.Form):
                                                               help_text= event.get_helper_text())
             except AttributeError:
                 self.fields[event.event.event] = forms.IntegerField(initial=int(event.points),
-                                                                 label=event.get_label(),
-                                                                 help_text= event.get_helper_text())
+                                                                    label=event.get_label(),
+                                                                    help_text= event.get_helper_text())
 
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
@@ -95,8 +95,8 @@ class EditMediaPointsForm(forms.Form):
                                                               help_text= event.get_helper_text())
             except AttributeError:
                 self.fields[event.event.event] = forms.IntegerField(initial=int(event.points),
-                                                                 label=event.get_label(),
-                                                                 help_text= event.get_helper_text())
+                                                                    label=event.get_label(),
+                                                                    help_text= event.get_helper_text())
 
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'

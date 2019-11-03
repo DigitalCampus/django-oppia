@@ -140,7 +140,7 @@ def upload_view(request):
 
             # save activity_log_file
             uploaded_activity_log = UploadedActivityLog(create_user=request.user,
-                                      file=activity_log_file)
+                                                        file=activity_log_file)
             uploaded_activity_log.save()
 
             # open file and process
@@ -152,5 +152,5 @@ def upload_view(request):
     else:
         form = UploadActivityLogForm()
     return render(request, 'activitylog/upload.html',
-                              {'form': form,
-                               'title': _(u'Upload Activity Log')})
+                  {'form': form,
+                   'title': _(u'Upload Activity Log')})

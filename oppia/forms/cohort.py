@@ -18,11 +18,11 @@ class CohortForm(forms.Form):
                                required=False,
                                help_text=_("A comma separated list of usernames"), )
     start_date = forms.CharField(required=True,
-                                     error_messages={'required': _('Please enter a valid date'),
-                                                     'invalid': _('Please enter a valid date')}, )
+                                 error_messages={'required': _('Please enter a valid date'),
+                                                 'invalid': _('Please enter a valid date')}, )
     end_date = forms.CharField(required=True,
-                                    error_messages={'required': _('Please enter a valid date'),
-                                                    'invalid': _('Please enter a valid date')}, )
+                               error_messages={'required': _('Please enter a valid date'),
+                                               'invalid': _('Please enter a valid date')}, )
     courses = forms.CharField(widget=forms.Textarea(),
                               required=False,
                               help_text=_("A comma separated list of course codes"), )

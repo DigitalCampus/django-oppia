@@ -148,11 +148,11 @@ def process_course(extract_path, f, mod_name, request, user):
                 msg_text = _(u'Gamification for "%(event)s" at course level added') % {'event': e.event}
                 messages.info(request, msg_text)
                 CoursePublishingLog(course=course,
-                                new_version=meta_info['versionid'],
-                                old_version=old_course_version,
-                                user=user,
-                                action="gamification_added",
-                                data=msg_text).save()
+                                    new_version=meta_info['versionid'],
+                                    old_version=old_course_version,
+                                    user=user,
+                                    action="gamification_added",
+                                    data=msg_text).save()
 
     process_quizzes_locally = False
     if 'exportversion' in meta_info and meta_info['exportversion'] >= settings.OPPIA_EXPORT_LOCAL_MINVERSION:
@@ -187,11 +187,10 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
         msg_text = _(u"There don't appear to be any activities in this upload file.")
         messages.info(req, msg_text)
         CoursePublishingLog(course=course,
-                                user=user,
-                                action="no_activities",
-                                data=msg_text).save()
+                            user=user,
+                            action="no_activities",
+                            data=msg_text).save()
         return
-
 
     for idx, s in enumerate(structure.findall("section")):
 
@@ -234,9 +233,9 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
                 msg_text = _(u'File %(filename)s has a download URL larger than the maximum length permitted. The media file has not been registered, so it won\'t be tracked. Please, fix this issue and upload the course again.') % {'filename': media.filename}
                 messages.info(req, msg_text)
                 CoursePublishingLog(course=course,
-                                user=user,
-                                action="media_url_too_long",
-                                data=msg_text).save()
+                                    user=user,
+                                    action="media_url_too_long",
+                                    data=msg_text).save()
             else:
                 media.download_url = url
                 # get any optional attributes
@@ -261,9 +260,9 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
                         msg_text = _(u'Gamification for "%(event)s" at course level added') % {'event': e.event}
                         messages.info(req, msg_text)
                         CoursePublishingLog(course=course,
-                                user=user,
-                                action="course_gamification_added",
-                                data=msg_text).save()
+                                            user=user,
+                                            action="course_gamification_added",
+                                            data=msg_text).save()
 
 def parse_baseline_activities(req, xml_doc, course, user, new_course, process_quizzes_locally):
     for meta in xml_doc.findall('meta')[:1]:
@@ -342,9 +341,9 @@ def parse_and_save_activity(req, user, course, section, act, new_course, process
         msg_text = _(u'Activity "%(act)s"(%(digest)s) did not exist previously.') % {'act': activity.title, 'digest': activity.digest}
         messages.warning(req, msg_text)
         CoursePublishingLog(course=course,
-                                user=user,
-                                action="activity_added",
-                                data=msg_text).save()
+                            user=user,
+                            action="activity_added",
+                            data=msg_text).save()
     else:
         msg_text = _(u'Activity "%(act)s"(%(digest)s) previously existed. Updated with new information') % {'act': activity.title, 'digest':activity.digest}
         '''
@@ -352,9 +351,9 @@ def parse_and_save_activity(req, user, course, section, act, new_course, process
         messages.info(req, msg_text)
         '''
         CoursePublishingLog(course=course,
-                                user=user,
-                                action="activity_updated",
-                                data=msg_text).save()
+                            user=user,
+                            action="activity_updated",
+                            data=msg_text).save()
 
     if (act_type == "quiz") and process_quiz_locally:
         updated_json = parse_and_save_quiz(req, user, activity, act)
@@ -523,8 +522,8 @@ def create_quiz_questions(user, quiz, quiz_obj ):
     for q in quiz_obj['questions']:
 
         question = Question(owner=user,
-                type=q['question']['type'],
-                title=q['question']['title'])
+                            type=q['question']['type'],
+                            title=q['question']['title'])
         question.save()
 
         quiz_question = QuizQuestion(quiz=quiz, question=question, order=q['order'])

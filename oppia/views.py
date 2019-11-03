@@ -30,13 +30,13 @@ from oppia.uploader import handle_uploaded_file
 
 def server_view(request):
     return render(request, 'oppia/server.html',
-                              {'settings': settings},
-                              content_type="application/json")
+                  {'settings': settings},
+                  content_type="application/json")
 
 
 def about_view(request):
     return render(request, 'oppia/about.html',
-                              {'settings': settings})
+                  {'settings': settings})
 
 
 def home_view(request):
@@ -111,9 +111,9 @@ def home_view(request):
         form = None
 
     return render(request, 'oppia/home.html',
-                              {'form': form,
-                               'activity_graph_data': activity,
-                               'leaderboard': leaderboard })
+                  {'form': form,
+                   'activity_graph_data': activity,
+                   'leaderboard': leaderboard })
 
 
 def teacher_home_view(request):
@@ -130,17 +130,17 @@ def teacher_home_view(request):
     students = User.objects.filter(participant__role=Participant.STUDENT, participant__cohort__in=cohorts).distinct()
     courses = Course.objects.filter(coursecohort__cohort__in=cohorts).distinct()
     trackers = Tracker.objects.filter(course__in=courses,
-                                       user__in=students,
-                                       tracker_date__gte=start_date,
-                                       tracker_date__lte=end_date).extra({'activity_date': "date(tracker_date)"}).values('activity_date').annotate(count=Count('id'))
+                                      user__in=students,
+                                      tracker_date__gte=start_date,
+                                      tracker_date__lte=end_date).extra({'activity_date': "date(tracker_date)"}).values('activity_date').annotate(count=Count('id'))
     for i in range(0, no_days, +1):
         temp = start_date + datetime.timedelta(days=i)
         count = next((dct['count'] for dct in trackers if dct['activity_date'] == temp.date()), 0)
         activity.append([temp.strftime("%d %b %Y"), count])
 
     return render(request, 'oppia/home-teacher.html',
-                              {'cohorts': cohorts,
-                               'activity_graph_data': activity, })
+                  {'cohorts': cohorts,
+                   'activity_graph_data': activity, })
 
 
 def render_courses_list(request, courses, params=None):
@@ -195,9 +195,9 @@ def courses_list_view(request):
         #if we are requesting via ajax, just show the course list
         ordering, courses = get_paginated_courses(request)
         return render(request, 'course/list_page.html',
-                              {'page': courses,
-                                  'page_ordering': ordering,
-                                  'ajax_url': request.path})
+                      {'page': courses,
+                          'page_ordering': ordering,
+                          'ajax_url': request.path})
     else:
         courses = can_view_courses_list(request)
 
@@ -247,8 +247,8 @@ def upload_step1(request):
         form = UploadCourseStep1Form()  # An unbound form
 
     return render(request, 'course/form.html',
-                              {'form': form,
-                               'title': _(u'Upload Course - step 1')})
+                  {'form': form,
+                   'title': _(u'Upload Course - step 1')})
 
 
 @user_can_upload
@@ -270,17 +270,17 @@ def upload_step2(request, course_id, editing=False):
                                 user=request.user,
                                 action="upload_course_published",
                                 data=_(u'Course published via file upload')).save()
-            return HttpResponseRedirect(reverse(redirect))  # Redirect after POST
+            return HttpResponseRedirect(reverse(redirect))
     else:
         form = UploadCourseStep2Form(initial={'tags': course.get_tags(),
-                                    'is_draft': course.is_draft, })  # An unbound form
+                                              'is_draft': course.is_draft, })
 
     page_title = _(u'Upload Course - step 2') if not editing else _(u'Edit course')
     return render(request, 'course/form.html',
-                              {'form': form,
-                               'course_title': course.title,
-                               'editing': editing,
-                               'title': page_title})
+                  {'form': form,
+                   'course_title': course.title,
+                   'editing': editing,
+                   'title': page_title})
 
 def add_course_tags(form, course, user):
     tags = form.cleaned_data.get("tags", "").strip().split(",")
@@ -380,11 +380,11 @@ def recent_activity(request, course_id):
 
     leaderboard = Points.get_leaderboard(10, course)
     return render(request, 'course/activity.html',
-                              {'course': course,
-                               'monthly': interval == 'months',
-                               'form': form,
-                                'data': dates,
-                                'leaderboard': leaderboard})
+                  {'course': course,
+                   'monthly': interval == 'months',
+                   'form': form,
+                   'data': dates,
+                   'leaderboard': leaderboard})
 
 
 def recent_activity_detail(request, course_id):
@@ -436,9 +436,9 @@ def recent_activity_detail(request, course_id):
         tracks = paginator.page(paginator.num_pages)
 
     return render(request, 'course/activity-detail.html',
-                              {'course': course,
-                               'form': form,
-                               'page': tracks, })
+                  {'course': course,
+                   'form': form,
+                   'page': tracks, })
 
 
 def export_tracker_detail(request, course_id):
@@ -473,8 +473,7 @@ def cohort_list_view(request):
         raise exceptions.PermissionDenied
 
     cohorts = Cohort.objects.all()
-    return render(request, 'cohort/list.html',
-                              {'cohorts': cohorts, })
+    return render(request, 'cohort/list.html', {'cohorts': cohorts, })
 
 
 def get_paginated_courses(request):
@@ -555,14 +554,13 @@ def cohort_add(request):
     ordering, users = get_paginated_users(request)
     c_ordering, courses = get_paginated_courses(request)
 
-    return render(request, 'cohort/form.html', {
-                                'form': form,
-                                'page': users,
-                                'courses_page': courses,
-                                'courses_ordering': c_ordering,
-                                'page_ordering': ordering,
-                                'users_list_template': 'select',
-                             })
+    return render(request, 'cohort/form.html', 
+                  {'form': form,
+                   'page': users,
+                   'courses_page': courses,
+                   'courses_ordering': c_ordering,
+                   'page_ordering': ordering,
+                   'users_list_template': 'select'})
 
 
 def cohort_view(request, cohort_id):
@@ -579,10 +577,10 @@ def cohort_view(request, cohort_id):
     no_days = (end_date - start_date).days + 1
     students = User.objects.filter(participant__role=Participant.STUDENT, participant__cohort=cohort)
     trackers = Tracker.objects.filter(course__coursecohort__cohort=cohort,
-                                       user__is_staff=False,
-                                       user__in=students,
-                                       tracker_date__gte=start_date,
-                                       tracker_date__lte=end_date).extra({'activity_date': "date(tracker_date)"}).values('activity_date').annotate(count=Count('id'))
+                                      user__is_staff=False,
+                                      user__in=students,
+                                      tracker_date__gte=start_date,
+                                      tracker_date__lte=end_date).extra({'activity_date': "date(tracker_date)"}).values('activity_date').annotate(count=Count('id'))
     for i in range(0, no_days, +1):
         temp = start_date + datetime.timedelta(days=i)
         count = next((dct['count'] for dct in trackers if dct['activity_date'] == temp.date()), 0)
@@ -592,9 +590,9 @@ def cohort_view(request, cohort_id):
     leaderboard = cohort.get_leaderboard(10)
 
     return render(request, 'cohort/activity.html',
-                              {'cohort': cohort,
-                               'activity_graph_data': student_activity,
-                               'leaderboard': leaderboard, })
+                  {'cohort': cohort,
+                   'activity_graph_data': student_activity,
+                   'leaderboard': leaderboard, })
 
 
 def cohort_leaderboard_view(request, cohort_id):
@@ -622,8 +620,8 @@ def cohort_leaderboard_view(request, cohort_id):
         leaderboard = paginator.page(paginator.num_pages)
 
     return render(request, 'cohort/leaderboard.html',
-                              {'cohort': cohort,
-                               'page': leaderboard, })
+                  {'cohort': cohort,
+                   'page': leaderboard})
 
 
 def cohort_edit(request, cohort_id):
@@ -686,8 +684,7 @@ def cohort_edit(request, cohort_id):
     else:
         form = CohortForm(initial={'description': cohort.description,
                                    'start_date': cohort.start_date,
-                                   'end_date': cohort.end_date,
-                                   })
+                                   'end_date': cohort.end_date})
 
     teachers_selected = User.objects.filter(participant__role=Participant.TEACHER, participant__cohort=cohort)
     students_selected = User.objects.filter(participant__role=Participant.STUDENT, participant__cohort=cohort)
@@ -696,16 +693,16 @@ def cohort_edit(request, cohort_id):
     ordering, users = get_paginated_users(request)
     c_ordering, courses = get_paginated_courses(request)
 
-    return render(request, 'cohort/form.html', {
-                            'form': form,
-                            'page': users,
-                            'selected_teachers': teachers_selected,
-                            'selected_students': students_selected,
-                            'selected_courses': courses_selected,
-                            'courses_page': courses,
-                            'courses_ordering': c_ordering,
-                            'page_ordering': ordering,
-                            'users_list_template': 'select'})
+    return render(request, 'cohort/form.html', 
+                  {'form': form,
+                   'page': users,
+                   'selected_teachers': teachers_selected,
+                   'selected_students': students_selected,
+                   'selected_courses': courses_selected,
+                   'courses_page': courses,
+                   'courses_ordering': c_ordering,
+                   'page_ordering': ordering,
+                   'users_list_template': 'select'})
 
 
 def cohort_course_view(request, cohort_id, course_id):
@@ -724,10 +721,10 @@ def cohort_course_view(request, cohort_id, course_id):
     no_days = (end_date - start_date).days + 1
     users = User.objects.filter(participant__role=Participant.STUDENT, participant__cohort=cohort).order_by('first_name', 'last_name')
     trackers = Tracker.objects.filter(course=course,
-                                       user__is_staff=False,
-                                       user__in=users,
-                                       tracker_date__gte=start_date,
-                                       tracker_date__lte=end_date).extra({'activity_date': "date(tracker_date)"}).values('activity_date').annotate(count=Count('id'))
+                                      user__is_staff=False,
+                                      user__in=users,
+                                      tracker_date__gte=start_date,
+                                      tracker_date__lte=end_date).extra({'activity_date': "date(tracker_date)"}).values('activity_date').annotate(count=Count('id'))
     for i in range(0, no_days, +1):
         temp = start_date + datetime.timedelta(days=i)
         count = next((dct['count'] for dct in trackers if dct['activity_date'] == temp.date()), 0)
@@ -740,23 +737,23 @@ def cohort_course_view(request, cohort_id, course_id):
         if course_stats:
             course_stats = course_stats[0]
             data = {'user': user,
-                'user_display': str(user),
-                'no_quizzes_completed': course_stats.quizzes_passed,
-                'pretest_score': course_stats.pretest_score,
-                'no_activities_completed': course_stats.completed_activities,
-                'no_points': course_stats.points,
-                'no_badges': course_stats.badges_achieved,
-                'no_media_viewed': course_stats.media_viewed, }
+                    'user_display': str(user),
+                    'no_quizzes_completed': course_stats.quizzes_passed,
+                    'pretest_score': course_stats.pretest_score,
+                    'no_activities_completed': course_stats.completed_activities,
+                    'no_points': course_stats.points,
+                    'no_badges': course_stats.badges_achieved,
+                    'no_media_viewed': course_stats.media_viewed}
         else:
             #The user has no activity registered
             data = {'user': user,
-                'user_display': str(user),
-                'no_quizzes_completed': 0,
-                'pretest_score': 0,
-                'no_activities_completed': 0,
-                'no_points': 0,
-                'no_badges': 0,
-                'no_media_viewed': 0, }
+                    'user_display': str(user),
+                    'no_quizzes_completed': 0,
+                    'pretest_score': 0,
+                    'no_activities_completed': 0,
+                    'no_points': 0,
+                    'no_badges': 0,
+                    'no_media_viewed': 0}
 
         students.append(data)
 
@@ -776,12 +773,12 @@ def cohort_course_view(request, cohort_id, course_id):
     students.sort(key=operator.itemgetter(ordering), reverse=inverse_order)
 
     return render(request, 'cohort/course-activity.html',
-                              {'course': course,
-                               'cohort': cohort,
-                               'course_media_count': media_count,
-                               'activity_graph_data': student_activity,
-                               'page_ordering': ('-' if inverse_order else '') + ordering,
-                               'students': students})
+                  {'course': course,
+                   'cohort': cohort,
+                   'course_media_count': media_count,
+                   'activity_graph_data': student_activity,
+                   'page_ordering': ('-' if inverse_order else '') + ordering,
+                   'students': students})
 
 
 def leaderboard_view(request):
@@ -800,8 +797,7 @@ def leaderboard_view(request):
     except (EmptyPage, InvalidPage):
         leaderboard = paginator.page(paginator.num_pages)
 
-    return render(request, 'oppia/leaderboard.html',
-                              {'page': leaderboard})
+    return render(request, 'oppia/leaderboard.html', {'page': leaderboard})
 
 
 def course_quiz(request, course_id):
@@ -818,8 +814,8 @@ def course_quiz(request, course_id):
         except Quiz.DoesNotExist:
             pass
     return render(request, 'course/quizzes.html',
-                              {'course': course,
-                               'quizzes': quizzes})
+                  {'course': course,
+                   'quizzes': quizzes})
 
 
 def course_quiz_attempts(request, course_id, quiz_id):
@@ -844,9 +840,9 @@ def course_quiz_attempts(request, course_id, quiz_id):
         paginator.page(paginator.num_pages)
 
     return render(request, 'course/quiz-attempts.html',
-                              {'course': course,
-                               'quiz': quiz,
-                               'page': attempts})
+                  {'course': course,
+                   'quiz': quiz,
+                   'page': attempts})
 
 
 def course_feedback(request, course_id):
@@ -860,8 +856,8 @@ def course_feedback(request, course_id):
             feedback.append(q)
 
     return render(request, 'course/feedback.html',
-                              {'course': course,
-                               'feedback': feedback})
+                  {'course': course,
+                   'feedback': feedback})
 
 
 def course_feedback_responses(request, course_id, quiz_id):
@@ -886,9 +882,9 @@ def course_feedback_responses(request, course_id, quiz_id):
         paginator.page(paginator.num_pages)
 
     return render(request, 'course/feedback-responses.html',
-                              {'course': course,
-                               'quiz': quiz,
-                               'page': attempts})
+                  {'course': course,
+                   'quiz': quiz,
+                   'page': attempts})
 
 
 def app_launch_activity_redirect_view(request):
@@ -901,7 +897,5 @@ def app_launch_activity_redirect_view(request):
     activity = get_object_or_404(Activity, digest=digest)
 
     return render(request, 'course/activity_digest.html',
-                  {
-                      'activity': activity,
-                        'digest': digest
-                   })
+                  {'activity': activity,
+                   'digest': digest})

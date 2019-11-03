@@ -17,8 +17,7 @@ class UploadActivityLogForm(forms.Form):
                 required=True,
                 label=_(u'Activity Log'),
                 error_messages={'required':
-                                _(u'Please select an activity log file to \
-                                    upload')},
+                                _(u'Please select an activity log file to upload')},
                 )
 
     def __init__(self, *args, **kwargs):

@@ -52,8 +52,11 @@ class UploadActivityLogTest(TestCase):
         with open(self.basic_activity_log, 'rb') as activity_log_file:
             response = self.client.post(self.url, { 'activity_log_file': activity_log_file })
 
-        self.assertRedirects(response, reverse('oppia_activitylog_upload_success'), 302,
-                                 200)  # should be redirected to the update step 2 form
+        # should be redirected to the update step 2 form
+        self.assertRedirects(response, 
+                             reverse('oppia_activitylog_upload_success'), 
+                             302,
+                             200)
 
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start + 2, tracker_count_end)
@@ -68,8 +71,11 @@ class UploadActivityLogTest(TestCase):
         with open(self.new_user_activity, 'rb') as activity_log_file:
             response = self.client.post(self.url, { 'activity_log_file': activity_log_file })
 
-        self.assertRedirects(response, reverse('oppia_activitylog_upload_success'), 302,
-                                 200)  # should be redirected to the update step 2 form
+        # should be redirected to the update step 2 form
+        self.assertRedirects(response, 
+                             reverse('oppia_activitylog_upload_success'), 
+                             302,
+                             200)
 
         tracker_count_end = Tracker.objects.all().count()
         user_count_end = User.objects.all().count()

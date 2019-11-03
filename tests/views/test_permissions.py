@@ -139,7 +139,7 @@ class PermissionsViewTest(TestCase):
 
     def test_student_cantview_cohort_course(self):
         self.assert_unauthorized('oppia_cohort_course_view', NORMAL_USER,
-                                view_kwargs={'cohort_id': 1, 'course_id': 1})
+                                 view_kwargs={'cohort_id': 1, 'course_id': 1})
     # TODO: Teacher view cohort s/he is assigned into
 
     ############ Add new cohort #############
@@ -232,7 +232,7 @@ class PermissionsViewTest(TestCase):
 
     def test_student_cantview_user_course_activity(self):
         self.assert_unauthorized('profile_user_course_activity', NORMAL_USER,
-                                view_kwargs={'course_id': 1, 'user_id': 1})
+                                 view_kwargs={'course_id': 1, 'user_id': 1})
 
     def test_student_canview_self_course_activity(self):
         self.assert_can_view('profile_user_course_activity', NORMAL_USER,

@@ -25,9 +25,9 @@ class CourseDailyStats (models.Model):
 
         course = Course.objects.get(pk=course)
         trackers = Tracker.objects.filter(course=course,
-                                              tracker_date__gte=day_start, tracker_date__lte=day_end,
-                                              pk__gt=last_tracker_pk, pk__lte=newest_tracker_pk) \
-                                    .values('type').annotate(total=Count('type'))
+                                          tracker_date__gte=day_start, tracker_date__lte=day_end,
+                                          pk__gt=last_tracker_pk, pk__lte=newest_tracker_pk) \
+                                  .values('type').annotate(total=Count('type'))
 
         for type_stats in trackers:
             stats, created = CourseDailyStats.objects.get_or_create(course=course, day=day, type=type_stats['type'])

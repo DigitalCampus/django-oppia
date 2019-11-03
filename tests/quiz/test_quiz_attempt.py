@@ -224,7 +224,7 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
                           "text": "true"},
                          {"question_id": "134",
                           "score": 0,
-                              "text": "false"}]}
+                          "text": "false"}]}
         quizattempt_count_start = QuizAttempt.objects.all().count()
         quizattemptresponse_count_start = QuizAttemptResponse.objects.all().count()
         resp = self.api_client.post(self.url, format='json', data=data, authentication=self.get_credentials())

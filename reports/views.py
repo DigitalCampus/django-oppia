@@ -42,7 +42,7 @@ def completion_rates(request):
         courses_list.append(obj)
 
     return render(request, 'reports/completion_rates.html',
-                              {'courses_list': courses_list})
+                  {'courses_list': courses_list})
 
 
 @staff_member_required
@@ -70,7 +70,7 @@ def course_completion_rates(request, course_id):
             users_incompleted.append(user_obj)
 
     return render(request, 'reports/course_completion_rates.html',
-                              {'course': course,
-                                  'users_enroled_count': len(users_completed) + len(users_incompleted),
-                                  'users_completed': users_completed,
-                                  'users_incompleted': users_incompleted, })
+                  {'course': course,
+                   'users_enroled_count': len(users_completed) + len(users_incompleted),
+                   'users_completed': users_completed,
+                   'users_incompleted': users_incompleted})

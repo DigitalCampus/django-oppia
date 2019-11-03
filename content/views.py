@@ -51,9 +51,9 @@ def media_embed_helper(request):
         form = MediaEmbedHelperForm()
 
     return render(request, 'oppia/content/media-embed-helper.html',
-                              {'settings': settings,
-                               'form': form,
-                               'processed_media': processed_media})
+                  {'settings': settings,
+                   'form': form,
+                   'processed_media': processed_media})
 
 
 def process_media_file(media_guid, media_url, media_local_file, download_error, processed_media):
@@ -109,8 +109,8 @@ def get_length(filename):
                                '-show_streams',
                                '-loglevel',
                                'quiet'],
-                               stdout = subprocess.PIPE,
-                               stderr = subprocess.STDOUT)
+                              stdout = subprocess.PIPE,
+                              stderr = subprocess.STDOUT)
 
     duration = float(json.loads(result.stdout.read())['streams'][0]['duration'])
     if duration != 0:
@@ -129,10 +129,11 @@ def generate_media_screenshots(media_local_file, media_guid):
     if not os.path.exists(image_path):
         os.makedirs(image_path)
 
-    image_generator_command = ("%s %s" % (settings.SCREENSHOT_GENERATOR_PROGRAM, settings.SCREENSHOT_GENERATOR_PROGRAM_PARAMS)) % (media_local_file,
-                                                                                                                                  content.SCREENSHOT_IMAGE_WIDTH,
-                                                                                                                                  content.SCREENSHOT_IMAGE_HEIGHT,
-                                                                                                                                  image_path)
+    image_generator_command = ("%s %s" % (settings.SCREENSHOT_GENERATOR_PROGRAM, 
+                                          settings.SCREENSHOT_GENERATOR_PROGRAM_PARAMS)) % (media_local_file,
+                                                                                            content.SCREENSHOT_IMAGE_WIDTH,
+                                                                                            content.SCREENSHOT_IMAGE_HEIGHT,
+                                                                                            image_path)
     subprocess.call(image_generator_command, shell=True)
     return image_path
 

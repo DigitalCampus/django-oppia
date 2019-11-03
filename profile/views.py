@@ -87,9 +87,9 @@ def login_view(request):
         form = LoginForm(initial={'next': filter_redirect(request.GET), })
 
     return render(request, 'common/form/form.html',
-                              {'username': username,
-                               'form': form,
-                               'title': _(u'Login')})
+                  {'username': username,
+                   'form': form,
+                   'title': _(u'Login')})
 
 
 def register(request):
@@ -124,8 +124,8 @@ def register(request):
         form = RegisterForm(initial={'next': filter_redirect(request.GET), })
 
     return render(request, 'common/form/form.html',
-                              {'form': form,
-                               'title': _(u'Register'), })
+                  {'form': form,
+                   'title': _(u'Register')})
 
 
 def reset(request):
@@ -208,17 +208,16 @@ def edit(request, user_id=0):
                                     'last_name': view_user.last_name,
                                     'api_key': key.key,
                                     'job_title': user_profile.job_title,
-                                    'organisation': user_profile.organisation, })
+                                    'organisation': user_profile.organisation})
 
-    return render(request, 'profile/profile.html',
-                  {'form': form, })
+    return render(request, 'profile/profile.html', {'form': form})
 
 
 def export_mydata_view(request, data_type):
     if data_type == 'activity':
         my_activity = Tracker.objects.filter(user=request.user)
         return render(request, 'profile/export/activity.html',
-                  {'activity': my_activity})
+                      {'activity': my_activity})
     elif data_type == 'quiz':
         my_quizzes = []
         my_quiz_attempts = QuizAttempt.objects.filter(user=request.user)
@@ -229,15 +228,15 @@ def export_mydata_view(request, data_type):
             my_quizzes.append(data)
 
         return render(request, 'profile/export/quiz_attempts.html',
-                  {'quiz_attempts': my_quizzes})
+                      {'quiz_attempts': my_quizzes})
     elif data_type == 'points':
         points = Points.objects.filter(user=request.user)
         return render(request, 'profile/export/points.html',
-                  {'points': points})
+                      {'points': points})
     elif data_type == 'badges':
         badges = Award.objects.filter(user=request.user)
         return render(request, 'profile/export/badges.html',
-                  {'badges': badges})
+                      {'badges': badges})
     else:
         raise Http404
 
@@ -258,13 +257,13 @@ def points(request):
     except (EmptyPage, InvalidPage):
         mypoints = paginator.page(paginator.num_pages)
     return render(request, 'profile/points.html',
-                              {'page': mypoints, })
+                  {'page': mypoints, })
 
 
 def badges(request):
     awards = Award.objects.filter(user=request.user).order_by('-award_date')
     return render(request, 'profile/badges.html',
-                              {'awards': awards, })
+                  {'awards': awards, })
 
 
 def user_activity(request, user_id):
@@ -324,10 +323,10 @@ def user_activity(request, user_id):
     activity = get_tracker_activities(start_date, end_date, view_user, course_ids=course_ids)
 
     return render(request, 'profile/user-scorecard.html',
-                              {'view_user': view_user,
-                               'courses': courses,
-                               'page_ordering': ('-' if inverse_order else '') + ordering,
-                               'activity_graph_data': activity})
+                  {'view_user': view_user,
+                   'courses': courses,
+                   'page_ordering': ('-' if inverse_order else '') + ordering,
+                   'activity_graph_data': activity})
 
 
 def user_course_activity_view(request, user_id, course_id):
@@ -421,17 +420,17 @@ def user_course_activity_view(request, user_id, course_id):
     quizzes.sort(key=operator.itemgetter(ordering), reverse=inverse_order)
 
     return render(request, 'profile/user-course-scorecard.html',
-                              {'view_user': view_user,
-                               'course': course,
-                               'quizzes': quizzes,
-                               'quizzes_passed': quizzes_passed,
-                               'quizzes_attempted': quizzes_attempted,
-                               'pretest_score': course_pretest,
-                               'activities_completed': activities_completed,
-                               'activities_total': activities_total,
-                               'activities_percent': activities_percent,
-                               'page_ordering': ('-' if inverse_order else '') + ordering,
-                               'activity_graph_data': activity})
+                  {'view_user': view_user,
+                   'course': course,
+                   'quizzes': quizzes,
+                   'quizzes_passed': quizzes_passed,
+                   'quizzes_attempted': quizzes_attempted,
+                   'pretest_score': course_pretest,
+                   'activities_completed': activities_completed,
+                   'activities_total': activities_total,
+                   'activities_percent': activities_percent,
+                   'page_ordering': ('-' if inverse_order else '') + ordering,
+                   'activity_graph_data': activity})
 
 
 def upload_view(request):
@@ -507,8 +506,8 @@ def upload_view(request):
         form = UploadProfileForm()
 
     return render(request, 'profile/upload.html',
-                              {'form': form,
-                               'results': results})
+                  {'form': form,
+                   'results': results})
 
 
 def get_query(query_string, search_fields):
@@ -578,11 +577,11 @@ def search_users(request):
         users = paginator.page(paginator.num_pages)
 
     return render(request, 'profile/search_user.html',
-                              {'quicksearch': query_string,
-                                'search_form': search_form,
-                                'advanced_search': filtered,
-                                'page': users,
-                                'page_ordering': ordering})
+                  {'quicksearch': query_string,
+                   'search_form': search_form,
+                   'advanced_search': filtered,
+                   'page': users,
+                   'page_ordering': ordering})
 
 @staff_member_required
 def export_users(request):
@@ -600,18 +599,18 @@ def export_users(request):
         template = 'users-paginated-list.html'
 
     return render(request, 'profile/' + template,
-                              {'page': users,
-                                  'page_ordering': ordering,
-                                  'users_list_template': 'export'})
+                  {'page': users,
+                   'page_ordering': ordering,
+                   'users_list_template': 'export'})
 
 @staff_member_required
 def list_users(request):
     ordering, users = get_paginated_users(request)
     return render(request, 'profile/users-paginated-list.html',
-                              {'page': users,
-                                  'page_ordering': ordering,
-                                  'users_list_template': 'select',
-                                  'ajax_url': request.path})
+                  {'page': users,
+                   'page_ordering': ordering,
+                   'users_list_template': 'select',
+                   'ajax_url': request.path})
 
 
 def delete_account_view(request):
@@ -643,9 +642,9 @@ def delete_account_view(request):
             User.objects.get(pk=user.id).delete()
 
             #redirect
-            return HttpResponseRedirect(reverse('profile_delete_account_complete'))  # Redirect after POST
+            return HttpResponseRedirect(reverse('profile_delete_account_complete'))
     else:
-        form = DeleteAccountForm(initial={'username': request.user.username})  # An unbound form
+        form = DeleteAccountForm(initial={'username': request.user.username})
 
     return render(request, 'profile/delete_account.html',
                   {'form': form})
@@ -666,11 +665,11 @@ def get_tracker_activities(start_date, end_date, user, course_ids=[], course=Non
         trackers = Tracker.objects.filter(course__id__in=course_ids)
 
     trackers = trackers.filter(user=user,
-                      tracker_date__gte=start_date,
-                      tracker_date__lte=end_date) \
-                      .extra({'activity_date': "date(tracker_date)"}) \
-                      .values('activity_date') \
-                      .annotate(count=Count('id'))
+                               tracker_date__gte=start_date,
+                               tracker_date__lte=end_date) \
+                       .extra({'activity_date': "date(tracker_date)"}) \
+                       .values('activity_date') \
+                       .annotate(count=Count('id'))
 
     for i in range(0, no_days, +1):
         temp = start_date + datetime.timedelta(days=i)

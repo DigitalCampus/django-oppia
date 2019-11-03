@@ -16,8 +16,7 @@ def upload(request, user):
 
     form = UploadMediaForm(request.POST, request.FILES, request=request)
     if form.is_valid():
-        uploaded_media = UploadedMedia(create_user=user,
-                                      update_user=user, )
+        uploaded_media = UploadedMedia(create_user=user, update_user=user)
         uploaded_media.file = request.FILES["media_file"]
         uploaded_media.save()
         file = open(uploaded_media.file.path, 'rb')

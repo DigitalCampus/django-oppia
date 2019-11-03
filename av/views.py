@@ -33,8 +33,8 @@ def home_view(request):
         media = paginator.page(paginator.num_pages)
 
     return render(request, 'av/home.html',
-                              {'title': _(u'Uploaded Media'),
-                                'page': media})
+                  {'title': _(u'Uploaded Media'),
+                   'page': media})
 
 @user_can_upload
 def upload_view(request):
@@ -49,8 +49,8 @@ def upload_view(request):
         form = UploadMediaForm()  # An unbound form
 
     return render(request, 'av/upload.html',
-                              {'form': form,
-                               'title': _(u'Upload Media')})
+                  {'form': form,
+                   'title': _(u'Upload Media')})
 
 @user_can_upload
 def upload_success_view(request, id):
@@ -59,9 +59,9 @@ def upload_success_view(request, id):
     embed_code = media.get_embed_code(request.build_absolute_uri(media.file.url))
 
     return render(request, 'av/upload_success.html',
-                              {'title': _(u'Upload Media'),
-                               'media': media,
-                               'embed_code': embed_code})
+                  {'title': _(u'Upload Media'),
+                   'media': media,
+                   'embed_code': embed_code})
 
 @user_can_upload
 def media_view(request, id):
@@ -70,9 +70,9 @@ def media_view(request, id):
     embed_code = media.get_embed_code(request.build_absolute_uri(media.file.url))
 
     return render(request, 'av/view.html',
-                              {'title': _(u'Media'),
-                               'media': media,
-                               'embed_code': embed_code})
+                  {'title': _(u'Media'),
+                   'media': media,
+                   'embed_code': embed_code})
 
 @user_can_upload
 def set_default_image_view(request, image_id):
