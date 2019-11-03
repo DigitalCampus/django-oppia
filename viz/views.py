@@ -186,4 +186,3 @@ def summary_get_searches(start_date):
         previous_searches = 0
 
     return searches, previous_searches
-

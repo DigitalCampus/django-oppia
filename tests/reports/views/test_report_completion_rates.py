@@ -25,15 +25,20 @@ class ReportCompletionRatesViewTest(TestCase):
         disallowed_users = [TEACHER_USER, NORMAL_USER]
 
         for allowed_user in allowed_users:
-            self.client.login(username=allowed_user['user'], password=allowed_user['password'])
+            self.client.login(username=allowed_user['user'],
+                              password=allowed_user['password'])
             response = self.client.get(url)
             self.assertTemplateUsed(response, template)
             self.assertEqual(response.status_code, 200)
 
         for disallowed_user in disallowed_users:
-            self.client.login(username=disallowed_user['user'], password=disallowed_user['password'])
+            self.client.login(username=disallowed_user['user'],
+                              password=disallowed_user['password'])
             response = self.client.get(url)
-            self.assertRedirects(response, '/admin/login/?next=' + url, 302, 200)
+            self.assertRedirects(response,
+                                 '/admin/login/?next=' + url,
+                                 302,
+                                 200)
 
     def test_view_course_completion_rates_valid_course(self):
         url = reverse('course_completion_rates', args=[1])
@@ -42,15 +47,20 @@ class ReportCompletionRatesViewTest(TestCase):
         disallowed_users = [TEACHER_USER, NORMAL_USER]
 
         for allowed_user in allowed_users:
-            self.client.login(username=allowed_user['user'], password=allowed_user['password'])
+            self.client.login(username=allowed_user['user'],
+                              password=allowed_user['password'])
             response = self.client.get(url)
             self.assertTemplateUsed(response, template)
             self.assertEqual(response.status_code, 200)
 
         for disallowed_user in disallowed_users:
-            self.client.login(username=disallowed_user['user'], password=disallowed_user['password'])
+            self.client.login(username=disallowed_user['user'],
+                              password=disallowed_user['password'])
             response = self.client.get(url)
-            self.assertRedirects(response, '/admin/login/?next=' + url, 302, 200)
+            self.assertRedirects(response,
+                                 '/admin/login/?next=' + url,
+                                 302,
+                                 200)
 
     def test_view_course_completion_rates_invalid_course(self):
         url = reverse('course_completion_rates', args=[999])
@@ -58,12 +68,16 @@ class ReportCompletionRatesViewTest(TestCase):
         disallowed_users = [TEACHER_USER, NORMAL_USER]
 
         for allowed_user in allowed_users:
-            self.client.login(username=allowed_user['user'], password=allowed_user['password'])
+            self.client.login(username=allowed_user['user'],
+                              password=allowed_user['password'])
             response = self.client.get(url)
             self.assertEqual(response.status_code, 404)
 
         for disallowed_user in disallowed_users:
-            self.client.login(username=disallowed_user['user'], password=disallowed_user['password'])
+            self.client.login(username=disallowed_user['user'],
+                              password=disallowed_user['password'])
             response = self.client.get(url)
-            self.assertRedirects(response, '/admin/login/?next=' + url, 302, 200)
-            
+            self.assertRedirects(response,
+                                 '/admin/login/?next=' + url,
+                                 302,
+                                 200)            

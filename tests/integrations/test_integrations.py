@@ -19,7 +19,8 @@ class IntegrationViewsTest(TestCase):
 
     def get_view(self, route, user=None):
         if user is not None:
-            self.client.login(username=user['user'], password=user['password'])
+            self.client.login(username=user['user'],
+                              password=user['password'])
         return self.client.get(route)
 
     def test_anon_cantview_integrations_home(self):
@@ -45,6 +46,4 @@ class IntegrationViewsTest(TestCase):
     def test_user_with_canupload_integrations_home(self):
         route = reverse('oppia_integrations_home')
         res = self.get_view(route, TEACHER_USER)
-        self.assertRedirects(res, '/admin/login/?next=/integrations/')
-
-        
+        self.assertRedirects(res, '/admin/login/?next=/integrations/')        

@@ -117,5 +117,4 @@ class UserActivityViewTest(TestCase):
                           password=NORMAL_USER['password'])
         response = self.client.get(url)
         self.assertTemplateUsed(response, self.unauthorised_template)
-        self.assertEqual(response.status_code, 403)
-        
+        self.assertEqual(response.status_code, 403)        

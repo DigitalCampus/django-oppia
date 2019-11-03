@@ -52,4 +52,3 @@ class Command(BaseCommand):
 
             except Quiz.DoesNotExist:
                 pass
-

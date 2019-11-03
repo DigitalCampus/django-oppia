@@ -224,4 +224,3 @@ class RegisterResourceTest(ResourceTestCaseMixin, TestCase):
 
         # turn back on
         SettingProperties.set_int(constants.OPPIA_ALLOW_SELF_REGISTRATION, 1)
-

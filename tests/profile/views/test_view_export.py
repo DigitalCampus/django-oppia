@@ -38,5 +38,4 @@ class UserSearchActivityViewTest(TestCase):
             self.assertRedirects(response,
                                  '/admin/login/?next=' + self.url,
                                  302,
-                                 200)
-        
+                                 200)        

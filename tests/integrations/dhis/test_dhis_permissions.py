@@ -28,7 +28,8 @@ class DHISIntegrationViewsTest(TestCase):
     def test_anon_cantview_integrations_home(self):
         route = reverse('oppia_integrations_dhis_home')
         res = self.get_view(route, None)
-        self.assertRedirects(res, self.login_url + '?next=/integrations/dhis/')
+        self.assertRedirects(res,
+                             self.login_url + '?next=/integrations/dhis/')
 
     def test_admin_canview_integrations_home(self):
         route = reverse('oppia_integrations_dhis_home')
@@ -55,7 +56,8 @@ class DHISIntegrationViewsTest(TestCase):
     def test_anon_cantview_integrations_latest(self):
         route = reverse('oppia_integrations_dhis_export_latest')
         res = self.get_view(route, None)
-        self.assertRedirects(res, self.login_url + '?next=/integrations/dhis/export/latest/')
+        self.assertRedirects(res,
+                             self.login_url + '?next=/integrations/dhis/export/latest/')
 
     def test_admin_canview_integrations_latest(self):
         route = reverse('oppia_integrations_dhis_export_latest')
@@ -70,12 +72,14 @@ class DHISIntegrationViewsTest(TestCase):
     def test_student_cantview_integrations_latest(self):
         route = reverse('oppia_integrations_dhis_export_latest')
         res = self.get_view(route, NORMAL_USER)
-        self.assertRedirects(res, '/admin/login/?next=/integrations/dhis/export/latest/')
+        self.assertRedirects(res,
+                             '/admin/login/?next=/integrations/dhis/export/latest/')
 
     def test_user_with_canupload_integrations_latest(self):
         route = reverse('oppia_integrations_dhis_export_latest')
         res = self.get_view(route, TEACHER_USER)
-        self.assertRedirects(res, '/admin/login/?next=/integrations/dhis/export/latest/')
+        self.assertRedirects(res,
+                             '/admin/login/?next=/integrations/dhis/export/latest/')
 
     # test permissions and response for other months
 
@@ -83,7 +87,8 @@ class DHISIntegrationViewsTest(TestCase):
         route = reverse('oppia_integrations_dhis_export_month',
                         kwargs={'year': 2019, 'month': 10})
         res = self.get_view(route, None)
-        self.assertRedirects(res, self.login_url + '?next=/integrations/dhis/export/2019/10')
+        self.assertRedirects(res,
+                             self.login_url + '?next=/integrations/dhis/export/2019/10')
 
     def test_admin_canview_integrations_monthly(self):
         route = reverse('oppia_integrations_dhis_export_month',
@@ -101,12 +106,12 @@ class DHISIntegrationViewsTest(TestCase):
         route = reverse('oppia_integrations_dhis_export_month',
                         kwargs={'year': 2019, 'month': 10})
         res = self.get_view(route, NORMAL_USER)
-        self.assertRedirects(res, '/admin/login/?next=/integrations/dhis/export/2019/10')
+        self.assertRedirects(res,
+                             '/admin/login/?next=/integrations/dhis/export/2019/10')
 
     def test_user_with_canupload_integrations_monthly(self):
         route = reverse('oppia_integrations_dhis_export_month',
                         kwargs={'year': 2019, 'month': 10})
         res = self.get_view(route, TEACHER_USER)
-        self.assertRedirects(res, '/admin/login/?next=/integrations/dhis/export/2019/10')
-
-        
+        self.assertRedirects(res,
+                             '/admin/login/?next=/integrations/dhis/export/2019/10')        

@@ -36,7 +36,9 @@ class EditCoursePointsForm(forms.Form):
 
         self.helper.layout.append(
                 Div(
-                   Submit('submit', _(u'Update points'), css_class='btn btn-default'),
+                   Submit('submit',
+                          _(u'Update points'),
+                          css_class='btn btn-default'),
                    css_class='col-lg-offset-2 col-lg-4',
                 ))
 
@@ -75,7 +77,9 @@ class EditActivityPointsForm(forms.Form):
 
         self.helper.layout.append(
                 Div(
-                   Submit('submit', _(u'Update points'), css_class='btn btn-default'),
+                   Submit('submit',
+                          _(u'Update points'),
+                          css_class='btn btn-default'),
                    css_class='col-lg-offset-2 col-lg-4',
                 ))
 
@@ -114,7 +118,9 @@ class EditMediaPointsForm(forms.Form):
 
         self.helper.layout.append(
                 Div(
-                   Submit('submit', _(u'Update points'), css_class='btn btn-default'),
+                   Submit('submit',
+                          _(u'Update points'),
+                          css_class='btn btn-default'),
                    css_class='col-lg-offset-2 col-lg-4',
                 ))
 
@@ -128,6 +134,3 @@ class GamificationEventForm(forms.Form):
     event = forms.CharField(widget=forms.HiddenInput())
     points = forms.IntegerField(widget=forms.HiddenInput())
     reference = forms.IntegerField(widget=forms.HiddenInput())
-
-
-

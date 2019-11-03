@@ -18,25 +18,27 @@ class LoginViewTest(TestCase):
         super(LoginViewTest, self).setUp()
 
     def test_already_logged_in_admin(self):
-        self.client.login(username=ADMIN_USER['user'], password=ADMIN_USER['password'])
+        self.client.login(username=ADMIN_USER['user'],
+                          password=ADMIN_USER['password'])
         response = self.client.get(reverse('profile_login'))
         self.assertRedirects(response, reverse('oppia_home'), 302, 200)
 
     def test_already_logged_in_staff(self):
-        self.client.login(username=STAFF_USER['user'], password=STAFF_USER['password'])
+        self.client.login(username=STAFF_USER['user'],
+                          password=STAFF_USER['password'])
         response = self.client.get(reverse('profile_login'))
         self.assertRedirects(response, reverse('oppia_home'), 302, 200)
 
     def test_already_logged_in_teacher(self):
-        self.client.login(username=TEACHER_USER['user'], password=TEACHER_USER['password'])
+        self.client.login(username=TEACHER_USER['user'],
+                          password=TEACHER_USER['password'])
         response = self.client.get(reverse('profile_login'), follow=True)
         self.assertTemplateUsed(response, 'oppia/home-teacher.html')
         self.assertEqual(response.status_code, 200)
 
     def test_already_logged_in_user(self):
-        self.client.login(username=NORMAL_USER['user'], password=NORMAL_USER['password'])
+        self.client.login(username=NORMAL_USER['user'],
+                          password=NORMAL_USER['password'])
         response = self.client.get(reverse('profile_login'), follow=True)
         self.assertTemplateUsed(response, 'profile/user-scorecard.html')
-        self.assertEqual(response.status_code, 200)
-
-        
+        self.assertEqual(response.status_code, 200)        

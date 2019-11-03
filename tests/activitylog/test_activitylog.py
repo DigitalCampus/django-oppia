@@ -38,7 +38,7 @@ class UploadActivityLogTest(TestCase):
     def test_wrong_format_file(self):
         self.client.login(username=ADMIN_USER['user'],
                           password=ADMIN_USER['password'])
-        # Commented out until we can figure out the problem with testserver making http requests
+
         with open(self.wrong_activity_file, 'rb') as activity_log_file:
             response = self.client.post(self.url,
                                         {'activity_log_file': activity_log_file})
@@ -53,7 +53,7 @@ class UploadActivityLogTest(TestCase):
 
         self.client.login(username=ADMIN_USER['user'],
                           password=ADMIN_USER['password'])
-        # Commented out until we can figure out the problem with testserver making http requests
+        
         with open(self.basic_activity_log, 'rb') as activity_log_file:
             response = self.client.post(self.url,
                                         {'activity_log_file': activity_log_file})
@@ -73,7 +73,7 @@ class UploadActivityLogTest(TestCase):
 
         self.client.login(username=ADMIN_USER['user'],
                           password=ADMIN_USER['password'])
-        # Commented out until we can figure out the problem with testserver making http requests
+
         with open(self.new_user_activity, 'rb') as activity_log_file:
             response = self.client.post(self.url,
                                         {'activity_log_file': activity_log_file})
@@ -88,4 +88,3 @@ class UploadActivityLogTest(TestCase):
         user_count_end = User.objects.all().count()
         self.assertEqual(tracker_count_start + 2, tracker_count_end)
         self.assertEqual(user_count_start + 1, user_count_end)
-

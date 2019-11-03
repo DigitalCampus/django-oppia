@@ -230,6 +230,4 @@ class CoursePublishResourceTest(TestCase):
             new_no_cpls = CoursePublishingLog.objects.filter(action='over_max_upload').count()
             self.assertEqual(old_no_cpls+1, new_no_cpls)
 
-    # TODO - check overwriting course with older version
-
-    
+    # TODO - check overwriting course with older version    

@@ -122,6 +122,4 @@ class VisualisationsTest(TestCase):
         # Searches
         searches, previous_searches = summary_get_searches(start_date)
         self.assertEqual(searches.count(), 0)
-        self.assertEqual(previous_searches, 0)
-
-    
+        self.assertEqual(previous_searches, 0)    

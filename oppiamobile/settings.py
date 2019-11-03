@@ -226,4 +226,3 @@ except ImportError:
 
 if DEVICE_ADMIN_ENABLED:
     INSTALLED_APPS += ('deviceadmin', 'gcm', )
-

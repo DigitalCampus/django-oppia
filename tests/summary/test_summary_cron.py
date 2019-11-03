@@ -44,6 +44,4 @@ class SummaryCronTest(TestCase):
         SettingProperties.delete_key('oppia_summary_cron_lock')
         # check unlocked again
         lock = SettingProperties.get_int('oppia_summary_cron_lock', 999)
-        self.assertEqual(lock, 999)
-
-        
+        self.assertEqual(lock, 999)        

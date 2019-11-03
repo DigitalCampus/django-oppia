@@ -42,8 +42,10 @@ class MediaPublishResourceTest(TestCase):
                                      'media_file': video_file})
         self.assertEqual(response.status_code, 400)
 
-        video_file.close() # shouldn't be strictly necessary to close the file, but avoids ResourceWarnings about unclosed files
-
+        # shouldn't be strictly necessary to close the file,
+        # but avoids ResourceWarnings about unclosed files
+        video_file.close() 
+        
     # check authentication check working correctly
     def test_authentication(self):
 
@@ -129,6 +131,4 @@ class MediaPublishResourceTest(TestCase):
 
         course_file.close()
         # shouldn't be strictly necessary to close the file,
-        # but avoids ResourceWarnings about unclosed files
-
-        
+        # but avoids ResourceWarnings about unclosed files        
