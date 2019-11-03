@@ -161,7 +161,6 @@ class CourseManager(models.Model):
         verbose_name_plural = _('Course Managers')
 
 
-
 class Section(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     order = models.IntegerField()

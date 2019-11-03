@@ -18,7 +18,6 @@ class UserSearchActivityViewTest(TestCase):
         self.template = 'profile/users-paginated-list.html'
         self.url = reverse('profile_list_users')
 
-
     def test_view_export(self):
 
         allowed_users = [ADMIN_USER, STAFF_USER]

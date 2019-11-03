@@ -36,7 +36,6 @@ class IntegrationViewsTest(TestCase):
         res = self.get_view(route, STAFF_USER)
         self.assertEqual(res.status_code, 200)
 
-
     def test_student_cantview_integrations_home(self):
         route = reverse('oppia_integrations_home')
         res = self.get_view(route, NORMAL_USER)

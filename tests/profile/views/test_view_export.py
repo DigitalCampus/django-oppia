@@ -18,7 +18,6 @@ class UserSearchActivityViewTest(TestCase):
         self.template = 'profile/export-users.html'
         self.url = reverse('profile_export')
 
-
     def test_view_export(self):
 
         allowed_users = [ADMIN_USER, STAFF_USER]

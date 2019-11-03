@@ -47,7 +47,6 @@ def leaderboard_export(request, course_id=None):
     return JsonResponse(response_data)
 
 
-
 def load_course_points(request, course):
     course_custom_points = CourseGamificationEvent.objects.filter(course=course)
     if len(course_custom_points) > 0:
@@ -162,7 +161,6 @@ def edit_course_gamification(request, course_id):
     else:
         formset = events_formset(prefix='events')
 
-
     activities = Activity.objects.filter(section__course=course).select_related('section').prefetch_related('gamification_events')
     media = Media.objects.filter(course=course).prefetch_related('gamification_events')
 
@@ -187,7 +185,6 @@ def edit_course_gamification(request, course_id):
         m.events = {}
         for event in m.gamification_events.all():
             m.events[event.event] = event.points
-
 
     return render(request, 'gamification/edit.html',
                   {

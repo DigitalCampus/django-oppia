@@ -217,8 +217,13 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
         section.save()
 
         for act in activities.findall("activity"):
-            parse_and_save_activity(req, user, course, section, act, new_course, process_quizzes_locally)
-
+            parse_and_save_activity(req, 
+                                    user, 
+                                    course, 
+                                    section, 
+                                    act, 
+                                    new_course, 
+                                    process_quizzes_locally)
 
     media_element = xml_doc.find('media')
     if media_element is not None:
@@ -275,7 +280,14 @@ def parse_baseline_activities(req, xml_doc, course, user, new_course, process_qu
             )
             section.save()
             for act in activities:
-                parse_and_save_activity(req, user, course, section, act, new_course, process_quizzes_locally, is_baseline=True)
+                parse_and_save_activity(req, 
+                                        user, 
+                                        course, 
+                                        section, 
+                                        act, 
+                                        new_course, 
+                                        process_quizzes_locally, 
+                                        is_baseline=True)
 
 def parse_and_save_activity(req, user, course, section, act, new_course, process_quiz_locally, is_baseline=False):
     """

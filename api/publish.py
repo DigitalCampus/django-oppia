@@ -146,7 +146,6 @@ def publish_view(request):
             return HttpResponse(status=201)
 
 
-
 def get_messages_array(request):
     msgs = messages.get_messages(request)
     valid = True

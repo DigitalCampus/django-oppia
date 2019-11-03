@@ -43,13 +43,11 @@ class CoursePublishResourceTest(TestCase):
             response = self.client.post(self.url, { 'username': 'demo', 'password': 'secret', 'tags': 'demo', api.COURSE_FILE_FIELD: course_file})
             self.assertEqual(response.status_code, 400)
 
-
     # test tags not empty
     def test_tags_not_empty(self):
         with open(self.course_file_path, 'rb') as course_file:
             response = self.client.post(self.url, { 'username': 'admin', 'password': 'password', 'tags': '', 'is_draft': False, api.COURSE_FILE_FIELD: course_file })
             self.assertEqual(response.status_code, 400)
-
 
     # test is user has correct permissions or not to upload
     def test_upload_permission_admin(self):
@@ -82,7 +80,6 @@ class CoursePublishResourceTest(TestCase):
             new_no_cpls = CoursePublishingLog.objects.filter(action='api_course_published').count()
             self.assertEqual(old_no_cpls+1, new_no_cpls)
 
-
     def test_upload_permission_teacher(self):
         #set course owner to teacher
         user = User.objects.get(username='teacher')
@@ -101,7 +98,6 @@ class CoursePublishResourceTest(TestCase):
             new_no_cpls = CoursePublishingLog.objects.filter(action='api_course_published').count()
             self.assertEqual(old_no_cpls+1, new_no_cpls)
 
-
     def test_upload_permission_user(self):
 
         old_no_cpls = CoursePublishingLog.objects.filter(action='api_course_published').count()
@@ -114,7 +110,6 @@ class CoursePublishResourceTest(TestCase):
             # check record added to course publishing log
             new_no_cpls = CoursePublishingLog.objects.filter(action='api_course_published').count()
             self.assertEqual(old_no_cpls, new_no_cpls)
-
 
     # test user has given correct password
     def test_unauthorised_user(self):
@@ -136,7 +131,6 @@ class CoursePublishResourceTest(TestCase):
             # check record added to course publishing log
             new_no_cpls = CoursePublishingLog.objects.filter(action='invalid_zip').count()
             self.assertEqual(old_no_cpls+1, new_no_cpls)
-
 
     # test if user is trying to overwrite course they don't already own
     def test_overwriting_course_non_owner(self):
@@ -173,7 +167,6 @@ class CoursePublishResourceTest(TestCase):
             # check record added to course publishing log
             new_no_cpls = CoursePublishingLog.objects.filter(action='over_max_upload').count()
             self.assertEqual(old_no_cpls+1, new_no_cpls)
-
 
     # TODO - check overwriting course with older version
 

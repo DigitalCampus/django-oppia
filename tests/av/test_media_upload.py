@@ -24,7 +24,6 @@ class MediaUploadResourceTest(TestCase):
     def setUp(self):
         super(MediaUploadResourceTest, self).setUp()
 
-
     def test_upload_template(self):
 
         media_file_content = open(self.media_file_path,'rb')

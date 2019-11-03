@@ -33,7 +33,6 @@ class VisualisationsTest(TestCase):
             self.assertTemplateUsed(response, 'viz/summary.html')
             self.assertEqual(response.status_code, 200)
 
-
         for disallowed_user in disallowed_users:
             self.client.login(username=disallowed_user['user'], password=disallowed_user['password'])
             response = self.client.get(reverse('oppia_viz_summary'))

@@ -36,7 +36,6 @@ class Command(BaseCommand):
             self.stdout.write("Oppia cron is already running")
             return
 
-
         now = time.time()
         path = os.path.join(settings.COURSE_UPLOAD_DIR, "temp")
 

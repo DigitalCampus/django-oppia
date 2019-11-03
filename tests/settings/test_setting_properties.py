@@ -4,7 +4,6 @@ from settings.models import SettingProperties
 
 class SettingPropertiesTest(TestCase):
 
-
     def test_self_name_int(self):
         sp = SettingProperties()
         sp.key = u"testintkey"

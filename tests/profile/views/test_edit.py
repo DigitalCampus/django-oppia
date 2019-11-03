@@ -63,7 +63,6 @@ class EditProfileViewTest(TestCase):
         response = self.client.get(reverse('profile_edit_user',args=[4]))
         self.assertEqual(response.status_code, 200)
 
-
     def test_view_others_profile_teacher(self):
         # teacher
         self.client.login(username=TEACHER_USER['user'], password=TEACHER_USER['password'])
@@ -75,7 +74,6 @@ class EditProfileViewTest(TestCase):
 
         response = self.client.get(reverse('profile_edit_user',args=[3]))
         self.assertEqual(response.status_code, 403)
-
 
     def test_view_others_profile_user(self):
         # user
@@ -288,7 +286,6 @@ class EditProfileViewTest(TestCase):
         self.client.login(username=NORMAL_USER['user'], password='newpassword')
         response = self.client.get(reverse('profile_edit'))
         self.assertEqual(response.status_code, 200)
-
 
     def test_edit_other_password_admin(self):
         self.client.login(username=ADMIN_USER['user'], password=ADMIN_USER['password'])

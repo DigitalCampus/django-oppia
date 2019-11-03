@@ -73,8 +73,6 @@ class GamificationEvent(models.Model):
         return self.default_event.helper_text
 
 
-
-
 class CourseGamificationEvent(GamificationEvent):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='gamification_events')
 
@@ -95,8 +93,7 @@ class ActivityGamificationEvent(GamificationEvent):
     class Meta:
         verbose_name = _(u'Activity Gamification Event')
         verbose_name_plural = _(u'Activity Gamification Events')
-
-
+        
 
 class MediaGamificationEvent(GamificationEvent):
     media = models.ForeignKey(Media, on_delete=models.CASCADE, related_name='gamification_events')

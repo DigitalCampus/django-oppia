@@ -2,8 +2,6 @@
 
 # oppia/tests/quiz/test_quiz_api.py
 
-
-
 # TODO QuizQuestionResource
 # TODO QuestionResource
 # TODO QuestionPropsResource

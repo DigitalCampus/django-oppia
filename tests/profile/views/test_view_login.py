@@ -38,6 +38,4 @@ class LoginViewTest(TestCase):
         self.assertTemplateUsed(response, 'profile/user-scorecard.html')
         self.assertEqual(response.status_code, 200)
 
-
-
         

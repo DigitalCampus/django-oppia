@@ -31,7 +31,6 @@ class UploadActivityLogTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertFormError(response, 'form', 'activity_log_file', 'Please select an activity log file to upload')
 
-
     def test_wrong_format_file(self):
         self.client.login(username=ADMIN_USER['user'], password=ADMIN_USER['password'])
         # Commented out until we can figure out the problem with testserver making http requests
@@ -42,7 +41,6 @@ class UploadActivityLogTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(messages), 1)
         self.assertContains(response, 'wrong format')
-
 
     def test_correct_file(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -60,7 +58,6 @@ class UploadActivityLogTest(TestCase):
 
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start + 2, tracker_count_end)
-
 
     def test_new_user_file(self):
         tracker_count_start = Tracker.objects.all().count()

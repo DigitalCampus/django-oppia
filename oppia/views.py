@@ -169,7 +169,6 @@ def render_courses_list(request, courses, params=None):
     except (EmptyPage, InvalidPage):
         courses = paginator.page(paginator.num_pages)
 
-
     for course in courses:
         access_detail, response = can_view_course_detail(request, course.id)
         course.can_edit = can_edit_course(request, course.id)
