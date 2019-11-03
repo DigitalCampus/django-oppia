@@ -274,14 +274,14 @@ class QuizAttemptResource(ModelResource):
         if attempts > 0:
             raise BadRequest(_(u'QuizAttempt already submitted'))
 
-        #check that all the questions exist and are part of this quiz
+        # check that all the questions exist and are part of this quiz
         for response in bundle.data['responses']:
             if 'question_id' in response:
                 try:
                     response['question'] = Question.objects.get(pk=response['question_id'])
                 except Question.DoesNotExist:
                     raise BadRequest(_(u'Question does not exist'))
-                #check part of this quiz
+                # check part of this quiz
                 try:
                     QuizQuestion.objects.get(quiz=bundle.obj.quiz, question=response['question'])
                 except QuizQuestion.DoesNotExist:

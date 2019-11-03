@@ -31,7 +31,7 @@ class Command(BaseCommand):
         else:
             hours=0
 
-        #check if cron already running
+        # check if cron already running
         prop, created = SettingProperties.objects.get_or_create(key='oppia_cron_lock', int_value=1)
         if not created:
             self.stdout.write("Oppia cron is already running")

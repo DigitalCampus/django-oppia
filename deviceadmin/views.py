@@ -61,7 +61,7 @@ def send_message_to_device(request):
             return JsonResponse(response, status=200)
         else:
             return JsonResponse(response, status=400)
-        #return the response object as json
+        # return the response object as json
 
     else:
         return HttpResponse(status=400)

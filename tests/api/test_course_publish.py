@@ -90,7 +90,7 @@ class CoursePublishResourceTest(TestCase):
             self.assertEqual(old_no_cpls+1, new_no_cpls)
 
     def test_upload_permission_staff(self):
-        #set course owner to staff
+        # set course owner to staff
         user = User.objects.get(username='staff')
         course = Course.objects.get(shortname='anc1-all')
         course.user = user
@@ -113,7 +113,7 @@ class CoursePublishResourceTest(TestCase):
             self.assertEqual(old_no_cpls+1, new_no_cpls)
 
     def test_upload_permission_teacher(self):
-        #set course owner to teacher
+        # set course owner to teacher
         user = User.objects.get(username='teacher')
         course = Course.objects.get(shortname='anc1-all')
         course.user = user
@@ -186,7 +186,7 @@ class CoursePublishResourceTest(TestCase):
 
     # test if user is trying to overwrite course they don't already own
     def test_overwriting_course_non_owner(self):
-        #set course owner to admin
+        # set course owner to admin
         user = User.objects.get(username='admin')
         course = Course.objects.get(shortname='anc1-all')
         course.user = user

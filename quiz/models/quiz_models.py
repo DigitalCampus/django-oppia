@@ -124,7 +124,7 @@ class QuizAttempt(models.Model):
             return None
 
     def get_tracker(self):
-        #get tracker model this way to avoid circular import issues
+        # get tracker model this way to avoid circular import issues
         tracker = apps.get_model('oppia.tracker')
         trackers = tracker.objects.filter(uuid=self.instance_id)
         if trackers.count() > 0:

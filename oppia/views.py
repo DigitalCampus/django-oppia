@@ -191,7 +191,7 @@ def render_courses_list(request, courses, params=None):
 def courses_list_view(request):
 
     if request.is_ajax():
-        #if we are requesting via ajax, just show the course list
+        # if we are requesting via ajax, just show the course list
         ordering, courses = get_paginated_courses(request)
         return render(request, 'course/list_page.html',
                       {'page': courses,
@@ -261,7 +261,7 @@ def upload_step2(request, course_id, editing=False):
     if request.method == 'POST':
         form = UploadCourseStep2Form(request.POST, request.FILES)
         if form.is_valid() and course:
-            #add the tags
+            # add the tags
             add_course_tags(form, course, request.user)
             redirect = 'oppia_course' if editing else 'oppia_upload_success'
             CoursePublishingLog(course=course,
@@ -314,7 +314,7 @@ def generate_graph_data(dates_types_stats, is_monthly=False):
 
     for date in dates_types_stats:
         if is_monthly:
-            #depending if it is monthly or daily, we parse differently the day "tag"
+            # depending if it is monthly or daily, we parse differently the day "tag"
             day = datetime.date(month=date['month'], year=date['year'], day=1)
         else:
             day = date['day']
@@ -543,13 +543,13 @@ def cohort_add(request):
 
             return HttpResponseRedirect('../')  # Redirect after POST
         else:
-            #If form is not valid, clean the groups data
+            # If form is not valid, clean the groups data
             form.data['teachers'] = None
             form.data['courses'] = None
             form.data['students'] = None
 
     else:
-        form = CohortForm()  # An unbound form
+        form = CohortForm()
 
     ordering, users = get_paginated_users(request)
     c_ordering, courses = get_paginated_courses(request)
@@ -745,7 +745,7 @@ def cohort_course_view(request, cohort_id, course_id):
                     'no_badges': course_stats.badges_achieved,
                     'no_media_viewed': course_stats.media_viewed}
         else:
-            #The user has no activity registered
+            # The user has no activity registered
             data = {'user': user,
                     'user_display': str(user),
                     'no_quizzes_completed': 0,
@@ -861,7 +861,7 @@ def course_feedback(request, course_id):
 
 
 def course_feedback_responses(request, course_id, quiz_id):
-    #get the quiz digests for this course
+    # get the quiz digests for this course
     course = check_owner(request, course_id)
     quiz = Quiz.objects.get(pk=quiz_id)
     attempts = QuizAttempt.objects.filter(quiz=quiz).order_by('-attempt_date')

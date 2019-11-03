@@ -594,7 +594,7 @@ def export_users(request):
         try:
             user.apiKey = user.api_key.key
         except ApiKey.DoesNotExist:
-            #if the user doesn't have an apiKey yet, generate it
+            # if the user doesn't have an apiKey yet, generate it
             user.apiKey = ApiKey.objects.create(user=user).key
 
     template = 'export-users.html'
@@ -623,29 +623,29 @@ def delete_account_view(request):
         if form.is_valid():
             user = request.user
 
-            #delete points
+            # delete points
             Points.objects.filter(user=user).delete()
 
-            #delete badges
+            # delete badges
             Award.objects.filter(user=user).delete()
 
-            #delete trackers
+            # delete trackers
             Tracker.objects.filter(user=user).delete()
 
-            #delete quiz attempts
+            # delete quiz attempts
             QuizAttemptResponse.objects.filter(quizattempt__user=user).delete()
             QuizAttempt.objects.filter(user=user).delete()
 
-            #delete profile
+            # delete profile
             UserProfile.objects.filter(user=user).delete()
 
-            #delete api key
+            # delete api key
             ApiKey.objects.filter(user=user).delete()
 
-            #logout and delete user
+            # logout and delete user
             User.objects.get(pk=user.id).delete()
 
-            #redirect
+            # redirect
             return HttpResponseRedirect(reverse('profile_delete_account_complete'))
     else:
         form = DeleteAccountForm(initial={'username': request.user.username})
