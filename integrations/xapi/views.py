@@ -49,7 +49,7 @@ def csv_export(request):
         quiz_instance = tracker_data['instance_id']
 
         try:
-            quiz_attempt = QuizAttempt.objects.get(instance_id = quiz_instance)
+            quiz_attempt = QuizAttempt.objects.get(instance_id=quiz_instance)
         except QuizAttempt.DoesNotExist:
             continue
 

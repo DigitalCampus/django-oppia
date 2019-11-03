@@ -109,8 +109,8 @@ def get_length(filename):
                                '-show_streams',
                                '-loglevel',
                                'quiet'],
-                              stdout = subprocess.PIPE,
-                              stderr = subprocess.STDOUT)
+                              stdout=subprocess.PIPE,
+                              stderr=subprocess.STDOUT)
 
     duration = float(json.loads(result.stdout.read())['streams'][0]['duration'])
     if duration != 0:

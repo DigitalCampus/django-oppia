@@ -146,13 +146,13 @@ def reset(request):
                 prefix = 'http://'
 
             emailer.send_oppia_email(
-                template_html = 'profile/email/password_reset.html',
-                template_text = 'profile/email/password_reset.txt',
+                template_html='profile/email/password_reset.html',
+                template_text='profile/email/password_reset.txt',
                 subject="Password reset",
                 fail_silently=False,
                 recipients=[user.email],
-                new_password = newpass,
-                site = prefix + request.META['SERVER_NAME']
+                new_password=newpass,
+                site=prefix + request.META['SERVER_NAME']
                 )
 
             return HttpResponseRedirect('sent')
