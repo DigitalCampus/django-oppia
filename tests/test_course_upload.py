@@ -15,13 +15,8 @@ class CourseUploadTest(TestCase):
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
                 'tests/test_permissions.json']
-<<<<<<< HEAD
 
-    course_file_path = './oppia/fixtures/reference_files/anc_test_course.zip'
-=======
-    
-    course_file_path = './oppia/fixtures/reference_files/cd1_test_course.zip' 
->>>>>>> stash
+    course_file_path = './oppia/fixtures/reference_files/ncd1_test_course.zip'
     media_file_path = './oppia/fixtures/reference_files/sample_video.m4v'
 
     def setUp(self):
@@ -36,6 +31,6 @@ class CourseUploadTest(TestCase):
                                         {'course_file': course_file})
             # should be redirected to the update step 2 form
             self.assertRedirects(response,
-                                 reverse('oppia_upload2', args=[1]),
+                                 reverse('oppia_upload2', args=[2]),
                                  302,
                                  200)

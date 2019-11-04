@@ -19,7 +19,7 @@ class MediaUploadResourceTest(TestCase):
                 'tests/test_quiz.json',
                 'tests/test_permissions.json']
 
-    course_file_path = './oppia/fixtures/reference_files/cd1_test_course.zip'
+    course_file_path = './oppia/fixtures/reference_files/ncd1_test_course.zip'
     media_file_path = './oppia/fixtures/reference_files/sample_video.m4v'
 
     def setUp(self):

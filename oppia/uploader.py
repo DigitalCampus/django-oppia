@@ -171,13 +171,8 @@ def process_course(extract_path, f, mod_name, request, user):
     return course, 200
 
 
-<<<<<<< HEAD
-def parse_course_contents(req, xml_doc, course, user, new_course, process_quizzes_locally):
-
-=======
 def parse_course_contents(req, xml_doc, course, user, new_course):
-    
->>>>>>> stash
+
     # add in any baseline activities
     parse_baseline_activities(req, xml_doc, course, user, new_course)
 
@@ -218,18 +213,12 @@ def parse_course_contents(req, xml_doc, course, user, new_course):
         section.save()
 
         for act in activities.findall("activity"):
-<<<<<<< HEAD
             parse_and_save_activity(req,
                                     user,
                                     course,
                                     section,
                                     act,
-                                    new_course,
-                                    process_quizzes_locally)
-=======
-            parse_and_save_activity(req, user, course, section, act, new_course)
-    
->>>>>>> stash
+                                    new_course)
 
     media_element = xml_doc.find('media')
     if media_element is not None:
@@ -270,22 +259,14 @@ def parse_course_contents(req, xml_doc, course, user, new_course):
                     if created:
                         msg_text = _(u'Gamification for "%(event)s" at course level added') % {'event': e.event}
                         messages.info(req, msg_text)
-<<<<<<< HEAD
                         CoursePublishingLog(course=course,
                                             user=user,
                                             action="course_gamification_added",
                                             data=msg_text).save()
 
 
-def parse_baseline_activities(req, xml_doc, course, user, new_course, process_quizzes_locally):
-=======
-                        CoursePublishingLog(course=course, 
-                                user=user, 
-                                action="course_gamification_added", 
-                                data=msg_text).save()
-                        
 def parse_baseline_activities(req, xml_doc, course, user, new_course):
->>>>>>> stash
+
     for meta in xml_doc.findall('meta')[:1]:
         activities = meta.findall("activity")
         if len(activities) > 0:
@@ -296,19 +277,14 @@ def parse_baseline_activities(req, xml_doc, course, user, new_course):
             )
             section.save()
             for act in activities:
-<<<<<<< HEAD
                 parse_and_save_activity(req,
                                         user,
                                         course,
                                         section,
                                         act,
                                         new_course,
-                                        process_quizzes_locally,
                                         is_baseline=True)
 
-=======
-                parse_and_save_activity(req, user, course, section, act, new_course, is_baseline=True)
->>>>>>> stash
 
 def parse_and_save_activity(req, user, course, section, act, new_course, is_baseline=False):
     """
@@ -390,7 +366,7 @@ def parse_and_save_activity(req, user, course, section, act, new_course, is_base
     if (act_type == "quiz"):
         updated_json = parse_and_save_quiz(req, user, activity, act)
         # we need to update the JSON contents both in the XML and in the activity data
-        act.find("content")[0].text = updated_json
+        act.find("content").text = "<![CDATA[ " + updated_json + "]]>"
         activity.content = updated_json
 
     activity.save()

@@ -34,7 +34,6 @@ MIDDLEWARE = [
 
 ]
 
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -100,9 +99,7 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'sass_processor.finders.CssFinder',
-
 ]
-
 
 ROOT_URLCONF = 'oppiamobile.urls'
 MEDIA_URL = '/media/'

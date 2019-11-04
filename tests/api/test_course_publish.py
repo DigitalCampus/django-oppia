@@ -17,7 +17,7 @@ class CoursePublishResourceTest(TestCase):
     def setUp(self):
         self.client = Client()
         self.url = '/api/publish/'
-        self.course_file_path = './oppia/fixtures/reference_files/cd1_test_course.zip'
+        self.course_file_path = './oppia/fixtures/reference_files/ncd1_test_course.zip'
         self.video_file_path = './oppia/fixtures/reference_files/sample_video.m4v'
 
     # test only POST is available
@@ -92,7 +92,7 @@ class CoursePublishResourceTest(TestCase):
     def test_upload_permission_staff(self):
         # set course owner to staff
         user = User.objects.get(username='staff')
-        course = Course.objects.get(shortname='anc1-all')
+        course = Course.objects.get(shortname='ncd1-et')
         course.user = user
         course.save()
 
@@ -115,7 +115,7 @@ class CoursePublishResourceTest(TestCase):
     def test_upload_permission_teacher(self):
         # set course owner to teacher
         user = User.objects.get(username='teacher')
-        course = Course.objects.get(shortname='anc1-all')
+        course = Course.objects.get(shortname='ncd1-et')
         course.user = user
         course.save()
 

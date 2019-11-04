@@ -16,7 +16,7 @@ class MediaPublishResourceTest(TestCase):
     def setUp(self):
         self.client = Client()
         self.url = '/api/media/'
-        self.course_file_path = './oppia/fixtures/reference_files/cd1_test_course.zip'
+        self.course_file_path = './oppia/fixtures/reference_files/ncd1_test_course.zip'
         self.video_file_path = './oppia/fixtures/reference_files/sample_video.m4v'
 
     # test only POST is available
