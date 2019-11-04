@@ -468,7 +468,7 @@ def parse_course_meta(xml_doc):
 
         meta_info['shortname'] = get_content(meta, 'shortname')
         exportversion = meta.find('exportversion')
-        if exportversion:
+        if len(exportversion):
             meta_info['exportversion'] = exportversion
         meta_info['gamification'] = meta.find('gamification')
 
