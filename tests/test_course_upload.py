@@ -15,8 +15,13 @@ class CourseUploadTest(TestCase):
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
                 'tests/test_permissions.json']
+<<<<<<< HEAD
 
     course_file_path = './oppia/fixtures/reference_files/anc_test_course.zip'
+=======
+    
+    course_file_path = './oppia/fixtures/reference_files/cd1_test_course.zip' 
+>>>>>>> stash
     media_file_path = './oppia/fixtures/reference_files/sample_video.m4v'
 
     def setUp(self):

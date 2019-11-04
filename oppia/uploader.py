@@ -154,11 +154,7 @@ def process_course(extract_path, f, mod_name, request, user):
                                     action="gamification_added",
                                     data=msg_text).save()
 
-    process_quizzes_locally = False
-    if 'exportversion' in meta_info and meta_info['exportversion'] >= settings.OPPIA_EXPORT_LOCAL_MINVERSION:
-        process_quizzes_locally = True
-
-    parse_course_contents(request, doc, course, user, new_course, process_quizzes_locally)
+    parse_course_contents(request, doc, course, user, new_course)
     clean_old_course(request, user, oldsections, old_course_filename, course)
 
     tmp_path = replace_zip_contents(xml_path, doc, mod_name, extract_path)
@@ -175,10 +171,15 @@ def process_course(extract_path, f, mod_name, request, user):
     return course, 200
 
 
+<<<<<<< HEAD
 def parse_course_contents(req, xml_doc, course, user, new_course, process_quizzes_locally):
 
+=======
+def parse_course_contents(req, xml_doc, course, user, new_course):
+    
+>>>>>>> stash
     # add in any baseline activities
-    parse_baseline_activities(req, xml_doc, course, user, new_course, process_quizzes_locally)
+    parse_baseline_activities(req, xml_doc, course, user, new_course)
 
     # add all the sections and activities
     structure = xml_doc.find("structure")
@@ -217,6 +218,7 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
         section.save()
 
         for act in activities.findall("activity"):
+<<<<<<< HEAD
             parse_and_save_activity(req,
                                     user,
                                     course,
@@ -224,6 +226,10 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
                                     act,
                                     new_course,
                                     process_quizzes_locally)
+=======
+            parse_and_save_activity(req, user, course, section, act, new_course)
+    
+>>>>>>> stash
 
     media_element = xml_doc.find('media')
     if media_element is not None:
@@ -264,6 +270,7 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
                     if created:
                         msg_text = _(u'Gamification for "%(event)s" at course level added') % {'event': e.event}
                         messages.info(req, msg_text)
+<<<<<<< HEAD
                         CoursePublishingLog(course=course,
                                             user=user,
                                             action="course_gamification_added",
@@ -271,6 +278,14 @@ def parse_course_contents(req, xml_doc, course, user, new_course, process_quizze
 
 
 def parse_baseline_activities(req, xml_doc, course, user, new_course, process_quizzes_locally):
+=======
+                        CoursePublishingLog(course=course, 
+                                user=user, 
+                                action="course_gamification_added", 
+                                data=msg_text).save()
+                        
+def parse_baseline_activities(req, xml_doc, course, user, new_course):
+>>>>>>> stash
     for meta in xml_doc.findall('meta')[:1]:
         activities = meta.findall("activity")
         if len(activities) > 0:
@@ -281,6 +296,7 @@ def parse_baseline_activities(req, xml_doc, course, user, new_course, process_qu
             )
             section.save()
             for act in activities:
+<<<<<<< HEAD
                 parse_and_save_activity(req,
                                         user,
                                         course,
@@ -290,14 +306,16 @@ def parse_baseline_activities(req, xml_doc, course, user, new_course, process_qu
                                         process_quizzes_locally,
                                         is_baseline=True)
 
+=======
+                parse_and_save_activity(req, user, course, section, act, new_course, is_baseline=True)
+>>>>>>> stash
 
-def parse_and_save_activity(req, user, course, section, act, new_course, process_quiz_locally, is_baseline=False):
+def parse_and_save_activity(req, user, course, section, act, new_course, is_baseline=False):
     """
     Parses an Activity XML and saves it to the DB
     :param section: section the activity belongs to
     :param act: a XML DOM element containing a single activity
     :param new_course: boolean indicating if it is a new course or existed previously
-    :param process_quiz_locally: should the quiz be created based on the JSON contents?
     :param is_baseline: is the activity part of the baseline?
     :return: None
     """
@@ -369,7 +387,7 @@ def parse_and_save_activity(req, user, course, section, act, new_course, process
                             action="activity_updated",
                             data=msg_text).save()
 
-    if (act_type == "quiz") and process_quiz_locally:
+    if (act_type == "quiz"):
         updated_json = parse_and_save_quiz(req, user, activity, act)
         # we need to update the JSON contents both in the XML and in the activity data
         act.find("content")[0].text = updated_json

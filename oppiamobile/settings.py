@@ -197,8 +197,6 @@ OPPIA_MEDIA_IMAGE_FILE_TYPES = ("image/png", "image/jpeg")
 
 OPPIA_UPLOAD_TRACKER_FILE_TYPES = [("application/json")]
 
-OPPIA_EXPORT_LOCAL_MINVERSION = 2017011400  # min version of the export block to process the quizzes locally
-
 # Android app PackageId - for Google Play link and opening activities from digest
 OPPIA_ANDROID_DEFAULT_PACKAGEID = 'org.digitalcampus.mobile.learning'
 OPPIA_ANDROID_PACKAGEID = 'org.digitalcampus.mobile.learning'
