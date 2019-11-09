@@ -51,7 +51,7 @@ class Course(models.Model):
             else:
                 for l in titles:
                     return titles[l]
-        except:
+        except json.JSONDecodeError:
             pass
         return self.title
 
@@ -184,7 +184,7 @@ class Section(models.Model):
             else:
                 for l in titles:
                     return titles[l]
-        except:
+        except json.JSONDecodeError:
             pass
         return self.title
 
