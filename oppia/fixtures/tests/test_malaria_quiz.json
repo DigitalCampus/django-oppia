@@ -1,0 +1,155 @@
+[
+    {
+        "model": "quiz.quiz",
+        "pk": 11,
+        "fields": {
+            "owner": 3,
+            "created_date": "2018-12-04T07:15:55Z",
+            "lastupdated_date": "2018-12-04T07:15:55Z",
+            "draft": false,
+            "deleted": false,
+            "title": "{u'en': u'Malaria Introduction Quiz'}",
+            "description": "{u'en': u''}"
+        }
+    },
+    {
+        "model": "quiz.quizquestion",
+        "pk": 66,
+        "fields": {
+            "quiz": 11,
+            "question": 66,
+            "order": 1
+        }
+    },
+    {
+        "model": "quiz.quizquestion",
+        "pk": 67,
+        "fields": {
+            "quiz": 11,
+            "question": 67,
+            "order": 2
+        }
+    },
+    {
+        "model": "quiz.quizquestion",
+        "pk": 68,
+        "fields": {
+            "quiz": 11,
+            "question": 68,
+            "order": 3
+        }
+    },
+    {
+        "model": "quiz.quizquestion",
+        "pk": 69,
+        "fields": {
+            "quiz": 11,
+            "question": 69,
+            "order": 4
+        }
+    },
+    {
+        "model": "quiz.quizquestion",
+        "pk": 70,
+        "fields": {
+            "quiz": 11,
+            "question": 70,
+            "order": 5
+        }
+    },
+    {
+        "model": "quiz.quizquestion",
+        "pk": 71,
+        "fields": {
+            "quiz": 11,
+            "question": 71,
+            "order": 6
+        }
+    },
+    {
+        "model": "quiz.quizquestion",
+        "pk": 72,
+        "fields": {
+            "quiz": 11,
+            "question": 72,
+            "order": 7
+        }
+    },
+    {
+        "model": "quiz.question",
+        "pk": 66,
+        "fields": {
+            "owner": 3,
+            "created_date": "2018-12-04T07:15:55Z",
+            "lastupdated_date": "2018-12-04T07:15:55Z",
+            "title": "{u'en': u'At what time in the year does a child get sick with Malaria in Liberia?'}",
+            "type": "multichoice"
+        }
+    },
+    {
+        "model": "quiz.question",
+        "pk": 67,
+        "fields": {
+            "owner": 3,
+            "created_date": "2018-12-04T07:15:55Z",
+            "lastupdated_date": "2018-12-04T07:15:55Z",
+            "title": "{u'en': u'List some common signs and symptoms of malaria?'}",
+            "type": "multichoice"
+        }
+    },
+    {
+        "model": "quiz.question",
+        "pk": 68,
+        "fields": {
+            "owner": 3,
+            "created_date": "2018-12-04T07:15:55Z",
+            "lastupdated_date": "2018-12-04T07:15:55Z",
+            "title": "{u'en': u'CHAs should treat children between the ages of:'}",
+            "type": "multichoice"
+        }
+    },
+    {
+        "model": "quiz.question",
+        "pk": 69,
+        "fields": {
+            "owner": 3,
+            "created_date": "2018-12-04T07:15:56Z",
+            "lastupdated_date": "2018-12-04T07:15:56Z",
+            "title": "{u'en': u'Effective communication means'}",
+            "type": "multichoice"
+        }
+    },
+    {
+        "model": "quiz.question",
+        "pk": 70,
+        "fields": {
+            "owner": 3,
+            "created_date": "2018-12-04T07:15:56Z",
+            "lastupdated_date": "2018-12-04T07:15:56Z",
+            "title": "{u'en': u'When filling in the sick child management form, CHA should write __________'}",
+            "type": "multichoice"
+        }
+    },
+    {
+        "model": "quiz.question",
+        "pk": 71,
+        "fields": {
+            "owner": 3,
+            "created_date": "2018-12-04T07:15:56Z",
+            "lastupdated_date": "2018-12-04T07:15:56Z",
+            "title": "{u'en': u'What three sicknesses should a CHA always ask about during an assessment with a child:'}",
+            "type": "multichoice"
+        }
+    },
+    {
+        "model": "quiz.question",
+        "pk": 72,
+        "fields": {
+            "owner": 3,
+            "created_date": "2018-12-04T07:15:56Z",
+            "lastupdated_date": "2018-12-04T07:15:56Z",
+            "title": "{u'en': u'Danger signs means:'}",
+            "type": "multichoice"
+        }
+    }
+]
