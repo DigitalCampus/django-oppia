@@ -233,7 +233,7 @@ class Activity(models.Model):
             else:
                 for l in titles:
                     return titles[l]
-        except:
+        except json.JSONDecodeError:
             pass
         return self.title
 
@@ -245,7 +245,7 @@ class Activity(models.Model):
             else:
                 for l in contents:
                     return contents[l]
-        except:
+        except json.JSONDecodeError:
             pass
         return self.content
 
@@ -266,7 +266,7 @@ class Activity(models.Model):
             try:
                 max_order = Activity.objects.filter(section__course=self.section.course, section__order=self.section.order - 1).aggregate(max_order=Max('order'))
                 prev_activity = Activity.objects.get(section__course=self.section.course, section__order=self.section.order - 1, order=max_order['max_order'])
-            except:
+            except Activity.DoesNotExist:
                 prev_activity = None
         return prev_activity
 

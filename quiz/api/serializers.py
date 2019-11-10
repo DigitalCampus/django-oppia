@@ -18,19 +18,22 @@ class QuizJSONSerializer(Serializer):
         if 'questions' in data:
             self.format_quiz(data)
 
-        return json.dumps(data, sort_keys=True, ensure_ascii=False, indent=self.json_indent)
+        return json.dumps(data,
+                          sort_keys=True,
+                          ensure_ascii=False,
+                          indent=self.json_indent)
 
     def format_quiz(self, data):
 
         qmaxscore = 0.0
         try:
             data['description'] = json.loads(data['description'])
-        except ValueError:
+        except json.JSONDecodeError:
             # ignore this since the title doesn't supply lang info, so just continue as plain string
             pass
         try:
             data['title'] = json.loads(data['title'])
-        except ValueError:
+        except json.JSONDecodeError:
             # ignore this since the title doesn't supply lang info, so just continue as plain string
             pass
 
@@ -42,7 +45,7 @@ class QuizJSONSerializer(Serializer):
             # serialise question title as json
             try:
                 question['question']['title'] = json.loads(question['question']['title'])
-            except ValueError:
+            except json.JSONDecodeError:
                 # ignore this since the title doesn't supply lang info, so just continue as plain string
                 pass
 
@@ -51,14 +54,14 @@ class QuizJSONSerializer(Serializer):
                 for p in question['question']['props']:
                     try:
                         question['question']['p'][p['name']] = float(p['value'])
-                    except:
+                    except ValueError:
                         question['question']['p'][p['name']] = p['value']
 
                     # for matching questions
                     if p['name'] == 'incorrectfeedback' or p['name'] == 'partiallycorrectfeedback' or p['name'] == 'correctfeedback':
                         try:
                             question['question']['p'][p['name']] = json.loads(p['value'])
-                        except ValueError:
+                        except json.JSONDecodeError:
                             # ignore this since the title doesn't supply lang info, so just continue as plain string
                             pass
                 question['question']['props'] = question['question']['p']
@@ -66,15 +69,15 @@ class QuizJSONSerializer(Serializer):
                 try:
                     float(question['question']['props']['maxscore'])
                     qmaxscore = qmaxscore + float(question['question']['props']['maxscore'])
-                except:
-                    qmaxscore = qmaxscore
+                except ValueError:
+                    pass
 
             for r in question['question']['responses']:
                 del r['question']
                 del r['resource_uri']
                 try:
                     r['title'] = json.loads(r['title'])
-                except ValueError:
+                except json.JSONDecodeError:
                     # ignore this since the title doesn't supply lang info, so just continue as plain string
                     pass
                 r['p'] = {}
@@ -82,7 +85,7 @@ class QuizJSONSerializer(Serializer):
                     if p['name'] == 'feedback':
                         try:
                             r['p'][p['name']] = json.loads(p['value'])
-                        except ValueError:
+                        except json.JSONDecodeError:
                             r['p'][p['name']] = p['value']
                     else:
                         r['p'][p['name']] = p['value']
@@ -108,4 +111,7 @@ class QuizAttemptJSONSerializer(Serializer):
         data = self.to_simple(data, options)
         if 'responses' in data:
             del data['responses']
-        return json.dumps(data, sort_keys=True, ensure_ascii=False, indent=self.json_indent)
+        return json.dumps(data,
+                          sort_keys=True,
+                          ensure_ascii=False,
+                          indent=self.json_indent)

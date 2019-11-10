@@ -309,7 +309,7 @@ class TrackerValidation(Validation):
                 uuids = Tracker.objects.filter(uuid=bundle.obj.uuid)
                 if uuids.count() > 0:
                     errors['uuid'] = 'This UUID has already been submitted'
-        except:
+        except json.JSONDecodeError:
             pass
 
         return errors
@@ -596,7 +596,7 @@ class CourseResource(ModelResource):
 
         try:
             bundle.data['description'] = json.loads(bundle.data['description'])
-        except:
+        except json.JSONDecodeError:
             pass
 
         course = Course.objects.get(pk=bundle.obj.pk)
