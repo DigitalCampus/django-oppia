@@ -32,4 +32,4 @@ See 'good first issue' tag:
 Other Ways to Contribute
 -------------------------
 
-https://oppiamobile.readthedocs.io/en/latest/dev/getting-started.html#other-ways-to-contribute
+https://oppiamobile.readthedocs.io/en/latest/technical/dev/contribute.html
