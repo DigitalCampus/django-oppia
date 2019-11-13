@@ -19,7 +19,8 @@ class UploadCourseStep1Form(forms.Form):
     def __init__(self, *args, **kwargs):
         super(UploadCourseStep1Form, self).__init__(* args, ** kwargs)
 
-        max_upload = SettingProperties.get_int(constants.MAX_UPLOAD_SIZE, settings.OPPIA_MAX_UPLOAD_SIZE)
+        max_upload = SettingProperties.get_int(constants.MAX_UPLOAD_SIZE,
+                                               settings.OPPIA_MAX_UPLOAD_SIZE)
         self.fields['course_file'].help_text = _('Max size %(size)d Mb') % {'size': int(math.floor(max_upload / 1024 / 1024))}
 
         self.helper = FormHelper()
@@ -43,7 +44,11 @@ class UploadCourseStep1Form(forms.Form):
 
         if file is not None and file.size > max_upload:
             size = int(math.floor(max_upload / 1024 / 1024))
-            raise forms.ValidationError(_("Your file is larger than the maximum allowed (%(size)d Mb). You may want to check your course for large includes, such as images etc.") % {'size': size, })
+            raise forms.ValidationError(_("Your file is larger than the \
+                                          maximum allowed (%(size)d Mb). You \
+                                          may want to check your course for \
+                                          large includes, such as images etc. \
+                                          ") % {'size': size, })
 
         if file is not None and file.content_type != 'application/zip' and file.content_type != 'application/x-zip-compressed':
             raise forms.ValidationError(_("You may only upload a zip file"))

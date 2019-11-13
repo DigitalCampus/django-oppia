@@ -39,7 +39,8 @@ def quizattempt_callback(sender, **kwargs):
     course = None
     digest = quiz_attempt.get_quiz_digest()
     if digest is not None:
-        # TODO - what are chances of 2 courses having the exact same activity? and what to do if they do?
+        # TODO - what are chances of 2 courses having the exact same activity?
+        # and what to do if they do?
         acts = Activity.objects.filter(digest=digest)
         for a in acts:
             course = a.section.course
@@ -52,7 +53,9 @@ def quizattempt_callback(sender, **kwargs):
         return
 
     # find out is user is part of the cohort for this course
-    if course is not None and course.user == quiz_attempt.user and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
+    if course is not None \
+            and course.user == quiz_attempt.user \
+            and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
         return
 
     if quiz_attempt.is_first_attempt():
@@ -127,7 +130,8 @@ def tracker_callback(sender, **kwargs):
                 points = DefaultGamificationEvent.objects.get(event='media_started').points
             else:
                 points = 0
-            points += (DefaultGamificationEvent.objects.get(event='media_playing_points_per_interval').points * math.floor(tracker.time_taken / DefaultGamificationEvent.objects.get(event='media_playing_interval').points))
+            points += (DefaultGamificationEvent.objects.get(event='media_playing_points_per_interval').points
+                       * math.floor(tracker.time_taken / DefaultGamificationEvent.objects.get(event='media_playing_interval').points))
             if points > DefaultGamificationEvent.objects.get(event='media_max_points').points:
                 points = DefaultGamificationEvent.objects.get(event='media_max_points').points
         else:

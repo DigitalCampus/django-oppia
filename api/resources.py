@@ -311,6 +311,8 @@ class TrackerValidation(Validation):
                     errors['uuid'] = 'This UUID has already been submitted'
         except json.JSONDecodeError:
             pass
+        except KeyError:
+            pass
 
         return errors
 

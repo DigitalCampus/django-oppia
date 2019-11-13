@@ -14,11 +14,19 @@ from django.contrib import messages
 from django.utils import timezone
 from django.utils.translation import ugettext as _
 
-from gamification.models import CourseGamificationEvent, ActivityGamificationEvent, MediaGamificationEvent
+from gamification.models import CourseGamificationEvent, \
+                                ActivityGamificationEvent, \
+                                MediaGamificationEvent
 from gamification.xml_writer import GamificationXMLWriter
 from oppia.models import Course, Section, Activity, Media, CoursePublishingLog
 from oppia.utils.courseFile import unescape_xml
-from quiz.models import Quiz, Question, QuizQuestion, Response, ResponseProps, QuestionProps, QuizProps
+from quiz.models import Quiz, \
+                        Question, \
+                        QuizQuestion, \
+                        Response, \
+                        ResponseProps, \
+                        QuestionProps, \
+                        QuizProps
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -37,7 +45,9 @@ def handle_uploaded_file(f, extract_path, request, user):
     except BadZipfile:
         msg_text = _(u"Invalid zip file")
         messages.error(request, msg_text, extra_tags="danger")
-        CoursePublishingLog(user=user, action="invalid_zip", data=msg_text).save()
+        CoursePublishingLog(user=user,
+                            action="invalid_zip",
+                            data=msg_text).save()
         return False, 500
 
     mod_name = ''
@@ -48,16 +58,24 @@ def handle_uploaded_file(f, extract_path, request, user):
     if mod_name == '':
         msg_text = _(u"Invalid zip file")
         messages.info(request, msg_text, extra_tags="danger")
-        CoursePublishingLog(user=user, action="invalid_zip", data=msg_text).save()
+        CoursePublishingLog(user=user,
+                            action="invalid_zip",
+                            data=msg_text).save()
         return False, 400
 
     response = 200
     try:
-        course, response = process_course(extract_path, f, mod_name, request, user)
+        course, response = process_course(extract_path,
+                                          f,
+                                          mod_name,
+                                          request,
+                                          user)
     except Exception as e:
         logger.error(e)
         messages.error(request, str(e), extra_tags="danger")
-        CoursePublishingLog(user=user, action="upload_error", data=str(e)).save()
+        CoursePublishingLog(user=user,
+                            action="upload_error",
+                            data=str(e)).save()
         return False, 500
     finally:
         # remove the temp upload files
@@ -230,7 +248,11 @@ def parse_course_contents(req, xml_doc, course, user, new_course):
             media.digest = file_element.get("digest")
 
             if len(url) > Media.URL_MAX_LENGTH:
-                msg_text = _(u'File %(filename)s has a download URL larger than the maximum length permitted. The media file has not been registered, so it won\'t be tracked. Please, fix this issue and upload the course again.') % {'filename': media.filename}
+                msg_text = _(u'File %(filename)s has a download URL larger \
+                            than the maximum length permitted. The media file \
+                            has not been registered, so it won\'t be tracked. \
+                            Please, fix this issue and upload the course \
+                            again.') % {'filename': media.filename}
                 messages.info(req, msg_text)
                 CoursePublishingLog(course=course,
                                     user=user,
@@ -257,7 +279,8 @@ def parse_course_contents(req, xml_doc, course, user, new_course):
                         defaults={'points': event['points'], 'user': req.user})
 
                     if created:
-                        msg_text = _(u'Gamification for "%(event)s" at course level added') % {'event': e.event}
+                        msg_text = _(u'Gamification for "%(event)s" at course \
+                                    level added') % {'event': e.event}
                         messages.info(req, msg_text)
                         CoursePublishingLog(course=course,
                                             user=user,
@@ -353,7 +376,9 @@ def parse_and_save_activity(req, user, course, section, act, new_course, is_base
                             action="activity_added",
                             data=msg_text).save()
     else:
-        msg_text = _(u'Activity "%(act)s"(%(digest)s) previously existed. Updated with new information') % {'act': activity.title, 'digest': activity.digest}
+        msg_text = _(u'Activity "%(act)s"(%(digest)s) previously existed. \
+                    Updated with new information') % {'act': activity.title,
+                                                      'digest': activity.digest}
         '''
         If we also want to show the activities that previously existed, uncomment this next line
         messages.info(req, msg_text)
