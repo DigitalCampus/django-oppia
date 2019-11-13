@@ -108,7 +108,9 @@ def is_manager(course_id, user):
                 Course.objects.get(pk=course_id, user=user)
                 return True
             except Course.DoesNotExist:
-                Course.objects.get(pk=course_id, coursemanager__course__id=course_id, coursemanager__user=user)
+                Course.objects.get(pk=course_id,
+                                   coursemanager__course__id=course_id,
+                                   coursemanager__user=user)
                 return True
     except Course.DoesNotExist:
         return False
@@ -134,7 +136,9 @@ def can_view_cohort(request, cohort_id):
     try:
         if request.user.is_staff:
             return cohort, None
-        return Cohort.objects.get(pk=cohort_id, participant__user=request.user, participant__role=Participant.TEACHER), None
+        return Cohort.objects.get(pk=cohort_id,
+                                  participant__user=request.user,
+                                  participant__role=Participant.TEACHER), None
     except Cohort.DoesNotExist:
         raise exceptions.PermissionDenied
     raise exceptions.PermissionDenied
@@ -144,7 +148,8 @@ def get_cohorts(request):
     if request.user.is_staff:
         cohorts = Cohort.objects.all().order_by('description')
     else:
-        cohorts = Cohort.objects.filter(participant__user=request.user, participant__role=Participant.TEACHER).order_by('description')
+        cohorts = Cohort.objects.filter(participant__user=request.user,
+                                        participant__role=Participant.TEACHER).order_by('description')
 
     if cohorts.count() == 0:
         raise exceptions.PermissionDenied
@@ -158,9 +163,15 @@ def can_view_course(request, course_id):
             course = Course.objects.get(pk=course_id)
         else:
             try:
-                course = Course.objects.get(pk=course_id, is_draft=False, is_archived=False)
+                course = Course.objects.get(pk=course_id,
+                                            is_draft=False,
+                                            is_archived=False)
             except Course.DoesNotExist:
-                course = Course.objects.get(pk=course_id, is_draft=False, is_archived=False, coursemanager__course__id=id, coursemanager__user=request.user)
+                course = Course.objects.get(pk=course_id,
+                                            is_draft=False,
+                                            is_archived=False,
+                                            coursemanager__course__id=id,
+                                            coursemanager__user=request.user)
     except Course.DoesNotExist:
         raise Http404
     return course
@@ -185,7 +196,8 @@ def can_view_courses_list(request):
     if request.user.is_staff:
         courses = Course.objects.all().order_by('title')
     else:
-        courses = Course.objects.filter(is_draft=False, is_archived=False).order_by('title')
+        courses = Course.objects.filter(is_draft=False,
+                                        is_archived=False).order_by('title')
     return courses
 
 
