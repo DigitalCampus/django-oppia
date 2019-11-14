@@ -5,7 +5,10 @@ import api
 import os
 from django.conf import settings
 from django.contrib.auth import authenticate
-from django.http import HttpResponseRedirect, Http404, HttpResponse, JsonResponse
+from django.http import HttpResponseRedirect, \
+                        Http404, \
+                        HttpResponse, \
+                        JsonResponse
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
@@ -40,13 +43,16 @@ def check_required_fields(request, validation_errors):
 
     for field in required:
         if field not in request.POST or request.POST[field].strip() == '':
-            validation_errors.append("field '{0}' is missing or empty".format(field))
+            validation_errors.append("field '{0}' is missing or \
+                                      empty".format(field))
 
     if api.COURSE_FILE_FIELD not in request.FILES:
         validation_errors.append("Course file not found")
     else:
         course_file = request.FILES[api.COURSE_FILE_FIELD]
-        if course_file is not None and course_file.content_type != 'application/zip' and course_file.content_type != 'application/x-zip-compressed':
+        if course_file is not None \
+           and course_file.content_type != 'application/zip' \
+           and course_file.content_type != 'application/x-zip-compressed':
             validation_errors.append("You may only upload a zip file")
             msg_text = _(u"Invalid zip file")
             CoursePublishingLog(action="invalid_zip", data=msg_text).save()
@@ -55,17 +61,17 @@ def check_required_fields(request, validation_errors):
 
 
 def check_upload_file_size(file, validation_errors):
-    max_upload = SettingProperties.get_int(constants.MAX_UPLOAD_SIZE, settings.OPPIA_MAX_UPLOAD_SIZE)
+    max_upload = SettingProperties.get_int(constants.MAX_UPLOAD_SIZE,
+                                           settings.OPPIA_MAX_UPLOAD_SIZE)
     if file is not None and file.size > max_upload:
         size = int(math.floor(max_upload / 1024 / 1024))
-        validation_errors.append((_(u"Your file is larger than the maximum allowed (%(size)d Mb). You may want to check your course for large includes, such as images etc.") % {'size': size, }))
+        validation_errors.append((_(u"Your file is larger than the maximum \
+                                    allowed (%(size)d Mb). You may want to \
+                                    check your course for large includes, \
+                                    such as images etc.") % {'size': size, }))
         msg_text = _(u"Maximum course file upload size exceeded")
         CoursePublishingLog(action="over_max_upload", data=msg_text).save()
 
-    '''
-    if file is not None and file.content_type != 'application/zip' and file.content_type != 'application/x-zip-compressed':
-        validation_errors.append(_(u"You may only upload a zip file"))
-    '''
     return validation_errors
 
 
@@ -93,13 +99,16 @@ def publish_view(request):
 
     validation_errors = []
     validation_errors = check_required_fields(request, validation_errors)
-    validation_errors = check_upload_file_size(request.FILES[api.COURSE_FILE_FIELD], validation_errors)
+    validation_errors = check_upload_file_size(request.FILES[api.COURSE_FILE_FIELD],
+                                               validation_errors)
 
     if validation_errors:
         return JsonResponse({'errors': validation_errors}, status=400, )
 
     # authenticate user
-    authenticated, response_data, user = authenticate_user(request, request.POST['username'], request.POST['password'])
+    authenticated, response_data, user = authenticate_user(request,
+                                                           request.POST['username'],
+                                                           request.POST['password'])
     if not authenticated:
         return JsonResponse(response_data, status=401)
 
@@ -109,8 +118,13 @@ def publish_view(request):
             and user.userprofile.can_upload is False:
         return HttpResponse(status=401)
 
-    extract_path = os.path.join(settings.COURSE_UPLOAD_DIR, 'temp', str(user.id))
-    course, status_code = handle_uploaded_file(request.FILES[api.COURSE_FILE_FIELD], extract_path, request, user)
+    extract_path = os.path.join(settings.COURSE_UPLOAD_DIR,
+                                'temp',
+                                str(user.id))
+    course, status_code = handle_uploaded_file(request.FILES[api.COURSE_FILE_FIELD],
+                                               extract_path,
+                                               request,
+                                               user)
 
     CoursePublishingLog(course=course if course else None,
                         new_version=course.version if course else None,

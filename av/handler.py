@@ -26,7 +26,8 @@ def upload(request, user):
         uploaded_media.save()
 
         try:
-            media_full_path = os.path.join(settings.MEDIA_ROOT, uploaded_media.file.name)
+            media_full_path = os.path.join(settings.MEDIA_ROOT,
+                                           uploaded_media.file.name)
             media_length = get_length(media_full_path)
             uploaded_media.length = media_length
             uploaded_media.save()
@@ -35,8 +36,17 @@ def upload(request, user):
             most likely means settings.MEDIA_PROCESSOR_PROGRAM is not installed
             '''
             uploaded_media.delete()
-            messages.add_message(request, messages.ERROR, _(u"The %s program does not seem to be installed on this server, or is incorrectly configured. Please ask your Oppia system administrator to install it for you.") % settings.MEDIA_PROCESSOR_PROGRAM, "danger")
-            return {'result': UploadedMedia.UPLOAD_STATUS_FAILURE, 'form': form, 'errors': _(u"The %s program might not be installed on this server.") % settings.MEDIA_PROCESSOR_PROGRAM}
+            messages.add_message(request,
+                                 messages.ERROR,
+                                 _(u"The %s program does not seem to be \
+                                   installed on this server, or is \
+                                   incorrectly configured. Please ask your \
+                                   Oppia system administrator to install it \
+                                   for you.") % settings.MEDIA_PROCESSOR_PROGRAM, "danger")
+            return {'result': UploadedMedia.UPLOAD_STATUS_FAILURE,
+                    'form': form,
+                    'errors': _(u"The %s program might not be installed on \
+                                this server.") % settings.MEDIA_PROCESSOR_PROGRAM}
 
         return {'result': UploadedMedia.UPLOAD_STATUS_SUCCESS, 'media': uploaded_media}
     else:
@@ -49,7 +59,11 @@ def upload(request, user):
 
 
 def get_length(filepath):
-    result = subprocess.Popen([settings.MEDIA_PROCESSOR_PROGRAM, filepath], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, encoding='utf8')
+    result = subprocess.Popen([settings.MEDIA_PROCESSOR_PROGRAM,
+                               filepath],
+                              stdout=subprocess.PIPE,
+                              stderr=subprocess.STDOUT,
+                              encoding='utf8')
     duration_list = [x for x in result.stdout.readlines() if "Duration" in x]
 
     time_components = duration_list[0].split(',')[0].split(':')
