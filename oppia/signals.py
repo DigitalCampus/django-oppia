@@ -79,7 +79,8 @@ def quizattempt_callback(sender, **kwargs):
             p.save()
 
         # if you get 100% on first attempt get bonus of 50 points
-        if quiz_attempt.get_score_percent() >= DefaultGamificationEvent.objects.get(event='quiz_first_attempt_threshold').points:
+        if quiz_attempt.get_score_percent() \
+           >= DefaultGamificationEvent.objects.get(event='quiz_first_attempt_threshold').points:
             p = Points()
             p.points = DefaultGamificationEvent.objects.get(event='quiz_first_attempt_bonus').points
             p.type = 'firstattemptbonus'
@@ -114,7 +115,9 @@ def tracker_callback(sender, **kwargs):
     if not apply_points(tracker.user):
         return
 
-    if tracker.course is not None and tracker.course.user == tracker.user and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
+    if tracker.course is not None \
+       and tracker.course.user == tracker.user \
+       and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
         return
 
     if tracker.event not in NON_ACTIVITY_EVENTS:

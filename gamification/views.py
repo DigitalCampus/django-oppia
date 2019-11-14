@@ -6,7 +6,10 @@ from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 
-from gamification.forms import EditCoursePointsForm, EditActivityPointsForm, EditMediaPointsForm, GamificationEventForm
+from gamification.forms import EditCoursePointsForm, \
+                               EditActivityPointsForm, \
+                               EditMediaPointsForm, \
+                               GamificationEventForm
 from gamification.models import *
 from gamification.xml_writer import GamificationXMLWriter
 from oppia.models import Points, Section, Activity
@@ -139,19 +142,27 @@ def edit_course_gamification(request, course_id):
                 updated = True
                 if level == 'course':
                     if to_delete:
-                        CourseGamificationEvent.objects.filter(course_id=reference, event=event).delete()
+                        CourseGamificationEvent.objects.filter(course_id=reference,
+                                                               event=event).delete()
                     else:
-                        CourseGamificationEvent.objects.update_or_create(course_id=reference, event=event, defaults=defaults)
+                        CourseGamificationEvent.objects.update_or_create(course_id=reference,
+                                                                         event=event,
+                                                                         defaults=defaults)
                 elif level == 'activity':
                     if to_delete:
-                        ActivityGamificationEvent.objects.filter(activity_id=reference, event=event).delete()
+                        ActivityGamificationEvent.objects.filter(activity_id=reference,
+                                                                 event=event).delete()
                     else:
-                        ActivityGamificationEvent.objects.update_or_create(activity_id=reference, event=event, defaults=defaults)
+                        ActivityGamificationEvent.objects.update_or_create(activity_id=reference,
+                                                                           event=event,
+                                                                           defaults=defaults)
                 elif level == 'media':
                     if to_delete:
-                        MediaGamificationEvent.objects.filter(media_id=reference, event=event).delete()
+                        MediaGamificationEvent.objects.filter(media_id=reference,
+                                                              event=event).delete()
                     else:
-                        MediaGamificationEvent.objects.update_or_create(media_id=reference, event=event,
+                        MediaGamificationEvent.objects.update_or_create(media_id=reference,
+                                                                        event=event,
                                                                         defaults=defaults)
 
             if updated:
