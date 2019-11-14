@@ -14,21 +14,29 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='activitygamificationevent',
             name='created_date',
-            field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='date created'),
+            field=models.DateTimeField(default=django.utils.timezone.now,
+                                       verbose_name='date created'),
         ),
         migrations.AlterField(
             model_name='coursegamificationevent',
             name='created_date',
-            field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='date created'),
+            field=models.DateTimeField(default=django.utils.timezone.now,
+                                       verbose_name='date created'),
         ),
         migrations.AlterField(
             model_name='defaultgamificationevent',
             name='level',
-            field=models.CharField(choices=[('global', 'Global'), ('course', 'Course'), ('activity', 'Activity'), ('quiz', 'Quiz'), ('media', 'Media')], max_length=20),
+            field=models.CharField(choices=[('global', 'Global'),
+                                            ('course', 'Course'),
+                                            ('activity', 'Activity'),
+                                            ('quiz', 'Quiz'),
+                                            ('media', 'Media')],
+                                   max_length=20),
         ),
         migrations.AlterField(
             model_name='mediagamificationevent',
             name='created_date',
-            field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='date created'),
+            field=models.DateTimeField(default=django.utils.timezone.now,
+                                       verbose_name='date created'),
         ),
     ]
