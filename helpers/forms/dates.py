@@ -24,7 +24,9 @@ class DateDiffForm(forms.Form):
         self.helper.label_class = 'col-lg-2'
         self.helper.field_class = 'col-lg-3'
         self.helper.layout = Layout(
-            FieldWithButtons('start_date', Submit('submit', _(u'Go'), css_class='btn btn-default')),
+            FieldWithButtons('start_date',
+                             Submit('submit', _(u'Go'),
+                                    css_class='btn btn-default')),
         )
 
 
@@ -44,7 +46,9 @@ class DateRangeForm(forms.Form):
         self.helper.layout = Layout(
             Row(
                 Div('start_date', css_class='date-picker-row-fluid'),
-                FieldWithButtons('end_date', Submit('submit', _(u'Go'), css_class='btn btn-default'),
+                FieldWithButtons('end_date',
+                                 Submit('submit', _(u'Go'),
+                                        css_class='btn btn-default'),
                                  css_class='date-picker-row-fluid'),
             )
         )
@@ -92,7 +96,9 @@ class DateRangeIntervalForm(forms.Form):
             Row(
                 Div('start_date', css_class='date-picker-row-fluid'),
                 Div('end_date', css_class='date-picker-row-fluid'),
-                FieldWithButtons('interval', Submit('submit', _(u'Go'), css_class='btn btn-default'),
+                FieldWithButtons('interval',
+                                 Submit('submit', _(u'Go'),
+                                        css_class='btn btn-default'),
                                  css_class='date-picker-row-fluid'),
             )
         )
