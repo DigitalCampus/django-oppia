@@ -13,7 +13,9 @@ from profile.models import UserProfile
 
 
 def can_upload(user):
-    if settings.OPPIA_STAFF_ONLY_UPLOAD is False or user.is_superuser or user.is_staff:
+    if settings.OPPIA_STAFF_ONLY_UPLOAD is False \
+       or user.is_superuser \
+       or user.is_staff:
         return True
     else:
         try:
@@ -43,7 +45,9 @@ def check_owner(request, id):
             try:
                 course = Course.objects.get(pk=id, user=request.user)
             except Course.DoesNotExist:
-                course = Course.objects.get(pk=id, coursemanager__course__id=id, coursemanager__user=request.user)
+                course = Course.objects.get(pk=id,
+                                            coursemanager__course__id=id,
+                                            coursemanager__user=request.user)
     except Course.DoesNotExist:
         raise Http404
     return course
@@ -84,12 +88,15 @@ def get_user_courses(request, view_user):
     if request.user.is_staff or request.user == view_user:
         # get all courses user has taken part in
         # plus all those they are students on
-        cohort_courses = Course.objects.filter(coursecohort__cohort__participant__user=view_user,
-                                               coursecohort__cohort__participant__role=Participant.STUDENT).distinct().order_by('title')
+        cohort_courses = Course.objects.filter(
+            coursecohort__cohort__participant__user=view_user,
+            coursecohort__cohort__participant__role=Participant.STUDENT
+            ).distinct().order_by('title')
         other_courses = Course.objects.filter(tracker__user=view_user).exclude(pk__in=cohort_courses.values_list('id', flat=True)).distinct().order_by('title')
     else:
-        cohort_courses = Course.objects.filter(coursecohort__cohort__participant__user=view_user,
-                                               coursecohort__cohort__participant__role=Participant.STUDENT) \
+        cohort_courses = Course.objects.filter(
+            coursecohort__cohort__participant__user=view_user,
+            coursecohort__cohort__participant__role=Participant.STUDENT) \
             .filter(coursecohort__cohort__participant__user=request.user,
                     coursecohort__cohort__participant__role=Participant.TEACHER).distinct().order_by('title')
         other_courses = Course.objects.none()
@@ -148,8 +155,9 @@ def get_cohorts(request):
     if request.user.is_staff:
         cohorts = Cohort.objects.all().order_by('description')
     else:
-        cohorts = Cohort.objects.filter(participant__user=request.user,
-                                        participant__role=Participant.TEACHER).order_by('description')
+        cohorts = Cohort.objects.filter(
+            participant__user=request.user,
+            participant__role=Participant.TEACHER).order_by('description')
 
     if cohorts.count() == 0:
         raise exceptions.PermissionDenied

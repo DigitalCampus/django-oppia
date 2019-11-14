@@ -38,7 +38,8 @@ class JsonFieldsTest(ResourceTestCaseMixin, TestCase):
         self.assertEqual(new_course.get_title(), 'My new course')
 
     def test_course_title_json_multilang(self):
-        new_course = self.create_course('{"en": "My new course", "es": "Mi nuevo curso"}')
+        new_course = self.create_course('{"en": "My new course", \
+                                         "es": "Mi nuevo curso"}')
         self.assertEqual(new_course.get_title("es"), 'Mi nuevo curso')
 
         # test lang that's not defined
@@ -57,7 +58,8 @@ class JsonFieldsTest(ResourceTestCaseMixin, TestCase):
         self.assertEqual(new_section.get_title(), 'My new section')
 
     def test_section_title_json_multilang(self):
-        new_section = self.create_section('{"en": "My new section", "es": "Mi nuevo session"}')
+        new_section = self.create_section('{"en": "My new section", \
+                                           "es": "Mi nuevo session"}')
         self.assertEqual(new_section.get_title("es"), 'Mi nuevo session')
 
         # test lang that's not defined
@@ -76,7 +78,8 @@ class JsonFieldsTest(ResourceTestCaseMixin, TestCase):
         self.assertEqual(new_activity.get_title(), 'My activity')
 
     def test_activity_title_json_multilang(self):
-        new_activity = self.create_activity('{"en": "My activity", "es": "Mi actividad"}')
+        new_activity = self.create_activity('{"en": "My activity", \
+                                             "es": "Mi actividad"}')
         self.assertEqual(new_activity.get_title("es"), 'Mi actividad')
 
         # test lang that's not defined
@@ -87,19 +90,24 @@ class JsonFieldsTest(ResourceTestCaseMixin, TestCase):
         self.assertEqual(new_activity.get_title(), '{"en" My activity"}')
 
     def test_activity_content_json(self):
-        new_activity = self.create_activity('{"en": "My activity"}', '{"en": "09_427_en.html"}')
+        new_activity = self.create_activity('{"en": "My activity"}',
+                                            '{"en": "09_427_en.html"}')
         self.assertEqual(new_activity.get_content(), '09_427_en.html')
 
     def test_activity_content_plain_text(self):
-        new_activity = self.create_activity('{"en": "My activity"}', '09_427_en.html')
+        new_activity = self.create_activity('{"en": "My activity"}',
+                                            '09_427_en.html')
         self.assertEqual(new_activity.get_content(), '09_427_en.html')
 
     def test_activity_content_multilang(self):
-        new_activity = self.create_activity('{"en": "My activity"}', '{"en": "09_427_en.html", "es": "09_427_es.html"}')
+        new_activity = self.create_activity('{"en": "My activity"}',
+                                            '{"en": "09_427_en.html", \
+                                             "es": "09_427_es.html"}')
         self.assertEqual(new_activity.get_content("es"), '09_427_es.html')
         # test lang that's not defined
         self.assertEqual(new_activity.get_content("fi"), '09_427_en.html')
 
     def test_activity_content_invalid_json(self):
-        new_activity = self.create_activity('{"en": "My activity"}', '{"en": "09_427_en.html')
+        new_activity = self.create_activity('{"en": "My activity"}',
+                                            '{"en": "09_427_en.html')
         self.assertEqual(new_activity.get_content(), '{"en": "09_427_en.html')

@@ -83,7 +83,8 @@ def home_view(request):
 
         if interval == 'days':
             no_days = (end_date - start_date).days + 1
-            tracker_stats = CourseDailyStats.objects.filter(day__gte=start_date, day__lte=end_date).values('day').annotate(count=Sum('total'))
+            tracker_stats = CourseDailyStats.objects.filter(day__gte=start_date,
+                                                            day__lte=end_date).values('day').annotate(count=Sum('total'))
 
             for i in range(0, no_days, +1):
                 temp = start_date + datetime.timedelta(days=i)
@@ -102,8 +103,10 @@ def home_view(request):
                 temp = start_date + relativedelta(months=+i)
                 month = temp.strftime("%m")
                 year = temp.strftime("%Y")
-                count = CourseDailyStats.objects.filter(day__month=month, day__year=year).aggregate(total=Sum('total')).get('total', 0)
-                activity.append([temp.strftime("%b %Y"), 0 if count is None else count])
+                count = CourseDailyStats.objects.filter(day__month=month,
+                                                        day__year=year).aggregate(total=Sum('total')).get('total', 0)
+                activity.append([temp.strftime("%b %Y"),
+                                 0 if count is None else count])
 
         leaderboard = Points.get_leaderboard(10)
 
@@ -127,12 +130,14 @@ def teacher_home_view(request):
     # get student activity
     activity = []
     no_days = (end_date - start_date).days + 1
-    students = User.objects.filter(participant__role=Participant.STUDENT, participant__cohort__in=cohorts).distinct()
+    students = User.objects.filter(participant__role=Participant.STUDENT,
+                                   participant__cohort__in=cohorts).distinct()
     courses = Course.objects.filter(coursecohort__cohort__in=cohorts).distinct()
     trackers = Tracker.objects.filter(course__in=courses,
                                       user__in=students,
                                       tracker_date__gte=start_date,
-                                      tracker_date__lte=end_date).extra({'activity_date': "date(tracker_date)"}).values('activity_date').annotate(count=Count('id'))
+                                      tracker_date__lte=end_date).extra({'activity_date':
+                                                                         "date(tracker_date)"}).values('activity_date').annotate(count=Count('id'))
     for i in range(0, no_days, +1):
         temp = start_date + datetime.timedelta(days=i)
         count = next((dct['count'] for dct in trackers if dct['activity_date'] == temp.date()), 0)
@@ -162,7 +167,10 @@ def render_courses_list(request, courses, params=None):
     except ValueError:
         page = 1
 
-    course_stats = list(UserCourseSummary.objects.filter(course__in=courses).values('course').annotate(distinct=Count('user'), total=Sum('total_downloads')))
+    course_stats = list(UserCourseSummary.objects.filter(course__in=courses) \
+                        .values('course') \
+                        .annotate(distinct=Count('user'),
+                                  total=Sum('total_downloads')))
 
     try:
         courses = paginator.page(page)
@@ -178,7 +186,8 @@ def render_courses_list(request, courses, params=None):
             if stats['course'] == course.id:
                 course.distinct_downloads = stats['distinct']
                 course.total_downloads = stats['total']
-                course_stats.remove(stats)  # remove the element to optimize next searchs
+                # remove the element to optimize next searches
+                course_stats.remove(stats)  
                 continue
 
     params['page'] = courses
@@ -232,16 +241,23 @@ def upload_step1(request):
     if request.method == 'POST':
         form = UploadCourseStep1Form(request.POST, request.FILES)
         if form.is_valid():  # All validation rules pass
-            extract_path = os.path.join(settings.COURSE_UPLOAD_DIR, 'temp', str(request.user.id))
-            course, resp = handle_uploaded_file(request.FILES['course_file'], extract_path, request, request.user)
+            extract_path = os.path.join(settings.COURSE_UPLOAD_DIR, 'temp',
+                                        str(request.user.id))
+            course, resp = handle_uploaded_file(request.FILES['course_file'],
+                                                extract_path,
+                                                request,
+                                                request.user)
             if course:
                 CoursePublishingLog(course=course,
                                     user=request.user,
                                     action="file_uploaded",
-                                    data=request.FILES['course_file'].name).save()
-                return HttpResponseRedirect(reverse('oppia_upload2', args=[course.id]))  # Redirect after POST
+                                    data=request.FILES['course_file'].name) \
+                                .save()
+                return HttpResponseRedirect(reverse('oppia_upload2',
+                                                    args=[course.id]))
             else:
-                os.remove(os.path.join(settings.COURSE_UPLOAD_DIR, request.FILES['course_file'].name))
+                os.remove(os.path.join(settings.COURSE_UPLOAD_DIR,
+                                       request.FILES['course_file'].name))
     else:
         form = UploadCourseStep1Form()  # An unbound form
 
@@ -314,7 +330,8 @@ def generate_graph_data(dates_types_stats, is_monthly=False):
 
     for date in dates_types_stats:
         if is_monthly:
-            # depending if it is monthly or daily, we parse differently the day "tag"
+            # depending if it is monthly or daily, we parse differently the 
+            # day "tag"
             day = datetime.date(month=date['month'], year=date['year'], day=1)
         else:
             day = date['day']
@@ -323,7 +340,11 @@ def generate_graph_data(dates_types_stats, is_monthly=False):
             if current_date is not None:
                 dates.append([current_date, current_stats])
             current_date = day
-            current_stats = {'page': 0, 'quiz': 0, 'media': 0, 'resource': 0, 'total': 0}
+            current_stats = {'page': 0,
+                             'quiz': 0,
+                             'media': 0,
+                             'resource': 0,
+                             'total': 0}
 
         current_stats[date['type']] = date['total']
         current_stats['total'] += date['total']
@@ -350,9 +371,11 @@ def recent_activity(request, course_id):
         form = DateRangeIntervalForm(request.POST)
         if form.is_valid():
             start_date = form.cleaned_data.get("start_date")
-            start_date = datetime.datetime.strptime(start_date + " 00:00:00", "%Y-%m-%d %H:%M:%S")
+            start_date = datetime.datetime.strptime(start_date + " 00:00:00",
+                                                    "%Y-%m-%d %H:%M:%S")
             end_date = form.cleaned_data.get("end_date")
-            end_date = datetime.datetime.strptime(end_date + " 23:59:59", "%Y-%m-%d %H:%M:%S")
+            end_date = datetime.datetime.strptime(end_date + " 23:59:59",
+                                                  "%Y-%m-%d %H:%M:%S")
             interval = form.cleaned_data.get("interval")
     else:
         data = {}
@@ -363,14 +386,18 @@ def recent_activity(request, course_id):
 
     dates = []
     if interval == 'days':
-        daily_stats = CourseDailyStats.objects.filter(course=course, day__gte=start_date, day__lte=end_date) \
+        daily_stats = CourseDailyStats.objects.filter(course=course,
+                                                      day__gte=start_date,
+                                                      day__lte=end_date) \
                         .values('day', 'type') \
                         .annotate(total=Sum('total'))
 
         dates = generate_graph_data(daily_stats, False)
 
     else:
-        monthly_stats = CourseDailyStats.objects.filter(course=course, day__gte=start_date, day__lte=end_date) \
+        monthly_stats = CourseDailyStats.objects.filter(course=course,
+                                                        day__gte=start_date,
+                                                        day__lte=end_date) \
                         .extra({'month': 'month(day)', 'year': 'year(day)'}) \
                         .values('month', 'year', 'type') \
                         .annotate(total=Sum('total')) \
@@ -402,7 +429,9 @@ def recent_activity_detail(request, course_id):
             start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d")
             end_date = form.cleaned_data.get("end_date")
             end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d")
-            trackers = Tracker.objects.filter(course=course, tracker_date__gte=start_date, tracker_date__lte=end_date).order_by('-tracker_date')
+            trackers = Tracker.objects.filter(course=course,
+                                              tracker_date__gte=start_date,
+                                              tracker_date__lte=end_date).order_by('-tracker_date')
         else:
             trackers = Tracker.objects.filter(course=course).order_by('-tracker_date')
     else:
@@ -447,7 +476,15 @@ def export_tracker_detail(request, course_id):
     if response is not None:
         return response
 
-    headers = ('Date', 'UserId', 'Type', 'Activity Title', 'Section Title', 'Time Taken', 'IP Address', 'User Agent', 'Language')
+    headers = ('Date',
+               'UserId',
+               'Type',
+               'Activity Title',
+               'Section Title',
+               'Time Taken',
+               'IP Address',
+               'User Agent',
+               'Language')
     data = []
     data = tablib.Dataset(* data, headers=headers)
     trackers = Tracker.objects.filter(course=course).order_by('-tracker_date')
@@ -458,11 +495,28 @@ def export_tracker_detail(request, course_id):
                 lang = data_dict['lang']
             else:
                 lang = ""
-            data.append((t.tracker_date.strftime('%Y-%m-%d %H:%M:%S'), t.user.id, t.type, t.get_activity_title(), t.get_section_title(), t.time_taken, t.ip, t.agent, lang))
+            data.append((t.tracker_date.strftime('%Y-%m-%d %H:%M:%S'),
+                         t.user.id,
+                         t.type,
+                         t.get_activity_title(),
+                         t.get_section_title(),
+                         t.time_taken,
+                         t.ip,
+                         t.agent,
+                         lang))
         except ValueError:
-            data.append((t.tracker_date.strftime('%Y-%m-%d %H:%M:%S'), t.user.id, t.type, "", "", t.time_taken, t.ip, t.agent, ""))
+            data.append((t.tracker_date.strftime('%Y-%m-%d %H:%M:%S'),
+                         t.user.id,
+                         t.type,
+                         "",
+                         "",
+                         t.time_taken,
+                         t.ip,
+                         t.agent,
+                         ""))
 
-    response = HttpResponse(data.xls, content_type='application/vnd.ms-excel;charset=utf-8')
+    response = HttpResponse(data.xls,
+                            content_type='application/vnd.ms-excel;charset=utf-8')
     response['Content-Disposition'] = "attachment; filename=export.xls"
 
     return response
@@ -575,7 +629,8 @@ def cohort_view(request, cohort_id):
     # get student activity
     student_activity = []
     no_days = (end_date - start_date).days + 1
-    students = User.objects.filter(participant__role=Participant.STUDENT, participant__cohort=cohort)
+    students = User.objects.filter(participant__role=Participant.STUDENT,
+                                   participant__cohort=cohort)
     trackers = Tracker.objects.filter(course__coursecohort__cohort=cohort,
                                       user__is_staff=False,
                                       user__in=students,
@@ -686,8 +741,10 @@ def cohort_edit(request, cohort_id):
                                    'start_date': cohort.start_date,
                                    'end_date': cohort.end_date})
 
-    teachers_selected = User.objects.filter(participant__role=Participant.TEACHER, participant__cohort=cohort)
-    students_selected = User.objects.filter(participant__role=Participant.STUDENT, participant__cohort=cohort)
+    teachers_selected = User.objects.filter(participant__role=Participant.TEACHER,
+                                            participant__cohort=cohort)
+    students_selected = User.objects.filter(participant__role=Participant.STUDENT,
+                                            participant__cohort=cohort)
     courses_selected = Course.objects.filter(coursecohort__cohort=cohort)
 
     ordering, users = get_paginated_users(request)
@@ -719,7 +776,8 @@ def cohort_course_view(request, cohort_id, course_id):
     end_date = timezone.now()
     student_activity = []
     no_days = (end_date - start_date).days + 1
-    users = User.objects.filter(participant__role=Participant.STUDENT, participant__cohort=cohort).order_by('first_name', 'last_name')
+    users = User.objects.filter(participant__role=Participant.STUDENT,
+                                participant__cohort=cohort).order_by('first_name', 'last_name')
     trackers = Tracker.objects.filter(course=course,
                                       user__is_staff=False,
                                       user__in=users,
@@ -733,7 +791,8 @@ def cohort_course_view(request, cohort_id, course_id):
     students = []
     media_count = course.get_no_media()
     for user in users:
-        course_stats = UserCourseSummary.objects.filter(user=user, course=course_id)
+        course_stats = UserCourseSummary.objects.filter(user=user,
+                                                        course=course_id)
         if course_stats:
             course_stats = course_stats[0]
             data = {'user': user,
@@ -757,8 +816,13 @@ def cohort_course_view(request, cohort_id, course_id):
 
         students.append(data)
 
-    order_options = ['user_display', 'no_quizzes_completed', 'pretest_score',
-                     'no_activities_completed', 'no_points', 'no_badges', 'no_media_viewed']
+    order_options = ['user_display',
+                     'no_quizzes_completed',
+                     'pretest_score',
+                     'no_activities_completed',
+                     'no_points',
+                     'no_badges',
+                     'no_media_viewed']
     default_order = 'pretest_score'
 
     ordering = request.GET.get('order_by', default_order)
@@ -802,11 +866,13 @@ def leaderboard_view(request):
 
 def course_quiz(request, course_id):
     course = check_owner(request, course_id)
-    digests = Activity.objects.filter(section__course=course, type='quiz').order_by('section__order').distinct()
+    digests = Activity.objects.filter(section__course=course,
+                                      type='quiz').order_by('section__order').distinct()
     quizzes = []
     for d in digests:
         try:
-            quizobjs = Quiz.objects.filter(quizprops__name='digest', quizprops__value=d.digest)
+            quizobjs = Quiz.objects.filter(quizprops__name='digest',
+                                           quizprops__value=d.digest)
             if len(quizobjs) > 0:
                 q = quizobjs[0]
                 q.section_name = d.section.title
@@ -847,10 +913,12 @@ def course_quiz_attempts(request, course_id, quiz_id):
 
 def course_feedback(request, course_id):
     course = check_owner(request, course_id)
-    digests = Activity.objects.filter(section__course=course, type='feedback').order_by('section__order').values('digest').distinct()
+    digests = Activity.objects.filter(section__course=course,
+                                      type='feedback').order_by('section__order').values('digest').distinct()
     feedback = []
     for d in digests:
-        quizobjs = Quiz.objects.filter(quizprops__name='digest', quizprops__value=d['digest'])
+        quizobjs = Quiz.objects.filter(quizprops__name='digest',
+                                       quizprops__value=d['digest'])
         if len(quizobjs) > 0:
             q = quizobjs[0]
             feedback.append(q)
@@ -891,7 +959,9 @@ def app_launch_activity_redirect_view(request):
     try:
         digest = str(request.GET.get('digest'))
     except ValueError:
-        return HttpResponse(content=template.render(context), content_type='text/html; charset=utf-8', status=404)
+        return HttpResponse(content=template.render(context),
+                            content_type='text/html; charset=utf-8',
+                            status=404)
 
     # get activity and redirect
     activity = get_object_or_404(Activity, digest=digest)
