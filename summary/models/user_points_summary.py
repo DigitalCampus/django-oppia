@@ -16,7 +16,7 @@ class UserPointsSummary(models.Model):
     class Meta:
         verbose_name = _('UserPointsSummary')
 
-    def update_points(self, last_points_pk=0, newest_points_pk=0): 
+    def update_points(self, last_points_pk=0, newest_points_pk=0):
         # range of points ids to process
 
         first_points = (last_points_pk == 0)

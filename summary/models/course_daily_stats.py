@@ -29,7 +29,7 @@ class CourseDailyStats (models.Model):
         index_together = ["course", "day", "type"]
 
     @staticmethod
-    def update_daily_summary(course, day, last_tracker_pk=0, newest_tracker_pk=0):  
+    def update_daily_summary(course, day, last_tracker_pk=0, newest_tracker_pk=0):
         # range of tracker ids to process
 
         day_start = datetime.datetime.strptime(day.strftime("%Y-%m-%d") + " 00:00:00",

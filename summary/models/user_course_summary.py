@@ -35,9 +35,9 @@ class UserCourseSummary (models.Model):
         index_together = ["user", "course"]
 
     def update_summary(self,
-                       last_tracker_pk=0, newest_tracker_pk=0,  
+                       last_tracker_pk=0, newest_tracker_pk=0,
                        # range of tracker ids to process
-                       last_points_pk=0, newest_points_pk=0     
+                       last_points_pk=0, newest_points_pk=0
                        # range of points ids to process
                        ):
 

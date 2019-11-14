@@ -31,7 +31,7 @@ class QuizResource(ModelResource):
                                    'quizquestion_set',
                                    related_name='quiz',
                                    full=True)
-    props = fields.ToManyField('quiz.api.resources.QuizPropsResource', 
+    props = fields.ToManyField('quiz.api.resources.QuizPropsResource',
                                'quizprops_set',
                                related_name='quiz',
                                full=True)
