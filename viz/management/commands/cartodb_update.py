@@ -69,7 +69,7 @@ class Command(BaseCommand):
                 str = "INSERT INTO %s (the_geom, lat, lng, total_hits, \
                         country_code, source_site) VALUES \
                         (ST_SetSRID(ST_Point(%f, %f),4326),%f,%f,%d ,'%s','%s')"
-                sql = str %
+                sql = str % \
                     (CARTODB_TABLE,
                      l['lng'],
                      l['lat'],
@@ -78,7 +78,7 @@ class Command(BaseCommand):
                      l['total_hits'],
                      l['country_code'],
                      source_site)
-                url = "http://%s.cartodb.com/api/v2/sql?q=%s&api_key=%s" %
+                url = "http://%s.cartodb.com/api/v2/sql?q=%s&api_key=%s" % \
                         (cartodb_account, sql, cartodb_key)
                 u = urllib.request.urlopen(url)
                 data = u.read()

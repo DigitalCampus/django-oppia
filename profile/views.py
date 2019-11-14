@@ -26,9 +26,17 @@ import profile
 
 from oppia import emailer
 from oppia.models import Points, Award, Tracker, Activity
-from oppia.permissions import get_user, get_user_courses, can_view_course, can_edit_user
-from profile.forms import LoginForm, RegisterForm, ResetForm, ProfileForm, UploadProfileForm, \
-    UserSearchForm, DeleteAccountForm
+from oppia.permissions import get_user, \
+                              get_user_courses, \
+                              can_view_course, \
+                              can_edit_user
+from profile.forms import LoginForm, \
+                          RegisterForm, \
+                          ResetForm, \
+                          ProfileForm, \
+                          UploadProfileForm, \
+                          UserSearchForm, \
+                          DeleteAccountForm
 from profile.models import UserProfile
 from quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
 from reports.signals import dashboard_accessed
@@ -93,7 +101,8 @@ def login_view(request):
 
 
 def register(request):
-    self_register = SettingProperties.get_int(constants.OPPIA_ALLOW_SELF_REGISTRATION, settings.OPPIA_ALLOW_SELF_REGISTRATION)
+    self_register = SettingProperties.get_int(constants.OPPIA_ALLOW_SELF_REGISTRATION,
+                                              settings.OPPIA_ALLOW_SELF_REGISTRATION)
     if not self_register:
         raise Http404
 
@@ -274,11 +283,13 @@ def user_activity(request, user_id):
 
     dashboard_accessed.send(sender=None, request=request, data=None)
 
-    cohort_courses, other_courses, all_courses = get_user_courses(request, view_user)
+    cohort_courses, other_courses, all_courses = get_user_courses(request,
+                                                                  view_user)
 
     courses = []
     for course in all_courses:
-        course_stats = UserCourseSummary.objects.filter(user=view_user, course=course)
+        course_stats = UserCourseSummary.objects.filter(user=view_user,
+                                                        course=course)
         if course_stats:
             course_stats = course_stats[0]
             data = {'course': course,
@@ -301,8 +312,13 @@ def user_activity(request, user_id):
 
         courses.append(data)
 
-    order_options = ['course_display', 'no_quizzes_completed', 'pretest_score',
-                     'no_activities_completed', 'no_points', 'no_badges', 'no_media_viewed']
+    order_options = ['course_display',
+                     'no_quizzes_completed',
+                     'pretest_score',
+                     'no_activities_completed',
+                     'no_points',
+                     'no_badges',
+                     'no_media_viewed']
     default_order = 'course_display'
 
     ordering = request.GET.get('order_by', default_order)
@@ -320,7 +336,10 @@ def user_activity(request, user_id):
     end_date = timezone.now()
 
     course_ids = list(chain(cohort_courses.values_list('id', flat=True), other_courses.values_list('id', flat=True)))
-    activity = get_tracker_activities(start_date, end_date, view_user, course_ids=course_ids)
+    activity = get_tracker_activities(start_date,
+                                      end_date,
+                                      view_user,
+                                      course_ids=course_ids)
 
     return render(request, 'profile/user-scorecard.html',
                   {'view_user': view_user,
@@ -338,7 +357,8 @@ def user_course_activity_view(request, user_id, course_id):
     dashboard_accessed.send(sender=None, request=request, data=None)
     course = can_view_course(request, course_id)
 
-    act_quizzes = Activity.objects.filter(section__course=course, type=Activity.QUIZ).order_by('section__order', 'order')
+    act_quizzes = Activity.objects.filter(section__course=course,
+                                          type=Activity.QUIZ).order_by('section__order', 'order')
 
     quizzes_attempted = 0
     quizzes_passed = 0
@@ -347,7 +367,8 @@ def user_course_activity_view(request, user_id, course_id):
     quizzes = []
     for aq in act_quizzes:
         try:
-            quizobjs = Quiz.objects.filter(quizprops__value=aq.digest, quizprops__name="digest")
+            quizobjs = Quiz.objects.filter(quizprops__value=aq.digest,
+                                           quizprops__name="digest")
             if quizobjs.count() <= 0:
                 continue
             else:
@@ -404,10 +425,18 @@ def user_course_activity_view(request, user_id, course_id):
     start_date = timezone.now() - datetime.timedelta(days=31)
     end_date = timezone.now()
 
-    activity = get_tracker_activities(start_date, end_date, view_user, course=course)
+    activity = get_tracker_activities(start_date,
+                                      end_date,
+                                      view_user,
+                                      course=course)
 
-    order_options = ['quiz_order', 'no_attempts', 'max_score', 'min_score',
-                     'first_score', 'latest_score', 'avg_score']
+    order_options = ['quiz_order',
+                     'no_attempts',
+                     'max_score',
+                     'min_score',
+                     'first_score',
+                     'latest_score',
+                     'avg_score']
     default_order = 'quiz_order'
     ordering = request.GET.get('order_by', default_order)
     inverse_order = ordering.startswith('-')
@@ -512,7 +541,8 @@ def upload_view(request):
 
 def get_query(query_string, search_fields):
     ''' Returns a query, that is a combination of Q objects. That combination
-        aims to search keywords within a model by testing the given search fields.
+        aims to search keywords within a model by testing the given search
+        fields.
 
     '''
     query = None  # Query to search in every field
@@ -557,7 +587,10 @@ def search_users(request):
     query_string = None
     if ('q' in request.GET) and request.GET['q'].strip():
         query_string = request.GET['q']
-        filter_query = get_query(query_string, ['username', 'first_name', 'last_name', 'email', ])
+        filter_query = get_query(query_string, ['username',
+                                                'first_name',
+                                                'last_name',
+                                                'email', ])
         users = users.filter(filter_query)
 
     ordering = request.GET.get('order_by', None)

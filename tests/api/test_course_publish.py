@@ -17,8 +17,10 @@ class CoursePublishResourceTest(TestCase):
     def setUp(self):
         self.client = Client()
         self.url = '/api/publish/'
-        self.course_file_path = './oppia/fixtures/reference_files/ncd1_test_course.zip'
-        self.video_file_path = './oppia/fixtures/reference_files/sample_video.m4v'
+        self.course_file_path = \
+            './oppia/fixtures/reference_files/ncd1_test_course.zip'
+        self.video_file_path = \
+            './oppia/fixtures/reference_files/sample_video.m4v'
 
     # test only POST is available
     def test_no_get(self):

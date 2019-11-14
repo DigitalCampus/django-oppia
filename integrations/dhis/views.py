@@ -18,7 +18,9 @@ from oppia.models import Tracker
 @staff_member_required
 def home(request):
     # get all the months/years that trackers exist for
-    monthly_exports = Tracker.objects.all().datetimes('submitted_date', 'month', 'DESC')
+    monthly_exports = Tracker.objects.all().datetimes('submitted_date',
+                                                      'month',
+                                                      'DESC')
     return render(request, 'integrations/dhis/index.html',
                   {'monthly_exports': monthly_exports})
 
@@ -54,12 +56,22 @@ def create_csv(year, month):
     data = tablib.Dataset(*data, headers=headers)
 
     # get all the usernames for users who've had trackers or quizzes submitted
-    users = Tracker.objects.filter(submitted_date__month=month, submitted_date__year=year).values('user').distinct()
+    users = Tracker.objects.filter(submitted_date__month=month,
+                                   submitted_date__year=year).values('user').distinct()
 
     for user in users:
-        activities_completed = Tracker.objects.filter(submitted_date__month=month, submitted_date__year=year, user__id=user['user'], completed=True).count()
-        points_earned = Tracker.objects.filter(submitted_date__month=month, submitted_date__year=year, user__id=user['user']).aggregate(Sum('points'))['points__sum']
-        quizzes_passed = Tracker.objects.filter(submitted_date__month=month, submitted_date__year=year, user__id=user['user'], completed=True, type='quiz').count()
+        activities_completed = Tracker.objects.filter(submitted_date__month=month,
+                                                      submitted_date__year=year,
+                                                      user__id=user['user'],
+                                                      completed=True).count()
+        points_earned = Tracker.objects.filter(submitted_date__month=month,
+                                               submitted_date__year=year,
+                                               user__id=user['user']).aggregate(Sum('points'))['points__sum']
+        quizzes_passed = Tracker.objects.filter(submitted_date__month=month,
+                                                submitted_date__year=year,
+                                                user__id=user['user'],
+                                                completed=True,
+                                                type='quiz').count()
         data.append(
                 (
                     User.objects.get(pk=user['user']).username,

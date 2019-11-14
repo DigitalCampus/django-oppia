@@ -28,12 +28,12 @@ from quiz.models import QuizProps, \
 
 class QuizResource(ModelResource):
     questions = fields.ToManyField('quiz.api.resources.QuizQuestionResource',
-                                   'quizquestion_set', 
-                                   related_name='quiz', 
+                                   'quizquestion_set',
+                                   related_name='quiz',
                                    full=True)
     props = fields.ToManyField('quiz.api.resources.QuizPropsResource', 
-                               'quizprops_set', 
-                               related_name='quiz', 
+                               'quizprops_set',
+                               related_name='quiz',
                                full=True)
     owner = fields.ForeignKey(UserResource, 'owner')
 

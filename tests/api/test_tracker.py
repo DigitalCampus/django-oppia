@@ -21,7 +21,8 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         self.url = get_api_url('tracker')
 
     def get_credentials(self):
-        return self.create_apikey(username=self.username, api_key=self.api_key)
+        return self.create_apikey(username=self.username,
+                                  api_key=self.api_key)
 
     # check get not allowed
     def test_get_invalid(self):
@@ -32,8 +33,12 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         data = {
             'digest': '123456789123456789',
         }
-        bad_auth = self.create_apikey(username=self.username, api_key="1234")
-        self.assertHttpUnauthorized(self.api_client.post(self.url, format='json', data=data, authentication=bad_auth))
+        bad_auth = self.create_apikey(username=self.username,
+                                      api_key="1234")
+        self.assertHttpUnauthorized(self.api_client.post(self.url,
+                                                         format='json',
+                                                         data=data,
+                                                         authentication=bad_auth))
 
     # check put not allowed
     def test_put_invalid(self):
@@ -47,7 +52,10 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
             'digest': '123456789123456789',
         }
         tracker_count_start = Tracker.objects.all().count()
-        resp = self.api_client.post(self.url, format='json', data=data, authentication=self.get_credentials())
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data,
+                                    authentication=self.get_credentials())
         self.assertHttpCreated(resp)
 
         tracker_count_end = Tracker.objects.all().count()
@@ -60,7 +68,10 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
             'digest': '18ec12e5653a40431f453cce35811fa4',
         }
         tracker_count_start = Tracker.objects.all().count()
-        resp = self.api_client.post(self.url, format='json', data=data, authentication=self.get_credentials())
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data,
+                                    authentication=self.get_credentials())
         self.assertHttpCreated(resp)
         self.assertValidJSON(resp.content)
         # check the record was successfully added
@@ -79,7 +90,10 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         data = {
             'digest': '18ec12e5653a40431f453cce35811fa4',
         }
-        resp = self.api_client.post(self.url, format='json', data=data, authentication=self.get_credentials())
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data,
+                                    authentication=self.get_credentials())
         self.assertHttpCreated(resp)
         self.assertValidJSON(resp.content)
 
@@ -87,7 +101,10 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
             'digest': '18ec12e5653a40431f453cce35811fa4',
         }
         tracker_count_start = Tracker.objects.all().count()
-        resp = self.api_client.post(self.url, format='json', data=data, authentication=self.get_credentials())
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data,
+                                    authentication=self.get_credentials())
         self.assertHttpCreated(resp)
         self.assertValidJSON(resp.content)
 
@@ -111,7 +128,10 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
 
         data = {'objects': [activity1, activity2, activity3]}
         tracker_count_start = Tracker.objects.all().count()
-        resp = self.api_client.patch(self.url, format='json', data=data, authentication=self.get_credentials())
+        resp = self.api_client.patch(self.url,
+                                     format='json',
+                                     data=data,
+                                     authentication=self.get_credentials())
         self.assertHttpOK(resp)
         self.assertValidJSON(resp.content)
 
@@ -135,7 +155,10 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
 
         data = {'objects': [activity1, activity2, activity3]}
         tracker_count_start = Tracker.objects.all().count()
-        resp = self.api_client.patch(self.url, format='json', data=data, authentication=self.get_credentials())
+        resp = self.api_client.patch(self.url,
+                                     format='json',
+                                     data=data,
+                                     authentication=self.get_credentials())
         self.assertHttpOK(resp)
         self.assertValidJSON(resp.content)
 
@@ -159,7 +182,10 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
 
         data = {'objects': [activity1, activity2, activity3]}
         tracker_count_start = Tracker.objects.all().count()
-        resp = self.api_client.patch(self.url, format='json', data=data, authentication=self.get_credentials())
+        resp = self.api_client.patch(self.url,
+                                     format='json',
+                                     data=data,
+                                     authentication=self.get_credentials())
         self.assertHttpOK(resp)
         self.assertValidJSON(resp.content)
 
@@ -182,7 +208,10 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
 
         data = {'objects': [activity1, activity2]}
         tracker_count_start = Tracker.objects.all().count()
-        resp = self.api_client.patch(self.url, format='json', data=data, authentication=self.get_credentials())
+        resp = self.api_client.patch(self.url,
+                                     format='json',
+                                     data=data,
+                                     authentication=self.get_credentials())
         self.assertHttpOK(resp)
         self.assertValidJSON(resp.content)
 
@@ -205,7 +234,10 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
 
         data = {'objects': [activity1, activity2]}
         tracker_count_start = Tracker.objects.all().count()
-        resp = self.api_client.patch(self.url, format='json', data=data, authentication=self.get_credentials())
+        resp = self.api_client.patch(self.url,
+                                     format='json',
+                                     data=data,
+                                     authentication=self.get_credentials())
         self.assertHttpOK(resp)
         self.assertValidJSON(resp.content)
 
@@ -223,7 +255,10 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         }
 
         tracker_count_start = Tracker.objects.all().count()
-        resp = self.api_client.post(self.url, format='json', data=data, authentication=self.get_credentials())
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data,
+                                    authentication=self.get_credentials())
         self.assertHttpCreated(resp)
         self.assertValidJSON(resp.content)
 
@@ -241,7 +276,10 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         }
 
         tracker_count_start = Tracker.objects.all().count()
-        resp = self.api_client.post(self.url, format='json', data=data, authentication=self.get_credentials())
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data,
+                                    authentication=self.get_credentials())
         self.assertHttpCreated(resp)
         self.assertValidJSON(resp.content)
 
@@ -250,7 +288,10 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertTrue('badges' in response_data)
 
         # send the same again
-        resp = self.api_client.post(self.url, format='json', data=data, authentication=self.get_credentials())
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data,
+                                    authentication=self.get_credentials())
         self.assertHttpBadRequest(resp)
         self.assertValidJSON(resp.content)
 

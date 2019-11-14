@@ -15,7 +15,8 @@ import content
 from content.forms import MediaEmbedHelperForm
 
 '''
-Processes the media file found at the given URL and provides the embed code and sample images for embedding into Moodle.
+Processes the media file found at the given URL and provides the embed code
+and sample images for embedding into Moodle.
 
 NOTE: for this to run you will need to have ffmpeg and avprobe installed
 
@@ -31,7 +32,9 @@ def media_embed_helper(request):
         if form.is_valid():
             media_url = form.cleaned_data.get("media_url")
             media_guid = str(uuid.uuid4())
-            media_local_file = os.path.join(settings.COURSE_UPLOAD_DIR, 'temp', media_guid)
+            media_local_file = os.path.join(settings.COURSE_UPLOAD_DIR,
+                                            'temp',
+                                            media_guid)
             download_error = None
             processed_media = {}
 
@@ -40,7 +43,11 @@ def media_embed_helper(request):
                 media_url, media_local_file, download_error, processed_media)
 
             download_error, processed_media = process_media_file(
-                media_guid, media_url, media_local_file, download_error, processed_media)
+                media_guid,
+                media_url,
+                media_local_file,
+                download_error,
+                processed_media)
 
             # try to delete the temp media file
             try:

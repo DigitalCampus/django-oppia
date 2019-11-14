@@ -167,8 +167,8 @@ def render_courses_list(request, courses, params=None):
     except ValueError:
         page = 1
 
-    course_stats = list(UserCourseSummary.objects.filter(course__in=courses) \
-                        .values('course') \
+    course_stats = list(UserCourseSummary.objects.filter(course__in=courses)
+                        .values('course')
                         .annotate(distinct=Count('user'),
                                   total=Sum('total_downloads')))
 
@@ -187,7 +187,7 @@ def render_courses_list(request, courses, params=None):
                 course.distinct_downloads = stats['distinct']
                 course.total_downloads = stats['total']
                 # remove the element to optimize next searches
-                course_stats.remove(stats)  
+                course_stats.remove(stats)
                 continue
 
     params['page'] = courses
@@ -330,7 +330,7 @@ def generate_graph_data(dates_types_stats, is_monthly=False):
 
     for date in dates_types_stats:
         if is_monthly:
-            # depending if it is monthly or daily, we parse differently the 
+            # depending if it is monthly or daily, we parse differently the
             # day "tag"
             day = datetime.date(month=date['month'], year=date['year'], day=1)
         else:
@@ -431,7 +431,8 @@ def recent_activity_detail(request, course_id):
             end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d")
             trackers = Tracker.objects.filter(course=course,
                                               tracker_date__gte=start_date,
-                                              tracker_date__lte=end_date).order_by('-tracker_date')
+                                              tracker_date__lte=end_date) \
+                              .order_by('-tracker_date')
         else:
             trackers = Tracker.objects.filter(course=course).order_by('-tracker_date')
     else:

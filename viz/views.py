@@ -31,7 +31,8 @@ def summary_view(request):
         form = DateDiffForm(initial=data)
 
     # User registrations
-    user_registrations, previous_user_registrations = summary_get_registrations(start_date)
+    user_registrations, previous_user_registrations \
+        = summary_get_registrations(start_date)
 
     # Countries
     total_countries, country_activity = summary_get_countries(start_date)
@@ -40,10 +41,12 @@ def summary_view(request):
     languages = summary_get_languages(start_date)
 
     # Course Downloads
-    course_downloads, previous_course_downloads = summary_get_downloads(start_date)
+    course_downloads, previous_course_downloads \
+        = summary_get_downloads(start_date)
 
     # Course Activity
-    course_activity, previous_course_activity, hot_courses = summary_get_course_activity(start_date)
+    course_activity, previous_course_activity, hot_courses \
+        = summary_get_course_activity(start_date)
 
     # Searches
     searches, previous_searches = summary_get_searches(start_date)
@@ -82,7 +85,8 @@ def summary_get_registrations(start_date):
 
 
 def summary_get_countries(start_date):
-    hits_by_country = UserLocationVisualization.objects.all().values('country_code', 'country_name').annotate(country_total_hits=Sum('hits')).order_by('-country_total_hits')
+    hits_by_country = UserLocationVisualization.objects.all().values('country_code',
+                                                                     'country_name').annotate(country_total_hits=Sum('hits')).order_by('-country_total_hits')
     total_hits = UserLocationVisualization.objects.all().aggregate(total_hits=Sum('hits'))
     total_countries = hits_by_country.count()
 
@@ -92,13 +96,17 @@ def summary_get_countries(start_date):
     for c in hits_by_country:
         if i < 20:
             hits_percent = float(c['country_total_hits'] * 100.0 / total_hits['total_hits'])
-            country_activity.append({'country_code': c['country_code'], 'country_name': c['country_name'], 'hits_percent': hits_percent})
+            country_activity.append({'country_code': c['country_code'],
+                                     'country_name': c['country_name'],
+                                     'hits_percent': hits_percent})
         else:
             other_country_activity += c['country_total_hits']
         i += 1
     if i > 20:
         hits_percent = float(other_country_activity * 100.0 / total_hits['total_hits'])
-        country_activity.append({'country_code': None, 'country_name': _('Other'), 'hits_percent': hits_percent})
+        country_activity.append({'country_code': None,
+                                 'country_name': _('Other'),
+                                 'hits_percent': hits_percent})
 
     return total_countries, country_activity
 
@@ -125,12 +133,14 @@ def summary_get_languages(start_date):
 
 
 def summary_get_downloads(start_date):
-    course_downloads = CourseDailyStats.objects.filter(day__gte=start_date, type='download') \
+    course_downloads = CourseDailyStats.objects.filter(day__gte=start_date,
+                                                       type='download') \
                         .annotate(month=ExtractMonth('day')) \
                         .annotate(year=ExtractYear('day')) \
                         .annotate(count=Sum('total')) \
                         .order_by('year', 'month')
-    previous_course_downloads = CourseDailyStats.objects.filter(day__lt=start_date, type='download').aggregate(total=Sum('total')).get('total', 0)
+    previous_course_downloads = CourseDailyStats.objects.filter(day__lt=start_date,
+                                                                type='download').aggregate(total=Sum('total')).get('total', 0)
     if previous_course_downloads is None:
         previous_course_downloads = 0
 
@@ -182,7 +192,8 @@ def summary_get_searches(start_date):
                         .annotate(count=Sum('total')) \
                         .order_by('year', 'month')
 
-    previous_searches = CourseDailyStats.objects.filter(day__lt=start_date, type='search').aggregate(total=Sum('total')).get('total', 0)
+    previous_searches = CourseDailyStats.objects.filter(day__lt=start_date,
+                                                        type='search').aggregate(total=Sum('total')).get('total', 0)
     if previous_searches is None:
         previous_searches = 0
 

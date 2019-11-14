@@ -105,7 +105,7 @@ class GamificationXMLWriter:
                 node.appendChild(event_node)
 
         else:
-            # if there are no events set, we can remove the empty gamification 
+            # if there are no events set, we can remove the empty gamification
             # node
             self.remove_node(node)
 
