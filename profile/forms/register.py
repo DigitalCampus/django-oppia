@@ -15,7 +15,7 @@ class RegisterForm(forms.Form):
     email = forms.CharField(validators=[validate_email],
                             error_messages={'invalid':
                                             _(u'Please enter a valid e-mail address.'),
-                                            'required':_(u'Please enter your e-mail address.')},
+                                            'required': _(u'Please enter your e-mail address.')},
                             required=False)
     password = forms.CharField(widget=forms.PasswordInput,
                                error_messages={'required': _(u'Please enter a password.'),

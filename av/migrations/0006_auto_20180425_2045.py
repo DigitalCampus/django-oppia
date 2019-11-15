@@ -15,11 +15,14 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name='uploadedmedia',
-            options={'verbose_name': 'Uploaded Media', 'verbose_name_plural': 'Uploaded Media'},
+            options={'verbose_name': 'Uploaded Media',
+                     'verbose_name_plural': 'Uploaded Media'},
         ),
         migrations.AlterField(
             model_name='uploadedmediaimage',
             name='uploaded_media',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='images', to='av.UploadedMedia'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                                    related_name='images',
+                                    to='av.UploadedMedia'),
         ),
     ]

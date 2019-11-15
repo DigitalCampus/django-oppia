@@ -79,7 +79,7 @@ class Command(BaseCommand):
                      l['country_code'],
                      source_site)
                 url = "http://%s.cartodb.com/api/v2/sql?q=%s&api_key=%s" % \
-                        (cartodb_account, sql, cartodb_key)
+                      (cartodb_account, sql, cartodb_key)
                 u = urllib.request.urlopen(url)
                 data = u.read()
                 data_json = json.loads(data)

@@ -17,16 +17,25 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='uploadedmedia',
             name='create_user',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='media_create_user', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(null=True,
+                                    on_delete=django.db.models.deletion.SET_NULL,
+                                    related_name='media_create_user',
+                                    to=settings.AUTH_USER_MODEL),
         ),
         migrations.AlterField(
             model_name='uploadedmedia',
             name='update_user',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='media_update_user', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(null=True,
+                                    on_delete=django.db.models.deletion.SET_NULL,
+                                    related_name='media_update_user',
+                                    to=settings.AUTH_USER_MODEL),
         ),
         migrations.AlterField(
             model_name='uploadedmediaimage',
             name='create_user',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='media_image_create_user', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(null=True,
+                                    on_delete=django.db.models.deletion.SET_NULL,
+                                    related_name='media_image_create_user',
+                                    to=settings.AUTH_USER_MODEL),
         ),
     ]
