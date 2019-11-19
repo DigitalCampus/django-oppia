@@ -12,7 +12,8 @@ from quiz.models import Question
 class Quiz(models.Model):
     owner = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     created_date = models.DateTimeField('date created', default=timezone.now)
-    lastupdated_date = models.DateTimeField('date updated', default=timezone.now)
+    lastupdated_date = models.DateTimeField('date updated',
+                                            default=timezone.now)
     draft = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)
     title = models.TextField(blank=False)
@@ -79,16 +80,28 @@ class QuizProps(models.Model):
 
 class QuizAttempt(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    quiz = models.ForeignKey(Quiz, null=True, default=None, on_delete=models.SET_NULL)
-    attempt_date = models.DateTimeField('date attempted', default=timezone.now)
-    submitted_date = models.DateTimeField('date submitted', default=timezone.now)
+    quiz = models.ForeignKey(Quiz,
+                             null=True,
+                             default=None,
+                             on_delete=models.SET_NULL)
+    attempt_date = models.DateTimeField('date attempted',
+                                        default=timezone.now)
+    submitted_date = models.DateTimeField('date submitted',
+                                          default=timezone.now)
     score = models.DecimalField(decimal_places=2, max_digits=6)
     maxscore = models.DecimalField(decimal_places=2, max_digits=6)
     ip = models.GenericIPAddressField(null=True, blank=True, default=None)
-    instance_id = models.CharField(max_length=100, null=True, blank=True, default=None, db_index=True)
+    instance_id = models.CharField(max_length=100,
+                                   null=True,
+                                   blank=True,
+                                   default=None,
+                                   db_index=True)
     agent = models.TextField(blank=True)
     points = models.IntegerField(blank=True, null=True, default=None)
-    event = models.CharField(max_length=50, null=True, blank=True, default=None)
+    event = models.CharField(max_length=50,
+                             null=True,
+                             blank=True,
+                             default=None)
 
     class Meta:
         verbose_name = _('QuizAttempt')
@@ -102,7 +115,8 @@ class QuizAttempt(models.Model):
         return percent
 
     def is_first_attempt(self):
-        no_attempts = QuizAttempt.objects.filter(user=self.user, quiz=self.quiz).count()
+        no_attempts = QuizAttempt.objects.filter(user=self.user,
+                                                 quiz=self.quiz).count()
         if no_attempts == 1:
             return True
         else:
@@ -110,7 +124,9 @@ class QuizAttempt(models.Model):
 
     def is_first_attempt_today(self):
         olddate = datetime.datetime.now() + datetime.timedelta(hours=-24)
-        no_attempts_today = QuizAttempt.objects.filter(user=self.user, quiz=self.quiz, submitted_date__gte=olddate).count()
+        no_attempts_today = QuizAttempt.objects.filter(user=self.user,
+                                                       quiz=self.quiz,
+                                                       submitted_date__gte=olddate).count()
         if no_attempts_today == 1:
             return True
         else:

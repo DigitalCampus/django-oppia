@@ -67,8 +67,11 @@ class QuizResource(ModelResource):
 
         # Do the query.
         query = request.GET.get('q', '')
-        searchresults = self._meta.queryset.filter(draft=0,
-                                                   deleted=0).filter(Q(title__icontains=query) | Q(description__icontains=query))
+        searchresults = self._meta.queryset \
+            .filter(draft=0,
+                    deleted=0) \
+            .filter(Q(title__icontains=query)
+                    | Q(description__icontains=query))
         paginator = Paginator(searchresults, 20)
 
         try:
@@ -239,7 +242,8 @@ class QuizPropsResource(ModelResource):
         digest = kwargs.pop('digest', None)
         quizprop = self._meta.queryset.filter(name='digest',
                                               quiz__deleted=0,
-                                              quiz__draft=0).filter(value=digest)
+                                              quiz__draft=0) \
+            .filter(value=digest)
         paginator = Paginator(quizprop, 20)
 
         try:

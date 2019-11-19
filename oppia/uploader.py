@@ -130,7 +130,8 @@ def process_course(extract_path, f, mod_name, request, user):
             return False, 400
 
         # obtain the old sections
-        oldsections = list(Section.objects.filter(course=course).values_list('pk', flat=True))
+        oldsections = list(Section.objects.filter(course=course)
+                           .values_list('pk', flat=True))
         # wipe out old media
         oldmedia = Media.objects.filter(course=course)
         oldmedia.delete()
@@ -211,7 +212,9 @@ def parse_course_contents(req, xml_doc, course, user, new_course):
         activities = s.find('activities')
         # Check if the section contains any activity (to avoid saving an empty one)
         if activities is None or len(activities.findall('activity')) == 0:
-            msg_text = _("Section ") + str(idx + 1) + _(" does not contain any activities.")
+            msg_text = _("Section ") \
+                        + str(idx + 1) \
+                        + _(" does not contain any activities.")
             messages.info(req, msg_text)
             CoursePublishingLog(course=course,
                                 user=user,
@@ -309,7 +312,13 @@ def parse_baseline_activities(req, xml_doc, course, user, new_course):
                                         is_baseline=True)
 
 
-def parse_and_save_activity(req, user, course, section, act, new_course, is_baseline=False):
+def parse_and_save_activity(req,
+                            user,
+                            course,
+                            section,
+                            act,
+                            new_course,
+                            is_baseline=False):
     """
     Parses an Activity XML and saves it to the DB
     :param section: section the activity belongs to
@@ -369,7 +378,9 @@ def parse_and_save_activity(req, user, course, section, act, new_course, is_base
     activity.description = description
 
     if not existed and not new_course:
-        msg_text = _(u'Activity "%(act)s"(%(digest)s) did not exist previously.') % {'act': activity.title, 'digest': activity.digest}
+        msg_text = _(u'Activity "%(act)s"(%(digest)s) did not exist \
+                     previously.') % {'act': activity.title,
+                                      'digest': activity.digest}
         messages.warning(req, msg_text)
         CoursePublishingLog(course=course,
                             user=user,
@@ -380,7 +391,8 @@ def parse_and_save_activity(req, user, course, section, act, new_course, is_base
                     Updated with new information') % {'act': activity.title,
                                                       'digest': activity.digest}
         '''
-        If we also want to show the activities that previously existed, uncomment this next line
+        If we also want to show the activities that previously existed,
+        uncomment this next line
         messages.info(req, msg_text)
         '''
         CoursePublishingLog(course=course,
@@ -390,7 +402,8 @@ def parse_and_save_activity(req, user, course, section, act, new_course, is_base
 
     if (act_type == "quiz"):
         updated_json = parse_and_save_quiz(req, user, activity, act)
-        # we need to update the JSON contents both in the XML and in the activity data
+        # we need to update the JSON contents both in the XML and in the
+        # activity data
         act.find("content").text = "<![CDATA[ " + updated_json + "]]>"
         activity.content = updated_json
 
@@ -405,7 +418,10 @@ def parse_and_save_activity(req, user, course, section, act, new_course, is_base
             defaults={'points': event['points'], 'user': req.user})
 
         if created:
-            msg_text = _(u'Gamification for "%(event)s" at activity "%(act)s"(%(digest)s) added') % {'event': e.event, 'act': activity.title, 'digest': activity.digest}
+            msg_text = _(u'Gamification for "%(event)s" at activity \
+                        "%(act)s"(%(digest)s) added') % {'event': e.event,
+                                                         'act': activity.title,
+                                                         'digest': activity.digest}
             messages.info(req, msg_text)
             CoursePublishingLog(course=course,
                                 user=user,
@@ -429,9 +445,12 @@ def parse_and_save_quiz(req, user, activity, act_xml):
         quiz_digest = quiz_obj['props']['digest']
 
         try:
-            quizzes = Quiz.objects.filter(quizprops__value=quiz_digest, quizprops__name="digest").order_by('-id')
+            quizzes = Quiz.objects.filter(quizprops__value=quiz_digest,
+                                          quizprops__name="digest") \
+                                          .order_by('-id')
             quiz_existed = len(quizzes) > 0
-            # remove any possible duplicate (possible scenario when transitioning between export versions)
+            # remove any possible duplicate (possible scenario when
+            # transitioning between export versions)
             for quiz in quizzes[1:]:
                 quiz.delete()
 
@@ -443,7 +462,11 @@ def parse_and_save_quiz(req, user, activity, act_xml):
             quiz_act = Activity.objects.get(digest=quiz_digest)
             updated_content = quiz_act.content
         except Activity.DoesNotExist:
-            updated_content = create_quiz(req, user, quiz_obj, act_xml, activity)
+            updated_content = create_quiz(req,
+                                          user,
+                                          quiz_obj,
+                                          act_xml,
+                                          activity)
     else:
         updated_content = create_quiz(req, user, quiz_obj, act_xml, activity)
 
@@ -510,10 +533,15 @@ def parse_gamification_events(element):
     return events
 
 
-def replace_zip_contents(xml_path, xml_doc, mod_name, dest, encoding='utf-8'):
+def replace_zip_contents(xml_path,
+                         xml_doc,
+                         mod_name,
+                         dest,
+                         encoding='utf-8'):
 
     with codecs.open(xml_path, mode="w", encoding=encoding) as fh:
-        new_xml = ET.tostring(xml_doc.getroot(), encoding=encoding).decode('utf-8')
+        new_xml = ET.tostring(xml_doc.getroot(),
+                              encoding=encoding).decode('utf-8')
         new_xml = unescape_xml(new_xml)
         fh.write("<?xml version='1.0' encoding='%s'?>\n" % encoding)
         fh.write(new_xml)
@@ -527,7 +555,9 @@ def clean_old_course(req, user, oldsections, old_course_filename, course):
     for section in oldsections:
         sec = Section.objects.get(pk=section)
         for act in sec.activities():
-            msg_text = _(u'Activity "%(act)s"(%(digest)s) is no longer in the course.') % {'act': act.title, 'digest': act.digest}
+            msg_text = _(u'Activity "%(act)s"(%(digest)s) is no longer in \
+                        the course.') % {'act': act.title,
+                                         'digest': act.digest}
             messages.info(req, msg_text)
             CoursePublishingLog(course=course,
                                 user=user,
@@ -561,7 +591,9 @@ def create_quiz_questions(user, quiz, quiz_obj):
                             title=q['question']['title'])
         question.save()
 
-        quiz_question = QuizQuestion(quiz=quiz, question=question, order=q['order'])
+        quiz_question = QuizQuestion(quiz=quiz,
+                                     question=question,
+                                     order=q['order'])
         quiz_question.save()
 
         q['id'] = quiz_question.pk

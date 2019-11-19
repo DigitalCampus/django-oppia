@@ -61,10 +61,12 @@ def quizattempt_callback(sender, **kwargs):
     if quiz_attempt.is_first_attempt():
         # If it's the first time they've attempted this quiz award points
         p = Points()
-        p.points = DefaultGamificationEvent.objects.get(event='quiz_first_attempt').points
+        p.points = DefaultGamificationEvent.objects.get(
+            event='quiz_first_attempt').points
         p.type = 'firstattempt'
         p.user = quiz_attempt.user
-        p.description = "Bonus points for your first attempt at: " + quiz.title
+        p.description = "Bonus points for your first attempt at: " + \
+            quiz.title
         p.course = course
         p.save()
 
@@ -80,11 +82,14 @@ def quizattempt_callback(sender, **kwargs):
 
         # if you get 100% on first attempt get bonus of 50 points
         if quiz_attempt.get_score_percent() \
-           >= DefaultGamificationEvent.objects.get(event='quiz_first_attempt_threshold').points:
+           >= DefaultGamificationEvent.objects.get(
+                event='quiz_first_attempt_threshold').points:
             p = Points()
-            p.points = DefaultGamificationEvent.objects.get(event='quiz_first_attempt_bonus').points
+            p.points = DefaultGamificationEvent.objects.get(
+                event='quiz_first_attempt_bonus').points
             p.type = 'firstattemptbonus'
-            p.description = "Bonus points for getting 100% in first attempt at quiz: " + quiz.title
+            p.description = "Bonus points for getting 100% in first attempt \
+                             at quiz: " + quiz.title
             p.user = quiz_attempt.user
             p.course = course
             p.save()
@@ -92,7 +97,8 @@ def quizattempt_callback(sender, **kwargs):
     elif quiz_attempt.is_first_attempt_today():
         # If it's the first time today they've attempted this quiz award 10 points
         p = Points()
-        p.points = DefaultGamificationEvent.objects.get(event='quiz_attempt').points
+        p.points = DefaultGamificationEvent.objects.get(
+            event='quiz_attempt').points
         p.type = 'quizattempt'
         p.user = quiz_attempt.user
         p.description = "Quiz attempt at: " + quiz.title
@@ -125,18 +131,25 @@ def tracker_callback(sender, **kwargs):
             return
 
         type = 'activity_completed'
-        points = DefaultGamificationEvent.objects.get(event='activity_completed').points
+        points = DefaultGamificationEvent.objects.get(
+            event='activity_completed').points
         if tracker.get_activity_type() == "media":
             description = "Media played: " + tracker.get_activity_title()
             type = 'mediaplayed'
             if tracker.is_first_tracker_today():
-                points = DefaultGamificationEvent.objects.get(event='media_started').points
+                points = DefaultGamificationEvent.objects.get(
+                    event='media_started').points
             else:
                 points = 0
-            points += (DefaultGamificationEvent.objects.get(event='media_playing_points_per_interval').points
-                       * math.floor(tracker.time_taken / DefaultGamificationEvent.objects.get(event='media_playing_interval').points))
-            if points > DefaultGamificationEvent.objects.get(event='media_max_points').points:
-                points = DefaultGamificationEvent.objects.get(event='media_max_points').points
+            points += (DefaultGamificationEvent.objects.get(
+                event='media_playing_points_per_interval').points
+                       * math.floor(tracker.time_taken
+                                    / DefaultGamificationEvent.objects.get(
+                                        event='media_playing_interval').points))
+            if points > DefaultGamificationEvent.objects.get(
+              event='media_max_points').points:
+                points = DefaultGamificationEvent.objects.get(
+                    event='media_max_points').points
         else:
             description = "Activity completed: " + tracker.get_activity_title()
 

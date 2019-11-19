@@ -73,8 +73,10 @@ def get_user(request, view_user_id):
             courses = Course.objects.filter(
                 coursecohort__cohort__participant__user=view_user,
                 coursecohort__cohort__participant__role=Participant.STUDENT) \
-                .filter(coursecohort__cohort__participant__user=request.user,
-                        coursecohort__cohort__participant__role=Participant.TEACHER).count()
+                .filter(
+                    coursecohort__cohort__participant__user=request.user,
+                    coursecohort__cohort__participant__role=Participant.TEACHER) \
+                .count()
             if courses > 0:
                 return view_user, None
             else:
@@ -92,13 +94,17 @@ def get_user_courses(request, view_user):
             coursecohort__cohort__participant__user=view_user,
             coursecohort__cohort__participant__role=Participant.STUDENT
             ).distinct().order_by('title')
-        other_courses = Course.objects.filter(tracker__user=view_user).exclude(pk__in=cohort_courses.values_list('id', flat=True)).distinct().order_by('title')
+        other_courses = Course.objects.filter(tracker__user=view_user) \
+            .exclude(pk__in=cohort_courses.values_list('id', flat=True)) \
+            .distinct().order_by('title')
     else:
         cohort_courses = Course.objects.filter(
             coursecohort__cohort__participant__user=view_user,
             coursecohort__cohort__participant__role=Participant.STUDENT) \
-            .filter(coursecohort__cohort__participant__user=request.user,
-                    coursecohort__cohort__participant__role=Participant.TEACHER).distinct().order_by('title')
+            .filter(
+                coursecohort__cohort__participant__user=request.user,
+                coursecohort__cohort__participant__role=Participant.TEACHER) \
+            .distinct().order_by('title')
         other_courses = Course.objects.none()
 
     all_courses = list(chain(cohort_courses, other_courses))

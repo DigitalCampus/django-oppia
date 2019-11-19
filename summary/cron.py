@@ -17,8 +17,9 @@ def update_summaries(last_tracker_pk=0, last_points_pk=0):
                                UserPointsSummary
 
     # check if cron already running
-    prop, created = SettingProperties.objects.get_or_create(key='oppia_summary_cron_lock',
-                                                            int_value=1)
+    prop, created = SettingProperties.objects \
+        .get_or_create(key='oppia_summary_cron_lock',
+                       int_value=1)
     if not created:
         print("Oppia summary cron is already running")
         return
@@ -48,7 +49,8 @@ def update_summaries(last_tracker_pk=0, last_points_pk=0):
     first_tracker = (last_tracker_pk == 0)
     first_points = (last_points_pk == 0)
 
-    # If we are calculating from the start, delete previous summary calculations
+    # If we are calculating from the start, delete previous summary
+    # calculations
     if first_tracker:
         UserCourseSummary.objects.all().delete()
         CourseDailyStats.objects.all().delete()
