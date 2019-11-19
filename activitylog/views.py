@@ -5,7 +5,9 @@ import json
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponseRedirect, \
+                        HttpResponse, \
+                        HttpResponseBadRequest
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
@@ -26,11 +28,14 @@ def process_uploaded_trackers(request, trackers, user, user_api_key):
     for tracker in trackers:
         success, results = create_resource(TrackerResource, request, tracker)
         if success:
-            messages.info(request, _(u"Tracker activity for %(username)s added" % {'username': user.username}))
+            messages.info(request,
+                          _(u"Tracker activity for %(username)s added" \
+                            % {'username': user.username}))
         else:
             messages.warning(request, _(
                 u"Already uploaded: tracker activity %(uuid)s for %(username)s added" % {'username': user.username,
-                                                                                         'uuid': tracker.get('digest')}), 'danger')
+                                                                                         'uuid': tracker.get('digest')}),
+                'danger')
 
 
 def process_uploaded_quizresponses(request, quiz_responses, user, user_api_key):
@@ -88,7 +93,8 @@ def process_uploaded_file(request, json_data):
                 if 'quizresponses' in user:
                     process_uploaded_quizresponses(request, user['quizresponses'], req_user, user_api_key)
             except ApiKey.DoesNotExist:
-                messages.warning(request, _(u"%(username)s not found. Please check that this file is being uploaded to the correct server." % {'username': username}), 'danger')
+                messages.warning(request, _(u"%(username)s not found. Please \
+                check that this file is being uploaded to the correct server." % {'username': username}), 'danger')
                 print(_(u"No user api key found for %s" % user['username']))
 
 
@@ -104,7 +110,8 @@ def process_activitylog(request, contents):
 
 def validate_server(request, data):
     url_comp = request.build_absolute_uri().split('/')
-    server_url = "%(protocol)s//%(domain)s" % ({'protocol': url_comp[0], 'domain': url_comp[2]})
+    server_url = "%(protocol)s//%(domain)s" % ({'protocol': url_comp[0],
+                                                'domain': url_comp[2]})
 
     if 'server' in data:
         if data['server'].startswith(server_url):

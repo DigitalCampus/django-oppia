@@ -43,4 +43,5 @@ class UploadActivityLogForm(forms.Form):
                 and activity_log_file.content_type \
                 not in settings.OPPIA_UPLOAD_TRACKER_FILE_TYPES:
             raise forms.ValidationError(
-                _(u"You may only upload an activity log file which is one of the following types: %s" % ', '.join(settings.OPPIA_UPLOAD_TRACKER_FILE_TYPES)))
+                _(u"You may only upload an activity log file which is one of \
+                  the following types: %s" % ', '.join(settings.OPPIA_UPLOAD_TRACKER_FILE_TYPES)))

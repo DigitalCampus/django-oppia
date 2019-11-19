@@ -29,12 +29,14 @@ class QuizJSONSerializer(Serializer):
         try:
             data['description'] = json.loads(data['description'])
         except json.JSONDecodeError:
-            # ignore this since the title doesn't supply lang info, so just continue as plain string
+            # ignore this since the title doesn't supply lang info, so just
+            # continue as plain string
             pass
         try:
             data['title'] = json.loads(data['title'])
         except json.JSONDecodeError:
-            # ignore this since the title doesn't supply lang info, so just continue as plain string
+            # ignore this since the title doesn't supply lang info, so just
+            # continue as plain string
             pass
 
         # remove intermediate quizquestion data
@@ -44,9 +46,11 @@ class QuizJSONSerializer(Serializer):
 
             # serialise question title as json
             try:
-                question['question']['title'] = json.loads(question['question']['title'])
+                question['question']['title'] = \
+                    json.loads(question['question']['title'])
             except json.JSONDecodeError:
-                # ignore this since the title doesn't supply lang info, so just continue as plain string
+                # ignore this since the title doesn't supply lang info, so -
+                # just continue as plain string
                 pass
 
             if 'props' in question['question']:
@@ -58,11 +62,15 @@ class QuizJSONSerializer(Serializer):
                         question['question']['p'][p['name']] = p['value']
 
                     # for matching questions
-                    if p['name'] == 'incorrectfeedback' or p['name'] == 'partiallycorrectfeedback' or p['name'] == 'correctfeedback':
+                    if p['name'] == 'incorrectfeedback' \
+                            or p['name'] == 'partiallycorrectfeedback' \
+                            or p['name'] == 'correctfeedback':
                         try:
-                            question['question']['p'][p['name']] = json.loads(p['value'])
+                            question['question']['p'][p['name']] = \
+                                json.loads(p['value'])
                         except json.JSONDecodeError:
-                            # ignore this since the title doesn't supply lang info, so just continue as plain string
+                            # ignore this since the title doesn't supply
+                            # lang info, so just continue as plain string
                             pass
                 question['question']['props'] = question['question']['p']
                 del question['question']['p']
@@ -78,7 +86,8 @@ class QuizJSONSerializer(Serializer):
                 try:
                     r['title'] = json.loads(r['title'])
                 except json.JSONDecodeError:
-                    # ignore this since the title doesn't supply lang info, so just continue as plain string
+                    # ignore this since the title doesn't supply lang info,
+                    # so just continue as plain string
                     pass
                 r['p'] = {}
                 for p in r['props']:

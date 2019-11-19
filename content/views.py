@@ -63,9 +63,15 @@ def media_embed_helper(request):
                    'processed_media': processed_media})
 
 
-def process_media_file(media_guid, media_url, media_local_file, download_error, processed_media):
+def process_media_file(media_guid,
+                       media_url,
+                       media_local_file,
+                       download_error,
+                       processed_media):
 
-    if download_error is None and can_execute(settings.SCREENSHOT_GENERATOR_PROGRAM) and can_execute(settings.MEDIA_PROCESSOR_PROGRAM):
+    if download_error is None \
+      and can_execute(settings.SCREENSHOT_GENERATOR_PROGRAM) \
+      and can_execute(settings.MEDIA_PROCESSOR_PROGRAM):
 
         # get the basic meta info
         file_size = os.path.getsize(media_local_file)
@@ -76,11 +82,19 @@ def process_media_file(media_guid, media_url, media_local_file, download_error, 
 
         if success:
             # create some image/screenshots
-            image_path = generate_media_screenshots(media_local_file, media_guid)
-            processed_media['embed_code'] = content.EMBED_TEMPLATE % (media_url.split('/')[-1], media_url, md5sum, file_size, file_length)
+            image_path = generate_media_screenshots(media_local_file,
+                                                    media_guid)
+            processed_media['embed_code'] = content.EMBED_TEMPLATE % (media_url.split('/')[-1],
+                                                                      media_url,
+                                                                      md5sum,
+                                                                      file_size,
+                                                                      file_length)
 
             # Add the generated images to the output
-            processed_media['image_url_root'] = settings.MEDIA_URL + "temp/" + media_guid + ".images/"
+            processed_media['image_url_root'] = settings.MEDIA_URL \
+                + "temp/" \
+                + media_guid \
+                + ".images/"
             processed_media['image_files'] = next(os.walk(image_path))[2]
             processed_media['success'] = True
 
@@ -98,7 +112,10 @@ def process_media_file(media_guid, media_url, media_local_file, download_error, 
     return download_error, processed_media
 
 
-def check_media_link(media_url, media_local_file, download_error, processed_media):
+def check_media_link(media_url,
+                     media_local_file,
+                     download_error,
+                     processed_media):
     try:
         urllib.request.urlretrieve(media_url, media_local_file)
     except IOError as err:
@@ -131,16 +148,20 @@ def generate_media_screenshots(media_local_file, media_guid):
     if not os.path.exists(os.path.join(settings.MEDIA_ROOT, 'temp')):
         os.makedirs(os.path.join(settings.MEDIA_ROOT, 'temp'))
 
-    image_path = os.path.join(settings.MEDIA_ROOT, 'temp', media_guid + ".images")
+    image_path = os.path.join(settings.MEDIA_ROOT,
+                              'temp',
+                              media_guid + ".images")
 
     if not os.path.exists(image_path):
         os.makedirs(image_path)
 
-    image_generator_command = ("%s %s" % (settings.SCREENSHOT_GENERATOR_PROGRAM,
-                                          settings.SCREENSHOT_GENERATOR_PROGRAM_PARAMS)) % (media_local_file,
-                                                                                            content.SCREENSHOT_IMAGE_WIDTH,
-                                                                                            content.SCREENSHOT_IMAGE_HEIGHT,
-                                                                                            image_path)
+    image_generator_command = ("%s %s" %
+                               (settings.SCREENSHOT_GENERATOR_PROGRAM,
+                                settings.SCREENSHOT_GENERATOR_PROGRAM_PARAMS)) \
+        % (media_local_file,
+           content.SCREENSHOT_IMAGE_WIDTH,
+           content.SCREENSHOT_IMAGE_HEIGHT,
+           image_path)
     subprocess.call(image_generator_command, shell=True)
     return image_path
 
