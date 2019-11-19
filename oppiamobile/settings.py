@@ -201,10 +201,6 @@ OPPIA_ANDROID_ON_GOOGLE_PLAY = True  # if the app is not on Google Play, we rely
 
 API_LIMIT_PER_PAGE = 0
 
-DEVICE_ADMIN_ENABLED = False
-GCM_DEVICE_MODEL = 'deviceadmin.models.UserDevice'
-GCM_APIKEY = 'OPPIA_GOOGLEAPIKEY'
-
 SCREENSHOT_GENERATOR_PROGRAM = "ffmpeg"
 SCREENSHOT_GENERATOR_PROGRAM_PARAMS = "-i %s -r 0.02 -s %dx%d -f image2 %s/frame-%%03d.png"
 
@@ -217,7 +213,3 @@ try:
     from oppiamobile.settings_secret import *
 except ImportError:
     print("settings_secret.py file could not be found.")
-
-
-if DEVICE_ADMIN_ENABLED:
-    INSTALLED_APPS += ('deviceadmin', 'gcm', )

@@ -33,10 +33,6 @@ def get_api(version_name):
     api.register(ResponseResource())
     api.register(QuizAttemptResource())
 
-    if settings.DEVICE_ADMIN_ENABLED:
-        from deviceadmin.api.resources import UserDeviceResource
-        api.register(UserDeviceResource())
-
     return api
 
 
