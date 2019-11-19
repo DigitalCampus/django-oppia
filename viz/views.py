@@ -79,15 +79,20 @@ def summary_get_registrations(start_date):
                         .annotate(count=Count('id')) \
                         .order_by('year', 'month')
 
-    previous_user_registrations = User.objects.filter(date_joined__lt=start_date).count()
+    previous_user_registrations = User.objects \
+        .filter(date_joined__lt=start_date).count()
 
     return user_registrations, previous_user_registrations
 
 
 def summary_get_countries(start_date):
-    hits_by_country = UserLocationVisualization.objects.all().values('country_code',
-                                                                     'country_name').annotate(country_total_hits=Sum('hits')).order_by('-country_total_hits')
-    total_hits = UserLocationVisualization.objects.all().aggregate(total_hits=Sum('hits'))
+    hits_by_country = UserLocationVisualization.objects.all() \
+        .values('country_code',
+                'country_name') \
+        .annotate(country_total_hits=Sum('hits')) \
+        .order_by('-country_total_hits')
+    total_hits = UserLocationVisualization.objects.all() \
+        .aggregate(total_hits=Sum('hits'))
     total_countries = hits_by_country.count()
 
     i = 0
@@ -112,8 +117,16 @@ def summary_get_countries(start_date):
 
 
 def summary_get_languages(start_date):
-    hit_by_language = Tracker.objects.filter(user__is_staff=False).exclude(lang=None).values('lang').annotate(total_hits=Count('id')).order_by('-total_hits')
-    total_hits = Tracker.objects.filter(user__is_staff=False).exclude(lang=None).aggregate(total_hits=Count('id'))
+    hit_by_language = Tracker.objects \
+        .filter(user__is_staff=False) \
+        .exclude(lang=None) \
+        .values('lang') \
+        .annotate(total_hits=Count('id')) \
+        .order_by('-total_hits')
+    total_hits = Tracker.objects \
+        .filter(user__is_staff=False) \
+        .exclude(lang=None) \
+        .aggregate(total_hits=Count('id'))
 
     i = 0
     languages = []
@@ -174,26 +187,32 @@ def summary_get_course_activity(start_date):
         if i < 10:
             hits_percent = float(hbc['total_hits'] * 100.0 / total_hits)
             course = Course.objects.get(id=hbc['course_id'])
-            hot_courses.append({'course': course, 'hits_percent': hits_percent})
+            hot_courses.append({'course': course,
+                                'hits_percent': hits_percent})
         else:
             other_course_activity += hbc['total_hits']
         i += 1
     if i > 10:
         hits_percent = float(other_course_activity * 100.0 / total_hits)
-        hot_courses.append({'course': _('Other'), 'hits_percent': hits_percent})
+        hot_courses.append({'course': _('Other'),
+                            'hits_percent': hits_percent})
 
     return course_activity, previous_course_activity, hot_courses
 
 
 def summary_get_searches(start_date):
-    searches = CourseDailyStats.objects.filter(day__gte=start_date, type='search') \
-                        .annotate(month=ExtractMonth('day')) \
-                        .annotate(year=ExtractYear('day')) \
-                        .annotate(count=Sum('total')) \
-                        .order_by('year', 'month')
+    searches = CourseDailyStats.objects \
+        .filter(day__gte=start_date, type='search') \
+        .annotate(month=ExtractMonth('day')) \
+        .annotate(year=ExtractYear('day')) \
+        .annotate(count=Sum('total')) \
+        .order_by('year', 'month')
 
-    previous_searches = CourseDailyStats.objects.filter(day__lt=start_date,
-                                                        type='search').aggregate(total=Sum('total')).get('total', 0)
+    previous_searches = CourseDailyStats.objects \
+        .filter(day__lt=start_date,
+                type='search') \
+        .aggregate(total=Sum('total')) \
+        .get('total', 0)
     if previous_searches is None:
         previous_searches = 0
 

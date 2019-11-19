@@ -14,9 +14,14 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CourseCohort',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('cohort', models.ForeignKey(to='oppia.Cohort', on_delete=models.CASCADE)),
-                ('course', models.ForeignKey(to='oppia.Course', on_delete=models.CASCADE)),
+                ('id', models.AutoField(verbose_name='ID',
+                                        serialize=False,
+                                        auto_created=True,
+                                        primary_key=True)),
+                ('cohort', models.ForeignKey(to='oppia.Cohort',
+                                             on_delete=models.CASCADE)),
+                ('course', models.ForeignKey(to='oppia.Course',
+                                             on_delete=models.CASCADE)),
             ],
             options={
             },

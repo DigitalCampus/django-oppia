@@ -51,11 +51,13 @@ def leaderboard_export(request, course_id=None):
 
 
 def load_course_points(request, course):
-    course_custom_points = CourseGamificationEvent.objects.filter(course=course)
+    course_custom_points = CourseGamificationEvent.objects \
+        .filter(course=course)
     if len(course_custom_points) > 0:
         return course_custom_points
     else:
-        course_default_points = DefaultGamificationEvent.objects.exclude(level=DefaultGamificationEvent.GLOBAL)
+        course_default_points = DefaultGamificationEvent.objects \
+            .exclude(level=DefaultGamificationEvent.GLOBAL)
         initialise_course_points(request, course, course_default_points)
         return course_default_points
 
@@ -137,45 +139,57 @@ def edit_course_gamification(request, course_id):
                 reference = form.cleaned_data.get('reference')
                 defaults = {'points': points, 'user': request.user}
 
-                to_delete = formset.can_delete and formset._should_delete_form(form)
+                to_delete = formset.can_delete \
+                              and formset._should_delete_form(form)
 
                 updated = True
                 if level == 'course':
                     if to_delete:
-                        CourseGamificationEvent.objects.filter(course_id=reference,
-                                                               event=event).delete()
+                        CourseGamificationEvent.objects \
+                            .filter(course_id=reference,
+                                    event=event).delete()
                     else:
-                        CourseGamificationEvent.objects.update_or_create(course_id=reference,
-                                                                         event=event,
-                                                                         defaults=defaults)
+                        CourseGamificationEvent.objects \
+                            .update_or_create(course_id=reference,
+                                              event=event,
+                                              defaults=defaults)
                 elif level == 'activity':
                     if to_delete:
-                        ActivityGamificationEvent.objects.filter(activity_id=reference,
-                                                                 event=event).delete()
+                        ActivityGamificationEvent.objects \
+                            .filter(activity_id=reference,
+                                    event=event).delete()
                     else:
-                        ActivityGamificationEvent.objects.update_or_create(activity_id=reference,
-                                                                           event=event,
-                                                                           defaults=defaults)
+                        ActivityGamificationEvent.objects \
+                            .update_or_create(activity_id=reference,
+                                              event=event,
+                                              defaults=defaults)
                 elif level == 'media':
                     if to_delete:
-                        MediaGamificationEvent.objects.filter(media_id=reference,
-                                                              event=event).delete()
+                        MediaGamificationEvent.objects \
+                            .filter(media_id=reference,
+                                    event=event).delete()
                     else:
-                        MediaGamificationEvent.objects.update_or_create(media_id=reference,
-                                                                        event=event,
-                                                                        defaults=defaults)
+                        MediaGamificationEvent.objects \
+                            .update_or_create(media_id=reference,
+                                              event=event,
+                                              defaults=defaults)
 
             if updated:
                 writer = GamificationXMLWriter(course)
                 new_version = writer.update_gamification(request.user)
-                messages.success(request, 'Course XML updated. New version: {}'.format(new_version))
+                messages.success(request,
+                                 'Course XML updated. New version: {}'
+                                 .format(new_version))
         else:
             print(formset.errors)
     else:
         formset = events_formset(prefix='events')
 
-    activities = Activity.objects.filter(section__course=course).select_related('section').prefetch_related('gamification_events')
-    media = Media.objects.filter(course=course).prefetch_related('gamification_events')
+    activities = Activity.objects.filter(section__course=course) \
+        .select_related('section') \
+        .prefetch_related('gamification_events')
+    media = Media.objects.filter(course=course) \
+        .prefetch_related('gamification_events')
 
     default_points = {
         'course': DefaultGamificationEvent.objects.exclude(level=DefaultGamificationEvent.GLOBAL),

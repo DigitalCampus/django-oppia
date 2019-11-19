@@ -37,7 +37,7 @@ class Migration(migrations.Migration):
             name='SettingProperties',
             fields=[
                 ('key', models.CharField(max_length=30,
-                                         serialize=False,primary_key=True)),
+                                         serialize=False, primary_key=True)),
                 ('str_value', models.CharField(max_length=50,
                                                null=True,
                                                blank=True)),

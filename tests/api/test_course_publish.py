@@ -75,7 +75,8 @@ class CoursePublishResourceTest(TestCase):
 
     # test is user has correct permissions or not to upload
     def test_upload_permission_admin(self):
-        old_no_cpls = CoursePublishingLog.objects.filter(action='api_course_published').count()
+        old_no_cpls = CoursePublishingLog.objects \
+            .filter(action='api_course_published').count()
 
         with open(self.course_file_path, 'rb') as course_file:
             # admin can upload
@@ -88,7 +89,8 @@ class CoursePublishResourceTest(TestCase):
             self.assertEqual(response.status_code, 201)
 
             # check record added to course publishing log
-            new_no_cpls = CoursePublishingLog.objects.filter(action='api_course_published').count()
+            new_no_cpls = CoursePublishingLog.objects \
+                .filter(action='api_course_published').count()
             self.assertEqual(old_no_cpls+1, new_no_cpls)
 
     def test_upload_permission_staff(self):
@@ -98,7 +100,8 @@ class CoursePublishResourceTest(TestCase):
         course.user = user
         course.save()
 
-        old_no_cpls = CoursePublishingLog.objects.filter(action='api_course_published').count()
+        old_no_cpls = CoursePublishingLog.objects \
+            .filter(action='api_course_published').count()
 
         with open(self.course_file_path, 'rb') as course_file:
             # staff can upload
@@ -111,7 +114,8 @@ class CoursePublishResourceTest(TestCase):
             self.assertEqual(response.status_code, 201)
 
             # check record added to course publishing log
-            new_no_cpls = CoursePublishingLog.objects.filter(action='api_course_published').count()
+            new_no_cpls = CoursePublishingLog.objects \
+                .filter(action='api_course_published').count()
             self.assertEqual(old_no_cpls+1, new_no_cpls)
 
     def test_upload_permission_teacher(self):
@@ -121,7 +125,8 @@ class CoursePublishResourceTest(TestCase):
         course.user = user
         course.save()
 
-        old_no_cpls = CoursePublishingLog.objects.filter(action='api_course_published').count()
+        old_no_cpls = CoursePublishingLog.objects \
+            .filter(action='api_course_published').count()
 
         with open(self.course_file_path, 'rb') as course_file:
             # teacher can upload
@@ -134,12 +139,14 @@ class CoursePublishResourceTest(TestCase):
             self.assertEqual(response.status_code, 201)
 
             # check record added to course publishing log
-            new_no_cpls = CoursePublishingLog.objects.filter(action='api_course_published').count()
+            new_no_cpls = CoursePublishingLog.objects \
+                .filter(action='api_course_published').count()
             self.assertEqual(old_no_cpls+1, new_no_cpls)
 
     def test_upload_permission_user(self):
 
-        old_no_cpls = CoursePublishingLog.objects.filter(action='api_course_published').count()
+        old_no_cpls = CoursePublishingLog.objects \
+            .filter(action='api_course_published').count()
 
         with open(self.course_file_path, 'rb') as course_file:
             # normal user cannot upload
@@ -152,7 +159,8 @@ class CoursePublishResourceTest(TestCase):
             self.assertEqual(response.status_code, 401)
 
             # check record added to course publishing log
-            new_no_cpls = CoursePublishingLog.objects.filter(action='api_course_published').count()
+            new_no_cpls = CoursePublishingLog.objects \
+                .filter(action='api_course_published').count()
             self.assertEqual(old_no_cpls, new_no_cpls)
 
     # test user has given correct password
@@ -170,7 +178,8 @@ class CoursePublishResourceTest(TestCase):
     # test file is correct format
     def test_file_format(self):
 
-        old_no_cpls = CoursePublishingLog.objects.filter(action='invalid_zip').count()
+        old_no_cpls = CoursePublishingLog.objects \
+            .filter(action='invalid_zip').count()
 
         with open(self.video_file_path, 'rb') as video_file:
             # send video file instead
@@ -183,7 +192,8 @@ class CoursePublishResourceTest(TestCase):
             self.assertEqual(response.status_code, 400)
 
             # check record added to course publishing log
-            new_no_cpls = CoursePublishingLog.objects.filter(action='invalid_zip').count()
+            new_no_cpls = CoursePublishingLog.objects \
+                .filter(action='invalid_zip').count()
             self.assertEqual(old_no_cpls+1, new_no_cpls)
 
     # test if user is trying to overwrite course they don't already own
@@ -194,7 +204,8 @@ class CoursePublishResourceTest(TestCase):
         course.user = user
         course.save()
 
-        old_no_cpls = CoursePublishingLog.objects.filter(action='permissions_error').count()
+        old_no_cpls = CoursePublishingLog.objects \
+            .filter(action='permissions_error').count()
 
         with open(self.course_file_path, 'rb') as course_file:
             # teacher attempts to update
@@ -208,7 +219,8 @@ class CoursePublishResourceTest(TestCase):
 
             # check record added to course publishing log
 
-            new_no_cpls = CoursePublishingLog.objects.filter(action='permissions_error').count()
+            new_no_cpls = CoursePublishingLog.objects \
+                .filter(action='permissions_error').count()
             self.assertEqual(old_no_cpls+1, new_no_cpls)
 
     # check file size of course
@@ -217,7 +229,8 @@ class CoursePublishResourceTest(TestCase):
         setting.int_value = 1000
         setting.save()
 
-        old_no_cpls = CoursePublishingLog.objects.filter(action='over_max_upload').count()
+        old_no_cpls = CoursePublishingLog.objects \
+            .filter(action='over_max_upload').count()
 
         with open(self.course_file_path, 'rb') as course_file:
             response = self.client.post(self.url,
@@ -229,5 +242,6 @@ class CoursePublishResourceTest(TestCase):
             self.assertEqual(response.status_code, 400)
 
             # check record added to course publishing log
-            new_no_cpls = CoursePublishingLog.objects.filter(action='over_max_upload').count()
+            new_no_cpls = CoursePublishingLog.objects \
+                .filter(action='over_max_upload').count()
             self.assertEqual(old_no_cpls+1, new_no_cpls)

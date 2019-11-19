@@ -29,24 +29,32 @@ def process_uploaded_trackers(request, trackers, user, user_api_key):
         success, results = create_resource(TrackerResource, request, tracker)
         if success:
             messages.info(request,
-                          _(u"Tracker activity for %(username)s added" \
+                          _(u"Tracker activity for %(username)s added"
                             % {'username': user.username}))
         else:
             messages.warning(request, _(
-                u"Already uploaded: tracker activity %(uuid)s for %(username)s added" % {'username': user.username,
-                                                                                         'uuid': tracker.get('digest')}),
-                'danger')
+                u"Already uploaded: tracker activity %(uuid)s for \
+                %(username)s added" % {'username': user.username,
+                                       'uuid': tracker.get('digest')}),
+                                       'danger')
 
 
-def process_uploaded_quizresponses(request, quiz_responses, user, user_api_key):
+def process_uploaded_quizresponses(request,
+                                   quiz_responses,
+                                   user,
+                                   user_api_key):
     request.user = user
     for quizattempt in quiz_responses:
-        success, results = create_resource(QuizAttemptResource, request, quizattempt)
+        success, results = create_resource(QuizAttemptResource,
+                                           request,
+                                           quizattempt)
         if success:
-            messages.info(request, _(u"Quiz attempt for %(username)s added" % {'username': user.username}))
+            messages.info(request, _(u"Quiz attempt for %(username)s added"
+                                     % {'username': user.username}))
         else:
             messages.info(request,
-                          _(u"Already uploaded: quiz attempt for %(username)s added" % {'username': user.username}))
+                          _(u"Already uploaded: quiz attempt for \
+                           %(username)s added" % {'username': user.username}))
 
 
 def process_uploaded_file(request, json_data):
@@ -63,16 +71,20 @@ def process_uploaded_file(request, json_data):
                     email=user['email'],
                 )
 
-                req_user.password = user['password'] if 'password' in user else make_password(None)
+                req_user.password = user['password'] \
+                    if 'password' in user else make_password(None)
                 req_user.first_name = user['firstname']
                 req_user.last_name = user['lastname']
                 req_user.save()
 
                 user_profile = UserProfile()
                 user_profile.user = req_user
-                user_profile.phone_number = user['phoneno'] if 'phoneno' in user else None
-                user_profile.job_title = user['jobtitle'] if 'jobtitle' in user else None
-                user_profile.organisation = user['organisation'] if 'organisation' in user else None
+                user_profile.phone_number = user['phoneno'] \
+                    if 'phoneno' in user else None
+                user_profile.job_title = user['jobtitle'] \
+                    if 'jobtitle' in user else None
+                user_profile.organisation = user['organisation'] \
+                    if 'organisation' in user else None
                 user_profile.save()
 
                 messages.warning(request, _(
@@ -86,12 +98,20 @@ def process_uploaded_file(request, json_data):
                 if (created):
                     messages.warning(request, _(
                         u"Generated new ApiKey for %(username)s : %(apikey)s" % {
-                            'username': username, 'apikey': user_api_key.key}), 'danger')
+                            'username': username,
+                            'apikey': user_api_key.key}),
+                        'danger')
 
                 if 'trackers' in user:
-                    process_uploaded_trackers(request, user['trackers'], req_user, user_api_key)
+                    process_uploaded_trackers(request,
+                                              user['trackers'],
+                                              req_user,
+                                              user_api_key)
                 if 'quizresponses' in user:
-                    process_uploaded_quizresponses(request, user['quizresponses'], req_user, user_api_key)
+                    process_uploaded_quizresponses(request,
+                                                   user['quizresponses'],
+                                                   req_user,
+                                                   user_api_key)
             except ApiKey.DoesNotExist:
                 messages.warning(request, _(u"%(username)s not found. Please \
                 check that this file is being uploaded to the correct server." % {'username': username}), 'danger')
@@ -119,7 +139,8 @@ def validate_server(request, data):
         else:
             print('Different tracker server: {}'.format(data['server']))
             messages.warning(request, _(
-                "The server in the activity log file does not match with the current one"))
+                "The server in the activity log file does not match with the \
+                current one"))
             return False
     else:
         messages.warning(request, _(
