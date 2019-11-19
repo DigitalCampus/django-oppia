@@ -5,6 +5,7 @@ from oppia.models import Activity, Media
 
 from tastypie.validation import Validation
 
+
 class TrackerValidation(Validation):
     def is_valid(self, bundle, request=None):
         errors = {}
@@ -17,5 +18,5 @@ class TrackerValidation(Validation):
             Media.objects.get(digest=bundle.obj.digest)
         except Media.DoesNotExist:
             pass
-        
+
         return errors

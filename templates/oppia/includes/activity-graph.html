@@ -1,4 +1,4 @@
-{% load i18n %} 
+{% load i18n %}
 {% load static %}
 
 {% block extra_scripts %}
@@ -24,7 +24,7 @@
 			{% endfor %}
 	
 	        var chart = new google.visualization.AreaChart(document.getElementById('activity_graph_div'));
-	        chart.draw(data, {	width: "100%", 
+	        chart.draw(data, {	width: "100%",
 	                			height: 400,
 	                			vAxis: {minValue:0, maxLines:2, viewWindow: {min:0 }},
 	                			pointSize:3,

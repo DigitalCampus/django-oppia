@@ -1,5 +1,5 @@
-{% extends "base.html" %} 
-{% load i18n %} 
+{% extends "base.html" %}
+{% load i18n %}
 {% load static %}
 {% load settings_value %}
 {% block extra_head_title %}
@@ -16,13 +16,13 @@
 {% block content %}
 
 {% settings_value 'OPPIA_ANDROID_PACKAGEID' as package_id %}
-{% blocktrans %} 
+{% blocktrans %}
 	<p><a href="https://digital-campus.org/oppiamobile/">OppiaMobile
 	</a> is the mobile learning platform from <a href="https://digital-campus.org">
-	Digital Campus</a> to deliver learning content, multimedia and quizzes on 
-	your smartphone. All the content and activities can	be accessed and used 
+	Digital Campus</a> to deliver learning content, multimedia and quizzes on
+	your smartphone. All the content and activities can	be accessed and used
 	even when you don't have an internet connection available on your mobile.</p>
-	<p>To get started with our courses, <a href="https://play.google.com/store/apps/details?id={{package_id}}">download the OppiaMobile app</a>. 
+	<p>To get started with our courses, <a href="https://play.google.com/store/apps/details?id={{package_id}}">download the OppiaMobile app</a>.
 {% endblocktrans %}
 
 <h3>{% trans 'Partners' %}</h3>
@@ -30,8 +30,8 @@
 {% static "oppia/images/LMH-logo.png" as lmh_logo%}
 {% static "oppia/images/CHA-logo.png" as cha_logo%}
 
-{% blocktrans %} 
-	<p>The development of OppiaMobile is made possible with the support and 
+{% blocktrans %}
+	<p>The development of OppiaMobile is made possible with the support and
 collaboration of our partners:</p>
 	<a href="https://uah.es/"><img src="{{ uah_logo }}" alt="UAH logo" style="margin:20px"/></a>	
 	<a href="https://lastmilehealth.org/"><img src="{{ lmh_logo }}" alt="Last Mile Health logo" style="margin:20px"/></a>
@@ -43,7 +43,7 @@ collaboration of our partners:</p>
 {% static "oppia/images/mPoweringlogo.jpg" as mpowering_logo %}
 {% static "oppia/images/aecid-logo.png" as aecid_logo %}
 
-{% blocktrans %} 
+{% blocktrans %}
 	<a href="https://dfid.gov.uk/"><img src="{{ ukaid_logo }}" alt="UK AID logo" style="margin:20px"/></a>	
 	<a href="http://www.aecid.es/"><img src="{{ aecid_logo }}" alt="AECID logo" style="margin:20px"/></a>
 	<a href="https://mpoweringhealth.org/"><img src="{{ mpowering_logo }}" alt="mPowering logo" style="margin:20px"/></a>
@@ -53,14 +53,13 @@ collaboration of our partners:</p>
 {% blocktrans %} 	
 	<p>Acknowledgements and contributors to the code include:</p>
 		<ul>
-		<li><a href="http://www.brightec.co.uk/blog/custom-android-media-controller">Brightec</a> - video controller</li>
-		<li><a href="http://androidplot.com/">AndroidPlot</a> - for graphing library</li>
-		<li><a href="http://square.github.io/okhttp/">OkHttp</a> - HTTP library</li>
-		<li><a href="https://github.com/square/picasso">Picasso (by SquareUp)</a> - image caching library</li>
 		<li>Safdar Ali & Durba Gogia - Hindi translation</li>
 		<li>Roman Blanco - Spanish translation</li>
 		<li>Marijs Carrin - for testing and development</li>
-		<li>Joseba and Adrián (<a href="http://www.chaotic-kingdoms.com">Chaotic Kingdoms</a>) - technical development, performance improvements and bug fixes</li>
+		<li><a href="https://github.com/jjoseba">Joseba</a> - technical development, performance improvements and bug fixes</li>
+		<li>Adrián Domínguez - technical development, performance improvements and bug fixes</li>
+		<li><a href="https://github.com/jbc25">Julio Berzal</a> - technical development, performance 
+  improvements and bug fixes</li>
 		<li>Laila Hussain - Urdu translation</li>
 		<li><a href="http://lal.ngo">Lebanese Alternative Learning</a> - Arabic (Lebanese) translation and funding for drag and drop quizzes</li>
 		<li><a href="http://lastmilehealth.org">Last Mile Health</a> - Funding for additional development</li>
@@ -70,6 +69,17 @@ collaboration of our partners:</p>
 		<li><a href="https://github.com/Ziirofans">Ziirofan</a></li>
 	</ul>
 	
+{% endblocktrans %}
+
+<h3>{% trans 'Code Libraries' %}</h3>
+{% blocktrans %} 
+	<ul>
+		<li><a href="http://getbootstrap.com/">Bootstrap</a></li>
+		<li><a href="http://www.brightec.co.uk/blog/custom-android-media-controller">Brightec</a> - video controller</li>
+		<li><a href="http://androidplot.com/">AndroidPlot</a> - for graphing library</li>
+		<li><a href="http://square.github.io/okhttp/">OkHttp</a> - HTTP library</li>
+		<li><a href="https://github.com/square/picasso">Picasso (by SquareUp)</a> - image caching library</li>
+	</ul>
 {% endblocktrans %}
 
 <a id="terms"></a>
@@ -91,7 +101,6 @@ GNU General Public License for more details.</p>
 <p>You should have received a copy of the GNU General Public License
 along with OppiaMobile.  If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>
 
-<p>OppiaMobile server uses <a href="http://getbootstrap.com/">Bootstrap</a> which is released under the <a href="https://github.com/twbs/bootstrap/blob/master/LICENSE">MIT license and is copyright 2014 Twitter</a>.</p>
 {% endblocktrans %}
 
 {% endblock %}

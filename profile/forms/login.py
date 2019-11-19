@@ -15,7 +15,7 @@ class LoginForm(forms.Form):
     next = forms.CharField(widget=forms.HiddenInput())
 
     def __init__(self, *args, **kwargs):
-        super(LoginForm, self).__init__( * args, ** kwargs)
+        super(LoginForm, self).__init__(* args, ** kwargs)
         self.helper = FormHelper()
         self.helper.form_action = reverse('profile_login')
         self.helper.form_class = 'form-horizontal'

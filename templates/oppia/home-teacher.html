@@ -1,6 +1,6 @@
-{% extends "base.html" %} 
-{% load i18n %} 
-{% load display_functions %} 
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
 
 {% block extra_head_title %}
 	{% trans 'Home' %}
@@ -23,7 +23,7 @@
                 </tr>
               </thead>
               <tbody>
-              
+
 				{% for cohort in cohorts %}
 					<tr>
 						<td><a href="{% url 'oppia_cohort_view' cohort.id %}">{{ cohort.description }}</a></td>

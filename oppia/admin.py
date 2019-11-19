@@ -1,17 +1,37 @@
 # oppia/admin.py
 from django.contrib import admin
-from oppia.models import Course, Section, Activity, Tracker, Media, Cohort, CourseManager
+from oppia.models import Course, \
+                         Section, \
+                         Activity, \
+                         Tracker, \
+                         Media, \
+                         Cohort, \
+                         CourseManager
 from oppia.models import Participant, Tag, CourseTag
 from oppia.models import Badge, Award, Points, AwardCourse
 from oppia.models import CourseCohort, CoursePublishingLog
 
 
 class TrackerAdmin(admin.ModelAdmin):
-    list_display = ('user', 'submitted_date', 'tracker_date', 'time_taken', 'event', 'points', 'course', 'completed')
+    list_display = ('user',
+                    'submitted_date',
+                    'tracker_date',
+                    'time_taken',
+                    'event',
+                    'points',
+                    'course',
+                    'completed')
 
 
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ('title', 'shortname', 'version', 'lastupdated_date', 'user', 'filename', 'is_draft', 'is_archived')
+    list_display = ('title',
+                    'shortname',
+                    'version',
+                    'lastupdated_date',
+                    'user',
+                    'filename',
+                    'is_draft',
+                    'is_archived')
     search_fields = ['title', 'shortname']
 
 
@@ -57,8 +77,15 @@ class AwardAdmin(admin.ModelAdmin):
 class CourseTagAdmin(admin.ModelAdmin):
     list_display = ('course', 'tag')
 
+
 class CoursePublishingLogAdmin(admin.ModelAdmin):
-    list_display = ('course', 'new_version', 'old_version', 'user', 'action', 'data')
+    list_display = ('course',
+                    'new_version',
+                    'old_version',
+                    'user',
+                    'action',
+                    'data')
+
 
 class CourseManagerAdmin(admin.ModelAdmin):
     list_display = ('user', 'course')
@@ -73,8 +100,14 @@ class SectionAdmin(admin.ModelAdmin):
 
 
 class TagAdmin(admin.ModelAdmin):
-    list_display = ('name', 'created_date', 'created_by', 'description', 'order_priority', 'highlight')
+    list_display = ('name',
+                    'created_date',
+                    'created_by',
+                    'description',
+                    'order_priority',
+                    'highlight')
     ordering = ['-order_priority', 'name']
+
 
 admin.site.register(Activity, ActivityAdmin)
 admin.site.register(Award, AwardAdmin)

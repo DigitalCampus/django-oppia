@@ -15,7 +15,10 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='quizattempt',
             name='quiz',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.SET_NULL, default=None, to='quiz.Quiz', null=True),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.SET_NULL,
+                                    default=None,
+                                    to='quiz.Quiz',
+                                    null=True),
             preserve_default=True,
         ),
     ]

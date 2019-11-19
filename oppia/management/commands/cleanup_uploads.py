@@ -27,7 +27,7 @@ class Command(BaseCommand):
                 # find out if it's a live course file
                 courses = Course.objects.filter(filename=filename)
                 if courses.count() == 0:
-                    #delete the file
+                    # delete the file
                     os.remove(os.path.join(settings.COURSE_UPLOAD_DIR, filename))
                     self.stdout.write("Removed: " + filename)
 

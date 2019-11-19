@@ -14,7 +14,7 @@ class ResetForm(forms.Form):
                                required=True)
 
     def __init__(self, *args, **kwargs):
-        super(ResetForm, self).__init__( * args, ** kwargs)
+        super(ResetForm, self).__init__(* args, ** kwargs)
         self.fields['username'].label = "Username or email"
         self.helper = FormHelper()
         self.helper.form_action = reverse('profile_reset')

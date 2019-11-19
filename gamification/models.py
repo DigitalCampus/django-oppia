@@ -24,7 +24,7 @@ class DefaultGamificationEvent(models.Model):
         (QUIZ, 'Quiz'),
         (MEDIA, 'Media')
     )
-    
+
     event = models.CharField(max_length=100)
     points = models.IntegerField()
     level = models.CharField(max_length=20, choices=LEVELS)
@@ -40,6 +40,7 @@ class DefaultGamificationEvent(models.Model):
 
     def __str__(self):
         return self.event
+
 
 class GamificationEvent(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -59,7 +60,7 @@ class GamificationEvent(models.Model):
 
     def __str__(self):
         return self.event
-    
+
     @property
     def default_event(self):
         if not self.__default_event:
@@ -71,8 +72,6 @@ class GamificationEvent(models.Model):
 
     def get_helper_text(self):
         return self.default_event.helper_text
-
-
 
 
 class CourseGamificationEvent(GamificationEvent):
@@ -88,14 +87,13 @@ class ActivityGamificationEvent(GamificationEvent):
 
     def __unicode__(self):
         return self.event
-    
+
     def __str__(self):
         return self.event
-    
+
     class Meta:
         verbose_name = _(u'Activity Gamification Event')
         verbose_name_plural = _(u'Activity Gamification Events')
-    
 
 
 class MediaGamificationEvent(GamificationEvent):
@@ -107,6 +105,6 @@ class MediaGamificationEvent(GamificationEvent):
 
     def __unicode__(self):
         return self.event
-    
+
     def __str__(self):
         return self.event

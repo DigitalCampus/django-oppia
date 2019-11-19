@@ -1,18 +1,30 @@
 from django.contrib import admin
 
-from summary.models import UserCourseSummary, CourseDailyStats, UserPointsSummary
+from summary.models import UserCourseSummary, \
+                           CourseDailyStats, \
+                           UserPointsSummary
 
 
 def message_user(model, request, model_name, query_count):
     if query_count == 1:
-        model.message_user(request, model_name + " summary succesfully updated.")
+        model.message_user(request,
+                           model_name + " summary succesfully updated.")
     elif query_count > 0:
-        model.message_user(request, model_name + " summaries succesfully updated.")
+        model.message_user(request,
+                           model_name + " summaries succesfully updated.")
 
 
 class UserCourseSummaryAdmin(admin.ModelAdmin):
-    list_display = ('user', 'course', 'points', 'total_downloads', 'total_activity', 'quizzes_passed',
-                    'badges_achieved', 'pretest_score', 'media_viewed', 'completed_activities')
+    list_display = ('user',
+                    'course',
+                    'points',
+                    'total_downloads',
+                    'total_activity',
+                    'quizzes_passed',
+                    'badges_achieved',
+                    'pretest_score',
+                    'media_viewed',
+                    'completed_activities')
     actions = ['update_summary']
 
     def update_summary(self, request, queryset):
@@ -31,7 +43,8 @@ class CourseDailyStatsAdmin(admin.ModelAdmin):
 
     def update_summary(self, request, queryset):
         for daily_stats in queryset:
-            CourseDailyStats.update_daily_summary(daily_stats.course.id, daily_stats.day)
+            CourseDailyStats.update_daily_summary(daily_stats.course.id,
+                                                  daily_stats.day)
         message_user(self, request, "Daily stats", queryset.count())
 
     update_summary.short_description = "Update summary"
@@ -48,6 +61,7 @@ class UserPointsAdmin(admin.ModelAdmin):
         message_user(self, request, "User points", queryset.count())
 
     update_summary.short_description = "Update summary"
+
 
 admin.site.register(UserCourseSummary, UserCourseSummaryAdmin)
 admin.site.register(CourseDailyStats, CourseDailyStatsAdmin)

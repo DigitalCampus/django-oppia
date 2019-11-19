@@ -4,6 +4,7 @@ from tastypie.test import ResourceTestCaseMixin
 from settings import constants
 from settings.models import SettingProperties
 
+
 class RegisterResourceTest(ResourceTestCaseMixin, TestCase):
     fixtures = ['tests/test_user.json']
 
@@ -13,7 +14,8 @@ class RegisterResourceTest(ResourceTestCaseMixin, TestCase):
 
     # check get method not allowed
     def test_get_list_invalid(self):
-        self.assertHttpMethodNotAllowed(self.api_client.get(self.url, format='json'))
+        self.assertHttpMethodNotAllowed(self.api_client.get(self.url,
+                                                            format='json'))
 
     # check posting with no username
     def test_post_no_username(self):
@@ -206,10 +208,10 @@ class RegisterResourceTest(ResourceTestCaseMixin, TestCase):
         resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpBadRequest(resp)
         self.assertValidJSON(resp.content)
-        
+
     def test_self_registration_disabled_cant_view(self):
         # turn off self registration
-        SettingProperties.set_int(constants.OPPIA_ALLOW_SELF_REGISTRATION,0)
+        SettingProperties.set_int(constants.OPPIA_ALLOW_SELF_REGISTRATION, 0)
         data = {
             'username': 'demo3',
             'password': 'secret',
@@ -221,7 +223,6 @@ class RegisterResourceTest(ResourceTestCaseMixin, TestCase):
         response = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpBadRequest(response)
         self.assertValidJSON(response.content)
-        
+
         # turn back on
-        SettingProperties.set_int(constants.OPPIA_ALLOW_SELF_REGISTRATION,1)
-        
+        SettingProperties.set_int(constants.OPPIA_ALLOW_SELF_REGISTRATION, 1)

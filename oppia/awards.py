@@ -24,37 +24,50 @@ def courses_completed(hours):
     print(settings.BADGE_AWARDING_METHOD)
     print(hours)
 
-    if settings.BADGE_AWARDING_METHOD == settings.BADGE_AWARD_METHOD_ALL_ACTIVITIES:
+    if settings.BADGE_AWARDING_METHOD \
+       == settings.BADGE_AWARD_METHOD_ALL_ACTIVITIES:
         badge_award_all_activities(badge, hours)
 
-    if settings.BADGE_AWARDING_METHOD == settings.BADGE_AWARD_METHOD_FINAL_QUIZ:
+    if settings.BADGE_AWARDING_METHOD \
+       == settings.BADGE_AWARD_METHOD_FINAL_QUIZ:
         badge_award_final_quiz(badge, hours)
 
-    if settings.BADGE_AWARDING_METHOD == settings.BADGE_AWARD_METHOD_ALL_QUIZZES:
+    if settings.BADGE_AWARDING_METHOD \
+       == settings.BADGE_AWARD_METHOD_ALL_QUIZZES:
         badge_award_all_quizzes(badge, hours)
 
     return
 
 
 def badge_award_all_activities(badge, hours):
-    courses = Course.objects.filter(is_draft=False, is_archived=False).values_list('id')
+    courses = Course.objects.filter(is_draft=False,
+                                    is_archived=False).values_list('id')
     for c in courses:
-        digests = Activity.objects.filter(section__course=c).values_list('digest', flat=True).distinct()
+        digests = Activity.objects.filter(section__course=c) \
+                          .values_list('digest',
+                                       flat=True).distinct()
         digests = list(digests)
         total_activities = len(digests)
 
-        # get all the users who've added tracker for this course in last 'hours'
+        # get all the users who've added tracker for this course in last
+        # 'hours'
         if hours == 0:
             users = User.objects.filter(tracker__course=c)
         else:
             since = timezone.now() - datetime.timedelta(hours=int(hours))
-            users = User.objects.filter(tracker__course=c, tracker__submitted_date__gte=since)
+            users = User.objects.filter(tracker__course=c,
+                                        tracker__submitted_date__gte=since)
 
         # exclude the users that already own this course award
-        users = users.exclude(award__awardcourse__course=c).values_list('id').distinct()
+        users = users.exclude(award__awardcourse__course=c) \
+                     .values_list('id').distinct()
 
         for u in users:
-            user_completed = Tracker.objects.filter(user=u, course=c, completed=True, digest__in=digests).values('digest').distinct().count()
+            user_completed = Tracker.objects.filter(user=u,
+                                                    course=c,
+                                                    completed=True,
+                                                    digest__in=digests) \
+                                    .values('digest').distinct().count()
             if user_completed >= total_activities:
                 course_award = Course.objects.get(id=c[0])
                 user_awarded = User.objects.get(id=u[0])
@@ -65,7 +78,8 @@ def badge_award_all_activities(badge, hours):
                 award = Award()
                 award.badge = badge
                 award.user = user_awarded
-                award.description = "Course completed: " + course_award.get_title()
+                award.description = "Course completed: " \
+                                    + course_award.get_title()
                 award.save()
 
                 am = AwardCourse()
@@ -78,7 +92,11 @@ def badge_award_all_activities(badge, hours):
 def badge_award_final_quiz(badge, hours):
     courses = Course.objects.filter(is_draft=False, is_archived=False)
     for c in courses:
-        final_quiz_digest_activity = Activity.objects.filter(section__course=c, type=Activity.QUIZ).order_by('-section__order', '-order')[:1]
+        final_quiz_digest_activity = Activity.objects \
+                                             .filter(section__course=c,
+                                                     type=Activity.QUIZ) \
+                                             .order_by('-section__order',
+                                                       '-order')[:1]
 
         if final_quiz_digest_activity.count() != 1:
             continue
@@ -86,18 +104,27 @@ def badge_award_final_quiz(badge, hours):
         print(final_quiz_digest)
         print(c.title)
 
-        # get all the users who've added tracker for this course in last 'hours'
+        # get all the users who've added tracker for this course in last
+        # 'hours'
         if hours == 0:
             users = User.objects.filter(tracker__course=c)
         else:
             since = timezone.now() - datetime.timedelta(hours=int(hours))
-            users = User.objects.filter(tracker__course=c, tracker__submitted_date__gte=since)
+            users = User.objects.filter(tracker__course=c,
+                                        tracker__submitted_date__gte=since)
 
         # exclude the users that already own this course award
         users = users.exclude(award__awardcourse__course=c).distinct()
 
         for u in users:
-            user_completed = Tracker.objects.filter(user=u, course=c, completed=True, digest=final_quiz_digest).values('digest').distinct().count()
+            user_completed = Tracker.objects \
+                .filter(user=u,
+                        course=c,
+                        completed=True,
+                        digest=final_quiz_digest) \
+                .values('digest') \
+                .distinct() \
+                .count()
             if user_completed > 0:
                 print(c.title)
                 print("-----------------------------")
@@ -118,21 +145,34 @@ def badge_award_final_quiz(badge, hours):
 def badge_award_all_quizzes(badge, hours):
     courses = Course.objects.filter(is_draft=False, is_archived=False)
     for c in courses:
-        digests = Activity.objects.filter(section__course=c, type=Activity.QUIZ).values('digest').distinct()
+        digests = Activity.objects.filter(section__course=c,
+                                          type=Activity.QUIZ) \
+            .values('digest') \
+            .distinct()
 
-        # get all the users who've added tracker for this course in last 'hours'
+        # get all the users who've added tracker for this course in last
+        # 'hours'
         if hours == 0:
             users = User.objects.filter(tracker__course=c)
         else:
             since = timezone.now() - datetime.timedelta(hours=int(hours))
-            users = User.objects.filter(tracker__course=c, tracker__submitted_date__gte=since)
+            users = User.objects.filter(tracker__course=c,
+                                        tracker__submitted_date__gte=since)
 
         # exclude the users that already own this course award
         users = users.exclude(award__awardcourse__course=c).distinct()
 
         for u in users:
-            if AwardCourse.objects.filter(award__user=u, course=c).count() == 0:
-                user_completed = Tracker.objects.filter(user=u, course=c, completed=True, type=Activity.QUIZ, digest__in=digests).values('digest').distinct().count()
+            if AwardCourse.objects.filter(award__user=u,
+                                          course=c).count() == 0:
+                user_completed = Tracker.objects.filter(user=u,
+                                                        course=c,
+                                                        completed=True,
+                                                        type=Activity.QUIZ,
+                                                        digest__in=digests) \
+                    .values('digest') \
+                    .distinct() \
+                    .count()
                 if digests.count() == user_completed:
                     print(c.title)
                     print("-----------------------------")

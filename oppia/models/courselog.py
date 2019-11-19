@@ -7,6 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from oppia.models.main import Course
 
+
 class CoursePublishingLog(models.Model):
 
     course = models.ForeignKey(Course, null=True, on_delete=models.CASCADE)
@@ -16,7 +17,7 @@ class CoursePublishingLog(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     action = models.CharField(max_length=100)
     data = models.TextField(blank=False)
-    
+
     class Meta:
         verbose_name = _('Course Publishing Log')
         verbose_name_plural = _('Course Publishing Logs')

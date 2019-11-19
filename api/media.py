@@ -29,8 +29,8 @@ def upload_view(request):
             validation_errors.append("field '{0}' missing".format(field))
 
     if len(validation_errors) > 0:
-        return JsonResponse({'errors': validation_errors}, status=400 )
-    
+        return JsonResponse({'errors': validation_errors}, status=400)
+
     # authenticate user
     username = request.POST.get("username")
     password = request.POST.get("password")

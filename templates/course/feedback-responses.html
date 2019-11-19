@@ -39,8 +39,8 @@
 			<td>{{ a.attempt_date }}</td>
 			<td>{% if OPPIA_SHOW_GRAVATARS %}
        				{{ a.user|gravatar:24 }}
-       			{% endif %} 
-       			{{ a.user.first_name }} 
+       			{% endif %}
+       			{{ a.user.first_name }}
        			{{ a.user.last_name }}</td>
 		</tr>
 		<tr id='detail{{ a.id }}'>
@@ -69,7 +69,7 @@
 	{% endfor %}
 			</tbody>
  		</table>
-	</div> 
+	</div>
 	{% include "common/pagination.html" %}
 {% else %}
 	<p>{% trans 'No attempts yet' %}</p>

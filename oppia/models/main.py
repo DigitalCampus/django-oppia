@@ -19,14 +19,20 @@ models.signals.post_save.connect(create_api_key, sender=User)
 
 class Course(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
-    created_date = models.DateTimeField('date created', default=timezone.now)
-    lastupdated_date = models.DateTimeField('date updated', default=timezone.now)
+    created_date = models.DateTimeField('date created',
+                                        default=timezone.now)
+    lastupdated_date = models.DateTimeField('date updated',
+                                            default=timezone.now)
     version = models.BigIntegerField()
     title = models.TextField(blank=False)
-    description = models.TextField(blank=True, null=True, default=None)
+    description = models.TextField(blank=True,
+                                   null=True,
+                                   default=None)
     shortname = models.CharField(max_length=200)
     filename = models.CharField(max_length=200)
-    badge_icon = models.FileField(upload_to="badges", blank=True, default=None)
+    badge_icon = models.FileField(upload_to="badges",
+                                  blank=True,
+                                  default=None)
     is_draft = models.BooleanField(default=False)
     is_archived = models.BooleanField(default=False)
 
@@ -36,7 +42,7 @@ class Course(models.Model):
 
     def __unicode__(self):
         return self.get_title(self)
-    
+
     def __str__(self):
         return self.get_title(self)
 
@@ -51,30 +57,37 @@ class Course(models.Model):
             else:
                 for l in titles:
                     return titles[l]
-        except:
+        except json.JSONDecodeError:
             pass
         return self.title
 
     def is_first_download(self, user):
-        no_attempts = Tracker.objects.filter(user=user, course=self, type='download').count()
+        no_attempts = Tracker.objects.filter(user=user,
+                                             course=self,
+                                             type='download').count()
         is_first_download = False
         if no_attempts == 1:
             is_first_download = True
         return is_first_download
 
     def no_downloads(self):
-        no_downloads = Tracker.objects.filter(course=self, type='download').count()
+        no_downloads = Tracker.objects.filter(course=self,
+                                              type='download').count()
         return no_downloads
 
     def no_distinct_downloads(self):
-        no_distinct_downloads = Tracker.objects.filter(course=self, type='download').values('user_id').distinct().count()
+        no_distinct_downloads = Tracker.objects.filter(course=self,
+                                                       type='download') \
+            .values('user_id') \
+            .distinct().count()
         return no_distinct_downloads
 
     def get_activity_today(self):
         return Tracker.objects.filter(course=self,
                                       tracker_date__day=timezone.now().day,
                                       tracker_date__month=timezone.now().month,
-                                      tracker_date__year=timezone.now().year).count()
+                                      tracker_date__year=timezone.now().year) \
+                    .count()
 
     def get_activity_week(self):
         now = datetime.datetime.now()
@@ -83,14 +96,16 @@ class Course(models.Model):
                                       tracker_date__gte=last_week).count()
 
     def has_quizzes(self):
-        quiz_count = Activity.objects.filter(section__course=self, type=Activity.QUIZ).count()
+        quiz_count = Activity.objects.filter(section__course=self,
+                                             type=Activity.QUIZ).count()
         if quiz_count > 0:
             return True
         else:
             return False
 
     def has_feedback(self):
-        fb_count = Activity.objects.filter(section__course=self, type='feedback').count()
+        fb_count = Activity.objects.filter(section__course=self,
+                                           type='feedback').count()
         if fb_count > 0:
             return True
         else:
@@ -109,10 +124,13 @@ class Course(models.Model):
         return sections
 
     def get_no_activities(self):
-        return Activity.objects.filter(section__course=self, baseline=False).count()
+        return Activity.objects.filter(section__course=self,
+                                       baseline=False).count()
 
     def get_no_quizzes(self):
-        return Activity.objects.filter(section__course=self, type=Activity.QUIZ, baseline=False).count()
+        return Activity.objects.filter(section__course=self,
+                                       type=Activity.QUIZ,
+                                       baseline=False).count()
 
     def get_no_media(self):
         return Media.objects.filter(course=self).count()
@@ -120,38 +138,64 @@ class Course(models.Model):
     @staticmethod
     def get_pre_test_score(course, user):
         try:
-            baseline = Activity.objects.get(section__course=course, type=Activity.QUIZ, section__order=0)
+            baseline = Activity.objects.get(section__course=course,
+                                            type=Activity.QUIZ,
+                                            section__order=0)
         except Activity.DoesNotExist:
             return None
 
         try:
-            quiz = Quiz.objects.filter(quizprops__value=baseline.digest, quizprops__name="digest")
+            quiz = Quiz.objects.filter(quizprops__value=baseline.digest,
+                                       quizprops__name="digest")
         except Quiz.DoesNotExist:
             return None
 
         attempts = QuizAttempt.objects.filter(quiz__in=quiz, user=user)
         if attempts.count() != 0:
-            max_score = 100 * float(attempts.aggregate(max=Max('score'))['max']) / float(attempts[0].maxscore)
+            max_score = 100 \
+                * float(attempts.aggregate(max=Max('score'))['max']) \
+                / float(attempts[0].maxscore)
             return max_score
         else:
             return None
 
     @staticmethod
     def get_no_quizzes_completed(course, user):
-        acts = Activity.objects.filter(section__course=course, baseline=False, type=Activity.QUIZ).values_list('digest')
-        return Tracker.objects.filter(course=course, user=user, completed=True, digest__in=acts).values_list('digest').distinct().count()
+        acts = Activity.objects.filter(section__course=course,
+                                       baseline=False,
+                                       type=Activity.QUIZ) \
+                    .values_list('digest')
+        return Tracker.objects.filter(course=course,
+                                      user=user,
+                                      completed=True,
+                                      digest__in=acts) \
+            .values_list('digest') \
+            .distinct() \
+            .count()
 
     @staticmethod
     def get_activities_completed(course, user):
-        acts = Activity.objects.filter(section__course=course, baseline=False).values_list('digest')
-        return Tracker.objects.filter(course=course, user=user, completed=True, digest__in=acts).values_list('digest').distinct().count()
+        acts = Activity.objects.filter(section__course=course,
+                                       baseline=False).values_list('digest')
+        return Tracker.objects.filter(course=course,
+                                      user=user,
+                                      completed=True,
+                                      digest__in=acts) \
+            .values_list('digest') \
+            .distinct() \
+            .count()
 
     @staticmethod
     def get_media_viewed(course, user):
         acts = Media.objects.filter(course=course).values_list('digest')
-        return Tracker.objects.filter(course=course, user=user, digest__in=acts).values_list('digest').distinct().count()
+        return Tracker.objects.filter(course=course,
+                                      user=user,
+                                      digest__in=acts) \
+            .values_list('digest') \
+            .distinct() \
+            .count()
 
-        
+
 class CourseManager(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -159,7 +203,6 @@ class CourseManager(models.Model):
     class Meta:
         verbose_name = _('Course Manager')
         verbose_name_plural = _('Course Managers')
-
 
 
 class Section(models.Model):
@@ -176,7 +219,7 @@ class Section(models.Model):
 
     def __str__(self):
         return self.get_title()
-    
+
     def get_title(self, lang='en'):
         try:
             titles = json.loads(self.title)
@@ -185,7 +228,7 @@ class Section(models.Model):
             else:
                 for l in titles:
                     return titles[l]
-        except:
+        except json.JSONDecodeError:
             pass
         return self.title
 
@@ -221,7 +264,7 @@ class Activity(models.Model):
 
     def __str__(self):
         return self.get_title()
-    
+
     class Meta:
         verbose_name = _('Activity')
         verbose_name_plural = _('Activities')
@@ -234,7 +277,7 @@ class Activity(models.Model):
             else:
                 for l in titles:
                     return titles[l]
-        except:
+        except json.JSONDecodeError:
             pass
         return self.title
 
@@ -246,64 +289,87 @@ class Activity(models.Model):
             else:
                 for l in contents:
                     return contents[l]
-        except:
+        except json.JSONDecodeError:
             pass
         return self.content
 
     def get_next_activity(self):
         try:
-            next_activity = Activity.objects.get(section__course=self.section.course, order=self.order + 1, section=self.section)
+            next_activity = Activity.objects \
+                                .get(section__course=self.section.course,
+                                     order=self.order + 1,
+                                     section=self.section)
         except Activity.DoesNotExist:
             try:
-                next_activity = Activity.objects.get(section__course=self.section.course, section__order=self.section.order + 1, order=1)
+                next_activity = Activity.objects.get(
+                                    section__course=self.section.course,
+                                    section__order=self.section.order + 1,
+                                    order=1)
             except Activity.DoesNotExist:
                 next_activity = None
         return next_activity
 
     def get_previous_activity(self):
         try:
-            prev_activity = Activity.objects.get(section__course=self.section.course, order=self.order - 1, section=self.section)
+            prev_activity = Activity.objects.get(
+                                section__course=self.section.course,
+                                order=self.order - 1,
+                                section=self.section)
         except Activity.DoesNotExist:
             try:
-                max_order = Activity.objects.filter(section__course=self.section.course, section__order=self.section.order - 1).aggregate(max_order=Max('order'))
-                prev_activity = Activity.objects.get(section__course=self.section.course, section__order=self.section.order - 1, order=max_order['max_order'])
-            except:
+                max_order = Activity.objects \
+                              .filter(section__course=self.section.course,
+                                      section__order=self.section.order - 1) \
+                              .aggregate(max_order=Max('order'))
+                prev_activity = Activity.objects.get(
+                                    section__course=self.section.course,
+                                    section__order=self.section.order - 1,
+                                    order=max_order['max_order'])
+            except Activity.DoesNotExist:
                 prev_activity = None
         return prev_activity
 
     def get_event_points(self):
-        from gamification.models import DefaultGamificationEvent, CourseGamificationEvent, ActivityGamificationEvent
+        from gamification.models import DefaultGamificationEvent, \
+                                        CourseGamificationEvent, \
+                                        ActivityGamificationEvent
         event_points = []
-        
+
         # first check if there are specific points for this activity
         activity_custom_points = ActivityGamificationEvent.objects.filter(activity=self)
         if len(activity_custom_points) > 0:
             source = _('Custom Points')
-            return { 'events': activity_custom_points, 'source': source }
-        
-        # if not, then check the points for the course as a whole or then the global default points
+            return {'events': activity_custom_points, 'source': source}
+
+        # if not, then check the points for the course as a whole or then the
+        # global default points
         if self.type == self.PAGE:
-            course_custom_points = CourseGamificationEvent.objects.filter(course__section__activity=self, event__startswith='activity_')
-            
+            course_custom_points = CourseGamificationEvent.objects \
+                .filter(course__section__activity=self,
+                        event__startswith='activity_')
+
             if len(course_custom_points) > 0:
                 source = _('Inherited from course')
-                return { 'events': course_custom_points, 'source': source }
+                return {'events': course_custom_points, 'source': source}
             else:
-                default_activity_events = DefaultGamificationEvent.objects.filter(level=DefaultGamificationEvent.ACTIVITY)
+                default_activity_events = DefaultGamificationEvent.objects \
+                    .filter(level=DefaultGamificationEvent.ACTIVITY)
                 source = _('Inherited from global defaults')
-                return { 'events': default_activity_events, 'source': source }
-            
+                return {'events': default_activity_events, 'source': source}
+
         if self.type == self.QUIZ:
-            course_custom_points = CourseGamificationEvent.objects.filter(course__section__activity=self, event__startswith='quiz_')
+            course_custom_points = CourseGamificationEvent.objects.filter(course__section__activity=self,
+                                                                          event__startswith='quiz_')
             if len(course_custom_points) > 0:
                 source = _('Inherited from course')
-                return { 'events': course_custom_points, 'source': source }
+                return {'events': course_custom_points, 'source': source}
             else:
                 default_quiz_events = DefaultGamificationEvent.objects.filter(level=DefaultGamificationEvent.QUIZ)
                 source = _('Inherited from global defaults')
-                return { 'events': default_quiz_events, 'source': source }
-        
+                return {'events': default_quiz_events, 'source': source}
+
         return event_points
+
 
 class Media(models.Model):
     URL_MAX_LENGTH = 250
@@ -324,46 +390,74 @@ class Media(models.Model):
 
     def __str__(self):
         return self.filename
-    
+
     def get_event_points(self):
-        from gamification.models import DefaultGamificationEvent, CourseGamificationEvent, MediaGamificationEvent
-        
+        from gamification.models import DefaultGamificationEvent, \
+                                        CourseGamificationEvent, \
+                                        MediaGamificationEvent
+
         # first check if there are specific points for this activity
         media_custom_points = MediaGamificationEvent.objects.filter(media=self)
         if media_custom_points.count() > 0:
             source = _('Custom Points')
-            return { 'events': media_custom_points, 'source': source }
-        
+            return {'events': media_custom_points, 'source': source}
+
         # if not, then check the points for the course as a whole or then the global default points
-        course_custom_points = CourseGamificationEvent.objects.filter(course=self.course, event__startswith='media_')
-        
+        course_custom_points = CourseGamificationEvent.objects.filter(course=self.course,
+                                                                      event__startswith='media_')
+
         if course_custom_points.count() > 0:
             source = _('Inherited from course')
-            return { 'events': course_custom_points, 'source': source }
+            return {'events': course_custom_points, 'source': source}
         else:
             default_media_events = DefaultGamificationEvent.objects.filter(level=DefaultGamificationEvent.MEDIA)
             source = _('Inherited from global defaults')
-            return { 'events': default_media_events, 'source': source }
+            return {'events': default_media_events, 'source': source}
 
 
 class Tracker(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    submitted_date = models.DateTimeField('date submitted', default=timezone.now)
-    tracker_date = models.DateTimeField('date tracked', default=timezone.now)
+    submitted_date = models.DateTimeField('date submitted',
+                                          default=timezone.now)
+    tracker_date = models.DateTimeField('date tracked',
+                                        default=timezone.now)
     ip = models.GenericIPAddressField(null=True, blank=True, default=None)
     agent = models.TextField(blank=True)
     digest = models.CharField(max_length=100)
     data = models.TextField(blank=True)
-    course = models.ForeignKey(Course, null=True, blank=True, default=None, on_delete=models.SET_NULL)
-    type = models.CharField(max_length=10, null=True, blank=True, default=None)
+    course = models.ForeignKey(Course,
+                               null=True,
+                               blank=True,
+                               default=None,
+                               on_delete=models.SET_NULL)
+    type = models.CharField(max_length=10,
+                            null=True,
+                            blank=True,
+                            default=None)
     completed = models.BooleanField(default=False)
     time_taken = models.IntegerField(default=0)
-    activity_title = models.TextField(blank=True, null=True, default=None)
-    section_title = models.TextField(blank=True, null=True, default=None)
-    uuid = models.CharField(max_length=100, blank=True, null=True, default=None, db_index=True)
-    lang = models.CharField(max_length=10, null=True, blank=True, default=None)
-    points = models.IntegerField(blank=True, null=True, default=None)
-    event = models.CharField(max_length=50, null=True, blank=True, default=None)
+    activity_title = models.TextField(blank=True,
+                                      null=True,
+                                      default=None)
+    section_title = models.TextField(blank=True,
+                                     null=True,
+                                     default=None)
+    uuid = models.CharField(max_length=100,
+                            blank=True,
+                            null=True,
+                            default=None,
+                            db_index=True)
+    lang = models.CharField(max_length=10,
+                            null=True,
+                            blank=True,
+                            default=None)
+    points = models.IntegerField(blank=True,
+                                 null=True,
+                                 default=None)
+    event = models.CharField(max_length=50,
+                             null=True,
+                             blank=True,
+                             default=None)
 
     class Meta:
         verbose_name = _('Tracker')
@@ -374,10 +468,13 @@ class Tracker(models.Model):
 
     def __str__(self):
         return self.agent
-    
+
     def is_first_tracker_today(self):
         olddate = timezone.now() + datetime.timedelta(hours=-24)
-        no_attempts_today = Tracker.objects.filter(user=self.user, digest=self.digest, completed=True, submitted_date__gte=olddate).count()
+        no_attempts_today = Tracker.objects.filter(user=self.user,
+                                                   digest=self.digest,
+                                                   completed=True,
+                                                   submitted_date__gte=olddate).count()
         if no_attempts_today == 1:
             return True
         else:
@@ -411,7 +508,7 @@ class Tracker(models.Model):
                 else:
                     for l in titles:
                         return titles[l]
-        except:
+        except json.JSONDecodeError:
             pass
         return self.activity_title
 
@@ -423,7 +520,7 @@ class Tracker(models.Model):
             else:
                 for l in titles:
                     return titles[l]
-        except:
+        except json.JSONDecodeError:
             pass
         return self.section_title
 
@@ -438,7 +535,9 @@ class Tracker(models.Model):
 
     @staticmethod
     def has_completed_trackers(course, user):
-        count = Tracker.objects.filter(user=user, course=course, completed=True).count()
+        count = Tracker.objects.filter(user=user,
+                                       course=course,
+                                       completed=True).count()
         if count > 0:
             return True
         return False
@@ -452,7 +551,8 @@ class Tracker(models.Model):
         for t in trackers:
             track = doc.createElement('tracker')
             track.setAttribute('digest', t.digest)
-            track.setAttribute('submitteddate', t.submitted_date.strftime('%Y-%m-%d %H:%M:%S'))
+            track.setAttribute('submitteddate',
+                               t.submitted_date.strftime('%Y-%m-%d %H:%M:%S'))
             track.setAttribute('completed', str(t.completed))
             track.setAttribute('type', t.type)
             track.setAttribute('event', t.event)
@@ -461,10 +561,12 @@ class Tracker(models.Model):
                 try:
                     quiz = doc.createElement('quiz')
                     data = json.loads(t.data)
-                    quiz_attempt = QuizAttempt.objects.filter(instance_id=data['instance_id'], user=user).order_by('-submitted_date')[:1]
+                    quiz_attempt = QuizAttempt.objects.filter(instance_id=data['instance_id'],
+                                                              user=user).order_by('-submitted_date')[:1]
                     quiz.setAttribute('score', str(quiz_attempt[0].score))
                     quiz.setAttribute('maxscore', str(quiz_attempt[0].maxscore))
-                    quiz.setAttribute('submitteddate', quiz_attempt[0].submitted_date.strftime('%Y-%m-%d %H:%M:%S'))
+                    quiz.setAttribute('submitteddate',
+                                      quiz_attempt[0].submitted_date.strftime('%Y-%m-%d %H:%M:%S'))
                     quiz.setAttribute('passed', str(t.completed))
                     quiz.setAttribute("course", course.shortname)
                     quiz.setAttribute("event", quiz_attempt[0].event)

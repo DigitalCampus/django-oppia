@@ -12,13 +12,14 @@ from django.core.validators import validate_email
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
+
 class UploadProfileForm(forms.Form):
     upload_file = forms.FileField(
         required=True,
         error_messages={'required': _('Please select a file to upload')}, )
 
     def __init__(self, *args, **kwargs):
-        super(UploadProfileForm, self).__init__( * args, ** kwargs)
+        super(UploadProfileForm, self).__init__(* args, ** kwargs)
         self.helper = FormHelper()
         self.helper.form_action = reverse('profile_upload')
         self.helper.form_class = 'form-horizontal'

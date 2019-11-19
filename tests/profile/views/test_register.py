@@ -4,8 +4,9 @@ from django.test import TestCase
 from settings import constants
 from settings.models import SettingProperties
 
+
 class RegisterViewTest(TestCase):
-    fixtures = ['tests/test_user.json', 
+    fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json']
 
@@ -21,7 +22,10 @@ class RegisterViewTest(TestCase):
             'password': 'password'
         }
         res = self.client.post(self.url, data=unfilled_form)
-        self.assertFormError(res, 'form', 'password_again', 'Please enter your password again.')
+        self.assertFormError(res,
+                             'form',
+                             'password_again',
+                             'Please enter your password again.')
 
     # check passwords dont match
     def test_password_not_match(self):
@@ -34,7 +38,10 @@ class RegisterViewTest(TestCase):
             'last_name': 'Last name'
         }
         res = self.client.post(self.url, data=filled_form)
-        self.assertFormError(res, 'form', None, errors='Passwords do not match.')
+        self.assertFormError(res,
+                             'form',
+                             None,
+                             errors='Passwords do not match.')
 
     # check user already exists
     def test_existing_user(self):
@@ -47,7 +54,10 @@ class RegisterViewTest(TestCase):
             'last_name': 'Last name'
         }
         res = self.client.post(self.url, data=filled_form)
-        self.assertFormError(res, 'form', None, errors='Username has already been registered, please select another.')
+        self.assertFormError(res,
+                             'form',
+                             None,
+                             errors='Username has already been registered, please select another.')
 
     # check email already registered
     def test_existing_email(self):
@@ -60,7 +70,10 @@ class RegisterViewTest(TestCase):
             'last_name': 'Last name'
         }
         res = self.client.post(self.url, data=filled_form)
-        self.assertFormError(res, 'form', None, errors='Email has already been registered')
+        self.assertFormError(res,
+                             'form',
+                             None,
+                             errors='Email has already been registered')
 
     # check correct registration
     def test_correct_register(self):
@@ -74,19 +87,19 @@ class RegisterViewTest(TestCase):
         }
         resp = self.client.post(self.url, data=filled_form)
         self.assertRedirects(resp, expected_url=self.thanks_url)
-        
+
     def test_self_registration_disabled_cant_view(self):
         # turn off self registration
-        SettingProperties.set_int(constants.OPPIA_ALLOW_SELF_REGISTRATION,0)
+        SettingProperties.set_int(constants.OPPIA_ALLOW_SELF_REGISTRATION, 0)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 404)
-        
+
         # turn back on
-        SettingProperties.set_int(constants.OPPIA_ALLOW_SELF_REGISTRATION,1)
-        
+        SettingProperties.set_int(constants.OPPIA_ALLOW_SELF_REGISTRATION, 1)
+
     def test_self_registration_disabled_cant_post(self):
         # turn off self registration
-        SettingProperties.set_int(constants.OPPIA_ALLOW_SELF_REGISTRATION,0)
+        SettingProperties.set_int(constants.OPPIA_ALLOW_SELF_REGISTRATION, 0)
         filled_form = {
             'username': 'new_username',
             'email': 'newusername@email.com',
@@ -97,6 +110,6 @@ class RegisterViewTest(TestCase):
         }
         response = self.client.post(self.url, data=filled_form)
         self.assertEqual(response.status_code, 404)
-        
+
         # turn back on
-        SettingProperties.set_int(constants.OPPIA_ALLOW_SELF_REGISTRATION,1)
+        SettingProperties.set_int(constants.OPPIA_ALLOW_SELF_REGISTRATION, 1)

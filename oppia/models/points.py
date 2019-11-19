@@ -39,7 +39,7 @@ class Points(models.Model):
 
     def __str__(self):
         return self.description
-    
+
     @staticmethod
     def get_leaderboard(count=0, course=None):
 

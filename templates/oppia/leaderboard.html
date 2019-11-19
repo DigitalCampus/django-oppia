@@ -31,12 +31,12 @@
                 </tr>
               </thead>
               <tbody>
-              
+
 	{% for user in page.object_list %}
 			<tr>
 				<td>{{ forloop.counter0|get_index:page.start_index }}</td>
-				<td>{% if OPPIA_SHOW_GRAVATARS %} {{ user|gravatar:24 }} 
-				{% endif %} 
+				<td>{% if OPPIA_SHOW_GRAVATARS %} {{ user|gravatar:24 }}
+				{% endif %}
 				{% if request.user.is_staff %}
 					<a href="{% url 'profile_user_activity' user.id %}">{{ user.first_name }} {{ user.last_name }}</a>
 				{% else %}

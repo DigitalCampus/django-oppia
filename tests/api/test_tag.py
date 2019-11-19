@@ -8,7 +8,7 @@ from tests.utils import get_api_key, get_api_url
 
 
 class TagResourceTest(ResourceTestCaseMixin, TestCase):
-    fixtures = ['tests/test_user.json', 
+    fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json']
 
     def setUp(self):
@@ -80,4 +80,4 @@ class TagResourceTest(ResourceTestCaseMixin, TestCase):
         resp = self.api_client.get(resource_url, format='json', data=self.auth_data)
         self.assertHttpNotFound(resp)
 
-    #TODO check tags and permissions - so only tags that have course the user is allowed to view will appear
+    # TODO check tags and permissions - so only tags that have course the user is allowed to view will appear

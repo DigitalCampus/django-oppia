@@ -34,11 +34,10 @@ MIDDLEWARE = [
 
 ]
 
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [ os.path.join(BASE_DIR, 'templates') ],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -91,7 +90,7 @@ SITE_ID = 1
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(ROOT_DIR, 'static')
 MEDIA_ROOT = os.path.join(ROOT_DIR, 'media')
 ADMIN_MEDIA_PREFIX = '/static/admin/'
@@ -100,9 +99,7 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'sass_processor.finders.CssFinder',
-
 ]
-
 
 ROOT_URLCONF = 'oppiamobile.urls'
 MEDIA_URL = '/media/'
@@ -157,7 +154,7 @@ LOGIN_EXEMPT_URLS = (
 COURSE_UPLOAD_DIR = os.path.join(ROOT_DIR, 'upload')
 
 OPPIA_METADATA = {
-    'NETWORK': True,  
+    'NETWORK': True,
     'DEVICE_ID': True,
     'SIM_SERIAL': True,
     'WIFI_ON': True,
@@ -197,12 +194,10 @@ OPPIA_MEDIA_IMAGE_FILE_TYPES = ("image/png", "image/jpeg")
 
 OPPIA_UPLOAD_TRACKER_FILE_TYPES = [("application/json")]
 
-OPPIA_EXPORT_LOCAL_MINVERSION = 2017011400  # min version of the export block to process the quizzes locally
-
 # Android app PackageId - for Google Play link and opening activities from digest
 OPPIA_ANDROID_DEFAULT_PACKAGEID = 'org.digitalcampus.mobile.learning'
 OPPIA_ANDROID_PACKAGEID = 'org.digitalcampus.mobile.learning'
-OPPIA_ANDROID_ON_GOOGLE_PLAY = True # if the app is not on Google Play, we rely on the core version for store links
+OPPIA_ANDROID_ON_GOOGLE_PLAY = True  # if the app is not on Google Play, we rely on the core version for store links
 
 API_LIMIT_PER_PAGE = 0
 
@@ -226,4 +221,3 @@ except ImportError:
 
 if DEVICE_ADMIN_ENABLED:
     INSTALLED_APPS += ('deviceadmin', 'gcm', )
-

@@ -9,11 +9,13 @@ register = template.Library()
 @register.tag
 def query_string(parser, token):
     """
-    Allows to manipulate the query string of a page by adding and removing keywords.
+    Allows to manipulate the query string of a page by adding and removing
+    keywords.
     If a given value is a context variable it will resolve it.
 
     Usage:
-    http://www.url.com/{% query_string "param_to_add=value, param_to_add=value" "param_to_remove, params_to_remove" %}
+    http://www.url.com/{% query_string "param_to_add=value, param_to_add=value"
+    "param_to_remove, params_to_remove" %}
     """
 
     try:
@@ -61,7 +63,8 @@ def get_query_string(p, new_params, remove, context):
         except:
             p[k] = v
 
-    return mark_safe('?' + '&amp;'.join([u'%s=%s' % (urllib.parse.quote_plus(str(k)), urllib.parse.quote_plus(str(v))) for k, v in p.items()]))
+    return mark_safe('?' + '&amp;'.join([u'%s=%s' % (urllib.parse.quote_plus(str(k)),
+                                                     urllib.parse.quote_plus(str(v))) for k, v in p.items()]))
 
 
 # Taken from lib/utils.py

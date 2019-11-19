@@ -16,6 +16,7 @@ ACTIVITY_NODE = 'activity'
 MEDIA_NODE = 'media'
 ACTIVITY_DIGEST_ATTR = 'digest'
 
+
 class GamificationXMLWriter:
 
     def __init__(self, course):
@@ -33,16 +34,15 @@ class GamificationXMLWriter:
         parent = node.parentNode
         parent.removeChild(node)
 
-
     def load_course_xml_content(self, mode='r'):
-        course_zip_file = os.path.join(settings.COURSE_UPLOAD_DIR, self.course.filename)
+        course_zip_file = os.path.join(settings.COURSE_UPLOAD_DIR,
+                                       self.course.filename)
 
         zip = zipfile.ZipFile(course_zip_file, mode)
         self.xml_contents = zip.read(self.course.shortname + "/module.xml")
         zip.close()
 
         self.xml = xml.dom.minidom.parseString(self.xml_contents)
-
 
     def update_course_version(self):
         new_version_id = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
@@ -56,9 +56,8 @@ class GamificationXMLWriter:
         version_id.firstChild.nodeValue = new_version_id
         return new_version_id
 
-
     def get_or_create_gamication_node(self, parent):
-        if parent == None:
+        if parent is None:
             return None
 
         node = self.find_child_node_by_name(parent, GAMIFICATION_NODE)
@@ -68,11 +67,9 @@ class GamificationXMLWriter:
             parent.appendChild(node)
         return node
 
-
     def get_or_create_global_node(self):
         meta = self.xml.getElementsByTagName("meta")[:1][0]
         return self.get_or_create_gamication_node(meta)
-
 
     def get_or_create_activity_node(self, activity):
         activity_node = None
@@ -82,17 +79,16 @@ class GamificationXMLWriter:
 
         return self.get_or_create_gamication_node(activity_node)
 
-
     def get_or_create_media_node(self, media):
 
         file_node = None
-        media_node = self.find_child_node_by_name(self.xml.firstChild, MEDIA_NODE)
+        media_node = self.find_child_node_by_name(self.xml.firstChild,
+                                                  MEDIA_NODE)
         for node in media_node.getElementsByTagName('file'):
             if node.getAttribute(ACTIVITY_DIGEST_ATTR) == media.digest:
                 file_node = node
 
         return self.get_or_create_gamication_node(file_node)
-
 
     def add_events_or_remove_node(self, node, events):
         if len(events) > 0:
@@ -109,16 +105,15 @@ class GamificationXMLWriter:
                 node.appendChild(event_node)
 
         else:
-            # if there are no events set, we can remove the empty gamification node
+            # if there are no events set, we can remove the empty gamification
+            # node
             self.remove_node(node)
-
 
     def update_course_gamification(self):
         # Update course level gamification
         course_gamif = self.get_or_create_global_node()
         course_events = CourseGamificationEvent.objects.filter(course=self.course)
         self.add_events_or_remove_node(course_gamif, course_events)
-
 
     def update_activity_gamification(self):
         # Update activity level gamification
@@ -128,7 +123,6 @@ class GamificationXMLWriter:
             act_events = activity.gamification_events.all()
             self.add_events_or_remove_node(act_gamif, act_events)
 
-
     def update_media_gamification(self):
         # Update media level gamification
         course_media = Media.objects.filter(course=self.course)
@@ -136,7 +130,6 @@ class GamificationXMLWriter:
             media_gamif = self.get_or_create_media_node(media)
             media_events = media.gamification_events.all()
             self.add_events_or_remove_node(media_gamif, media_events)
-
 
     def update_gamification(self, user):
 

@@ -5,7 +5,9 @@ import json
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponseRedirect, \
+                        HttpResponse, \
+                        HttpResponseBadRequest
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
@@ -26,22 +28,33 @@ def process_uploaded_trackers(request, trackers, user, user_api_key):
     for tracker in trackers:
         success, results = create_resource(TrackerResource, request, tracker)
         if success:
-            messages.info(request, _(u"Tracker activity for %(username)s added" % {'username': user.username}))
+            messages.info(request,
+                          _(u"Tracker activity for %(username)s added"
+                            % {'username': user.username}))
         else:
             messages.warning(request, _(
-                u"Already uploaded: tracker activity %(uuid)s for %(username)s added" % {'username': user.username,
-                                                                                         'uuid': tracker.get('digest')}),'danger')
+                u"Already uploaded: tracker activity %(uuid)s for \
+                %(username)s added" % {'username': user.username,
+                                       'uuid': tracker.get('digest')}),
+                                       'danger')
 
 
-def process_uploaded_quizresponses(request, quiz_responses, user, user_api_key):
+def process_uploaded_quizresponses(request,
+                                   quiz_responses,
+                                   user,
+                                   user_api_key):
     request.user = user
     for quizattempt in quiz_responses:
-        success, results = create_resource(QuizAttemptResource, request, quizattempt)
+        success, results = create_resource(QuizAttemptResource,
+                                           request,
+                                           quizattempt)
         if success:
-            messages.info(request, _(u"Quiz attempt for %(username)s added" % {'username': user.username}))
+            messages.info(request, _(u"Quiz attempt for %(username)s added"
+                                     % {'username': user.username}))
         else:
             messages.info(request,
-                          _(u"Already uploaded: quiz attempt for %(username)s added" % {'username': user.username}))
+                          _(u"Already uploaded: quiz attempt for \
+                           %(username)s added" % {'username': user.username}))
 
 
 def process_uploaded_file(request, json_data):
@@ -58,16 +71,20 @@ def process_uploaded_file(request, json_data):
                     email=user['email'],
                 )
 
-                req_user.password = user['password'] if 'password' in user else make_password(None)
+                req_user.password = user['password'] \
+                    if 'password' in user else make_password(None)
                 req_user.first_name = user['firstname']
                 req_user.last_name = user['lastname']
                 req_user.save()
 
                 user_profile = UserProfile()
                 user_profile.user = req_user
-                user_profile.phone_number = user['phoneno'] if 'phoneno' in user else None
-                user_profile.job_title = user['jobtitle'] if 'jobtitle' in user else None
-                user_profile.organisation = user['organisation'] if 'organisation' in user else None
+                user_profile.phone_number = user['phoneno'] \
+                    if 'phoneno' in user else None
+                user_profile.job_title = user['jobtitle'] \
+                    if 'jobtitle' in user else None
+                user_profile.organisation = user['organisation'] \
+                    if 'organisation' in user else None
                 user_profile.save()
 
                 messages.warning(request, _(
@@ -81,14 +98,23 @@ def process_uploaded_file(request, json_data):
                 if (created):
                     messages.warning(request, _(
                         u"Generated new ApiKey for %(username)s : %(apikey)s" % {
-                            'username': username, 'apikey': user_api_key.key }), 'danger')
+                            'username': username,
+                            'apikey': user_api_key.key}),
+                        'danger')
 
                 if 'trackers' in user:
-                    process_uploaded_trackers(request, user['trackers'], req_user, user_api_key)
+                    process_uploaded_trackers(request,
+                                              user['trackers'],
+                                              req_user,
+                                              user_api_key)
                 if 'quizresponses' in user:
-                    process_uploaded_quizresponses(request, user['quizresponses'], req_user, user_api_key)
+                    process_uploaded_quizresponses(request,
+                                                   user['quizresponses'],
+                                                   req_user,
+                                                   user_api_key)
             except ApiKey.DoesNotExist:
-                messages.warning(request, _(u"%(username)s not found. Please check that this file is being uploaded to the correct server." % {'username': username}), 'danger')
+                messages.warning(request, _(u"%(username)s not found. Please \
+                check that this file is being uploaded to the correct server." % {'username': username}), 'danger')
                 print(_(u"No user api key found for %s" % user['username']))
 
 
@@ -104,7 +130,8 @@ def process_activitylog(request, contents):
 
 def validate_server(request, data):
     url_comp = request.build_absolute_uri().split('/')
-    server_url = "%(protocol)s//%(domain)s" % ({'protocol': url_comp[0], 'domain': url_comp[2]})
+    server_url = "%(protocol)s//%(domain)s" % ({'protocol': url_comp[0],
+                                                'domain': url_comp[2]})
 
     if 'server' in data:
         if data['server'].startswith(server_url):
@@ -112,12 +139,14 @@ def validate_server(request, data):
         else:
             print('Different tracker server: {}'.format(data['server']))
             messages.warning(request, _(
-                "The server in the activity log file does not match with the current one"))
+                "The server in the activity log file does not match with the \
+                current one"))
             return False
     else:
         messages.warning(request, _(
             "The activity log file seems to be in a wrong format"))
         return False
+
 
 @csrf_exempt
 def post_activitylog(request):
@@ -131,6 +160,7 @@ def post_activitylog(request):
     else:
         return HttpResponseBadRequest()
 
+
 @user_can_upload
 def upload_view(request):
     if request.method == 'POST':
@@ -140,7 +170,7 @@ def upload_view(request):
 
             # save activity_log_file
             uploaded_activity_log = UploadedActivityLog(create_user=request.user,
-                                      file=activity_log_file)
+                                                        file=activity_log_file)
             uploaded_activity_log.save()
 
             # open file and process
@@ -152,5 +182,5 @@ def upload_view(request):
     else:
         form = UploadActivityLogForm()
     return render(request, 'activitylog/upload.html',
-                              {'form': form,
-                               'title': _(u'Upload Activity Log')})
+                  {'form': form,
+                   'title': _(u'Upload Activity Log')})

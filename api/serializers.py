@@ -11,7 +11,9 @@ class PrettyJSONSerializer(Serializer):
         options = options or {}
         data = self.to_simple(data, options)
         return json.dumps(data,
-                sort_keys=True, ensure_ascii=False, indent=self.json_indent)
+                          sort_keys=True,
+                          ensure_ascii=False,
+                          indent=self.json_indent)
 
 
 class UserJSONSerializer(Serializer):
@@ -24,7 +26,9 @@ class UserJSONSerializer(Serializer):
             data['users'] = data['objects']
             del data['objects']
         return json.dumps(data,
-                sort_keys=True, ensure_ascii=False, indent=self.json_indent)
+                          sort_keys=True,
+                          ensure_ascii=False,
+                          indent=self.json_indent)
 
 
 class CourseJSONSerializer(Serializer):
@@ -39,4 +43,6 @@ class CourseJSONSerializer(Serializer):
             del data['objects']
 
         return json.dumps(data,
-                sort_keys=True, ensure_ascii=False, indent=self.json_indent)
+                          sort_keys=True,
+                          ensure_ascii=False,
+                          indent=self.json_indent)

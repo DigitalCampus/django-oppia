@@ -23,9 +23,10 @@ class Tag(models.Model):
 
     def __unicode__(self):
         return self.name
-    
+
     def __str__(self):
         return self.name
+
 
 class CourseTag(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)

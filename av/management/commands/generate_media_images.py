@@ -30,35 +30,48 @@ class Command(BaseCommand):
         for m in media:
             print(m.file.path)
 
-            cache_dir = os.path.join(settings.MEDIA_ROOT, "cache", "temp", os.path.basename(m.file.name))
+            cache_dir = os.path.join(settings.MEDIA_ROOT,
+                                     "cache",
+                                     "temp",
+                                     os.path.basename(m.file.name))
             if not os.path.exists(cache_dir):
                 os.makedirs(cache_dir)
                 self.stdout.write("  > Created output dir " + cache_dir)
 
             self.stdout.write("  > Generating miniatures... \r", )
-            image_generator_command = ("%s %s" % (settings.SCREENSHOT_GENERATOR_PROGRAM, settings.SCREENSHOT_GENERATOR_PROGRAM_PARAMS)) % (m.file.path, content.SCREENSHOT_IMAGE_WIDTH, content.SCREENSHOT_IMAGE_HEIGHT, cache_dir)
-            ffmpeg = subprocess.Popen(image_generator_command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True)
-            
+            image_generator_command = ("%s %s" % (settings.SCREENSHOT_GENERATOR_PROGRAM,
+                                                  settings.SCREENSHOT_GENERATOR_PROGRAM_PARAMS)) \
+                                      % (m.file.path,
+                                         content.SCREENSHOT_IMAGE_WIDTH,
+                                         content.SCREENSHOT_IMAGE_HEIGHT,
+                                         cache_dir)
+            ffmpeg = subprocess.Popen(image_generator_command,
+                                      shell=True,
+                                      stdout=subprocess.PIPE,
+                                      stderr=subprocess.STDOUT,
+                                      universal_newlines=True)
+
             self.process_ffmpeg_output(ffmpeg)
-            
+
             self.stdout.write("  > Generating miniatures... 100% \r\n", )
 
             # Now get the images generated and add to the db
-            self.add_images_to_db(cache_dir,m)
+            self.add_images_to_db(cache_dir, m)
 
         self.stdout.write("\n  > Process completed.")
-        
+
     def add_images_to_db(self, cache_dir, media):
         image_file_list = os.listdir(cache_dir)
         for filename in image_file_list:
             self.stdout.write(filename)
-            media_image = UploadedMediaImage(create_user=media.create_user, uploaded_media=media)
+            media_image = UploadedMediaImage(create_user=media.create_user,
+                                             uploaded_media=media)
             data = None
             with open(os.path.join(cache_dir, filename), 'rb') as f:
                 data = f.read()
             media_image.image.save(filename, ContentFile(data))
             media_image.save()
-            
+
     def process_ffmpeg_output(self, ffmpeg):
         current_frame = 0
         for line in iter(ffmpeg.stdout.readline, ''):
@@ -69,4 +82,5 @@ class Command(BaseCommand):
                     frame = int(line.split(" ")[3])
                 if frame > current_frame:
                     current_frame = frame
-                    self.stdout.write("  > Generating miniatures... " + str(frame * 10) + "% \r", )
+                    self.stdout.write("  > Generating miniatures... "
+                                      + str(frame * 10) + "% \r", )

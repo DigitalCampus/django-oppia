@@ -19,12 +19,12 @@ Submitting Bug Reports or Feature Requests
 Need Help or have Questions?
 -----------------------------
 
-If you have a question or need help with any aspect of the OppiaMobile platform, then please join the OppiaMobile Community site at 
+If you have a question or need help with any aspect of the OppiaMobile platform, then please join the OppiaMobile Community site at
 https://community.oppia-mobile.org/
 
 Submitting Code Updates
 ------------------------
-See 'good first issue' tag: 
+See 'good first issue' tag:
 (server) https://github.com/DigitalCampus/django-oppia/labels/good-first-issue
 (app) https://github.com/DigitalCampus/oppia-mobile-android/labels/good-first-issue
 (block) https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/labels/good-first-issue
@@ -32,4 +32,4 @@ See 'good first issue' tag:
 Other Ways to Contribute
 -------------------------
 
-https://oppiamobile.readthedocs.io/en/latest/dev/getting-started.html#other-ways-to-contribute
+https://oppiamobile.readthedocs.io/en/latest/technical/dev/contribute.html

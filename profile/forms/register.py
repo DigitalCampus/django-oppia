@@ -10,9 +10,11 @@ from django.utils.translation import ugettext as _
 class RegisterForm(forms.Form):
     username = forms.CharField(max_length=30,
                                min_length=4,
-                               error_messages={'required': _(u'Please enter a username.')}, )
+                               error_messages={'required':
+                                               _(u'Please enter a username.')}, )
     email = forms.CharField(validators=[validate_email],
-                            error_messages={'invalid': _(u'Please enter a valid e-mail address.'),
+                            error_messages={'invalid':
+                                            _(u'Please enter a valid e-mail address.'),
                                             'required': _(u'Please enter your e-mail address.')},
                             required=False)
     password = forms.CharField(widget=forms.PasswordInput,
@@ -42,7 +44,7 @@ class RegisterForm(forms.Form):
     organisation = forms.CharField(max_length=100, required=False)
 
     def __init__(self, *args, **kwargs):
-        super(RegisterForm, self).__init__( * args, ** kwargs)
+        super(RegisterForm, self).__init__(* args, ** kwargs)
         self.helper = FormHelper()
         self.helper.form_action = reverse('profile_register')
         self.helper.form_class = 'form-horizontal'

@@ -1,1 +1,0 @@
-# TODO cron/badges tests

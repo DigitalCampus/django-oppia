@@ -13,6 +13,7 @@ def insert_hostname(apps, schema_editor):
     if current is None:
         SettingProperties.set_string(constants.OPPIA_HOSTNAME, None)
 
+
 class Migration(migrations.Migration):
 
     dependencies = [

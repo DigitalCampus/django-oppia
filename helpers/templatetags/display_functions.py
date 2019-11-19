@@ -30,6 +30,7 @@ def secs_to_duration(secs):
 
     return str(int(math.floor(secs / 60))) + " mins"
 
+
 @register.filter(name='title_lang')
 @stringfilter
 def title_lang(title, lang):
@@ -40,7 +41,7 @@ def title_lang(title, lang):
         else:
             for l in titles:
                 return titles[l]
-    except:
+    except json.JSONDecodeError:
         pass
     return title
 
@@ -49,13 +50,17 @@ def title_lang(title, lang):
 def gravatar(user, size):
     gravatar_url = "https://www.gravatar.com/avatar.php?"
     gravatar_id = hashlib.md5(str(user.email).encode('utf-8')).hexdigest()
-    gravatar_url +=  urllib.parse.urlencode({
+    gravatar_url += urllib.parse.urlencode({
         'gravatar_id': gravatar_id,
         'size': str(size)
     })
     return mark_safe(
-        '<img src="{0}" alt="gravatar for {1}" class="gravatar" width="{2}" height="{2}"/>'.format(gravatar_url, user, size)
+        '<img src="{0}" alt="gravatar for {1}" \
+        class="gravatar" width="{2}" height="{2}"/>'.format(gravatar_url,
+                                                            user,
+                                                            size)
         )
+
 
 @register.filter(name='lookup')
 def lookup(value, key):
@@ -75,6 +80,7 @@ def chunks(value, chunk_length):
             yield chunk
         else:
             break
+
 
 @register.filter
 def split_half(list):

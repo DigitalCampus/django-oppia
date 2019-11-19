@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% load display_functions %} 
+{% load display_functions %}
 
 {% block extra_head_title %}
 	{{ course.title|title_lang:LANGUAGE_CODE }}
@@ -34,5 +34,5 @@
 {% endfor %}
 		</tbody>
 	</table>
-</div> 
+</div>
 {% endblock content %}

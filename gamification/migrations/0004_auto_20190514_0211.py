@@ -15,6 +15,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='defaultgamificationevent',
             name='level',
-            field=models.CharField(choices=[(b'global', b'Global'), (b'course', b'Course'), (b'activity', b'Activity'), (b'quiz', b'Quiz'), (b'media', b'Media')], max_length=20),
+            field=models.CharField(choices=[(b'global', b'Global'),
+                                            (b'course', b'Course'),
+                                            (b'activity', b'Activity'),
+                                            (b'quiz', b'Quiz'),
+                                            (b'media', b'Media')],
+                                   max_length=20),
         ),
     ]

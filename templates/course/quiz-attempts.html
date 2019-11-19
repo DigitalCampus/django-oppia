@@ -45,7 +45,7 @@
 			<td>{{ a.attempt_date }}</td>
 			<td>{% if OPPIA_SHOW_GRAVATARS %}
        				{{ a.user|gravatar:24 }}
-       			{% endif %} 
+       			{% endif %}
        			{% if request.user.is_staff %}
 					<a href="{% url 'profile_user_activity' a.user.id %}">{{ a.user.first_name }} {{ a.user.last_name }}</a>
 				{% else %}
@@ -80,7 +80,7 @@
 	{% endfor %}
 				</tbody>
  		</table>
-	</div> 
+	</div>
 	{% include "common/pagination.html" %}
 {% else %}
 	<p>{% trans 'No attempts yet' %}</p>

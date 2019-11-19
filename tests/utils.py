@@ -10,7 +10,7 @@ def get_api_key(user):
     try:
         api_key = ApiKey.objects.get(user=user)
     except ApiKey.DoesNotExist:
-        #if the user doesn't have an apiKey yet, generate it
+        # if the user doesn't have an apiKey yet, generate it
         api_key = ApiKey.objects.create(user=user)
     return api_key
 
