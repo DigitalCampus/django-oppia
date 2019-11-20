@@ -14,8 +14,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='SettingProperties',
             fields=[
-                ('key', models.CharField(max_length=30, serialize=False, primary_key=True)),
-                ('str_value', models.CharField(max_length=50, null=True, blank=True)),
+                ('key', models.CharField(max_length=30,
+                                         serialize=False,
+                                         primary_key=True)),
+                ('str_value', models.CharField(max_length=50,
+                                               null=True,
+                                               blank=True)),
                 ('int_value', models.IntegerField()),
             ],
         ),

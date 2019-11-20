@@ -64,7 +64,8 @@ class GamificationEvent(models.Model):
     @property
     def default_event(self):
         if not self.__default_event:
-            self.__default_event = DefaultGamificationEvent.objects.get(event=self.event)
+            self.__default_event = DefaultGamificationEvent.objects \
+                .get(event=self.event)
         return self.__default_event
 
     def get_label(self):
@@ -75,7 +76,9 @@ class GamificationEvent(models.Model):
 
 
 class CourseGamificationEvent(GamificationEvent):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='gamification_events')
+    course = models.ForeignKey(Course,
+                               on_delete=models.CASCADE,
+                               related_name='gamification_events')
 
     class Meta:
         verbose_name = _(u'Course Gamification Event')
@@ -83,7 +86,9 @@ class CourseGamificationEvent(GamificationEvent):
 
 
 class ActivityGamificationEvent(GamificationEvent):
-    activity = models.ForeignKey(Activity, on_delete=models.CASCADE, related_name='gamification_events')
+    activity = models.ForeignKey(Activity,
+                                 on_delete=models.CASCADE,
+                                 related_name='gamification_events')
 
     def __unicode__(self):
         return self.event
@@ -97,7 +102,9 @@ class ActivityGamificationEvent(GamificationEvent):
 
 
 class MediaGamificationEvent(GamificationEvent):
-    media = models.ForeignKey(Media, on_delete=models.CASCADE, related_name='gamification_events')
+    media = models.ForeignKey(Media,
+                              on_delete=models.CASCADE,
+                              related_name='gamification_events')
 
     class Meta:
         verbose_name = _(u'Media Gamification Event')

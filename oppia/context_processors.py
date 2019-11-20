@@ -33,9 +33,11 @@ def get_settings(request):
                                 settings.OPPIA_ALLOW_SELF_REGISTRATION)
     return {
         'OPPIA_ALLOW_SELF_REGISTRATION': self_register,
-        'OPPIA_GOOGLE_ANALYTICS_ENABLED': settings.OPPIA_GOOGLE_ANALYTICS_ENABLED,
+        'OPPIA_GOOGLE_ANALYTICS_ENABLED':
+            settings.OPPIA_GOOGLE_ANALYTICS_ENABLED,
         'OPPIA_GOOGLE_ANALYTICS_CODE': settings.OPPIA_GOOGLE_ANALYTICS_CODE,
-        'OPPIA_GOOGLE_ANALYTICS_DOMAIN': settings.OPPIA_GOOGLE_ANALYTICS_DOMAIN,
+        'OPPIA_GOOGLE_ANALYTICS_DOMAIN':
+            settings.OPPIA_GOOGLE_ANALYTICS_DOMAIN,
         'OPPIA_SHOW_GRAVATARS': settings.OPPIA_SHOW_GRAVATARS,
         'OPPIA_REPORTS': menu_reports(request),
         'DEBUG': settings.DEBUG, }

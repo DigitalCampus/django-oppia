@@ -74,8 +74,10 @@ def get_user(request, view_user_id):
                 coursecohort__cohort__participant__user=view_user,
                 coursecohort__cohort__participant__role=Participant.STUDENT) \
                 .filter(
-                    coursecohort__cohort__participant__user=request.user,
-                    coursecohort__cohort__participant__role=Participant.TEACHER) \
+                    coursecohort__cohort__participant__user=
+                        request.user,
+                    coursecohort__cohort__participant__role=
+                        Participant.TEACHER) \
                 .count()
             if courses > 0:
                 return view_user, None

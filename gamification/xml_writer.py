@@ -112,7 +112,8 @@ class GamificationXMLWriter:
     def update_course_gamification(self):
         # Update course level gamification
         course_gamif = self.get_or_create_global_node()
-        course_events = CourseGamificationEvent.objects.filter(course=self.course)
+        course_events = CourseGamificationEvent.objects \
+            .filter(course=self.course)
         self.add_events_or_remove_node(course_gamif, course_events)
 
     def update_activity_gamification(self):

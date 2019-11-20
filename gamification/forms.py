@@ -17,13 +17,15 @@ class EditCoursePointsForm(forms.Form):
         super(EditCoursePointsForm, self).__init__(* args, ** kwargs)
         for event in initial:
             try:
-                self.fields[event.event] = forms.IntegerField(initial=event.points,
-                                                              label=event.label,
-                                                              help_text=event.helper_text)
+                self.fields[event.event] = \
+                    forms.IntegerField(initial=event.points,
+                                       label=event.label,
+                                       help_text=event.helper_text)
             except AttributeError:
-                self.fields[event.event] = forms.IntegerField(initial=event.points,
-                                                              label=event.get_label(),
-                                                              help_text=event.get_helper_text())
+                self.fields[event.event] = \
+                    forms.IntegerField(initial=event.points,
+                                       label=event.get_label(),
+                                       help_text=event.get_helper_text())
 
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
@@ -55,13 +57,15 @@ class EditActivityPointsForm(forms.Form):
         super(EditActivityPointsForm, self).__init__(* args, ** kwargs)
         for event in initial:
             try:
-                self.fields[event.event] = forms.IntegerField(initial=int(event.points),
-                                                              label=event.get_label(),
-                                                              help_text=event.get_helper_text())
+                self.fields[event.event] = \
+                    forms.IntegerField(initial=int(event.points),
+                                       label=event.get_label(),
+                                       help_text=event.get_helper_text())
             except AttributeError:
-                self.fields[event.event.event] = forms.IntegerField(initial=int(event.points),
-                                                                    label=event.get_label(),
-                                                                    help_text=event.get_helper_text())
+                self.fields[event.event.event] = \
+                    forms.IntegerField(initial=int(event.points),
+                                       label=event.get_label(),
+                                       help_text=event.get_helper_text())
 
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
@@ -96,13 +100,15 @@ class EditMediaPointsForm(forms.Form):
         super(EditMediaPointsForm, self).__init__(* args, ** kwargs)
         for event in initial:
             try:
-                self.fields[event.event] = forms.IntegerField(initial=int(event.points),
-                                                              label=event.get_label(),
-                                                              help_text=event.get_helper_text())
+                self.fields[event.event] = \
+                    forms.IntegerField(initial=int(event.points),
+                                       label=event.get_label(),
+                                       help_text=event.get_helper_text())
             except AttributeError:
-                self.fields[event.event.event] = forms.IntegerField(initial=int(event.points),
-                                                                    label=event.get_label(),
-                                                                    help_text=event.get_helper_text())
+                self.fields[event.event.event] = \
+                    forms.IntegerField(initial=int(event.points),
+                                       label=event.get_label(),
+                                       help_text=event.get_helper_text())
 
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'

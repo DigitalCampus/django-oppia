@@ -13,6 +13,8 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name='settingproperties',
-            options={'ordering': ['key'], 'verbose_name': 'Settings', 'verbose_name_plural': 'Settings'},
+            options={'ordering': ['key'],
+                     'verbose_name': 'Settings',
+                     'verbose_name_plural': 'Settings'},
         ),
     ]
