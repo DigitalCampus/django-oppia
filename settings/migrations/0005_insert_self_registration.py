@@ -9,7 +9,9 @@ from settings import constants
 
 
 def insert_self_registration(apps, schema_editor):
-    current = SettingProperties.get_int(constants.OPPIA_ALLOW_SELF_REGISTRATION, None)
+    current = SettingProperties \
+        .get_int(constants.OPPIA_ALLOW_SELF_REGISTRATION,
+                 None)
     if current is None and hasattr(settings, 'OPPIA_ALLOW_SELF_REGISTRATION'):
         settings_prop = SettingProperties()
         settings_prop.key = constants.OPPIA_ALLOW_SELF_REGISTRATION

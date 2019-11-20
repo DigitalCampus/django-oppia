@@ -21,12 +21,16 @@ class Command(BaseCommand):
     help = 'Updates user map on CartoDB'
 
     def handle(self, *args, **options):
-        cartodb_account = SettingProperties.get_string(constants.OPPIA_CARBODB_ACCOUNT, None)
-        cartodb_key = SettingProperties.get_string(constants.OPPIA_CARBODB_KEY, None)
-        source_site = SettingProperties.get_string(constants.OPPIA_HOSTNAME, None)
+        cartodb_account = SettingProperties \
+            .get_string(constants.OPPIA_CARBODB_ACCOUNT, None)
+        cartodb_key = SettingProperties \
+            .get_string(constants.OPPIA_CARBODB_KEY, None)
+        source_site = SettingProperties \
+            .get_string(constants.OPPIA_HOSTNAME, None)
 
         # check can connect to cartodb API
-        sql = "SELECT * FROM %s WHERE source_site='%s'" % (CARTODB_TABLE, source_site)
+        sql = "SELECT * FROM %s WHERE source_site='%s'" \
+            % (CARTODB_TABLE, source_site)
         url = "http://%s.cartodb.com/api/v2/sql?q=%s" % (cartodb_account, sql)
         u = urllib.request.urlopen(url)
         data = u.read()
@@ -34,9 +38,11 @@ class Command(BaseCommand):
 
         # update any existing points
         for c in carto_db_data['rows']:
-            location = UserLocationVisualization.objects.filter(lat=c['lat'],
-                                                                lng=c['lng']).aggregate(total=Sum('hits'))
-            if location['total'] is not None and c['total_hits'] != location['total']:
+            location = UserLocationVisualization.objects \
+                .filter(lat=c['lat'],
+                        lng=c['lng']).aggregate(total=Sum('hits'))
+            if location['total'] is not None \
+              and c['total_hits'] != location['total']:
                 self.stdout.write("found - will update")
                 cartodb_id = c['cartodb_id']
                 sql = "UPDATE %s SET total_hits=%d WHERE cartodb_id=%d AND source_site='%s'" % (CARTODB_TABLE,

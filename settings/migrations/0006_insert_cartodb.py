@@ -9,7 +9,8 @@ from settings import constants
 
 
 def insert_cartodb(apps, schema_editor):
-    current = SettingProperties.get_string(constants.OPPIA_CARBODB_ACCOUNT, None)
+    current = SettingProperties.get_string(constants.OPPIA_CARBODB_ACCOUNT,
+                                           None)
     if current is None:
         SettingProperties.set_string(constants.OPPIA_CARBODB_ACCOUNT, None)
 
