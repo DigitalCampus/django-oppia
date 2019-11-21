@@ -67,24 +67,21 @@ def get_user(request, view_user_id):
             return view_user, None
         except User.DoesNotExist:
             raise Http404()
-    else:
-        try:
-            view_user = User.objects.get(pk=view_user_id)
-            courses = Course.objects.filter(
-                coursecohort__cohort__participant__user=view_user,
-                coursecohort__cohort__participant__role=Participant.STUDENT) \
-                .filter(
-                    coursecohort__cohort__participant__user=
-                        request.user,
-                    coursecohort__cohort__participant__role=
-                        Participant.TEACHER) \
-                .count()
-            if courses > 0:
-                return view_user, None
-            else:
-                raise exceptions.PermissionDenied
-        except User.DoesNotExist:
+    try:
+        view_user = User.objects.get(pk=view_user_id)
+        courses = Course.objects.filter(
+            coursecohort__cohort__participant__user=view_user,
+            coursecohort__cohort__participant__role=Participant.STUDENT) \
+            .filter(
+                coursecohort__cohort__participant__user=request.user,
+                coursecohort__cohort__participant__role=Participant.TEACHER) \
+            .count()
+        if courses > 0:
+            return view_user, None
+        else:
             raise exceptions.PermissionDenied
+    except User.DoesNotExist:
+        raise exceptions.PermissionDenied
 
 
 def get_user_courses(request, view_user):

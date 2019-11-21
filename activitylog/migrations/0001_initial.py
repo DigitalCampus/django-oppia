@@ -20,11 +20,22 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='UploadedActivityLog',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_date', models.DateTimeField(default=django.utils.timezone.now, verbose_name=b'date created')),
-                ('lastupdated_date', models.DateTimeField(default=django.utils.timezone.now, verbose_name=b'date updated')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True,
+                                        serialize=False,
+                                        verbose_name='ID')),
+                ('created_date',
+                 models.DateTimeField(default=django.utils.timezone.now,
+                                      verbose_name=b'date created')),
+                ('lastupdated_date',
+                 models.DateTimeField(default=django.utils.timezone.now,
+                                      verbose_name=b'date updated')),
                 ('file', models.FileField(upload_to=b'activitylog/%Y/%m/')),
-                ('create_user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='activitylog_create_user', to=settings.AUTH_USER_MODEL)),
+                ('create_user',
+                 models.ForeignKey(
+                     on_delete=django.db.models.deletion.CASCADE,
+                     related_name='activitylog_create_user',
+                     to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'verbose_name': 'Uploaded Activity Log',

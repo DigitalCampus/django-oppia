@@ -41,10 +41,10 @@ class Command(BaseCommand):
             self.stdout.write("  > Generating miniatures... \r", )
             image_generator_command = ("%s %s" % (settings.SCREENSHOT_GENERATOR_PROGRAM,
                                                   settings.SCREENSHOT_GENERATOR_PROGRAM_PARAMS)) \
-                                      % (m.file.path,
-                                         content.SCREENSHOT_IMAGE_WIDTH,
-                                         content.SCREENSHOT_IMAGE_HEIGHT,
-                                         cache_dir)
+                % (m.file.path,
+                   content.SCREENSHOT_IMAGE_WIDTH,
+                   content.SCREENSHOT_IMAGE_HEIGHT,
+                   cache_dir)
             ffmpeg = subprocess.Popen(image_generator_command,
                                       shell=True,
                                       stdout=subprocess.PIPE,

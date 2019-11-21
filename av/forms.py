@@ -53,8 +53,9 @@ class UploadMediaForm(forms.Form):
                 and media_file.content_type not in settings.OPPIA_MEDIA_FILE_TYPES:
             raise forms.ValidationError(_(u"You may only upload a media file \
                                          which is one of the following types: \
-                                         %s"
-                 % ', '.join(settings.OPPIA_MEDIA_FILE_TYPES)))
+                                          %s"
+                                          % ', '
+                                          .join(settings.OPPIA_MEDIA_FILE_TYPES)))
 
         '''
         check this file hasn't already been uploaded

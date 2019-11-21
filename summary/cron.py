@@ -13,8 +13,8 @@ def update_summaries(last_tracker_pk=0, last_points_pk=0):
     from oppia.models import Tracker, Points, Course
     from settings.models import SettingProperties
     from summary.models import UserCourseSummary, \
-                               CourseDailyStats, \
-                               UserPointsSummary
+        CourseDailyStats, \
+        UserPointsSummary
 
     # check if cron already running
     prop, created = SettingProperties.objects \

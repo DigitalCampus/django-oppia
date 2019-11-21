@@ -36,7 +36,7 @@ def process_uploaded_trackers(request, trackers, user, user_api_key):
                 u"Already uploaded: tracker activity %(uuid)s for \
                 %(username)s added" % {'username': user.username,
                                        'uuid': tracker.get('digest')}),
-                                       'danger')
+                             'danger')
 
 
 def process_uploaded_quizresponses(request,
@@ -94,7 +94,8 @@ def process_uploaded_file(request, json_data):
                 req_user = User.objects.filter(username=username).first()
 
             try:
-                user_api_key, created = ApiKey.objects.get_or_create(user=req_user)
+                user_api_key, created = ApiKey.objects \
+                    .get_or_create(user=req_user)
                 if (created):
                     messages.warning(request, _(
                         u"Generated new ApiKey for %(username)s : %(apikey)s" % {
@@ -169,8 +170,9 @@ def upload_view(request):
             activity_log_file = request.FILES["activity_log_file"]
 
             # save activity_log_file
-            uploaded_activity_log = UploadedActivityLog(create_user=request.user,
-                                                        file=activity_log_file)
+            uploaded_activity_log = \
+                UploadedActivityLog(create_user=request.user,
+                                    file=activity_log_file)
             uploaded_activity_log.save()
 
             # open file and process
@@ -178,7 +180,8 @@ def upload_view(request):
                 file_data = file.read()
                 success = process_activitylog(request, file_data)
                 if success:
-                    return HttpResponseRedirect(reverse('oppia_activitylog_upload_success'))
+                    return HttpResponseRedirect(
+                        reverse('oppia_activitylog_upload_success'))
     else:
         form = UploadActivityLogForm()
     return render(request, 'activitylog/upload.html',
