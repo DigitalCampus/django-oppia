@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 
+from django.utils.translation import gettext_lazy as _
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'uzekt30thl4&hw)p@c#ht=b8mn!3l080kmnuk7ez+g5l%lb*p9'
 
@@ -119,8 +121,7 @@ LANGUAGE_CODE = 'en-GB'
 USE_I18N = True
 USE_L10N = True
 
-gettext = lambda s: s
-LANGUAGES = ('en', gettext('English'))
+LANGUAGES = ('en', _('English'))
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
