@@ -14,6 +14,10 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='coursedailystats',
             name='course',
-            field=models.ForeignKey(default=None, blank=True, to='oppia.Course', null=True, on_delete=models.CASCADE),
+            field=models.ForeignKey(default=None,
+                                    blank=True,
+                                    to='oppia.Course',
+                                    null=True,
+                                    on_delete=models.CASCADE),
         ),
     ]

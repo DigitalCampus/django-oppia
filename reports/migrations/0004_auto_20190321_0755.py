@@ -14,6 +14,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='dashboardaccesslog',
             name='access_date',
-            field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='date created'),
+            field=models.DateTimeField(default=django.utils.timezone.now,
+                                       verbose_name='date created'),
         ),
     ]

@@ -140,11 +140,13 @@ class UserResource(ModelResource):
         return bundle
 
     def dehydrate_points(self, bundle):
-        points = Points.get_userscore(User.objects.get(username=bundle.request.user.username))
+        points = Points.get_userscore(
+            User.objects.get(username=bundle.request.user.username))
         return points
 
     def dehydrate_badges(self, bundle):
-        badges = Award.get_userawards(User.objects.get(username=bundle.request.user.username))
+        badges = Award.get_userawards(
+            User.objects.get(username=bundle.request.user.username))
         return badges
 
     def dehydrate_scoring(self, bundle):
@@ -158,8 +160,11 @@ class UserResource(ModelResource):
 
     def dehydrate_course_points(self, bundle):
         course_points = list(
-            Points.objects.exclude(course=None).filter(user=bundle.request.user).values('course__shortname').annotate(
-                total_points=Sum('points')))
+            Points.objects
+                .exclude(course=None)
+                .filter(user=bundle.request.user)
+                .values('course__shortname')
+                .annotate(total_points=Sum('points')))
         return course_points
 
 
@@ -183,8 +188,9 @@ class RegisterResource(ModelResource):
         include_resource_uri = False
 
     def obj_create(self, bundle, **kwargs):
-        self_register = SettingProperties.get_int(constants.OPPIA_ALLOW_SELF_REGISTRATION,
-                                                  settings.OPPIA_ALLOW_SELF_REGISTRATION)
+        self_register = SettingProperties \
+            .get_int(constants.OPPIA_ALLOW_SELF_REGISTRATION,
+                     settings.OPPIA_ALLOW_SELF_REGISTRATION)
         if not self_register:
             raise BadRequest(_(u'Registration is disabled on this server.'))
         required = ['username',
@@ -245,7 +251,9 @@ class RegisterResource(ModelResource):
             key = ApiKey.objects.get(user=u)
             bundle.data['api_key'] = key.key
         except IntegrityError:
-            raise BadRequest(_(u'Username "%s" already in use, please select another' % username))
+            raise BadRequest(
+                _(u'Username "%s" already in use, please select another'
+                  % username))
         del bundle.data['passwordagain']
         del bundle.data['password']
         del bundle.data['firstname']
@@ -253,11 +261,13 @@ class RegisterResource(ModelResource):
         return bundle
 
     def dehydrate_points(self, bundle):
-        points = Points.get_userscore(User.objects.get(username__exact=bundle.data['username']))
+        points = Points.get_userscore(User.objects.get(
+            username__exact=bundle.data['username']))
         return points
 
     def dehydrate_badges(self, bundle):
-        badges = Award.get_userawards(User.objects.get(username__exact=bundle.data['username']))
+        badges = Award.get_userawards(User.objects.get(
+            username__exact=bundle.data['username']))
         return badges
 
     def dehydrate_scoring(self, bundle):
@@ -419,7 +429,8 @@ class TrackerResource(ModelResource):
 
     def hydrate(self, bundle, request=None):
 
-        # remove any id if this is submitted - otherwise it may overwrite existing tracker item
+        # remove any id if this is submitted - otherwise it may overwrite
+        # existing tracker item
         if 'id' in bundle.data:
             del bundle.obj.id
         bundle.obj.user = bundle.request.user
@@ -437,10 +448,12 @@ class TrackerResource(ModelResource):
         # find out the course & activity type from the digest
         try:
             if 'course' in bundle.data:
-                activities = Activity.objects.filter(digest=bundle.data['digest'],
-                                                     section__course__shortname=bundle.data['course'])[:1]
+                activities = Activity.objects \
+                    .filter(digest=bundle.data['digest'],
+                            section__course__shortname=bundle.data['course'])[:1]
             else:
-                activities = Activity.objects.filter(digest=bundle.data['digest'])[:1]
+                activities = Activity.objects.filter(
+                    digest=bundle.data['digest'])[:1]
             if activities.count() > 0:
                 activity = activities[0]
                 bundle.obj.course = activity.section.course
@@ -465,7 +478,8 @@ class TrackerResource(ModelResource):
     def hydrate_tracker_date(self, bundle, request=None, **kwargs):
         # Fix tracker date if date submitted is in the future
         if 'tracker_date' in bundle.data:
-            tracker_date = dateparse.parse_datetime(bundle.data['tracker_date'])
+            tracker_date = dateparse.parse_datetime(
+                bundle.data['tracker_date'])
             if tracker_date > datetime.datetime.now():
                 bundle.data['tracker_date'] = timezone.now()
 
@@ -490,8 +504,10 @@ class TrackerResource(ModelResource):
 
     def dehydrate_course_points(self, bundle):
         course_points = list(
-            Points.objects.exclude(course=None).filter(user=bundle.request.user).values('course__shortname').annotate(
-                total_points=Sum('points')))
+            Points.objects.exclude(course=None)
+                .filter(user=bundle.request.user)
+                .values('course__shortname')
+                .annotate(total_points=Sum('points')))
         return course_points
 
     def patch_list(self, request, **kwargs):

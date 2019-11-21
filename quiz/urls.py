@@ -3,8 +3,12 @@ from django.conf.urls import include, url
 
 from tastypie.api import Api
 
-from quiz.api.resources import QuizResource, QuizPropsResource, QuestionResource, QuizQuestionResource, \
-    ResponseResource, QuizAttemptResource
+from quiz.api.resources import QuizResource, \
+                               QuizPropsResource, \
+                               QuestionResource, \
+                               QuizQuestionResource, \
+                               ResponseResource, \
+                               QuizAttemptResource
 
 
 def get_api(version_name):

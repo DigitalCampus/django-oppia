@@ -23,7 +23,10 @@ class Points(models.Model):
         ('coursedownloaded', 'Course downloaded'),
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, null=True, default=None, on_delete=models.SET_NULL)
+    course = models.ForeignKey(Course,
+                               null=True,
+                               default=None,
+                               on_delete=models.SET_NULL)
     points = models.IntegerField()
     date = models.DateTimeField('date created', default=timezone.now)
     description = models.TextField(blank=False)
@@ -47,10 +50,14 @@ class Points(models.Model):
 
         if course is not None:
             users = UserCourseSummary.objects.filter(course=course)
-            users_points = users.values('user').annotate(points=Sum('points'), badges=Sum('badges_achieved')).order_by(
-                '-points')
+            users_points = users.values('user') \
+                .annotate(points=Sum('points'),
+                          badges=Sum('badges_achieved')) \
+                .order_by('-points')
         else:
-            users_points = UserPointsSummary.objects.all().values('user', 'points', 'badges').order_by('-points')
+            users_points = UserPointsSummary.objects.all() \
+                .values('user', 'points', 'badges') \
+                .order_by('-points')
 
         if count > 0:
             users_points = users_points[:count]
@@ -66,7 +73,8 @@ class Points(models.Model):
 
     @staticmethod
     def get_userscore(user):
-        score = Points.objects.filter(user=user).aggregate(total=Sum('points'))
+        score = Points.objects.filter(user=user) \
+            .aggregate(total=Sum('points'))
         if score['total'] is None:
             return 0
         return score['total']
@@ -102,7 +110,10 @@ class Points(models.Model):
     @staticmethod
     def quiz_points(user, start_date=None, end_date=None, course=None):
         results = Points.objects.filter(user=user).filter(
-            Q(type='firstattempt') | Q(type='firstattemptscore') | Q(type='firstattemptbonus') | Q(type='quizattempt'))
+            Q(type='firstattempt')
+            | Q(type='firstattemptscore')
+            | Q(type='firstattemptbonus')
+            | Q(type='quizattempt'))
         if start_date:
             results = results.filter(date__gte=start_date)
         if end_date:

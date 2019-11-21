@@ -108,7 +108,8 @@ def process_course(extract_path, f, mod_name, request, user):
         course = Course.objects.get(shortname=meta_info['shortname'])
         # check that the current user is allowed to wipe out the other course
         if course.user != user:
-            msg_text = _(u"Sorry, only the original owner may update this course")
+            msg_text = \
+                _(u"Sorry, only the original owner may update this course")
             messages.info(request, msg_text)
             CoursePublishingLog(course=course,
                                 new_version=meta_info['versionid'],
@@ -164,7 +165,9 @@ def process_course(extract_path, f, mod_name, request, user):
                 defaults={'points': event['points'], 'user': user})
 
             if created:
-                msg_text = _(u'Gamification for "%(event)s" at course level added') % {'event': e.event}
+                msg_text = \
+                    _(u'Gamification for "%(event)s" at course level added') \
+                    % {'event': e.event}
                 messages.info(request, msg_text)
                 CoursePublishingLog(course=course,
                                     new_version=meta_info['versionid'],
@@ -199,7 +202,8 @@ def parse_course_contents(req, xml_doc, course, user, new_course):
     structure = xml_doc.find("structure")
     if len(structure.findall("section")) == 0:
         course.delete()
-        msg_text = _(u"There don't appear to be any activities in this upload file.")
+        msg_text = \
+            _(u"There don't appear to be any activities in this upload file.")
         messages.info(req, msg_text)
         CoursePublishingLog(course=course,
                             user=user,
@@ -210,7 +214,8 @@ def parse_course_contents(req, xml_doc, course, user, new_course):
     for idx, s in enumerate(structure.findall("section")):
 
         activities = s.find('activities')
-        # Check if the section contains any activity (to avoid saving an empty one)
+        # Check if the section contains any activity
+        # (to avoid saving an empty one)
         if activities is None or len(activities.findall('activity')) == 0:
             msg_text = _("Section ") \
                         + str(idx + 1) \
@@ -277,9 +282,11 @@ def parse_course_contents(req, xml_doc, course, user, new_course):
 
                 for event in events:
                     # Only add events if the didn't exist previously
-                    e, created = MediaGamificationEvent.objects.get_or_create(
-                        media=media, event=event['name'],
-                        defaults={'points': event['points'], 'user': req.user})
+                    e, created = MediaGamificationEvent.objects \
+                        .get_or_create(media=media,
+                                       event=event['name'],
+                                       defaults={'points': event['points'],
+                                                 'user': req.user})
 
                     if created:
                         msg_text = _(u'Gamification for "%(event)s" at course \
@@ -323,7 +330,8 @@ def parse_and_save_activity(req,
     Parses an Activity XML and saves it to the DB
     :param section: section the activity belongs to
     :param act: a XML DOM element containing a single activity
-    :param new_course: boolean indicating if it is a new course or existed previously
+    :param new_course: boolean indicating if it is a new course or existed
+            previously
     :param is_baseline: is the activity part of the baseline?
     :return: None
     """
@@ -419,9 +427,10 @@ def parse_and_save_activity(req,
 
         if created:
             msg_text = _(u'Gamification for "%(event)s" at activity \
-                        "%(act)s"(%(digest)s) added') % {'event': e.event,
-                                                         'act': activity.title,
-                                                         'digest': activity.digest}
+                        "%(act)s"(%(digest)s) added') \
+                      % {'event': e.event,
+                         'act': activity.title,
+                         'digest': activity.digest}
             messages.info(req, msg_text)
             CoursePublishingLog(course=course,
                                 user=user,

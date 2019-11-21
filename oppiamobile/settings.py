@@ -142,8 +142,8 @@ LOGIN_EXEMPT_URLS = (
     r'^about/$',
     r'^terms/$',
     r'^api/',  # allow any URL under api/* - auth handled by api_key
-    r'^modules/api/',  # allow any URL under modules/api/* - auth handled by api_key
-    r'^badges/api/',  # allow any URL under badges/api/* - auth handled by api_key
+    r'^modules/api/',  # allow any URL under modules/api/* - auth by api_key
+    r'^badges/api/',  # allow any URL under badges/api/* - auth by api_key
     r'^content/video-embed-helper/$',
     r'^media/temp/',
     r'^media/uploaded/',
@@ -164,17 +164,27 @@ OPPIA_METADATA = {
     'GPS': False,
 }
 
-OPPIA_ALLOW_SELF_REGISTRATION = True    # turns on/off ability for users to self register
+# turns on/off ability for users to self register
+OPPIA_ALLOW_SELF_REGISTRATION = True
 OPPIA_SHOW_GRAVATARS = True
-OPPIA_STAFF_ONLY_UPLOAD = True          # prevents anyone without is_staff status being able to upload courses,
-# setting to False allows any registered user to upload a course
 
-OPPIA_POINTS_ENABLED = True            # determines if the points system is enabled
+# prevents anyone without is_staff status being able to upload courses,
+# setting to False allows any registered user to upload a course
+OPPIA_STAFF_ONLY_UPLOAD = True
+
+# determines if the points system is enabled
+OPPIA_POINTS_ENABLED = True
+
 # if OPPIA POINTS_ENABLED is false, then the next 3 settings are ignored
-OPPIA_STAFF_EARN_POINTS = False         # prevent staff from earning points
-OPPIA_COURSE_OWNERS_EARN_POINTS = False  # stops owners of courses earning points
-OPPIA_TEACHERS_EARN_POINTS = False      # stops teachers of courses earning points
-OPPIA_BADGES_ENABLED = True            # determines if the badges system is enabled
+# prevent staff from earning points
+OPPIA_STAFF_EARN_POINTS = False
+
+# stops owners of courses earning points
+OPPIA_COURSE_OWNERS_EARN_POINTS = False
+# stops teachers of courses earning points
+OPPIA_TEACHERS_EARN_POINTS = False
+# determines if the badges system is enabled
+OPPIA_BADGES_ENABLED = True
 
 BADGE_AWARD_METHOD_ALL_ACTIVITIES = 'all activities'
 BADGE_AWARD_METHOD_FINAL_QUIZ = 'final quiz'
@@ -186,7 +196,7 @@ OPPIA_GOOGLE_ANALYTICS_ENABLED = False
 OPPIA_GOOGLE_ANALYTICS_CODE = 'YOUR_GOOGLE_ANALYTICS_CODE'
 OPPIA_GOOGLE_ANALYTICS_DOMAIN = 'YOUR_DOMAIN'
 
-OPPIA_MAX_UPLOAD_SIZE = 5242880         # max course file upload size - in bytes
+OPPIA_MAX_UPLOAD_SIZE = 5242880  # max course file upload size - in bytes
 
 OPPIA_VIDEO_FILE_TYPES = ("video/m4v", "video/mp4", "video/3gp", "video/3gpp")
 OPPIA_AUDIO_FILE_TYPES = ("audio/mpeg", "audio/amr", "audio/mp3")
@@ -195,15 +205,20 @@ OPPIA_MEDIA_IMAGE_FILE_TYPES = ("image/png", "image/jpeg")
 
 OPPIA_UPLOAD_TRACKER_FILE_TYPES = [("application/json")]
 
-# Android app PackageId - for Google Play link and opening activities from digest
+# Android app PackageId - for Google Play link and opening activities
+# from digest
 OPPIA_ANDROID_DEFAULT_PACKAGEID = 'org.digitalcampus.mobile.learning'
 OPPIA_ANDROID_PACKAGEID = 'org.digitalcampus.mobile.learning'
-OPPIA_ANDROID_ON_GOOGLE_PLAY = True  # if the app is not on Google Play, we rely on the core version for store links
+
+# if the app is not on Google Play, we rely on the core version for store
+# links
+OPPIA_ANDROID_ON_GOOGLE_PLAY = True
 
 API_LIMIT_PER_PAGE = 0
 
 SCREENSHOT_GENERATOR_PROGRAM = "ffmpeg"
-SCREENSHOT_GENERATOR_PROGRAM_PARAMS = "-i %s -r 0.02 -s %dx%d -f image2 %s/frame-%%03d.png"
+SCREENSHOT_GENERATOR_PROGRAM_PARAMS = \
+    "-i %s -r 0.02 -s %dx%d -f image2 %s/frame-%%03d.png"
 
 MEDIA_PROCESSOR_PROGRAM = "ffprobe"
 MEDIA_PROCESSOR_PROGRAM_PARAMS = ""

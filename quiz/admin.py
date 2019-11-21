@@ -1,12 +1,27 @@
 # oppia/quiz/admin.py
 from django.contrib import admin
 
-from quiz.models import Quiz, Question, Response, ResponseProps, QuestionProps, QuizProps, \
-    QuizQuestion, QuizAttempt, QuizAttemptResponse
+from quiz.models import Quiz, \
+                        Question, \
+                        Response, \
+                        ResponseProps, \
+                        QuestionProps, \
+                        QuizProps, \
+                        QuizQuestion, \
+                        QuizAttempt, \
+                        QuizAttemptResponse
 
 
 class QuizAttemptAdmin(admin.ModelAdmin):
-    list_display = ('user', 'quiz', 'attempt_date', 'score', 'event', 'points', 'ip', 'instance_id', 'agent')
+    list_display = ('user',
+                    'quiz',
+                    'attempt_date',
+                    'score',
+                    'event',
+                    'points',
+                    'ip',
+                    'instance_id',
+                    'agent')
 
 
 class QuestionPropsAdmin(admin.ModelAdmin):
@@ -22,7 +37,11 @@ class QuizPropsAdmin(admin.ModelAdmin):
 
 
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ('owner', 'title', 'type', 'created_date', 'lastupdated_date')
+    list_display = ('owner',
+                    'title',
+                    'type',
+                    'created_date',
+                    'lastupdated_date')
 
 
 class QuizAttemptResponseAdmin(admin.ModelAdmin):
@@ -30,11 +49,23 @@ class QuizAttemptResponseAdmin(admin.ModelAdmin):
 
 
 class QuizAdmin(admin.ModelAdmin):
-    list_display = ('title', 'description', 'owner', 'created_date', 'lastupdated_date', 'draft', 'deleted')
+    list_display = ('title',
+                    'description',
+                    'owner',
+                    'created_date',
+                    'lastupdated_date',
+                    'draft',
+                    'deleted')
 
 
 class ResponseAdmin(admin.ModelAdmin):
-    list_display = ('question', 'title', 'owner', 'created_date', 'lastupdated_date', 'score', 'order')
+    list_display = ('question',
+                    'title',
+                    'owner',
+                    'created_date',
+                    'lastupdated_date',
+                    'score',
+                    'order')
 
 
 class QuizQuestionAdmin(admin.ModelAdmin):
