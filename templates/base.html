@@ -33,7 +33,7 @@
 
 </head>
 
-<body class="d-flex flex-column" {% block extra_body %}{% endblock extra_body %}>
+<body class="d-flex flex-column navdrawer-open-default" {% block extra_body %}{% endblock extra_body %}>
 
 {% if DEBUG %}
      <div class="fixed-bottom alert alert-danger alert-dismissable debug-alert" style="z-index:200;">
@@ -76,7 +76,7 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script src="{% static 'oppia/js/material.min.js' %}"></script>
-<script src="{% static 'oppia/js/common.js' %}"></script>
+<script src="{% static 'oppia/js/common.js' %}?v=2"></script>
 
 {% block extra_scripts %}
 {% endblock extra_scripts %}

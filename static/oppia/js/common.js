@@ -1,5 +1,8 @@
 $(function(){
     $('[data-toggle="tooltip"]').tooltip();
+    if ($('.device-lg').css('display') == 'block'){
+        $('.navdrawer-persistent-lg').navdrawer('show')
+    }
 
     var datePickerFormat = 'YYYY-MM-DD';
 	$('.date-picker-selector').each(function(){
