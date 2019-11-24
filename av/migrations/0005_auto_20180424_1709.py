@@ -33,8 +33,8 @@ class Migration(migrations.Migration):
                 ('default_image', models.BooleanField(default=False)),
                 ('create_user', models.ForeignKey(
                     on_delete=django.db.models.deletion.CASCADE,
-                  related_name='media_image_create_user',
-                  to=settings.AUTH_USER_MODEL)),
+                    related_name='media_image_create_user',
+                    to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'verbose_name': 'Uploaded Media Image',

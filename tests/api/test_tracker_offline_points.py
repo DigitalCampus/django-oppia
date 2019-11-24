@@ -35,7 +35,10 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         tracker_count_start = Tracker.objects.all().count()
         points_count_start = Points.objects.all().count()
 
-        resp = self.api_client.post(self.url, format='json', data=data, authentication=self.get_credentials())
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data,
+                                    authentication=self.get_credentials())
         self.assertHttpCreated(resp)
         self.assertValidJSON(resp.content)
 
@@ -74,7 +77,10 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         tracker_count_start = Tracker.objects.all().count()
         points_count_start = Points.objects.all().count()
 
-        resp = self.api_client.post(self.url, format='json', data=data, authentication=self.get_credentials())
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data,
+                                    authentication=self.get_credentials())
         self.assertHttpCreated(resp)
         self.assertValidJSON(resp.content)
 
@@ -83,7 +89,8 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertEqual(tracker_count_start + 1, tracker_count_end)
 
         latest_tracker = Tracker.objects.latest('submitted_date')
-        self.assertEqual(latest_tracker.digest, '11cc12291f730160c324b727dd2268b612137')
+        self.assertEqual(latest_tracker.digest,
+                         '11cc12291f730160c324b727dd2268b612137')
 
         # check that the points info has been added
         points_count_end = Points.objects.all().count()

@@ -17,7 +17,9 @@ class CourseTagResourceTest(ResourceTestCaseMixin, TestCase):
 
     # check post not allowed
     def test_post_not_found(self):
-        self.assertHttpNotFound(self.api_client.post(self.url, format='json', data={}))
+        self.assertHttpNotFound(self.api_client.post(self.url,
+                                                     format='json',
+                                                     data={}))
 
 
 # TODO ScorecardResource

@@ -413,7 +413,8 @@ def user_course_activity_view(request, user_id, course_id):
                 course_pretest = first_score
             else:
                 quizzes_attempted += 1
-                quizzes_passed = (quizzes_passed + 1) if passed else quizzes_passed
+                quizzes_passed = (quizzes_passed + 1) \
+                    if passed else quizzes_passed
 
         else:
             max_score = None
@@ -528,7 +529,8 @@ def upload_view(request):
                         result['username'] = row['username']
                         result['created'] = True
                         if auto_password:
-                            result['message'] = _(u'User created with password: %s' % password)
+                            result['message'] = \
+                                _(u'User created with password: %s' % password)
                         else:
                             result['message'] = _(u'User created')
                         results.append(result)
@@ -732,7 +734,9 @@ def get_tracker_activities(start_date,
 
     for i in range(0, no_days, +1):
         temp = start_date + datetime.timedelta(days=i)
-        count = next((dct['count'] for dct in trackers if dct['activity_date'] == temp.date()), 0)
+        count = next((dct['count']
+                      for dct in trackers
+                      if dct['activity_date'] == temp.date()), 0)
         activity.append([temp.strftime("%d %b %Y"), count])
 
     return activity

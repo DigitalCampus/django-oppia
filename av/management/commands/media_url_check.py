@@ -32,8 +32,13 @@ class Command(BaseCommand):
                 if m.filesize is not None:
                     total_size = int(response.getheader('content-length'))
                     if total_size != m.filesize:
-                        self.stdout.write("INFO: file sizes appear to be different:")
-                        self.stdout.write("filesize recorded in db:" + m.filesize)
-                        self.stdout.write("filesize of download url:" + total_size)
+                        self.stdout \
+                            .write("INFO: file sizes appear to be different:")
+                        self.stdout \
+                            .write("filesize recorded in db:" + m.filesize)
+                        self.stdout \
+                            .write("filesize of download url:" + total_size)
             except urllib.error.HTTPError:
-                self.stdout.write("WARNING: media file not found at: " + m.download_url)
+                self.stdout \
+                    .write("WARNING: media file not found at: "
+                           + m.download_url)

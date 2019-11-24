@@ -87,9 +87,10 @@ def process_uploaded_file(request, json_data):
                     if 'organisation' in user else None
                 user_profile.save()
 
-                messages.warning(request, _(
-                    u"%(username)s did not exist previously, and was created." % {
-                        'username': username}), 'danger')
+                messages.warning(request,
+                                 _(u"%(username)s did not exist previously, \
+                                   and was created." % {'username': username}),
+                                 'danger')
             else:
                 req_user = User.objects.filter(username=username).first()
 
@@ -97,11 +98,12 @@ def process_uploaded_file(request, json_data):
                 user_api_key, created = ApiKey.objects \
                     .get_or_create(user=req_user)
                 if (created):
-                    messages.warning(request, _(
-                        u"Generated new ApiKey for %(username)s : %(apikey)s" % {
-                            'username': username,
-                            'apikey': user_api_key.key}),
-                        'danger')
+                    messages.warning(request,
+                                     _(u"Generated new ApiKey for \
+                                       %(username)s : %(apikey)s" % {
+                                           'username': username,
+                                           'apikey': user_api_key.key}),
+                                     'danger')
 
                 if 'trackers' in user:
                     process_uploaded_trackers(request,
@@ -114,8 +116,12 @@ def process_uploaded_file(request, json_data):
                                                    req_user,
                                                    user_api_key)
             except ApiKey.DoesNotExist:
-                messages.warning(request, _(u"%(username)s not found. Please \
-                check that this file is being uploaded to the correct server." % {'username': username}), 'danger')
+                messages.warning(request,
+                                 _(u"%(username)s not found. Please \
+                                   check that this file is being uploaded to \
+                                   the correct server."
+                                   % {'username': username}),
+                                 'danger')
                 print(_(u"No user api key found for %s" % user['username']))
 
 

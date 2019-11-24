@@ -76,7 +76,9 @@ def course_completion_rates(request, course_id):
         user_activities = user_stats.completed_activities
         user_obj = {'user': user_stats.user}
         user_obj['activities_completed'] = user_activities
-        user_obj['completion_percent'] = (user_activities * 100 / course_activities)
+        user_obj['completion_percent'] = (user_activities
+                                          * 100
+                                          / course_activities)
         if (user_activities >= course_activities):
             users_completed.append(user_obj)
         else:
@@ -84,6 +86,7 @@ def course_completion_rates(request, course_id):
 
     return render(request, 'reports/course_completion_rates.html',
                   {'course': course,
-                   'users_enroled_count': len(users_completed) + len(users_incompleted),
+                   'users_enroled_count':
+                   len(users_completed) + len(users_incompleted),
                    'users_completed': users_completed,
                    'users_incompleted': users_incompleted})

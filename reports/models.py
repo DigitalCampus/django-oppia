@@ -6,7 +6,11 @@ from django.utils import timezone
 
 
 class DashboardAccessLog (models.Model):
-    user = models.ForeignKey(User, null=True, blank=True, default=None, on_delete=models.SET_NULL)
+    user = models.ForeignKey(User,
+                             null=True,
+                             blank=True,
+                             default=None,
+                             on_delete=models.SET_NULL)
     access_date = models.DateTimeField('date created', default=timezone.now)
     ip = models.GenericIPAddressField(blank=True, null=True, default=None)
     agent = models.TextField(blank=True, null=True, default=None)

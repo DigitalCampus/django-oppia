@@ -39,8 +39,9 @@ def update_summaries(last_tracker_pk=0, last_points_pk=0):
     except Points.DoesNotExist:
         newest_points_pk = last_points_pk
 
-    print('Last tracker processed: %d\nNewest tracker: %d\n' % (last_tracker_pk,
-                                                                newest_tracker_pk))
+    print('Last tracker processed: %d\nNewest tracker: %d\n'
+          % (last_tracker_pk,
+             newest_tracker_pk))
     if last_tracker_pk >= newest_tracker_pk:
         print('No new trackers to process. Aborting cron...')
         SettingProperties.delete_key('oppia_summary_cron_lock')
@@ -72,8 +73,8 @@ def update_summaries(last_tracker_pk=0, last_points_pk=0):
                                                               total_users))
         user = User.objects.get(pk=uc_tracker['user'])
         course = Course.objects.get(pk=uc_tracker['course'])
-        user_course, created = UserCourseSummary.objects.get_or_create(course=course,
-                                                                       user=user)
+        user_course, created = UserCourseSummary.objects \
+            .get_or_create(course=course, user=user)
         user_course.update_summary(
             last_tracker_pk=last_tracker_pk,
             last_points_pk=last_points_pk,
@@ -98,9 +99,10 @@ def update_summaries(last_tracker_pk=0, last_points_pk=0):
     for type_log in course_daily_type_logs:
         day = date(type_log['year'], type_log['month'], type_log['day'])
         course = Course.objects.get(pk=type_log['course'])
-        stats, created = CourseDailyStats.objects.get_or_create(course=course,
-                                                                day=day,
-                                                                type=type_log['type'])
+        stats, created = CourseDailyStats.objects \
+            .get_or_create(course=course,
+                           day=day,
+                           type=type_log['type'])
         stats.total = (0 if first_tracker else stats.total) + type_log['total']
         stats.save()
 
@@ -123,10 +125,12 @@ def update_summaries(last_tracker_pk=0, last_points_pk=0):
     print('%d different search/dates to process.' % search_daily_logs.count())
     for search_log in search_daily_logs:
         day = date(search_log['year'], search_log['month'], search_log['day'])
-        stats, created = CourseDailyStats.objects.get_or_create(course=None,
-                                                                day=day,
-                                                                type='search')
-        stats.total = (0 if first_tracker else stats.total) + search_log['total']
+        stats, created = CourseDailyStats.objects \
+            .get_or_create(course=None,
+                           day=day,
+                           type='search')
+        stats.total = (0 if first_tracker else stats.total) \
+            + search_log['total']
         stats.save()
 
     # get different (distinct) user/points involved

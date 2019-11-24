@@ -14,7 +14,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='uploadedactivitylog',
             name='created_date',
-            field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='date created'),
+            field=models.DateTimeField(default=django.utils.timezone.now,
+                                       verbose_name='date created'),
         ),
         migrations.AlterField(
             model_name='uploadedactivitylog',
@@ -24,6 +25,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='uploadedactivitylog',
             name='lastupdated_date',
-            field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='date updated'),
+            field=models.DateTimeField(default=django.utils.timezone.now,
+                                       verbose_name='date updated'),
         ),
     ]

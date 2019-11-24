@@ -35,10 +35,11 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         }
         bad_auth = self.create_apikey(username=self.username,
                                       api_key="1234")
-        self.assertHttpUnauthorized(self.api_client.post(self.url,
-                                                         format='json',
-                                                         data=data,
-                                                         authentication=bad_auth))
+        self.assertHttpUnauthorized(
+            self.api_client.post(self.url,
+                                 format='json',
+                                 data=data,
+                                 authentication=bad_auth))
 
     # check put not allowed
     def test_put_invalid(self):

@@ -63,7 +63,8 @@ class UserCourseSummary (models.Model):
         }
         if newest_points_pk > 0:
             filters['pk__lte'] = newest_points_pk
-        new_points = Points.objects.filter(** filters).aggregate(total=Sum('points'))['total']
+        new_points = Points.objects.filter(** filters) \
+            .aggregate(total=Sum('points'))['total']
 
         if new_points:
             self.points = (0 if first_points else self.points) + new_points
@@ -74,8 +75,9 @@ class UserCourseSummary (models.Model):
         self.quizzes_passed = Course.get_no_quizzes_completed(self.course,
                                                               self.user)
         self.badges_achieved = Award.get_userawards(self.user, self.course)
-        self.completed_activities = Course.get_activities_completed(self.course,
-                                                                    self.user)
+        self.completed_activities = Course \
+            .get_activities_completed(self.course,
+                                      self.user)
         self.media_viewed = Course.get_media_viewed(self.course, self.user)
 
         # Update the data in the database

@@ -14,6 +14,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='dashboardaccesslog',
             name='ip',
-            field=models.GenericIPAddressField(default=None, null=True, blank=True),
+            field=models.GenericIPAddressField(default=None,
+                                               null=True,
+                                               blank=True),
         ),
     ]

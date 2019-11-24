@@ -29,11 +29,12 @@ class Migration(migrations.Migration):
                 ('url', models.TextField(blank=True)),
                 ('data', models.TextField(blank=True)),
                 ('user',
-                 models.ForeignKey(on_delete=django.db.models.deletion.SET_NULL,
-                                   default=None,
-                                   blank=True,
-                                   to=settings.AUTH_USER_MODEL,
-                                   null=True)),
+                 models.ForeignKey(
+                     on_delete=django.db.models.deletion.SET_NULL,
+                     default=None,
+                     blank=True,
+                     to=settings.AUTH_USER_MODEL,
+                     null=True)),
             ],
         ),
     ]

@@ -36,26 +36,31 @@ def upload(request, user):
             most likely means settings.MEDIA_PROCESSOR_PROGRAM is not installed
             '''
             uploaded_media.delete()
-            messages.add_message(request,
-                                 messages.ERROR,
-                                 _(u"The %s program does not seem to be \
-                                   installed on this server, or is \
-                                   incorrectly configured. Please ask your \
-                                   Oppia system administrator to install it \
-                                   for you.") % settings.MEDIA_PROCESSOR_PROGRAM, "danger")
+            messages.add_message(
+                request,
+                messages.ERROR,
+                _(u"The %s program does not seem to be \
+                  installed on this server, or is \
+                  incorrectly configured. Please ask your \
+                  Oppia system administrator to install it \
+                  for you.") % settings.MEDIA_PROCESSOR_PROGRAM, "danger")
             return {'result': UploadedMedia.UPLOAD_STATUS_FAILURE,
                     'form': form,
-                    'errors': _(u"The %s program might not be installed on \
-                                this server.") % settings.MEDIA_PROCESSOR_PROGRAM}
+                    'errors':
+                        _(u"The %s program might not be installed on \
+                          this server.") % settings.MEDIA_PROCESSOR_PROGRAM}
 
-        return {'result': UploadedMedia.UPLOAD_STATUS_SUCCESS, 'media': uploaded_media}
+        return {'result': UploadedMedia.UPLOAD_STATUS_SUCCESS,
+                'media': uploaded_media}
     else:
 
         errors = []
         for field, error in form.errors.items():
             for e in error:
                 errors.append(e)
-        return {'result': UploadedMedia.UPLOAD_STATUS_FAILURE, 'form': form, 'errors': errors}
+        return {'result': UploadedMedia.UPLOAD_STATUS_FAILURE,
+                'form': form,
+                'errors': errors}
 
 
 def get_length(filepath):

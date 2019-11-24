@@ -193,13 +193,13 @@ def edit_course_gamification(request, course_id):
 
     default_points = {
         'course': DefaultGamificationEvent.objects
-                    .exclude(level=DefaultGamificationEvent.GLOBAL),
+        .exclude(level=DefaultGamificationEvent.GLOBAL),
         'activity': DefaultGamificationEvent.objects
-                    .filter(level=DefaultGamificationEvent.ACTIVITY),
+        .filter(level=DefaultGamificationEvent.ACTIVITY),
         'quiz': DefaultGamificationEvent.objects
-                    .filter(level=DefaultGamificationEvent.QUIZ),
+        .filter(level=DefaultGamificationEvent.QUIZ),
         'media': DefaultGamificationEvent.objects
-                    .filter(level=DefaultGamificationEvent.MEDIA)
+        .filter(level=DefaultGamificationEvent.MEDIA)
     }
 
     course_events = CourseGamificationEvent.objects.filter(course=course)

@@ -64,15 +64,16 @@ class DateRangeForm(forms.Form):
         try:
             end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d")
         except TypeError:
-            raise forms.ValidationError("Please enter a valid end date.")
+            raise forms.ValidationError(_("Please enter a valid end date."))
 
         # check end date on or before today
         if end_date > datetime.datetime.now():
-            raise forms.ValidationError("End date can't be in the future.")
+            raise forms.ValidationError(_("End date can't be in the future."))
 
         # check start date before end date
         if start_date > end_date:
-            raise forms.ValidationError("Start date must be before the end date.")
+            raise forms.ValidationError(
+                _("Start date must be before the end date."))
 
         return cleaned_data
 
@@ -110,18 +111,19 @@ class DateRangeIntervalForm(forms.Form):
         try:
             start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d")
         except TypeError:
-            raise forms.ValidationError("Please enter a valid start date.")
+            raise forms.ValidationError(_("Please enter a valid start date."))
         try:
             end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d")
         except TypeError:
-            raise forms.ValidationError("Please enter a valid end date.")
+            raise forms.ValidationError(_("Please enter a valid end date."))
 
         # check end date on or before today
         if end_date > datetime.datetime.now():
-            raise forms.ValidationError("End date can't be in the future.")
+            raise forms.ValidationError(_("End date can't be in the future."))
 
         # check start date before end date
         if start_date > end_date:
-            raise forms.ValidationError("Start date must be before the end date.")
+            raise forms.ValidationError(
+                _("Start date must be before the end date."))
 
         return cleaned_data

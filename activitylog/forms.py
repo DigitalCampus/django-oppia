@@ -16,8 +16,9 @@ class UploadActivityLogForm(forms.Form):
                             .join(settings.OPPIA_UPLOAD_TRACKER_FILE_TYPES)),
                 required=True,
                 label=_(u'Activity Log'),
-                error_messages={'required':
-                                _(u'Please select an activity log file to upload')},
+                error_messages={
+                    'required':
+                    _(u'Please select an activity log file to upload')},
                 )
 
     def __init__(self, *args, **kwargs):
@@ -44,4 +45,5 @@ class UploadActivityLogForm(forms.Form):
                 not in settings.OPPIA_UPLOAD_TRACKER_FILE_TYPES:
             raise forms.ValidationError(
                 _(u"You may only upload an activity log file which is one of \
-                  the following types: %s" % ', '.join(settings.OPPIA_UPLOAD_TRACKER_FILE_TYPES)))
+                  the following types: %s"
+                  % ', '.join(settings.OPPIA_UPLOAD_TRACKER_FILE_TYPES)))
