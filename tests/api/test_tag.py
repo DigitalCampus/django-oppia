@@ -23,7 +23,8 @@ class TagResourceTest(ResourceTestCaseMixin, TestCase):
 
     # Post invalid
     def test_post_invalid(self):
-        self.assertHttpMethodNotAllowed(self.api_client.post(self.url, format='json', data={}))
+        self.assertHttpMethodNotAllowed(
+            self.api_client.post(self.url, format='json', data={}))
 
     # test unauthorized
     def test_unauthorized(self):
@@ -31,16 +32,19 @@ class TagResourceTest(ResourceTestCaseMixin, TestCase):
             'username': 'user',
             'api_key': '1234',
         }
-        self.assertHttpUnauthorized(self.api_client.get(self.url, format='json', data=data))
+        self.assertHttpUnauthorized(
+            self.api_client.get(self.url, format='json', data=data))
 
     # test authorized
     def test_authorized(self):
-        resp = self.api_client.get(self.url, format='json', data=self.auth_data)
+        resp = self.api_client.get(
+            self.url, format='json', data=self.auth_data)
         self.assertHttpOK(resp)
 
     # test valid json response and with 5 tags
     def test_has_tags(self):
-        resp = self.api_client.get(self.url, format='json', data=self.auth_data)
+        resp = self.api_client.get(
+            self.url, format='json', data=self.auth_data)
         self.assertHttpOK(resp)
         self.assertValidJSON(resp.content)
         response_data = self.deserialize(resp)
@@ -60,14 +64,17 @@ class TagResourceTest(ResourceTestCaseMixin, TestCase):
     # test getting a listing of courses for one of the tags
     def test_tag_list(self):
         resource_url = get_api_url('tag', 2)
-        resp = self.api_client.get(resource_url, format='json', data=self.auth_data)
+        resp = self.api_client.get(resource_url,
+                                   format='json',
+                                   data=self.auth_data)
         self.assertHttpOK(resp)
         self.assertValidJSON(resp.content)
         response_data = self.deserialize(resp)
         self.assertTrue('courses' in response_data)
         self.assertTrue('count' in response_data)
         self.assertTrue('name' in response_data)
-        self.assertEqual(len(response_data['courses']), response_data['count'])
+        self.assertEqual(len(response_data['courses']),
+                         response_data['count'])
         for course in response_data['courses']:
             self.assertTrue('shortname' in course)
             self.assertTrue('title' in course)
@@ -77,7 +84,10 @@ class TagResourceTest(ResourceTestCaseMixin, TestCase):
     # test getting listing of courses for an invalid tag
     def test_tag_not_found(self):
         resource_url = get_api_url('tag', 999)
-        resp = self.api_client.get(resource_url, format='json', data=self.auth_data)
+        resp = self.api_client.get(resource_url,
+                                   format='json',
+                                   data=self.auth_data)
         self.assertHttpNotFound(resp)
 
-    # TODO check tags and permissions - so only tags that have course the user is allowed to view will appear
+    # TODO check tags and permissions - so only tags that have course the user
+    # is allowed to view will appear

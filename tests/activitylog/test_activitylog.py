@@ -20,11 +20,16 @@ class UploadActivityLogTest(TestCase):
     def setUp(self):
         self.client = Client()
         self.url = reverse('oppia_activitylog_upload')
-        self.basic_activity_log = './oppia/fixtures/activity_logs/basic_activity.json'
-        self.activity_log_file_path = './oppia/fixtures/activity_logs/activity_upload_test.json'
-        self.wrong_activity_file = './oppia/fixtures/activity_logs/wrong_format.json'
-        self.new_user_activity = './oppia/fixtures/activity_logs/new_user_activity.json'
-        self.quiz_attempt_log = './oppia/fixtures/activity_logs/quiz_attempts.json'
+        self.basic_activity_log = \
+            './oppia/fixtures/activity_logs/basic_activity.json'
+        self.activity_log_file_path = \
+            './oppia/fixtures/activity_logs/activity_upload_test.json'
+        self.wrong_activity_file = \
+            './oppia/fixtures/activity_logs/wrong_format.json'
+        self.new_user_activity = \
+            './oppia/fixtures/activity_logs/new_user_activity.json'
+        self.quiz_attempt_log = \
+            './oppia/fixtures/activity_logs/quiz_attempts.json'
 
     def test_no_file(self):
         # no file
@@ -43,7 +48,8 @@ class UploadActivityLogTest(TestCase):
 
         with open(self.wrong_activity_file, 'rb') as activity_log_file:
             response = self.client.post(self.url,
-                                        {'activity_log_file': activity_log_file})
+                                        {'activity_log_file':
+                                         activity_log_file})
 
         messages = list(response.context['messages'])
         self.assertEqual(response.status_code, 200)
@@ -58,7 +64,8 @@ class UploadActivityLogTest(TestCase):
 
         with open(self.basic_activity_log, 'rb') as activity_log_file:
             response = self.client.post(self.url,
-                                        {'activity_log_file': activity_log_file})
+                                        {'activity_log_file':
+                                         activity_log_file})
 
         # should be redirected to the success page
         self.assertRedirects(response,
@@ -78,7 +85,8 @@ class UploadActivityLogTest(TestCase):
 
         with open(self.new_user_activity, 'rb') as activity_log_file:
             response = self.client.post(self.url,
-                                        {'activity_log_file': activity_log_file})
+                                        {'activity_log_file':
+                                         activity_log_file})
 
         # should be redirected to the update step 2 form
         self.assertRedirects(response,
@@ -101,7 +109,8 @@ class UploadActivityLogTest(TestCase):
 
         with open(self.quiz_attempt_log, 'rb') as activity_log_quiz_file:
             response = self.client.post(self.url,
-                                        {'activity_log_file': activity_log_quiz_file})
+                                        {'activity_log_file':
+                                         activity_log_quiz_file})
 
         self.assertRedirects(response,
                              reverse('oppia_activitylog_upload_success'),
@@ -124,7 +133,8 @@ class UploadActivityLogTest(TestCase):
 
         with open(self.basic_activity_log, 'rb') as activity_log_file:
             response = self.client.post(self.url,
-                                        {'activity_log_file': activity_log_file})
+                                        {'activity_log_file':
+                                         activity_log_file})
 
         self.assertRedirects(response,
                              reverse('oppia_activitylog_upload_success'),
@@ -134,7 +144,8 @@ class UploadActivityLogTest(TestCase):
         # Now upload the same file
         with open(self.basic_activity_log, 'rb') as activity_log_file:
             response = self.client.post(self.url,
-                                        {'activity_log_file': activity_log_file})
+                                        {'activity_log_file':
+                                         activity_log_file})
 
         self.assertRedirects(response,
                              reverse('oppia_activitylog_upload_success'),
@@ -154,7 +165,8 @@ class UploadActivityLogTest(TestCase):
 
         with open(self.quiz_attempt_log, 'rb') as activity_log_quiz_file:
             response = self.client.post(self.url,
-                                        {'activity_log_file': activity_log_quiz_file})
+                                        {'activity_log_file':
+                                         activity_log_quiz_file})
 
         self.assertRedirects(response,
                              reverse('oppia_activitylog_upload_success'),
@@ -164,7 +176,8 @@ class UploadActivityLogTest(TestCase):
         # Now upload the same file
         with open(self.quiz_attempt_log, 'rb') as activity_log_quiz_file:
             response = self.client.post(self.url,
-                                        {'activity_log_file': activity_log_quiz_file})
+                                        {'activity_log_file':
+                                         activity_log_quiz_file})
 
         self.assertRedirects(response,
                              reverse('oppia_activitylog_upload_success'),

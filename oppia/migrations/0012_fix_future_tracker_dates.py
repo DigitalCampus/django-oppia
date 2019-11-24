@@ -9,7 +9,8 @@ def fix_future_dates(apps, schema_editor):
     # We can't import the Tracker model directly as it may be a newer
     # version than this migration expects. We use the historical version.
     tracker_model = apps.get_model('oppia', 'tracker')
-    for tracker in tracker_model.objects.filter(tracker_date__gt=timezone.now()):
+    for tracker in tracker_model.objects.filter(
+            tracker_date__gt=timezone.now()):
         tracker.tracker_date = tracker.submitted_date
         tracker.save()
 

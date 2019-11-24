@@ -1,6 +1,7 @@
 # coding: utf-8
 """
-Management command to get user locations based on their IP address in the Tracker model
+Management command to get user locations based on their IP address in the
+Tracker model
 """
 
 import urllib
@@ -14,10 +15,14 @@ from viz.models import UserLocationVisualization
 
 
 class Command(BaseCommand):
-    help = _(u'Gets user locations based on their IP address in the Tracker model')
+    help = _(u'Gets user locations based on their IP address in the \
+            Tracker model')
 
     def handle(self, *args, **options):
-        tracker_ip_hits = Tracker.objects.filter(user__is_staff=False).values('ip').annotate(count_hits=Count('ip'))
+        tracker_ip_hits = Tracker.objects \
+            .filter(user__is_staff=False) \
+            .values('ip') \
+            .annotate(count_hits=Count('ip'))
 
         for t in tracker_ip_hits:
             # lookup whether already cached in db

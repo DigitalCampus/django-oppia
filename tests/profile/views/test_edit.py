@@ -97,7 +97,8 @@ class EditProfileViewTest(TestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_edit_own_profile_admin(self):
-        orig_org = User.objects.get(username=ADMIN_USER['user']).userprofile.organisation
+        orig_org = User.objects.get(
+            username=ADMIN_USER['user']).userprofile.organisation
         new_org = 'my organisation'
         self.client.login(username=ADMIN_USER['user'],
                           password=ADMIN_USER['password'])
@@ -106,14 +107,17 @@ class EditProfileViewTest(TestCase):
                      'username': 'admin',
                      'first_name': 'admin',
                      'last_name': 'user'}
-        response = self.client.post(reverse('profile_edit'), data=post_data)
+        response = self.client.post(
+            reverse('profile_edit'), data=post_data)
         self.assertEqual(response.status_code, 200)
 
-        new_org = User.objects.get(username=ADMIN_USER['user']).userprofile.organisation
+        new_org = User.objects.get(
+            username=ADMIN_USER['user']).userprofile.organisation
         self.assertNotEqual(orig_org, new_org)
 
     def test_edit_own_profile_staff(self):
-        orig_org = User.objects.get(username=STAFF_USER['user']).userprofile.organisation
+        orig_org = User.objects.get(
+            username=STAFF_USER['user']).userprofile.organisation
         new_org = 'my organisation'
         self.client.login(username=STAFF_USER['user'],
                           password=STAFF_USER['password'])
@@ -125,11 +129,13 @@ class EditProfileViewTest(TestCase):
         response = self.client.post(reverse('profile_edit'), data=post_data)
         self.assertEqual(response.status_code, 200)
 
-        new_org = User.objects.get(username=STAFF_USER['user']).userprofile.organisation
+        new_org = User.objects.get(
+            username=STAFF_USER['user']).userprofile.organisation
         self.assertNotEqual(orig_org, new_org)
 
     def test_edit_own_profile_teacher(self):
-        orig_org = User.objects.get(username=TEACHER_USER['user']).userprofile.organisation
+        orig_org = User.objects.get(
+            username=TEACHER_USER['user']).userprofile.organisation
         new_org = 'my organisation'
         self.client.login(username=TEACHER_USER['user'],
                           password=TEACHER_USER['password'])
@@ -141,11 +147,13 @@ class EditProfileViewTest(TestCase):
         response = self.client.post(reverse('profile_edit'), data=post_data)
         self.assertEqual(response.status_code, 200)
 
-        new_org = User.objects.get(username=TEACHER_USER['user']).userprofile.organisation
+        new_org = User.objects.get(
+            username=TEACHER_USER['user']).userprofile.organisation
         self.assertNotEqual(orig_org, new_org)
 
     def test_edit_own_profile_user(self):
-        orig_org = User.objects.get(username=NORMAL_USER['user']).userprofile.organisation
+        orig_org = User.objects.get(
+            username=NORMAL_USER['user']).userprofile.organisation
         new_org = 'my organisation'
         self.client.login(username=NORMAL_USER['user'],
                           password=NORMAL_USER['password'])
@@ -157,11 +165,13 @@ class EditProfileViewTest(TestCase):
         response = self.client.post(reverse('profile_edit'), data=post_data)
         self.assertEqual(response.status_code, 200)
 
-        new_org = User.objects.get(username=NORMAL_USER['user']).userprofile.organisation
+        new_org = User.objects.get(
+            username=NORMAL_USER['user']).userprofile.organisation
         self.assertNotEqual(orig_org, new_org)
 
     def test_edit_others_profile_admin(self):
-        orig_org = User.objects.get(username=NORMAL_USER['user']).userprofile.organisation
+        orig_org = User.objects.get(
+            username=NORMAL_USER['user']).userprofile.organisation
         new_org = 'my organisation'
         self.client.login(username=ADMIN_USER['user'],
                           password=ADMIN_USER['password'])
@@ -174,11 +184,13 @@ class EditProfileViewTest(TestCase):
                                             args=[2]), data=post_data)
         self.assertEqual(response.status_code, 200)
 
-        new_org = User.objects.get(username=NORMAL_USER['user']).userprofile.organisation
+        new_org = User.objects.get(
+            username=NORMAL_USER['user']).userprofile.organisation
         self.assertNotEqual(orig_org, new_org)
 
     def test_edit_others_profile_staff(self):
-        orig_org = User.objects.get(username=NORMAL_USER['user']).userprofile.organisation
+        orig_org = User.objects.get(
+            username=NORMAL_USER['user']).userprofile.organisation
         new_org = 'my organisation'
         self.client.login(username=STAFF_USER['user'],
                           password=STAFF_USER['password'])
@@ -191,11 +203,13 @@ class EditProfileViewTest(TestCase):
                                             args=[2]), data=post_data)
         self.assertEqual(response.status_code, 200)
 
-        new_org = User.objects.get(username=NORMAL_USER['user']).userprofile.organisation
+        new_org = User.objects.get(
+            username=NORMAL_USER['user']).userprofile.organisation
         self.assertNotEqual(orig_org, new_org)
 
     def test_edit_others_profile_teacher(self):
-        orig_org = User.objects.get(username=NORMAL_USER['user']).userprofile.organisation
+        orig_org = User.objects.get(
+            username=NORMAL_USER['user']).userprofile.organisation
         new_org = 'my organisation'
         self.client.login(username=TEACHER_USER['user'],
                           password=TEACHER_USER['password'])
@@ -208,11 +222,13 @@ class EditProfileViewTest(TestCase):
                                             args=[2]), data=post_data)
         self.assertEqual(response.status_code, 403)
 
-        new_org = User.objects.get(username=NORMAL_USER['user']).userprofile.organisation
+        new_org = User.objects.get(
+            username=NORMAL_USER['user']).userprofile.organisation
         self.assertEqual(orig_org, new_org)
 
     def test_edit_others_profile_user(self):
-        orig_org = User.objects.get(username=ADMIN_USER['user']).userprofile.organisation
+        orig_org = User.objects.get(
+            username=ADMIN_USER['user']).userprofile.organisation
         new_org = 'my organisation'
         self.client.login(username=NORMAL_USER['user'],
                           password=NORMAL_USER['password'])
@@ -225,7 +241,8 @@ class EditProfileViewTest(TestCase):
                                             args=[1]), data=post_data)
         self.assertEqual(response.status_code, 403)
 
-        new_org = User.objects.get(username=ADMIN_USER['user']).userprofile.organisation
+        new_org = User.objects.get(
+            username=ADMIN_USER['user']).userprofile.organisation
         self.assertEqual(orig_org, new_org)
 
     def test_edit_own_password_admin(self):
@@ -244,7 +261,10 @@ class EditProfileViewTest(TestCase):
         self.client.login(username=ADMIN_USER['user'],
                           password=ADMIN_USER['password'])
         response = self.client.get(reverse('profile_edit'))
-        self.assertRedirects(response, reverse('profile_login') + "?next=" + reverse('profile_edit'), 302, 200)
+        self.assertRedirects(response,
+                             reverse('profile_login')
+                             + "?next="
+                             + reverse('profile_edit'), 302, 200)
 
         self.client.login(username=ADMIN_USER['user'],
                           password='newpassword')
@@ -267,7 +287,10 @@ class EditProfileViewTest(TestCase):
         self.client.login(username=STAFF_USER['user'],
                           password=STAFF_USER['password'])
         response = self.client.get(reverse('profile_edit'))
-        self.assertRedirects(response, reverse('profile_login') + "?next=" + reverse('profile_edit'), 302, 200)
+        self.assertRedirects(response,
+                             reverse('profile_login')
+                             + "?next=" +
+                             reverse('profile_edit'), 302, 200)
 
         self.client.login(username=STAFF_USER['user'], password='newpassword')
         response = self.client.get(reverse('profile_edit'))
@@ -289,7 +312,10 @@ class EditProfileViewTest(TestCase):
         self.client.login(username=TEACHER_USER['user'],
                           password=TEACHER_USER['password'])
         response = self.client.get(reverse('profile_edit'))
-        self.assertRedirects(response, reverse('profile_login') + "?next=" + reverse('profile_edit'), 302, 200)
+        self.assertRedirects(response,
+                             reverse('profile_login')
+                             + "?next="
+                             + reverse('profile_edit'), 302, 200)
 
         self.client.login(username=TEACHER_USER['user'],
                           password='newpassword')
@@ -312,7 +338,10 @@ class EditProfileViewTest(TestCase):
         self.client.login(username=NORMAL_USER['user'],
                           password=NORMAL_USER['password'])
         response = self.client.get(reverse('profile_edit'))
-        self.assertRedirects(response, reverse('profile_login') + "?next=" + reverse('profile_edit'), 302, 200)
+        self.assertRedirects(response,
+                             reverse('profile_login')
+                             + "?next="
+                             + reverse('profile_edit'), 302, 200)
 
         self.client.login(username=NORMAL_USER['user'],
                           password='newpassword')

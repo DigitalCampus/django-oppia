@@ -25,7 +25,8 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
         self.url = get_api_url('quizattempt')
 
     def get_credentials(self):
-        return self.create_apikey(username=self.username, api_key=self.api_key)
+        return self.create_apikey(username=self.username,
+                                  api_key=self.api_key)
 
     def test_quiz_attempt_points_not_included(self):
 
@@ -46,17 +47,24 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
                               "score": 0,
                               "text": "false"}]}
         quizattempt_count_start = QuizAttempt.objects.all().count()
-        quizattemptresponse_count_start = QuizAttemptResponse.objects.all().count()
+        quizattemptresponse_count_start = QuizAttemptResponse.objects \
+            .all().count()
         points_count_start = Points.objects.all().count()
 
-        resp = self.api_client.post(self.url, format='json', data=data, authentication=self.get_credentials())
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data,
+                                    authentication=self.get_credentials())
         self.assertHttpCreated(resp)
         self.assertValidJSON(resp.content)
 
         quizattempt_count_end = QuizAttempt.objects.all().count()
-        quizattemptresponse_count_end = QuizAttemptResponse.objects.all().count()
-        self.assertEqual(quizattempt_count_start + 1, quizattempt_count_end)
-        self.assertEqual(quizattemptresponse_count_start + 3, quizattemptresponse_count_end)
+        quizattemptresponse_count_end = QuizAttemptResponse.objects \
+            .all().count()
+        self.assertEqual(quizattempt_count_start + 1,
+                         quizattempt_count_end)
+        self.assertEqual(quizattemptresponse_count_start + 3,
+                         quizattemptresponse_count_end)
 
         # check that the points info has been added
         points_count_end = Points.objects.all().count()
@@ -93,19 +101,27 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
                               "score": 0,
                               "text": "false"}]}
         quizattempt_count_start = QuizAttempt.objects.all().count()
-        quizattemptresponse_count_start = QuizAttemptResponse.objects.all().count()
+        quizattemptresponse_count_start = QuizAttemptResponse.objects \
+            .all().count()
         points_count_start = Points.objects.all().count()
 
-        resp = self.api_client.post(self.url, format='json', data=data, authentication=self.get_credentials())
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data,
+                                    authentication=self.get_credentials())
         self.assertHttpCreated(resp)
         self.assertValidJSON(resp.content)
 
         quizattempt_count_end = QuizAttempt.objects.all().count()
-        quizattemptresponse_count_end = QuizAttemptResponse.objects.all().count()
-        self.assertEqual(quizattempt_count_start + 1, quizattempt_count_end)
-        self.assertEqual(quizattemptresponse_count_start + 3, quizattemptresponse_count_end)
+        quizattemptresponse_count_end = QuizAttemptResponse.objects \
+            .all().count()
+        self.assertEqual(quizattempt_count_start + 1,
+                         quizattempt_count_end)
+        self.assertEqual(quizattemptresponse_count_start + 3,
+                         quizattemptresponse_count_end)
 
-        # check that the points info has not been added, else the points get counted twice
+        # check that the points info has not been added, else the points get
+        # counted twice
         points_count_end = Points.objects.all().count()
         self.assertEqual(points_count_start, points_count_end)
 

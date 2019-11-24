@@ -21,8 +21,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='uploadedmediaimage',
             name='uploaded_media',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
-                                    related_name='images',
-                                    to='av.UploadedMedia'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='images',
+                to='av.UploadedMedia'),
         ),
     ]

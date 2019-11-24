@@ -15,7 +15,10 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='quizattempt',
             name='event',
-            field=models.CharField(blank=True, default=None, max_length=50, null=True),
+            field=models.CharField(blank=True,
+                                   default=None,
+                                   max_length=50,
+                                   null=True),
         ),
         migrations.AddField(
             model_name='quizattempt',
