@@ -31,7 +31,7 @@ class Command(BaseCommand):
         # check can connect to cartodb API
         sql = "SELECT * FROM %s WHERE source_site='%s'" \
             % (CARTODB_TABLE, source_site)
-        url = "http://%s.cartodb.com/api/v2/sql?q=%s" % (cartodb_account,
+        url = "https://%s.cartodb.com/api/v2/sql?q=%s" % (cartodb_account,
                                                          sql)
         u = urllib.request.urlopen(url)
         data = u.read()
@@ -51,7 +51,7 @@ class Command(BaseCommand):
                                                location['total'],
                                                cartodb_id,
                                                source_site)
-                url = "http://%s.cartodb.com/api/v2/sql?q=%s&api_key=%s" \
+                url = "https://%s.cartodb.com/api/v2/sql?q=%s&api_key=%s" \
                     % (cartodb_account,
                        sql,
                        cartodb_key)
@@ -88,7 +88,7 @@ class Command(BaseCommand):
                      l['total_hits'],
                      l['country_code'],
                      source_site)
-                url = "http://%s.cartodb.com/api/v2/sql?q=%s&api_key=%s" % \
+                url = "https://%s.cartodb.com/api/v2/sql?q=%s&api_key=%s" % \
                       (cartodb_account, sql, cartodb_key)
                 u = urllib.request.urlopen(url)
                 data = u.read()
