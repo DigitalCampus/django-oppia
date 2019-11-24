@@ -9,7 +9,7 @@ from django.conf import settings
 
 from gamification.models import CourseGamificationEvent
 from oppia.models import Activity, Media
-from oppia.utils import courseFile
+from oppia.utils import course_file
 
 GAMIFICATION_NODE = 'gamification'
 ACTIVITY_NODE = 'activity'
@@ -144,6 +144,6 @@ class GamificationXMLWriter:
 
         version = self.update_course_version()
         print('Writing new course XML contents...')
-        courseFile.rewrite_xml_contents(user, self.course, self.xml)
+        course_file.rewrite_xml_contents(user, self.course, self.xml)
 
         return version

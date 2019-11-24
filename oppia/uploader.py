@@ -19,7 +19,7 @@ from gamification.models import CourseGamificationEvent, \
                                 MediaGamificationEvent
 from gamification.xml_writer import GamificationXMLWriter
 from oppia.models import Course, Section, Activity, Media, CoursePublishingLog
-from oppia.utils.courseFile import unescape_xml
+from oppia.utils.course_file import unescape_xml
 from quiz.models import Quiz, \
                         Question, \
                         QuizQuestion, \
