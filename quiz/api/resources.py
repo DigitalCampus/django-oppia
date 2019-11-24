@@ -39,7 +39,8 @@ class QuizResource(ModelResource):
 
     class Meta:
         queryset = Quiz.objects.filter(draft=0,
-                                       deleted=0).order_by('-lastupdated_date')
+                                       deleted=0) \
+                               .order_by('-lastupdated_date')
         allowed_methods = ['get', 'post']
         fields = ['title', 'id', 'description', 'lastupdated_date']
         resource_name = 'quiz'
@@ -110,7 +111,8 @@ class QuizQuestionResource(ModelResource):
         always_return_data = True
 
     def hydrate(self, bundle, request=None):
-        bundle.obj.quiz_id = QuizResource().get_via_uri(bundle.data['quiz']).id
+        bundle.obj.quiz_id = QuizResource() \
+            .get_via_uri(bundle.data['quiz']).id
         return bundle
 
 
@@ -223,15 +225,18 @@ class QuizPropsResource(ModelResource):
 
     # add the quiz_id into the bundle
     def dehydrate(self, bundle, request=None):
-        bundle.data['quiz_id'] = QuizResource().get_via_uri(bundle.data['quiz']).id
+        bundle.data['quiz_id'] = QuizResource() \
+            .get_via_uri(bundle.data['quiz']).id
         return bundle
-    # use this for filtering on the digest prop of a quiz to determine if it already exists
-    # to avoid recreating the same quiz over and over
+    # use this for filtering on the digest prop of a quiz to determine if it
+    # already exists to avoid recreating the same quiz over and over
 
     def prepend_urls(self):
         return [
-            url(r"^(?P<resource_name>%s)/digest/(?P<digest>[\w\d_.-]+)/$" % self._meta.resource_name,
-                self.wrap_view('digest_detail'), name="api_digest_detail"),
+            url(r"^(?P<resource_name>%s)/digest/(?P<digest>[\w\d_.-]+)/$"
+                % self._meta.resource_name,
+                self.wrap_view('digest_detail'),
+                name="api_digest_detail"),
         ]
 
     def digest_detail(self, request, **kwargs):
@@ -284,11 +289,12 @@ class QuizAttemptResponseResource(ModelResource):
 class QuizAttemptResource(ModelResource):
     quiz = fields.ForeignKey(QuizResource, 'quiz')
     user = fields.ForeignKey(UserResource, 'user')
-    responses = fields.ToManyField('quiz.api.resources.QuizAttemptResponseResource',
-                                   'quizattemptresponse_set',
-                                   related_name='quizattempt',
-                                   full=True,
-                                   null=True)
+    responses = fields \
+        .ToManyField('quiz.api.resources.QuizAttemptResponseResource',
+                     'quizattemptresponse_set',
+                     related_name='quizattempt',
+                     full=True,
+                     null=True)
     points = fields.IntegerField(readonly=True)
     badges = fields.IntegerField(readonly=True)
 
@@ -315,7 +321,8 @@ class QuizAttemptResource(ModelResource):
             raise BadRequest(_(u'Quiz does not exist'))
 
         # see if instance id already submitted
-        attempts = QuizAttempt.objects.filter(instance_id=bundle.data['instance_id']).count()
+        attempts = QuizAttempt.objects.filter(
+            instance_id=bundle.data['instance_id']).count()
 
         if attempts > 0:
             raise BadRequest(_(u'QuizAttempt already submitted'))
@@ -324,7 +331,8 @@ class QuizAttemptResource(ModelResource):
         for response in bundle.data['responses']:
             if 'question_id' in response:
                 try:
-                    response['question'] = Question.objects.get(pk=response['question_id'])
+                    response['question'] = Question.objects.get(
+                        pk=response['question_id'])
                 except Question.DoesNotExist:
                     raise BadRequest(_(u'Question does not exist'))
                 # check part of this quiz
@@ -332,7 +340,8 @@ class QuizAttemptResource(ModelResource):
                     QuizQuestion.objects.get(quiz=bundle.obj.quiz,
                                              question=response['question'])
                 except QuizQuestion.DoesNotExist:
-                    raise BadRequest(_(u'This question is not part of this quiz'))
+                    raise BadRequest(
+                        _(u'This question is not part of this quiz'))
 
         if 'points' in bundle.data:
             bundle.obj.points = bundle.data['points']

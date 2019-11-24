@@ -43,7 +43,8 @@ def upload_view(request):
         result = handler.upload(request, request.user)
 
         if result['result'] == UploadedMedia.UPLOAD_STATUS_SUCCESS:
-            return HttpResponseRedirect(reverse('oppia_av_upload_success', args=[result['media'].id]))
+            return HttpResponseRedirect(reverse('oppia_av_upload_success',
+                                                args=[result['media'].id]))
         else:
             form = result['form']
     else:
@@ -58,7 +59,8 @@ def upload_view(request):
 def upload_success_view(request, id):
     media = get_object_or_404(UploadedMedia, pk=id)
 
-    embed_code = media.get_embed_code(request.build_absolute_uri(media.file.url))
+    embed_code = media.get_embed_code(
+        request.build_absolute_uri(media.file.url))
 
     return render(request, 'av/upload_success.html',
                   {'title': _(u'Upload Media'),
@@ -70,7 +72,8 @@ def upload_success_view(request, id):
 def media_view(request, id):
     media = get_object_or_404(UploadedMedia, pk=id)
 
-    embed_code = media.get_embed_code(request.build_absolute_uri(media.file.url))
+    embed_code = media.get_embed_code(
+        request.build_absolute_uri(media.file.url))
 
     return render(request, 'av/view.html',
                   {'title': _(u'Media'),

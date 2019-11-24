@@ -27,13 +27,17 @@ class UserPointsSummary(models.Model):
         if newest_points_pk > 0:
             filters['pk__lte'] = newest_points_pk
 
-        new_points = Points.objects.filter(** filters).aggregate(total=Sum('points'))['total']
+        new_points = Points.objects.filter(** filters) \
+            .aggregate(total=Sum('points'))['total']
 
         if not new_points:
             return
 
-        # If we update the user points, we need to recalculate his badges as well
-        badges = UserCourseSummary.objects.filter(user=self.user).aggregate(badges=Sum('badges_achieved'))['badges']
+        # If we update the user points, we need to recalculate his badges as
+        # well
+        badges = UserCourseSummary.objects \
+            .filter(user=self.user) \
+            .aggregate(badges=Sum('badges_achieved'))['badges']
         self.badges = badges if badges else 0
         self.points = (0 if first_points else self.points) + new_points
 

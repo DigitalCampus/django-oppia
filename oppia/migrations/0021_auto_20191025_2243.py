@@ -14,7 +14,10 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='coursepublishinglog',
             name='course',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='oppia.Course'),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to='oppia.Course'),
         ),
         migrations.AlterField(
             model_name='coursepublishinglog',

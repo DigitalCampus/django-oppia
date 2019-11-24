@@ -16,7 +16,8 @@ class SettingProperties(models.Model):
     def get_property(property_key, default_value):
         try:
             prop = SettingProperties.objects.get(key=property_key)
-            value = prop.str_value if prop.str_value is not None else prop.int_value
+            value = prop.str_value \
+                if prop.str_value is not None else prop.int_value
             if value is not None:
                 return value
 
@@ -47,13 +48,15 @@ class SettingProperties(models.Model):
 
     @staticmethod
     def set_int(property_key, value):
-        prop, created = SettingProperties.objects.get_or_create(key=property_key)
+        prop, created = SettingProperties.objects \
+            .get_or_create(key=property_key)
         prop.int_value = value
         prop.save()
 
     @staticmethod
     def set_string(property_key, value):
-        prop, created = SettingProperties.objects.get_or_create(key=property_key)
+        prop, created = SettingProperties.objects \
+            .get_or_create(key=property_key)
         prop.str_value = value
         prop.save()
 

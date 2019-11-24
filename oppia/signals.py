@@ -95,7 +95,8 @@ def quizattempt_callback(sender, **kwargs):
             p.save()
 
     elif quiz_attempt.is_first_attempt_today():
-        # If it's the first time today they've attempted this quiz award 10 points
+        # If it's the first time today they've attempted this quiz award
+        # 10 points
         p = Points()
         p.points = DefaultGamificationEvent.objects.get(
             event='quiz_attempt').points
@@ -144,8 +145,10 @@ def tracker_callback(sender, **kwargs):
             points += (DefaultGamificationEvent.objects.get(
                 event='media_playing_points_per_interval').points
                        * math.floor(tracker.time_taken
-                                    / DefaultGamificationEvent.objects.get(
-                                        event='media_playing_interval').points))
+                                    / DefaultGamificationEvent.objects
+                                    .get(
+                                        event='media_playing_interval')
+                                    .points))
             if points > DefaultGamificationEvent.objects.get(
               event='media_max_points').points:
                 points = DefaultGamificationEvent.objects.get(

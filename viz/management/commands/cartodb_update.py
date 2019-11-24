@@ -21,31 +21,40 @@ class Command(BaseCommand):
     help = 'Updates user map on CartoDB'
 
     def handle(self, *args, **options):
-        cartodb_account = SettingProperties.get_string(constants.OPPIA_CARBODB_ACCOUNT, None)
-        cartodb_key = SettingProperties.get_string(constants.OPPIA_CARBODB_KEY, None)
-        source_site = SettingProperties.get_string(constants.OPPIA_HOSTNAME, None)
+        cartodb_account = SettingProperties \
+            .get_string(constants.OPPIA_CARBODB_ACCOUNT, None)
+        cartodb_key = SettingProperties \
+            .get_string(constants.OPPIA_CARBODB_KEY, None)
+        source_site = SettingProperties \
+            .get_string(constants.OPPIA_HOSTNAME, None)
 
         # check can connect to cartodb API
-        sql = "SELECT * FROM %s WHERE source_site='%s'" % (CARTODB_TABLE, source_site)
-        url = "http://%s.cartodb.com/api/v2/sql?q=%s" % (cartodb_account, sql)
+        sql = "SELECT * FROM %s WHERE source_site='%s'" \
+            % (CARTODB_TABLE, source_site)
+        url = "http://%s.cartodb.com/api/v2/sql?q=%s" % (cartodb_account,
+                                                         sql)
         u = urllib.request.urlopen(url)
         data = u.read()
         carto_db_data = json.loads(data)
 
         # update any existing points
         for c in carto_db_data['rows']:
-            location = UserLocationVisualization.objects.filter(lat=c['lat'],
-                                                                lng=c['lng']).aggregate(total=Sum('hits'))
-            if location['total'] is not None and c['total_hits'] != location['total']:
+            location = UserLocationVisualization.objects \
+                .filter(lat=c['lat'],
+                        lng=c['lng']).aggregate(total=Sum('hits'))
+            if location['total'] is not None \
+                    and c['total_hits'] != location['total']:
                 self.stdout.write("found - will update")
                 cartodb_id = c['cartodb_id']
-                sql = "UPDATE %s SET total_hits=%d WHERE cartodb_id=%d AND source_site='%s'" % (CARTODB_TABLE,
-                                                                                                location['total'],
-                                                                                                cartodb_id,
-                                                                                                source_site)
-                url = "http://%s.cartodb.com/api/v2/sql?q=%s&api_key=%s" % (cartodb_account,
-                                                                            sql,
-                                                                            cartodb_key)
+                sql = "UPDATE %s SET total_hits=%d WHERE cartodb_id=%d  \
+                      AND source_site='%s'" % (CARTODB_TABLE,
+                                               location['total'],
+                                               cartodb_id,
+                                               source_site)
+                url = "http://%s.cartodb.com/api/v2/sql?q=%s&api_key=%s" \
+                    % (cartodb_account,
+                       sql,
+                       cartodb_key)
                 u = urllib.request.urlopen(url)
                 data = u.read()
                 data_json = json.loads(data)
@@ -53,10 +62,10 @@ class Command(BaseCommand):
                 time.sleep(1)
 
         # add any new points
-        locations = UserLocationVisualization.objects.exclude(lat=0,
-                                                              lng=0).values('lat',
-                                                                            'lng',
-                                                                            'country_code').annotate(total_hits=Sum('hits'))
+        locations = UserLocationVisualization.objects \
+            .exclude(lat=0, lng=0) \
+            .values('lat', 'lng', 'country_code') \
+            .annotate(total_hits=Sum('hits'))
         for l in locations:
             found = False
             # loop through and see if in carto_db_data
@@ -68,7 +77,8 @@ class Command(BaseCommand):
                 self.stdout.write("not found - will insert")
                 str = "INSERT INTO %s (the_geom, lat, lng, total_hits, \
                         country_code, source_site) VALUES \
-                        (ST_SetSRID(ST_Point(%f, %f),4326),%f,%f,%d ,'%s','%s')"
+                        (ST_SetSRID(ST_Point(%f, %f),4326), \
+                        %f,%f,%d ,'%s','%s')"
                 sql = str % \
                     (CARTODB_TABLE,
                      l['lng'],

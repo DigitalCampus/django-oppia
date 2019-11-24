@@ -83,15 +83,18 @@ class Course(models.Model):
         return no_distinct_downloads
 
     def get_activity_today(self):
-        return Tracker.objects.filter(course=self,
-                                      tracker_date__day=timezone.now().day,
-                                      tracker_date__month=timezone.now().month,
-                                      tracker_date__year=timezone.now().year) \
-                    .count()
+        return Tracker.objects  \
+            .filter(course=self,
+                    tracker_date__day=timezone.now().day,
+                    tracker_date__month=timezone.now().month,
+                    tracker_date__year=timezone.now().year) \
+            .count()
 
     def get_activity_week(self):
         now = datetime.datetime.now()
-        last_week = datetime.datetime(now.year, now.month, now.day) - datetime.timedelta(days=7)
+        last_week = datetime.datetime(now.year,
+                                      now.month,
+                                      now.day) - datetime.timedelta(days=7)
         return Tracker.objects.filter(course=self,
                                       tracker_date__gte=last_week).count()
 
@@ -336,7 +339,8 @@ class Activity(models.Model):
         event_points = []
 
         # first check if there are specific points for this activity
-        activity_custom_points = ActivityGamificationEvent.objects.filter(activity=self)
+        activity_custom_points = ActivityGamificationEvent.objects \
+            .filter(activity=self)
         if len(activity_custom_points) > 0:
             source = _('Custom Points')
             return {'events': activity_custom_points, 'source': source}
@@ -358,13 +362,15 @@ class Activity(models.Model):
                 return {'events': default_activity_events, 'source': source}
 
         if self.type == self.QUIZ:
-            course_custom_points = CourseGamificationEvent.objects.filter(course__section__activity=self,
-                                                                          event__startswith='quiz_')
+            course_custom_points = CourseGamificationEvent.objects \
+                .filter(course__section__activity=self,
+                        event__startswith='quiz_')
             if len(course_custom_points) > 0:
                 source = _('Inherited from course')
                 return {'events': course_custom_points, 'source': source}
             else:
-                default_quiz_events = DefaultGamificationEvent.objects.filter(level=DefaultGamificationEvent.QUIZ)
+                default_quiz_events = DefaultGamificationEvent.objects \
+                    .filter(level=DefaultGamificationEvent.QUIZ)
                 source = _('Inherited from global defaults')
                 return {'events': default_quiz_events, 'source': source}
 
@@ -397,20 +403,24 @@ class Media(models.Model):
                                         MediaGamificationEvent
 
         # first check if there are specific points for this activity
-        media_custom_points = MediaGamificationEvent.objects.filter(media=self)
+        media_custom_points = MediaGamificationEvent.objects \
+            .filter(media=self)
         if media_custom_points.count() > 0:
             source = _('Custom Points')
             return {'events': media_custom_points, 'source': source}
 
-        # if not, then check the points for the course as a whole or then the global default points
-        course_custom_points = CourseGamificationEvent.objects.filter(course=self.course,
-                                                                      event__startswith='media_')
+        # if not, then check the points for the course as a whole or then
+        # the global default points
+        course_custom_points = CourseGamificationEvent.objects \
+            .filter(course=self.course,
+                    event__startswith='media_')
 
         if course_custom_points.count() > 0:
             source = _('Inherited from course')
             return {'events': course_custom_points, 'source': source}
         else:
-            default_media_events = DefaultGamificationEvent.objects.filter(level=DefaultGamificationEvent.MEDIA)
+            default_media_events = DefaultGamificationEvent.objects \
+                .filter(level=DefaultGamificationEvent.MEDIA)
             source = _('Inherited from global defaults')
             return {'events': default_media_events, 'source': source}
 
@@ -471,10 +481,12 @@ class Tracker(models.Model):
 
     def is_first_tracker_today(self):
         olddate = timezone.now() + datetime.timedelta(hours=-24)
-        no_attempts_today = Tracker.objects.filter(user=self.user,
-                                                   digest=self.digest,
-                                                   completed=True,
-                                                   submitted_date__gte=olddate).count()
+        no_attempts_today = Tracker.objects \
+            .filter(user=self.user,
+                    digest=self.digest,
+                    completed=True,
+                    submitted_date__gte=olddate) \
+            .count()
         if no_attempts_today == 1:
             return True
         else:
@@ -561,12 +573,17 @@ class Tracker(models.Model):
                 try:
                     quiz = doc.createElement('quiz')
                     data = json.loads(t.data)
-                    quiz_attempt = QuizAttempt.objects.filter(instance_id=data['instance_id'],
-                                                              user=user).order_by('-submitted_date')[:1]
+                    quiz_attempt = QuizAttempt.objects \
+                        .filter(instance_id=data['instance_id'],
+                                user=user) \
+                        .order_by('-submitted_date')[:1]
                     quiz.setAttribute('score', str(quiz_attempt[0].score))
-                    quiz.setAttribute('maxscore', str(quiz_attempt[0].maxscore))
+                    quiz.setAttribute('maxscore',
+                                      str(quiz_attempt[0].maxscore))
                     quiz.setAttribute('submitteddate',
-                                      quiz_attempt[0].submitted_date.strftime('%Y-%m-%d %H:%M:%S'))
+                                      quiz_attempt[0]
+                                      .submitted_date
+                                      .strftime('%Y-%m-%d %H:%M:%S'))
                     quiz.setAttribute('passed', str(t.completed))
                     quiz.setAttribute("course", course.shortname)
                     quiz.setAttribute("event", quiz_attempt[0].event)
@@ -580,7 +597,11 @@ class Tracker(models.Model):
         return doc.toxml()
 
     @staticmethod
-    def activity_views(user, type, start_date=None, end_date=None, course=None):
+    def activity_views(user,
+                       type,
+                       start_date=None,
+                       end_date=None,
+                       course=None):
         results = Tracker.objects.filter(user=user, type=type)
         if start_date:
             results = results.filter(submitted_date__gte=start_date)
@@ -591,7 +612,11 @@ class Tracker(models.Model):
         return results.count()
 
     @staticmethod
-    def activity_secs(user, type, start_date=None, end_date=None, course=None):
+    def activity_secs(user,
+                      type,
+                      start_date=None,
+                      end_date=None,
+                      course=None):
         results = Tracker.objects.filter(user=user, type=type)
         if start_date:
             results = results.filter(submitted_date__gte=start_date)

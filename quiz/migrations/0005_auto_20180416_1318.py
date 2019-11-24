@@ -19,6 +19,10 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='quizattempt',
             name='instance_id',
-            field=models.CharField(blank=True, db_index=True, default=None, max_length=100, null=True),
+            field=models.CharField(blank=True,
+                                   db_index=True,
+                                   default=None,
+                                   max_length=100,
+                                   null=True),
         ),
     ]

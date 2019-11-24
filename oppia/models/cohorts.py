@@ -24,19 +24,23 @@ class Cohort(models.Model):
         return self.description
 
     def no_student_members(self):
-        return Participant.objects.filter(cohort=self, role=Participant.STUDENT).count()
+        return Participant.objects.filter(cohort=self,
+                                          role=Participant.STUDENT).count()
 
     def no_teacher_members(self):
-        return Participant.objects.filter(cohort=self, role=Participant.TEACHER).count()
+        return Participant.objects.filter(cohort=self,
+                                          role=Participant.TEACHER).count()
 
     def get_courses(self):
-        courses = Course.objects.filter(coursecohort__cohort=self).order_by('title')
+        courses = Course.objects \
+            .filter(coursecohort__cohort=self).order_by('title')
         return courses
 
     def get_leaderboard(self, count=0):
-        users = User.objects.filter(participant__cohort=self,
-                                    participant__role=Participant.STUDENT,
-                                    points__course__coursecohort__cohort=self) \
+        users = User.objects \
+            .filter(participant__cohort=self,
+                    participant__role=Participant.STUDENT,
+                    points__course__coursecohort__cohort=self) \
             .annotate(total=Sum('points__points')) \
             .order_by('-total')
 
@@ -44,7 +48,10 @@ class Cohort(models.Model):
             users = users[:count]
 
         for u in users:
-            u.badges = Award.objects.filter(user=u, awardcourse__course__coursecohort__cohort=self).count()
+            u.badges = Award.objects \
+                .filter(user=u,
+                        awardcourse__course__coursecohort__cohort=self) \
+                .count()
             if u.total is None:
                 u.total = 0
         return users

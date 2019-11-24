@@ -100,7 +100,9 @@ def summary_get_countries(start_date):
     other_country_activity = 0
     for c in hits_by_country:
         if i < 20:
-            hits_percent = float(c['country_total_hits'] * 100.0 / total_hits['total_hits'])
+            hits_percent = float(c['country_total_hits']
+                                 * 100.0
+                                 / total_hits['total_hits'])
             country_activity.append({'country_code': c['country_code'],
                                      'country_name': c['country_name'],
                                      'hits_percent': hits_percent})
@@ -108,7 +110,9 @@ def summary_get_countries(start_date):
             other_country_activity += c['country_total_hits']
         i += 1
     if i > 20:
-        hits_percent = float(other_country_activity * 100.0 / total_hits['total_hits'])
+        hits_percent = float(other_country_activity
+                             * 100.0
+                             / total_hits['total_hits'])
         country_activity.append({'country_code': None,
                                  'country_name': _('Other'),
                                  'hits_percent': hits_percent})
@@ -133,13 +137,18 @@ def summary_get_languages(start_date):
     other_languages = 0
     for hbl in hit_by_language:
         if i < 10:
-            hits_percent = float(hbl['total_hits'] * 100.0 / total_hits['total_hits'])
-            languages.append({'lang': hbl['lang'], 'hits_percent': hits_percent})
+            hits_percent = float(hbl['total_hits']
+                                 * 100.0
+                                 / total_hits['total_hits'])
+            languages.append({'lang': hbl['lang'],
+                              'hits_percent': hits_percent})
         else:
             other_languages += hbl['total_hits']
         i += 1
     if i > 10:
-        hits_percent = float(other_languages * 100.0 / total_hits['total_hits'])
+        hits_percent = float(other_languages
+                             * 100.0
+                             / total_hits['total_hits'])
         languages.append({'lang': _('Other'), 'hits_percent': hits_percent})
 
     return languages
@@ -152,8 +161,10 @@ def summary_get_downloads(start_date):
                         .annotate(year=ExtractYear('day')) \
                         .annotate(count=Sum('total')) \
                         .order_by('year', 'month')
-    previous_course_downloads = CourseDailyStats.objects.filter(day__lt=start_date,
-                                                                type='download').aggregate(total=Sum('total')).get('total', 0)
+    previous_course_downloads = CourseDailyStats.objects \
+        .filter(day__lt=start_date, type='download') \
+        .aggregate(total=Sum('total')) \
+        .get('total', 0)
     if previous_course_downloads is None:
         previous_course_downloads = 0
 
@@ -167,17 +178,20 @@ def summary_get_course_activity(start_date):
                         .annotate(count=Sum('total')) \
                         .order_by('year', 'month')
 
-    previous_course_activity = CourseDailyStats.objects.filter(day__lt=start_date).aggregate(total=Sum('total')).get('total', 0)
+    previous_course_activity = CourseDailyStats.objects \
+        .filter(day__lt=start_date) \
+        .aggregate(total=Sum('total')) \
+        .get('total', 0)
     if previous_course_activity is None:
         previous_course_activity = 0
 
     last_month = timezone.now() - datetime.timedelta(days=131)
 
-    hit_by_course = CourseDailyStats.objects.filter(day__gte=last_month,
-                                                    course__isnull=False) \
-                                            .values('course_id') \
-                                            .annotate(total_hits=Sum('total')) \
-                                            .order_by('-total_hits')
+    hit_by_course = CourseDailyStats.objects \
+        .filter(day__gte=last_month, course__isnull=False) \
+        .values('course_id') \
+        .annotate(total_hits=Sum('total')) \
+        .order_by('-total_hits')
     total_hits = sum(cstats['total_hits'] for cstats in hit_by_course)
 
     i = 0

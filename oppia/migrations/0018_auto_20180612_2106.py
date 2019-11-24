@@ -15,6 +15,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='tracker',
             name='ip',
-            field=models.GenericIPAddressField(blank=True, default=None, null=True),
+            field=models.GenericIPAddressField(blank=True,
+                                               default=None,
+                                               null=True),
         ),
     ]

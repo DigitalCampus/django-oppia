@@ -140,7 +140,7 @@ def edit_course_gamification(request, course_id):
                 defaults = {'points': points, 'user': request.user}
 
                 to_delete = formset.can_delete \
-                              and formset._should_delete_form(form)
+                    and formset._should_delete_form(form)
 
                 updated = True
                 if level == 'course':
@@ -192,10 +192,14 @@ def edit_course_gamification(request, course_id):
         .prefetch_related('gamification_events')
 
     default_points = {
-        'course': DefaultGamificationEvent.objects.exclude(level=DefaultGamificationEvent.GLOBAL),
-        'activity': DefaultGamificationEvent.objects.filter(level=DefaultGamificationEvent.ACTIVITY),
-        'quiz': DefaultGamificationEvent.objects.filter(level=DefaultGamificationEvent.QUIZ),
-        'media': DefaultGamificationEvent.objects.filter(level=DefaultGamificationEvent.MEDIA),
+        'course': DefaultGamificationEvent.objects
+                    .exclude(level=DefaultGamificationEvent.GLOBAL),
+        'activity': DefaultGamificationEvent.objects
+                    .filter(level=DefaultGamificationEvent.ACTIVITY),
+        'quiz': DefaultGamificationEvent.objects
+                    .filter(level=DefaultGamificationEvent.QUIZ),
+        'media': DefaultGamificationEvent.objects
+                    .filter(level=DefaultGamificationEvent.MEDIA)
     }
 
     course_events = CourseGamificationEvent.objects.filter(course=course)

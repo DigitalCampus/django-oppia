@@ -16,22 +16,25 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='activitygamificationevent',
             name='activity',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
-                                    related_name='gamification_events',
-                                    to='oppia.Activity'),
+            field=models.ForeignKey(
+                            on_delete=django.db.models.deletion.CASCADE,
+                            related_name='gamification_events',
+                            to='oppia.Activity'),
         ),
         migrations.AlterField(
             model_name='coursegamificationevent',
             name='course',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
-                                    related_name='gamification_events',
-                                    to='oppia.Course'),
+            field=models.ForeignKey(
+                            on_delete=django.db.models.deletion.CASCADE,
+                            related_name='gamification_events',
+                            to='oppia.Course'),
         ),
         migrations.AlterField(
             model_name='mediagamificationevent',
             name='media',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
-                                    related_name='gamification_events',
-                                    to='oppia.Media'),
+            field=models.ForeignKey(
+                            on_delete=django.db.models.deletion.CASCADE,
+                            related_name='gamification_events',
+                            to='oppia.Media'),
         ),
     ]

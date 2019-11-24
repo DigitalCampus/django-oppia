@@ -14,16 +14,23 @@ def query_string(parser, token):
     If a given value is a context variable it will resolve it.
 
     Usage:
-    http://www.url.com/{% query_string "param_to_add=value, param_to_add=value"
-    "param_to_remove, params_to_remove" %}
+    http://www.url.com/{% query_string "param_to_add=value,
+                                        param_to_add=value"
+                                        "param_to_remove,
+                                        params_to_remove" %}
     """
 
     try:
         tag_name, add_string, remove_string = token.split_contents()
     except ValueError:
-        raise(template.TemplateSyntaxError, "%r tag requires two arguments" % token.contents.split()[0])
-    if not (add_string[0] == add_string[-1] and add_string[0] in ('"', "'")) or not (remove_string[0] == remove_string[-1] and remove_string[0] in ('"', "'")):
-        raise(template.TemplateSyntaxError, "%r tag's argument should be in quotes" % tag_name)
+        raise(template.TemplateSyntaxError,
+              "%r tag requires two arguments" % token.contents.split()[0])
+    if not (add_string[0] == add_string[-1]
+            and add_string[0] in ('"', "'")) \
+            or not (remove_string[0] == remove_string[-1]
+                    and remove_string[0] in ('"', "'")):
+        raise(template.TemplateSyntaxError,
+              "%r tag's argument should be in quotes" % tag_name)
 
     add = string_to_dict(add_string[1:-1])
     remove = string_to_list(remove_string[1:-1])
@@ -63,8 +70,10 @@ def get_query_string(p, new_params, remove, context):
         except:
             p[k] = v
 
-    return mark_safe('?' + '&amp;'.join([u'%s=%s' % (urllib.parse.quote_plus(str(k)),
-                                                     urllib.parse.quote_plus(str(v))) for k, v in p.items()]))
+    return mark_safe('?' + '&amp;'
+                     .join([u'%s=%s' % (urllib.parse.quote_plus(str(k)),
+                                        urllib.parse.quote_plus(str(v)))
+                            for k, v in p.items()]))
 
 
 # Taken from lib/utils.py

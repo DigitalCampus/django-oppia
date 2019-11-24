@@ -25,13 +25,16 @@ class Migration(migrations.Migration):
                                         primary_key=True,
                                         serialize=False,
                                         verbose_name='ID')),
-                ('created_date', models.DateTimeField(default=django.utils.timezone.now,
-                                                      verbose_name=b'date created')),
-                ('image', models.ImageField(upload_to=av.models.image_file_name)),
+                ('created_date', models.DateTimeField(
+                    default=django.utils.timezone.now,
+                    verbose_name=b'date created')),
+                ('image', models.ImageField(
+                    upload_to=av.models.image_file_name)),
                 ('default_image', models.BooleanField(default=False)),
-                ('create_user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
-                                                  related_name='media_image_create_user',
-                                                  to=settings.AUTH_USER_MODEL)),
+                ('create_user', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                  related_name='media_image_create_user',
+                  to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'verbose_name': 'Uploaded Media Image',
@@ -48,7 +51,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='uploadedmediaimage',
             name='uploaded_media',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
-                                    to='av.UploadedMedia'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to='av.UploadedMedia'),
         ),
     ]

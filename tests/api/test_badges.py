@@ -22,7 +22,8 @@ class BadgesResourceTest(ResourceTestCaseMixin, TestCase):
 
     # check post not allowed
     def test_post_invalid(self):
-        self.assertHttpMethodNotAllowed(self.api_client.post(self.url, format='json', data={}))
+        self.assertHttpMethodNotAllowed(
+            self.api_client.post(self.url, format='json', data={}))
 
     # check unauthorized
     def test_unauthorized(self):
@@ -30,11 +31,14 @@ class BadgesResourceTest(ResourceTestCaseMixin, TestCase):
             'username': 'demo',
             'api_key': '1234',
         }
-        self.assertHttpUnauthorized(self.api_client.get(self.url, format='json', data=data))
+        self.assertHttpUnauthorized(
+            self.api_client.get(self.url, format='json', data=data))
 
     # check correct
     def test_correct(self):
-        resp = self.api_client.get(self.url, format='json', data=self.auth_data)
+        resp = self.api_client.get(self.url,
+                                   format='json',
+                                   data=self.auth_data)
         self.assertHttpOK(resp)
         self.assertValidJSON(resp.content)
 

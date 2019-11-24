@@ -51,8 +51,10 @@ class UserCourseSummary (models.Model):
                                                pk__lte=newest_tracker_pk)
 
         # Add the values that are directly obtained from the last pks
-        self.total_activity = (0 if first_tracker else self.total_activity) + self_trackers.count()
-        self.total_downloads = (0 if first_tracker else self.total_downloads) + self_trackers.filter(type='download').count()
+        self.total_activity = (0 if first_tracker else self.total_activity) \
+            + self_trackers.count()
+        self.total_downloads = (0 if first_tracker else self.total_downloads) \
+            + self_trackers.filter(type='download').count()
 
         filters = {
             'user': self.user,

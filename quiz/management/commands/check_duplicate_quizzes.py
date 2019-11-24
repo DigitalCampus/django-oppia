@@ -46,14 +46,17 @@ class Command(BaseCommand):
                                                quizprops__name="digest")
                 quiz_to_delete = []
                 if quizobjs.count() > 1:
-                    self.stdout.write("\nQuiz {} has {} associated quiz objects:\n".format(aq.digest,
-                                                                                           quizobjs.count()))
+                    self.stdout \
+                        .write("\nQuiz {} has {} associated quiz objects:\n"
+                               .format(aq.digest, quizobjs.count()))
                     for quiz in quizobjs:
-                        attempts = QuizAttempt.objects.filter(quiz=quiz).count()
+                        attempts = QuizAttempt.objects \
+                            .filter(quiz=quiz).count()
                         if not attempts:
                             quiz_to_delete.append(quiz)
                         self.stdout.write(
-                            "    Quiz {} has {} attempts\n".format(quiz, attempts))
+                            "    Quiz {} has {} attempts\n".format(quiz,
+                                                                   attempts))
 
                     if len(quiz_to_delete) > 0:
                         self.stdout.write(

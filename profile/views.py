@@ -101,8 +101,9 @@ def login_view(request):
 
 
 def register(request):
-    self_register = SettingProperties.get_int(constants.OPPIA_ALLOW_SELF_REGISTRATION,
-                                              settings.OPPIA_ALLOW_SELF_REGISTRATION)
+    self_register = SettingProperties \
+        .get_int(constants.OPPIA_ALLOW_SELF_REGISTRATION,
+                 settings.OPPIA_ALLOW_SELF_REGISTRATION)
     if not self_register:
         raise Http404
 
@@ -195,7 +196,8 @@ def edit(request, user_id=0):
             view_user.last_name = last_name
             view_user.save()
 
-            user_profile, created = UserProfile.objects.get_or_create(user=view_user)
+            user_profile, created = UserProfile.objects \
+                .get_or_create(user=view_user)
             user_profile.job_title = form.cleaned_data.get("job_title")
             user_profile.organisation = form.cleaned_data.get("organisation")
             user_profile.save()
@@ -209,7 +211,8 @@ def edit(request, user_id=0):
                 view_user.save()
                 messages.success(request, _(u"Password updated"))
     else:
-        user_profile, created = UserProfile.objects.get_or_create(user=view_user)
+        user_profile, created = UserProfile.objects \
+            .get_or_create(user=view_user)
 
         form = ProfileForm(initial={'username': view_user.username,
                                     'email': view_user.email,
@@ -217,7 +220,8 @@ def edit(request, user_id=0):
                                     'last_name': view_user.last_name,
                                     'api_key': key.key,
                                     'job_title': user_profile.job_title,
-                                    'organisation': user_profile.organisation})
+                                    'organisation':
+                                        user_profile.organisation})
 
     return render(request, 'profile/profile.html', {'form': form})
 
@@ -233,7 +237,8 @@ def export_mydata_view(request, data_type):
         for mqa in my_quiz_attempts:
             data = {}
             data['quizattempt'] = mqa
-            data['quizattemptresponses'] = QuizAttemptResponse.objects.filter(quizattempt=mqa)
+            data['quizattemptresponses'] = QuizAttemptResponse.objects \
+                .filter(quizattempt=mqa)
             my_quizzes.append(data)
 
         return render(request, 'profile/export/quiz_attempts.html',
@@ -296,7 +301,8 @@ def user_activity(request, user_id):
                     'course_display': str(course),
                     'no_quizzes_completed': course_stats.quizzes_passed,
                     'pretest_score': course_stats.pretest_score,
-                    'no_activities_completed': course_stats.completed_activities,
+                    'no_activities_completed':
+                        course_stats.completed_activities,
                     'no_media_viewed': course_stats.media_viewed,
                     'no_points': course_stats.points,
                     'no_badges': course_stats.badges_achieved, }
@@ -335,7 +341,8 @@ def user_activity(request, user_id):
     start_date = timezone.now() - datetime.timedelta(days=31)
     end_date = timezone.now()
 
-    course_ids = list(chain(cohort_courses.values_list('id', flat=True), other_courses.values_list('id', flat=True)))
+    course_ids = list(chain(cohort_courses.values_list('id', flat=True),
+                            other_courses.values_list('id', flat=True)))
     activity = get_tracker_activities(start_date,
                                       end_date,
                                       view_user,
@@ -357,8 +364,9 @@ def user_course_activity_view(request, user_id, course_id):
     dashboard_accessed.send(sender=None, request=request, data=None)
     course = can_view_course(request, course_id)
 
-    act_quizzes = Activity.objects.filter(section__course=course,
-                                          type=Activity.QUIZ).order_by('section__order', 'order')
+    act_quizzes = Activity.objects \
+        .filter(section__course=course, type=Activity.QUIZ) \
+        .order_by('section__order', 'order')
 
     quizzes_attempted = 0
     quizzes_passed = 0
@@ -383,14 +391,22 @@ def user_course_activity_view(request, user_id, course_id):
         if no_attempts > 0:
 
             quiz_maxscore = float(attempts[0].maxscore)
-            attemps_stats = attempts.aggregate(max=Max('score'), min=Min('score'), avg=Avg('score'))
+            attemps_stats = attempts.aggregate(max=Max('score'),
+                                               min=Min('score'),
+                                               avg=Avg('score'))
             max_score = 100 * float(attemps_stats['max']) / quiz_maxscore
             min_score = 100 * float(attemps_stats['min']) / quiz_maxscore
             avg_score = 100 * float(attemps_stats['avg']) / quiz_maxscore
-            first_date = attempts.aggregate(date=Min('attempt_date'))['date']
-            recent_date = attempts.aggregate(date=Max('attempt_date'))['date']
-            first_score = 100 * float(attempts.filter(attempt_date=first_date)[0].score) / quiz_maxscore
-            latest_score = 100 * float(attempts.filter(attempt_date=recent_date)[0].score) / quiz_maxscore
+            first_date = attempts \
+                .aggregate(date=Min('attempt_date'))['date']
+            recent_date = attempts \
+                .aggregate(date=Max('attempt_date'))['date']
+            first_score = 100 * float(attempts
+                                      .filter(attempt_date=first_date)[0]
+                                      .score) / quiz_maxscore
+            latest_score = 100 * float(attempts
+                                       .filter(attempt_date=recent_date)[0]
+                                       .score) / quiz_maxscore
 
             passed = max_score is not None and max_score > 75
             if aq.section.order == 0:
@@ -666,7 +682,8 @@ def delete_account_view(request):
             Tracker.objects.filter(user=user).delete()
 
             # delete quiz attempts
-            QuizAttemptResponse.objects.filter(quizattempt__user=user).delete()
+            QuizAttemptResponse.objects \
+                .filter(quizattempt__user=user).delete()
             QuizAttempt.objects.filter(user=user).delete()
 
             # delete profile
@@ -679,7 +696,8 @@ def delete_account_view(request):
             User.objects.get(pk=user.id).delete()
 
             # redirect
-            return HttpResponseRedirect(reverse('profile_delete_account_complete'))
+            return HttpResponseRedirect(
+                reverse('profile_delete_account_complete'))
     else:
         form = DeleteAccountForm(initial={'username': request.user.username})
 
@@ -693,7 +711,11 @@ def delete_account_complete_view(request):
 
 
 # helper functions
-def get_tracker_activities(start_date, end_date, user, course_ids=[], course=None):
+def get_tracker_activities(start_date,
+                           end_date,
+                           user,
+                           course_ids=[],
+                           course=None):
     activity = []
     no_days = (end_date - start_date).days + 1
     if course:

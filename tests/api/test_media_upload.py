@@ -16,8 +16,10 @@ class MediaPublishResourceTest(TestCase):
     def setUp(self):
         self.client = Client()
         self.url = '/api/media/'
-        self.course_file_path = './oppia/fixtures/reference_files/ncd1_test_course.zip'
-        self.video_file_path = './oppia/fixtures/reference_files/sample_video.m4v'
+        self.course_file_path = \
+            './oppia/fixtures/reference_files/ncd1_test_course.zip'
+        self.video_file_path = \
+            './oppia/fixtures/reference_files/sample_video.m4v'
 
     # test only POST is available
     def test_no_get(self):
@@ -100,19 +102,27 @@ class MediaPublishResourceTest(TestCase):
         mime-type is found
 
         # normal user
-        response = self.client.post(self.url,{'username': 'demo', 'password': 'password', 'media_file': video_file })
+        response = self.client.post(self.url,{'username': 'demo',
+                                              'password': 'password',
+                                              'media_file': video_file })
         self.assertEqual(response.status_code, 201)
 
         # teacher
-        response = self.client.post(self.url, { 'username': 'teacher', 'password': 'password', 'media_file': video_file })
+        response = self.client.post(self.url, {'username': 'teacher',
+                                               'password': 'password',
+                                               'media_file': video_file })
         self.assertEqual(response.status_code, 201)
 
         # staff
-        response = self.client.post(self.url, { 'username': 'staff', 'password': 'password', 'media_file': video_file })
+        response = self.client.post(self.url, {'username': 'staff',
+                                               'password': 'password',
+                                               'media_file': video_file })
         self.assertEqual(response.status_code, 201)
 
         # admin
-        response = self.client.post(self.url, { 'username': 'admin', 'password': 'password', 'media_file': video_file })
+        response = self.client.post(self.url, {'username': 'admin',
+                                               'password': 'password',
+                                               'media_file': video_file })
         self.assertEqual(response.status_code, 201)
         '''
         pass
