@@ -144,9 +144,11 @@ def teacher_home_view(request):
     # get student activity
     activity = []
     no_days = (end_date - start_date).days + 1
-    students = User.objects.filter(participant__role=Participant.STUDENT,
-                                   participant__cohort__in=cohorts).distinct()
-    courses = Course.objects.filter(coursecohort__cohort__in=cohorts).distinct()
+    students = User.objects \
+        .filter(participant__role=Participant.STUDENT,
+                participant__cohort__in=cohorts).distinct()
+    courses = Course.objects \
+        .filter(coursecohort__cohort__in=cohorts).distinct()
     trackers = Tracker.objects.filter(course__in=courses,
                                       user__in=students,
                                       tracker_date__gte=start_date,
@@ -155,7 +157,9 @@ def teacher_home_view(request):
         .values('activity_date').annotate(count=Count('id'))
     for i in range(0, no_days, +1):
         temp = start_date + datetime.timedelta(days=i)
-        count = next((dct['count'] for dct in trackers if dct['activity_date'] == temp.date()), 0)
+        count = next((dct['count']
+                      for dct in trackers
+                      if dct['activity_date'] == temp.date()), 0)
         activity.append([temp.strftime("%d %b %Y"), count])
 
     return render(request, 'oppia/home-teacher.html',
@@ -239,7 +243,8 @@ def course_download_view(request, course_id):
                             content_type='application/zip')
     binary_file.close()
     response['Content-Length'] = os.path.getsize(file_to_download)
-    response['Content-Disposition'] = 'attachment; filename="%s"' % (course.filename)
+    response['Content-Disposition'] = 'attachment; filename="%s"' \
+        % (course.filename)
     return response
 
 
@@ -297,17 +302,19 @@ def upload_step2(request, course_id, editing=False):
             # add the tags
             add_course_tags(form, course, request.user)
             redirect = 'oppia_course' if editing else 'oppia_upload_success'
-            CoursePublishingLog(course=course,
-                                new_version=course.version,
-                                user=request.user,
-                                action="upload_course_published",
-                                data=_(u'Course published via file upload')).save()
+            CoursePublishingLog(
+                course=course,
+                new_version=course.version,
+                user=request.user,
+                action="upload_course_published",
+                data=_(u'Course published via file upload')).save()
             return HttpResponseRedirect(reverse(redirect))
     else:
         form = UploadCourseStep2Form(initial={'tags': course.get_tags(),
                                               'is_draft': course.is_draft, })
 
-    page_title = _(u'Upload Course - step 2') if not editing else _(u'Edit course')
+    page_title = _(u'Upload Course - step 2') \
+        if not editing else _(u'Edit course')
     return render(request, 'course/form.html',
                   {'form': form,
                    'course_title': course.title,
@@ -535,8 +542,9 @@ def export_tracker_detail(request, course_id):
                          t.agent,
                          ""))
 
-    response = HttpResponse(data.xls,
-                            content_type='application/vnd.ms-excel;charset=utf-8')
+    response = HttpResponse(
+        data.xls,
+        content_type='application/vnd.ms-excel;charset=utf-8')
     response['Content-Disposition'] = "attachment; filename=export.xls"
 
     return response

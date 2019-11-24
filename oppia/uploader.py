@@ -396,8 +396,9 @@ def parse_and_save_activity(req,
                             data=msg_text).save()
     else:
         msg_text = _(u'Activity "%(act)s"(%(digest)s) previously existed. \
-                    Updated with new information') % {'act': activity.title,
-                                                      'digest': activity.digest}
+                    Updated with new information') \
+                    % {'act': activity.title,
+                       'digest': activity.digest}
         '''
         If we also want to show the activities that previously existed,
         uncomment this next line
@@ -574,7 +575,8 @@ def clean_old_course(req, user, oldsections, old_course_filename, course):
                                 data=msg_text).save()
         sec.delete()
 
-    if old_course_filename is not None and old_course_filename != course.filename:
+    if old_course_filename is not None \
+            and old_course_filename != course.filename:
         try:
             os.remove(os.path.join(settings.COURSE_UPLOAD_DIR,
                                    old_course_filename))

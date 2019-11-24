@@ -66,9 +66,11 @@ class UploadCourseStep1Form(forms.Form):
 
 class UploadCourseStep2Form(forms.Form):
     tags = forms.CharField(
-                help_text=_("A comma separated list of tags to help classify your course"),
+                help_text=_("A comma separated list of tags to help classify \
+                            your course"),
                 required=True,
-                error_messages={'required': _('Please enter at least one tag')}, )
+                error_messages={'required':
+                                _('Please enter at least one tag')})
     is_draft = forms.BooleanField(
                 help_text=_("Whether this course is only a draft"),
                 required=False, )

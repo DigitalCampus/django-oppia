@@ -11,21 +11,26 @@ class CohortHelperDiv(Div):
 class CohortForm(forms.Form):
 
     description = forms.CharField(required=True)
-    teachers = forms.CharField(widget=forms.Textarea(),
-                               required=False,
-                               help_text=_("A comma separated list of usernames"), )
-    students = forms.CharField(widget=forms.Textarea(),
-                               required=False,
-                               help_text=_("A comma separated list of usernames"), )
-    start_date = forms.CharField(required=True,
-                                 error_messages={'required': _('Please enter a valid date'),
-                                                 'invalid': _('Please enter a valid date')}, )
-    end_date = forms.CharField(required=True,
-                               error_messages={'required': _('Please enter a valid date'),
-                                               'invalid': _('Please enter a valid date')}, )
-    courses = forms.CharField(widget=forms.Textarea(),
-                              required=False,
-                              help_text=_("A comma separated list of course codes"), )
+    teachers = forms.CharField(
+        widget=forms.Textarea(),
+        required=False,
+        help_text=_("A comma separated list of usernames"))
+    students = forms.CharField(
+        widget=forms.Textarea(),
+        required=False,
+        help_text=_("A comma separated list of usernames"))
+    start_date = forms.CharField(
+        required=True,
+        error_messages={'required': _('Please enter a valid date'),
+                        'invalid': _('Please enter a valid date')})
+    end_date = forms.CharField(
+        required=True,
+        error_messages={'required': _('Please enter a valid date'),
+                        'invalid': _('Please enter a valid date')})
+    courses = forms.CharField(
+        widget=forms.Textarea(),
+        required=False,
+        help_text=_("A comma separated list of course codes"))
 
     def __init__(self, *args, **kwargs):
         super(CohortForm, self).__init__(* args, ** kwargs)

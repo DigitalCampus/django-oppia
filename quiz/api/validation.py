@@ -10,7 +10,8 @@ class QuizOwnerValidation(Validation):
             return {'__all__': 'no data.'}
         errors = {}
         quiz = bundle.obj.quiz
-        if not bundle.request.user.is_staff and quiz.owner.id != bundle.request.user.id:
+        if not bundle.request.user.is_staff \
+                and quiz.owner.id != bundle.request.user.id:
             errors['error_message'] = _(u"You are not the owner of this quiz")
         return errors
 
@@ -22,7 +23,8 @@ class QuestionOwnerValidation(Validation):
         errors = {}
         question = bundle.obj.question
         if question.owner.id != bundle.request.user.id:
-            errors['error_message'] = _(u"You are not the owner of this question")
+            errors['error_message'] = \
+                _(u"You are not the owner of this question")
         return errors
 
 
@@ -33,7 +35,8 @@ class ResponseOwnerValidation(Validation):
         errors = {}
         response = bundle.obj.response
         if response.owner.id != bundle.request.user.id:
-            errors['error_message'] = _(u"You are not the owner of this response")
+            errors['error_message'] = \
+                _(u"You are not the owner of this response")
         return errors
 
 

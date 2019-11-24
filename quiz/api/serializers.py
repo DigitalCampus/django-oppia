@@ -57,7 +57,8 @@ class QuizJSONSerializer(Serializer):
                 question['question']['p'] = {}
                 for p in question['question']['props']:
                     try:
-                        question['question']['p'][p['name']] = float(p['value'])
+                        question['question']['p'][p['name']] \
+                            = float(p['value'])
                     except ValueError:
                         question['question']['p'][p['name']] = p['value']
 
@@ -76,7 +77,8 @@ class QuizJSONSerializer(Serializer):
                 del question['question']['p']
                 try:
                     float(question['question']['props']['maxscore'])
-                    qmaxscore = qmaxscore + float(question['question']['props']['maxscore'])
+                    qmaxscore = qmaxscore \
+                        + float(question['question']['props']['maxscore'])
                 except ValueError:
                     pass
 

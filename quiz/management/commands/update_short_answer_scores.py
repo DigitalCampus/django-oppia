@@ -51,11 +51,13 @@ class Command(BaseCommand):
 
                 if row[INPUT_FORMAT['revised_score']] == '' \
                         or row[INPUT_FORMAT['revised_score']] is None \
-                        or row[INPUT_FORMAT['revised_score']] == row[INPUT_FORMAT['score']]:
+                        or row[INPUT_FORMAT['revised_score']] \
+                        == row[INPUT_FORMAT['score']]:
                     continue
 
                 try:
-                    if int(row[INPUT_FORMAT['revised_score']]) == int(qar.score):
+                    if int(row[INPUT_FORMAT['revised_score']]) \
+                            == int(qar.score):
                         continue
                 except ValueError:
                     continue
@@ -72,7 +74,9 @@ class Command(BaseCommand):
                 quiz_attempt.score = new_quiz_score['new_score']
                 quiz_attempt.save()
 
-                quiz_score_percent = quiz_attempt.score * 100 / quiz_attempt.maxscore
+                quiz_score_percent = quiz_attempt.score \
+                    * 100 \
+                    / quiz_attempt.maxscore
 
                 # check if they have now reached the pass mark for the quiz
                 # and update the tracker activity
@@ -80,10 +84,12 @@ class Command(BaseCommand):
                                                        quiz=quiz_attempt.quiz)
 
                 if quiz_score_percent >= quiz_threshold:
-                    self.stdout.write(quiz_score_percent + ":" + quiz_threshold)
+                    self.stdout.write(
+                        quiz_score_percent + ":" + quiz_threshold)
                     try:
-                        tracker = Tracker.objects.get(user=quiz_attempt.user,
-                                                      uuid=quiz_attempt.instance_id)
+                        tracker = Tracker.objects.get(
+                            user=quiz_attempt.user,
+                            uuid=quiz_attempt.instance_id)
                         tracker.completed = True
                         tracker.save()
                         print("tracker updated")

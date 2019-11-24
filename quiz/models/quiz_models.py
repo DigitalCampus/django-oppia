@@ -124,9 +124,10 @@ class QuizAttempt(models.Model):
 
     def is_first_attempt_today(self):
         olddate = datetime.datetime.now() + datetime.timedelta(hours=-24)
-        no_attempts_today = QuizAttempt.objects.filter(user=self.user,
-                                                       quiz=self.quiz,
-                                                       submitted_date__gte=olddate).count()
+        no_attempts_today = QuizAttempt.objects \
+            .filter(user=self.user,
+                    quiz=self.quiz,
+                    submitted_date__gte=olddate).count()
         if no_attempts_today == 1:
             return True
         else:
@@ -161,7 +162,9 @@ class QuizAttemptResponse(models.Model):
 
     def get_score_percent(self):
         if self.question.get_maxscore() > 0:
-            percent = int(round(float(self.score) * 100 / self.question.get_maxscore()))
+            percent = int(round(float(self.score)
+                                * 100
+                                / self.question.get_maxscore()))
         else:
             percent = 0
         return percent

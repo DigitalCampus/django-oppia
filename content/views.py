@@ -84,11 +84,12 @@ def process_media_file(media_guid,
             # create some image/screenshots
             image_path = generate_media_screenshots(media_local_file,
                                                     media_guid)
-            processed_media['embed_code'] = content.EMBED_TEMPLATE % (media_url.split('/')[-1],
-                                                                      media_url,
-                                                                      md5sum,
-                                                                      file_size,
-                                                                      file_length)
+            processed_media['embed_code'] = \
+                content.EMBED_TEMPLATE % (media_url.split('/')[-1],
+                                          media_url,
+                                          md5sum,
+                                          file_size,
+                                          file_length)
 
             # Add the generated images to the output
             processed_media['image_url_root'] = settings.MEDIA_URL \
@@ -136,7 +137,8 @@ def get_length(filename):
                               stdout=subprocess.PIPE,
                               stderr=subprocess.STDOUT)
 
-    duration = float(json.loads(result.stdout.read())['streams'][0]['duration'])
+    duration = float(
+        json.loads(result.stdout.read())['streams'][0]['duration'])
     if duration != 0:
         return True, duration
     else:
@@ -155,9 +157,10 @@ def generate_media_screenshots(media_local_file, media_guid):
     if not os.path.exists(image_path):
         os.makedirs(image_path)
 
-    image_generator_command = ("%s %s" %
-                               (settings.SCREENSHOT_GENERATOR_PROGRAM,
-                                settings.SCREENSHOT_GENERATOR_PROGRAM_PARAMS)) \
+    image_generator_command = \
+        ("%s %s" %
+         (settings.SCREENSHOT_GENERATOR_PROGRAM,
+          settings.SCREENSHOT_GENERATOR_PROGRAM_PARAMS)) \
         % (media_local_file,
            content.SCREENSHOT_IMAGE_WIDTH,
            content.SCREENSHOT_IMAGE_HEIGHT,

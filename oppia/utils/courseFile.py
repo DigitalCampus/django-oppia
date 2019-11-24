@@ -22,23 +22,34 @@ def remove_from_zip(zipfname, temp_zip_path, course_shortname, *filenames):
 
 
 def unescape_xml(xml_content):
-    new_xml = unescape(xml_content, {"&apos;": "'", "&quot;": '"', "&nbsp;": " "})
-    new_xml = new_xml.replace('&nbsp;', ' ').replace('&quot;', '"').replace('&', '&amp;')
+    new_xml = unescape(xml_content,
+                       {"&apos;": "'", "&quot;": '"', "&nbsp;": " "})
+    new_xml = new_xml.replace('&nbsp;', ' ') \
+                     .replace('&quot;', '"') \
+                     .replace('&', '&amp;')
     return new_xml
 
 
 def rewrite_xml_contents(user, course, xml_doc):
-    temp_zip_path = os.path.join(settings.COURSE_UPLOAD_DIR, 'temp', str(user.id))
+    temp_zip_path = os.path.join(settings.COURSE_UPLOAD_DIR,
+                                 'temp',
+                                 str(user.id))
     module_xml = course.shortname + '/module.xml'
     try:
         os.makedirs(temp_zip_path)
     except OSError:
         pass  # leaf dir for user id already exists
 
-    course_zip_file = os.path.join(settings.COURSE_UPLOAD_DIR, course.filename)
-    remove_from_zip(course_zip_file, temp_zip_path, course.shortname, module_xml)
+    course_zip_file = os.path.join(settings.COURSE_UPLOAD_DIR,
+                                   course.filename)
+    remove_from_zip(course_zip_file,
+                    temp_zip_path,
+                    course.shortname,
+                    module_xml)
 
-    xml_content = xml_doc.toprettyxml(indent='', newl='', encoding='utf-8').decode('utf-8')
+    xml_content = xml_doc.toprettyxml(indent='',
+                                      newl='',
+                                      encoding='utf-8').decode('utf-8')
     xml_content = unescape_xml(xml_content)
 
     with zipfile.ZipFile(course_zip_file, 'a') as z:
