@@ -32,7 +32,7 @@ class Command(BaseCommand):
         sql = "SELECT * FROM %s WHERE source_site='%s'" \
             % (CARTODB_TABLE, source_site)
         url = "https://%s.cartodb.com/api/v2/sql?q=%s" % (cartodb_account,
-                                                         sql)
+                                                          sql)
         u = urllib.request.urlopen(url)
         data = u.read()
         carto_db_data = json.loads(data)

@@ -56,8 +56,9 @@ class XAPIIntegrationViewsTest(TestCase):
     def test_anon_cantview_integrations_latest(self):
         route = reverse('oppia_integrations_xapi_csv_export')
         res = self.get_view(route, None)
-        self.assertRedirects(res,
-                             self.login_url + '?next=/integrations/xapi/export/')
+        self.assertRedirects(
+            res,
+            self.login_url + '?next=/integrations/xapi/export/')
 
     def test_admin_canview_integrations_latest(self):
         route = reverse('oppia_integrations_xapi_csv_export')

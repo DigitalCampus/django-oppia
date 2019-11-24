@@ -99,16 +99,18 @@ def publish_view(request):
 
     validation_errors = []
     validation_errors = check_required_fields(request, validation_errors)
-    validation_errors = check_upload_file_size(request.FILES[api.COURSE_FILE_FIELD],
-                                               validation_errors)
+    validation_errors = check_upload_file_size(
+        request.FILES[api.COURSE_FILE_FIELD],
+        validation_errors)
 
     if validation_errors:
         return JsonResponse({'errors': validation_errors}, status=400, )
 
     # authenticate user
-    authenticated, response_data, user = authenticate_user(request,
-                                                           request.POST['username'],
-                                                           request.POST['password'])
+    authenticated, response_data, user = authenticate_user(
+        request,
+        request.POST['username'],
+        request.POST['password'])
     if not authenticated:
         return JsonResponse(response_data, status=401)
 
@@ -121,10 +123,11 @@ def publish_view(request):
     extract_path = os.path.join(settings.COURSE_UPLOAD_DIR,
                                 'temp',
                                 str(user.id))
-    course, status_code = handle_uploaded_file(request.FILES[api.COURSE_FILE_FIELD],
-                                               extract_path,
-                                               request,
-                                               user)
+    course, status_code = handle_uploaded_file(
+        request.FILES[api.COURSE_FILE_FIELD],
+        extract_path,
+        request,
+        user)
 
     CoursePublishingLog(course=course if course else None,
                         new_version=course.version if course else None,
@@ -139,7 +142,8 @@ def publish_view(request):
         return JsonResponse(response_data, status=status)
 
     else:
-        course.is_draft = (request.POST['is_draft'] == "True" or request.POST['is_draft'] == "true")
+        course.is_draft = (request.POST['is_draft'] == "True"
+                           or request.POST['is_draft'] == "true")
         course.save()
 
         # remove any existing tags
