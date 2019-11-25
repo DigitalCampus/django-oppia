@@ -190,13 +190,23 @@ class Course(models.Model):
 
     @staticmethod
     def get_media_viewed(course, user):
-        acts = Media.objects.filter(course=course).values_list('digest')
-        return Tracker.objects.filter(course=course,
+        media = Media.objects.filter(course=course)
+
+        tracker_viewed = Tracker.objects.filter(course=course,
                                       user=user,
-                                      digest__in=acts) \
+                                      digest__in=media.values_list('digest')) \
             .values_list('digest') \
             .distinct() \
             .count()
+
+        event_viewed = 0
+        for m in media:
+            media = Tracker.objects.filter(course=course, user=user, data__contains=m.filename, event='media_played')
+            if media.exists:
+                event_viewed += 1
+
+        return max(event_viewed, tracker_viewed)
+
 
 
 class CourseManager(models.Model):
