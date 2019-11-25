@@ -587,7 +587,7 @@ def clean_old_course(req, user, oldsections, old_course_filename, course):
 # helper functions
 def create_quiz_props(quiz, quiz_obj):
     for prop in quiz_obj['props']:
-        if prop is not 'id':
+        if prop != 'id':
             QuizProps(
                 quiz=quiz, name=prop,
                 value=quiz_obj['props'][prop]
