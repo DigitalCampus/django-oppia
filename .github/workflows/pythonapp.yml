@@ -27,7 +27,5 @@ jobs:
     - name: Test with pytest
       run: |
         pip install pytest
-	- new:
 	python manage test
-	- old:
 	pytest
