@@ -10,3 +10,4 @@ sorl-thumbnail==12.5.0
 libsass==0.16.0
 django-compressor==2.2
 django-sass-processor==0.7.2
+pycodestyle
