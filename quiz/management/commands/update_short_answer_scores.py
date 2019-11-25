@@ -44,7 +44,7 @@ class Command(BaseCommand):
                     continue
 
                 qar = QuizAttemptResponse.objects \
-                    .get(pk=long(row[INPUT_FORMAT['qar_id']]))
+                    .get(pk=int(row[INPUT_FORMAT['qar_id']]))
 
                 if qar.id > max_qar_id:
                     max_qar_id = qar.id

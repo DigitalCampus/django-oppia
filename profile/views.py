@@ -575,9 +575,9 @@ def get_filters_from_row(search_form):
     filters = {}
     for row in search_form.cleaned_data:
         if search_form.cleaned_data[row]:
-            if row is 'start_date':
+            if row == 'start_date':
                 filters['date_joined__gte'] = search_form.cleaned_data[row]
-            elif row is 'end_date':
+            elif row == 'end_date':
                 filters['date_joined__lte'] = search_form.cleaned_data[row]
             elif isinstance(search_form.fields[row], forms.CharField):
                 filters["%s__icontains" % row] = search_form.cleaned_data[row]
