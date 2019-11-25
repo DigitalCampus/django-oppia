@@ -162,7 +162,7 @@ def tracker_callback(sender, **kwargs):
         if not description:
             description = tracker.event
     else:
-        if tracker.get_activity_type() is not "media":
+        if tracker.get_activity_type() != "media":
             if not tracker.is_first_tracker_today():
                 return
             if not tracker.completed:

@@ -611,7 +611,7 @@ def create_quiz_questions(user, quiz, quiz_obj):
         q['question']['id'] = question.pk
 
         for prop in q['question']['props']:
-            if prop is not 'id':
+            if prop != 'id':
                 QuestionProps(
                     question=question, name=prop,
                     value=q['question']['props'][prop]
@@ -629,7 +629,7 @@ def create_quiz_questions(user, quiz, quiz_obj):
             r['id'] = response.pk
 
             for prop in r['props']:
-                if prop is not 'id':
+                if prop != 'id':
                     ResponseProps(
                         response=response, name=prop,
                         value=r['props'][prop]

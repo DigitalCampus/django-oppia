@@ -77,7 +77,7 @@ class Command(BaseCommand):
         current_frame = 0
         for line in iter(ffmpeg.stdout.readline, ''):
             if "frame=" in line:
-                if line.split(" ")[3] is "":
+                if line.split(" ")[3] == "":
                     frame = int(line.split(" ")[4])
                 else:
                     frame = int(line.split(" ")[3])
