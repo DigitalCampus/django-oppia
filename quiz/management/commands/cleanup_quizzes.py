@@ -25,7 +25,7 @@ class Command(BaseCommand):
 
     def prompt(self, query):
         self.stdout.write('%s [y/n]: ' % query)
-        val = raw_input()
+        val = input()
         try:
             ret = strtobool(val)
         except ValueError:

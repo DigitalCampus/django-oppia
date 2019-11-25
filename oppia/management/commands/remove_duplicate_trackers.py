@@ -54,7 +54,7 @@ class Command(BaseCommand):
             print(_(u"Since duplicates have been found and removed, you \
                     should now run `update_summaries` to ensure the \
                     dashboard graphs are accurate."))
-            accept = raw_input(_(u"Would you like to run `update_summaries` \
+            accept = input(_(u"Would you like to run `update_summaries` \
                                 now? [Yes/No]"))
             if accept == 'y':
                 call_command('update_summaries', fromstart=True)
