@@ -3,22 +3,19 @@ from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.exceptions import PermissionDenied
 from django.forms import formset_factory
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
-from django.urls import reverse
 from django.utils import timezone
 
-from gamification.forms import EditCoursePointsForm, \
-                               EditActivityPointsForm, \
-                               EditMediaPointsForm, \
-                               GamificationEventForm
+from gamification.forms import GamificationEventForm
 from gamification.models import DefaultGamificationEvent, \
                                 CourseGamificationEvent, \
                                 ActivityGamificationEvent, \
                                 MediaGamificationEvent
 from gamification.xml_writer import GamificationXMLWriter
-from oppia.models import Course, Points, Section, Activity, Media
+from oppia.models import Course, Points, Activity, Media
 from oppia.permissions import can_edit_course
+
 
 @staff_member_required
 def leaderboard_export(request, course_id=None):

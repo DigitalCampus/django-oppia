@@ -1,6 +1,4 @@
 # oppia/av/models.py
-import datetime
-import hashlib
 import os
 
 from django.conf import settings

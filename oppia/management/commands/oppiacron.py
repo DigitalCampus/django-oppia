@@ -1,9 +1,5 @@
 import os
 import time
-import sys
-import argparse
-import hashlib
-import subprocess
 
 from django.conf import settings
 from django.core.management import call_command

@@ -1,6 +1,4 @@
 
-import oppia.management.commands
-
 from distutils.util import strtobool
 
 from django.core.management.base import BaseCommand

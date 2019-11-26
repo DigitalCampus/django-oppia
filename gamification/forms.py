@@ -2,8 +2,6 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Div
 
 from django import forms
-from django.conf import settings
-from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from gamification.models import DefaultGamificationEvent

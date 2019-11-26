@@ -1,9 +1,8 @@
 # oppia/models.py
 import datetime
 import json
-from xml.dom.minidom import *
-
 import os
+
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
@@ -13,6 +12,8 @@ from django.utils.translation import ugettext_lazy as _
 from tastypie.models import create_api_key
 
 from quiz.models import QuizAttempt, Quiz
+
+from xml.dom.minidom import Document
 
 models.signals.post_save.connect(create_api_key, sender=User)
 

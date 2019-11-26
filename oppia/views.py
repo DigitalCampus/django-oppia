@@ -6,17 +6,19 @@ import os
 
 import tablib
 from dateutil.relativedelta import relativedelta
+from django.conf import settings
+from django.contrib.auth.models import User
+from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db.models import Count, Sum
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from helpers.forms.dates import DateRangeIntervalForm, \
-                                DateRangeForm, \
-                                DateDiffForm
+                                DateRangeForm
 from oppia.forms.cohort import CohortForm
 from oppia.forms.upload import UploadCourseStep1Form, UploadCourseStep2Form
 from oppia.models import Activity, Points
@@ -24,8 +26,19 @@ from oppia.models import Tracker, \
                         Tag, \
                         CourseTag, \
                         CourseCohort, \
-                        CoursePublishingLog
-from oppia.permissions import *
+                        CoursePublishingLog, \
+                        Participant, \
+                        Course, \
+                        Cohort
+from oppia.permissions import can_edit_course, \
+                              can_view_course_detail, \
+                              check_owner, \
+                              get_cohorts, \
+                              user_can_upload, \
+                              can_view_courses_list, \
+                              can_add_cohort, \
+                              can_view_cohort, \
+                              can_edit_cohort
 from profile.models import UserProfile
 from profile.views import get_paginated_users
 from quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
@@ -292,7 +305,7 @@ def upload_step1(request):
 def upload_step2(request, course_id, editing=False):
 
     if (editing and not can_edit_course(request, course_id)):
-        raise exceptions.PermissionDenied
+        raise PermissionDenied
 
     course = Course.objects.get(pk=course_id)
 
@@ -552,7 +565,7 @@ def export_tracker_detail(request, course_id):
 
 def cohort_list_view(request):
     if not request.user.is_staff:
-        raise exceptions.PermissionDenied
+        raise PermissionDenied
 
     cohorts = Cohort.objects.all()
     return render(request, 'cohort/list.html', {'cohorts': cohorts, })
@@ -577,7 +590,7 @@ def get_paginated_courses(request):
 
 def cohort_add(request):
     if not can_add_cohort(request):
-        raise exceptions.PermissionDenied
+        raise PermissionDenied
 
     if request.method == 'POST':
         form = CohortForm(request.POST.copy())
@@ -713,7 +726,7 @@ def cohort_leaderboard_view(request, cohort_id):
 
 def cohort_edit(request, cohort_id):
     if not can_edit_cohort(request, cohort_id):
-        raise exceptions.PermissionDenied
+        raise PermissionDenied
     cohort = Cohort.objects.get(pk=cohort_id)
     teachers_selected = []
     students_selected = []
@@ -1002,9 +1015,7 @@ def app_launch_activity_redirect_view(request):
     try:
         digest = str(request.GET.get('digest'))
     except ValueError:
-        return HttpResponse(content=template.render(context),
-                            content_type='text/html; charset=utf-8',
-                            status=404)
+        return Http404()
 
     # get activity and redirect
     activity = get_object_or_404(Activity, digest=digest)

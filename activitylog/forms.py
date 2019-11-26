@@ -1,8 +1,7 @@
 # oppia/activitylog/forms.py
 
-from crispy_forms.bootstrap import FieldWithButtons
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Div, Row, Field
+from crispy_forms.layout import Layout, Submit, Div
 
 from django import forms
 from django.conf import settings

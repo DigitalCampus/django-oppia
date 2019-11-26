@@ -1,19 +1,11 @@
 
-import oppia.management.commands
-
 from distutils.util import strtobool
 
 from django.core.management.base import BaseCommand
 
 from oppia.models import Activity
 from quiz.models import Quiz, \
-                        QuizProps, \
-                        QuizAttempt, \
-                        Response, \
-                        ResponseProps, \
-                        Question, \
-                        QuestionProps, \
-                        QuizQuestion
+                        QuizAttempt
 
 
 class Command(BaseCommand):
