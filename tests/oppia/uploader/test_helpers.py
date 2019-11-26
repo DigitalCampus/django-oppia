@@ -2,10 +2,9 @@ import json
 
 from django.contrib.auth.models import User
 from django.test import TestCase
-from django.test.client import Client
 
 from oppia.uploader import create_quiz_props, create_quiz_questions
-from quiz.models import *
+from quiz.models import Quiz, QuizProps, QuizQuestion
 
 
 class UploadHelpersTest(TestCase):

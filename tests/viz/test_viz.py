@@ -1,8 +1,6 @@
 import datetime
 
-from django.contrib.auth.models import User
 from django.test import TestCase
-from django.test.client import Client
 from django.urls import reverse
 from django.utils import timezone
 
@@ -11,7 +9,12 @@ from tests.user_logins import ADMIN_USER, \
                               NORMAL_USER, \
                               TEACHER_USER
 
-from viz.views import *
+from viz.views import summary_get_registrations, \
+                      summary_get_countries, \
+                      summary_get_languages, \
+                      summary_get_downloads, \
+                      summary_get_course_activity, \
+                      summary_get_searches
 
 
 class VisualisationsTest(TestCase):

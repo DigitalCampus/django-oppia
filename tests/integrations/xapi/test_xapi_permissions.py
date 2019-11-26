@@ -1,8 +1,6 @@
 # tests/integrations/dhis/test_dhis.py
-from django.contrib.auth.models import User
 from django.urls import reverse
 from django.test import TestCase
-from django.test.client import Client
 
 from tests.user_logins import ADMIN_USER, \
                               STAFF_USER, \

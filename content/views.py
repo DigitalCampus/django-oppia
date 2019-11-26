@@ -1,7 +1,6 @@
 # oppia/content/views.py
 import hashlib
 import json
-import math
 import os
 import subprocess
 import urllib
