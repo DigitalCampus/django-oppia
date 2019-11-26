@@ -223,6 +223,15 @@ SCREENSHOT_GENERATOR_PROGRAM_PARAMS = \
 MEDIA_PROCESSOR_PROGRAM = "ffprobe"
 MEDIA_PROCESSOR_PROGRAM_PARAMS = ""
 
+# Database - mainly this is for the automated testing
+# a proper RDBMS should be configured in your settings_secret.py
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR , 'db.sqlite3'),
+    }
+}
+
 # Import secret_settings.py (if exists)
 # > see settings_secret.py.template for reference
 try:
