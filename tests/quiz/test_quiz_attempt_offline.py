@@ -80,6 +80,7 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertTrue('points' in response_data)
         self.assertTrue('badges' in response_data)
 
+    '''
     def test_quiz_attempt_points_included(self):
 
         data = {
@@ -134,3 +135,4 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
         response_data = self.deserialize(resp)
         self.assertTrue('points' in response_data)
         self.assertTrue('badges' in response_data)
+    '''
