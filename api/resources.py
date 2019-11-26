@@ -189,19 +189,23 @@ class RegisterResource(ModelResource):
                      settings.OPPIA_ALLOW_SELF_REGISTRATION)
         if not self_register:
             raise BadRequest(_(u'Registration is disabled on this server.'))
+
+        # LMH_custom_start
         required = ['username',
                     'password',
                     'passwordagain',
-                    'email',
                     'firstname',
                     'lastname']
+        # LMH_custom_end
         check_required_params(bundle, required)
 
         data = {'username': bundle.data['username'],
                 'password': bundle.data['password'],
                 'password_again': bundle.data['passwordagain'],
-                'email': bundle.data['email']
+                # LMH_custom_start
+                'email': bundle.data['email'] 
                 if 'email' in bundle.data else '',
+                # LMH_custom_end
                 'first_name': bundle.data['firstname'],
                 'last_name': bundle.data['lastname'], }
         rf = RegisterForm(data)
@@ -214,7 +218,9 @@ class RegisterResource(ModelResource):
         else:
             username = bundle.data['username']
             password = bundle.data['password']
-            email = bundle.data['email']
+            # LMH_custom_start
+            email = bundle.data['email'] if 'email' in bundle.data else ''
+            # LMH_custom_end
             first_name = bundle.data['firstname']
             last_name = bundle.data['lastname']
         try:
