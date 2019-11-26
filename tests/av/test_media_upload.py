@@ -1,4 +1,5 @@
 # tests/av/test_course_publish.py
+import pytest
 
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
@@ -19,6 +20,8 @@ class MediaUploadResourceTest(TestCase):
     def setUp(self):
         super(MediaUploadResourceTest, self).setUp()
 
+    @pytest.mark.xfail(reason="works on local, but not on Github workflow \
+        see issue: https://github.com/DigitalCampus/django-oppia/issues/689")
     def test_upload_template(self):
 
         media_file_content = open(self.media_file_path, 'rb')
