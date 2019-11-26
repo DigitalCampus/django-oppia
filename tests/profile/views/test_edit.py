@@ -417,25 +417,6 @@ class EditProfileViewTest(TestCase):
                                             args=[1]), data=post_data)
         self.assertEqual(response.status_code, 403)
 
-    def test_edit_own_password_user(self):
-        self.client.login(username=NORMAL_USER['user'],
-                          password=NORMAL_USER['password'])
-        post_data = {'organisation': '',
-                     'email': 'admin@me.com',
-                     'username': 'admin',
-                     'first_name': 'admin',
-                     'last_name': 'user',
-                     'password': 'newpassword',
-                     'password_again': 'somethingelsepassword'}
-        self.client.post(reverse('profile_edit'), data=post_data)
-        self.assertRaisesMessage(forms.ValidationError,
-                                 'Passwords do not match')
-
-        self.client.login(username=NORMAL_USER['user'],
-                          password=NORMAL_USER['password'])
-        response = self.client.get(reverse('profile_edit'))
-        self.assertEqual(response.status_code, 200)
-
     def test_edit_existing_email(self):
         self.client.login(username=NORMAL_USER['user'],
                           password=NORMAL_USER['password'])
