@@ -3,7 +3,6 @@ import json
 import os
 import shutil
 import zipfile
-from wsgiref.util import FileWrapper
 import datetime
 import api
 
@@ -11,7 +10,6 @@ from django.conf import settings
 from django.conf.urls import url
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
-from django.core.mail import send_mail
 from django.db import IntegrityError
 from django.db.models import Sum
 from django.http import HttpResponse, Http404, JsonResponse
@@ -31,12 +29,10 @@ from tastypie.validation import Validation
 from api.serializers import PrettyJSONSerializer, \
                             CourseJSONSerializer, \
                             UserJSONSerializer
-from oppia import emailer
 from oppia.models import Activity, \
                          Tracker, \
                          Course, \
                          Media, \
-                         Cohort, \
                          Tag, \
                          CourseTag
 from oppia.models import Points, Award, Badge

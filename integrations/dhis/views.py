@@ -1,16 +1,13 @@
 # integrations/dhis/views.py
 import datetime
 import dateutil.relativedelta
-import json
 import tablib
 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.models import User
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse
 from django.db.models import Sum
 from django.shortcuts import render
-from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
 
 from oppia.models import Tracker
 

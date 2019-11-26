@@ -9,7 +9,7 @@ from tests.user_logins import ADMIN_USER, \
                               STAFF_USER, \
                               NORMAL_USER, \
                               TEACHER_USER
-from tests.defaults import *
+from tests.defaults import UNAUTHORISED_TEMPLATE
 
 
 class UserUploadActivityViewTest(TestCase):

@@ -4,13 +4,12 @@ import json
 import tablib
 
 from django.contrib.admin.views.decorators import staff_member_required
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse
 from django.shortcuts import render
-from django.template import RequestContext
 from django.utils import timezone
 
-from oppia.models import Course, Tracker, Activity
-from quiz.models import Quiz, QuizAttempt
+from oppia.models import Tracker, Activity
+from quiz.models import QuizAttempt
 
 
 @staff_member_required

@@ -5,9 +5,7 @@ import api
 import os
 from django.conf import settings
 from django.contrib.auth import authenticate
-from django.http import HttpResponseRedirect, \
-                        Http404, \
-                        HttpResponse, \
+from django.http import HttpResponse, \
                         JsonResponse
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt

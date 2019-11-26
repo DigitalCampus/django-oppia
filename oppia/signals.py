@@ -1,6 +1,5 @@
 # oppia/signals.py
 import math
-import warnings
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -9,7 +8,7 @@ from django.dispatch import Signal
 
 from gamification.models import DefaultGamificationEvent
 from oppia.models import Points, Tracker, Activity
-from quiz.models import Quiz, QuizAttempt
+from quiz.models import QuizAttempt
 
 course_downloaded = Signal(providing_args=["course", "user"])
 
