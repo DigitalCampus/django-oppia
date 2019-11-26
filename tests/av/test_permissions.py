@@ -1,8 +1,12 @@
+from django.urls import reverse
 from django.test import TestCase
 
-from tests.utils import *
+from tests.utils import get_api_key, get_api_url
 
-from tests.user_logins import *
+from tests.user_logins import ADMIN_USER, \
+                              STAFF_USER, \
+                              NORMAL_USER, \
+                              TEACHER_USER
 
 
 class PermissionsViewTest(TestCase):

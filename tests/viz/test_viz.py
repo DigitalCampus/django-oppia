@@ -3,10 +3,13 @@ import datetime
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.test.client import Client
+from django.urls import reverse
 from django.utils import timezone
 
-from tests.utils import *
-from tests.user_logins import *
+from tests.user_logins import ADMIN_USER, \
+                              STAFF_USER, \
+                              NORMAL_USER, \
+                              TEACHER_USER
 
 from viz.views import *
 

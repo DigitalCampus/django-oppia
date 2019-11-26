@@ -4,7 +4,6 @@ import datetime
 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.models import User
-from django.core import exceptions
 from django.db.models import Count, Sum
 from django.db.models.functions import ExtractMonth, ExtractYear
 from django.shortcuts import render

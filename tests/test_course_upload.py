@@ -1,13 +1,15 @@
 # tests/av/test_course_publish.py
 
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.urls import reverse
 from django.test import TestCase
 from django.test.client import Client
 from django.contrib.auth.models import User
 
-from tests.utils import *
-
-from tests.user_logins import *
+from tests.user_logins import ADMIN_USER, \
+                              STAFF_USER, \
+                              NORMAL_USER, \
+                              TEACHER_USER
 
 
 class CourseUploadTest(TestCase):

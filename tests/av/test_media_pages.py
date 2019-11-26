@@ -1,8 +1,10 @@
+from django.urls import reverse
 from django.test import TestCase
 
-from tests.utils import *
-
-from tests.user_logins import *
+from tests.user_logins import ADMIN_USER, \
+                              STAFF_USER, \
+                              NORMAL_USER, \
+                              TEACHER_USER
 
 
 class AVPagesViewTest(TestCase):
@@ -19,7 +21,8 @@ class AVPagesViewTest(TestCase):
         allowed_users = [ADMIN_USER, STAFF_USER, TEACHER_USER, NORMAL_USER]
 
         for allowed_user in allowed_users:
-            self.client.login(username=allowed_user['user'], password=allowed_user['password'])
+            self.client.login(username=allowed_user['user'],
+                              password=allowed_user['password'])
             response = self.client.get(url)
             self.assertTemplateUsed(response, 'av/home.html')
             self.assertEqual(response.status_code, 200)

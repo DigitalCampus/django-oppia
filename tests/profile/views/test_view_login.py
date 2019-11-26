@@ -4,7 +4,10 @@ from django.test import TestCase
 
 from django.contrib.auth.models import User
 
-from tests.user_logins import *
+from tests.user_logins import ADMIN_USER, \
+                              STAFF_USER, \
+                              NORMAL_USER, \
+                              TEACHER_USER
 
 
 class LoginViewTest(TestCase):

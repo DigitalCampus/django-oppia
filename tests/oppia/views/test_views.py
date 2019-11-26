@@ -1,9 +1,10 @@
 # oppia/tests/test_site.py
 from django.contrib.auth.models import User
+from django.urls import reverse 
 from django.test import TestCase
 from django.test.client import Client
 
-from tests.utils import *
+from tests.utils import get_api_key, get_api_url
 
 
 class OppiaViewsTest(TestCase):
