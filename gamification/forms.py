@@ -4,8 +4,6 @@ from crispy_forms.layout import Layout, Submit, Div
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from gamification.models import DefaultGamificationEvent
-
 
 class EditCoursePointsForm(forms.Form):
 

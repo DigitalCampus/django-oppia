@@ -1,14 +1,10 @@
 # oppia/gamification/models.py
-import datetime
-
-from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
 from oppia.models import Course, Activity, Media
-from quiz.models import Quiz
 
 
 class DefaultGamificationEvent(models.Model):

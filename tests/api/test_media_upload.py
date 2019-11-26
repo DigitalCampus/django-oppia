@@ -1,6 +1,4 @@
 # tests/api/test_course_publish.py
-import api
-
 from django import forms
 from django.test import TestCase
 from django.test.client import Client
