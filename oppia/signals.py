@@ -191,7 +191,7 @@ def badgeaward_callback(sender, **kwargs):
     p.save()
     return
 
-
 models.signals.post_save.connect(tracker_callback, sender=Tracker)
-models.signals.post_save.connect(signup_callback, sender=User)
-models.signals.post_save.connect(quizattempt_callback, sender=QuizAttempt)
+# Commented signals for points awarding (now it is processed app-side)
+# models.signals.post_save.connect(signup_callback, sender=User)
+# models.signals.post_save.connect(quizattempt_callback, sender=QuizAttempt)
