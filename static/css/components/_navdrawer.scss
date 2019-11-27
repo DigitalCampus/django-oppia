@@ -2,16 +2,49 @@
     .navdrawer-permanent-lg {
         z-index: map-get($navdrawer-elevation-shadow, elevation);
     }
-    .navdrawer-permanent-lg + #main-content, .navbar-drawer .container{
-        margin-left:$navdrawer-width;
+    .navdrawer-permanent-lg.show + #main-content{
+        margin-left:0;
     }
-    .navdrawer-permanent-lg + #main-content .modal.show{
+
+    .navdrawer-open-default #main-content .modal.show,
+    .navdrawer-open-default .navbar-drawer{
+        padding-left:$navdrawer-width;
+        transition-duration: .225s;
+        transition-property: padding-left;
+        transition-timing-function: cubic-bezier(0,0,.2,1);
+    }
+
+    .navdrawer-persistent-lg + #main-content{
+        margin-left: 0;
+        transition-duration: .225s;
+        transition-property: margin-left;
+        transition-timing-function: cubic-bezier(0,0,.2,1);
+    }
+
+    .navdrawer-open-default #main-content{
+        margin-left: $navdrawer-width;
+    }
+
+    .navdrawer-persistent-lg.show + #main-content .modal.show{
         padding-left:$navdrawer-width;
     }
+
+    .navdrawer-backdrop {
+        top:auto;
+        right:auto;
+        left:auto;
+    }
+
+
+
 }
 .navdrawer-permanent-lg ~ #top-bar{
     margin-left:$navdrawer-width;
 }
+
+.navbar-toggler.always-show{
+        display:block;
+    }
 
 @media (max-width: 992px){
     .navbar-toggler.always-show{

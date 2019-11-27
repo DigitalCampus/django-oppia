@@ -2,12 +2,11 @@
 {% load i18n %}
 
 <nav class="navbar navbar-expand navbar-light bg-primary navbar-drawer" id="top-bar">
-     <div class="container">
-    <button class="navbar-toggler always-show" type="button" data-toggle="navdrawer" data-target="#doc-navdrawer" aria-controls="doc-navdrawer" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler always-show" type="button" data-toggle="navdrawer" data-target="#doc-navdrawer" aria-controls="doc-navdrawer"  aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <a class="navbar-brand text-light" href="{% url 'oppia_home' %}"><img class="mr-2" src="{% static "oppia/images/dc_logo.png" %}" height="30" alt="{% trans 'app_name' %} {% trans 'logo' %}"/>{% trans 'app_name' %}</a>
-
+    <div class="device-lg d-none d-lg-block"></div>
 
       <div class="collapse navbar-collapse" id="navbar-collapse">
         <ul class="navbar-nav ml-auto mt-0">
@@ -31,11 +30,10 @@
               </li>
         </ul>
       </div>
-     </div>
 </nav>
 
 
-<div class="navdrawer navdrawer-permanent-lg doc-navdrawer" id="doc-navdrawer" tabindex="-1" aria-hidden="true">
+<div class="navdrawer navdrawer-persistent-lg navdrawer-default show" id="doc-navdrawer" tabindex="-1">
   <div class="navdrawer-content">
     <div class="d-flex flex-column doc-navdrawer-body">
 
