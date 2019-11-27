@@ -10,8 +10,7 @@ from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import (authenticate, login)
 from django.contrib.auth.models import User
-from django.core import exceptions
-from django.core.mail import send_mail
+from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db import IntegrityError
 from django.db.models import Count, Max, Min, Avg, Q
@@ -181,7 +180,7 @@ def edit(request, user_id=0):
     elif user_id == 0:
         view_user = request.user
     else:
-        raise exceptions.PermissionDenied
+        raise PermissionDenied
 
     key = ApiKey.objects.get(user=view_user)
     if request.method == 'POST':
@@ -481,7 +480,7 @@ def user_course_activity_view(request, user_id, course_id):
 
 def upload_view(request):
     if not request.user.is_superuser:
-        raise exceptions.PermissionDenied
+        raise PermissionDenied
 
     if request.method == 'POST':  # if form submitted...
         form = UploadProfileForm(request.POST, request.FILES)

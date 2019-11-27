@@ -6,11 +6,8 @@
 '''
 
 import urllib
-import time
-import django.db.models
 
-from django.conf import settings
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from django.utils.translation import ugettext_lazy as _
 
 from oppia.models import Media

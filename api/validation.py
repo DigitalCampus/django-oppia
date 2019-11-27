@@ -1,6 +1,4 @@
 # oppia/api/validation.py
-from django.utils.translation import ugettext_lazy as _
-
 from oppia.models import Activity, Media
 
 from tastypie.validation import Validation
