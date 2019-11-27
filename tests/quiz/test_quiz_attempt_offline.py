@@ -1,7 +1,4 @@
 # coding: utf-8
-import pytest
-
-# QuizAttemptResource
 from django.contrib.auth.models import User
 from django.test import TestCase
 from tastypie.test import ResourceTestCaseMixin
@@ -29,9 +26,6 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
         return self.create_apikey(username=self.username,
                                   api_key=self.api_key)
 
-
-    @pytest.mark.xfail(reason="see issue: \
-        https://github.com/DigitalCampus/django-oppia/issues/667")
     def test_quiz_attempt_points_included(self):
 
         data = {
