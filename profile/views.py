@@ -36,7 +36,7 @@ from profile.forms import LoginForm, \
                           UploadProfileForm, \
                           UserSearchForm, \
                           DeleteAccountForm
-from profile.models import UserProfile
+from profile.models import UserProfile, CustomField, UserProfileCustomField
 from quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
 from reports.signals import dashboard_accessed
 from settings import constants
@@ -119,11 +119,35 @@ def register(request):
             user.first_name = first_name
             user.last_name = last_name
             user.save()
+            
+            # create UserProfile record
             user_profile = UserProfile()
             user_profile.user = user
             user_profile.job_title = form.cleaned_data.get("job_title")
             user_profile.organisation = form.cleaned_data.get("organisation")
             user_profile.save()
+            
+            # save any custom fields
+            custom_fields = CustomField.objects.all()
+            for custom_field in custom_fields:
+                if custom_field.type == 'int':
+                    profile_field = UserProfileCustomField(
+                        key_name=custom_field,
+                        user=user,
+                        value_int=form.cleaned_data.get(custom_field.id))
+                elif custom_field.type == 'bool':
+                    profile_field = UserProfileCustomField(
+                        key_name=custom_field,
+                        user=user,
+                        value_bool=form.cleaned_data.get(custom_field.id))
+                else:
+                    profile_field = UserProfileCustomField(
+                        key_name=custom_field,
+                        user=user,
+                        value_str=form.cleaned_data.get(custom_field.id))
+                if form.cleaned_data.get(custom_field.id) != None \
+                        or custom_field.required is True:
+                    profile_field.save()
             u = authenticate(username=username, password=password)
             if u is not None and u.is_active:
                 login(request, u)
