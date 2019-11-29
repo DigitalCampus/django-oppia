@@ -54,5 +54,6 @@ setup(
         "pycodestyle",
         "pytest",
         "pytest-django",
+        "django-ses",
     ],
 )
