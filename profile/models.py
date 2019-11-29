@@ -43,3 +43,41 @@ class UserProfile (models.Model):
             return True
         else:
             return False
+
+class CustomField (models.Model):
+    
+    DATA_TYPES = (
+        ('str', 'String'),
+        ('int', 'Integer'),
+        ('bool', 'Boolean')
+    )
+    
+    id = models.CharField(max_length=100, primary_key=True, editable=True)
+    label = models.CharField(max_length=200, null=False, blank=False)
+    required = models.BooleanField(default=False)
+    order = models.IntegerField(default=0)
+    helper_text = models.TextField(blank=True, null=True, default=None)
+    type = models.CharField(max_length=10,
+                            choices=DATA_TYPES,
+                            null=False,
+                            blank=False)
+    
+    def __unicode__(self):
+        return self.id
+
+    def __str__(self):
+        return self.id
+    
+class UserProfileCustomField (models.Model):
+    key_name = models.ForeignKey(CustomField, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    value_str = models.TextField(blank=True, null=True, default=None)
+    value_int = models.IntegerField()
+    value_bool = models.BooleanField(null=True, default=None)
+    
+    def __unicode__(self):
+        return self.key_name + ": " + user
+
+    def __str__(self):
+        return self.key_name + ": " + user
+    
