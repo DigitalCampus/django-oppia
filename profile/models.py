@@ -61,6 +61,8 @@ class CustomField (models.Model):
                             choices=DATA_TYPES,
                             null=False,
                             blank=False)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
     
     def __unicode__(self):
         return self.id
@@ -72,12 +74,14 @@ class UserProfileCustomField (models.Model):
     key_name = models.ForeignKey(CustomField, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     value_str = models.TextField(blank=True, null=True, default=None)
-    value_int = models.IntegerField()
+    value_int = models.IntegerField(blank=True, null=True, default=None)
     value_bool = models.BooleanField(null=True, default=None)
-    
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+    '''    
     def __unicode__(self):
-        return self.key_name + ": " +self.user
+        return self.key_name.id + ": " + self.user.username
 
     def __str__(self):
-        return self.key_name + ": " + self.user
-    
+        return self.key_name.id + ": " + self.user.username
+    '''
