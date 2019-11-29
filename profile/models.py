@@ -76,8 +76,8 @@ class UserProfileCustomField (models.Model):
     value_bool = models.BooleanField(null=True, default=None)
     
     def __unicode__(self):
-        return self.key_name + ": " + user
+        return self.key_name + ": " +self.user
 
     def __str__(self):
-        return self.key_name + ": " + user
+        return self.key_name + ": " + self.user
     
