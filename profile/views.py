@@ -145,7 +145,8 @@ def register(request):
                         key_name=custom_field,
                         user=user,
                         value_str=form.cleaned_data.get(custom_field.id))
-                if form.cleaned_data.get(custom_field.id) != None \
+                if (form.cleaned_data.get(custom_field.id) != None 
+                        and form.cleaned_data.get(custom_field.id) != '') \
                         or custom_field.required is True:
                     profile_field.save()
             u = authenticate(username=username, password=password)
