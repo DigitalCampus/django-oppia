@@ -86,3 +86,12 @@ class UserProfileCustomField (models.Model):
 
     def __str__(self):
         return self.key_name.id + ": " + self.user.username
+
+    def get_value(self):
+        if self.value_bool is not None:
+            return self.value_bool
+        elif self.value_int is not None:
+            return self.value_int
+        else:
+            return self.value_str
+            
