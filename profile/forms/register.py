@@ -59,26 +59,26 @@ class RegisterForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(RegisterForm, self).__init__(* args, ** kwargs)
-        
+
         custom_fields = CustomField.objects.all().order_by('order')
-        
+
         for custom_field in custom_fields:
             if custom_field.type == 'int':
                 self.fields[custom_field.id] = \
                         forms.IntegerField(label=custom_field.label,
-                                        required=custom_field.required,
-                                        help_text=custom_field.helper_text)
+                                           required=custom_field.required,
+                                           help_text=custom_field.helper_text)
             elif custom_field.type == 'bool':
                 self.fields[custom_field.id] = \
                         forms.BooleanField(label=custom_field.label,
-                                        required=custom_field.required,
-                                        help_text=custom_field.helper_text)
+                                           required=custom_field.required,
+                                           help_text=custom_field.helper_text)
             else:
                 self.fields[custom_field.id] = \
                         forms.CharField(label=custom_field.label,
                                         required=custom_field.required,
                                         help_text=custom_field.helper_text)
-                    
+
         self.helper = FormHelper()
         self.helper.form_action = reverse('profile_register')
         self.helper.form_class = 'form-horizontal'
@@ -93,10 +93,10 @@ class RegisterForm(forms.Form):
             'last_name',
             'job_title',
             'organisation')
-        
+
         for custom_field in custom_fields:
             self.helper.layout.append(custom_field.id)
-            
+
         self.helper.layout.append(Div(
                 Submit('submit', _(u'Register'), css_class='btn btn-default'),
                 css_class='col-lg-offset-2 col-lg-4',
@@ -114,7 +114,8 @@ class RegisterForm(forms.Form):
         num_rows = User.objects.filter(username=username).count()
         if num_rows != 0:
             raise forms.ValidationError(
-                _(u"Username has already been registered, please select another."))
+                _(u"Username has already been registered, \
+                  please select another."))
 
         # check the email address not already used
         if email and User.objects.filter(email=email).exists():
@@ -123,6 +124,6 @@ class RegisterForm(forms.Form):
         # check the password are the same
         if password and password_again and password != password_again:
             raise forms.ValidationError(_(u"Passwords do not match."))
-            
+
         # Always return the full collection of cleaned data.
         return cleaned_data

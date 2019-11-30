@@ -119,14 +119,14 @@ def register(request):
             user.first_name = first_name
             user.last_name = last_name
             user.save()
-            
+
             # create UserProfile record
             user_profile = UserProfile()
             user_profile.user = user
             user_profile.job_title = form.cleaned_data.get("job_title")
             user_profile.organisation = form.cleaned_data.get("organisation")
             user_profile.save()
-            
+
             # save any custom fields
             custom_fields = CustomField.objects.all()
             for custom_field in custom_fields:
@@ -145,7 +145,7 @@ def register(request):
                         key_name=custom_field,
                         user=user,
                         value_str=form.cleaned_data.get(custom_field.id))
-                if (form.cleaned_data.get(custom_field.id) != None 
+                if (form.cleaned_data.get(custom_field.id) is not None
                         and form.cleaned_data.get(custom_field.id) != '') \
                         or custom_field.required is True:
                     profile_field.save()
