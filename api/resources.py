@@ -567,7 +567,8 @@ class CourseResource(ModelResource):
                   'is_draft',
                   'description',
                   'author',
-                  'username']
+                  'username',
+                  'organisation']
         authentication = ApiKeyAuthentication()
         authorization = ReadOnlyAuthorization()
         serializer = CourseJSONSerializer()
@@ -709,6 +710,7 @@ class CourseResource(ModelResource):
                                     + " " \
                                     + course.user.last_name
             bundle.data['username'] = course.user.username
+            bundle.data['organisation'] = course.user.userprofile.organisation
 
         return bundle
 
