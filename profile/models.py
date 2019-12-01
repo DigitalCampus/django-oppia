@@ -44,14 +44,15 @@ class UserProfile (models.Model):
         else:
             return False
 
+
 class CustomField (models.Model):
-    
+
     DATA_TYPES = (
         ('str', 'String'),
         ('int', 'Integer'),
         ('bool', 'Boolean')
     )
-    
+
     id = models.CharField(max_length=100, primary_key=True, editable=True)
     label = models.CharField(max_length=200, null=False, blank=False)
     required = models.BooleanField(default=False)
@@ -63,13 +64,14 @@ class CustomField (models.Model):
                             blank=False)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
-    
+
     def __unicode__(self):
         return self.id
 
     def __str__(self):
         return self.id
-    
+
+
 class UserProfileCustomField (models.Model):
     key_name = models.ForeignKey(CustomField, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -78,10 +80,21 @@ class UserProfileCustomField (models.Model):
     value_bool = models.BooleanField(null=True, default=None)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
-    '''    
+
+    class Meta:
+        unique_together = ['key_name', 'user']
+
     def __unicode__(self):
         return self.key_name.id + ": " + self.user.username
 
     def __str__(self):
         return self.key_name.id + ": " + self.user.username
-    '''
+
+    def get_value(self):
+        if self.value_bool is not None:
+            return self.value_bool
+        elif self.value_int is not None:
+            return self.value_int
+        else:
+            return self.value_str
+

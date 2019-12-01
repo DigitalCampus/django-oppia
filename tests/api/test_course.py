@@ -61,6 +61,8 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
             self.assertTrue('shortname' in course)
             self.assertTrue('title' in course)
             self.assertTrue('version' in course)
+            self.assertTrue('author' in course)
+            self.assertTrue('organisation' in course)
 
     def test_course_get_single(self):
         resource_url = get_api_url('course', 1)
@@ -74,6 +76,8 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertTrue('title' in course)
         self.assertTrue('description' in course)
         self.assertTrue('version' in course)
+        self.assertTrue('author' in course)
+        self.assertTrue('organisation' in course)
 
     def test_course_get_single_not_found(self):
         resource_url = get_api_url('course', 999)

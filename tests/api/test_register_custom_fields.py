@@ -1,27 +1,26 @@
-from django.core.exceptions import ValidationError
-from django.urls import reverse
 from django.test import TestCase
+from tastypie.test import ResourceTestCaseMixin
+
+from settings import constants
+from settings.models import SettingProperties
 
 from profile.models import CustomField, UserProfileCustomField
 
 
-class RegisterCustomFieldsViewTest(TestCase):
-    fixtures = ['tests/test_user.json',
-                'tests/test_oppia.json',
-                'tests/test_quiz.json']
-    base_filled_form = {
+class RegisterCustomFieldsResourceTest(ResourceTestCaseMixin, TestCase):
+    fixtures = ['tests/test_user.json']
+    base_data = {
             'username': 'new_username',
             'email': 'newusername@email.com',
             'password': 'password',
-            'password_again': 'password',
-            'first_name': 'Test name',
-            'last_name': 'Last name'
+            'passwordagain': 'password',
+            'firstname': 'Test name',
+            'lastname': 'Last name'
         }
 
     def setUp(self):
-        super(RegisterCustomFieldsViewTest, self).setUp()
-        self.url = reverse('profile_register')
-        self.thanks_url = reverse('profile_register_thanks')
+        super(RegisterCustomFieldsResourceTest, self).setUp()
+        self.url = '/api/v1/register/'
 
     # INTEGER REQUIRED
     # with int in form - correct
@@ -36,10 +35,12 @@ class RegisterCustomFieldsViewTest(TestCase):
         count_start = UserProfileCustomField.objects.all().count()
 
         # with int in form - correct
-        filled_form = self.base_filled_form.copy()
-        filled_form['int_req'] = 123
-        resp = self.client.post(self.url, data=filled_form)
-        self.assertRedirects(resp, expected_url=self.thanks_url)
+        data = self.base_data.copy()
+        data['int_req'] = 123
+
+        resp = self.api_client.post(self.url, format='json', data=data)
+        self.assertHttpCreated(resp)
+        self.assertValidJSON(resp.content)
 
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start+1, count_end)
@@ -47,7 +48,7 @@ class RegisterCustomFieldsViewTest(TestCase):
         # check saved to value_int field
         saved_row = UserProfileCustomField.objects.latest('created')
         self.assertEqual(saved_row.value_int, 123)
-
+        
     # without int in form - invalid
     def test_int_required_field_without_int(self):
         custom_field = CustomField(
@@ -58,8 +59,13 @@ class RegisterCustomFieldsViewTest(TestCase):
         custom_field.save()
 
         count_start = UserProfileCustomField.objects.all().count()
-        self.client.post(self.url, data=self.base_filled_form)
-        self.assertRaises(ValidationError)
+        
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=self.base_data)
+        self.assertHttpBadRequest(resp)
+        self.assertValidJSON(resp.content)
+
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start, count_end)
 
@@ -76,10 +82,12 @@ class RegisterCustomFieldsViewTest(TestCase):
         count_start = UserProfileCustomField.objects.all().count()
 
         # with int in form - correct
-        filled_form = self.base_filled_form.copy()
-        filled_form['int_not_req'] = 123
-        resp = self.client.post(self.url, data=filled_form)
-        self.assertRedirects(resp, expected_url=self.thanks_url)
+        data = self.base_data.copy()
+        data['int_not_req'] = 123
+
+        resp = self.api_client.post(self.url, format='json', data=data)
+        self.assertHttpCreated(resp)
+        self.assertValidJSON(resp.content)
 
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start+1, count_end)
@@ -99,8 +107,11 @@ class RegisterCustomFieldsViewTest(TestCase):
 
         count_start = UserProfileCustomField.objects.all().count()
 
-        resp = self.client.post(self.url, data=self.base_filled_form)
-        self.assertRedirects(resp, expected_url=self.thanks_url)
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=self.base_data)
+        self.assertHttpCreated(resp)
+        self.assertValidJSON(resp.content)
 
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start, count_end)
@@ -118,10 +129,12 @@ class RegisterCustomFieldsViewTest(TestCase):
         count_start = UserProfileCustomField.objects.all().count()
 
         # with int in form - correct
-        filled_form = self.base_filled_form.copy()
-        filled_form['bool_req'] = True
-        resp = self.client.post(self.url, data=filled_form)
-        self.assertRedirects(resp, expected_url=self.thanks_url)
+        data = self.base_data.copy()
+        data['bool_req'] = True
+        
+        resp = self.api_client.post(self.url, format='json', data=data)
+        self.assertHttpCreated(resp)
+        self.assertValidJSON(resp.content)
 
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start+1, count_end)
@@ -140,12 +153,14 @@ class RegisterCustomFieldsViewTest(TestCase):
 
         count_start = UserProfileCustomField.objects.all().count()
 
-        # with int in form - correct
-        filled_form = self.base_filled_form.copy()
-        filled_form['bool_req'] = False
+        data = self.base_data.copy()
+        data['bool_req'] = False
         count_start = UserProfileCustomField.objects.all().count()
-        self.client.post(self.url, data=filled_form)
-        self.assertRaises(ValidationError)
+
+        resp = self.api_client.post(self.url, format='json', data=data)
+        self.assertHttpBadRequest(resp)
+        self.assertValidJSON(resp.content)
+
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start, count_end)
 
@@ -159,10 +174,14 @@ class RegisterCustomFieldsViewTest(TestCase):
         custom_field.save()
 
         count_start = UserProfileCustomField.objects.all().count()
-        self.client.post(self.url, data=self.base_filled_form)
-        self.assertRaises(ValidationError)
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=self.base_data)
+        self.assertHttpBadRequest(resp)
+        self.assertValidJSON(resp.content)
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start, count_end)
+
 
     # BOOLEAN NOT REQUIRED
     # with bool in form - correct
@@ -177,10 +196,13 @@ class RegisterCustomFieldsViewTest(TestCase):
         count_start = UserProfileCustomField.objects.all().count()
 
         # with int in form - correct
-        filled_form = self.base_filled_form.copy()
-        filled_form['bool_not_req'] = True
-        resp = self.client.post(self.url, data=filled_form)
-        self.assertRedirects(resp, expected_url=self.thanks_url)
+        data = self.base_data.copy()
+        data['bool_not_req'] = True
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data)
+        self.assertHttpCreated(resp)
+        self.assertValidJSON(resp.content)
 
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start+1, count_end)
@@ -200,10 +222,13 @@ class RegisterCustomFieldsViewTest(TestCase):
         count_start = UserProfileCustomField.objects.all().count()
 
         # with int in form - correct
-        filled_form = self.base_filled_form.copy()
-        filled_form['bool_not_req'] = False
-        resp = self.client.post(self.url, data=filled_form)
-        self.assertRedirects(resp, expected_url=self.thanks_url)
+        data = self.base_data.copy()
+        data['bool_not_req'] = False
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data)
+        self.assertHttpCreated(resp)
+        self.assertValidJSON(resp.content)
 
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start+1, count_end)
@@ -223,11 +248,14 @@ class RegisterCustomFieldsViewTest(TestCase):
 
         count_start = UserProfileCustomField.objects.all().count()
 
-        resp = self.client.post(self.url, data=self.base_filled_form)
-        self.assertRedirects(resp, expected_url=self.thanks_url)
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=self.base_data)
+        self.assertHttpCreated(resp)
+        self.assertValidJSON(resp.content)
 
         count_end = UserProfileCustomField.objects.all().count()
-        self.assertEqual(count_start+1, count_end)
+        self.assertEqual(count_start, count_end)
 
     # STRING REQUIRED
     # with str in form - correct
@@ -242,10 +270,13 @@ class RegisterCustomFieldsViewTest(TestCase):
         count_start = UserProfileCustomField.objects.all().count()
 
         # with int in form - correct
-        filled_form = self.base_filled_form.copy()
-        filled_form['str_req'] = "my string"
-        resp = self.client.post(self.url, data=filled_form)
-        self.assertRedirects(resp, expected_url=self.thanks_url)
+        data = self.base_data.copy()
+        data['str_req'] = "my string"
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data)
+        self.assertHttpCreated(resp)
+        self.assertValidJSON(resp.content)
 
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start+1, count_end)
@@ -265,11 +296,14 @@ class RegisterCustomFieldsViewTest(TestCase):
         count_start = UserProfileCustomField.objects.all().count()
 
         # with int in form - correct
-        filled_form = self.base_filled_form.copy()
-        filled_form['str_req'] = ""
+        data = self.base_data.copy()
+        data['str_req'] = ""
         count_start = UserProfileCustomField.objects.all().count()
-        self.client.post(self.url, data=filled_form)
-        self.assertRaises(ValidationError)
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data)
+        self.assertHttpBadRequest(resp)
+        self.assertValidJSON(resp.content)
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start, count_end)
 
@@ -283,8 +317,11 @@ class RegisterCustomFieldsViewTest(TestCase):
         custom_field.save()
 
         count_start = UserProfileCustomField.objects.all().count()
-        self.client.post(self.url, data=self.base_filled_form)
-        self.assertRaises(ValidationError)
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=self.base_data)
+        self.assertHttpBadRequest(resp)
+        self.assertValidJSON(resp.content)
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start, count_end)
 
@@ -301,10 +338,13 @@ class RegisterCustomFieldsViewTest(TestCase):
         count_start = UserProfileCustomField.objects.all().count()
 
         # with int in form - correct
-        filled_form = self.base_filled_form.copy()
-        filled_form['str_not_req'] = "my string"
-        resp = self.client.post(self.url, data=filled_form)
-        self.assertRedirects(resp, expected_url=self.thanks_url)
+        data = self.base_data.copy()
+        data['str_not_req'] = "my string"
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data)
+        self.assertHttpCreated(resp)
+        self.assertValidJSON(resp.content)
 
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start+1, count_end)
@@ -324,10 +364,13 @@ class RegisterCustomFieldsViewTest(TestCase):
         count_start = UserProfileCustomField.objects.all().count()
 
         # with int in form - correct
-        filled_form = self.base_filled_form.copy()
-        filled_form['str_not_req'] = ""
-        resp = self.client.post(self.url, data=filled_form)
-        self.assertRedirects(resp, expected_url=self.thanks_url)
+        data = self.base_data.copy()
+        data['str_not_req'] = ""
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data)
+        self.assertHttpCreated(resp)
+        self.assertValidJSON(resp.content)
 
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start, count_end)
@@ -343,8 +386,11 @@ class RegisterCustomFieldsViewTest(TestCase):
 
         count_start = UserProfileCustomField.objects.all().count()
 
-        resp = self.client.post(self.url, data=self.base_filled_form)
-        self.assertRedirects(resp, expected_url=self.thanks_url)
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=self.base_data)
+        self.assertHttpCreated(resp)
+        self.assertValidJSON(resp.content)
 
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start, count_end)

@@ -119,14 +119,14 @@ def register(request):
             user.first_name = first_name
             user.last_name = last_name
             user.save()
-            
+
             # create UserProfile record
             user_profile = UserProfile()
             user_profile.user = user
             user_profile.job_title = form.cleaned_data.get("job_title")
             user_profile.organisation = form.cleaned_data.get("organisation")
             user_profile.save()
-            
+
             # save any custom fields
             custom_fields = CustomField.objects.all()
             for custom_field in custom_fields:
@@ -145,7 +145,8 @@ def register(request):
                         key_name=custom_field,
                         user=user,
                         value_str=form.cleaned_data.get(custom_field.id))
-                if form.cleaned_data.get(custom_field.id) != None \
+                if (form.cleaned_data.get(custom_field.id) is not None
+                        and form.cleaned_data.get(custom_field.id) != '') \
                         or custom_field.required is True:
                     profile_field.save()
             u = authenticate(username=username, password=password)
@@ -225,6 +226,28 @@ def edit(request, user_id=0):
             user_profile.organisation = form.cleaned_data.get("organisation")
             user_profile.save()
 
+            # save any custom fields
+            custom_fields = CustomField.objects.all()
+            for custom_field in custom_fields:
+                if (form.cleaned_data.get(custom_field.id) is not None
+                        and form.cleaned_data.get(custom_field.id) != '') \
+                        or custom_field.required is True:
+
+                    profile_field, created = UserProfileCustomField.objects \
+                        .get_or_create(key_name=custom_field, user=view_user)
+
+                    if custom_field.type == 'int':
+                        profile_field.value_int = \
+                            form.cleaned_data.get(custom_field.id)
+                    elif custom_field.type == 'bool':
+                        profile_field.value_bool = \
+                            form.cleaned_data.get(custom_field.id)
+                    else:
+                        profile_field.value_str = \
+                            form.cleaned_data.get(custom_field.id)
+                    
+                    profile_field.save()
+
             messages.success(request, _(u"Profile updated"))
 
             # if password should be changed
@@ -237,14 +260,20 @@ def edit(request, user_id=0):
         user_profile, created = UserProfile.objects \
             .get_or_create(user=view_user)
 
-        form = ProfileForm(initial={'username': view_user.username,
-                                    'email': view_user.email,
-                                    'first_name': view_user.first_name,
-                                    'last_name': view_user.last_name,
-                                    'api_key': key.key,
-                                    'job_title': user_profile.job_title,
-                                    'organisation':
-                                        user_profile.organisation})
+        initial = {'username': view_user.username,
+                   'email': view_user.email,
+                   'first_name': view_user.first_name,
+                   'last_name': view_user.last_name,
+                   'api_key': key.key,
+                   'job_title': user_profile.job_title,
+                   'organisation': user_profile.organisation}
+        custom_fields = CustomField.objects.all()
+        for custom_field in custom_fields:
+            upcf_row = UserProfileCustomField.objects \
+                .filter(key_name=custom_field, user=view_user)
+            if upcf_row.count == 1:
+                initial[custom_field.id] = upcf_row.first().get_value()
+        form = ProfileForm(initial=initial)
 
     return render(request, 'profile/profile.html', {'form': form})
 
