@@ -43,13 +43,7 @@ from oppia import emailer
 from settings import constants
 from settings.models import SettingProperties
 
-
-def check_required_params(bundle, required):
-    for r in required:
-        try:
-            bundle.data[r]
-        except KeyError:
-            raise BadRequest(_(u'Please enter your %s') % r)
+from api.utils import check_required_params
 
 
 class UserResource(ModelResource):
