@@ -4,13 +4,24 @@ from tastypie.api import Api
 from activitylog.views import post_activitylog
 from api.media import upload_view
 from api.publish import publish_view
-from api.resources import TrackerResource, CourseResource, TagResource, \
-    PointsResource, AwardsResource, BadgesResource, \
-    UserResource, RegisterResource, ResetPasswordResource
+from api.resources import TrackerResource, \
+                          CourseResource, \
+                          TagResource, \
+                          PointsResource, \
+                          AwardsResource, \
+                          BadgesResource, \
+                          UserResource, \
+                          RegisterResource, \
+                          ResetPasswordResource
+                          
+from api.resource.profile_update import ProfileUpdateResource
 
-from quiz.api.resources import QuizResource, QuizPropsResource, \
-    QuestionResource, QuizQuestionResource, \
-    ResponseResource, QuizAttemptResource
+from quiz.api.resources import QuizResource, \
+                               QuizPropsResource, \
+                               QuestionResource, \
+                               QuizQuestionResource, \
+                               ResponseResource, \
+                               QuizAttemptResource
 
 
 def get_api(version_name):
@@ -24,6 +35,7 @@ def get_api(version_name):
     api.register(UserResource())
     api.register(RegisterResource())
     api.register(ResetPasswordResource())
+    api.register(ProfileUpdateResource())
 
     api.register(QuizResource())
     api.register(QuizPropsResource())
