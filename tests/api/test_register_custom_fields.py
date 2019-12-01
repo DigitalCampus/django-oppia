@@ -1,9 +1,6 @@
 from django.test import TestCase
 from tastypie.test import ResourceTestCaseMixin
 
-from settings import constants
-from settings.models import SettingProperties
-
 from profile.models import CustomField, UserProfileCustomField
 
 
@@ -48,7 +45,7 @@ class RegisterCustomFieldsResourceTest(ResourceTestCaseMixin, TestCase):
         # check saved to value_int field
         saved_row = UserProfileCustomField.objects.latest('created')
         self.assertEqual(saved_row.value_int, 123)
-        
+
     # without int in form - invalid
     def test_int_required_field_without_int(self):
         custom_field = CustomField(
@@ -59,7 +56,7 @@ class RegisterCustomFieldsResourceTest(ResourceTestCaseMixin, TestCase):
         custom_field.save()
 
         count_start = UserProfileCustomField.objects.all().count()
-        
+
         resp = self.api_client.post(self.url,
                                     format='json',
                                     data=self.base_data)
@@ -131,7 +128,7 @@ class RegisterCustomFieldsResourceTest(ResourceTestCaseMixin, TestCase):
         # with int in form - correct
         data = self.base_data.copy()
         data['bool_req'] = True
-        
+
         resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpCreated(resp)
         self.assertValidJSON(resp.content)
@@ -150,8 +147,6 @@ class RegisterCustomFieldsResourceTest(ResourceTestCaseMixin, TestCase):
             required=True,
             type='bool')
         custom_field.save()
-
-        count_start = UserProfileCustomField.objects.all().count()
 
         data = self.base_data.copy()
         data['bool_req'] = False
@@ -181,7 +176,6 @@ class RegisterCustomFieldsResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertValidJSON(resp.content)
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start, count_end)
-
 
     # BOOLEAN NOT REQUIRED
     # with bool in form - correct

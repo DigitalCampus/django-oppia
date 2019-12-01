@@ -281,7 +281,7 @@ class RegisterResource(ModelResource):
             tracker.save()
         key = ApiKey.objects.get(user=u)
         bundle.data['api_key'] = key.key
-        
+
         del bundle.data['passwordagain']
         del bundle.data['password']
         del bundle.data['firstname']

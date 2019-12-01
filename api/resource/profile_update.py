@@ -1,24 +1,17 @@
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
-from tastypie import fields
-from tastypie.authentication import Authentication, ApiKeyAuthentication
-from tastypie.authorization import Authorization, ReadOnlyAuthorization
+from tastypie.authentication import ApiKeyAuthentication
+from tastypie.authorization import Authorization
 from tastypie.exceptions import BadRequest, Unauthorized
-from tastypie.models import ApiKey
 from tastypie.resources import ModelResource
-
-from tastypie.utils import trailing_slash, timezone
-from tastypie.validation import Validation
 
 from api.serializers import UserJSONSerializer
 from profile.forms import ProfileForm
-from profile.models import UserProfile, CustomField, UserProfileCustomField
-
-from settings import constants
-from settings.models import SettingProperties
+from profile.models import UserProfile
 
 from api.utils import check_required_params
+
 
 class ProfileUpdateResource(ModelResource):
     class Meta:
@@ -41,10 +34,11 @@ class ProfileUpdateResource(ModelResource):
         if 'username' in bundle.data \
                 and bundle.data['username'] != bundle.request.user:
             raise Unauthorized(_("You cannot edit another users profile"))
-        
-        data = {'email': bundle.data['email'] if 'email' in bundle.data else '',
+
+        data = {'email': bundle.data['email']
+                if 'email' in bundle.data else '',
                 'first_name': bundle.data['firstname'],
-                'last_name': bundle.data['lastname'], 
+                'last_name': bundle.data['lastname'],
                 'username': bundle.request.user}
 
         profile_form = ProfileForm(data)
@@ -58,7 +52,7 @@ class ProfileUpdateResource(ModelResource):
             email = bundle.data['email'] if 'email' in bundle.data else ''
             first_name = bundle.data['firstname']
             last_name = bundle.data['lastname']
-            
+
         try:
             bundle.obj = User.objects.get(username=bundle.request.user)
             bundle.obj.first_name = first_name
@@ -67,8 +61,9 @@ class ProfileUpdateResource(ModelResource):
             bundle.obj.save()
         except User.DoesNotExist:
             raise BadRequest(_(u'Username not found'))
-        
-        user_profile, created = UserProfile.objects.get_or_create(user=bundle.obj)
+
+        user_profile, created = UserProfile.objects \
+            .get_or_create(user=bundle.obj)
         if 'jobtitle' in bundle.data:
             user_profile.job_title = bundle.data['jobtitle']
         if 'organisation' in bundle.data:
