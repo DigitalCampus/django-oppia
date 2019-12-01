@@ -32,14 +32,14 @@ class ProfileEditCustomFieldsViewTest(TestCase):
                      'email': user.email,
                      'username': user.username,
                      'first_name': user.first_name,
-                     'last_name': user.last_name }
+                     'last_name': user.last_name}
         count_start = UserProfileCustomField.objects.all().count()
         self.client.post(self.url, data=post_data)
         self.assertRaises(ValidationError)
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start, count_end)
-        
-    # BOOLEAN REQUIRED  
+
+    # BOOLEAN REQUIRED
     # editing required bool field - with change
     def test_edit_profile_req_bool_change(self):
         custom_field = CustomField(
@@ -91,9 +91,9 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         self.assertEqual(count_start+1, count_end)
 
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
-                                                        user=user)
+                                                         user=user)
         self.assertEqual(updated_row.value_bool, True)
-        
+
     # editing required bool field - without change
     def test_edit_profile_req_bool_no_change(self):
         custom_field = CustomField(
@@ -122,7 +122,7 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         self.assertEqual(count_start, count_end)
 
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
-                                                        user=user)
+                                                         user=user)
         self.assertEqual(updated_row.value_bool, True)
 
     # BOOLEAN NOT REQUIRED
@@ -185,10 +185,10 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         self.assertEqual(count_start, count_end)
 
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
-                                                        user=user)
+                                                         user=user)
         self.assertEqual(updated_row.value_bool, True)
 
-    # INTEGER REQUIRED  
+    # INTEGER REQUIRED
     # editing required int field - with change
     def test_edit_profile_req_int_change(self):
         custom_field = CustomField(
@@ -217,7 +217,7 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         self.assertEqual(count_start, count_end)
 
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
-                                                        user=user)
+                                                         user=user)
         self.assertEqual(updated_row.value_int, 999)
 
     # new requirement or new field
@@ -244,7 +244,7 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         self.assertEqual(count_start+1, count_end)
 
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
-                                                        user=user)
+                                                         user=user)
         self.assertEqual(updated_row.value_int, 123)
         
     # editing required int field - without change
@@ -275,7 +275,7 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         self.assertEqual(count_start, count_end)
 
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
-                                                        user=user)
+                                                         user=user)
         self.assertEqual(updated_row.value_int, 123)
 
     # Integer NOT REQUIRED
@@ -307,7 +307,7 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         self.assertEqual(count_start, count_end)
 
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
-                                                        user=user)
+                                                         user=user)
         self.assertEqual(updated_row.value_int, 123)
 
     # editing not required int field - without change
@@ -338,7 +338,7 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         self.assertEqual(count_start, count_end)
 
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
-                                                        user=user)
+                                                         user=user)
         self.assertEqual(updated_row.value_int, 123)
     
     # STRING REQUIRED  
@@ -370,7 +370,7 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         self.assertEqual(count_start, count_end)
 
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
-                                                        user=user)
+                                                         user=user)
         self.assertEqual(updated_row.value_str, "my new string")
 
     # new requirement or new field
@@ -397,9 +397,9 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         self.assertEqual(count_start+1, count_end)
 
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
-                                                        user=user)
+                                                         user=user)
         self.assertEqual(updated_row.value_str, "my new string")
-        
+
     # editing required str field - without change
     def test_edit_profile_req_str_no_change(self):
         custom_field = CustomField(
@@ -428,7 +428,7 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         self.assertEqual(count_start, count_end)
 
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
-                                                        user=user)
+                                                         user=user)
         self.assertEqual(updated_row.value_str, "my string")
 
     # String NOT REQUIRED
@@ -460,7 +460,7 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         self.assertEqual(count_start, count_end)
 
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
-                                                        user=user)
+                                                         user=user)
         self.assertEqual(updated_row.value_str, "my new string")
 
     # editing not required str field - without change
@@ -491,6 +491,5 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         self.assertEqual(count_start, count_end)
 
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
-                                                        user=user)
+                                                         user=user)
         self.assertEqual(updated_row.value_str, "my string")
-    

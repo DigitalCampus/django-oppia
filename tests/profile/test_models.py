@@ -54,8 +54,7 @@ class ProfileModelsTest(TestCase):
         self.assertNotEqual(upcf.get_value(), True)
         self.assertNotEqual(upcf.get_value(), False)
         self.assertNotEqual(upcf.get_value(), None)
-        
-        
+
     # get get value bool
     def test_custom_field_get_value_bool(self):
         custom_field = CustomField(
@@ -75,7 +74,6 @@ class ProfileModelsTest(TestCase):
         self.assertNotEqual(upcf.get_value(), 123)
         self.assertNotEqual(upcf.get_value(), False)
         self.assertNotEqual(upcf.get_value(), None)
-    
 
     # test multiple rows in userprofilecustomfield
     def test_custom_field_multiple_rows(self):
@@ -90,7 +88,7 @@ class ProfileModelsTest(TestCase):
                                       user=user,
                                       value_str="my string")
         upcf.save()
-        
+
         with self.assertRaises(IntegrityError):
             upcf = UserProfileCustomField(key_name=custom_field,
                                           user=user,

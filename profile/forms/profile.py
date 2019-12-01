@@ -13,6 +13,7 @@ from django.utils.translation import ugettext as _
 
 from profile.models import CustomField
 
+
 class ProfileForm(forms.Form):
     api_key = forms.CharField(widget=forms.TextInput(attrs={'readonly':
                                                             'readonly'}),
@@ -107,12 +108,12 @@ class ProfileForm(forms.Form):
         
         self.helper.layout.extend(
             ['api_key',
-            'username',
-            'email',
-            'first_name',
-            'last_name',
-            'job_title',
-            'organisation'])
+             'username',
+             'email',
+             'first_name',
+             'last_name',
+             'job_title',
+             'organisation'])
 
         for custom_field in custom_fields:
             self.helper.layout.append(custom_field.id)
@@ -131,8 +132,6 @@ class ProfileForm(forms.Form):
                        css_class='btn btn-default mt-3'),
                 css_class='text-center col-lg-offset-2 col-lg-6',
             )])
-        
-
 
     def clean(self):
         cleaned_data = self.cleaned_data
