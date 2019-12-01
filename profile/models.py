@@ -81,6 +81,11 @@ class UserProfileCustomField (models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
+
+    class Meta:
+        unique_together = ['key_name', 'user']
+
+
     def __unicode__(self):
         return self.key_name.id + ": " + self.user.username
 
