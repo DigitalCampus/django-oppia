@@ -37,7 +37,7 @@ from oppia.models import Activity, \
                          CourseTag
 from oppia.models import Points, Award, Badge
 from profile.forms import RegisterForm
-from profile.models import UserProfile
+from profile.models import UserProfile, CustomField, UserProfileCustomField
 from oppia.signals import course_downloaded
 from oppia import emailer
 from settings import constants
@@ -204,6 +204,14 @@ class RegisterResource(ModelResource):
                 if 'email' in bundle.data else '',
                 'first_name': bundle.data['firstname'],
                 'last_name': bundle.data['lastname'], }
+
+        custom_fields = CustomField.objects.all()
+        for custom_field in custom_fields:
+            try:
+                data[custom_field.id] = bundle.data[custom_field.id]
+            except KeyError:
+                pass
+
         rf = RegisterForm(data)
         if not rf.is_valid():
             str = ""
@@ -217,40 +225,69 @@ class RegisterResource(ModelResource):
             email = bundle.data['email']
             first_name = bundle.data['firstname']
             last_name = bundle.data['lastname']
+
         try:
             bundle.obj = User.objects.create_user(username, email, password)
             bundle.obj.first_name = first_name
             bundle.obj.last_name = last_name
             bundle.obj.save()
-
-            user_profile = UserProfile()
-            user_profile.user = bundle.obj
-            if 'jobtitle' in bundle.data:
-                user_profile.job_title = bundle.data['jobtitle']
-            if 'organisation' in bundle.data:
-                user_profile.organisation = bundle.data['organisation']
-            if 'phoneno' in bundle.data:
-                user_profile.phone_number = bundle.data['phoneno']
-            user_profile.save()
-
-            u = authenticate(username=username, password=password)
-            if u is not None and u.is_active:
-                login(bundle.request, u)
-                # Add to tracker
-                tracker = Tracker()
-                tracker.user = u
-                tracker.type = 'register'
-                tracker.ip = bundle.request.META.get('REMOTE_ADDR',
-                                                     api.DEFAULT_IP_ADDRESS)
-                tracker.agent = bundle.request.META.get('HTTP_USER_AGENT',
-                                                        'unknown')
-                tracker.save()
-            key = ApiKey.objects.get(user=u)
-            bundle.data['api_key'] = key.key
         except IntegrityError:
             raise BadRequest(
                 _(u'Username "%s" already in use, please select another'
                   % username))
+
+        user_profile = UserProfile()
+        user_profile.user = bundle.obj
+        if 'jobtitle' in bundle.data:
+            user_profile.job_title = bundle.data['jobtitle']
+        if 'organisation' in bundle.data:
+            user_profile.organisation = bundle.data['organisation']
+        if 'phoneno' in bundle.data:
+            user_profile.phone_number = bundle.data['phoneno']
+        user_profile.save()
+
+        custom_fields = CustomField.objects.all()
+        for custom_field in custom_fields:
+            try:
+                value = bundle.data[custom_field.id]
+            except KeyError:
+                continue
+
+            if custom_field.type == 'int':
+                profile_field = UserProfileCustomField(
+                    key_name=custom_field,
+                    user=bundle.obj,
+                    value_int=value)
+            elif custom_field.type == 'bool':
+                profile_field = UserProfileCustomField(
+                    key_name=custom_field,
+                    user=bundle.obj,
+                    value_bool=value)
+            else:
+                profile_field = UserProfileCustomField(
+                    key_name=custom_field,
+                    user=bundle.obj,
+                    value_str=value)
+            if (value is not None
+                    and value != '') \
+                    or custom_field.required is True:
+                profile_field.save()
+
+        u = authenticate(username=username, password=password)
+        if u is not None and u.is_active:
+            login(bundle.request, u)
+            # Add to tracker
+            tracker = Tracker()
+            tracker.user = u
+            tracker.type = 'register'
+            tracker.ip = bundle.request.META.get('REMOTE_ADDR',
+                                                 api.DEFAULT_IP_ADDRESS)
+            tracker.agent = bundle.request.META.get('HTTP_USER_AGENT',
+                                                    'unknown')
+            tracker.save()
+        key = ApiKey.objects.get(user=u)
+        bundle.data['api_key'] = key.key
+        
         del bundle.data['passwordagain']
         del bundle.data['password']
         del bundle.data['firstname']
