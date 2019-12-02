@@ -13,7 +13,7 @@ from api.resources import TrackerResource, \
                           UserResource, \
                           RegisterResource, \
                           ResetPasswordResource
-                          
+
 from api.resource.profile_update import ProfileUpdateResource
 
 from quiz.api.resources import QuizResource, \

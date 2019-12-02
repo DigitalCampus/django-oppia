@@ -154,7 +154,7 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         self.assertEqual(count_start, count_end)
 
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
-                                                        user=user)
+                                                         user=user)
         self.assertEqual(updated_row.value_bool, False)
 
     # editing not required bool field - without change
@@ -246,7 +246,7 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
                                                          user=user)
         self.assertEqual(updated_row.value_int, 123)
-        
+
     # editing required int field - without change
     def test_edit_profile_req_int_no_change(self):
         custom_field = CustomField(
@@ -299,7 +299,7 @@ class ProfileEditCustomFieldsViewTest(TestCase):
                      'username': user.username,
                      'first_name': user.first_name,
                      'last_name': user.last_name,
-                     'int_not_req': 123}
+                     'int_not_req': 1234}
         count_start = UserProfileCustomField.objects.all().count()
         response = self.client.post(self.url, data=post_data)
         self.assertEqual(response.status_code, 200)
@@ -308,7 +308,7 @@ class ProfileEditCustomFieldsViewTest(TestCase):
 
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
                                                          user=user)
-        self.assertEqual(updated_row.value_int, 123)
+        self.assertEqual(updated_row.value_int, 1234)
 
     # editing not required int field - without change
     def test_edit_profile_not_req_int_no_change(self):
@@ -340,8 +340,8 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
                                                          user=user)
         self.assertEqual(updated_row.value_int, 123)
-    
-    # STRING REQUIRED  
+
+    # STRING REQUIRED
     # editing required str field - with change
     def test_edit_profile_req_str_change(self):
         custom_field = CustomField(

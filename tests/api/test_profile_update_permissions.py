@@ -55,7 +55,7 @@ class ProfileUpdatePermissionsResourceTest(ResourceTestCaseMixin, TestCase):
     def test_cannot_edit_other_user(self):
         post_data = self.base_data.copy()
         post_data['username'] = 'admin'
-        
+
         with self.assertRaises(Unauthorized):
             self.api_client.post(self.url,
                                  format='json',
