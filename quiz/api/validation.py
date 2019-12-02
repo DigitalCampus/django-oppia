@@ -5,9 +5,11 @@ from tastypie.validation import Validation
 
 
 class QuizOwnerValidation(Validation):
+    STR_NO_DATA = 'no data.'
+    
     def is_valid(self, bundle, request=None):
         if not bundle.data:
-            return {'__all__': 'no data.'}
+            return {'__all__': self.STR_NO_DATA}
         errors = {}
         quiz = bundle.obj.quiz
         if not bundle.request.user.is_staff \
@@ -19,7 +21,7 @@ class QuizOwnerValidation(Validation):
 class QuestionOwnerValidation(Validation):
     def is_valid(self, bundle, request=None):
         if not bundle.data:
-            return {'__all__': 'no data.'}
+            return {'__all__': self.STR_NO_DATA}
         errors = {}
         question = bundle.obj.question
         if question.owner.id != bundle.request.user.id:
@@ -31,7 +33,7 @@ class QuestionOwnerValidation(Validation):
 class ResponseOwnerValidation(Validation):
     def is_valid(self, bundle, request=None):
         if not bundle.data:
-            return {'__all__': 'no data.'}
+            return {'__all__': self.STR_NO_DATA}
         errors = {}
         response = bundle.obj.response
         if response.owner.id != bundle.request.user.id:
@@ -44,7 +46,7 @@ class QuizAttemptValidation(Validation):
 
     def is_valid(self, bundle, request=None):
         if not bundle.data:
-            return {'__all__': 'no data.'}
+            return {'__all__': self.STR_NO_DATA}
         errors = {}
         # check all questions actually belong to this quiz
 

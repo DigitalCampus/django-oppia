@@ -20,6 +20,9 @@ from oppia.signals import course_downloaded
 
 
 class CourseResource(ModelResource):
+
+    STR_COURSE_NOT_FOUND = _(u"Course not found")
+
     class Meta:
         queryset = Course.objects.all()
         resource_name = 'course'
@@ -69,7 +72,7 @@ class CourseResource(ModelResource):
                                                  is_archived=False,
                                                  is_draft=False)
         except Course.DoesNotExist:
-            raise Http404(_(u"Course not found"))
+            raise Http404(self.STR_COURSE_NOT_FOUND)
         except ValueError:
             try:
                 if request.user.is_staff:
@@ -80,7 +83,7 @@ class CourseResource(ModelResource):
                                                      is_archived=False,
                                                      is_draft=False)
             except Course.DoesNotExist:
-                raise Http404(_(u"Course not found"))
+                raise Http404(self.STR_COURSE_NOT_FOUND)
 
         file_to_download = course.getAbsPath()
         has_completed_trackers = Tracker.has_completed_trackers(course,
@@ -108,7 +111,7 @@ class CourseResource(ModelResource):
             response['Content-Disposition'] = \
                 'attachment; filename="%s"' % (course.filename)
         except IOError:
-            raise Http404(_(u"Course not found"))
+            raise Http404(self.STR_COURSE_NOT_FOUND)
 
         # Add to tracker
         tracker = Tracker()
@@ -137,7 +140,7 @@ class CourseResource(ModelResource):
                                                  is_archived=False,
                                                  is_draft=False)
         except Course.DoesNotExist:
-            raise Http404(_(u"Course not found"))
+            raise Http404(self.STR_COURSE_NOT_FOUND)
         except ValueError:
             try:
                 if request.user.is_staff:
@@ -148,7 +151,7 @@ class CourseResource(ModelResource):
                                                      is_archived=False,
                                                      is_draft=False)
             except Course.DoesNotExist:
-                raise Http404(_(u"Course not found"))
+                raise Http404(self.STR_COURSE_NOT_FOUND)
 
         return HttpResponse(Tracker.to_xml_string(course,
                                                   request.user),

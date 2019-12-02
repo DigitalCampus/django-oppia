@@ -18,9 +18,6 @@ from av.models import UploadedMedia, UploadedMediaImage
 class Command(BaseCommand):
     help = _(u"Generates sample media images")
 
-    def add_arguments(self, parser):
-        pass
-
     def handle(self, *args, **options):
         """
         Generates sample media images

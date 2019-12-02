@@ -1,8 +1,6 @@
-# oppia/signals.py
 import math
 
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.db import models
 from django.dispatch import Signal
 
@@ -12,6 +10,10 @@ from quiz.models import QuizAttempt
 
 course_downloaded = Signal(providing_args=["course", "user"])
 
+NON_ACTIVITY_EVENTS = [
+    'course_downloaded', 'register'
+]
+
 
 # rules for applying points (or not)
 def apply_points(user):
@@ -20,13 +22,6 @@ def apply_points(user):
     if user.is_staff and not settings.OPPIA_STAFF_EARN_POINTS:
         return False
     return True
-
-
-def signup_callback(sender, **kwargs):
-
-    user = kwargs.get('instance')
-    if not apply_points(user):
-        return
 
 
 def quizattempt_callback(sender, **kwargs):
@@ -105,13 +100,25 @@ def quizattempt_callback(sender, **kwargs):
         p.course = course
         p.save()
 
-    return
-
-
-NON_ACTIVITY_EVENTS = [
-    'course_downloaded', 'register'
-]
-
+def calculate_media_points(tracker):
+    if tracker.is_first_tracker_today():
+        points = DefaultGamificationEvent.objects.get(
+            event='media_started').points
+    else:
+        points = 0
+    points += (DefaultGamificationEvent.objects.get(
+        event='media_playing_points_per_interval').points
+               * math.floor(tracker.time_taken
+                            / DefaultGamificationEvent.objects
+                            .get(
+                                event='media_playing_interval')
+                            .points))
+    if points > DefaultGamificationEvent.objects.get(
+      event='media_max_points').points:
+        points = DefaultGamificationEvent.objects.get(
+            event='media_max_points').points
+            
+    return points
 
 def tracker_callback(sender, **kwargs):
 
@@ -126,9 +133,8 @@ def tracker_callback(sender, **kwargs):
        and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
         return
 
-    if tracker.event not in NON_ACTIVITY_EVENTS:
-        if not tracker.activity_exists():
-            return
+    if tracker.event not in NON_ACTIVITY_EVENTS \
+            and tracker.activity_exists():
 
         type = 'activity_completed'
         points = DefaultGamificationEvent.objects.get(
@@ -136,22 +142,7 @@ def tracker_callback(sender, **kwargs):
         if tracker.get_activity_type() == "media":
             description = "Media played: " + tracker.get_activity_title()
             type = 'mediaplayed'
-            if tracker.is_first_tracker_today():
-                points = DefaultGamificationEvent.objects.get(
-                    event='media_started').points
-            else:
-                points = 0
-            points += (DefaultGamificationEvent.objects.get(
-                event='media_playing_points_per_interval').points
-                       * math.floor(tracker.time_taken
-                                    / DefaultGamificationEvent.objects
-                                    .get(
-                                        event='media_playing_interval')
-                                    .points))
-            if points > DefaultGamificationEvent.objects.get(
-              event='media_max_points').points:
-                points = DefaultGamificationEvent.objects.get(
-                    event='media_max_points').points
+            points = calculate_media_points(tracker)
         else:
             description = "Activity completed: " + tracker.get_activity_title()
 
@@ -175,8 +166,6 @@ def tracker_callback(sender, **kwargs):
     p.course = tracker.course
     p.save()
 
-    return
-
 
 def badgeaward_callback(sender, **kwargs):
     award = kwargs.get('instance')
@@ -189,9 +178,7 @@ def badgeaward_callback(sender, **kwargs):
     p.description = award.description
     p.user = award.user
     p.save()
-    return
+
 
 models.signals.post_save.connect(tracker_callback, sender=Tracker)
-# Commented signals for points awarding (now it is processed app-side)
-# models.signals.post_save.connect(signup_callback, sender=User)
-# models.signals.post_save.connect(quizattempt_callback, sender=QuizAttempt)
+

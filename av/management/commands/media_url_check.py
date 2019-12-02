@@ -16,9 +16,6 @@ from oppia.models import Media
 class Command(BaseCommand):
     help = _(u"Checks the media download urls to ensure they are valid links")
 
-    def add_arguments(self, parser):
-        pass
-
     def handle(self, *args, **options):
 
         media = Media.objects.all()

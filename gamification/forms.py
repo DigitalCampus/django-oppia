@@ -4,6 +4,10 @@ from crispy_forms.layout import Layout, Submit, Div
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
+STR_UPDATE_POINTS = _(u'Update points')
+STR_SUBMIT_CSS_CLASS = 'btn btn-default'
+STR_DIV_CSS_CLASS = 'col-lg-offset-2 col-lg-4'
+
 
 class EditCoursePointsForm(forms.Form):
 
@@ -35,9 +39,9 @@ class EditCoursePointsForm(forms.Form):
         self.helper.layout.append(
                 Div(
                    Submit('submit',
-                          _(u'Update points'),
-                          css_class='btn btn-default'),
-                   css_class='col-lg-offset-2 col-lg-4',
+                          STR_UPDATE_POINTS,
+                          css_class=STR_SUBMIT_CSS_CLASS),
+                   css_class=STR_DIV_CSS_CLASS,
                 ))
 
     def clean(self):
@@ -78,9 +82,9 @@ class EditActivityPointsForm(forms.Form):
         self.helper.layout.append(
                 Div(
                    Submit('submit',
-                          _(u'Update points'),
-                          css_class='btn btn-default'),
-                   css_class='col-lg-offset-2 col-lg-4',
+                          STR_UPDATE_POINTS,
+                          css_class=STR_SUBMIT_CSS_CLASS),
+                   css_class=STR_DIV_CSS_CLASS,
                 ))
 
     def clean(self):
@@ -121,9 +125,9 @@ class EditMediaPointsForm(forms.Form):
         self.helper.layout.append(
                 Div(
                    Submit('submit',
-                          _(u'Update points'),
-                          css_class='btn btn-default'),
-                   css_class='col-lg-offset-2 col-lg-4',
+                          STR_UPDATE_POINTS,
+                          css_class=STR_SUBMIT_CSS_CLASS),
+                   css_class=STR_DIV_CSS_CLASS,
                 ))
 
     def clean(self):
