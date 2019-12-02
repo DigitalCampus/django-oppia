@@ -8,7 +8,7 @@ from tastypie.resources import ModelResource
 
 from api.serializers import UserJSONSerializer
 from profile.forms import ProfileForm
-from profile.models import UserProfile
+from profile.models import UserProfile, CustomField, UserProfileCustomField
 
 from api.utils import check_required_params
 
@@ -41,6 +41,13 @@ class ProfileUpdateResource(ModelResource):
                 'last_name': bundle.data['lastname'],
                 'username': bundle.request.user}
 
+        custom_fields = CustomField.objects.all()
+        for custom_field in custom_fields:
+            try:
+                data[custom_field.id] = bundle.data[custom_field.id]
+            except KeyError:
+                pass
+
         profile_form = ProfileForm(data)
         if not profile_form.is_valid():
             str = ""
@@ -62,6 +69,7 @@ class ProfileUpdateResource(ModelResource):
         except User.DoesNotExist:
             raise BadRequest(_(u'Username not found'))
 
+        # Create base UserProfile
         user_profile, created = UserProfile.objects \
             .get_or_create(user=bundle.obj)
         if 'jobtitle' in bundle.data:
@@ -71,4 +79,23 @@ class ProfileUpdateResource(ModelResource):
         if 'phoneno' in bundle.data:
             user_profile.phone_number = bundle.data['phoneno']
         user_profile.save()
+
+        # Create any CustomField entries
+        custom_fields = CustomField.objects.all()
+        for custom_field in custom_fields:
+            if (bundle.data[custom_field.id] is not None
+                    and bundle.data[custom_field.id] != '') \
+                    or custom_field.required is True:
+
+                profile_field, created = UserProfileCustomField.objects \
+                    .get_or_create(key_name=custom_field, user=bundle.obj)
+
+                if custom_field.type == 'int':
+                    profile_field.value_int = bundle.data[custom_field.id]
+                elif custom_field.type == 'bool':
+                    profile_field.value_bool = bundle.data[custom_field.id]
+                else:
+                    profile_field.value_str = bundle.data[custom_field.id]
+
+                profile_field.save()
         return bundle
