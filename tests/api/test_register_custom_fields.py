@@ -3,6 +3,7 @@ from tastypie.test import ResourceTestCaseMixin
 
 from profile.models import CustomField, UserProfileCustomField
 
+from tests.utils import get_api_url
 
 class RegisterCustomFieldsResourceTest(ResourceTestCaseMixin, TestCase):
     fixtures = ['tests/test_user.json']
@@ -17,7 +18,7 @@ class RegisterCustomFieldsResourceTest(ResourceTestCaseMixin, TestCase):
 
     def setUp(self):
         super(RegisterCustomFieldsResourceTest, self).setUp()
-        self.url = '/api/v1/register/'
+        self.url = get_api_url('register')
 
     # INTEGER REQUIRED
     # with int in form - correct

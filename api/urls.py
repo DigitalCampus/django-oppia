@@ -4,17 +4,17 @@ from tastypie.api import Api
 from activitylog.views import post_activitylog
 from api.media import upload_view
 from api.publish import publish_view
-from api.resources import TrackerResource, \
-                          CourseResource, \
-                          TagResource, \
-                          PointsResource, \
-                          AwardsResource, \
-                          BadgesResource, \
-                          UserResource, \
-                          RegisterResource, \
-                          ResetPasswordResource
 
-from api.resource.profile_update import ProfileUpdateResource
+from api.resources.awards import AwardsResource
+from api.resources.badges import BadgesResource
+from api.resources.course import CourseResource
+from api.resources.login import UserResource
+from api.resources.points import PointsResource
+from api.resources.profile_update import ProfileUpdateResource
+from api.resources.register import RegisterResource
+from api.resources.reset_password import ResetPasswordResource
+from api.resources.tag import TagResource
+from api.resources.tracker import TrackerResource
 
 from quiz.api.resources import QuizResource, \
                                QuizPropsResource, \

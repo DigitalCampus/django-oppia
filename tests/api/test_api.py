@@ -2,9 +2,6 @@
 from django.test import TestCase
 from tastypie.test import ResourceTestCaseMixin
 
-
-# TODO BadgesResource
-
 # CourseTagResource
 class CourseTagResourceTest(ResourceTestCaseMixin, TestCase):
     def setUp(self):
@@ -21,5 +18,3 @@ class CourseTagResourceTest(ResourceTestCaseMixin, TestCase):
                                                      format='json',
                                                      data={}))
 
-
-# TODO ScorecardResource

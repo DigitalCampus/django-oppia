@@ -5,7 +5,7 @@ from django.core.paginator import Paginator, InvalidPage
 from django.db.models import Q
 from django.http.response import Http404
 from django.utils.translation import ugettext as _
-from api.resources import UserResource
+from api.resources.login import UserResource
 from tastypie import fields
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie.authorization import Authorization
