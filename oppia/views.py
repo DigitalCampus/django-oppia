@@ -38,7 +38,8 @@ from oppia.permissions import can_edit_course, \
                               can_view_courses_list, \
                               can_add_cohort, \
                               can_view_cohort, \
-                              can_edit_cohort
+                              can_edit_cohort, \
+                              can_view_course
 from profile.models import UserProfile
 from profile.views import get_paginated_users
 from quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
@@ -246,10 +247,7 @@ def courses_list_view(request):
 
 
 def course_download_view(request, course_id):
-    try:
-        course = Course.objects.get(pk=course_id)
-    except Course.DoesNotExist:
-        raise Http404()
+    course = can_view_course(request, course_id)
     file_to_download = course.getAbsPath()
     binary_file = open(file_to_download, 'rb')
     response = HttpResponse(binary_file.read(),
