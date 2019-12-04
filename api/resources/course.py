@@ -59,7 +59,7 @@ class CourseResource(ModelResource):
                 name="api_download_activity"),
         ]
 
-    def download_course(self, request, **kwargs):
+    def get_course(self, request, **kwargs):
         self.is_authenticated(request)
         self.throttle_check(request)
 
@@ -84,6 +84,11 @@ class CourseResource(ModelResource):
                                                      is_draft=False)
             except Course.DoesNotExist:
                 raise Http404(self.STR_COURSE_NOT_FOUND)
+
+        return course
+
+    def download_course(self, request, **kwargs):
+        course = self.get_course(request, **kwargs)
 
         file_to_download = course.getAbsPath()
         has_completed_trackers = Tracker.has_completed_trackers(course,
@@ -128,30 +133,7 @@ class CourseResource(ModelResource):
         return response
 
     def download_activity(self, request, **kwargs):
-        self.is_authenticated(request)
-        self.throttle_check(request)
-
-        pk = kwargs.pop('pk', None)
-        try:
-            if request.user.is_staff:
-                course = self._meta.queryset.get(pk=pk, is_archived=False)
-            else:
-                course = self._meta.queryset.get(pk=pk,
-                                                 is_archived=False,
-                                                 is_draft=False)
-        except Course.DoesNotExist:
-            raise Http404(self.STR_COURSE_NOT_FOUND)
-        except ValueError:
-            try:
-                if request.user.is_staff:
-                    course = self._meta.queryset.get(shortname=pk,
-                                                     is_archived=False)
-                else:
-                    course = self._meta.queryset.get(shortname=pk,
-                                                     is_archived=False,
-                                                     is_draft=False)
-            except Course.DoesNotExist:
-                raise Http404(self.STR_COURSE_NOT_FOUND)
+        course = self.get_course(request, **kwargs)
 
         return HttpResponse(Tracker.to_xml_string(course,
                                                   request.user),
