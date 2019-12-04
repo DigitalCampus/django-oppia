@@ -58,14 +58,13 @@ class TrackerResource(ModelResource):
     def process_tracker_bundle(self, bundle):
         try:
             if 'course' in bundle.data:
-                media_objs = Media.objects.filter(
+                media = Media.objects.filter(
                     digest=bundle.data['digest'],
-                    course__shortname=bundle.data['course'])[:1]
+                    course__shortname=bundle.data['course']).first()
             else:
-                media_objs = Media.objects.filter(
-                    digest=bundle.data['digest'])[:1]
-            if media_objs.count() > 0:
-                media = media_objs[0]
+                media = Media.objects.filter(
+                    digest=bundle.data['digest']).first()
+            if media is not None:
                 bundle.obj.course = media.course
                 bundle.obj.type = 'media'
         except Media.DoesNotExist:
@@ -111,27 +110,22 @@ class TrackerResource(ModelResource):
             return bundle
 
         # find out the course & activity type from the digest
-        try:
-            if 'course' in bundle.data:
-                activities = Activity.objects \
-                    .filter(
-                        digest=bundle.data['digest'],
-                        section__course__shortname=bundle.data['course'])[:1]
-            else:
-                activities = Activity.objects.filter(
-                    digest=bundle.data['digest'])[:1]
-            if activities.count() > 0:
-                activity = activities[0]
-                bundle.obj.course = activity.section.course
-                bundle.obj.type = activity.type
-                bundle.obj.activity_title = activity.title
-                bundle.obj.section_title = activity.section.title
-            else:
-                bundle.obj.course = None
-                bundle.obj.type = ''
-                bundle.obj.activity_title = ''
-                bundle.obj.section_title = ''
-        except Activity.DoesNotExist:
+        if 'course' in bundle.data:
+            activity = Activity.objects \
+                .filter(
+                    digest=bundle.data['digest'],
+                    section__course__shortname=bundle.data['course']) \
+                .first()
+        else:
+            activity = Activity.objects.filter(
+                digest=bundle.data['digest']).first()
+
+        if activity is not None:
+            bundle.obj.course = activity.section.course
+            bundle.obj.type = activity.type
+            bundle.obj.activity_title = activity.title
+            bundle.obj.section_title = activity.section.title
+        else:
             bundle.obj.course = None
             bundle.obj.type = ''
             bundle.obj.activity_title = ''

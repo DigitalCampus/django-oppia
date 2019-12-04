@@ -590,22 +590,22 @@ class Tracker(models.Model):
                     quiz_attempt = QuizAttempt.objects \
                         .filter(instance_id=data['instance_id'],
                                 user=user) \
-                        .order_by('-submitted_date')[:1]
-                    quiz.setAttribute('score', str(quiz_attempt[0].score))
+                        .order_by('-submitted_date').first()
+                    quiz.setAttribute('score', str(quiz_attempt.score))
                     quiz.setAttribute('maxscore',
-                                      str(quiz_attempt[0].maxscore))
+                                      str(quiz_attempt.maxscore))
                     quiz.setAttribute('submitteddate',
-                                      quiz_attempt[0]
+                                      quiz_attempt
                                       .submitted_date
                                       .strftime('%Y-%m-%d %H:%M:%S'))
                     quiz.setAttribute('passed', str(t.completed))
                     quiz.setAttribute("course", course.shortname)
-                    quiz.setAttribute("event", quiz_attempt[0].event)
-                    quiz.setAttribute("points", str(quiz_attempt[0].points))
+                    quiz.setAttribute("event", quiz_attempt.event)
+                    quiz.setAttribute("points", str(quiz_attempt.points))
                     track.appendChild(quiz)
-                except ValueError:
+                except QuizAttempt.DoesNotExist:
                     pass
-                except IndexError:
+                except json.JSONDecodeError:
                     pass
             tracker_xml.appendChild(track)
         return doc.toxml()
