@@ -298,3 +298,57 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
 
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start + 1, tracker_count_end)
+
+    # @TODO test search activity
+    def test_search_with_query(self):
+        data = {
+            'type': 'search',
+            'data': '{"query":"maternal and child health", \
+                     "results_count":8, \
+                     "uuid":"d8423742-11e6-4e2d-a6c6-6cc821a74f66"}'
+        }
+        tracker_count_start = Tracker.objects.all().count()
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data,
+                                    authentication=self.get_credentials())
+        self.assertHttpCreated(resp)
+        self.assertValidJSON(resp.content)
+        tracker_count_end = Tracker.objects.all().count()
+        self.assertEqual(tracker_count_start + 1, tracker_count_end)
+
+        latest_tracker = Tracker.objects.all().latest('id')
+        self.assertEqual(latest_tracker.type, 'search')
+        self.assertValidJSON(latest_tracker.data)
+        self.assertEqual(latest_tracker.data, data['data'])
+
+    def test_search_without_query(self):
+        data = {
+            'type': 'search',
+            'data': '{"results_count":8, \
+                     "uuid":"d8423742-11e6-4e2d-a6c6-6cc821a74f66"}'
+        }
+        tracker_count_start = Tracker.objects.all().count()
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data,
+                                    authentication=self.get_credentials())
+        self.assertHttpCreated(resp)
+        self.assertValidJSON(resp.content)
+        tracker_count_end = Tracker.objects.all().count()
+        self.assertEqual(tracker_count_start, tracker_count_end)
+
+ 
+# @TODO test media doesn't exist
+
+# @TODO test key/value errors
+
+# @TODO test id in request
+
+# @TODO test Activity.DoesNotExist
+
+# @TODO test tracker date
+
+# @TODO test UUID not in bundle data
+    
+
