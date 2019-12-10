@@ -38,31 +38,34 @@ class CoursePublishResourceTest(TestCase):
                                          'password': 'secret',
                                          'is_draft': False,
                                          api.COURSE_FILE_FIELD: course_file})
-            self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 400)
 
-            # no password
+        # no password
+        with open(self.course_file_path, 'rb') as course_file:
             response = self.client.post(self.url,
                                         {'username': 'demo',
                                          'tags': 'demo',
                                          'is_draft': False,
                                          api.COURSE_FILE_FIELD: course_file})
-            self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 400)
 
-            # no tags
+        # no tags
+        with open(self.course_file_path, 'rb') as course_file:
             response = self.client.post(self.url,
                                         {'username': 'demo',
                                          'password': 'secret',
                                          'is_draft': False,
                                          api.COURSE_FILE_FIELD: course_file})
-            self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 400)
 
-            # no is_draft
+        # no is_draft
+        with open(self.course_file_path, 'rb') as course_file:
             response = self.client.post(self.url,
                                         {'username': 'demo',
                                          'password': 'secret',
                                          'tags': 'demo',
                                          api.COURSE_FILE_FIELD: course_file})
-            self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 400)
 
     # test tags not empty
     def test_tags_not_empty(self):
@@ -73,7 +76,7 @@ class CoursePublishResourceTest(TestCase):
                                          'tags': '',
                                          'is_draft': False,
                                          api.COURSE_FILE_FIELD: course_file})
-            self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 400)
 
     # test is user has correct permissions or not to upload
     @pytest.mark.xfail(reason="works on local, but not on Github workflow \
@@ -90,12 +93,12 @@ class CoursePublishResourceTest(TestCase):
                                          'tags': 'demo',
                                          'is_draft': False,
                                          api.COURSE_FILE_FIELD: course_file})
-            self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, 201)
 
-            # check record added to course publishing log
-            new_no_cpls = CoursePublishingLog.objects \
-                .filter(action='api_course_published').count()
-            self.assertEqual(old_no_cpls+1, new_no_cpls)
+        # check record added to course publishing log
+        new_no_cpls = CoursePublishingLog.objects \
+            .filter(action='api_course_published').count()
+        self.assertEqual(old_no_cpls+1, new_no_cpls)
 
     @pytest.mark.xfail(reason="works on local, but not on Github workflow \
         see issue: https://github.com/DigitalCampus/django-oppia/issues/689")
@@ -117,12 +120,12 @@ class CoursePublishResourceTest(TestCase):
                                          'tags': 'demo',
                                          'is_draft': False,
                                          api.COURSE_FILE_FIELD: course_file})
-            self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, 201)
 
-            # check record added to course publishing log
-            new_no_cpls = CoursePublishingLog.objects \
-                .filter(action='api_course_published').count()
-            self.assertEqual(old_no_cpls+1, new_no_cpls)
+        # check record added to course publishing log
+        new_no_cpls = CoursePublishingLog.objects \
+            .filter(action='api_course_published').count()
+        self.assertEqual(old_no_cpls+1, new_no_cpls)
 
     @pytest.mark.xfail(reason="works on local, but not on Github workflow \
         see issue: https://github.com/DigitalCampus/django-oppia/issues/689")

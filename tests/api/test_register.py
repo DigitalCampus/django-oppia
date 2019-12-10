@@ -6,6 +6,7 @@ from settings.models import SettingProperties
 
 from tests.utils import get_api_url
 
+
 class RegisterResourceTest(ResourceTestCaseMixin, TestCase):
     fixtures = ['tests/test_user.json']
 

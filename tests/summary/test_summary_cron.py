@@ -31,6 +31,7 @@ class SummaryCronTest(TestCase):
 
         # check unlocked again
         lock = SettingProperties.get_int('oppia_summary_cron_lock', 999)
+        self.assertEqual(lock, 999)
 
     def test_summary_cron_locked(self):
         # set lock not

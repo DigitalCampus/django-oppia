@@ -7,6 +7,7 @@ from tastypie.test import ResourceTestCaseMixin
 from tests.utils import get_api_key, get_api_url, update_course_visibility
 from oppia.models import Tracker
 
+
 class CourseResourceTest(ResourceTestCaseMixin, TestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
@@ -15,7 +16,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
     STR_DOWNLOAD = 'download/'
     STR_ACTIVITY = 'activity/'
     STR_ZIP_EXPECTED_CONTENT_TYPE = 'application/zip'
-    
+
     def setUp(self):
         super(CourseResourceTest, self).setUp()
         user = User.objects.get(username='demo')
@@ -217,7 +218,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start+1, tracker_count_end)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")        
+    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_draft_course_staff(self):
         tracker_count_start = Tracker.objects.all().count()
         update_course_visibility(1, True, False)

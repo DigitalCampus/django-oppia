@@ -1,4 +1,5 @@
-# oppia/tests/api/test_tracker.py
+import pytest
+import unittest
 
 from django.contrib.auth.models import User
 from django.test import TestCase
@@ -299,7 +300,7 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start + 1, tracker_count_end)
 
-    # @TODO test search activity
+    # test search activity
     def test_search_with_query(self):
         data = {
             'type': 'search',
@@ -322,10 +323,14 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertValidJSON(latest_tracker.data)
         self.assertEqual(latest_tracker.data, data['data'])
 
-    def test_search_without_query(self):
+    @pytest.mark.xfail(reason="will fail until this issue is fixed \
+        https://github.com/DigitalCampus/django-oppia/issues/702")
+    @unittest.expectedFailure
+    def test_search_empty_query(self):
         data = {
             'type': 'search',
-            'data': '{"results_count":8, \
+            'data': '{"query":"", \
+                     "results_count":8, \
                      "uuid":"d8423742-11e6-4e2d-a6c6-6cc821a74f66"}'
         }
         tracker_count_start = Tracker.objects.all().count()
@@ -338,7 +343,104 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
 
- 
+    @pytest.mark.xfail(reason="will fail until this issue is fixed \
+        https://github.com/DigitalCampus/django-oppia/issues/702")
+    @unittest.expectedFailure
+    def test_search_space_only_query(self):
+        data = {
+            'type': 'search',
+            'data': '{"query":"     ", \
+                     "results_count":8, \
+                     "uuid":"d8423742-11e6-4e2d-a6c6-6cc821a74f66"}'
+        }
+        tracker_count_start = Tracker.objects.all().count()
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data,
+                                    authentication=self.get_credentials())
+        self.assertHttpCreated(resp)
+        self.assertValidJSON(resp.content)
+        tracker_count_end = Tracker.objects.all().count()
+        self.assertEqual(tracker_count_start, tracker_count_end)
+
+    @pytest.mark.xfail(reason="will fail until this issue is fixed \
+        https://github.com/DigitalCampus/django-oppia/issues/702")
+    @unittest.expectedFailure
+    def test_search_none_query(self):
+        data = {
+            'type': 'search',
+            'data': '{"query": null, \
+                     "results_count":8, \
+                     "uuid":"d8423742-11e6-4e2d-a6c6-6cc821a74f66"}'
+        }
+        tracker_count_start = Tracker.objects.all().count()
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data,
+                                    authentication=self.get_credentials())
+        self.assertHttpCreated(resp)
+        self.assertValidJSON(resp.content)
+        tracker_count_end = Tracker.objects.all().count()
+        self.assertEqual(tracker_count_start, tracker_count_end)
+
+    # empty bundle.data...
+    @pytest.mark.xfail(reason="will fail until this issue is fixed \
+        https://github.com/DigitalCampus/django-oppia/issues/703")
+    @unittest.expectedFailure
+    def test_tracker_empty_data(self):
+        data = {
+            'type': '',
+            'data': '{}'
+        }
+        tracker_count_start = Tracker.objects.all().count()
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data,
+                                    authentication=self.get_credentials())
+        self.assertHttpCreated(resp)
+        self.assertValidJSON(resp.content)
+        tracker_count_end = Tracker.objects.all().count()
+        self.assertEqual(tracker_count_start, tracker_count_end)
+
+    # @TODO data is none
+    @pytest.mark.xfail(reason="will fail until this issue is fixed \
+        https://github.com/DigitalCampus/django-oppia/issues/703")
+    @unittest.expectedFailure
+    def test_tracker_none_data(self):
+        data = {
+            'type': '',
+            'data': 'null'
+        }
+        tracker_count_start = Tracker.objects.all().count()
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data,
+                                    authentication=self.get_credentials())
+        self.assertHttpCreated(resp)
+        self.assertValidJSON(resp.content)
+        tracker_count_end = Tracker.objects.all().count()
+        self.assertEqual(tracker_count_start, tracker_count_end)
+
+    # data not included
+    @pytest.mark.xfail(reason="will fail until this issue is fixed \
+        https://github.com/DigitalCampus/django-oppia/issues/703")
+    @unittest.expectedFailure
+    def test_tracker_no_data(self):
+        data = {
+            'type': '',
+        }
+        tracker_count_start = Tracker.objects.all().count()
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data,
+                                    authentication=self.get_credentials())
+        self.assertBadRequest(resp)
+        self.assertValidJSON(resp.content)
+        tracker_count_end = Tracker.objects.all().count()
+        self.assertEqual(tracker_count_start, tracker_count_end)
+
+# @TODO test UUID not in bundle data
+
 # @TODO test media doesn't exist
 
 # @TODO test key/value errors
@@ -348,7 +450,3 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
 # @TODO test Activity.DoesNotExist
 
 # @TODO test tracker date
-
-# @TODO test UUID not in bundle data
-    
-

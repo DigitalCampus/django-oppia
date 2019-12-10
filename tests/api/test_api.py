@@ -2,6 +2,7 @@
 from django.test import TestCase
 from tastypie.test import ResourceTestCaseMixin
 
+
 # CourseTagResource
 class CourseTagResourceTest(ResourceTestCaseMixin, TestCase):
     def setUp(self):
@@ -17,4 +18,3 @@ class CourseTagResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertHttpNotFound(self.api_client.post(self.url,
                                                      format='json',
                                                      data={}))
-

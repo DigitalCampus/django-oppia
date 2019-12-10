@@ -57,13 +57,16 @@ class TrackerResource(ModelResource):
 
     def process_tracker_bundle(self, bundle):
         try:
-            if 'course' in bundle.data:
+            if 'course' in bundle.data and 'digest' in bundle.data:
                 media = Media.objects.filter(
                     digest=bundle.data['digest'],
                     course__shortname=bundle.data['course']).first()
-            else:
+            elif 'digest' in bundle.data:
                 media = Media.objects.filter(
                     digest=bundle.data['digest']).first()
+            else:
+                media = None
+
             if media is not None:
                 bundle.obj.course = media.course
                 bundle.obj.type = 'media'
@@ -82,6 +85,8 @@ class TrackerResource(ModelResource):
             pass
         except KeyError:
             pass
+        except TypeError: # means json_data is None
+            pass  
 
         if 'points' in bundle.data:
             bundle.obj.points = bundle.data['points']
@@ -104,6 +109,9 @@ class TrackerResource(ModelResource):
                                                    'unknown')
 
         if 'type' in bundle.data and bundle.data['type'] == 'search':
+            if 'data' not in bundle.data:
+                return None
+                
             # if the tracker is a search, we just need to save it
             bundle.obj.course = None
             bundle.obj.type = "search"
@@ -116,9 +124,11 @@ class TrackerResource(ModelResource):
                     digest=bundle.data['digest'],
                     section__course__shortname=bundle.data['course']) \
                 .first()
-        else:
+        elif 'digest' in bundle.data:
             activity = Activity.objects.filter(
                 digest=bundle.data['digest']).first()
+        else:
+            activity = None
 
         if activity is not None:
             bundle.obj.course = activity.section.course
@@ -197,7 +207,7 @@ class TrackerResource(ModelResource):
                     self.obj_create(bundle, request=request)
             else:
                 self.obj_create(bundle, request=request)
-
+                
         response_data = {'points': self.dehydrate_points(bundle),
                          'badges': self.dehydrate_badges(bundle),
                          'scoring': self.dehydrate_scoring(bundle),

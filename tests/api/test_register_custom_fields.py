@@ -5,6 +5,7 @@ from profile.models import CustomField, UserProfileCustomField
 
 from tests.utils import get_api_url
 
+
 class RegisterCustomFieldsResourceTest(ResourceTestCaseMixin, TestCase):
     fixtures = ['tests/test_user.json']
     base_data = {

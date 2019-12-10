@@ -2,13 +2,13 @@ import pytest
 
 from django.urls import reverse
 from django.test import TestCase
-from django.test.client import Client
 
 from tests.user_logins import ADMIN_USER, \
                               STAFF_USER, \
                               NORMAL_USER, \
                               TEACHER_USER
 from tests.utils import update_course_visibility
+
 
 class DownloadViewTest(TestCase):
     fixtures = ['tests/test_user.json',
@@ -73,7 +73,7 @@ class DownloadViewTest(TestCase):
                          self.STR_EXPECTED_CONTENT_TYPE)
         update_course_visibility(1, False, False)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")        
+    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_draft_course_staff(self):
         update_course_visibility(1, True, False)
         self.client.login(username=STAFF_USER['user'],
