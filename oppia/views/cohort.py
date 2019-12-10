@@ -20,7 +20,7 @@ from oppia.permissions import can_add_cohort, \
     can_view_cohort, \
     can_edit_cohort
 from oppia.views.utils import get_paginated_courses
-from profile.views import get_paginated_users
+from profile.views.utils import get_paginated_users
 from summary.models import UserCourseSummary
 
 
