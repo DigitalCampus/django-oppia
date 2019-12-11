@@ -1,0 +1,9 @@
+<div class="ajax-load" id="{{ list_id|default:'results' }}" {% if data_initial %}data-initial="{{data_initial}}" data-preservehistory="true"{% endif %}>
+    <div class="results">
+        {% if query_template %}
+            {% include query_template %}
+        {% endif %}
+    </div>
+    <div class="loading-spinner"><div class="mes-loader"></div></div>
+    <span class="sr-only">Loading...</span>
+</div>

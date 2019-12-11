@@ -79,7 +79,7 @@
             <tbody>
             {% for q in quizzes %}
                 <tr>
-                    <td>{{ q.quiz.title|title_lang:LANGUAGE_CODE }} ({{ q.quiz.section.title|title_lang:LANGUAGE_CODE }})</td>
+                    <td><a href="{% url 'profile_user_quiz_attempts' view_user.pk course.pk q.id %}">{{ q.quiz.title|title_lang:LANGUAGE_CODE }} ({{ q.quiz.section.title|title_lang:LANGUAGE_CODE }})</a> </td>
                     <td>{{ q.no_attempts }}</td>
                     <td>{% if q.max_score %}{{ q.max_score|floatformat:1 }}%{% else %}--{% endif %}</td>
                     <td>{% if q.min_score %}{{ q.min_score|floatformat:1 }}%{% else %}--{% endif %}</td>

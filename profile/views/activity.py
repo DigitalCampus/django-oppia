@@ -137,15 +137,9 @@ def user_course_activity_view(request, user_id, course_id):
 
     quizzes = []
     for aq in act_quizzes:
-        try:
-            quizobjs = Quiz.objects.filter(quizprops__value=aq.digest,
-                                           quizprops__name="digest")
-            if quizobjs.count() <= 0:
-                continue
-            else:
-                quiz = quizobjs[0]
-        except Quiz.DoesNotExist:
-            quiz = None
+
+        quiz = Quiz.objects.filter(quizprops__value=aq.digest,
+                                           quizprops__name="digest").first()
 
         no_attempts = quiz.get_no_attempts_by_user(quiz, view_user)
         attempts = QuizAttempt.objects.filter(quiz=quiz, user=view_user)
@@ -187,6 +181,7 @@ def user_course_activity_view(request, user_id, course_id):
             latest_score = None
 
         quiz = {'quiz': aq,
+                'id': quiz.pk if quiz else None,
                 'quiz_order': aq.order,
                 'no_attempts': no_attempts,
                 'max_score': max_score,

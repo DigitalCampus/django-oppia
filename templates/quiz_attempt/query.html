@@ -1,0 +1,15 @@
+{% extends 'common/list/base.html' %}
+
+ {% block table_head %}
+    <th scope="col">Attempt date</th>
+    <th scope="col">Score</th>
+    <th scope="col">Max score</th>
+{% endblock %}
+
+
+{% block item_row %}
+
+<td>{{item.attempt_date|date:'d/m/Y'}}</td>
+<td> {{item.score}} ({{item.get_score_percent}} %) </td>
+<td> {{item.maxscore}}</td>
+{% endblock %}
