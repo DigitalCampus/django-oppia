@@ -175,14 +175,6 @@ OPPIA_STAFF_ONLY_UPLOAD = True
 # determines if the points system is enabled
 OPPIA_POINTS_ENABLED = True
 
-# if OPPIA POINTS_ENABLED is false, then the next 3 settings are ignored
-# prevent staff from earning points
-OPPIA_STAFF_EARN_POINTS = False
-
-# stops owners of courses earning points
-OPPIA_COURSE_OWNERS_EARN_POINTS = False
-# stops teachers of courses earning points
-OPPIA_TEACHERS_EARN_POINTS = False
 # determines if the badges system is enabled
 OPPIA_BADGES_ENABLED = True
 

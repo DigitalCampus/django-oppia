@@ -19,7 +19,7 @@ NON_ACTIVITY_EVENTS = [
 def apply_points(user):
     if not settings.OPPIA_POINTS_ENABLED:
         return False
-    if user.is_staff and not settings.OPPIA_STAFF_EARN_POINTS:
+    if user.is_staff:
         return False
     return True
 
@@ -48,8 +48,7 @@ def quizattempt_callback(sender, **kwargs):
 
     # find out is user is part of the cohort for this course
     if course is not None \
-            and course.user == quiz_attempt.user \
-            and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
+            and course.user == quiz_attempt.user:
         return
 
     if quiz_attempt.is_first_attempt():
@@ -129,8 +128,7 @@ def tracker_callback(sender, **kwargs):
         return
 
     if tracker.course is not None \
-       and tracker.course.user == tracker.user \
-       and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
+       and tracker.course.user == tracker.user:
         return
 
     if tracker.event not in NON_ACTIVITY_EVENTS \
