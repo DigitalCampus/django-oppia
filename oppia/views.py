@@ -47,6 +47,8 @@ from reports.signals import dashboard_accessed
 from summary.models import UserCourseSummary, CourseDailyStats
 from oppia.uploader import handle_uploaded_file
 
+DEFAULT_DATE_FORMAT = "%Y-%m-%d"
+DEFAULT_DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 def server_view(request):
     return render(request, 'oppia/server.html',
@@ -92,9 +94,10 @@ def home_view(request):
             if form.is_valid():
                 start_date = form.cleaned_data.get("start_date")
                 start_date = datetime.datetime.strptime(start_date,
-                                                        "%Y-%m-%d")
+                                                        DEFAULT_DATE_FORMAT)
                 end_date = form.cleaned_data.get("end_date")
-                end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d")
+                end_date = datetime.datetime.strptime(end_date,
+                                                      DEFAULT_DATE_FORMAT)
                 interval = form.cleaned_data.get("interval")
         else:
             data = {}
@@ -407,10 +410,10 @@ def recent_activity(request, course_id):
         if form.is_valid():
             start_date = form.cleaned_data.get("start_date")
             start_date = datetime.datetime.strptime(start_date + " 00:00:00",
-                                                    "%Y-%m-%d %H:%M:%S")
+                                                    DEFAULT_DATETIME_FORMAT)
             end_date = form.cleaned_data.get("end_date")
             end_date = datetime.datetime.strptime(end_date + " 23:59:59",
-                                                  "%Y-%m-%d %H:%M:%S")
+                                                  DEFAULT_DATETIME_FORMAT)
             interval = form.cleaned_data.get("interval")
     else:
         data = {}
@@ -461,9 +464,11 @@ def recent_activity_detail(request, course_id):
         form = DateRangeForm(request.POST)
         if form.is_valid():
             start_date = form.cleaned_data.get("start_date")
-            start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d")
+            start_date = datetime.datetime.strptime(start_date,
+                                                    DEFAULT_DATE_FORMAT)
             end_date = form.cleaned_data.get("end_date")
-            end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d")
+            end_date = datetime.datetime.strptime(end_date,
+                                                  DEFAULT_DATE_FORMAT)
             trackers = Tracker.objects.filter(course=course,
                                               tracker_date__gte=start_date,
                                               tracker_date__lte=end_date) \
@@ -533,7 +538,7 @@ def export_tracker_detail(request, course_id):
                 lang = data_dict['lang']
             else:
                 lang = ""
-            data.append((t.tracker_date.strftime('%Y-%m-%d %H:%M:%S'),
+            data.append((t.tracker_date.strftime(DEFAULT_DATETIME_FORMAT),
                          t.user.id,
                          t.type,
                          t.get_activity_title(),
@@ -543,7 +548,7 @@ def export_tracker_detail(request, course_id):
                          t.agent,
                          lang))
         except ValueError:
-            data.append((t.tracker_date.strftime('%Y-%m-%d %H:%M:%S'),
+            data.append((t.tracker_date.strftime(DEFAULT_DATETIME_FORMAT),
                          t.user.id,
                          t.type,
                          "",

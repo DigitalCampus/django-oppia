@@ -92,6 +92,5 @@ class Command(BaseCommand):
                       (cartodb_account, sql, cartodb_key)
                 u = urllib.request.urlopen(url)
                 data = u.read()
-                data_json = json.loads(data)
                 self.stdout.write(data)
                 time.sleep(1)
