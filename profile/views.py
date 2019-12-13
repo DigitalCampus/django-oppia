@@ -550,8 +550,7 @@ def process_upload_user_file(csv_file, required_fields):
             
             results.append(process_upload_file_save_user(row))
                 
-    except Exception as err:
-        print(err)
+    except Exception:
         result = {}
         result['username'] = None
         result['created'] = False
