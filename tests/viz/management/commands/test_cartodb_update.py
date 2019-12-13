@@ -15,4 +15,5 @@ class CartoDBUpdateTest(TestCase):
     def test_cartodb_output(self):
         out = StringIO()
         call_command('cartodb_update', stdout=out)
-        self.assertEqual(u'Cleaning up:', out.getvalue()[0:12])
+        # API KEY won't be valid
+        self.assertEqual(u'Please check', out.getvalue()[0:12])
