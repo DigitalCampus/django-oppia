@@ -1,5 +1,9 @@
 {% extends 'common/list/base.html' %}
 
+{% block item_link %}
+{% url object_url_name profile.pk course.pk quiz.pk item.pk %}
+{% endblock %}
+
  {% block table_head %}
     <th scope="col">Attempt date</th>
     <th scope="col">Score</th>

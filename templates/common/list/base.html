@@ -10,7 +10,9 @@
   <tbody>
     {% for item in object_list %}
 
-    <tr data-pk="{{item.pk}}" {% if object_url_name %}class="link-row" data-href="{% url object_url_name item.pk %}" {% endif %}>
+    <tr
+        data-pk="{{item.pk}}"
+        {% if object_url_name %}class="link-row" data-href="{% block item_link %}{% url object_url_name item.pk %}{% endblock %}" {% endif %}>
     {% block item_row %} {% endblock %}
     </tr>
 

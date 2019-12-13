@@ -70,3 +70,6 @@ table.sortable .sorted:hover{
 .search-block .panel-group .panel{ border-radius: 0; border:none;}
 .search-block .panel-heading{ background-color: $oppia-dark; padding:5px 15px;}
 .search-block .panel-heading a{ display:block; padding: 6px 0; line-height: 1.42857143; color: #fff; text-decoration:none; font-size:1.1em; font-weight: bold;}
+
+tr.link-row:hover{ cursor: pointer; }
+
