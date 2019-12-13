@@ -550,13 +550,16 @@ def process_upload_user_file(csv_file, required_fields):
             
             results.append(process_upload_file_save_user(row))
                 
-    except Exception:
+    except Exception as err:
+        print(err)
         result = {}
         result['username'] = None
         result['created'] = False
         result['message'] = _(u'Could not parse file')
         results.append(result)
-        
+
+    return results
+
 def process_upload_file_save_user(row):
     user = User()
     user.username = row['username']
@@ -600,8 +603,8 @@ def upload_view(request):
     if request.method == 'POST':  # if form submitted...
         form = UploadProfileForm(request.POST, request.FILES)
         if form.is_valid():
-            request.FILES['upload_file'].open("rb")
-            csv_file = csv.DictReader(request.FILES['upload_file'].file)
+            csv_file = csv.DictReader(
+                chunk.decode() for chunk in request.FILES['upload_file'])
             required_fields = ['username', 'firstname', 'lastname', 'email']
             results = process_upload_user_file(csv_file, required_fields)
     else:
