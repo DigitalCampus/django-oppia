@@ -7,19 +7,18 @@ from tests.user_logins import ADMIN_USER, \
                               TEACHER_USER
 
 
-class UserSearchActivityViewTest(TestCase):
+class UserExportActivityViewTest(TestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
                 'tests/test_permissions.json']
 
     def setUp(self):
-        super(UserSearchActivityViewTest, self).setUp()
+        super(UserExportActivityViewTest, self).setUp()
         self.template = 'profile/export-users.html'
         self.url = reverse('profile_export')
 
     def test_view_export(self):
-
         allowed_users = [ADMIN_USER, STAFF_USER]
         disallowed_users = [TEACHER_USER, NORMAL_USER]
 
