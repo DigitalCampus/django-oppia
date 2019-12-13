@@ -586,7 +586,7 @@ def upload_view(request):
                         else:
                             result['message'] = _(u'User created')
                         results.append(result)
-                    except IntegrityError as ie:
+                    except IntegrityError:
                         result = {}
                         result['username'] = row['username']
                         result['created'] = False
