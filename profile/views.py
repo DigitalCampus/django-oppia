@@ -530,7 +530,69 @@ def user_course_activity_view(request, user_id, course_id):
                    'page_ordering': ('-' if inverse_order else '') + ordering,
                    'activity_graph_data': activity})
 
+def process_upload_user_file(csv_file, required_fields):
+    results = []
+    try:
+        for row in csv_file:
+            # check all required fields defined
+            all_defined = True
+            for rf in required_fields:
+                if rf not in row or row[rf].strip() == '':
+                    result = {}
+                    result['username'] = row['username']
+                    result['created'] = False
+                    result['message'] = _(u'No %s set' % rf)
+                    results.append(result)
+                    all_defined = False
 
+            if not all_defined:
+                continue
+            
+            results.append(process_upload_file_save_user(row))
+                
+    except Exception:
+        result = {}
+        result['username'] = None
+        result['created'] = False
+        result['message'] = _(u'Could not parse file')
+        results.append(result)
+        
+def process_upload_file_save_user(row):
+    user = User()
+    user.username = row['username']
+    user.first_name = row['firstname']
+    user.last_name = row['lastname']
+    user.email = row['email']
+    auto_password = False
+    if 'password' in row:
+        user.set_password(row['password'])
+    else:
+        password = User.objects.make_random_password()
+        user.set_password(password)
+        auto_password = True
+    try:
+        user.save()
+        up = UserProfile()
+        up.user = user
+        for col_name in row:
+            setattr(up, col_name, row[col_name])
+        up.save()
+        result = {}
+        result['username'] = row['username']
+        result['created'] = True
+        if auto_password:
+            result['message'] = \
+                _(u'User created with password: %s' % password)
+        else:
+            result['message'] = _(u'User created')
+    except IntegrityError:
+        result = {}
+        result['username'] = row['username']
+        result['created'] = False
+        result['message'] = _(u'User already exists')
+    
+    return result    
+    
 def upload_view(request):
     if not request.user.is_superuser:
         raise PermissionDenied
@@ -541,65 +603,7 @@ def upload_view(request):
             request.FILES['upload_file'].open("rb")
             csv_file = csv.DictReader(request.FILES['upload_file'].file)
             required_fields = ['username', 'firstname', 'lastname', 'email']
-            results = []
-            try:
-                for row in csv_file:
-                    # check all required fields defined
-                    all_defined = True
-                    for rf in required_fields:
-                        if rf not in row or row[rf].strip() == '':
-                            result = {}
-                            result['username'] = row['username']
-                            result['created'] = False
-                            result['message'] = _(u'No %s set' % rf)
-                            results.append(result)
-                            all_defined = False
-
-                    if not all_defined:
-                        continue
-
-                    user = User()
-                    user.username = row['username']
-                    user.first_name = row['firstname']
-                    user.last_name = row['lastname']
-                    user.email = row['email']
-                    auto_password = False
-                    if 'password' in row:
-                        user.set_password(row['password'])
-                    else:
-                        password = User.objects.make_random_password()
-                        user.set_password(password)
-                        auto_password = True
-                    try:
-                        user.save()
-                        up = UserProfile()
-                        up.user = user
-                        for col_name in row:
-                            setattr(up, col_name, row[col_name])
-                        up.save()
-                        result = {}
-                        result['username'] = row['username']
-                        result['created'] = True
-                        if auto_password:
-                            result['message'] = \
-                                _(u'User created with password: %s' % password)
-                        else:
-                            result['message'] = _(u'User created')
-                        results.append(result)
-                    except IntegrityError:
-                        result = {}
-                        result['username'] = row['username']
-                        result['created'] = False
-                        result['message'] = _(u'User already exists')
-                        results.append(result)
-                        continue
-            except:
-                result = {}
-                result['username'] = None
-                result['created'] = False
-                result['message'] = _(u'Could not parse file')
-                results.append(result)
-
+            results = process_upload_user_file(csv_file, required_fields)
     else:
         results = []
         form = UploadProfileForm()
