@@ -40,3 +40,22 @@ class MediaURLCheckTest(TestCase):
         # reset download url
         media.download_url = original_download_url
         media.save()
+
+    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
+    def test_media_url_filesize_mismatch(self):
+        media = Media.objects.get(pk=1)
+        original_filesize = media.filesize
+        media.filesize = 1234
+        media.save()
+        
+        out = StringIO()
+        call_command('media_url_check', stdout=out)
+        self.assertEqual(u'Checking: who-why-did-mrs-x-die-20140220.m4v', out.getvalue()[0:44])
+        contains_warning = False
+        if "INFO: file sizes appear to be different:" in out.getvalue():
+            contains_warning = True
+        self.assertEqual(True, contains_warning)
+
+        # reset download url
+        media.filesize = original_filesize
+        media.save()
