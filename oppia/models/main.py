@@ -20,6 +20,7 @@ models.signals.post_save.connect(create_api_key, sender=User)
 STR_COURSE_INHERITED = _('Inherited from course')
 STR_GLOBAL_INHERITED = _('Inherited from global defaults')
 
+
 class Course(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     created_date = models.DateTimeField('date created',

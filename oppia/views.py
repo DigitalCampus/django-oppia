@@ -52,6 +52,7 @@ DEFAULT_DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 ACTIVITY_DATE_FORMAT = "%d %b %Y"
 ACTIVITY_TRACKER_DATE = "date(tracker_date)"
 
+
 def server_view(request):
     return render(request, 'oppia/server.html',
                   {'settings': settings},

@@ -25,16 +25,38 @@ class ProfileUpdateResource(ModelResource):
         always_return_data = True
         include_resource_uri = False
 
-    def obj_create(self, bundle, **kwargs):
-        required = ['firstname',
-                    'lastname']
-        check_required_params(bundle, required)
+    def process_profile_update_base_profile(self, bundle):
+        user_profile, created = UserProfile.objects \
+            .get_or_create(user=bundle.obj)
+        if 'jobtitle' in bundle.data:
+            user_profile.job_title = bundle.data['jobtitle']
+        if 'organisation' in bundle.data:
+            user_profile.organisation = bundle.data['organisation']
+        if 'phoneno' in bundle.data:
+            user_profile.phone_number = bundle.data['phoneno']
+        user_profile.save()
 
-        # can't edit another users account
-        if 'username' in bundle.data \
-                and bundle.data['username'] != bundle.request.user:
-            raise Unauthorized(_("You cannot edit another users profile"))
+    def process_profile_update_custom_fields(self, bundle):
+        # Create any CustomField entries
+        custom_fields = CustomField.objects.all()
+        for custom_field in custom_fields:
+            if (bundle.data[custom_field.id] is not None
+                    and bundle.data[custom_field.id] != '') \
+                    or custom_field.required is True:
 
+                profile_field, created = UserProfileCustomField.objects \
+                    .get_or_create(key_name=custom_field, user=bundle.obj)
+
+                if custom_field.type == 'int':
+                    profile_field.value_int = bundle.data[custom_field.id]
+                elif custom_field.type == 'bool':
+                    profile_field.value_bool = bundle.data[custom_field.id]
+                else:
+                    profile_field.value_str = bundle.data[custom_field.id]
+
+                profile_field.save()
+
+    def process_profile_update(self, bundle):
         data = {'email': bundle.data['email']
                 if 'email' in bundle.data else '',
                 'first_name': bundle.data['firstname'],
@@ -70,32 +92,22 @@ class ProfileUpdateResource(ModelResource):
             raise BadRequest(_(u'Username not found'))
 
         # Create base UserProfile
-        user_profile, created = UserProfile.objects \
-            .get_or_create(user=bundle.obj)
-        if 'jobtitle' in bundle.data:
-            user_profile.job_title = bundle.data['jobtitle']
-        if 'organisation' in bundle.data:
-            user_profile.organisation = bundle.data['organisation']
-        if 'phoneno' in bundle.data:
-            user_profile.phone_number = bundle.data['phoneno']
-        user_profile.save()
+        self.process_profile_update_base_profile(bundle)
 
         # Create any CustomField entries
-        custom_fields = CustomField.objects.all()
-        for custom_field in custom_fields:
-            if (bundle.data[custom_field.id] is not None
-                    and bundle.data[custom_field.id] != '') \
-                    or custom_field.required is True:
+        self.process_profile_update_custom_fields(bundle)
+        
+        return bundle
+        
+    def obj_create(self, bundle, **kwargs):
+        required = ['firstname',
+                    'lastname']
+        check_required_params(bundle, required)
 
-                profile_field, created = UserProfileCustomField.objects \
-                    .get_or_create(key_name=custom_field, user=bundle.obj)
+        # can't edit another users account
+        if 'username' in bundle.data \
+                and bundle.data['username'] != bundle.request.user:
+            raise Unauthorized(_("You cannot edit another users profile"))
 
-                if custom_field.type == 'int':
-                    profile_field.value_int = bundle.data[custom_field.id]
-                elif custom_field.type == 'bool':
-                    profile_field.value_bool = bundle.data[custom_field.id]
-                else:
-                    profile_field.value_str = bundle.data[custom_field.id]
-
-                profile_field.save()
+        bundle = self.process_profile_update(bundle)        
         return bundle

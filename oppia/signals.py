@@ -99,6 +99,7 @@ def quizattempt_callback(sender, **kwargs):
         p.course = course
         p.save()
 
+
 def calculate_media_points(tracker):
     if tracker.is_first_tracker_today():
         points = DefaultGamificationEvent.objects.get(
@@ -116,8 +117,9 @@ def calculate_media_points(tracker):
       event='media_max_points').points:
         points = DefaultGamificationEvent.objects.get(
             event='media_max_points').points
-            
+
     return points
+
 
 def tracker_callback(sender, **kwargs):
 
@@ -179,4 +181,3 @@ def badgeaward_callback(sender, **kwargs):
 
 
 models.signals.post_save.connect(tracker_callback, sender=Tracker)
-
