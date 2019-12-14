@@ -40,6 +40,45 @@ class RegisterResource(ModelResource):
         always_return_data = True
         include_resource_uri = False
 
+    def process_register_base_profile(self, bundle):
+        user_profile = UserProfile()
+        user_profile.user = bundle.obj
+        if 'jobtitle' in bundle.data:
+            user_profile.job_title = bundle.data['jobtitle']
+        if 'organisation' in bundle.data:
+            user_profile.organisation = bundle.data['organisation']
+        if 'phoneno' in bundle.data:
+            user_profile.phone_number = bundle.data['phoneno']
+        user_profile.save()
+
+    def process_register_custom_fields(self, bundle):
+        custom_fields = CustomField.objects.all()
+        for custom_field in custom_fields:
+            try:
+                value = bundle.data[custom_field.id]
+            except KeyError:
+                continue
+
+            if custom_field.type == 'int':
+                profile_field = UserProfileCustomField(
+                    key_name=custom_field,
+                    user=bundle.obj,
+                    value_int=value)
+            elif custom_field.type == 'bool':
+                profile_field = UserProfileCustomField(
+                    key_name=custom_field,
+                    user=bundle.obj,
+                    value_bool=value)
+            else:
+                profile_field = UserProfileCustomField(
+                    key_name=custom_field,
+                    user=bundle.obj,
+                    value_str=value)
+            if (value is not None
+                    and value != '') \
+                    or custom_field.required is True:
+                profile_field.save()
+        
     def obj_create(self, bundle, **kwargs):
         self_register = SettingProperties \
             .get_int(constants.OPPIA_ALLOW_SELF_REGISTRATION,
@@ -93,42 +132,9 @@ class RegisterResource(ModelResource):
                 _(u'Username "%s" already in use, please select another'
                   % username))
 
-        user_profile = UserProfile()
-        user_profile.user = bundle.obj
-        if 'jobtitle' in bundle.data:
-            user_profile.job_title = bundle.data['jobtitle']
-        if 'organisation' in bundle.data:
-            user_profile.organisation = bundle.data['organisation']
-        if 'phoneno' in bundle.data:
-            user_profile.phone_number = bundle.data['phoneno']
-        user_profile.save()
+        self.process_register_base_profile(bundle)
 
-        custom_fields = CustomField.objects.all()
-        for custom_field in custom_fields:
-            try:
-                value = bundle.data[custom_field.id]
-            except KeyError:
-                continue
-
-            if custom_field.type == 'int':
-                profile_field = UserProfileCustomField(
-                    key_name=custom_field,
-                    user=bundle.obj,
-                    value_int=value)
-            elif custom_field.type == 'bool':
-                profile_field = UserProfileCustomField(
-                    key_name=custom_field,
-                    user=bundle.obj,
-                    value_bool=value)
-            else:
-                profile_field = UserProfileCustomField(
-                    key_name=custom_field,
-                    user=bundle.obj,
-                    value_str=value)
-            if (value is not None
-                    and value != '') \
-                    or custom_field.required is True:
-                profile_field.save()
+        self.process_register_custom_fields(bundle)
 
         u = authenticate(username=username, password=password)
         if u is not None and u.is_active:
