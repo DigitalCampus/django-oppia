@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.utils.translation import ugettext as _
 
 from profile.models import CustomField
-
+from profile.forms import helpers
 
 class RegisterForm(forms.Form):
     username = forms.CharField(max_length=30,
@@ -60,24 +60,7 @@ class RegisterForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(RegisterForm, self).__init__(* args, ** kwargs)
 
-        custom_fields = CustomField.objects.all().order_by('order')
-
-        for custom_field in custom_fields:
-            if custom_field.type == 'int':
-                self.fields[custom_field.id] = \
-                        forms.IntegerField(label=custom_field.label,
-                                           required=custom_field.required,
-                                           help_text=custom_field.helper_text)
-            elif custom_field.type == 'bool':
-                self.fields[custom_field.id] = \
-                        forms.BooleanField(label=custom_field.label,
-                                           required=custom_field.required,
-                                           help_text=custom_field.helper_text)
-            else:
-                self.fields[custom_field.id] = \
-                        forms.CharField(label=custom_field.label,
-                                        required=custom_field.required,
-                                        help_text=custom_field.helper_text)
+        helpers.custom_fields(self)
 
         self.helper = FormHelper()
         self.helper.form_action = reverse('profile_register')
@@ -94,6 +77,7 @@ class RegisterForm(forms.Form):
             'job_title',
             'organisation')
 
+        custom_fields = CustomField.objects.all().order_by('order')
         for custom_field in custom_fields:
             self.helper.layout.append(custom_field.id)
 
