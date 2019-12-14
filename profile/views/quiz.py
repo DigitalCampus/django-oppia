@@ -15,7 +15,7 @@ class QuizAttemptsList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
     objects_url_name = 'profile_user_quiz_attempt_detail'
     template_name = 'profile/quiz_attempts.html'
     ajax_template_name = 'quiz/attempts_query.html'
-    paginate_by = 3
+    paginate_by = 15
 
     def get_queryset(self):
         user = self.kwargs['user_id']
@@ -42,7 +42,7 @@ class QuizAttemptDetail(DetailView):
     def get_queryset(self):
         user = self.kwargs['user_id']
         quiz = self.kwargs['quiz_id']
-        queryset = QuizAttempt.objects.filter(user__pk=user, quiz__pk=quiz)
+        queryset = QuizAttempt.objects.filter(user__pk=user, quiz__pk=quiz).prefetch_related('responses')
 
         return queryset
 

@@ -151,7 +151,7 @@ class QuizAttempt(models.Model):
 
 
 class QuizAttemptResponse(models.Model):
-    quizattempt = models.ForeignKey(QuizAttempt, on_delete=models.CASCADE)
+    quizattempt = models.ForeignKey(QuizAttempt, on_delete=models.CASCADE, related_name='responses')
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     score = models.DecimalField(decimal_places=2, max_digits=6)
     text = models.TextField(blank=True)
