@@ -32,7 +32,37 @@ class Command(BaseCommand):
         self.stdout.write("..", ending='')
         self.stdout.flush()
 
+    def remove_duplicate_quizzes(self):
+        act_quizzes = Activity.objects.filter(type=Activity.QUIZ)
+        for aq in act_quizzes:
+            try:
+                quizobjs = Quiz.objects.filter(quizprops__value=aq.digest,
+                                               quizprops__name="digest")
+                quiz_to_delete = []
+                if quizobjs.count() > 1:
+                    self.stdout \
+                        .write("\nQuiz {} has {} associated quiz objects:\n"
+                               .format(aq.digest, quizobjs.count()))
+                    for quiz in quizobjs:
+                        attempts = QuizAttempt.objects \
+                            .filter(quiz=quiz).count()
+                        if not attempts:
+                            quiz_to_delete.append(quiz)
+                        self.stdout.write(
+                            "    Quiz {} has {} attempts\n".format(quiz,
+                                                                   attempts))
+
+                    if len(quiz_to_delete) > 0:
+                        self.stdout.write(
+                            "    > Do you want to remove the {} quizzes \
+                             without attempts?\n".format(len(quiz_to_delete)))
+
+            except Quiz.DoesNotExist:
+                pass
+            
     def handle(self, *args, **options):
+
+        self.remove_duplicate_quizzes()
 
         quiz_act_digests = Activity.objects \
             .filter(type=Activity.QUIZ) \
