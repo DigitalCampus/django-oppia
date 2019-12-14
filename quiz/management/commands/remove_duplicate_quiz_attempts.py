@@ -15,9 +15,6 @@ from quiz.models import QuizAttempt
 class Command(BaseCommand):
     help = _(u"Removes any duplicate quiz attempts based on instance_id")
 
-    def add_arguments(self, parser):
-        pass
-
     def handle(self, *args, **options):
         """
         Remove quizattempts with no UUID

@@ -12,6 +12,8 @@ class Migration(migrations.Migration):
 
     initial = True
 
+    STR_DATE_CREATED = b'date created'
+
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('quiz', '0005_auto_20180416_1318'),
@@ -28,7 +30,7 @@ class Migration(migrations.Migration):
                                         verbose_name='ID')),
                 ('created_date',
                  models.DateTimeField(default=django.utils.timezone.now,
-                                      verbose_name=b'date created')),
+                                      verbose_name=STR_DATE_CREATED)),
                 ('points_type', models.CharField(max_length=100)),
                 ('points', models.IntegerField()),
                 ('activity',
@@ -52,7 +54,7 @@ class Migration(migrations.Migration):
                                         verbose_name='ID')),
                 ('created_date',
                  models.DateTimeField(default=django.utils.timezone.now,
-                                      verbose_name=b'date created')),
+                                      verbose_name=STR_DATE_CREATED)),
                 ('points_type', models.CharField(max_length=100)),
                 ('points', models.IntegerField()),
                 ('course',
@@ -76,7 +78,7 @@ class Migration(migrations.Migration):
                                         verbose_name='ID')),
                 ('created_date',
                  models.DateTimeField(default=django.utils.timezone.now,
-                                      verbose_name=b'date created')),
+                                      verbose_name=STR_DATE_CREATED)),
                 ('points_type', models.CharField(max_length=100)),
                 ('points', models.IntegerField()),
                 ('media',
@@ -100,7 +102,7 @@ class Migration(migrations.Migration):
                                         verbose_name='ID')),
                 ('created_date',
                  models.DateTimeField(default=django.utils.timezone.now,
-                                      verbose_name=b'date created')),
+                                      verbose_name=STR_DATE_CREATED)),
                 ('points_type', models.CharField(max_length=100)),
                 ('points', models.IntegerField()),
                 ('quiz',

@@ -18,9 +18,6 @@ class Command(BaseCommand):
     help = 'Cleans up old data (quizzes and questions) that are not relevant \
             anymore'
 
-    def add_arguments(self, parser):
-        pass
-
     def prompt(self, query):
         self.stdout.write('%s [y/n]: ' % query)
         val = input()

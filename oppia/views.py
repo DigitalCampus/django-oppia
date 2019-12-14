@@ -49,6 +49,8 @@ from oppia.uploader import handle_uploaded_file
 
 DEFAULT_DATE_FORMAT = "%Y-%m-%d"
 DEFAULT_DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+ACTIVITY_DATE_FORMAT = "%d %b %Y"
+ACTIVITY_TRACKER_DATE = "date(tracker_date)"
 
 def server_view(request):
     return render(request, 'oppia/server.html',
@@ -119,7 +121,7 @@ def home_view(request):
                 count = next((dct['count']
                               for dct in tracker_stats
                               if dct['day'] == temp.date()), 0)
-                activity.append([temp.strftime("%d %b %Y"), count])
+                activity.append([temp.strftime(ACTIVITY_DATE_FORMAT), count])
         else:
             delta = relativedelta(months=+1)
 
@@ -170,14 +172,14 @@ def teacher_home_view(request):
                                       user__in=students,
                                       tracker_date__gte=start_date,
                                       tracker_date__lte=end_date) \
-        .extra({'activity_date': "date(tracker_date)"}) \
+        .extra({'activity_date': ACTIVITY_TRACKER_DATE}) \
         .values('activity_date').annotate(count=Count('id'))
     for i in range(0, no_days, +1):
         temp = start_date + datetime.timedelta(days=i)
         count = next((dct['count']
                       for dct in trackers
                       if dct['activity_date'] == temp.date()), 0)
-        activity.append([temp.strftime("%d %b %Y"), count])
+        activity.append([temp.strftime(ACTIVITY_DATE_FORMAT), count])
 
     return render(request, 'oppia/home-teacher.html',
                   {'cohorts': cohorts,
@@ -224,7 +226,6 @@ def render_courses_list(request, courses, params=None):
                 course.total_downloads = stats['total']
                 # remove the element to optimize next searches
                 course_stats.remove(stats)
-                continue
 
     params['page'] = courses
     params['tag_list'] = tag_list
@@ -680,14 +681,14 @@ def cohort_view(request, cohort_id):
                                       user__in=students,
                                       tracker_date__gte=start_date,
                                       tracker_date__lte=end_date) \
-        .extra({'activity_date': "date(tracker_date)"}) \
+        .extra({'activity_date': ACTIVITY_TRACKER_DATE}) \
         .values('activity_date').annotate(count=Count('id'))
     for i in range(0, no_days, +1):
         temp = start_date + datetime.timedelta(days=i)
         count = next((dct['count']
                      for dct in trackers
                      if dct['activity_date'] == temp.date()), 0)
-        student_activity.append([temp.strftime("%d %b %Y"), count])
+        student_activity.append([temp.strftime(ACTIVITY_DATE_FORMAT), count])
 
     # get leaderboard
     leaderboard = cohort.get_leaderboard(10)
@@ -834,7 +835,7 @@ def cohort_course_view(request, cohort_id, course_id):
                                       user__in=users,
                                       tracker_date__gte=start_date,
                                       tracker_date__lte=end_date) \
-        .extra({'activity_date': "date(tracker_date)"}) \
+        .extra({'activity_date': ACTIVITY_TRACKER_DATE}) \
         .values('activity_date') \
         .annotate(count=Count('id'))
     for i in range(0, no_days, +1):
@@ -842,7 +843,7 @@ def cohort_course_view(request, cohort_id, course_id):
         count = next((dct['count']
                       for dct in trackers
                       if dct['activity_date'] == temp.date()), 0)
-        student_activity.append([temp.strftime("%d %b %Y"), count])
+        student_activity.append([temp.strftime(ACTIVITY_DATE_FORMAT), count])
 
     students = []
     media_count = course.get_no_media()

@@ -15,9 +15,6 @@ from oppia.models import Tracker
 class Command(BaseCommand):
     help = _(u"Removes any duplicate trackers based on UUID")
 
-    def add_arguments(self, parser):
-        pass
-
     def handle(self, *args, **options):
         """
         Remove page/media/quiz trackers with no UUID

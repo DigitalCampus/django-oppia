@@ -4,14 +4,15 @@ from summary.models import UserCourseSummary, \
                            CourseDailyStats, \
                            UserPointsSummary
 
+STR_UPDATE_SUMMARY = "Update summary"
 
 def message_user(model, request, model_name, query_count):
     if query_count == 1:
         model.message_user(request,
-                           model_name + " summary succesfully updated.")
+                           model_name + " summary successfully updated.")
     elif query_count > 0:
         model.message_user(request,
-                           model_name + " summaries succesfully updated.")
+                           model_name + " summaries successfully updated.")
 
 
 class UserCourseSummaryAdmin(admin.ModelAdmin):
@@ -32,7 +33,7 @@ class UserCourseSummaryAdmin(admin.ModelAdmin):
             course_summary.update_summary()
         message_user(self, request, "User-course", queryset.count())
 
-    update_summary.short_description = "Update summary"
+    update_summary.short_description = STR_UPDATE_SUMMARY
 
 
 class CourseDailyStatsAdmin(admin.ModelAdmin):
@@ -47,7 +48,7 @@ class CourseDailyStatsAdmin(admin.ModelAdmin):
                                                   daily_stats.day)
         message_user(self, request, "Daily stats", queryset.count())
 
-    update_summary.short_description = "Update summary"
+    update_summary.short_description = STR_UPDATE_SUMMARY
 
 
 class UserPointsAdmin(admin.ModelAdmin):
@@ -60,7 +61,7 @@ class UserPointsAdmin(admin.ModelAdmin):
             user_points.update_points()
         message_user(self, request, "User points", queryset.count())
 
-    update_summary.short_description = "Update summary"
+    update_summary.short_description = STR_UPDATE_SUMMARY
 
 
 admin.site.register(UserCourseSummary, UserCourseSummaryAdmin)
