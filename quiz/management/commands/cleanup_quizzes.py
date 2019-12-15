@@ -102,8 +102,7 @@ class Command(BaseCommand):
                 + ' %d items to delete' % elem_count)
 
         if total == 0:
-            self.stdout.write(
-                self.style.MIGRATE_SUCCESS("No new elements to clean up."))
+            self.stdout.write("No new elements to clean up.")
         else:
             if self.prompt("You are about to delete %d records, are you sure?"
                            % total):
@@ -117,5 +116,4 @@ class Command(BaseCommand):
                 to_delete['Questions'].delete()
                 to_delete['QuizProps'].delete()
                 to_delete['Quizzes'].delete()
-                self.stdout.write(
-                    self.style.MIGRATE_SUCCESS("Quizzes cleaned up :)"))
+                self.stdout.write("Quizzes cleaned up :)")
