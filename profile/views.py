@@ -420,8 +420,10 @@ def user_activity(request, user_id):
                    'page_ordering': ('-' if inverse_order else '') + ordering,
                    'activity_graph_data': activity})
 
+
 def user_course_quiz_activity(view_user,
                               activity_quiz,
+                              quizzes_passed,
                               quizzes_attempted):
     course_pretest = None
     try:
@@ -481,7 +483,7 @@ def user_course_quiz_activity(view_user,
             'avg_score': avg_score,
             'passed': passed
             }
-    return quiz, course_pretest, quizzes_attempted
+    return quiz, course_pretest, quizzes_passed, quizzes_attempted
 
 def user_course_activity_view(request, user_id, course_id):
 
@@ -501,9 +503,10 @@ def user_course_activity_view(request, user_id, course_id):
 
     quizzes = []
     for activity_quiz in act_quizzes:
-        quiz, course_pretest, quizzes_attempted = \
+        quiz, course_pretest, quizzes_passed, quizzes_attempted = \
             user_course_quiz_activity(view_user,
                                       activity_quiz,
+                                      quizzes_passed,
                                       quizzes_attempted)
         quizzes.append(quiz)        
 
