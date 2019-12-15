@@ -192,35 +192,17 @@ def process_course(extract_path, f, mod_name, request, user):
 
     return course, 200
 
+def process_course_sections(request, structure, course, user, new_course):
+    for index, section in enumerate(structure.findall("section")):
 
-def parse_course_contents(req, xml_doc, course, user, new_course):
-
-    # add in any baseline activities
-    parse_baseline_activities(req, xml_doc, course, user, new_course)
-
-    # add all the sections and activities
-    structure = xml_doc.find("structure")
-    if len(structure.findall("section")) == 0:
-        course.delete()
-        msg_text = \
-            _(u"There don't appear to be any activities in this upload file.")
-        messages.info(req, msg_text)
-        CoursePublishingLog(course=course,
-                            user=user,
-                            action="no_activities",
-                            data=msg_text).save()
-        return
-
-    for idx, s in enumerate(structure.findall("section")):
-
-        activities = s.find('activities')
+        activities = section.find('activities')
         # Check if the section contains any activity
         # (to avoid saving an empty one)
         if activities is None or len(activities.findall('activity')) == 0:
             msg_text = _("Section ") \
-                        + str(idx + 1) \
+                        + str(index + 1) \
                         + _(" does not contain any activities.")
-            messages.info(req, msg_text)
+            messages.info(request, msg_text)
             CoursePublishingLog(course=course,
                                 user=user,
                                 action="no_activities",
@@ -228,74 +210,100 @@ def parse_course_contents(req, xml_doc, course, user, new_course):
             continue
 
         title = {}
-        for t in s.findall('title'):
+        for t in section.findall('title'):
             title[t.get('lang')] = t.text
 
         section = Section(
             course=course,
             title=json.dumps(title),
-            order=s.get('order')
+            order=section.get('order')
         )
         section.save()
 
         for act in activities.findall("activity"):
-            parse_and_save_activity(req,
+            parse_and_save_activity(request,
                                     user,
                                     course,
                                     section,
                                     act,
                                     new_course)
 
+def process_course_media_events(request, media, events, course, user):
+    for event in events:
+        # Only add events if the didn't exist previously
+        e, created = MediaGamificationEvent.objects \
+            .get_or_create(media=media,
+                           event=event['name'],
+                           defaults={'points': event['points'],
+                                     'user': request.user})
+
+        if created:
+            msg_text = _(u'Gamification for "%(event)s" at course \
+                        level added') % {'event': e.event}
+            messages.info(request, msg_text)
+            CoursePublishingLog(course=course,
+                                user=user,
+                                action="course_gamification_added",
+                                data=msg_text).save()
+
+def process_course_media(request, media_element, course, user):
+    for file_element in media_element.findall('file'):
+        media = Media()
+        media.course = course
+        media.filename = file_element.get("filename")
+        url = file_element.get("download_url")
+        media.digest = file_element.get("digest")
+
+        if len(url) > Media.URL_MAX_LENGTH:
+            msg_text = _(u'File %(filename)s has a download URL larger \
+                        than the maximum length permitted. The media file \
+                        has not been registered, so it won\'t be tracked. \
+                        Please, fix this issue and upload the course \
+                        again.') % {'filename': media.filename}
+            messages.info(request, msg_text)
+            CoursePublishingLog(course=course,
+                                user=user,
+                                action="media_url_too_long",
+                                data=msg_text).save()
+        else:
+            media.download_url = url
+            # get any optional attributes
+            for attr_name, attr_value in file_element.attrib.items():
+                if attr_name == "length":
+                    media.media_length = attr_value
+                if attr_name == "filesize":
+                    media.filesize = attr_value
+
+            media.save()
+            # save gamification events
+            gamification = file_element.find('gamification')
+            events = parse_gamification_events(gamification)
+
+            process_course_media_events(request, media, events, course, user)
+
+def parse_course_contents(request, xml_doc, course, user, new_course):
+
+    # add in any baseline activities
+    parse_baseline_activities(request, xml_doc, course, user, new_course)
+
+    # add all the sections and activities
+    structure = xml_doc.find("structure")
+    if len(structure.findall("section")) == 0:
+        course.delete()
+        msg_text = \
+            _(u"There don't appear to be any activities in this upload file.")
+        messages.info(request, msg_text)
+        CoursePublishingLog(course=course,
+                            user=user,
+                            action="no_activities",
+                            data=msg_text).save()
+        return
+
+    process_course_sections(request, structure, course, user, new_course)
+
     media_element = xml_doc.find('media')
     if media_element is not None:
-        for file_element in media_element.findall('file'):
-            media = Media()
-            media.course = course
-            media.filename = file_element.get("filename")
-            url = file_element.get("download_url")
-            media.digest = file_element.get("digest")
-
-            if len(url) > Media.URL_MAX_LENGTH:
-                msg_text = _(u'File %(filename)s has a download URL larger \
-                            than the maximum length permitted. The media file \
-                            has not been registered, so it won\'t be tracked. \
-                            Please, fix this issue and upload the course \
-                            again.') % {'filename': media.filename}
-                messages.info(req, msg_text)
-                CoursePublishingLog(course=course,
-                                    user=user,
-                                    action="media_url_too_long",
-                                    data=msg_text).save()
-            else:
-                media.download_url = url
-                # get any optional attributes
-                for attr_name, attr_value in file_element.attrib.items():
-                    if attr_name == "length":
-                        media.media_length = attr_value
-                    if attr_name == "filesize":
-                        media.filesize = attr_value
-
-                media.save()
-                # save gamification events
-                gamification = file_element.find('gamification')
-                events = parse_gamification_events(gamification)
-
-                for event in events:
-                    # Only add events if the didn't exist previously
-                    e, created = MediaGamificationEvent.objects \
-                        .get_or_create(media=media,
-                                       event=event['name'],
-                                       defaults={'points': event['points'],
-                                                 'user': req.user})
-
-                    if created:
-                        msg_text = _(u'Gamification for "%(event)s" at course \
-                                    level added') % {'event': e.event}
-                        messages.info(req, msg_text)
-                        CoursePublishingLog(course=course,
-                                            user=user,
-                                            action="course_gamification_added",
-                                            data=msg_text).save()
+        process_course_media(request, media_element, course, user)
 
 
 def parse_baseline_activities(req, xml_doc, course, user, new_course):
