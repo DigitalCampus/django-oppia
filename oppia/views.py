@@ -316,7 +316,7 @@ def upload_step2(request, course_id, editing=False):
         form = UploadCourseStep2Form(request.POST, request.FILES)
         if form.is_valid() and course:
             # add the tags
-            add_course_tags(form, course, request.user)
+            update_course_tags(form, course, request.user)
             redirect = 'oppia_course' if editing else 'oppia_upload_success'
             CoursePublishingLog(
                 course=course,
@@ -338,12 +338,15 @@ def upload_step2(request, course_id, editing=False):
                    'title': page_title})
 
 
-def add_course_tags(form, course, user):
+def update_course_tags(form, course, user):
     tags = form.cleaned_data.get("tags", "").strip().split(",")
     is_draft = form.cleaned_data.get("is_draft")
     if len(tags) > 0:
         course.is_draft = is_draft
         course.save()
+        # remove any existing tags
+        CourseTag.objects.filter(course=course).delete()
+        # now add the new ones        
         for t in tags:
             try:
                 tag = Tag.objects.get(name__iexact=t.strip())
