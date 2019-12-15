@@ -306,32 +306,51 @@ def parse_course_contents(request, xml_doc, course, user, new_course):
         process_course_media(request, media_element, course, user)
 
 
-def parse_baseline_activities(req, xml_doc, course, user, new_course):
+def parse_baseline_activities(request, xml_doc, course, user, new_course):
 
     for meta in xml_doc.findall('meta')[:1]:
-        activities = meta.findall("activity")
-        if len(activities) > 0:
+        activity_nodes = meta.findall("activity")
+        if len(activity_nodes) > 0:
             section = Section(
                 course=course,
                 title='{"en": "Baseline"}',
                 order=0
             )
             section.save()
-            for act in activities:
-                parse_and_save_activity(req,
+            for activity_node in activity_nodes:
+                parse_and_save_activity(request,
                                         user,
                                         course,
                                         section,
-                                        act,
+                                        activity_node,
                                         new_course,
                                         is_baseline=True)
 
+def get_activity_content(activity):
+    content = ""
+    activity_type = activity.get("type")
+    if activity_type == "page" or activity_type == "url":
+        temp_content = {}
+        for t in activity.findall("location"):
+            if t.text:
+                temp_content[t.get('lang')] = t.text
+        content = json.dumps(temp_content)
+    elif activity_type == "quiz" or activity_type == "feedback":
+        for c in activity.findall("content"):
+            content = c.text
+    elif activity_type == "resource":
+        for c in activity.findall("location"):
+            content = c.text
+    else:
+        content = None
+        
+    return content, activity_type
 
-def parse_and_save_activity(req,
+def parse_and_save_activity(request,
                             user,
                             course,
                             section,
-                            act,
+                            activity_node,
                             new_course,
                             is_baseline=False):
     """
@@ -345,37 +364,22 @@ def parse_and_save_activity(req,
     """
 
     title = {}
-    for t in act.findall('title'):
+    for t in activity_node.findall('title'):
         title[t.get('lang')] = t.text
     title = json.dumps(title) if title else None
 
     description = {}
-    for t in act.findall('description'):
+    for t in activity_node.findall('description'):
         description[t.get('lang')] = t.text
     description = json.dumps(description) if description else None
 
-    content = ""
-    act_type = act.get("type")
-    if act_type == "page" or act_type == "url":
-        temp_content = {}
-        for t in act.findall("location"):
-            if t.text:
-                temp_content[t.get('lang')] = t.text
-        content = json.dumps(temp_content)
-    elif act_type == "quiz" or act_type == "feedback":
-        for c in act.findall("content"):
-            content = c.text
-    elif act_type == "resource":
-        for c in act.findall("location"):
-            content = c.text
-    else:
-        content = None
+    content, activity_type = get_activity_content(activity_node)
 
     image = None
-    for i in act.findall("image"):
+    for i in activity_node.findall("image"):
         image = i.get('filename')
 
-    digest = act.get("digest")
+    digest = activity_node.get("digest")
     existed = False
     try:
         activity = Activity.objects.get(digest=digest)
@@ -385,8 +389,8 @@ def parse_and_save_activity(req,
 
     activity.section = section
     activity.title = title
-    activity.type = act_type
-    activity.order = act.get("order")
+    activity.type = activity_type
+    activity.order = activity_node.get("order")
     activity.digest = digest
     activity.baseline = is_baseline
     activity.image = image
@@ -397,7 +401,7 @@ def parse_and_save_activity(req,
         msg_text = _(u'Activity "%(act)s"(%(digest)s) did not exist \
                      previously.') % {'act': activity.title,
                                       'digest': activity.digest}
-        messages.warning(req, msg_text)
+        messages.warning(request, msg_text)
         CoursePublishingLog(course=course,
                             user=user,
                             action="activity_added",
@@ -417,22 +421,25 @@ def parse_and_save_activity(req,
                             action="activity_updated",
                             data=msg_text).save()
 
-    if (act_type == "quiz"):
-        updated_json = parse_and_save_quiz(req, user, activity, act)
+    if (activity_type == "quiz"):
+        updated_json = parse_and_save_quiz(request,
+                                           user,
+                                           activity,
+                                           activity_node)
         # we need to update the JSON contents both in the XML and in the
         # activity data
-        act.find("content").text = "<![CDATA[ " + updated_json + "]]>"
+        activity_node.find("content").text = "<![CDATA[ " + updated_json + "]]>"
         activity.content = updated_json
 
     activity.save()
 
     # save gamification events
-    gamification = act.find('gamification')
+    gamification = activity_node.find('gamification')
     events = parse_gamification_events(gamification)
     for event in events:
         e, created = ActivityGamificationEvent.objects.get_or_create(
             activity=activity, event=event['name'],
-            defaults={'points': event['points'], 'user': req.user})
+            defaults={'points': event['points'], 'user': request.user})
 
         if created:
             msg_text = _(u'Gamification for "%(event)s" at activity \
@@ -440,7 +447,7 @@ def parse_and_save_activity(req,
                       % {'event': e.event,
                          'act': activity.title,
                          'digest': activity.digest}
-            messages.info(req, msg_text)
+            messages.info(request, msg_text)
             CoursePublishingLog(course=course,
                                 user=user,
                                 action="activity_gamification_added",
