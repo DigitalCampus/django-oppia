@@ -23,7 +23,7 @@ class QuizJSONSerializer(Serializer):
                           ensure_ascii=False,
                           indent=self.json_indent)
 
-    def process_question_properties(self, question):
+    def process_question_properties(self, question, qmaxscore):
         question['question']['p'] = {}
         for p in question['question']['props']:
             try:
@@ -51,7 +51,7 @@ class QuizJSONSerializer(Serializer):
                 + float(question['question']['props']['maxscore'])
         except ValueError:
             pass
-        return question
+        return question, qmaxscore
 
     def process_question_responses(self, question):
         for r in question:
@@ -107,7 +107,7 @@ class QuizJSONSerializer(Serializer):
                 pass
 
             if 'props' in question['question']:
-                question = self.process_question_properties(question)
+                question, qmaxscore = self.process_question_properties(question, qmaxscore)
 
             question['question']['responses'] = self.process_question_responses(question['question']['responses'])
 
