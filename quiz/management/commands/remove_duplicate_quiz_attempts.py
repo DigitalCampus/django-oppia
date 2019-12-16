@@ -20,9 +20,10 @@ class Command(BaseCommand):
         Remove quizattempts with no UUID
         """
         result = QuizAttempt.objects.filter(instance_id=None).delete()
-        self.stdout.write(
-            _(u"\n\n%d quiz attempts removed that had no instance_id\n"
-              % result[0]))
+        if result[0] != 0:
+            self.stdout.write(
+                _(u"\n\n%d quiz attempts removed that had no instance_id\n"
+                  % result[0]))
 
         """
         Remove proper duplicate quizattempts - using max id
