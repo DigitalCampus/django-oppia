@@ -1,7 +1,6 @@
 
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
-from api.resources.login import UserResource
 from tastypie import fields
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie.authorization import Authorization
@@ -10,78 +9,12 @@ from tastypie.resources import ModelResource
 
 from oppia import DEFAULT_IP_ADDRESS
 from oppia.models import Points, Award
-from quiz.api.serializers import QuizJSONSerializer, \
-                                 QuizAttemptJSONSerializer
-from quiz.api.validation import QuizOwnerValidation
+from quiz.api.serializers import QuizAttemptJSONSerializer
 from quiz.models import Quiz, Question, QuizQuestion, QuizAttempt, \
                         QuizAttemptResponse
 
 
-class QuizResource(ModelResource):
-    questions = fields.ToManyField('quiz.api.resources.QuizQuestionResource',
-                                   'quizquestion_set',
-                                   related_name='quiz',
-                                   full=True)
-    owner = fields.ForeignKey(UserResource, 'owner')
-
-    class Meta:
-        queryset = Quiz.objects.filter(draft=0,
-                                       deleted=0) \
-                               .order_by('-lastupdated_date')
-        allowed_methods = ['get', 'post']
-        fields = ['title', 'id', 'description', 'lastupdated_date']
-        resource_name = 'quiz'
-        include_resource_uri = True
-        serializer = QuizJSONSerializer()
-        authentication = ApiKeyAuthentication()
-        authorization = Authorization()
-        always_return_data = True
-
-    def hydrate(self, bundle, request=None):
-        bundle.obj.owner = User.objects.get(pk=bundle.request.user.id)
-        return bundle
-
-
-class QuizQuestionResource(ModelResource):
-    question = fields.ToOneField('quiz.api.resources.QuestionResource',
-                                 'question',
-                                 full=True)
-
-    class Meta:
-        queryset = QuizQuestion.objects.all()
-        allowed_methods = ['get', 'post']
-        fields = ['id', 'order', 'question']
-        include_resource_uri = False
-        authentication = ApiKeyAuthentication()
-        authorization = Authorization()
-        validation = QuizOwnerValidation()
-        always_return_data = True
-
-    def hydrate(self, bundle, request=None):
-        bundle.obj.quiz_id = QuizResource() \
-            .get_via_uri(bundle.data['quiz']).id
-        return bundle
-
-
-class QuestionResource(ModelResource):
-
-    class Meta:
-        queryset = Question.objects.all()
-        allowed_methods = ['get', 'post']
-        fields = ['title', 'type', 'id']
-        resource_name = 'question'
-        include_resource_uri = True
-        authentication = ApiKeyAuthentication()
-        authorization = Authorization()
-        always_return_data = True
-
-    def hydrate(self, bundle, request=None):
-        bundle.obj.owner = User.objects.get(pk=bundle.request.user.id)
-        return bundle
-
-
 class QuizAttemptResponseResource(ModelResource):
-    question = fields.ForeignKey(QuestionResource, 'question')
     quizattempt = fields.ToOneField('quiz.api.resources.QuizAttemptResource',
                                     'quizattempt',
                                     related_name='quizattemptresponse')
@@ -93,9 +26,16 @@ class QuizAttemptResponseResource(ModelResource):
         authentication = ApiKeyAuthentication()
         authorization = Authorization()
 
+    def hydrate(self, bundle, request=None):
+        try:
+            bundle.obj.question = Question.objects.get(pk=bundle.data['question_id'])
+        except Question.DoesNotExist:
+            raise BadRequest(_(u'Question does not exist'))
+        
+        return bundle
+
 
 class QuizAttemptResource(ModelResource):
-    quiz = fields.ForeignKey(QuizResource, 'quiz')
     responses = fields \
         .ToManyField('quiz.api.resources.QuizAttemptResponseResource',
                      'quizattemptresponse_set',

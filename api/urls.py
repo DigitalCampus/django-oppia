@@ -16,10 +16,7 @@ from api.resources.reset_password import ResetPasswordResource
 from api.resources.tag import TagResource
 from api.resources.tracker import TrackerResource
 
-from quiz.api.resources import QuizResource, \
-                               QuestionResource, \
-                               QuizQuestionResource, \
-                               QuizAttemptResource
+from quiz.api.resources import QuizAttemptResource
 
 
 def get_api(version_name):
@@ -35,9 +32,6 @@ def get_api(version_name):
     api.register(ResetPasswordResource())
     api.register(ProfileUpdateResource())
 
-    api.register(QuizResource())
-    api.register(QuestionResource())
-    api.register(QuizQuestionResource())
     api.register(QuizAttemptResource())
 
     return api
