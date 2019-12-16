@@ -52,7 +52,30 @@ class QuizJSONSerializer(Serializer):
         except ValueError:
             pass
         return question
-    
+
+    def process_question_responses(self, question):
+        for r in question:
+            del r['question']
+            del r['resource_uri']
+            try:
+                r['title'] = json.loads(r['title'])
+            except json.JSONDecodeError:
+                # ignore this since the title doesn't supply lang info,
+                # so just continue as plain string
+                pass
+            r['p'] = {}
+            for p in r['props']:
+                if p['name'] == 'feedback':
+                    try:
+                        r['p'][p['name']] = json.loads(p['value'])
+                    except json.JSONDecodeError:
+                        r['p'][p['name']] = p['value']
+                else:
+                    r['p'][p['name']] = p['value']
+            r['props'] = r['p']
+            del r['p']
+        return question
+
     def format_quiz(self, data):
 
         qmaxscore = 0.0
@@ -86,26 +109,7 @@ class QuizJSONSerializer(Serializer):
             if 'props' in question['question']:
                 question = self.process_question_properties(question)
 
-            for r in question['question']['responses']:
-                del r['question']
-                del r['resource_uri']
-                try:
-                    r['title'] = json.loads(r['title'])
-                except json.JSONDecodeError:
-                    # ignore this since the title doesn't supply lang info,
-                    # so just continue as plain string
-                    pass
-                r['p'] = {}
-                for p in r['props']:
-                    if p['name'] == 'feedback':
-                        try:
-                            r['p'][p['name']] = json.loads(p['value'])
-                        except json.JSONDecodeError:
-                            r['p'][p['name']] = p['value']
-                    else:
-                        r['p'][p['name']] = p['value']
-                r['props'] = r['p']
-                del r['p']
+            question['question']['responses'] = self.process_question_responses(question['question']['responses'])
 
         # calc maxscore for quiz
         data['p'] = {}
