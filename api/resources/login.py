@@ -13,6 +13,7 @@ from tastypie.models import ApiKey
 from tastypie.resources import ModelResource
 
 from api.serializers import UserJSONSerializer
+from oppia import DEFAULT_IP_ADDRESS
 from oppia.models import Tracker
 from oppia.models import Points, Award
 
@@ -85,7 +86,7 @@ class UserResource(ModelResource):
                 tracker.user = u
                 tracker.type = 'login'
                 tracker.ip = bundle.request.META.get('REMOTE_ADDR',
-                                                     api.DEFAULT_IP_ADDRESS)
+                                                     DEFAULT_IP_ADDRESS)
                 tracker.agent = bundle.request.META.get('HTTP_USER_AGENT',
                                                         'unknown')
                 tracker.save()
