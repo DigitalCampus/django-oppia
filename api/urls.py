@@ -17,10 +17,8 @@ from api.resources.tag import TagResource
 from api.resources.tracker import TrackerResource
 
 from quiz.api.resources import QuizResource, \
-                               QuizPropsResource, \
                                QuestionResource, \
                                QuizQuestionResource, \
-                               ResponseResource, \
                                QuizAttemptResource
 
 
@@ -38,10 +36,8 @@ def get_api(version_name):
     api.register(ProfileUpdateResource())
 
     api.register(QuizResource())
-    api.register(QuizPropsResource())
     api.register(QuestionResource())
     api.register(QuizQuestionResource())
-    api.register(ResponseResource())
     api.register(QuizAttemptResource())
 
     return api
