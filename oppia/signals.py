@@ -120,11 +120,33 @@ def calculate_media_points(tracker):
 
     return points
 
+def tracker_process_points(tracker, type, description, points):
+    if tracker.points is not None:
+        points = tracker.points
+        type = tracker.event
+        if not description:
+            description = tracker.event
+    else:
+        if tracker.get_activity_type() != "media":
+            if not tracker.is_first_tracker_today():
+                return
+            if not tracker.completed:
+                return
+
+    p = Points()
+    p.points = points
+    p.type = type
+    p.description = description
+    p.user = tracker.user
+    p.course = tracker.course
+    p.save()
 
 def tracker_callback(sender, **kwargs):
 
     tracker = kwargs.get('instance')
     description = None
+    points = None
+    type = None
 
     if not apply_points(tracker.user):
         return
@@ -146,25 +168,7 @@ def tracker_callback(sender, **kwargs):
         else:
             description = "Activity completed: " + tracker.get_activity_title()
 
-    if tracker.points is not None:
-        points = tracker.points
-        type = tracker.event
-        if not description:
-            description = tracker.event
-    else:
-        if tracker.get_activity_type() != "media":
-            if not tracker.is_first_tracker_today():
-                return
-            if not tracker.completed:
-                return
-
-    p = Points()
-    p.points = points
-    p.type = type
-    p.description = description
-    p.user = tracker.user
-    p.course = tracker.course
-    p.save()
+    tracker_process_points(tracker, type, description, points)
 
 
 def badgeaward_callback(sender, **kwargs):
