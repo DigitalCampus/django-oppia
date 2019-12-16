@@ -23,6 +23,36 @@ class QuizJSONSerializer(Serializer):
                           ensure_ascii=False,
                           indent=self.json_indent)
 
+    def process_question_properties(self, question):
+        question['question']['p'] = {}
+        for p in question['question']['props']:
+            try:
+                question['question']['p'][p['name']] \
+                    = float(p['value'])
+            except ValueError:
+                question['question']['p'][p['name']] = p['value']
+
+            # for matching questions
+            if p['name'] == 'incorrectfeedback' \
+                    or p['name'] == 'partiallycorrectfeedback' \
+                    or p['name'] == 'correctfeedback':
+                try:
+                    question['question']['p'][p['name']] = \
+                        json.loads(p['value'])
+                except json.JSONDecodeError:
+                    # ignore this since the title doesn't supply
+                    # lang info, so just continue as plain string
+                    pass
+        question['question']['props'] = question['question']['p']
+        del question['question']['p']
+        try:
+            float(question['question']['props']['maxscore'])
+            qmaxscore = qmaxscore \
+                + float(question['question']['props']['maxscore'])
+        except ValueError:
+            pass
+        return question
+    
     def format_quiz(self, data):
 
         qmaxscore = 0.0
@@ -54,33 +84,7 @@ class QuizJSONSerializer(Serializer):
                 pass
 
             if 'props' in question['question']:
-                question['question']['p'] = {}
-                for p in question['question']['props']:
-                    try:
-                        question['question']['p'][p['name']] \
-                            = float(p['value'])
-                    except ValueError:
-                        question['question']['p'][p['name']] = p['value']
-
-                    # for matching questions
-                    if p['name'] == 'incorrectfeedback' \
-                            or p['name'] == 'partiallycorrectfeedback' \
-                            or p['name'] == 'correctfeedback':
-                        try:
-                            question['question']['p'][p['name']] = \
-                                json.loads(p['value'])
-                        except json.JSONDecodeError:
-                            # ignore this since the title doesn't supply
-                            # lang info, so just continue as plain string
-                            pass
-                question['question']['props'] = question['question']['p']
-                del question['question']['p']
-                try:
-                    float(question['question']['props']['maxscore'])
-                    qmaxscore = qmaxscore \
-                        + float(question['question']['props']['maxscore'])
-                except ValueError:
-                    pass
+                question = self.process_question_properties(question)
 
             for r in question['question']['responses']:
                 del r['question']
