@@ -46,6 +46,13 @@ class Quiz(models.Model):
             avg_score = 0
         return avg_score
 
+    def get_course(self):
+        digest = QuizProps.objects.filter(quiz=self, name='digest').first()
+
+        digest = digest.value if digest else None
+        from oppia.models import Course, Activity
+        return Course.objects.filter(section__activity__in=Activity.objects.filter(digest=digest)).first()
+
     @staticmethod
     def get_no_attempts_by_user(quiz, user):
         no_attempts = QuizAttempt.objects.filter(quiz=quiz, user=user).count()

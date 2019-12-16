@@ -48,6 +48,10 @@ urlpatterns = [
         oppia_profile_views.user_course_activity_view,
         name="profile_user_course_activity"),
 
+    url(r'^(?P<user_id>\d+)/quizattempts/$',
+        oppia_profile_views.UserAttemptsList.as_view(),
+        name="profile_user_all_attempts"),
+
     url(r'^(?P<user_id>\d+)/(?P<course_id>\d+)/quiz/(?P<quiz_id>\d+)/attempts/$',
         oppia_profile_views.QuizAttemptsList.as_view(),
         name="profile_user_quiz_attempts"),

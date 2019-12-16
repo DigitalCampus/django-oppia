@@ -1,48 +1,25 @@
 import csv
-import datetime
-import operator
-from itertools import chain
 
-from django import forms
-from django.conf import settings
-from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
-from django.contrib.auth import (authenticate, login)
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db import IntegrityError
-from django.db.models import Count, Max, Min, Avg, Q
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from django.utils import timezone
 from django.utils.translation import ugettext as _
 from tastypie.models import ApiKey
 
 import profile
-
-
-from oppia import emailer
-from oppia.models import Points, Award, Tracker, Activity
-from oppia.permissions import get_user, \
-                              get_user_courses, \
-                              can_view_course, \
-                              can_edit_user
-from profile.forms import LoginForm, \
-                          RegisterForm, \
-                          ResetForm, \
-                          ProfileForm, \
-                          UploadProfileForm, \
-                          UserSearchForm, \
-                          DeleteAccountForm
+from oppia.models import Points, Award, Tracker
+from profile.forms import UploadProfileForm, \
+    UserSearchForm, \
+    DeleteAccountForm
 from profile.models import UserProfile
 from profile.views.utils import get_paginated_users, get_filters_from_row, get_query
-from quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
-from reports.signals import dashboard_accessed
-from settings import constants
-from settings.models import SettingProperties
-from summary.models import UserCourseSummary
+from quiz.models import QuizAttempt, QuizAttemptResponse
+
 
 @staff_member_required
 def search_users(request):

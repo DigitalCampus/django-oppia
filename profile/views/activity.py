@@ -1,47 +1,21 @@
-import csv
+import datetime
 import datetime
 import operator
 from itertools import chain
 
-from django import forms
-from django.conf import settings
-from django.contrib import messages
-from django.contrib.admin.views.decorators import staff_member_required
-from django.contrib.auth import (authenticate, login)
-from django.contrib.auth.models import User
-from django.core.exceptions import PermissionDenied
-from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from django.db import IntegrityError
-from django.db.models import Count, Max, Min, Avg, Q
-from django.http import HttpResponseRedirect, Http404
+from django.db.models import Max, Min, Avg
 from django.shortcuts import render
-from django.urls import reverse
 from django.utils import timezone
-from django.utils.translation import ugettext as _
-from tastypie.models import ApiKey
 
-import profile
-
-from oppia import emailer
-from oppia.models import Points, Award, Tracker, Activity
+from oppia.models import Activity
 from oppia.permissions import get_user, \
-                              get_user_courses, \
-                              can_view_course, \
-                              can_edit_user
-from profile.forms import LoginForm, \
-                          RegisterForm, \
-                          ResetForm, \
-                          ProfileForm, \
-                          UploadProfileForm, \
-                          UserSearchForm, \
-                          DeleteAccountForm
-from profile.models import UserProfile
+    get_user_courses, \
+    can_view_course
 from profile.views.utils import get_tracker_activities
-from quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
+from quiz.models import Quiz, QuizAttempt
 from reports.signals import dashboard_accessed
-from settings import constants
-from settings.models import SettingProperties
 from summary.models import UserCourseSummary
+
 
 def user_activity(request, user_id):
 
