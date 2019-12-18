@@ -37,9 +37,9 @@ class UserProfile (models.Model):
     def is_teacher_only(self):
         if self.user.is_staff:
             return False
-        teach = Participant.objects.filter(user=self.user,
-                                           role=Participant.TEACHER).count()
-        if teach > 0:
+        teacher = Participant.objects.filter(user=self.user,
+                                             role=Participant.TEACHER).count()
+        if teacher > 0:
             return True
         else:
             return False

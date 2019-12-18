@@ -3,21 +3,62 @@ from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
 from django.test import TestCase
 
-from profile.models import CustomField, UserProfileCustomField
+from profile.models import UserProfile, CustomField, UserProfileCustomField
 
-from tests.user_logins import NORMAL_USER
+from tests.user_logins import ADMIN_USER, STAFF_USER, TEACHER_USER, NORMAL_USER
 
 
-class ProfileModelsTest(TestCase):
+class ProfileCustomFieldsTest(TestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json']
     VALUE_STR_DEFAULT = "my string"
 
     def setUp(self):
-        super(ProfileModelsTest, self).setUp()
+        super(ProfileCustomFieldsTest, self).setUp()
         self.user = User.objects.get(pk=NORMAL_USER['id'])
 
+    def test_custom_field_model_name(self):
+        custom_field = CustomField(
+            id='my_cf_key',
+            label='String',
+            required=True,
+            type='str')
+        custom_field.save()
+        self.assertEqual(str(custom_field), 'my_cf_key')
+
+    def test_get_can_upload_admin(self):
+        profile = UserProfile.objects.get(user_id=ADMIN_USER['id'])
+        self.assertEqual(profile.get_can_upload(), True)
+
+    def test_get_can_upload_staff(self):
+        profile = UserProfile.objects.get(user_id=STAFF_USER['id'])
+        self.assertEqual(profile.get_can_upload(), True)
+
+    def test_get_can_upload_teacher(self):
+        profile = UserProfile.objects.get(user_id=TEACHER_USER['id'])
+        self.assertEqual(profile.get_can_upload(), True)
+
+    def test_get_can_upload_user(self):
+        profile = UserProfile.objects.get(user_id=NORMAL_USER['id'])
+        self.assertEqual(profile.get_can_upload(), False)
+
+    def test_get_can_upload_activity_log_admin(self):
+        profile = UserProfile.objects.get(user_id=ADMIN_USER['id'])
+        self.assertEqual(profile.get_can_upload_activitylog(), True)
+
+    def test_get_can_upload_activity_log_staff(self):
+        profile = UserProfile.objects.get(user_id=STAFF_USER['id'])
+        self.assertEqual(profile.get_can_upload_activitylog(), True)
+
+    def test_get_can_upload_activity_log_teacher(self):
+        profile = UserProfile.objects.get(user_id=TEACHER_USER['id'])
+        self.assertEqual(profile.get_can_upload_activitylog(), False)
+
+    def test_get_can_upload_activity_log_user(self):
+        profile = UserProfile.objects.get(user_id=NORMAL_USER['id'])
+        self.assertEqual(profile.get_can_upload_activitylog(), False)
+        
     # test get_value string
     def test_custom_field_get_value_str(self):
         custom_field = CustomField(
