@@ -1,4 +1,7 @@
 # tests/api/test_course_publish.py
+import pytest
+import unittest
+
 from django import forms
 from django.test import TestCase
 from django.test.client import Client
@@ -27,46 +30,39 @@ class MediaPublishResourceTest(TestCase):
     # test all params have been sent
     def test_required_params(self):
 
-        video_file = open(self.video_file_path, 'rb')
-
         # no username
-        response = self.client.post(self.url,
-                                    {'password': 'secret',
-                                     'media_file': video_file})
+        with open(self.video_file_path, 'rb') as video_file:
+            response = self.client.post(self.url,
+                                        {'password': 'secret',
+                                         'media_file': video_file})
         self.assertRaises(forms.ValidationError)
         self.assertEqual(response.status_code, 400)
 
         # no password
-        response = self.client.post(self.url,
-                                    {'username': 'demo',
-                                     'media_file': video_file})
+        with open(self.video_file_path, 'rb') as video_file:
+            response = self.client.post(self.url,
+                                        {'username': 'demo',
+                                         'media_file': video_file})
         self.assertEqual(response.status_code, 400)
-
-        # shouldn't be strictly necessary to close the file,
-        # but avoids ResourceWarnings about unclosed files
-        video_file.close()
 
     # check authentication check working correctly
     def test_authentication(self):
 
-        video_file = open(self.video_file_path, 'rb')
         # incorrect username
-        response = self.client.post(self.url,
-                                    {'username': 'demouser',
-                                     'password': 'password',
-                                     'media_file': video_file})
+        with open(self.video_file_path, 'rb') as video_file:
+            response = self.client.post(self.url,
+                                        {'username': 'demouser',
+                                         'password': 'password',
+                                         'media_file': video_file})
         self.assertEqual(response.status_code, 401)
 
         # incorrect password
-        response = self.client.post(self.url,
-                                    {'username': 'demo',
-                                     'password': 'wrong_password',
-                                     'media_file': video_file})
+        with open(self.video_file_path, 'rb') as video_file:
+            response = self.client.post(self.url,
+                                        {'username': 'demo',
+                                         'password': 'wrong_password',
+                                         'media_file': video_file})
         self.assertEqual(response.status_code, 401)
-
-        video_file.close()
-        # shouldn't be strictly necessary to close the file,
-        # but avoids ResourceWarnings about unclosed files
 
     # test is user has correct permissions or not to upload
     def test_permissions(self):
@@ -75,68 +71,75 @@ class MediaPublishResourceTest(TestCase):
         user.is_active = False
         user.save()
 
-        video_file = open(self.video_file_path, 'rb')
+        with open(self.video_file_path, 'rb') as video_file:
+            response = self.client.post(self.url,
+                                        {'username': 'demo',
+                                         'password': 'password',
+                                         'media_file': video_file})
 
-        response = self.client.post(self.url,
-                                    {'username': 'demo',
-                                     'password': 'password',
-                                     'media_file': video_file})
         self.assertEqual(response.status_code, 401)
-
-        video_file.close()
-        # shouldn't be strictly necessary to close the file,
-        # but avoids ResourceWarnings about unclosed files
 
         # set back to active user
         user.is_active = True
         user.save()
 
     # check upload works for all users
-    def test_upload(self):
-
-        '''
-        TODO - the test framework seems to only recognise the file as
-        'application/octet-stream', so upload ways fails as incorrect
-        mime-type is found
+    @pytest.mark.xfail(reason="the test framework seems to only recognise the \
+        file as application/octet-stream, so upload ways fails as incorrect \
+        mime-type is found")
+    @unittest.expectedFailure
+    def test_upload_user(self):
 
         # normal user
-        response = self.client.post(self.url,{'username': 'demo',
-                                              'password': 'password',
-                                              'media_file': video_file })
+        with open(self.video_file_path, 'rb') as video_file:
+            response = self.client.post(self.url, {'username': 'demo',
+                                                   'password': 'password',
+                                                   'media_file': video_file})
         self.assertEqual(response.status_code, 201)
 
+    @pytest.mark.xfail(reason="the test framework seems to only recognise the \
+        file as application/octet-stream, so upload ways fails as incorrect \
+        mime-type is found")
+    @unittest.expectedFailure
+    def test_upload_teacher(self):
         # teacher
-        response = self.client.post(self.url, {'username': 'teacher',
-                                               'password': 'password',
-                                               'media_file': video_file })
+        with open(self.video_file_path, 'rb') as video_file:
+            response = self.client.post(self.url, {'username': 'teacher',
+                                                   'password': 'password',
+                                                   'media_file': video_file})
         self.assertEqual(response.status_code, 201)
 
+    @pytest.mark.xfail(reason="the test framework seems to only recognise the \
+        file as application/octet-stream, so upload ways fails as incorrect \
+        mime-type is found")
+    @unittest.expectedFailure
+    def test_upload_staff(self):
         # staff
-        response = self.client.post(self.url, {'username': 'staff',
-                                               'password': 'password',
-                                               'media_file': video_file })
+        with open(self.video_file_path, 'rb') as video_file:
+            response = self.client.post(self.url, {'username': 'staff',
+                                                   'password': 'password',
+                                                   'media_file': video_file})
         self.assertEqual(response.status_code, 201)
 
+    @pytest.mark.xfail(reason="the test framework seems to only recognise the \
+        file as application/octet-stream, so upload ways fails as incorrect \
+        mime-type is found")
+    @unittest.expectedFailure
+    def test_upload_admin(self):
         # admin
-        response = self.client.post(self.url, {'username': 'admin',
-                                               'password': 'password',
-                                               'media_file': video_file })
+        with open(self.video_file_path, 'rb') as video_file:
+            response = self.client.post(self.url, {'username': 'admin',
+                                                   'password': 'password',
+                                                   'media_file': video_file})
         self.assertEqual(response.status_code, 201)
-        '''
-        pass
 
     # test file type
     def test_filetype(self):
 
-        course_file = open(self.course_file_path, 'rb')
-
-        # send zip file
-        response = self.client.post(self.url,
-                                    {'username': 'demo',
-                                     'password': 'password',
-                                     'media_file': course_file})
+        with open(self.course_file_path, 'rb') as course_file:
+            # send zip file
+            response = self.client.post(self.url,
+                                        {'username': 'demo',
+                                         'password': 'password',
+                                         'media_file': course_file})
         self.assertEqual(response.status_code, 400)
-
-        # shouldn't be strictly necessary to close the file,
-        # but avoids ResourceWarnings about unclosed files
-        course_file.close()

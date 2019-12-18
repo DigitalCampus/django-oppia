@@ -1,7 +1,7 @@
 # oppia/profile/forms.py
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Div, HTML, Field, Row, Column
+from crispy_forms.layout import Layout, Submit, Div, Row
 from django import forms
 from django.utils.translation import ugettext as _
 

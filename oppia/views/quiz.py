@@ -5,6 +5,7 @@ from django.shortcuts import render
 
 from oppia.models import Activity
 from oppia.permissions import check_owner
+from oppia.views.utils import quiz_attempts_pagination
 from quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
 
 
@@ -31,24 +32,9 @@ def course_quiz(request, course_id):
 
 def course_quiz_attempts(request, course_id, quiz_id):
     # get the quiz digests for this course
-    course = check_owner(request, course_id)
-    quiz = Quiz.objects.get(pk=quiz_id)
-    attempts = QuizAttempt.objects.filter(quiz=quiz).order_by('-attempt_date')
-
-    paginator = Paginator(attempts, 25)
-    # Make sure page request is an int. If not, deliver first page.
-    try:
-        page = int(request.GET.get('page', '1'))
-    except ValueError:
-        page = 1
-
-    # If page request (9999) is out of range, deliver last page of results.
-    try:
-        attempts = paginator.page(page)
-        for a in attempts:
-            a.responses = QuizAttemptResponse.objects.filter(quizattempt=a)
-    except (EmptyPage, InvalidPage):
-        paginator.page(paginator.num_pages)
+    course, quiz, attempts = quiz_attempts_pagination(request,
+                                                      course_id,
+                                                      quiz_id)
 
     return render(request, 'course/quiz-attempts.html',
                   {'course': course,
@@ -76,24 +62,9 @@ def course_feedback(request, course_id):
 
 def course_feedback_responses(request, course_id, quiz_id):
     # get the quiz digests for this course
-    course = check_owner(request, course_id)
-    quiz = Quiz.objects.get(pk=quiz_id)
-    attempts = QuizAttempt.objects.filter(quiz=quiz).order_by('-attempt_date')
-
-    paginator = Paginator(attempts, 25)
-    # Make sure page request is an int. If not, deliver first page.
-    try:
-        page = int(request.GET.get('page', '1'))
-    except ValueError:
-        page = 1
-
-    # If page request (9999) is out of range, deliver last page of results.
-    try:
-        attempts = paginator.page(page)
-        for a in attempts:
-            a.responses = QuizAttemptResponse.objects.filter(quizattempt=a)
-    except (EmptyPage, InvalidPage):
-        paginator.page(paginator.num_pages)
+    course, quiz, attempts = quiz_attempts_pagination(request,
+                                                      course_id,
+                                                      quiz_id)
 
     return render(request, 'course/feedback-responses.html',
                   {'course': course,

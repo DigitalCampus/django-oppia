@@ -6,6 +6,8 @@ import django.utils.timezone
 
 class Migration(migrations.Migration):
 
+    STR_DATE_CREATED = 'date created'
+
     dependencies = [
         ('oppia', '0018_auto_20180612_2106'),
     ]
@@ -33,7 +35,7 @@ class Migration(migrations.Migration):
             model_name='course',
             name='created_date',
             field=models.DateTimeField(default=django.utils.timezone.now,
-                                       verbose_name='date created'),
+                                       verbose_name=STR_DATE_CREATED),
         ),
         migrations.AlterField(
             model_name='course',
@@ -52,7 +54,7 @@ class Migration(migrations.Migration):
             model_name='points',
             name='date',
             field=models.DateTimeField(default=django.utils.timezone.now,
-                                       verbose_name='date created'),
+                                       verbose_name=STR_DATE_CREATED),
         ),
         migrations.AlterField(
             model_name='points',
@@ -84,7 +86,7 @@ class Migration(migrations.Migration):
             model_name='tag',
             name='created_date',
             field=models.DateTimeField(default=django.utils.timezone.now,
-                                       verbose_name='date created'),
+                                       verbose_name=STR_DATE_CREATED),
         ),
         migrations.AlterField(
             model_name='tag',

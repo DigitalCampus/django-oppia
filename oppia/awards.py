@@ -1,5 +1,3 @@
-# oppia/awards.py
-
 import datetime
 
 from django.conf import settings
@@ -12,6 +10,8 @@ from oppia.models import Tracker, Course, Activity
 from oppia.signals import badgeaward_callback
 
 models.signals.post_save.connect(badgeaward_callback, sender=Award)
+
+STR_COURSE_COMPLETED = "Course completed: "
 
 
 def courses_completed(hours):
@@ -35,8 +35,6 @@ def courses_completed(hours):
     if settings.BADGE_AWARDING_METHOD \
        == settings.BADGE_AWARD_METHOD_ALL_QUIZZES:
         badge_award_all_quizzes(badge, hours)
-
-    return
 
 
 def badge_award_all_activities(badge, hours):
@@ -78,8 +76,8 @@ def badge_award_all_activities(badge, hours):
                 award = Award()
                 award.badge = badge
                 award.user = user_awarded
-                award.description = "Course completed: " \
-                                    + course_award.get_title()
+                award.description = STR_COURSE_COMPLETED \
+                    + course_award.get_title()
                 award.save()
 
                 am = AwardCourse()
@@ -132,7 +130,7 @@ def badge_award_final_quiz(badge, hours):
                 award = Award()
                 award.badge = badge
                 award.user = u
-                award.description = "Course completed: " + c.get_title()
+                award.description = STR_COURSE_COMPLETED + c.get_title()
                 award.save()
 
                 am = AwardCourse()
@@ -181,7 +179,7 @@ def badge_award_all_quizzes(badge, hours):
                     award = Award()
                     award.badge = badge
                     award.user = u
-                    award.description = "Course completed: " + c.get_title()
+                    award.description = STR_COURSE_COMPLETED + c.get_title()
                     award.save()
 
                     am = AwardCourse()

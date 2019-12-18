@@ -26,6 +26,29 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('file')
 
+    def update_tracker_status(self, quiz_attempt):
+        quiz_score_percent = quiz_attempt.score \
+                    * 100 \
+                    / quiz_attempt.maxscore
+
+        # check if they have now reached the pass mark for the quiz
+        # and update the tracker activity
+        quiz_threshold = QuizProps.objects.get(name='passthreshold',
+                                               quiz=quiz_attempt.quiz)
+
+        if quiz_score_percent >= quiz_threshold:
+            self.stdout.write(
+                quiz_score_percent + ":" + quiz_threshold)
+            try:
+                tracker = Tracker.objects.get(
+                    user=quiz_attempt.user,
+                    uuid=quiz_attempt.instance_id)
+                tracker.completed = True
+                tracker.save()
+                self.stdout.write("tracker updated")
+            except Tracker.DoesNotExist:
+                pass
+        
     def handle(self, *args, **options):
 
         # load CSV file
@@ -74,26 +97,6 @@ class Command(BaseCommand):
                 quiz_attempt.score = new_quiz_score['new_score']
                 quiz_attempt.save()
 
-                quiz_score_percent = quiz_attempt.score \
-                    * 100 \
-                    / quiz_attempt.maxscore
-
-                # check if they have now reached the pass mark for the quiz
-                # and update the tracker activity
-                quiz_threshold = QuizProps.objects.get(name='passthreshold',
-                                                       quiz=quiz_attempt.quiz)
-
-                if quiz_score_percent >= quiz_threshold:
-                    self.stdout.write(
-                        quiz_score_percent + ":" + quiz_threshold)
-                    try:
-                        tracker = Tracker.objects.get(
-                            user=quiz_attempt.user,
-                            uuid=quiz_attempt.instance_id)
-                        tracker.completed = True
-                        tracker.save()
-                        print("tracker updated")
-                    except Tracker.DoesNotExist:
-                        pass
+                self.update_tracker_status(quiz_attempt)
 
             self.stdout.write("Max QAR id - " + str(max_qar_id))

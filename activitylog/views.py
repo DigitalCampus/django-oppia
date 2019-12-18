@@ -17,7 +17,7 @@ from tastypie.models import ApiKey
 from activitylog.forms import UploadActivityLogForm
 from activitylog.models import UploadedActivityLog
 from oppia.permissions import user_can_upload
-from api.resources import TrackerResource
+from api.resources.tracker import TrackerResource
 from helpers.api.tasty_resource import create_resource
 from profile.models import UserProfile
 from quiz.api.resources import QuizAttemptResource
@@ -190,6 +190,6 @@ def upload_view(request):
                         reverse('oppia_activitylog_upload_success'))
     else:
         form = UploadActivityLogForm()
-    return render(request, 'activitylog/upload.html',
+    return render(request, 'common/upload.html',
                   {'form': form,
                    'title': _(u'Upload Activity Log')})

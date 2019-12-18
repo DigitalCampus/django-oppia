@@ -50,7 +50,7 @@ def upload_view(request):
     else:
         form = UploadMediaForm()  # An unbound form
 
-    return render(request, 'av/upload.html',
+    return render(request, 'common/upload.html',
                   {'form': form,
                    'title': _(u'Upload Media')})
 

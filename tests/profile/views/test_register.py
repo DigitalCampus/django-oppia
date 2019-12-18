@@ -54,10 +54,12 @@ class RegisterViewTest(TestCase):
             'last_name': 'Last name'
         }
         res = self.client.post(self.url, data=filled_form)
+        error_str = \
+            'Username has already been registered, please select another.'
         self.assertFormError(res,
                              'form',
                              None,
-                             errors='Username has already been registered, please select another.')
+                             errors=error_str)
 
     # check email already registered
     def test_existing_email(self):

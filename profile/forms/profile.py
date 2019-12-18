@@ -11,6 +11,8 @@ from django.core.validators import validate_email
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
+from profile.models import CustomField
+from profile.forms import helpers
 
 class ProfileForm(forms.Form):
     api_key = forms.CharField(widget=forms.TextInput(attrs={'readonly':
@@ -52,10 +54,16 @@ class ProfileForm(forms.Form):
             kw = kwargs.pop('initial')
             email = kw['email']
             username = kw['username']
+
+        helpers.custom_fields(self)
+
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
         self.helper.label_class = 'col-lg-2 col-md-3 col-sm-4'
         self.helper.field_class = 'col-lg-5 col-md-7 col-sm-8'
+
+        self.helper.layout = Layout()
+
         if settings.OPPIA_SHOW_GRAVATARS:
             gravatar_url = "https://www.gravatar.com/avatar.php?"
             gravatar_id = hashlib.md5(str(email).encode('utf-8')).hexdigest()
@@ -63,7 +71,7 @@ class ProfileForm(forms.Form):
                 'gravatar_id': gravatar_id,
                 'size': 64
             })
-            self.helper.layout = Layout(
+            self.helper.layout.append(
                 Div(
                     HTML("""<label class="control-label col-lg-2">"""
                          + _(u'Photo') + """</label>"""),
@@ -78,51 +86,36 @@ class ProfileForm(forms.Form):
                         css_class="col-lg-4",
                     ),
                     css_class="form-group",
-                ),
-                'api_key',
-                'username',
-                'email',
-                'first_name',
-                'last_name',
-                'job_title',
-                'organisation',
-                Div(
-                    HTML("""<h4 class='mt-5 mb-3'>"""
-                         + _(u'Change password') + """</h4>"""),
-                ),
-                Div(HTML("""<div style='clear:both'></div>""")),
-                'password',
-                'password_again',
-                Div(
-                    Submit('submit',
-                           _(u'Save Profile'),
-                           css_class='btn btn-default mt-3'),
-                    css_class='text-center col-lg-offset-2 col-lg-6',
-                ),
+                )
             )
-        else:
-            self.helper.layout = Layout(
-                'api_key',
-                'username',
-                'email',
-                'first_name',
-                'last_name',
-                'job_title',
-                'organisation',
-                Div(
-                    HTML("""<h4 class='mt-5 mb-3'>"""
-                         + _(u'Change password') + """</h4>"""),
-                ),
-                Div(HTML("""<div style='clear:both'></div>""")),
-                'password',
-                'password_again',
-                Div(
-                    Submit('submit',
-                           _(u'Save Profile'),
-                           css_class='btn btn-default mt-3'),
-                    css_class='text-center  col-lg-6',
-                ),
-            )
+        
+        self.helper.layout.extend(
+            ['api_key',
+             'username',
+             'email',
+             'first_name',
+             'last_name',
+             'job_title',
+             'organisation'])
+
+        custom_fields = CustomField.objects.all().order_by('order')
+        for custom_field in custom_fields:
+            self.helper.layout.append(custom_field.id)
+
+        self.helper.layout.extend([
+            Div(
+                HTML("""<h4 class='mt-5 mb-3'>"""
+                     + _(u'Change password') + """</h4>"""),
+            ),
+            Div(HTML("""<div style='clear:both'></div>""")),
+            'password',
+            'password_again',
+            Div(
+                Submit('submit',
+                       _(u'Save Profile'),
+                       css_class='btn btn-default mt-3'),
+                css_class='text-center col-lg-offset-2 col-lg-6',
+            )])
 
     def clean(self):
         cleaned_data = self.cleaned_data

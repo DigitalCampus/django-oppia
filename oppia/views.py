@@ -38,13 +38,19 @@ from oppia.permissions import can_edit_course, \
                               can_view_courses_list, \
                               can_add_cohort, \
                               can_view_cohort, \
-                              can_edit_cohort
+                              can_edit_cohort, \
+                              can_view_course
 from profile.models import UserProfile
 from profile.views import get_paginated_users
 from quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
 from reports.signals import dashboard_accessed
 from summary.models import UserCourseSummary, CourseDailyStats
 from oppia.uploader import handle_uploaded_file
+
+DEFAULT_DATE_FORMAT = "%Y-%m-%d"
+DEFAULT_DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+ACTIVITY_DATE_FORMAT = "%d %b %Y"
+ACTIVITY_TRACKER_DATE = "date(tracker_date)"
 
 
 def server_view(request):
@@ -91,9 +97,10 @@ def home_view(request):
             if form.is_valid():
                 start_date = form.cleaned_data.get("start_date")
                 start_date = datetime.datetime.strptime(start_date,
-                                                        "%Y-%m-%d")
+                                                        DEFAULT_DATE_FORMAT)
                 end_date = form.cleaned_data.get("end_date")
-                end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d")
+                end_date = datetime.datetime.strptime(end_date,
+                                                      DEFAULT_DATE_FORMAT)
                 interval = form.cleaned_data.get("interval")
         else:
             data = {}
@@ -115,7 +122,7 @@ def home_view(request):
                 count = next((dct['count']
                               for dct in tracker_stats
                               if dct['day'] == temp.date()), 0)
-                activity.append([temp.strftime("%d %b %Y"), count])
+                activity.append([temp.strftime(ACTIVITY_DATE_FORMAT), count])
         else:
             delta = relativedelta(months=+1)
 
@@ -166,14 +173,14 @@ def teacher_home_view(request):
                                       user__in=students,
                                       tracker_date__gte=start_date,
                                       tracker_date__lte=end_date) \
-        .extra({'activity_date': "date(tracker_date)"}) \
+        .extra({'activity_date': ACTIVITY_TRACKER_DATE}) \
         .values('activity_date').annotate(count=Count('id'))
     for i in range(0, no_days, +1):
         temp = start_date + datetime.timedelta(days=i)
         count = next((dct['count']
                       for dct in trackers
                       if dct['activity_date'] == temp.date()), 0)
-        activity.append([temp.strftime("%d %b %Y"), count])
+        activity.append([temp.strftime(ACTIVITY_DATE_FORMAT), count])
 
     return render(request, 'oppia/home-teacher.html',
                   {'cohorts': cohorts,
@@ -220,7 +227,6 @@ def render_courses_list(request, courses, params=None):
                 course.total_downloads = stats['total']
                 # remove the element to optimize next searches
                 course_stats.remove(stats)
-                continue
 
     params['page'] = courses
     params['tag_list'] = tag_list
@@ -246,10 +252,7 @@ def courses_list_view(request):
 
 
 def course_download_view(request, course_id):
-    try:
-        course = Course.objects.get(pk=course_id)
-    except Course.DoesNotExist:
-        raise Http404()
+    course = can_view_course(request, course_id)
     file_to_download = course.getAbsPath()
     binary_file = open(file_to_download, 'rb')
     response = HttpResponse(binary_file.read(),
@@ -313,7 +316,7 @@ def upload_step2(request, course_id, editing=False):
         form = UploadCourseStep2Form(request.POST, request.FILES)
         if form.is_valid() and course:
             # add the tags
-            add_course_tags(form, course, request.user)
+            update_course_tags(form, course, request.user)
             redirect = 'oppia_course' if editing else 'oppia_upload_success'
             CoursePublishingLog(
                 course=course,
@@ -335,12 +338,15 @@ def upload_step2(request, course_id, editing=False):
                    'title': page_title})
 
 
-def add_course_tags(form, course, user):
+def update_course_tags(form, course, user):
     tags = form.cleaned_data.get("tags", "").strip().split(",")
     is_draft = form.cleaned_data.get("is_draft")
     if len(tags) > 0:
         course.is_draft = is_draft
         course.save()
+        # remove any existing tags
+        CourseTag.objects.filter(course=course).delete()
+        # now add the new ones        
         for t in tags:
             try:
                 tag = Tag.objects.get(name__iexact=t.strip())
@@ -409,10 +415,10 @@ def recent_activity(request, course_id):
         if form.is_valid():
             start_date = form.cleaned_data.get("start_date")
             start_date = datetime.datetime.strptime(start_date + " 00:00:00",
-                                                    "%Y-%m-%d %H:%M:%S")
+                                                    DEFAULT_DATETIME_FORMAT)
             end_date = form.cleaned_data.get("end_date")
             end_date = datetime.datetime.strptime(end_date + " 23:59:59",
-                                                  "%Y-%m-%d %H:%M:%S")
+                                                  DEFAULT_DATETIME_FORMAT)
             interval = form.cleaned_data.get("interval")
     else:
         data = {}
@@ -463,9 +469,11 @@ def recent_activity_detail(request, course_id):
         form = DateRangeForm(request.POST)
         if form.is_valid():
             start_date = form.cleaned_data.get("start_date")
-            start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d")
+            start_date = datetime.datetime.strptime(start_date,
+                                                    DEFAULT_DATE_FORMAT)
             end_date = form.cleaned_data.get("end_date")
-            end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d")
+            end_date = datetime.datetime.strptime(end_date,
+                                                  DEFAULT_DATE_FORMAT)
             trackers = Tracker.objects.filter(course=course,
                                               tracker_date__gte=start_date,
                                               tracker_date__lte=end_date) \
@@ -535,7 +543,7 @@ def export_tracker_detail(request, course_id):
                 lang = data_dict['lang']
             else:
                 lang = ""
-            data.append((t.tracker_date.strftime('%Y-%m-%d %H:%M:%S'),
+            data.append((t.tracker_date.strftime(DEFAULT_DATETIME_FORMAT),
                          t.user.id,
                          t.type,
                          t.get_activity_title(),
@@ -545,7 +553,7 @@ def export_tracker_detail(request, course_id):
                          t.agent,
                          lang))
         except ValueError:
-            data.append((t.tracker_date.strftime('%Y-%m-%d %H:%M:%S'),
+            data.append((t.tracker_date.strftime(DEFAULT_DATETIME_FORMAT),
                          t.user.id,
                          t.type,
                          "",
@@ -677,14 +685,14 @@ def cohort_view(request, cohort_id):
                                       user__in=students,
                                       tracker_date__gte=start_date,
                                       tracker_date__lte=end_date) \
-        .extra({'activity_date': "date(tracker_date)"}) \
+        .extra({'activity_date': ACTIVITY_TRACKER_DATE}) \
         .values('activity_date').annotate(count=Count('id'))
     for i in range(0, no_days, +1):
         temp = start_date + datetime.timedelta(days=i)
         count = next((dct['count']
                      for dct in trackers
                      if dct['activity_date'] == temp.date()), 0)
-        student_activity.append([temp.strftime("%d %b %Y"), count])
+        student_activity.append([temp.strftime(ACTIVITY_DATE_FORMAT), count])
 
     # get leaderboard
     leaderboard = cohort.get_leaderboard(10)
@@ -831,7 +839,7 @@ def cohort_course_view(request, cohort_id, course_id):
                                       user__in=users,
                                       tracker_date__gte=start_date,
                                       tracker_date__lte=end_date) \
-        .extra({'activity_date': "date(tracker_date)"}) \
+        .extra({'activity_date': ACTIVITY_TRACKER_DATE}) \
         .values('activity_date') \
         .annotate(count=Count('id'))
     for i in range(0, no_days, +1):
@@ -839,7 +847,7 @@ def cohort_course_view(request, cohort_id, course_id):
         count = next((dct['count']
                       for dct in trackers
                       if dct['activity_date'] == temp.date()), 0)
-        student_activity.append([temp.strftime("%d %b %Y"), count])
+        student_activity.append([temp.strftime(ACTIVITY_DATE_FORMAT), count])
 
     students = []
     media_count = course.get_no_media()
@@ -917,7 +925,28 @@ def leaderboard_view(request):
 
     return render(request, 'oppia/leaderboard.html', {'page': leaderboard})
 
+def quiz_attempts_pagination(request, course_id, quiz_id):
+    course = check_owner(request, course_id)
+    quiz = Quiz.objects.get(pk=quiz_id)
+    attempts = QuizAttempt.objects.filter(quiz=quiz).order_by('-attempt_date')
 
+    paginator = Paginator(attempts, 25)
+    # Make sure page request is an int. If not, deliver first page.
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+
+    # If page request (9999) is out of range, deliver last page of results.
+    try:
+        attempts = paginator.page(page)
+        for a in attempts:
+            a.responses = QuizAttemptResponse.objects.filter(quizattempt=a)
+    except (EmptyPage, InvalidPage):
+        paginator.page(paginator.num_pages)
+
+    return course, quiz, attempts
+        
 def course_quiz(request, course_id):
     course = check_owner(request, course_id)
     digests = Activity.objects.filter(section__course=course,
@@ -941,24 +970,9 @@ def course_quiz(request, course_id):
 
 def course_quiz_attempts(request, course_id, quiz_id):
     # get the quiz digests for this course
-    course = check_owner(request, course_id)
-    quiz = Quiz.objects.get(pk=quiz_id)
-    attempts = QuizAttempt.objects.filter(quiz=quiz).order_by('-attempt_date')
-
-    paginator = Paginator(attempts, 25)
-    # Make sure page request is an int. If not, deliver first page.
-    try:
-        page = int(request.GET.get('page', '1'))
-    except ValueError:
-        page = 1
-
-    # If page request (9999) is out of range, deliver last page of results.
-    try:
-        attempts = paginator.page(page)
-        for a in attempts:
-            a.responses = QuizAttemptResponse.objects.filter(quizattempt=a)
-    except (EmptyPage, InvalidPage):
-        paginator.page(paginator.num_pages)
+    course, quiz, attempts = quiz_attempts_pagination(request,
+                                                      course_id,
+                                                      quiz_id)
 
     return render(request, 'course/quiz-attempts.html',
                   {'course': course,
@@ -986,24 +1000,9 @@ def course_feedback(request, course_id):
 
 def course_feedback_responses(request, course_id, quiz_id):
     # get the quiz digests for this course
-    course = check_owner(request, course_id)
-    quiz = Quiz.objects.get(pk=quiz_id)
-    attempts = QuizAttempt.objects.filter(quiz=quiz).order_by('-attempt_date')
-
-    paginator = Paginator(attempts, 25)
-    # Make sure page request is an int. If not, deliver first page.
-    try:
-        page = int(request.GET.get('page', '1'))
-    except ValueError:
-        page = 1
-
-    # If page request (9999) is out of range, deliver last page of results.
-    try:
-        attempts = paginator.page(page)
-        for a in attempts:
-            a.responses = QuizAttemptResponse.objects.filter(quizattempt=a)
-    except (EmptyPage, InvalidPage):
-        paginator.page(paginator.num_pages)
+    course, quiz, attempts = quiz_attempts_pagination(request,
+                                                      course_id,
+                                                      quiz_id)
 
     return render(request, 'course/feedback-responses.html',
                   {'course': course,

@@ -4,13 +4,15 @@ from tastypie.test import ResourceTestCaseMixin
 from settings import constants
 from settings.models import SettingProperties
 
+from tests.utils import get_api_url
+
 
 class RegisterResourceTest(ResourceTestCaseMixin, TestCase):
     fixtures = ['tests/test_user.json']
 
     def setUp(self):
         super(RegisterResourceTest, self).setUp()
-        self.url = '/api/v1/register/'
+        self.url = get_api_url('register')
 
     # check get method not allowed
     def test_get_list_invalid(self):

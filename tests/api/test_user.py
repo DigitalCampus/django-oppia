@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from tastypie.test import ResourceTestCaseMixin
 
-from tests.utils import get_api_key
+from tests.utils import get_api_key, get_api_url
 
 
 class UserResourceTest(ResourceTestCaseMixin, TestCase):
@@ -12,7 +12,7 @@ class UserResourceTest(ResourceTestCaseMixin, TestCase):
 
     def setUp(self):
         super(UserResourceTest, self).setUp()
-        self.url = '/api/v1/user/'
+        self.url = get_api_url('user')
         user = User.objects.get(username='demo')
         self.valid_api_key = get_api_key(user=user)
 

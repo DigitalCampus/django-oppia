@@ -49,7 +49,6 @@ def completion_rates(request):
                     obj['completion'] = 0
                 # remove the element to optimize next searches
                 course_stats.remove(stats)
-                continue
 
         courses_list.append(obj)
 
