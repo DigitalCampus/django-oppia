@@ -1,8 +1,8 @@
+from unittest import mock
 
-from io import StringIO
 from django.core.management import call_command
 from django.test import TestCase
-
+from io import StringIO
 from oppia.models import Tracker
 
 
@@ -23,7 +23,15 @@ class RemoveDuplicateTrackersTest(TestCase):
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
 
-    '''
+    @mock.patch("oppia.management.commands.remove_duplicate_trackers.input")
+    def _call_wrapper(self, response_value, mock_input=None):
+        def input_response(message):
+            return response_value
+        mock_input.side_effect = input_response
+        out = StringIO()
+        call_command('remove_duplicate_trackers', stdout=out)
+        return out.getvalue().rstrip()
+
     def test_remove_with_duplicates(self):
         Tracker.objects.create(
             user_id=1,
@@ -34,12 +42,11 @@ class RemoveDuplicateTrackersTest(TestCase):
             activity_title = "{\"en\": \"Calculating the uptake of antenatal care services\"}",
             section_title = "{\"en\": \"Planning Antenatal Care\"}",
             uuid = "835713f3-b85e-4960-9cdf-128f04014178")
-        out = StringIO()
         tracker_count_start = Tracker.objects.all().count()
 
-        call_command('remove_duplicate_trackers', stdout=out)
+        self._call_wrapper('y')
 
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start-1, tracker_count_end)
-    '''
+
 
