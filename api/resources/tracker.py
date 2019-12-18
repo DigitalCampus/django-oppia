@@ -16,6 +16,7 @@ from tastypie.resources import ModelResource, \
 from tastypie.utils import timezone
 
 from api.serializers import PrettyJSONSerializer
+from oppia import DEFAULT_IP_ADDRESS
 from oppia.models import Activity, Tracker, Media, Points, Award
 
 from api.resources.login import UserResource
@@ -104,7 +105,7 @@ class TrackerResource(ModelResource):
             del bundle.obj.id
         bundle.obj.user = bundle.request.user
         bundle.obj.ip = bundle.request.META.get('REMOTE_ADDR',
-                                                api.DEFAULT_IP_ADDRESS)
+                                                DEFAULT_IP_ADDRESS)
         bundle.obj.agent = bundle.request.META.get('HTTP_USER_AGENT',
                                                    'unknown')
 
@@ -192,8 +193,7 @@ class TrackerResource(ModelResource):
             bundle = self.build_bundle(data=dict_strip_unicode_keys(data))
             bundle.request.user = request.user
             bundle.request.META['REMOTE_ADDR'] = \
-                request.META.get('REMOTE_ADDR',
-                                 api.DEFAULT_IP_ADDRESS)
+                request.META.get('REMOTE_ADDR', DEFAULT_IP_ADDRESS)
             bundle.request.META['HTTP_USER_AGENT'] = \
                 request.META.get('HTTP_USER_AGENT', 'unknown')
             # check UUID not already submitted

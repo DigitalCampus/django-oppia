@@ -11,6 +11,7 @@ from tastypie.exceptions import BadRequest
 from tastypie.models import ApiKey
 from tastypie.resources import ModelResource
 
+from oppia import DEFAULT_IP_ADDRESS
 from oppia.models import Tracker, Points, Award
 from profile.forms import RegisterForm
 from profile.models import UserProfile, CustomField, UserProfileCustomField
@@ -144,7 +145,7 @@ class RegisterResource(ModelResource):
             tracker.user = u
             tracker.type = 'register'
             tracker.ip = bundle.request.META.get('REMOTE_ADDR',
-                                                 api.DEFAULT_IP_ADDRESS)
+                                                 DEFAULT_IP_ADDRESS)
             tracker.agent = bundle.request.META.get('HTTP_USER_AGENT',
                                                     'unknown')
             tracker.save()

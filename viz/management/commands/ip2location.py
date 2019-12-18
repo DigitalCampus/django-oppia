@@ -36,6 +36,8 @@ class Command(BaseCommand):
             except UserLocationVisualization.DoesNotExist:
                 update_via_freegeoip(self, t)
 
+        self.stdout.write("completed")
+
 
 def update_via_freegeoip(self, t):
     url = 'https://freegeoip.net/json/%s' % (t['ip'])

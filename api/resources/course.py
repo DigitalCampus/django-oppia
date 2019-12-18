@@ -15,6 +15,7 @@ from tastypie.resources import ModelResource
 from tastypie.utils import trailing_slash
 
 from api.serializers import CourseJSONSerializer
+from oppia import DEFAULT_IP_ADDRESS
 from oppia.models import Tracker, Course, CourseTag
 from oppia.signals import course_downloaded
 
@@ -124,7 +125,7 @@ class CourseResource(ModelResource):
         tracker.course = course
         tracker.type = 'download'
         tracker.data = json.dumps({'version': course.version})
-        tracker.ip = request.META.get('REMOTE_ADDR', api.DEFAULT_IP_ADDRESS)
+        tracker.ip = request.META.get('REMOTE_ADDR', DEFAULT_IP_ADDRESS)
         tracker.agent = request.META.get('HTTP_USER_AGENT', 'unknown')
         tracker.save()
 
