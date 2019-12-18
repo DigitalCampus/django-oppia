@@ -2,6 +2,7 @@
 import hashlib
 import json
 import math
+import re
 import urllib
 
 import itertools
@@ -43,6 +44,13 @@ def title_lang(title, lang):
                 return titles[l]
     except json.JSONDecodeError:
         pass
+
+    # Patch for wrong strings saved as python dicts
+    dict_regex = "u\'([a-zA-Z_-]+)\': *u\'([A-Za-z ?!%&#$().0-9@,\\\n_:-]+)\'"
+    langs = re.search(dict_regex, title)
+    if langs:
+        return langs.group(2)
+
     return title
 
 

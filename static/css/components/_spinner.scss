@@ -1,0 +1,15 @@
+.loading-spinner{
+    position:absolute;
+    top:50%;
+    left:50%;
+    margin-top:-75px;
+    margin-left:-75px;
+    display:none;
+}
+.loading-container{
+    opacity:0.6;
+    position: relative;
+}
+.loading-container .loading-spinner{
+    display:block;
+}
