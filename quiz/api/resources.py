@@ -36,9 +36,8 @@ class QuizAttemptResponseResource(ModelResource):
 
 
 class QuizAttemptResource(ModelResource):
-    responses = fields \
-        .ToManyField('quiz.api.resources.QuizAttemptResponseResource',
-                     'quizattemptresponse_set',
+    responses = fields.ToManyField(QuizAttemptResponseResource,
+                     'responses',
                      related_name='quizattempt',
                      full=True,
                      null=True)
