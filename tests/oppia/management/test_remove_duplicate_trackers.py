@@ -1,3 +1,5 @@
+import pytest
+
 from unittest import mock
 
 from django.core.management import call_command
@@ -32,6 +34,8 @@ class RemoveDuplicateTrackersTest(TestCase):
         call_command('remove_duplicate_trackers', stdout=out)
         return out.getvalue().rstrip()
 
+    @pytest.mark.xfail(reason="works on local, but not on Github workflow \
+        see issue: https://github.com/DigitalCampus/django-oppia/issues/691")
     def test_remove_with_duplicates(self):
         Tracker.objects.create(
             user_id=1,
