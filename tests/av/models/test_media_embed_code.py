@@ -6,7 +6,10 @@ from av.models import UploadedMedia
 
 
 class MediaEmbedCodeTest(TestCase):
-    fixtures = ['tests/test_av_uploadedmedia.json']
+    fixtures = ['tests/test_user.json',
+                'tests/test_oppia.json',
+                'tests/test_permissions.json',
+                'tests/test_av_uploadedmedia.json']
 
     expected_embed_output = "[[media \
         object='{\"filename\":\"ldrshp-mgmt-unit-2-risk-mgmt-D-v2.m4v\", \
