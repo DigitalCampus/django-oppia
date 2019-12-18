@@ -59,7 +59,6 @@ class OppiaViewsTest(TestCase):
     # course_quiz_attempts
     # course_feedback
     # course_feedback_responses
-    # app_launch_activity_redirect_view
 
     # TODO test login redirected correctly for all pages
     # except those with login exempt
