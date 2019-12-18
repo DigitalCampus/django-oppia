@@ -1,5 +1,5 @@
-from .activity import *
-from .user import *
-from .manage import *
-from .quiz import *
+from profile.views.activity import *
+from profile.views.user import *
+from profile.views.manage import *
+from profile.views.quiz import *
 
