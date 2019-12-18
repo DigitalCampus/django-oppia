@@ -34,7 +34,7 @@ class MediaUploadResourceTest(TestCase):
         response = self.client.post(reverse('oppia_av_upload'),
                                     {'media_file': media_file})
         self.assertRedirects(response,
-                             reverse('oppia_av_upload_success', args=[1]),
+                             reverse('oppia_av_upload_success', args=[4]),
                              302,
                              200)
 
