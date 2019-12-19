@@ -1,5 +1,6 @@
 import pytest
 
+from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
 from django.test import TestCase
@@ -20,6 +21,7 @@ class MediaUploadResourceTest(TestCase):
 
     def setUp(self):
         super(MediaUploadResourceTest, self).setUp()
+        self.admin_user = User.objects.get(pk=ADMIN_USER['id'])
 
     @pytest.mark.xfail(reason="works on local, but not on Github workflow \
         see issue: https://github.com/DigitalCampus/django-oppia/issues/689")
@@ -29,8 +31,7 @@ class MediaUploadResourceTest(TestCase):
                                             media_file_content.read(),
                                             content_type="video/m4v")
 
-        self.client.login(username=ADMIN_USER['user'],
-                          password=ADMIN_USER['password'])
+        self.client.force_login(self.admin_user)
         response = self.client.post(reverse('oppia_av_upload'),
                                     {'media_file': media_file})
         self.assertRedirects(response,
@@ -46,8 +47,7 @@ class MediaUploadResourceTest(TestCase):
                                             media_file_content.read(),
                                             content_type="video/m4v")
 
-        self.client.login(username=ADMIN_USER['user'],
-                          password=ADMIN_USER['password'])
+        self.client.force_login(self.admin_user)
         response = self.client.post(reverse('oppia_av_upload'),
                                     {'media_file': media_file})
         self.assertRaisesMessage(Exception, "Corrupted media file")

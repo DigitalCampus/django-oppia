@@ -145,6 +145,7 @@ LOGIN_EXEMPT_URLS = (
     r'^modules/api/',  # allow any URL under modules/api/* - auth by api_key
     r'^badges/api/',  # allow any URL under badges/api/* - auth by api_key
     r'^content/video-embed-helper/$',
+    r'^content/media-embed-helper/$',
     r'^media/temp/',
     r'^media/uploaded/',
     r'^api/activitylog/',
