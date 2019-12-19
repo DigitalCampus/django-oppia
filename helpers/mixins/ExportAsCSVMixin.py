@@ -32,16 +32,20 @@ class ExportAsCSVMixin(FilterView):
     def get_field_label(self, field_name):
         if hasattr(self.model, field_name):
             try:
-                label = self.model._meta.get_field(field_name).verbose_name.strip()
+                label = self.model._meta.get_field(field_name) \
+                    .verbose_name.strip()
                 if field_name in self.field_labels:
                     return self.field_labels[field_name]
                 else:
                     return label
             except FieldDoesNotExist:
-                # If it is not a field, we try to find a property with that name
-                if field_name in dir(self.model) and isinstance(getattr(self.model, field_name), property):
-                    if field_name in self.field_labels:
-                        return self.field_labels[field_name]
+                # If it is not a field, we try to find a property with that
+                # name
+                if field_name in dir(self.model) \
+                        and isinstance(getattr(self.model, 
+                                               field_name), property) \
+                        and field_name in self.field_labels:
+                    return self.field_labels[field_name]
         return None
 
 
@@ -49,10 +53,15 @@ class ExportAsCSVMixin(FilterView):
 
         now = datetime.datetime.now()
         response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename="{}_{}.csv'.format(self.csv_filename, now.strftime('%Y%m%d'))
+        response['Content-Disposition'] = 'attachment; filename="{}_{}.csv' \
+            .format(self.csv_filename,
+                    now.strftime('%Y%m%d'))
 
         response.write(u'\ufeff'.encode('utf-8'))
-        writer = csv.writer(response, dialect='excel', delimiter=str(';'), quotechar=str('"'))
+        writer = csv.writer(response,
+                            dialect='excel',
+                            delimiter=str(';'),
+                            quotechar=str('"'))
 
         # If no field was selected, we export all of them
         if filter_list is None or len(filter_list) == 0:
