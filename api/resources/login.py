@@ -19,31 +19,7 @@ from oppia.models import Points, Award
 
 
 class UserResource(ModelResource):
-    '''
-    For user login
 
-    Usage:
-    POST request to ``http://localhost/api/v1/user/``
-
-    Required arguments:
-
-    * ``username``
-    * ``password``
-
-    Returns (if authorized):
-
-    Object with ``first_name``,
-                ``last_name``,
-                ``api_key``,
-                ``last_login``,
-                ``username``,
-                ``points``,
-                ``badges``,
-                and ``scoring``
-
-    If unauthorized returns an HTTP 401 response
-
-    '''
     points = fields.IntegerField(readonly=True)
     badges = fields.IntegerField(readonly=True)
     scoring = fields.BooleanField(readonly=True)
@@ -78,8 +54,7 @@ class UserResource(ModelResource):
         password = bundle.data['password']
 
         u = authenticate(username=username, password=password)
-        if u is not None:
-            if u.is_active:
+        if u is not None and u.is_active:
                 login(bundle.request, u)
                 # Add to tracker
                 tracker = Tracker()
@@ -90,8 +65,6 @@ class UserResource(ModelResource):
                 tracker.agent = bundle.request.META.get('HTTP_USER_AGENT',
                                                         'unknown')
                 tracker.save()
-            else:
-                raise BadRequest(_(u'Authentication failure'))
         else:
             raise BadRequest(_(u'Authentication failure'))
 

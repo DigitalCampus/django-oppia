@@ -60,7 +60,21 @@ class MainModelsCoreTest(ResourceTestCaseMixin, TestCase):
     def test_activity_next_activity_end_of_course(self):
         activity = Activity.objects.get(pk=222)
         self.assertEqual(activity.get_next_activity(), None)
-    # @TODO Activity has previous
+        
+    # Activity has previous
+    def test_activity_previous_activity_within_section(self):
+        activity = Activity.objects.get(pk=3)
+        self.assertEqual(activity.get_previous_activity().digest,
+                         '11cc12291f730160c324b727dd2268b612137')
+
+    def test_activity_previous_activity_outside_section(self):
+        activity = Activity.objects.get(pk=19)
+        self.assertEqual(activity.get_previous_activity().digest,
+                         'd95762029b6285dae57385341145c40112153cr0s2a1p80a0')
+
+    def test_activity_previous_activity_beginning_of_course(self):
+        activity = Activity.objects.get(pk=1)
+        self.assertEqual(activity.get_previous_activity(), None)
     
 class MainModelsCourseDownloadloadsNoneTest(ResourceTestCaseMixin, TestCase):
     fixtures = MAIN_FIXTURES
