@@ -63,11 +63,11 @@ class Course(models.Model):
         return self.title
 
     def is_first_download(self, user):
-        no_attempts = Tracker.objects.filter(user=user,
+        no_downloads = Tracker.objects.filter(user=user,
                                              course=self,
                                              type='download').count()
         is_first_download = False
-        if no_attempts == 1:
+        if no_downloads == 0:
             is_first_download = True
         return is_first_download
 
