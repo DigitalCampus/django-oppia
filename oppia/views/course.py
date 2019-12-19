@@ -16,6 +16,7 @@ from oppia.models import Tag, \
     CoursePublishingLog, \
     Course
 from oppia.permissions import can_edit_course, \
+    can_view_course, \
     can_view_course_detail, \
     user_can_upload, \
     can_view_courses_list
@@ -65,7 +66,6 @@ def render_courses_list(request, courses, params=None):
                 course.total_downloads = stats['total']
                 # remove the element to optimize next searches
                 course_stats.remove(stats)
-                continue
 
     params['page'] = courses
     params['tag_list'] = tag_list
@@ -103,10 +103,7 @@ def courses_list_view(request):
 
 
 def course_download_view(request, course_id):
-    try:
-        course = Course.objects.get(pk=course_id)
-    except Course.DoesNotExist:
-        raise Http404()
+    course = can_view_course(request, course_id)
     file_to_download = course.getAbsPath()
     binary_file = open(file_to_download, 'rb')
     response = HttpResponse(binary_file.read(),
