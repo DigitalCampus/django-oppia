@@ -19,9 +19,9 @@
     <div class="d-flex align-items-center">
         <div class="quiz d-flex justify-content-center rounded bg-white shadow-sm p-2 mr-3 align-items-center" style="width:60px;height:60px;">{{object.get_score_percent}}%</div>
         <div>
-            <i class="fas fa-user text-secondary mr-2"></i><a href="{% url 'profile_user_activity' profile.id %}" class="lead text-black">{{ profile.first_name }} {{ profile.last_name }}</a><br>
-            <i class="far fa-calendar-alt text-secondary mr-2"></i>{{object.attempt_date|date:'d/m/Y H:i'}}<br>
-            <i class="fas fa-stamp text-secondary mr-2"></i>{{object.score}}/{{object.maxscore}}
+            <em class="fas fa-user text-secondary mr-2"></em><a href="{% url 'profile_user_activity' profile.id %}" class="lead text-black">{{ profile.first_name }} {{ profile.last_name }}</a><br>
+            <em class="far fa-calendar-alt text-secondary mr-2"></em>{{object.attempt_date|date:'d/m/Y H:i'}}<br>
+            <em class="fas fa-stamp text-secondary mr-2"></em>{{object.score}}/{{object.maxscore}}
         </div>
 
     </div>
@@ -37,9 +37,9 @@
     <div class="row">
         <div class="col-sm-2 col-md-1 d-flex align-items-center justify-content-end">
             {% if response.score %}
-                <i class="fas fa-check-circle text-success fa-2x"></i>
+                <em class="fas fa-check-circle text-success fa-2x"></em>
             {% else %}
-                <i class="fas fa-times-circle text-danger fa-2x"></i>
+                <em class="fas fa-times-circle text-danger fa-2x"></em>
             {% endif %}
         </div>
         <div class="col-sm-10 col-md-11">

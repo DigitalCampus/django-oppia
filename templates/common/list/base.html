@@ -1,9 +1,12 @@
+{% load i18n %}
+
 <div class="table-responsive mb-4">
 <table class="table table-hover" {% if ajax_url %} data-ajax-url="{{ajax_url}}" {% endif %}>
+<caption class="d-none">{% trans "List" %}</caption>
   <thead>
     <tr>
         {% block table_head %}
-      <th scope="col">Nombre</th>
+      <th scope="col">Name</th>
         {% endblock %}
     </tr>
   </thead>
@@ -19,7 +22,7 @@
 {% empty %}
     {% if not simple_list %}
     <tr>
-      <td colspan="4">No hay ningún elemento con los criterios de búsqueda actuales...</td>
+      <td colspan="4">There are no results matching these criteria.</td>
     </tr>
     {% endif %}
 
