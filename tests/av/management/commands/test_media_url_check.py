@@ -2,16 +2,11 @@ import pytest
 
 from io import StringIO
 from django.core.management import call_command
-from django.test import TestCase
+from oppia.test import OppiaTestCase
 
 from oppia.models import Media
 
-class MediaURLCheckTest(TestCase):
-    fixtures = ['tests/test_user.json',
-                'tests/test_oppia.json',
-                'tests/test_quiz.json',
-                'tests/test_permissions.json',
-                'default_badges.json']
+class MediaURLCheckTest(OppiaTestCase):
     
     def setUp(self):
         super(MediaURLCheckTest, self).setUp()

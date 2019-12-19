@@ -1,27 +1,11 @@
-from django.contrib.auth.models import User
-from django.test import TestCase
+from oppia.test import OppiaTestCase
 from django.urls import reverse
 
-from tests.user_logins import ADMIN_USER, \
-                              STAFF_USER, \
-                              NORMAL_USER, \
-                              TEACHER_USER
-
                             
-class ContentViewsTest(TestCase):
-    fixtures = ['tests/test_user.json',
-                'tests/test_oppia.json',
-                'tests/test_quiz.json',
-                'tests/test_permissions.json',
-                'default_gamification_events.json',
-                'tests/test_tracker.json']
+class ContentViewsTest(OppiaTestCase):
 
     def setUp(self):
         super(ContentViewsTest, self).setUp()
-        self.admin_user = User.objects.get(pk=ADMIN_USER['id'])
-        self.staff_user = User.objects.get(pk=STAFF_USER['id'])
-        self.teacher_user = User.objects.get(pk=TEACHER_USER['id'])
-        self.normal_user = User.objects.get(pk=NORMAL_USER['id'])
         self.media_embed_helper_url = reverse('oppia_media_embed_helper')
         self.video_embed_helper_url = reverse('oppia_video_embed_helper')
         

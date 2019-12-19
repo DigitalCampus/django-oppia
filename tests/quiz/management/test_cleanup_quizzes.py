@@ -9,9 +9,6 @@ class CleanUpQuizzesTest(TestCase):
                 'tests/test_quiz.json',
                 'tests/test_permissions.json']
 
-    def setUp(self):
-        super(CleanUpQuizzesTest, self).setUp()
-
     def test_cleanup_quizzes(self):
         out = StringIO()
         call_command('cleanup_quizzes', stdout=out)

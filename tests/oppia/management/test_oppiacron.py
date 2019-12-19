@@ -2,15 +2,10 @@ import pytest
 
 from io import StringIO
 from django.core.management import call_command
-from django.test import TestCase
+from oppia.test import OppiaTestCase
 
 
-class OppiaCronTest(TestCase):
-    fixtures = ['tests/test_user.json',
-                'tests/test_oppia.json',
-                'tests/test_quiz.json',
-                'tests/test_permissions.json',
-                'default_badges.json']
+class OppiaCronTest(OppiaTestCase):
 
     @pytest.mark.xfail(reason="works on local, but not on Github workflow \
         see issue: https://github.com/DigitalCampus/django-oppia/issues/690")

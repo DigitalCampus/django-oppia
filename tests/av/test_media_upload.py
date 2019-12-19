@@ -1,27 +1,17 @@
 import pytest
 
-from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
-from django.test import TestCase
+from oppia.test import OppiaTestCase
+from av.models import UploadedMedia
 
-from tests.user_logins import ADMIN_USER
 
-
-class MediaUploadResourceTest(TestCase):
-    fixtures = ['tests/test_user.json',
-                'tests/test_oppia.json',
-                'tests/test_quiz.json',
-                'tests/test_permissions.json']
+class MediaUploadResourceTest(OppiaTestCase):
 
     course_file_path = './oppia/fixtures/reference_files/ncd1_test_course.zip'
     media_file_path = './oppia/fixtures/reference_files/sample_video.m4v'
     corrupt_media_file_path = \
         './oppia/fixtures/reference_files/corrupt_video.m4v'
-
-    def setUp(self):
-        super(MediaUploadResourceTest, self).setUp()
-        self.admin_user = User.objects.get(pk=ADMIN_USER['id'])
 
     @pytest.mark.xfail(reason="works on local, but not on Github workflow \
         see issue: https://github.com/DigitalCampus/django-oppia/issues/689")
@@ -34,8 +24,10 @@ class MediaUploadResourceTest(TestCase):
         self.client.force_login(self.admin_user)
         response = self.client.post(reverse('oppia_av_upload'),
                                     {'media_file': media_file})
+        latest = UploadedMedia.objects.latest('id')
         self.assertRedirects(response,
-                             reverse('oppia_av_upload_success', args=[4]),
+                             reverse('oppia_av_upload_success',
+                                     args=[latest.id]),
                              302,
                              200)
 

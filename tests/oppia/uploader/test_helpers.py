@@ -1,18 +1,13 @@
 import json
 
 from django.contrib.auth.models import User
-from django.test import TestCase
+from oppia.test import OppiaTestCase
 
 from oppia.uploader import create_quiz_props, create_quiz_questions
 from quiz.models import Quiz, QuizProps, QuizQuestion
 
 
-class UploadHelpersTest(TestCase):
-    fixtures = ['tests/test_user.json',
-                'tests/test_oppia.json',
-                'tests/test_quiz.json',
-                'tests/test_permissions.json',
-                'default_badges.json']
+class UploadHelpersTest(OppiaTestCase):
 
     quiz_json_file = './oppia/fixtures/reference_files/sample_quiz.json'
 

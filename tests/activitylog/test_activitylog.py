@@ -1,26 +1,17 @@
-# oppia/tests/tracker/test_tracker.py
+from oppia.test import OppiaTestCase
+
 from django.contrib.auth.models import User
-from django.test import TestCase
-from django.test.client import Client
 from django.urls import reverse
 
 from oppia.models import Tracker
 from quiz.models import QuizAttemptResponse, QuizAttempt
-from tests.user_logins import ADMIN_USER
 
 
-class UploadActivityLogTest(TestCase):
-
-    fixtures = ['tests/test_user.json',
-                'tests/test_oppia.json',
-                'tests/test_malaria_quiz.json',
-                'tests/test_permissions.json',
-                'default_gamification_events.json']
+class UploadActivityLogTest(OppiaTestCase):
 
     def setUp(self):
-        self.client = Client()
+        super(UploadActivityLogTest, self).setUp()
         self.url = reverse('oppia_activitylog_upload')
-        self.admin_user = User.objects.get(pk=ADMIN_USER['id'])
         self.basic_activity_log = \
             './oppia/fixtures/activity_logs/basic_activity.json'
         self.activity_log_file_path = \

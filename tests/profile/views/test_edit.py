@@ -17,9 +17,6 @@ class EditProfileViewTest(TestCase):
                 'tests/test_quiz.json',
                 'tests/test_permissions.json']
 
-    def setUp(self):
-        super(EditProfileViewTest, self).setUp()
-
     def test_view_own_profile(self):
 
         # admin

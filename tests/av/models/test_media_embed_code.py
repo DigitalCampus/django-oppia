@@ -1,15 +1,11 @@
 import pytest
 import re
 
-from django.test import TestCase
+from oppia.test import OppiaTestCase
 from av.models import UploadedMedia
 
 
-class MediaEmbedCodeTest(TestCase):
-    fixtures = ['tests/test_user.json',
-                'tests/test_oppia.json',
-                'tests/test_permissions.json',
-                'tests/test_av_uploadedmedia.json']
+class MediaEmbedCodeTest(OppiaTestCase):
 
     expected_embed_output = "[[media \
         object='{\"filename\":\"ldrshp-mgmt-unit-2-risk-mgmt-D-v2.m4v\", \

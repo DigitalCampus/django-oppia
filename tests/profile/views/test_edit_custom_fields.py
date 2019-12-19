@@ -1,17 +1,12 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.urls import reverse
-from django.test import TestCase
+from oppia.test import OppiaTestCase
 
 from profile.models import CustomField, UserProfileCustomField
 
-from tests.user_logins import NORMAL_USER
 
-
-class ProfileEditCustomFieldsViewTest(TestCase):
-    fixtures = ['tests/test_user.json',
-                'tests/test_oppia.json',
-                'tests/test_quiz.json']
+class ProfileEditCustomFieldsViewTest(OppiaTestCase):
 
     def setUp(self):
         super(ProfileEditCustomFieldsViewTest, self).setUp()
@@ -24,15 +19,13 @@ class ProfileEditCustomFieldsViewTest(TestCase):
             required=True,
             type='bool')
         custom_field.save()
-        user = User.objects.get(pk=NORMAL_USER['id'])
 
-        self.client.login(username=NORMAL_USER['user'],
-                          password=NORMAL_USER['password'])
-        post_data = {'organisation': user.userprofile.organisation,
-                     'email': user.email,
-                     'username': user.username,
-                     'first_name': user.first_name,
-                     'last_name': user.last_name}
+        self.client.force_login(self.normal_user)
+        post_data = {'organisation': self.normal_user.userprofile.organisation,
+                     'email': self.normal_user.email,
+                     'username': self.normal_user.username,
+                     'first_name': self.normal_user.first_name,
+                     'last_name': self.normal_user.last_name}
         count_start = UserProfileCustomField.objects.all().count()
         self.client.post(self.url, data=post_data)
         self.assertRaises(ValidationError)
@@ -48,18 +41,16 @@ class ProfileEditCustomFieldsViewTest(TestCase):
             required=True,
             type='bool')
         custom_field.save()
-        user = User.objects.get(pk=NORMAL_USER['id'])
         upcf = UserProfileCustomField(key_name=custom_field,
-                                      user=user,
+                                      user=self.normal_user,
                                       value_bool=True)
         upcf.save()
-        self.client.login(username=NORMAL_USER['user'],
-                          password=NORMAL_USER['password'])
-        post_data = {'organisation': user.userprofile.organisation,
-                     'email': user.email,
-                     'username': user.username,
-                     'first_name': user.first_name,
-                     'last_name': user.last_name,
+        self.client.force_login(self.normal_user)
+        post_data = {'organisation': self.normal_user.userprofile.organisation,
+                     'email': self.normal_user.email,
+                     'username': self.normal_user.username,
+                     'first_name': self.normal_user.first_name,
+                     'last_name': self.normal_user.last_name,
                      'bool_req': False}
         count_start = UserProfileCustomField.objects.all().count()
         self.client.post(self.url, data=post_data)
@@ -75,14 +66,12 @@ class ProfileEditCustomFieldsViewTest(TestCase):
             required=True,
             type='bool')
         custom_field.save()
-        user = User.objects.get(pk=NORMAL_USER['id'])
-        self.client.login(username=NORMAL_USER['user'],
-                          password=NORMAL_USER['password'])
-        post_data = {'organisation': user.userprofile.organisation,
-                     'email': user.email,
-                     'username': user.username,
-                     'first_name': user.first_name,
-                     'last_name': user.last_name,
+        self.client.force_login(self.normal_user)
+        post_data = {'organisation': self.normal_user.userprofile.organisation,
+                     'email': self.normal_user.email,
+                     'username': self.normal_user.username,
+                     'first_name': self.normal_user.first_name,
+                     'last_name': self.normal_user.last_name,
                      'bool_req': True}
         count_start = UserProfileCustomField.objects.all().count()
         response = self.client.post(self.url, data=post_data)
@@ -91,7 +80,7 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         self.assertEqual(count_start+1, count_end)
 
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
-                                                         user=user)
+                                                         user=self.normal_user)
         self.assertEqual(updated_row.value_bool, True)
 
     # editing required bool field - without change
@@ -102,18 +91,16 @@ class ProfileEditCustomFieldsViewTest(TestCase):
             required=True,
             type='bool')
         custom_field.save()
-        user = User.objects.get(pk=NORMAL_USER['id'])
         upcf = UserProfileCustomField(key_name=custom_field,
-                                      user=user,
+                                      user=self.normal_user,
                                       value_bool=True)
         upcf.save()
-        self.client.login(username=NORMAL_USER['user'],
-                          password=NORMAL_USER['password'])
-        post_data = {'organisation': user.userprofile.organisation,
-                     'email': user.email,
-                     'username': user.username,
-                     'first_name': user.first_name,
-                     'last_name': user.last_name,
+        self.client.force_login(self.normal_user)
+        post_data = {'organisation': self.normal_user.userprofile.organisation,
+                     'email': self.normal_user.email,
+                     'username': self.normal_user.username,
+                     'first_name': self.normal_user.first_name,
+                     'last_name': self.normal_user.last_name,
                      'bool_req': True}
         count_start = UserProfileCustomField.objects.all().count()
         response = self.client.post(self.url, data=post_data)
@@ -122,7 +109,7 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         self.assertEqual(count_start, count_end)
 
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
-                                                         user=user)
+                                                         user=self.normal_user)
         self.assertEqual(updated_row.value_bool, True)
 
     # BOOLEAN NOT REQUIRED
@@ -134,18 +121,16 @@ class ProfileEditCustomFieldsViewTest(TestCase):
             required=False,
             type='bool')
         custom_field.save()
-        user = User.objects.get(pk=NORMAL_USER['id'])
         upcf = UserProfileCustomField(key_name=custom_field,
-                                      user=user,
+                                      user=self.normal_user,
                                       value_bool=True)
         upcf.save()
-        self.client.login(username=NORMAL_USER['user'],
-                          password=NORMAL_USER['password'])
-        post_data = {'organisation': user.userprofile.organisation,
-                     'email': user.email,
-                     'username': user.username,
-                     'first_name': user.first_name,
-                     'last_name': user.last_name,
+        self.client.force_login(self.normal_user)
+        post_data = {'organisation': self.normal_user.userprofile.organisation,
+                     'email': self.normal_user.email,
+                     'username': self.normal_user.username,
+                     'first_name': self.normal_user.first_name,
+                     'last_name': self.normal_user.last_name,
                      'bool_not_req': False}
         count_start = UserProfileCustomField.objects.all().count()
         response = self.client.post(self.url, data=post_data)
@@ -154,7 +139,7 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         self.assertEqual(count_start, count_end)
 
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
-                                                         user=user)
+                                                         user=self.normal_user)
         self.assertEqual(updated_row.value_bool, False)
 
     # editing not required bool field - without change
@@ -165,18 +150,16 @@ class ProfileEditCustomFieldsViewTest(TestCase):
             required=False,
             type='bool')
         custom_field.save()
-        user = User.objects.get(pk=NORMAL_USER['id'])
         upcf = UserProfileCustomField(key_name=custom_field,
-                                      user=user,
+                                      user=self.normal_user,
                                       value_bool=True)
         upcf.save()
-        self.client.login(username=NORMAL_USER['user'],
-                          password=NORMAL_USER['password'])
-        post_data = {'organisation': user.userprofile.organisation,
-                     'email': user.email,
-                     'username': user.username,
-                     'first_name': user.first_name,
-                     'last_name': user.last_name,
+        self.client.force_login(self.normal_user)
+        post_data = {'organisation': self.normal_user.userprofile.organisation,
+                     'email': self.normal_user.email,
+                     'username': self.normal_user.username,
+                     'first_name': self.normal_user.first_name,
+                     'last_name': self.normal_user.last_name,
                      'bool_not_req': True}
         count_start = UserProfileCustomField.objects.all().count()
         response = self.client.post(self.url, data=post_data)
@@ -185,7 +168,7 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         self.assertEqual(count_start, count_end)
 
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
-                                                         user=user)
+                                                         user=self.normal_user)
         self.assertEqual(updated_row.value_bool, True)
 
     # INTEGER REQUIRED
@@ -197,18 +180,16 @@ class ProfileEditCustomFieldsViewTest(TestCase):
             required=True,
             type='int')
         custom_field.save()
-        user = User.objects.get(pk=NORMAL_USER['id'])
         upcf = UserProfileCustomField(key_name=custom_field,
-                                      user=user,
+                                      user=self.normal_user,
                                       value_int=123)
         upcf.save()
-        self.client.login(username=NORMAL_USER['user'],
-                          password=NORMAL_USER['password'])
-        post_data = {'organisation': user.userprofile.organisation,
-                     'email': user.email,
-                     'username': user.username,
-                     'first_name': user.first_name,
-                     'last_name': user.last_name,
+        self.client.force_login(self.normal_user)
+        post_data = {'organisation': self.normal_user.userprofile.organisation,
+                     'email': self.normal_user.email,
+                     'username': self.normal_user.username,
+                     'first_name': self.normal_user.first_name,
+                     'last_name': self.normal_user.last_name,
                      'int_req': 999}
         count_start = UserProfileCustomField.objects.all().count()
         response = self.client.post(self.url, data=post_data)
@@ -217,7 +198,7 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         self.assertEqual(count_start, count_end)
 
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
-                                                         user=user)
+                                                         user=self.normal_user)
         self.assertEqual(updated_row.value_int, 999)
 
     # new requirement or new field
@@ -228,14 +209,12 @@ class ProfileEditCustomFieldsViewTest(TestCase):
             required=True,
             type='int')
         custom_field.save()
-        user = User.objects.get(pk=NORMAL_USER['id'])
-        self.client.login(username=NORMAL_USER['user'],
-                          password=NORMAL_USER['password'])
-        post_data = {'organisation': user.userprofile.organisation,
-                     'email': user.email,
-                     'username': user.username,
-                     'first_name': user.first_name,
-                     'last_name': user.last_name,
+        self.client.force_login(self.normal_user)
+        post_data = {'organisation': self.normal_user.userprofile.organisation,
+                     'email': self.normal_user.email,
+                     'username': self.normal_user.username,
+                     'first_name': self.normal_user.first_name,
+                     'last_name': self.normal_user.last_name,
                      'int_req': 123}
         count_start = UserProfileCustomField.objects.all().count()
         response = self.client.post(self.url, data=post_data)
@@ -244,7 +223,7 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         self.assertEqual(count_start+1, count_end)
 
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
-                                                         user=user)
+                                                         user=self.normal_user)
         self.assertEqual(updated_row.value_int, 123)
 
     # editing required int field - without change
@@ -255,18 +234,16 @@ class ProfileEditCustomFieldsViewTest(TestCase):
             required=True,
             type='int')
         custom_field.save()
-        user = User.objects.get(pk=NORMAL_USER['id'])
         upcf = UserProfileCustomField(key_name=custom_field,
-                                      user=user,
+                                      user=self.normal_user,
                                       value_int=123)
         upcf.save()
-        self.client.login(username=NORMAL_USER['user'],
-                          password=NORMAL_USER['password'])
-        post_data = {'organisation': user.userprofile.organisation,
-                     'email': user.email,
-                     'username': user.username,
-                     'first_name': user.first_name,
-                     'last_name': user.last_name,
+        self.client.force_login(self.normal_user)
+        post_data = {'organisation': self.normal_user.userprofile.organisation,
+                     'email': self.normal_user.email,
+                     'username': self.normal_user.username,
+                     'first_name': self.normal_user.first_name,
+                     'last_name': self.normal_user.last_name,
                      'int_req': 123}
         count_start = UserProfileCustomField.objects.all().count()
         response = self.client.post(self.url, data=post_data)
@@ -275,7 +252,7 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         self.assertEqual(count_start, count_end)
 
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
-                                                         user=user)
+                                                         user=self.normal_user)
         self.assertEqual(updated_row.value_int, 123)
 
     # Integer NOT REQUIRED
@@ -287,18 +264,16 @@ class ProfileEditCustomFieldsViewTest(TestCase):
             required=False,
             type='int')
         custom_field.save()
-        user = User.objects.get(pk=NORMAL_USER['id'])
         upcf = UserProfileCustomField(key_name=custom_field,
-                                      user=user,
+                                      user=self.normal_user,
                                       value_int=123)
         upcf.save()
-        self.client.login(username=NORMAL_USER['user'],
-                          password=NORMAL_USER['password'])
-        post_data = {'organisation': user.userprofile.organisation,
-                     'email': user.email,
-                     'username': user.username,
-                     'first_name': user.first_name,
-                     'last_name': user.last_name,
+        self.client.force_login(self.normal_user)
+        post_data = {'organisation': self.normal_user.userprofile.organisation,
+                     'email': self.normal_user.email,
+                     'username': self.normal_user.username,
+                     'first_name': self.normal_user.first_name,
+                     'last_name': self.normal_user.last_name,
                      'int_not_req': 1234}
         count_start = UserProfileCustomField.objects.all().count()
         response = self.client.post(self.url, data=post_data)
@@ -307,7 +282,7 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         self.assertEqual(count_start, count_end)
 
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
-                                                         user=user)
+                                                         user=self.normal_user)
         self.assertEqual(updated_row.value_int, 1234)
 
     # editing not required int field - without change
@@ -318,18 +293,16 @@ class ProfileEditCustomFieldsViewTest(TestCase):
             required=False,
             type='int')
         custom_field.save()
-        user = User.objects.get(pk=NORMAL_USER['id'])
         upcf = UserProfileCustomField(key_name=custom_field,
-                                      user=user,
+                                      user=self.normal_user,
                                       value_int=123)
         upcf.save()
-        self.client.login(username=NORMAL_USER['user'],
-                          password=NORMAL_USER['password'])
-        post_data = {'organisation': user.userprofile.organisation,
-                     'email': user.email,
-                     'username': user.username,
-                     'first_name': user.first_name,
-                     'last_name': user.last_name,
+        self.client.force_login(self.normal_user)
+        post_data = {'organisation': self.normal_user.userprofile.organisation,
+                     'email': self.normal_user.email,
+                     'username': self.normal_user.username,
+                     'first_name': self.normal_user.first_name,
+                     'last_name': self.normal_user.last_name,
                      'int_not_req': 123}
         count_start = UserProfileCustomField.objects.all().count()
         response = self.client.post(self.url, data=post_data)
@@ -338,7 +311,7 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         self.assertEqual(count_start, count_end)
 
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
-                                                         user=user)
+                                                         user=self.normal_user)
         self.assertEqual(updated_row.value_int, 123)
 
     # STRING REQUIRED
@@ -350,18 +323,16 @@ class ProfileEditCustomFieldsViewTest(TestCase):
             required=True,
             type='str')
         custom_field.save()
-        user = User.objects.get(pk=NORMAL_USER['id'])
         upcf = UserProfileCustomField(key_name=custom_field,
-                                      user=user,
+                                      user=self.normal_user,
                                       value_str="my string")
         upcf.save()
-        self.client.login(username=NORMAL_USER['user'],
-                          password=NORMAL_USER['password'])
-        post_data = {'organisation': user.userprofile.organisation,
-                     'email': user.email,
-                     'username': user.username,
-                     'first_name': user.first_name,
-                     'last_name': user.last_name,
+        self.client.force_login(self.normal_user)
+        post_data = {'organisation': self.normal_user.userprofile.organisation,
+                     'email': self.normal_user.email,
+                     'username': self.normal_user.username,
+                     'first_name': self.normal_user.first_name,
+                     'last_name': self.normal_user.last_name,
                      'str_req': "my new string"}
         count_start = UserProfileCustomField.objects.all().count()
         response = self.client.post(self.url, data=post_data)
@@ -370,7 +341,7 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         self.assertEqual(count_start, count_end)
 
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
-                                                         user=user)
+                                                         user=self.normal_user)
         self.assertEqual(updated_row.value_str, "my new string")
 
     # new requirement or new field
@@ -381,14 +352,12 @@ class ProfileEditCustomFieldsViewTest(TestCase):
             required=True,
             type='str')
         custom_field.save()
-        user = User.objects.get(pk=NORMAL_USER['id'])
-        self.client.login(username=NORMAL_USER['user'],
-                          password=NORMAL_USER['password'])
-        post_data = {'organisation': user.userprofile.organisation,
-                     'email': user.email,
-                     'username': user.username,
-                     'first_name': user.first_name,
-                     'last_name': user.last_name,
+        self.client.force_login(self.normal_user)
+        post_data = {'organisation': self.normal_user.userprofile.organisation,
+                     'email': self.normal_user.email,
+                     'username': self.normal_user.username,
+                     'first_name': self.normal_user.first_name,
+                     'last_name': self.normal_user.last_name,
                      'str_req': "my new string"}
         count_start = UserProfileCustomField.objects.all().count()
         response = self.client.post(self.url, data=post_data)
@@ -397,7 +366,7 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         self.assertEqual(count_start+1, count_end)
 
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
-                                                         user=user)
+                                                         user=self.normal_user)
         self.assertEqual(updated_row.value_str, "my new string")
 
     # editing required str field - without change
@@ -408,18 +377,16 @@ class ProfileEditCustomFieldsViewTest(TestCase):
             required=True,
             type='str')
         custom_field.save()
-        user = User.objects.get(pk=NORMAL_USER['id'])
         upcf = UserProfileCustomField(key_name=custom_field,
-                                      user=user,
+                                      user=self.normal_user,
                                       value_str="my string")
         upcf.save()
-        self.client.login(username=NORMAL_USER['user'],
-                          password=NORMAL_USER['password'])
-        post_data = {'organisation': user.userprofile.organisation,
-                     'email': user.email,
-                     'username': user.username,
-                     'first_name': user.first_name,
-                     'last_name': user.last_name,
+        self.client.force_login(self.normal_user)
+        post_data = {'organisation': self.normal_user.userprofile.organisation,
+                     'email': self.normal_user.email,
+                     'username': self.normal_user.username,
+                     'first_name': self.normal_user.first_name,
+                     'last_name': self.normal_user.last_name,
                      'str_req': "my string"}
         count_start = UserProfileCustomField.objects.all().count()
         response = self.client.post(self.url, data=post_data)
@@ -428,7 +395,7 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         self.assertEqual(count_start, count_end)
 
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
-                                                         user=user)
+                                                         user=self.normal_user)
         self.assertEqual(updated_row.value_str, "my string")
 
     # String NOT REQUIRED
@@ -440,18 +407,16 @@ class ProfileEditCustomFieldsViewTest(TestCase):
             required=False,
             type='str')
         custom_field.save()
-        user = User.objects.get(pk=NORMAL_USER['id'])
         upcf = UserProfileCustomField(key_name=custom_field,
-                                      user=user,
+                                      user=self.normal_user,
                                       value_str="my string")
         upcf.save()
-        self.client.login(username=NORMAL_USER['user'],
-                          password=NORMAL_USER['password'])
-        post_data = {'organisation': user.userprofile.organisation,
-                     'email': user.email,
-                     'username': user.username,
-                     'first_name': user.first_name,
-                     'last_name': user.last_name,
+        self.client.force_login(self.normal_user)
+        post_data = {'organisation': self.normal_user.userprofile.organisation,
+                     'email': self.normal_user.email,
+                     'username': self.normal_user.username,
+                     'first_name': self.normal_user.first_name,
+                     'last_name': self.normal_user.last_name,
                      'str_not_req': "my new string"}
         count_start = UserProfileCustomField.objects.all().count()
         response = self.client.post(self.url, data=post_data)
@@ -460,7 +425,7 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         self.assertEqual(count_start, count_end)
 
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
-                                                         user=user)
+                                                         user=self.normal_user)
         self.assertEqual(updated_row.value_str, "my new string")
 
     # editing not required str field - without change
@@ -471,18 +436,16 @@ class ProfileEditCustomFieldsViewTest(TestCase):
             required=False,
             type='str')
         custom_field.save()
-        user = User.objects.get(pk=NORMAL_USER['id'])
         upcf = UserProfileCustomField(key_name=custom_field,
-                                      user=user,
+                                      user=self.normal_user,
                                       value_str="my string")
         upcf.save()
-        self.client.login(username=NORMAL_USER['user'],
-                          password=NORMAL_USER['password'])
-        post_data = {'organisation': user.userprofile.organisation,
-                     'email': user.email,
-                     'username': user.username,
-                     'first_name': user.first_name,
-                     'last_name': user.last_name,
+        self.client.force_login(self.normal_user)
+        post_data = {'organisation': self.normal_user.userprofile.organisation,
+                     'email': self.normal_user.email,
+                     'username': self.normal_user.username,
+                     'first_name': self.normal_user.first_name,
+                     'last_name': self.normal_user.last_name,
                      'str_not_req': "my string"}
         count_start = UserProfileCustomField.objects.all().count()
         response = self.client.post(self.url, data=post_data)
@@ -491,5 +454,5 @@ class ProfileEditCustomFieldsViewTest(TestCase):
         self.assertEqual(count_start, count_end)
 
         updated_row = UserProfileCustomField.objects.get(key_name=custom_field,
-                                                         user=user)
+                                                         user=self.normal_user)
         self.assertEqual(updated_row.value_str, "my string")

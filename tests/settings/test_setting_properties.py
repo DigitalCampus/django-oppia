@@ -1,9 +1,9 @@
 
-from django.test import TestCase
+from oppia.test import OppiaTestCase
 from settings.models import SettingProperties
 
 
-class SettingPropertiesTest(TestCase):
+class SettingPropertiesTest(OppiaTestCase):
 
     def test_self_name_int(self):
         sp = SettingProperties()

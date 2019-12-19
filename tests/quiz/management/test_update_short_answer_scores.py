@@ -8,6 +8,3 @@ class UpdateShortAnswerScoresTest(TestCase):
                 'tests/test_permissions.json']
 
     quiz_file_path = './oppia/fixtures/reference_files/quiz_short_answer_update.cvs'
-
-    def setUp(self):
-        super(UpdateShortAnswerScoresTest, self).setUp()

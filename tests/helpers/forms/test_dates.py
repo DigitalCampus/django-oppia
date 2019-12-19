@@ -1,16 +1,13 @@
 import datetime
 
 from django import forms
-from django.test import TestCase
+from oppia.test import OppiaTestCase
 from django.utils import timezone
 from helpers.forms import dates
 
-class DatesHelperTest(TestCase):
+class DatesHelperTest(OppiaTestCase):
 
     STR_DATE_FORMAT = '%Y-%m-%d'
-
-    def setUp(self):
-        super(DatesHelperTest, self).setUp()
 
     '''
     DateDiffForm

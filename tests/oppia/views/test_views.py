@@ -1,10 +1,8 @@
 from django.urls import reverse
-from django.test import TestCase
+from oppia.test import OppiaTestCase
 
 
-class OppiaViewsTest(TestCase):
-    def setUp(self):
-        super(OppiaViewsTest, self).setUp()
+class OppiaViewsTest(OppiaTestCase):
 
     def test_home(self):
         response = self.client.get(reverse('oppia_home'))
@@ -12,7 +10,7 @@ class OppiaViewsTest(TestCase):
 
     def test_register(self):
         response = self.client.post(reverse('profile_register'),
-                                    {'username': 'demo',
+                                    {'username': 'demo2',
                                      'password': 'secret',
                                      'password_again': 'secret',
                                      'email': 'demo@demo.com',
@@ -26,7 +24,7 @@ class OppiaViewsTest(TestCase):
 
     def test_login(self):
         response = self.client.post(reverse('profile_login'),
-                                    {'username': 'demo',
+                                    {'username': 'demo2',
                                      'password': 'secret'})
         self.assertEqual(response.status_code, 200)
 

@@ -1,26 +1,9 @@
-from django.contrib.auth.models import User
+
 from django.urls import reverse
-from django.test import TestCase
-
-from tests.user_logins import ADMIN_USER, \
-                              STAFF_USER, \
-                              NORMAL_USER, \
-                              TEACHER_USER
+from oppia.test import OppiaTestCase
 
 
-class PermissionsViewTest(TestCase):
-    fixtures = ['tests/test_user.json',
-                'tests/test_oppia.json',
-                'tests/test_quiz.json',
-                'tests/test_permissions.json']
-
-    def setUp(self):
-        super(PermissionsViewTest, self).setUp()
-        self.login_url = reverse('profile_login')
-        self.admin_user = User.objects.get(pk=ADMIN_USER['id'])
-        self.staff_user = User.objects.get(pk=STAFF_USER['id'])
-        self.teacher_user = User.objects.get(pk=TEACHER_USER['id'])
-        self.normal_user = User.objects.get(pk=NORMAL_USER['id'])
+class PermissionsViewTest(OppiaTestCase):
 
     def get_view(self, route, user=None):
         if user is not None:

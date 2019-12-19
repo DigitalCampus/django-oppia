@@ -13,9 +13,6 @@ class BadgesViewTest(TestCase):
                 'tests/test_quiz.json',
                 'tests/test_permissions.json']
 
-    def setUp(self):
-        super(BadgesViewTest, self).setUp()
-
     def test_view_badges(self):
         url = reverse('profile_badges')
         allowed_users = [ADMIN_USER, STAFF_USER, TEACHER_USER, NORMAL_USER]

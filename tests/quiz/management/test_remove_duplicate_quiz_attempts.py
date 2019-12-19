@@ -11,9 +11,6 @@ class RemoveDuplicateQuizAttemptsTest(TestCase):
                 'tests/test_quiz.json',
                 'tests/test_permissions.json']
 
-    def setUp(self):
-        super(RemoveDuplicateQuizAttemptsTest, self).setUp()
-
     def test_remove_duplicate_quiz_attempts(self):
         out = StringIO()
         quiz_attempt_count_start = QuizAttempt.objects.all().count()

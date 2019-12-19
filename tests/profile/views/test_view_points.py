@@ -14,9 +14,6 @@ class PointsViewTest(TestCase):
                 'tests/test_quiz.json',
                 'tests/test_permissions.json']
 
-    def setUp(self):
-        super(PointsViewTest, self).setUp()
-
     def test_view_badges(self):
         url = reverse('profile_points')
         allowed_users = [ADMIN_USER, STAFF_USER, TEACHER_USER, NORMAL_USER]

@@ -1,14 +1,12 @@
 from django.core.exceptions import ValidationError
 from django.urls import reverse
-from django.test import TestCase
+from oppia.test import OppiaTestCase
 
 from profile.models import CustomField, UserProfileCustomField
 
 
-class RegisterCustomFieldsViewTest(TestCase):
-    fixtures = ['tests/test_user.json',
-                'tests/test_oppia.json',
-                'tests/test_quiz.json']
+class RegisterCustomFieldsViewTest(OppiaTestCase):
+
     base_filled_form = {
             'username': 'new_username',
             'email': 'newusername@email.com',

@@ -1,13 +1,8 @@
 import datetime
 
-from django.test import TestCase
+from oppia.test import OppiaTestCase
 from django.urls import reverse
 from django.utils import timezone
-
-from tests.user_logins import ADMIN_USER, \
-                              STAFF_USER, \
-                              NORMAL_USER, \
-                              TEACHER_USER
 
 from viz.views import summary_get_registrations, \
                       summary_get_countries, \
@@ -17,40 +12,29 @@ from viz.views import summary_get_registrations, \
                       summary_get_searches
 
 
-class VisualisationsTest(TestCase):
-    fixtures = ['tests/test_user.json',
-                'tests/test_oppia.json',
-                'tests/test_quiz.json',
-                'tests/test_permissions.json',
-                'tests/test_viz.json']
-
-    def setUp(self):
-        super(VisualisationsTest, self).setUp()
+class VisualisationsTest(OppiaTestCase):
 
     # summary
     # only staff/admins can view
     def test_view_summary(self):
-        allowed_users = [ADMIN_USER, STAFF_USER]
-        disallowed_users = [TEACHER_USER, NORMAL_USER]
+        allowed_users = [self.admin_user, self.staff_user]
+        disallowed_users = [self.teacher_user, self.normal_user]
 
         for allowed_user in allowed_users:
-            self.client.login(username=allowed_user['user'],
-                              password=allowed_user['password'])
+            self.client.force_login(allowed_user)
             response = self.client.get(reverse('oppia_viz_summary'))
 
             self.assertTemplateUsed(response, 'viz/summary.html')
             self.assertEqual(response.status_code, 200)
 
         for disallowed_user in disallowed_users:
-            self.client.login(username=disallowed_user['user'],
-                              password=disallowed_user['password'])
+            self.client.force_login(disallowed_user)
             response = self.client.get(reverse('oppia_viz_summary'))
             self.assertEqual(response.status_code, 302)
 
     # test posting dates (
     def test_view_summary_previous_date(self):
-        self.client.login(username=ADMIN_USER['user'],
-                          password=ADMIN_USER['password'])
+        self.client.force_login(self.admin_user)
         start_date = timezone.now() - datetime.timedelta(days=31)
         response = self.client.post(reverse('oppia_viz_summary'),
                                     data={'start_date': start_date})
@@ -58,8 +42,7 @@ class VisualisationsTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_view_summary_future_date(self):
-        self.client.login(username=ADMIN_USER['user'],
-                          password=ADMIN_USER['password'])
+        self.client.force_login(self.admin_user)
         start_date = timezone.now() + datetime.timedelta(days=31)
         response = self.client.post(reverse('oppia_viz_summary'),
                                     data={'start_date': start_date})
@@ -67,8 +50,7 @@ class VisualisationsTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_view_summary_invalid_date(self):
-        self.client.login(username=ADMIN_USER['user'],
-                          password=ADMIN_USER['password'])
+        self.client.force_login(self.admin_user)
         start_date = "not a valid date"
         response = self.client.post(reverse('oppia_viz_summary'),
                                     data={'start_date': start_date})
@@ -78,11 +60,13 @@ class VisualisationsTest(TestCase):
     # map
     def test_view_map(self):
 
-        allowed_users = [ADMIN_USER, TEACHER_USER, STAFF_USER, NORMAL_USER]
+        allowed_users = [self.admin_user,
+                         self.teacher_user,
+                         self.staff_user,
+                         self.normal_user,]
 
         for allowed_user in allowed_users:
-            self.client.login(username=allowed_user['user'],
-                              password=allowed_user['password'])
+            self.client.force_login(allowed_user)
             response = self.client.get(reverse('oppia_viz_map'))
             self.assertTemplateUsed(response, 'viz/map.html')
             self.assertEqual(response.status_code, 200)
@@ -107,7 +91,7 @@ class VisualisationsTest(TestCase):
         start_date = timezone.now() - datetime.timedelta(days=365)
         # Language
         languages = summary_get_languages(start_date)
-        self.assertEqual(len(languages), 0)
+        self.assertEqual(len(languages), 3)
 
     def test_summary_helper_downloads(self):
         start_date = timezone.now() - datetime.timedelta(days=365)

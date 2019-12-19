@@ -14,9 +14,6 @@ class ReportCompletionRatesViewTest(TestCase):
                 'tests/test_permissions.json',
                 'tests/test_cohort.json']
 
-    def setUp(self):
-        super(ReportCompletionRatesViewTest, self).setUp()
-
     def test_view_completion_rates(self):
         template = 'reports/completion_rates.html'
         url = reverse('oppia_completion_rates')

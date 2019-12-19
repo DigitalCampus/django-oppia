@@ -15,9 +15,6 @@ class LoginViewTest(TestCase):
                 'tests/test_permissions.json',
                 'tests/test_cohort.json']
 
-    def setUp(self):
-        super(LoginViewTest, self).setUp()
-
     def test_already_logged_in_admin(self):
         self.client.login(username=ADMIN_USER['user'],
                           password=ADMIN_USER['password'])

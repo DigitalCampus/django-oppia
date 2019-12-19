@@ -1,14 +1,9 @@
 
 from django.urls import reverse
-from django.test import TestCase
-
-from tests.user_logins import ADMIN_USER, \
-                              STAFF_USER, \
-                              NORMAL_USER, \
-                              TEACHER_USER
+from oppia.test import OppiaTestCase
 
 
-class AppLaunchActivityTest(TestCase):
+class AppLaunchActivityTest(OppiaTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
@@ -16,9 +11,6 @@ class AppLaunchActivityTest(TestCase):
 
     valid_digest = '11cc12291f730160c324b727dd2268b612137'
     invalid_digest = '1ab2c3d4e5f6'
-
-    def setUp(self):
-        super(AppLaunchActivityTest, self).setUp()
 
     # all users should be able to acccess without logging in
     def test_access_valid_digest(self):

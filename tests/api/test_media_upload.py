@@ -3,19 +3,13 @@ import pytest
 import unittest
 
 from django import forms
-from django.test import TestCase
-from django.test.client import Client
 from django.contrib.auth.models import User
+from oppia.test import OppiaTestCase
 
-
-class MediaPublishResourceTest(TestCase):
-    fixtures = ['tests/test_user.json',
-                'tests/test_oppia.json',
-                'tests/test_quiz.json',
-                'tests/test_permissions.json']
+class MediaPublishResourceTest(OppiaTestCase):
 
     def setUp(self):
-        self.client = Client()
+        super(MediaPublishResourceTest, self).setUp()
         self.url = '/api/media/'
         self.course_file_path = \
             './oppia/fixtures/reference_files/ncd1_test_course.zip'
@@ -67,7 +61,7 @@ class MediaPublishResourceTest(TestCase):
     # test is user has correct permissions or not to upload
     def test_permissions(self):
         # set to inactive user
-        user = User.objects.get(username='demo')
+        user = self.normal_user
         user.is_active = False
         user.save()
 

@@ -1,19 +1,10 @@
-from django.contrib.auth.models import User
-from django.test import TestCase
+from oppia.test import OppiaTestCase
 
-from tests.user_logins import ADMIN_USER
 from oppia.forms.upload import UploadCourseStep2Form
 from oppia.models import Course, CourseTag, Tag
 from oppia.views import update_course_tags
 
-class UpdateCourseTagsFunctionTest(TestCase):
-    fixtures = ['tests/test_user.json',
-                'tests/test_oppia.json',
-                'tests/test_quiz.json',
-                'tests/test_permissions.json']
-
-    def setUp(self):
-        super(UpdateCourseTagsFunctionTest, self).setUp()
+class UpdateCourseTagsFunctionTest(OppiaTestCase):
 
     def test_no_tags(self):
         course = Course.objects.get(pk=1)
@@ -37,7 +28,6 @@ class UpdateCourseTagsFunctionTest(TestCase):
 
     def test_add_one_tag(self):
         course = Course.objects.get(pk=1)
-        user = User.objects.get(username=ADMIN_USER['user'])
         new_tags = course.get_tags() + ', my new tag'
 
         coursetag_count_start = CourseTag.objects.filter(course=course).count()
@@ -48,7 +38,7 @@ class UpdateCourseTagsFunctionTest(TestCase):
         form = UploadCourseStep2Form(request_post)
         self.assertEqual(form.is_valid(), True)
 
-        update_course_tags(form, course, user)
+        update_course_tags(form, course, self.admin_user)
 
         coursetag_count_end = CourseTag.objects.filter(course=course).count()
         self.assertEqual(coursetag_count_start+1, coursetag_count_end)
@@ -58,7 +48,6 @@ class UpdateCourseTagsFunctionTest(TestCase):
 
     def test_add_tags(self):
         course = Course.objects.get(pk=1)
-        user = User.objects.get(username=ADMIN_USER['user'])
         new_tags = course.get_tags() + ', my new tag, another new tag'
 
         coursetag_count_start = CourseTag.objects.filter(course=course).count()
@@ -69,7 +58,7 @@ class UpdateCourseTagsFunctionTest(TestCase):
         form = UploadCourseStep2Form(request_post)
         self.assertEqual(form.is_valid(), True)
 
-        update_course_tags(form, course, user)
+        update_course_tags(form, course, self.admin_user)
 
         coursetag_count_end = CourseTag.objects.filter(course=course).count()
         self.assertEqual(coursetag_count_start+2, coursetag_count_end)
@@ -79,7 +68,6 @@ class UpdateCourseTagsFunctionTest(TestCase):
 
     def test_remove_one_tag(self):
         course = Course.objects.get(pk=1)
-        user = User.objects.get(username=ADMIN_USER['user'])
         new_tags = 'HEAT, ANC'
 
         coursetag_count_start = CourseTag.objects.filter(course=course).count()
@@ -90,7 +78,7 @@ class UpdateCourseTagsFunctionTest(TestCase):
         form = UploadCourseStep2Form(request_post)
         self.assertEqual(form.is_valid(), True)
 
-        update_course_tags(form, course, user)
+        update_course_tags(form, course, self.admin_user)
 
         coursetag_count_end = CourseTag.objects.filter(course=course).count()
         self.assertEqual(coursetag_count_start-1, coursetag_count_end)
@@ -100,7 +88,6 @@ class UpdateCourseTagsFunctionTest(TestCase):
 
     def test_remove_tags(self):
         course = Course.objects.get(pk=1)
-        user = User.objects.get(username=ADMIN_USER['user'])
         new_tags = 'HEAT'
 
         coursetag_count_start = CourseTag.objects.filter(course=course).count()
@@ -111,7 +98,7 @@ class UpdateCourseTagsFunctionTest(TestCase):
         form = UploadCourseStep2Form(request_post)
         self.assertEqual(form.is_valid(), True)
 
-        update_course_tags(form, course, user)
+        update_course_tags(form, course, self.admin_user)
 
         coursetag_count_end = CourseTag.objects.filter(course=course).count()
         self.assertEqual(coursetag_count_start-2, coursetag_count_end)

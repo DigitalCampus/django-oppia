@@ -2,22 +2,16 @@
 import api
 import pytest
 
-from django.test import TestCase
-from django.test.client import Client
+from oppia.test import OppiaTestCase
 
 from oppia.models import Course, CoursePublishingLog
 from settings.models import SettingProperties
-from django.contrib.auth.models import User
 
 
-class CoursePublishResourceTest(TestCase):
-    fixtures = ['tests/test_user.json',
-                'tests/test_oppia.json',
-                'tests/test_quiz.json',
-                'tests/test_permissions.json']
+class CoursePublishResourceTest(OppiaTestCase):
 
     def setUp(self):
-        self.client = Client()
+        super(CoursePublishResourceTest, self).setUp()
         self.url = '/api/publish/'
         self.course_file_path = \
             './oppia/fixtures/reference_files/ncd1_test_course.zip'
@@ -104,9 +98,8 @@ class CoursePublishResourceTest(TestCase):
         see issue: https://github.com/DigitalCampus/django-oppia/issues/689")
     def test_upload_permission_staff(self):
         # set course owner to staff
-        user = User.objects.get(username='staff')
         course = Course.objects.get(shortname='ncd1-et')
-        course.user = user
+        course.user = self.staff_user
         course.save()
 
         old_no_cpls = CoursePublishingLog.objects \
@@ -131,9 +124,8 @@ class CoursePublishResourceTest(TestCase):
         see issue: https://github.com/DigitalCampus/django-oppia/issues/689")
     def test_upload_permission_teacher(self):
         # set course owner to teacher
-        user = User.objects.get(username='teacher')
         course = Course.objects.get(shortname='ncd1-et')
-        course.user = user
+        course.user = self.teacher_user
         course.save()
 
         old_no_cpls = CoursePublishingLog.objects \
@@ -212,9 +204,8 @@ class CoursePublishResourceTest(TestCase):
         see issue: https://github.com/DigitalCampus/django-oppia/issues/689")
     def test_overwriting_course_non_owner(self):
         # set course owner to admin
-        user = User.objects.get(username='admin')
         course = Course.objects.get(shortname='anc1-all')
-        course.user = user
+        course.user = self.admin_user
         course.save()
 
         old_no_cpls = CoursePublishingLog.objects \

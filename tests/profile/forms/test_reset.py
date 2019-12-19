@@ -1,17 +1,11 @@
 
 from django import forms
-from django.test import TestCase
+from oppia.test import OppiaTestCase
 
 from profile.forms.reset import ResetForm
 
-class ProfileFormResetTest(TestCase):
-    fixtures = ['tests/test_user.json',
-                'tests/test_oppia.json',
-                'tests/test_quiz.json',
-                'tests/test_permissions.json']
 
-    def setUp(self):
-        super(ProfileFormResetTest, self).setUp()
+class ProfileFormResetTest(OppiaTestCase):
 
     def test_no_data(self):
         form = ResetForm()
