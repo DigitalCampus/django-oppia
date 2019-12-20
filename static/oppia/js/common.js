@@ -1,8 +1,5 @@
 $(function(){
     $('[data-toggle="tooltip"]').tooltip();
-    if ($('.device-lg').css('display') == 'block'){
-        $('.navdrawer-persistent-lg').navdrawer('show')
-    }
 
     initElems($('body'));
 });
