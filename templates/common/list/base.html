@@ -1,0 +1,36 @@
+{% load i18n %}
+
+<div class="table-responsive mb-4">
+<table class="table table-hover" {% if ajax_url %} data-ajax-url="{{ajax_url}}" {% endif %}>
+<caption class="d-none">{% trans "List" %}</caption>
+  <thead>
+    <tr>
+        {% block table_head %}
+      <th scope="col">Name</th>
+        {% endblock %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in object_list %}
+
+    <tr
+        data-pk="{{item.pk}}"
+        {% if object_url_name %}class="link-row" data-href="{% block item_link %}{% url object_url_name item.pk %}{% endblock %}" {% endif %}>
+    {% block item_row %} {% endblock %}
+    </tr>
+
+{% empty %}
+    {% if not simple_list %}
+    <tr>
+      <td colspan="4">There are no results matching these criteria.</td>
+    </tr>
+    {% endif %}
+
+{% endfor %}
+      </tbody>
+</table>
+</div>
+
+{% if page_obj %}
+{% include 'common/pagination.html' with page=page_obj %}
+{% endif %}

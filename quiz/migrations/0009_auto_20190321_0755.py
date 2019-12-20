@@ -6,6 +6,9 @@ import django.utils.timezone
 
 class Migration(migrations.Migration):
 
+    STR_DATE_CREATED = 'date created'
+    STR_DATE_UPDATED = 'date updated'
+
     dependencies = [
         ('quiz', '0008_auto_20180612_2106'),
     ]
@@ -15,13 +18,13 @@ class Migration(migrations.Migration):
             model_name='question',
             name='created_date',
             field=models.DateTimeField(default=django.utils.timezone.now,
-                                       verbose_name='date created'),
+                                       verbose_name=STR_DATE_CREATED),
         ),
         migrations.AlterField(
             model_name='question',
             name='lastupdated_date',
             field=models.DateTimeField(default=django.utils.timezone.now,
-                                       verbose_name='date updated'),
+                                       verbose_name=STR_DATE_UPDATED),
         ),
         migrations.AlterField(
             model_name='question',
@@ -47,13 +50,13 @@ class Migration(migrations.Migration):
             model_name='quiz',
             name='created_date',
             field=models.DateTimeField(default=django.utils.timezone.now,
-                                       verbose_name='date created'),
+                                       verbose_name=STR_DATE_CREATED),
         ),
         migrations.AlterField(
             model_name='quiz',
             name='lastupdated_date',
             field=models.DateTimeField(default=django.utils.timezone.now,
-                                       verbose_name='date updated'),
+                                       verbose_name=STR_DATE_UPDATED),
         ),
         migrations.AlterField(
             model_name='quizattempt',
@@ -71,12 +74,12 @@ class Migration(migrations.Migration):
             model_name='response',
             name='created_date',
             field=models.DateTimeField(default=django.utils.timezone.now,
-                                       verbose_name='date created'),
+                                       verbose_name=STR_DATE_CREATED),
         ),
         migrations.AlterField(
             model_name='response',
             name='lastupdated_date',
             field=models.DateTimeField(default=django.utils.timezone.now,
-                                       verbose_name='date updated'),
+                                       verbose_name=STR_DATE_UPDATED),
         ),
     ]

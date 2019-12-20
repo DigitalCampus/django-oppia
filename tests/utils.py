@@ -1,6 +1,8 @@
 from django.urls import reverse
 from tastypie.models import ApiKey
 
+from oppia.models import Course
+
 
 def get_api_key(user):
     """
@@ -27,3 +29,10 @@ def get_api_url(resource_name, resource_id=None):
     if resource_id is not None:
         kwargs['pk'] = resource_id
     return reverse(view_name, kwargs=kwargs)
+
+
+def update_course_visibility(id, is_draft, is_archived):
+    course = Course.objects.get(pk=1)
+    course.is_draft = is_draft
+    course.is_archived = is_archived
+    course.save()

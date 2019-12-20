@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from tastypie.test import ResourceTestCaseMixin
 
-from tests.utils import get_api_key
+from tests.utils import get_api_key, get_api_url
 
 
 class UserResourceTest(ResourceTestCaseMixin, TestCase):
@@ -12,7 +12,7 @@ class UserResourceTest(ResourceTestCaseMixin, TestCase):
 
     def setUp(self):
         super(UserResourceTest, self).setUp()
-        self.url = '/api/v1/user/'
+        self.url = get_api_url('user')
         user = User.objects.get(username='demo')
         self.valid_api_key = get_api_key(user=user)
 
@@ -44,6 +44,26 @@ class UserResourceTest(ResourceTestCaseMixin, TestCase):
         # check it doesn't contain the password
         self.assertFalse('password' in response_data)
 
+    # check inactive user can't access
+    def test_inactive_username(self):
+        user = User.objects.get(username='demo')
+        user.is_active = False
+        user.save()
+        
+        data = {
+            'username': 'demo',
+            'password': 'password'
+        }
+        resp = self.api_client.post(self.url, format='json', data=data)
+        self.assertHttpBadRequest(resp)
+        self.assertValidJSON(resp.content)
+        response_data = self.deserialize(resp)
+        self.assertTrue('error' in response_data)
+
+        # rest back to active
+        user.is_active = True
+        user.save()
+        
     # check no username
     def test_no_username(self):
         data = {

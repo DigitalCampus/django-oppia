@@ -3,7 +3,6 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Div
 from django import forms
 from django.urls import reverse
-from django.core.validators import validate_email
 from django.utils.translation import ugettext as _
 
 

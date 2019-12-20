@@ -7,6 +7,10 @@ from oppia.models import Course, Section, Activity
 class JsonFieldsTest(ResourceTestCaseMixin, TestCase):
     fixtures = ['tests/test_user.json']
 
+    STR_NEW_COURSE_TITLE = "My new course"
+    STR_NEW_SECTION_TITLE = "My new section"
+    STR_ACTIVITY_TITLE = "My activity"
+
     # helpers
     def create_course(self, title):
         new_course = Course(title=title, version=1)
@@ -31,11 +35,11 @@ class JsonFieldsTest(ResourceTestCaseMixin, TestCase):
     # tests
     def test_course_title_json(self):
         new_course = self.create_course('{"en": "My new course"}')
-        self.assertEqual(new_course.get_title(), 'My new course')
+        self.assertEqual(new_course.get_title(), self.STR_NEW_COURSE_TITLE)
 
     def test_course_title_plain_text(self):
         new_course = self.create_course('My new course')
-        self.assertEqual(new_course.get_title(), 'My new course')
+        self.assertEqual(new_course.get_title(), self.STR_NEW_COURSE_TITLE)
 
     def test_course_title_json_multilang(self):
         new_course = self.create_course('{"en": "My new course", \
@@ -43,19 +47,20 @@ class JsonFieldsTest(ResourceTestCaseMixin, TestCase):
         self.assertEqual(new_course.get_title("es"), 'Mi nuevo curso')
 
         # test lang that's not defined
-        self.assertEqual(new_course.get_title("fi"), 'My new course')
+        self.assertEqual(new_course.get_title("fi"), self.STR_NEW_COURSE_TITLE)
 
     def test_course_title_invalid_json(self):
         new_course = self.create_course('{"en": "My new course}')
         self.assertEqual(new_course.get_title(), '{"en": "My new course}')
 
     def test_section_title_json(self):
-        new_section = self.create_section('{"en": "My new section"}')
-        self.assertEqual(new_section.get_title(), 'My new section')
+        new_section = self.create_section(
+            '{"en": \"' + self.STR_NEW_SECTION_TITLE + '\"}')
+        self.assertEqual(new_section.get_title(), self.STR_NEW_SECTION_TITLE)
 
     def test_section_title_plain_text(self):
-        new_section = self.create_section('My new section')
-        self.assertEqual(new_section.get_title(), 'My new section')
+        new_section = self.create_section(self.STR_NEW_SECTION_TITLE)
+        self.assertEqual(new_section.get_title(), self.STR_NEW_SECTION_TITLE)
 
     def test_section_title_json_multilang(self):
         new_section = self.create_section('{"en": "My new section", \
@@ -63,7 +68,7 @@ class JsonFieldsTest(ResourceTestCaseMixin, TestCase):
         self.assertEqual(new_section.get_title("es"), 'Mi nuevo session')
 
         # test lang that's not defined
-        self.assertEqual(new_section.get_title("fi"), 'My new section')
+        self.assertEqual(new_section.get_title("fi"), self.STR_NEW_SECTION_TITLE)
 
     def test_section_title_invalid_json(self):
         new_section = self.create_section('{"en" My new section"}')
@@ -71,11 +76,11 @@ class JsonFieldsTest(ResourceTestCaseMixin, TestCase):
 
     def test_activity_title_json(self):
         new_activity = self.create_activity('{"en": "My activity"}')
-        self.assertEqual(new_activity.get_title(), 'My activity')
+        self.assertEqual(new_activity.get_title(), self.STR_ACTIVITY_TITLE)
 
     def test_activity_title_plain_text(self):
         new_activity = self.create_activity('My activity')
-        self.assertEqual(new_activity.get_title(), 'My activity')
+        self.assertEqual(new_activity.get_title(), self.STR_ACTIVITY_TITLE)
 
     def test_activity_title_json_multilang(self):
         new_activity = self.create_activity('{"en": "My activity", \

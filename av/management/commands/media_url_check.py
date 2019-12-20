@@ -1,8 +1,5 @@
 '''
  Checks the media download urls to ensure they are valid links
-
- For full instructions, see the documentation at
- https://oppiamobile.readthedocs.org/en/latest/
 '''
 
 import urllib
@@ -15,9 +12,6 @@ from oppia.models import Media
 
 class Command(BaseCommand):
     help = _(u"Checks the media download urls to ensure they are valid links")
-
-    def add_arguments(self, parser):
-        pass
 
     def handle(self, *args, **options):
 
@@ -35,7 +29,7 @@ class Command(BaseCommand):
                             .write("filesize recorded in db:" + m.filesize)
                         self.stdout \
                             .write("filesize of download url:" + total_size)
-            except urllib.error.HTTPError:
+            except Exception:
                 self.stdout \
                     .write("WARNING: media file not found at: "
                            + m.download_url)

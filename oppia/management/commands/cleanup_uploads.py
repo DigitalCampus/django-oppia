@@ -14,9 +14,6 @@ from oppia.models import Course
 class Command(BaseCommand):
     help = "Cleans up any old files in the oppia uploads directory"
 
-    def add_arguments(self, parser):
-        pass
-
     def handle(self, *args, **options):
         """
         Remove files that don't have matching courses

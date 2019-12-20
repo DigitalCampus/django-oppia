@@ -1,19 +1,4 @@
-{% extends "base.html" %}
-{% load i18n %}
-{% load display_functions %}
-{% block extra_scripts %}
-<script type="text/javascript">
-	$(function(){
-		$('tr[name=attemptlist]').each(function(i){
-			$('#detail'+$(this).attr('id')).toggle();
-			$(this).click(function() {
-				$('#detail'+$(this).attr('id')).toggle(700);
-			});
-			}
-		);
-	});
-</script>
-{% endblock extra_scripts %}
+{% include "common/quiz-response-header.html" %}
 
 
 {% block header %}

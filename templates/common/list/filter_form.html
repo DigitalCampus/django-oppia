@@ -1,0 +1,48 @@
+<form action="" method="get" class="ajax-filter" data-results="{{ list_selector|default:'#results' }}">
+    {% for hidden in filter.form.hidden_fields %}
+        {{ hidden }}
+    {% endfor %}
+
+    <div class="d-md-flex align-items-center filter-panel">
+    {% for field in filter.form.visible_fields %}
+
+        {% if field.field.widget.input_type == 'text' %}
+            <div class="input-group align-self-center mb-2 flex-fill mr-md-3">
+                {{field}}
+                <div class="input-group-append">
+                <button class="btn btn-outline" type="submit"><em class="material-icons">search</em></button>
+              </div>
+            </div>
+        {% endif %}
+
+        {% if field.field.widget.input_type == 'select' %}
+            {% if field.name == 'o' %}
+                <div class="d-flex mb-2 align-self-stretch flex-fill mr-md-3">
+                    <em class="material-icons mr-1 align-self-center">import_export</em>
+                    {{ field }}
+                </div>
+
+            {% else %}
+                {% if field.field.widget.allow_multiple_selected %}
+                <div class="align-self-start mb-2 mr-md-3">
+                    <label class="mr-1 align-self-center">{{ field.label }}</label>
+                    <div class="tag-select">
+                        {% include "common/forms/multiselect.html" with field=field hide_label=True %}
+                        </div>
+                </div>
+                {% else %}
+                    <div class="d-flex align-self-stretch mb-2 flex-fill mr-md-3">
+                    <label class="mr-1 align-self-center">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+                {% endif %}
+
+
+
+            {% endif %}
+
+
+        {% endif %}
+    {% endfor %}
+    </div>
+</form>

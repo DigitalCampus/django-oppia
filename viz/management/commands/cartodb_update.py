@@ -22,12 +22,18 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         cartodb_account = SettingProperties \
-            .get_string(constants.OPPIA_CARBODB_ACCOUNT, None)
+            .get_string(constants.OPPIA_CARTODB_ACCOUNT, None)
         cartodb_key = SettingProperties \
-            .get_string(constants.OPPIA_CARBODB_KEY, None)
+            .get_string(constants.OPPIA_CARTODB_KEY, None)
         source_site = SettingProperties \
             .get_string(constants.OPPIA_HOSTNAME, None)
 
+        if cartodb_account is None \
+                or cartodb_key is None \
+                or source_site is None:
+            self.stdout.write("Please check account/key and source site.")
+            return
+        
         # check can connect to cartodb API
         sql = "SELECT * FROM %s WHERE source_site='%s'" \
             % (CARTODB_TABLE, source_site)
@@ -92,6 +98,5 @@ class Command(BaseCommand):
                       (cartodb_account, sql, cartodb_key)
                 u = urllib.request.urlopen(url)
                 data = u.read()
-                data_json = json.loads(data)
                 self.stdout.write(data)
                 time.sleep(1)

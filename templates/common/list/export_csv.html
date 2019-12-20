@@ -1,0 +1,50 @@
+
+
+<button type="button" class="btn mt-3 btn-outline-primary" data-toggle="modal" data-target="#export_csv_modal">
+  <em class="material-icons mr-2">assignment_returned</em> <span class="d-sm-none d-xs-none d-md-none d-lg-inline">Export...</span>
+</button>
+
+<div class="modal fade" id="export_csv_modal" tabindex="-1" role="dialog" aria-labelledby="export_csv_modal_label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="export_csv_modal_label">Export List</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <span class="text-primary"> Export {{paginator.count}} records</span>
+            <p class="lead font-weight-light"> Select the fields to include: </p>
+          <form method="get">
+            <input type="hidden" name="export" value="csv" />
+            {% if filter.form %}
+            {% for hidden in filter.form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+
+            {% for field in filter.form.visible_fields %}
+                <input type="hidden" name="{{field.name}}" value="{{field.value|default:''}}" />
+            {% endfor %}
+            {% endif %}
+
+            <div class="border border-top-0 inner-scroll" style="max-height:40vh;">
+              {% for field, label in export_csv_fields.items %}
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="check_{{field}}" name="csv_fields[]" value="{{field}}">
+              <label class="custom-control-label" for="check_{{field}}">{{label}}</label>
+            </div>
+            {% endfor %}
+            </div>
+
+              <div class="mt-2 text-center">
+            <button type="submit" class="btn btn-primary mt-3"><em class="material-icons mr-2">save_alt</em>Download CSV file</button>
+                  </div>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>

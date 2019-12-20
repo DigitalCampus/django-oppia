@@ -1,3 +1,3 @@
 
-class RemovedInOppia0120Warning(DeprecationWarning):
+class RemovedInOppia0130Warning(DeprecationWarning):
     pass

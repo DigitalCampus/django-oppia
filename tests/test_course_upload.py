@@ -1,4 +1,3 @@
-# tests/av/test_course_publish.py
 import pytest
 
 from django.urls import reverse

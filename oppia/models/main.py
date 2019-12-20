@@ -17,6 +17,9 @@ from xml.dom.minidom import Document
 
 models.signals.post_save.connect(create_api_key, sender=User)
 
+STR_COURSE_INHERITED = _('Inherited from course')
+STR_GLOBAL_INHERITED = _('Inherited from global defaults')
+
 
 class Course(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
@@ -41,9 +44,6 @@ class Course(models.Model):
         verbose_name = _('Course')
         verbose_name_plural = _('Courses')
 
-    def __unicode__(self):
-        return self.get_title(self)
-
     def __str__(self):
         return self.get_title(self)
 
@@ -63,11 +63,11 @@ class Course(models.Model):
         return self.title
 
     def is_first_download(self, user):
-        no_attempts = Tracker.objects.filter(user=user,
+        no_downloads = Tracker.objects.filter(user=user,
                                              course=self,
                                              type='download').count()
         is_first_download = False
-        if no_attempts == 1:
+        if no_downloads == 0:
             is_first_download = True
         return is_first_download
 
@@ -367,12 +367,12 @@ class Activity(models.Model):
                         event__startswith='activity_')
 
             if len(course_custom_points) > 0:
-                source = _('Inherited from course')
+                source = STR_COURSE_INHERITED
                 return {'events': course_custom_points, 'source': source}
             else:
                 default_activity_events = DefaultGamificationEvent.objects \
                     .filter(level=DefaultGamificationEvent.ACTIVITY)
-                source = _('Inherited from global defaults')
+                source = STR_COURSE_INHERITED
                 return {'events': default_activity_events, 'source': source}
 
         if self.type == self.QUIZ:
@@ -380,12 +380,12 @@ class Activity(models.Model):
                 .filter(course__section__activity=self,
                         event__startswith='quiz_')
             if len(course_custom_points) > 0:
-                source = _('Inherited from course')
+                source = STR_COURSE_INHERITED
                 return {'events': course_custom_points, 'source': source}
             else:
                 default_quiz_events = DefaultGamificationEvent.objects \
                     .filter(level=DefaultGamificationEvent.QUIZ)
-                source = _('Inherited from global defaults')
+                source = STR_GLOBAL_INHERITED
                 return {'events': default_quiz_events, 'source': source}
 
         return event_points
@@ -430,12 +430,12 @@ class Media(models.Model):
                     event__startswith='media_')
 
         if course_custom_points.count() > 0:
-            source = _('Inherited from course')
+            source = STR_COURSE_INHERITED
             return {'events': course_custom_points, 'source': source}
         else:
             default_media_events = DefaultGamificationEvent.objects \
                 .filter(level=DefaultGamificationEvent.MEDIA)
-            source = _('Inherited from global defaults')
+            source = STR_GLOBAL_INHERITED
             return {'events': default_media_events, 'source': source}
 
 
@@ -511,7 +511,7 @@ class Tracker(models.Model):
         for a in activities:
             return a.type
         media = Media.objects.filter(digest=self.digest)
-        for m in media:
+        if media.count() > 0:
             return "media"
         return None
 
@@ -590,22 +590,22 @@ class Tracker(models.Model):
                     quiz_attempt = QuizAttempt.objects \
                         .filter(instance_id=data['instance_id'],
                                 user=user) \
-                        .order_by('-submitted_date')[:1]
-                    quiz.setAttribute('score', str(quiz_attempt[0].score))
+                        .order_by('-submitted_date').first()
+                    quiz.setAttribute('score', str(quiz_attempt.score))
                     quiz.setAttribute('maxscore',
-                                      str(quiz_attempt[0].maxscore))
+                                      str(quiz_attempt.maxscore))
                     quiz.setAttribute('submitteddate',
-                                      quiz_attempt[0]
+                                      quiz_attempt
                                       .submitted_date
                                       .strftime('%Y-%m-%d %H:%M:%S'))
                     quiz.setAttribute('passed', str(t.completed))
                     quiz.setAttribute("course", course.shortname)
-                    quiz.setAttribute("event", quiz_attempt[0].event)
-                    quiz.setAttribute("points", str(quiz_attempt[0].points))
+                    quiz.setAttribute("event", quiz_attempt.event)
+                    quiz.setAttribute("points", str(quiz_attempt.points))
                     track.appendChild(quiz)
-                except ValueError:
+                except QuizAttempt.DoesNotExist:
                     pass
-                except IndexError:
+                except json.JSONDecodeError:
                     pass
             tracker_xml.appendChild(track)
         return doc.toxml()

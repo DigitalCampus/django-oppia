@@ -1,7 +1,10 @@
-# oppia/tests/api/test_tracker.py
+import datetime
+import pytest
+import unittest
 
 from django.contrib.auth.models import User
 from django.test import TestCase
+from django.utils import timezone
 from tastypie.test import ResourceTestCaseMixin
 
 from oppia.models import Tracker
@@ -10,7 +13,8 @@ from tests.utils import get_api_key, get_api_url
 
 class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
     fixtures = ['tests/test_user.json',
-                'tests/test_oppia.json']
+                'tests/test_oppia.json',
+                'default_gamification_events.json']
 
     def setUp(self):
         super(TrackerResourceTest, self).setUp()
@@ -298,3 +302,182 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
 
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start + 1, tracker_count_end)
+
+    # test search activity
+    def test_search_with_query(self):
+        data = {
+            'type': 'search',
+            'data': '{"query":"maternal and child health", \
+                     "results_count":8, \
+                     "uuid":"d8423742-11e6-4e2d-a6c6-6cc821a74f66"}'
+        }
+        tracker_count_start = Tracker.objects.all().count()
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data,
+                                    authentication=self.get_credentials())
+        self.assertHttpCreated(resp)
+        self.assertValidJSON(resp.content)
+        tracker_count_end = Tracker.objects.all().count()
+        self.assertEqual(tracker_count_start + 1, tracker_count_end)
+
+        latest_tracker = Tracker.objects.all().latest('id')
+        self.assertEqual(latest_tracker.type, 'search')
+        self.assertValidJSON(latest_tracker.data)
+        self.assertEqual(latest_tracker.data, data['data'])
+
+    @pytest.mark.xfail(reason="will fail until this issue is fixed \
+        https://github.com/DigitalCampus/django-oppia/issues/702")
+    @unittest.expectedFailure
+    def test_search_empty_query(self):
+        data = {
+            'type': 'search',
+            'data': '{"query":"", \
+                     "results_count":8, \
+                     "uuid":"d8423742-11e6-4e2d-a6c6-6cc821a74f66"}'
+        }
+        tracker_count_start = Tracker.objects.all().count()
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data,
+                                    authentication=self.get_credentials())
+        self.assertHttpCreated(resp)
+        self.assertValidJSON(resp.content)
+        tracker_count_end = Tracker.objects.all().count()
+        self.assertEqual(tracker_count_start, tracker_count_end)
+
+    @pytest.mark.xfail(reason="will fail until this issue is fixed \
+        https://github.com/DigitalCampus/django-oppia/issues/702")
+    @unittest.expectedFailure
+    def test_search_space_only_query(self):
+        data = {
+            'type': 'search',
+            'data': '{"query":"     ", \
+                     "results_count":8, \
+                     "uuid":"d8423742-11e6-4e2d-a6c6-6cc821a74f66"}'
+        }
+        tracker_count_start = Tracker.objects.all().count()
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data,
+                                    authentication=self.get_credentials())
+        self.assertHttpCreated(resp)
+        self.assertValidJSON(resp.content)
+        tracker_count_end = Tracker.objects.all().count()
+        self.assertEqual(tracker_count_start, tracker_count_end)
+
+    @pytest.mark.xfail(reason="will fail until this issue is fixed \
+        https://github.com/DigitalCampus/django-oppia/issues/702")
+    @unittest.expectedFailure
+    def test_search_none_query(self):
+        data = {
+            'type': 'search',
+            'data': '{"query": null, \
+                     "results_count":8, \
+                     "uuid":"d8423742-11e6-4e2d-a6c6-6cc821a74f66"}'
+        }
+        tracker_count_start = Tracker.objects.all().count()
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data,
+                                    authentication=self.get_credentials())
+        self.assertHttpCreated(resp)
+        self.assertValidJSON(resp.content)
+        tracker_count_end = Tracker.objects.all().count()
+        self.assertEqual(tracker_count_start, tracker_count_end)
+
+    # empty bundle.data...
+    @pytest.mark.xfail(reason="will fail until this issue is fixed \
+        https://github.com/DigitalCampus/django-oppia/issues/703")
+    @unittest.expectedFailure
+    def test_tracker_empty_data(self):
+        data = {
+            'type': '',
+            'data': '{}'
+        }
+        tracker_count_start = Tracker.objects.all().count()
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data,
+                                    authentication=self.get_credentials())
+        self.assertHttpCreated(resp)
+        self.assertValidJSON(resp.content)
+        tracker_count_end = Tracker.objects.all().count()
+        self.assertEqual(tracker_count_start, tracker_count_end)
+
+    # @TODO data is none
+    @pytest.mark.xfail(reason="will fail until this issue is fixed \
+        https://github.com/DigitalCampus/django-oppia/issues/703")
+    @unittest.expectedFailure
+    def test_tracker_none_data(self):
+        data = {
+            'type': '',
+            'data': 'null'
+        }
+        tracker_count_start = Tracker.objects.all().count()
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data,
+                                    authentication=self.get_credentials())
+        self.assertHttpCreated(resp)
+        self.assertValidJSON(resp.content)
+        tracker_count_end = Tracker.objects.all().count()
+        self.assertEqual(tracker_count_start, tracker_count_end)
+
+    # data not included
+    @pytest.mark.xfail(reason="will fail until this issue is fixed \
+        https://github.com/DigitalCampus/django-oppia/issues/703")
+    @unittest.expectedFailure
+    def test_tracker_no_data(self):
+        data = {
+            'type': '',
+        }
+        tracker_count_start = Tracker.objects.all().count()
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data,
+                                    authentication=self.get_credentials())
+        self.assertBadRequest(resp)
+        self.assertValidJSON(resp.content)
+        tracker_count_end = Tracker.objects.all().count()
+        self.assertEqual(tracker_count_start, tracker_count_end)
+        
+    # test tracker date
+    def test_tracker_date(self):
+        tracker_count_start = Tracker.objects.all().count()
+        date_in_advance = timezone.now() + datetime.timedelta(days=31)
+        data = {
+            'digest': '11cc12291f730160c324b727dd2268b612137',
+            'completed': 1,
+            'tracker_date': date_in_advance
+        }
+
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data,
+                                    authentication=self.get_credentials())
+        self.assertHttpCreated(resp)
+        self.assertValidJSON(resp.content)
+
+        # check the record was successfully added
+        tracker_count_end = Tracker.objects.all().count()
+        self.assertEqual(tracker_count_start + 1, tracker_count_end)
+
+        latest_tracker = Tracker.objects.latest('submitted_date')
+        self.assertEqual(latest_tracker.tracker_date.year,
+                         timezone.now().year)
+        self.assertEqual(latest_tracker.tracker_date.month,
+                         timezone.now().month)
+        self.assertEqual(latest_tracker.tracker_date.day,
+                         timezone.now().day)
+
+
+# @TODO test UUID not in bundle data
+
+# @TODO test media doesn't exist
+
+# @TODO test key/value errors
+
+# @TODO test id in request
+
+# @TODO test Activity.DoesNotExist

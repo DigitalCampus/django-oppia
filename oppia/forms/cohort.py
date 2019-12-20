@@ -10,6 +10,8 @@ class CohortHelperDiv(Div):
 
 class CohortForm(forms.Form):
 
+    STR_VALID_DATE = _(u'Please enter a valid date')
+
     description = forms.CharField(required=True)
     teachers = forms.CharField(
         widget=forms.Textarea(),
@@ -21,12 +23,12 @@ class CohortForm(forms.Form):
         help_text=_("A comma separated list of usernames"))
     start_date = forms.CharField(
         required=True,
-        error_messages={'required': _('Please enter a valid date'),
-                        'invalid': _('Please enter a valid date')})
+        error_messages={'required': STR_VALID_DATE,
+                        'invalid': STR_VALID_DATE})
     end_date = forms.CharField(
         required=True,
-        error_messages={'required': _('Please enter a valid date'),
-                        'invalid': _('Please enter a valid date')})
+        error_messages={'required': STR_VALID_DATE,
+                        'invalid': STR_VALID_DATE})
     courses = forms.CharField(
         widget=forms.Textarea(),
         required=False,

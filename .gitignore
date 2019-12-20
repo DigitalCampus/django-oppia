@@ -14,3 +14,5 @@
 oppiamobile/settings_secret.py
 .coverage
 
+/sonarcloud.sh
+/sonarcloud

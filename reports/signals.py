@@ -19,7 +19,5 @@ def dashboard_accessed_callback(sender, **kwargs):
     dal.agent = request.META.get('HTTP_USER_AGENT', 'unknown')
     dal.save()
 
-    return
-
 
 dashboard_accessed.connect(dashboard_accessed_callback)

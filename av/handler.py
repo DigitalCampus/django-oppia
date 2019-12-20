@@ -28,9 +28,19 @@ def upload(request, user):
         try:
             media_full_path = os.path.join(settings.MEDIA_ROOT,
                                            uploaded_media.file.name)
-            media_length = get_length(media_full_path)
-            uploaded_media.length = media_length
-            uploaded_media.save()
+            media_length, result = get_length(media_full_path)
+            if result:
+                uploaded_media.length = media_length
+                uploaded_media.save()
+            else:
+                uploaded_media.delete()
+                messages.add_message(
+                    request,
+                    messages.ERROR,
+                    _(u"Corrupted media file"), "danger")
+                return {'result': UploadedMedia.UPLOAD_STATUS_FAILURE,
+                        'form': form,
+                        'errors': _(u"Corrupted media file")}
         except OSError:
             '''
             most likely means settings.MEDIA_PROCESSOR_PROGRAM is not installed
@@ -64,17 +74,21 @@ def upload(request, user):
 
 
 def get_length(filepath):
-    result = subprocess.Popen([settings.MEDIA_PROCESSOR_PROGRAM,
+    with subprocess.Popen([settings.MEDIA_PROCESSOR_PROGRAM,
                                filepath],
                               stdout=subprocess.PIPE,
                               stderr=subprocess.STDOUT,
-                              encoding='utf8')
-    duration_list = [x for x in result.stdout.readlines() if "Duration" in x]
+                              encoding='utf8') as result:
+        duration_list = [x for x in result.stdout.readlines() \
+                         if "Duration" in x]
 
-    time_components = duration_list[0].split(',')[0].split(':')
+    try:
+        time_components = duration_list[0].split(',')[0].split(':')
+    
+        hours = int(time_components[1])
+        mins = int(time_components[2])
+        secs = math.floor(float(time_components[3]))
+    except ValueError:
+        return 0, False
 
-    hours = int(time_components[1])
-    mins = int(time_components[2])
-    secs = math.floor(float(time_components[3]))
-
-    return int((hours * 60 * 60) + (mins * 60) + secs)
+    return int((hours * 60 * 60) + (mins * 60) + secs), True

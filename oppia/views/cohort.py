@@ -1,0 +1,343 @@
+# oppia/views.py
+import datetime
+import operator
+
+from django.contrib.auth.models import User
+from django.core.exceptions import PermissionDenied
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.db.models import Count
+from django.http import HttpResponseRedirect, Http404
+from django.shortcuts import render
+from django.utils import timezone
+
+from oppia.forms.cohort import CohortForm
+from oppia.models import Tracker, \
+    CourseCohort, \
+    Participant, \
+    Course, \
+    Cohort
+from oppia.permissions import can_add_cohort, \
+    can_view_cohort, \
+    can_edit_cohort
+from oppia.views.utils import get_paginated_courses
+from profile.views.utils import get_paginated_users
+from summary.models import UserCourseSummary
+
+
+def cohort_list_view(request):
+    if not request.user.is_staff:
+        raise PermissionDenied
+
+    cohorts = Cohort.objects.all()
+    return render(request, 'cohort/list.html', {'cohorts': cohorts, })
+
+
+def cohort_add(request):
+    if not can_add_cohort(request):
+        raise PermissionDenied
+
+    if request.method == 'POST':
+        form = CohortForm(request.POST.copy())
+        if form.is_valid():  # All validation rules pass
+            cohort = Cohort()
+            cohort.start_date = form.cleaned_data.get("start_date")
+            cohort.end_date = form.cleaned_data.get("end_date")
+            cohort.description = form.cleaned_data.get("description").strip()
+            cohort.save()
+
+            students = form.cleaned_data.get("students").strip().split(",")
+            if len(students) > 0:
+                for s in students:
+                    try:
+                        student = User.objects.get(username=s.strip())
+                        participant = Participant()
+                        participant.cohort = cohort
+                        participant.user = student
+                        participant.role = Participant.STUDENT
+                        participant.save()
+                    except User.DoesNotExist:
+                        pass
+
+            teachers = form.cleaned_data.get("teachers").strip().split(",")
+            if len(teachers) > 0:
+                for t in teachers:
+                    try:
+                        teacher = User.objects.get(username=t.strip())
+                        participant = Participant()
+                        participant.cohort = cohort
+                        participant.user = teacher
+                        participant.role = Participant.TEACHER
+                        participant.save()
+                    except User.DoesNotExist:
+                        pass
+
+            courses = form.cleaned_data.get("courses").strip().split(",")
+            if len(courses) > 0:
+                for c in courses:
+                    try:
+                        course = Course.objects.get(shortname=c.strip())
+                        CourseCohort(cohort=cohort, course=course).save()
+                    except Course.DoesNotExist:
+                        pass
+
+            return HttpResponseRedirect('../')  # Redirect after POST
+        else:
+            # If form is not valid, clean the groups data
+            form.data['teachers'] = None
+            form.data['courses'] = None
+            form.data['students'] = None
+
+    else:
+        form = CohortForm()
+
+    ordering, users = get_paginated_users(request)
+    c_ordering, courses = get_paginated_courses(request)
+
+    return render(request, 'cohort/form.html',
+                  {'form': form,
+                   'page': users,
+                   'courses_page': courses,
+                   'courses_ordering': c_ordering,
+                   'page_ordering': ordering,
+                   'users_list_template': 'select'})
+
+
+def cohort_view(request, cohort_id):
+    cohort, response = can_view_cohort(request, cohort_id)
+
+    if response is not None:
+        return response
+
+    start_date = timezone.now() - datetime.timedelta(days=31)
+    end_date = timezone.now()
+
+    # get student activity
+    student_activity = []
+    no_days = (end_date - start_date).days + 1
+    students = User.objects.filter(participant__role=Participant.STUDENT,
+                                   participant__cohort=cohort)
+    trackers = Tracker.objects.filter(course__coursecohort__cohort=cohort,
+                                      user__is_staff=False,
+                                      user__in=students,
+                                      tracker_date__gte=start_date,
+                                      tracker_date__lte=end_date) \
+        .extra({'activity_date': "date(tracker_date)"}) \
+        .values('activity_date').annotate(count=Count('id'))
+    for i in range(0, no_days, +1):
+        temp = start_date + datetime.timedelta(days=i)
+        count = next((dct['count']
+                     for dct in trackers
+                     if dct['activity_date'] == temp.date()), 0)
+        student_activity.append([temp.strftime("%d %b %Y"), count])
+
+    # get leaderboard
+    leaderboard = cohort.get_leaderboard(10)
+
+    return render(request, 'cohort/activity.html',
+                  {'cohort': cohort,
+                   'activity_graph_data': student_activity,
+                   'leaderboard': leaderboard, })
+
+
+def cohort_leaderboard_view(request, cohort_id):
+
+    cohort, response = can_view_cohort(request, cohort_id)
+
+    if cohort is None:
+        return response
+
+    # get leaderboard
+    lb = cohort.get_leaderboard(0)
+
+    paginator = Paginator(lb, 25)  # Show 25 contacts per page
+
+    # Make sure page request is an int. If not, deliver first page.
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+
+    # If page request (9999) is out of range, deliver last page of results.
+    try:
+        leaderboard = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        leaderboard = paginator.page(paginator.num_pages)
+
+    return render(request, 'cohort/leaderboard.html',
+                  {'cohort': cohort,
+                   'page': leaderboard})
+
+
+def cohort_edit(request, cohort_id):
+    if not can_edit_cohort(request, cohort_id):
+        raise PermissionDenied
+    cohort = Cohort.objects.get(pk=cohort_id)
+    teachers_selected = []
+    students_selected = []
+    courses_selected = []
+
+    if request.method == 'POST':
+        form = CohortForm(request.POST)
+        if form.is_valid():
+            cohort.description = form.cleaned_data.get("description").strip()
+            cohort.start_date = form.cleaned_data.get("start_date")
+            cohort.end_date = form.cleaned_data.get("end_date")
+            cohort.save()
+
+            Participant.objects.filter(cohort=cohort).delete()
+
+            students = form.cleaned_data.get("students").split(",")
+            if len(students) > 0:
+                for s in students:
+                    try:
+                        participant = Participant()
+                        participant.cohort = cohort
+                        participant.user = User.objects.get(username=s.strip())
+                        participant.role = Participant.STUDENT
+                        participant.save()
+                    except User.DoesNotExist:
+                        pass
+            teachers = form.cleaned_data.get("teachers").split(",")
+            if len(teachers) > 0:
+                for t in teachers:
+                    try:
+                        participant = Participant()
+                        participant.cohort = cohort
+                        participant.user = User.objects.get(username=t.strip())
+                        participant.role = Participant.TEACHER
+                        participant.save()
+                    except User.DoesNotExist:
+                        pass
+
+            CourseCohort.objects.filter(cohort=cohort).delete()
+            courses = form.cleaned_data.get("courses").strip().split(",")
+            print(courses)
+            if len(courses) > 0:
+                for c in courses:
+                    try:
+                        course = Course.objects.get(shortname=c.strip())
+                        CourseCohort(cohort=cohort, course=course).save()
+                    except Course.DoesNotExist:
+                        pass
+
+            return HttpResponseRedirect('../../')
+        else:
+            print(form.errors)
+            print('Form invalidad!!')
+
+    else:
+        form = CohortForm(initial={'description': cohort.description,
+                                   'start_date': cohort.start_date,
+                                   'end_date': cohort.end_date})
+
+    teachers_selected = User.objects.filter(
+                          participant__role=Participant.TEACHER,
+                          participant__cohort=cohort)
+    students_selected = User.objects.filter(
+                          participant__role=Participant.STUDENT,
+                          participant__cohort=cohort)
+    courses_selected = Course.objects.filter(coursecohort__cohort=cohort)
+
+    ordering, users = get_paginated_users(request)
+    c_ordering, courses = get_paginated_courses(request)
+
+    return render(request, 'cohort/form.html',
+                  {'form': form,
+                   'page': users,
+                   'selected_teachers': teachers_selected,
+                   'selected_students': students_selected,
+                   'selected_courses': courses_selected,
+                   'courses_page': courses,
+                   'courses_ordering': c_ordering,
+                   'page_ordering': ordering,
+                   'users_list_template': 'select'})
+
+
+def cohort_course_view(request, cohort_id, course_id):
+    cohort, response = can_view_cohort(request, cohort_id)
+    if response is not None:
+        return response
+
+    try:
+        course = Course.objects.get(pk=course_id, coursecohort__cohort=cohort)
+    except Course.DoesNotExist:
+        raise Http404()
+
+    start_date = timezone.now() - datetime.timedelta(days=31)
+    end_date = timezone.now()
+    student_activity = []
+    no_days = (end_date - start_date).days + 1
+    users = User.objects.filter(
+        participant__role=Participant.STUDENT,
+        participant__cohort=cohort).order_by('first_name', 'last_name')
+    trackers = Tracker.objects.filter(course=course,
+                                      user__is_staff=False,
+                                      user__in=users,
+                                      tracker_date__gte=start_date,
+                                      tracker_date__lte=end_date) \
+        .extra({'activity_date': "date(tracker_date)"}) \
+        .values('activity_date') \
+        .annotate(count=Count('id'))
+    for i in range(0, no_days, +1):
+        temp = start_date + datetime.timedelta(days=i)
+        count = next((dct['count']
+                      for dct in trackers
+                      if dct['activity_date'] == temp.date()), 0)
+        student_activity.append([temp.strftime("%d %b %Y"), count])
+
+    students = []
+    media_count = course.get_no_media()
+    for user in users:
+        course_stats = UserCourseSummary.objects.filter(user=user,
+                                                        course=course_id)
+        if course_stats:
+            course_stats = course_stats[0]
+            data = {'user': user,
+                    'user_display': str(user),
+                    'no_quizzes_completed': course_stats.quizzes_passed,
+                    'pretest_score': course_stats.pretest_score,
+                    'no_activities_completed':
+                        course_stats.completed_activities,
+                    'no_points': course_stats.points,
+                    'no_badges': course_stats.badges_achieved,
+                    'no_media_viewed': course_stats.media_viewed}
+        else:
+            # The user has no activity registered
+            data = {'user': user,
+                    'user_display': str(user),
+                    'no_quizzes_completed': 0,
+                    'pretest_score': 0,
+                    'no_activities_completed': 0,
+                    'no_points': 0,
+                    'no_badges': 0,
+                    'no_media_viewed': 0}
+
+        students.append(data)
+
+    order_options = ['user_display',
+                     'no_quizzes_completed',
+                     'pretest_score',
+                     'no_activities_completed',
+                     'no_points',
+                     'no_badges',
+                     'no_media_viewed']
+    default_order = 'pretest_score'
+
+    ordering = request.GET.get('order_by', default_order)
+    inverse_order = ordering.startswith('-')
+    if inverse_order:
+        ordering = ordering[1:]
+
+    if ordering not in order_options:
+        ordering = default_order
+        inverse_order = False
+
+    students.sort(key=operator.itemgetter(ordering), reverse=inverse_order)
+
+    return render(request, 'cohort/course-activity.html',
+                  {'course': course,
+                   'cohort': cohort,
+                   'course_media_count': media_count,
+                   'activity_graph_data': student_activity,
+                   'page_ordering': ('-' if inverse_order else '') + ordering,
+                   'students': students})

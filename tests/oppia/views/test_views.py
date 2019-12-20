@@ -1,12 +1,10 @@
-# oppia/tests/test_site.py
 from django.urls import reverse
 from django.test import TestCase
-from django.test.client import Client
 
 
 class OppiaViewsTest(TestCase):
     def setUp(self):
-        self.client = Client()
+        super(OppiaViewsTest, self).setUp()
 
     def test_home(self):
         response = self.client.get(reverse('oppia_home'))
@@ -50,7 +48,6 @@ class OppiaViewsTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     # TODO :
-    # course_download_view
     # tag_courses_view
     # add_course_tags
     # recent_activity_detail
@@ -62,7 +59,6 @@ class OppiaViewsTest(TestCase):
     # course_quiz_attempts
     # course_feedback
     # course_feedback_responses
-    # app_launch_activity_redirect_view
 
     # TODO test login redirected correctly for all pages
     # except those with login exempt

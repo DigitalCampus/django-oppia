@@ -1,8 +1,6 @@
-# oppia/signals.py
 import math
 
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.db import models
 from django.dispatch import Signal
 
@@ -12,21 +10,18 @@ from quiz.models import QuizAttempt
 
 course_downloaded = Signal(providing_args=["course", "user"])
 
+NON_ACTIVITY_EVENTS = [
+    'course_downloaded', 'register'
+]
+
 
 # rules for applying points (or not)
 def apply_points(user):
     if not settings.OPPIA_POINTS_ENABLED:
         return False
-    if user.is_staff and not settings.OPPIA_STAFF_EARN_POINTS:
+    if user.is_staff:
         return False
     return True
-
-
-def signup_callback(sender, **kwargs):
-
-    user = kwargs.get('instance')
-    if not apply_points(user):
-        return
 
 
 def quizattempt_callback(sender, **kwargs):
@@ -53,8 +48,7 @@ def quizattempt_callback(sender, **kwargs):
 
     # find out is user is part of the cohort for this course
     if course is not None \
-            and course.user == quiz_attempt.user \
-            and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
+            and course.user == quiz_attempt.user:
         return
 
     if quiz_attempt.is_first_attempt():
@@ -105,56 +99,28 @@ def quizattempt_callback(sender, **kwargs):
         p.course = course
         p.save()
 
-    return
 
-
-NON_ACTIVITY_EVENTS = [
-    'course_downloaded', 'register'
-]
-
-
-def tracker_callback(sender, **kwargs):
-
-    tracker = kwargs.get('instance')
-    description = None
-
-    if not apply_points(tracker.user):
-        return
-
-    if tracker.course is not None \
-       and tracker.course.user == tracker.user \
-       and settings.OPPIA_COURSE_OWNERS_EARN_POINTS is False:
-        return
-
-    if tracker.event not in NON_ACTIVITY_EVENTS:
-        if not tracker.activity_exists():
-            return
-
-        type = 'activity_completed'
+def calculate_media_points(tracker):
+    if tracker.is_first_tracker_today():
         points = DefaultGamificationEvent.objects.get(
-            event='activity_completed').points
-        if tracker.get_activity_type() == "media":
-            description = "Media played: " + tracker.get_activity_title()
-            type = 'mediaplayed'
-            if tracker.is_first_tracker_today():
-                points = DefaultGamificationEvent.objects.get(
-                    event='media_started').points
-            else:
-                points = 0
-            points += (DefaultGamificationEvent.objects.get(
-                event='media_playing_points_per_interval').points
-                       * math.floor(tracker.time_taken
-                                    / DefaultGamificationEvent.objects
-                                    .get(
-                                        event='media_playing_interval')
-                                    .points))
-            if points > DefaultGamificationEvent.objects.get(
-              event='media_max_points').points:
-                points = DefaultGamificationEvent.objects.get(
-                    event='media_max_points').points
-        else:
-            description = "Activity completed: " + tracker.get_activity_title()
+            event='media_started').points
+    else:
+        points = 0
+    points += (DefaultGamificationEvent.objects.get(
+        event='media_playing_points_per_interval').points
+               * math.floor(tracker.time_taken
+                            / DefaultGamificationEvent.objects
+                            .get(
+                                event='media_playing_interval')
+                            .points))
+    if points > DefaultGamificationEvent.objects.get(
+      event='media_max_points').points:
+        points = DefaultGamificationEvent.objects.get(
+            event='media_max_points').points
 
+    return points
+
+def tracker_process_points(tracker, type, description, points):
     if tracker.points is not None:
         points = tracker.points
         type = tracker.event
@@ -175,7 +141,34 @@ def tracker_callback(sender, **kwargs):
     p.course = tracker.course
     p.save()
 
-    return
+def tracker_callback(sender, **kwargs):
+
+    tracker = kwargs.get('instance')
+    description = None
+    points = None
+    type = None
+
+    if not apply_points(tracker.user):
+        return
+
+    if tracker.course is not None \
+       and tracker.course.user == tracker.user:
+        return
+
+    if tracker.event not in NON_ACTIVITY_EVENTS \
+            and tracker.activity_exists():
+
+        type = 'activity_completed'
+        points = DefaultGamificationEvent.objects.get(
+            event='activity_completed').points
+        if tracker.get_activity_type() == "media":
+            description = "Media played: " + tracker.get_activity_title()
+            type = 'mediaplayed'
+            points = calculate_media_points(tracker)
+        else:
+            description = "Activity completed: " + tracker.get_activity_title()
+
+    tracker_process_points(tracker, type, description, points)
 
 
 def badgeaward_callback(sender, **kwargs):
@@ -189,9 +182,6 @@ def badgeaward_callback(sender, **kwargs):
     p.description = award.description
     p.user = award.user
     p.save()
-    return
+
 
 models.signals.post_save.connect(tracker_callback, sender=Tracker)
-# Commented signals for points awarding (now it is processed app-side)
-# models.signals.post_save.connect(signup_callback, sender=User)
-# models.signals.post_save.connect(quizattempt_callback, sender=QuizAttempt)

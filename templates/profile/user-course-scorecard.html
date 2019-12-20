@@ -10,7 +10,7 @@
 
 {% block header %}
 <div class="jumbotron mb-4 ">
-<h3><a href="{% url 'profile_user_activity' view_user.id %}">{{ view_user.first_name }} {{ view_user.last_name }}</a> <em class="material-icons md-18 ">arrow_forward_ios</em> {{ course.title|title_lang:LANGUAGE_CODE }}</h3>
+<h4><a href="{% url 'profile_user_activity' view_user.id %}">{{ view_user.first_name }} {{ view_user.last_name }}</a> <em class="material-icons md-18 ">arrow_forward_ios</em> {{ course.title|title_lang:LANGUAGE_CODE }}</h4>
 </div>
 {% endblock header %}
 
@@ -79,7 +79,7 @@
             <tbody>
             {% for q in quizzes %}
                 <tr>
-                    <td>{{ q.quiz.title|title_lang:LANGUAGE_CODE }} ({{ q.quiz.section.title|title_lang:LANGUAGE_CODE }})</td>
+                    <td><a href="{% url 'profile_user_quiz_attempts' view_user.pk course.pk q.id %}">{{ q.quiz.title|title_lang:LANGUAGE_CODE }} ({{ q.quiz.section.title|title_lang:LANGUAGE_CODE }})</a> </td>
                     <td>{{ q.no_attempts }}</td>
                     <td>{% if q.max_score %}{{ q.max_score|floatformat:1 }}%{% else %}--{% endif %}</td>
                     <td>{% if q.min_score %}{{ q.min_score|floatformat:1 }}%{% else %}--{% endif %}</td>

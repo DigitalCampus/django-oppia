@@ -8,6 +8,11 @@ from django.conf import settings
 
 class Migration(migrations.Migration):
 
+    STR_DATE_CREATED = b'date created'
+    STR_DATE_UPDATED = b'date updated'
+    STR_QUIZ_QUESTION = 'quiz.Question'
+    STR_QUIZ_QUIZ = 'quiz.Quiz'
+
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
@@ -22,10 +27,10 @@ class Migration(migrations.Migration):
                                         primary_key=True)),
                 ('created_date',
                  models.DateTimeField(default=django.utils.timezone.now,
-                                      verbose_name=b'date created')),
+                                      verbose_name=STR_DATE_CREATED)),
                 ('lastupdated_date',
                  models.DateTimeField(default=django.utils.timezone.now,
-                                      verbose_name=b'date updated')),
+                                      verbose_name=STR_DATE_UPDATED)),
                 ('title', models.TextField()),
                 ('type', models.CharField(default=b'multichoice',
                                           max_length=15,
@@ -61,7 +66,7 @@ class Migration(migrations.Migration):
                                         primary_key=True)),
                 ('name', models.CharField(max_length=200)),
                 ('value', models.TextField(blank=True)),
-                ('question', models.ForeignKey(to='quiz.Question',
+                ('question', models.ForeignKey(to=STR_QUIZ_QUESTION,
                                                on_delete=models.CASCADE)),
             ],
             options={
@@ -79,10 +84,10 @@ class Migration(migrations.Migration):
                                         primary_key=True)),
                 ('created_date',
                  models.DateTimeField(default=django.utils.timezone.now,
-                                      verbose_name=b'date created')),
+                                      verbose_name=STR_DATE_CREATED)),
                 ('lastupdated_date',
                  models.DateTimeField(default=django.utils.timezone.now,
-                                      verbose_name=b'date updated')),
+                                      verbose_name=STR_DATE_UPDATED)),
                 ('draft', models.BooleanField(default=False)),
                 ('deleted', models.BooleanField(default=False)),
                 ('title', models.TextField()),
@@ -118,7 +123,7 @@ class Migration(migrations.Migration):
                                                  null=True,
                                                  blank=True)),
                 ('agent', models.TextField(blank=True)),
-                ('quiz', models.ForeignKey(to='quiz.Quiz',
+                ('quiz', models.ForeignKey(to=STR_QUIZ_QUIZ,
                                            on_delete=models.CASCADE)),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL,
                                            on_delete=models.CASCADE)),
@@ -139,7 +144,7 @@ class Migration(migrations.Migration):
                 ('score', models.DecimalField(max_digits=6,
                                               decimal_places=2)),
                 ('text', models.TextField(blank=True)),
-                ('question', models.ForeignKey(to='quiz.Question',
+                ('question', models.ForeignKey(to=STR_QUIZ_QUESTION,
                                                on_delete=models.CASCADE)),
                 ('quizattempt', models.ForeignKey(to='quiz.QuizAttempt',
                                                   on_delete=models.CASCADE)),
@@ -159,7 +164,7 @@ class Migration(migrations.Migration):
                                         primary_key=True)),
                 ('name', models.CharField(max_length=200)),
                 ('value', models.TextField(blank=True)),
-                ('quiz', models.ForeignKey(to='quiz.Quiz',
+                ('quiz', models.ForeignKey(to=STR_QUIZ_QUIZ,
                                            on_delete=models.CASCADE)),
             ],
             options={
@@ -176,9 +181,9 @@ class Migration(migrations.Migration):
                                         auto_created=True,
                                         primary_key=True)),
                 ('order', models.IntegerField(default=1)),
-                ('question', models.ForeignKey(to='quiz.Question',
+                ('question', models.ForeignKey(to=STR_QUIZ_QUESTION,
                                                on_delete=models.CASCADE)),
-                ('quiz', models.ForeignKey(to='quiz.Quiz',
+                ('quiz', models.ForeignKey(to=STR_QUIZ_QUIZ,
                                            on_delete=models.CASCADE)),
             ],
             options={
@@ -196,10 +201,10 @@ class Migration(migrations.Migration):
                                         primary_key=True)),
                 ('created_date',
                  models.DateTimeField(default=django.utils.timezone.now,
-                                      verbose_name=b'date created')),
+                                      verbose_name=STR_DATE_CREATED)),
                 ('lastupdated_date',
                  models.DateTimeField(default=django.utils.timezone.now,
-                                      verbose_name=b'date updated')),
+                                      verbose_name=STR_DATE_UPDATED)),
                 ('score', models.DecimalField(default=0,
                                               max_digits=6,
                                               decimal_places=2)),
@@ -207,7 +212,7 @@ class Migration(migrations.Migration):
                 ('order', models.IntegerField(default=1)),
                 ('owner', models.ForeignKey(to=settings.AUTH_USER_MODEL,
                                             on_delete=models.CASCADE)),
-                ('question', models.ForeignKey(to='quiz.Question',
+                ('question', models.ForeignKey(to=STR_QUIZ_QUESTION,
                                                on_delete=models.CASCADE)),
             ],
             options={
@@ -237,7 +242,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='quiz',
             name='questions',
-            field=models.ManyToManyField(to='quiz.Question',
+            field=models.ManyToManyField(to=STR_QUIZ_QUESTION,
                                          through='quiz.QuizQuestion'),
             preserve_default=True,
         ),

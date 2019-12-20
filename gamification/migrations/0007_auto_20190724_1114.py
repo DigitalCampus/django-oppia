@@ -6,6 +6,8 @@ import django.utils.timezone
 
 class Migration(migrations.Migration):
 
+    STR_DATE_CREATED = 'date created'
+
     dependencies = [
         ('gamification', '0006_auto_20190625_1021'),
     ]
@@ -15,13 +17,13 @@ class Migration(migrations.Migration):
             model_name='activitygamificationevent',
             name='created_date',
             field=models.DateTimeField(default=django.utils.timezone.now,
-                                       verbose_name='date created'),
+                                       verbose_name=STR_DATE_CREATED),
         ),
         migrations.AlterField(
             model_name='coursegamificationevent',
             name='created_date',
             field=models.DateTimeField(default=django.utils.timezone.now,
-                                       verbose_name='date created'),
+                                       verbose_name=STR_DATE_CREATED),
         ),
         migrations.AlterField(
             model_name='defaultgamificationevent',
@@ -37,6 +39,6 @@ class Migration(migrations.Migration):
             model_name='mediagamificationevent',
             name='created_date',
             field=models.DateTimeField(default=django.utils.timezone.now,
-                                       verbose_name='date created'),
+                                       verbose_name=STR_DATE_CREATED),
         ),
     ]

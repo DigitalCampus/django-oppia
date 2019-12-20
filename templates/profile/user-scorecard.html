@@ -11,12 +11,13 @@
 {% block header %}
 <div class="jumbotron mb-4 ">
 	<div class="row">
-			<div class="col-md-8">
+			<div class="col-md-6">
 				<h3 class="mb-0">{{ view_user.first_name }} {{ view_user.last_name }}</h3>
 				{{view_user.username}}
 			</div>
-			<div class="col-md-4 text-right">
-				<a href="{% url 'profile_edit_user' view_user.id %}" class="btn btn-light mr-2">{% trans 'Edit' %}</a>
+			<div class="col-md-6 text-right mt-2">
+				<a href="{% url 'profile_user_all_attempts' view_user.id %}" class="btn btn-secondary mb-2">{% trans 'Quiz attempts' %}</a>
+				<a href="{% url 'profile_edit_user' view_user.id %}" class="btn btn-light ml-2 mb-2">{% trans 'Edit' %}</a>
 			</div>
 	</div>
 </div>
