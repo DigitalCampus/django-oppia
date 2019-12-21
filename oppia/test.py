@@ -8,16 +8,8 @@ from tests.user_logins import ADMIN_USER, \
 
 
 class OppiaTestCase(TestCase):
-    fixtures = ['tests/test_user.json',
-                'tests/test_oppia.json',
-                'tests/test_quiz.json',
-                'tests/test_permissions.json',
-                'default_badges.json',
-                'default_gamification_events.json',
-                'tests/test_tracker.json',
-                'tests/test_malaria_quiz.json',
-                'tests/test_av_uploadedmedia.json',
-                'tests/test_viz.json']
+
+    fixtures = ['tests/test_user.json']
 
     def setUp(self):
         super(OppiaTestCase, self).setUp()

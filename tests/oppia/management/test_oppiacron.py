@@ -7,6 +7,12 @@ from oppia.test import OppiaTestCase
 
 class OppiaCronTest(OppiaTestCase):
 
+    fixtures = ['tests/test_user.json',
+                'tests/test_oppia.json',
+                'tests/test_quiz.json',
+                'tests/test_permissions.json',
+                'default_badges.json']
+
     @pytest.mark.xfail(reason="works on local, but not on Github workflow \
         see issue: https://github.com/DigitalCampus/django-oppia/issues/690")
     def test_oppiacron_output(self):

@@ -8,6 +8,14 @@ from summary.cron import update_summaries
 
 class SummaryCronTest(OppiaTestCase):
 
+    fixtures = ['tests/test_user.json',
+                'tests/test_oppia.json',
+                'tests/test_quiz.json',
+                'tests/test_permissions.json',
+                'default_gamification_events.json',
+                'tests/test_tracker.json',
+                'default_badges.json']
+    
     @pytest.mark.xfail(reason="works on local, but not on Github workflow \
         see issue: https://github.com/DigitalCampus/django-oppia/issues/691")
     def test_summary_cron(self):

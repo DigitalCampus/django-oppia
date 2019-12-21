@@ -3,15 +3,11 @@ from django.urls import reverse
 
 
 class PermissionsViewTest(OppiaTestCase):
+    fixtures = ['tests/test_user.json',
+                'tests/test_oppia.json',
+                'tests/test_quiz.json',
+                'tests/test_permissions.json']
 
-    def setUp(self):
-        super(PermissionsViewTest, self).setUp()
-        self.login_url = reverse('profile_login')
-        
-    def get_view(self, route, user=None):
-        if user is not None:
-            self.client.force_login(user)
-        return self.client.get(route)
 
     def assert_response(self, view, status_code, user=None, view_kwargs=None):
         route = reverse(view, kwargs=view_kwargs)

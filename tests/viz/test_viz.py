@@ -14,6 +14,14 @@ from viz.views import summary_get_registrations, \
 
 class VisualisationsTest(OppiaTestCase):
 
+    fixtures = ['tests/test_user.json',
+                'tests/test_oppia.json',
+                'tests/test_quiz.json',
+                'tests/test_permissions.json',
+                'tests/test_viz.json',
+                'default_gamification_events.json',
+                'tests/test_tracker.json']
+
     # summary
     # only staff/admins can view
     def test_view_summary(self):

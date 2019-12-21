@@ -5,6 +5,9 @@ from oppia.test import OppiaTestCase
 
 class GamificationPermissionsTest(OppiaTestCase):
 
+    fixtures = ['tests/test_user.json',
+                'tests/test_oppia.json',
+                'tests/test_quiz.json']
     valid_course_url = reverse('oppia_gamification_edit_course', args=[1])
     invalid_course_url = reverse('oppia_gamification_edit_course', args=[55])
 

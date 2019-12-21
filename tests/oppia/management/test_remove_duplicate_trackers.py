@@ -10,6 +10,13 @@ from oppia.models import Tracker
 
 class RemoveDuplicateTrackersTest(OppiaTestCase):
 
+    fixtures = ['tests/test_user.json',
+                'tests/test_oppia.json',
+                'default_gamification_events.json',
+                'tests/test_tracker.json',
+                'tests/test_permissions.json',
+                'default_badges.json']
+
     def test_remove_no_duplicates(self):
         out = StringIO()
         tracker_count_start = Tracker.objects.all().count()

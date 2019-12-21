@@ -6,10 +6,14 @@ from oppia.test import OppiaTestCase
 
 from oppia.models import Media
 
+
 class MediaURLCheckTest(OppiaTestCase):
     
-    def setUp(self):
-        super(MediaURLCheckTest, self).setUp()
+    fixtures = ['tests/test_user.json',
+                'tests/test_oppia.json',
+                'tests/test_quiz.json',
+                'tests/test_permissions.json',
+                'default_badges.json']
 
     @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_media_url(self):

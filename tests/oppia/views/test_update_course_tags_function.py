@@ -4,7 +4,13 @@ from oppia.forms.upload import UploadCourseStep2Form
 from oppia.models import Course, CourseTag, Tag
 from oppia.views import update_course_tags
 
+
 class UpdateCourseTagsFunctionTest(OppiaTestCase):
+
+    fixtures = ['tests/test_user.json',
+                'tests/test_oppia.json',
+                'tests/test_quiz.json',
+                'tests/test_permissions.json']
 
     def test_no_tags(self):
         course = Course.objects.get(pk=1)

@@ -9,6 +9,12 @@ from quiz.models import QuizAttemptResponse, QuizAttempt
 
 class UploadActivityLogTest(OppiaTestCase):
 
+    fixtures = ['tests/test_user.json',
+                'tests/test_oppia.json',
+                'tests/test_malaria_quiz.json',
+                'tests/test_permissions.json',
+                'default_gamification_events.json']
+
     def setUp(self):
         super(UploadActivityLogTest, self).setUp()
         self.url = reverse('oppia_activitylog_upload')

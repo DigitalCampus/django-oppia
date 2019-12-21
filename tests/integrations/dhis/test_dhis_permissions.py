@@ -4,6 +4,11 @@ from oppia.test import OppiaTestCase
 
 class DHISIntegrationViewsTest(OppiaTestCase):
 
+    fixtures = ['tests/test_user.json',
+                'tests/test_oppia.json',
+                'tests/test_quiz.json',
+                'tests/test_permissions.json']
+
     def setUp(self):
         super(DHISIntegrationViewsTest, self).setUp()
         self.dhis_home_url = reverse('oppia_integrations_dhis_home')

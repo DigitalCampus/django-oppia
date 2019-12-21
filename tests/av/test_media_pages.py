@@ -4,9 +4,6 @@ from oppia.test import OppiaTestCase
 
 class AVPagesViewTest(OppiaTestCase):
 
-    def setUp(self):
-        super(AVPagesViewTest, self).setUp()
-
     def test_home_view(self):
         url = reverse('oppia_av_home')
         allowed_users = [self.admin_user,
