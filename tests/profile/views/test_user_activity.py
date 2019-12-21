@@ -1,5 +1,5 @@
 from django.urls import reverse
-from django.test import TestCase
+from oppia.test import OppiaTestCase
 
 from tests.user_logins import ADMIN_USER, \
                               STAFF_USER, \
@@ -7,7 +7,7 @@ from tests.user_logins import ADMIN_USER, \
                               TEACHER_USER
 
 
-class UserActivityViewTest(TestCase):
+class UserActivityViewTest(OppiaTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
@@ -24,8 +24,7 @@ class UserActivityViewTest(TestCase):
 
         for allowed_user in allowed_users:
             url = reverse('profile_user_activity', args=[allowed_user['id']])
-            self.client.login(username=allowed_user['user'],
-                              password=allowed_user['password'])
+            self.client.force_login(allowed_user)
             response = self.client.get(url)
             self.assertTemplateUsed(response, self.template)
             self.assertEqual(response.status_code, 200)
