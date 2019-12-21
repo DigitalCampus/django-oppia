@@ -151,7 +151,7 @@ def reset(request):
                 site=prefix + request.META['SERVER_NAME']
                 )
 
-            return HttpResponseRedirect('sent')
+            return HttpResponseRedirect('sent/')
     else:
         form = ResetForm()  # An unbound form
 
