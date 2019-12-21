@@ -34,32 +34,9 @@ class Command(BaseCommand):
                 cached.save()
                 self.stdout.write("hits updated")
             except UserLocationVisualization.DoesNotExist:
-                update_via_freegeoip(self, t)
+                pass
+                # https://freegeoip.net is no longer available
+                # see: issue: 
+                # https://github.com/DigitalCampus/django-oppia/issues/720
 
         self.stdout.write("completed")
-
-
-def update_via_freegeoip(self, t):
-    url = 'https://freegeoip.net/json/%s' % (t['ip'])
-    self.stdout.write(t['ip'] + " : " + url)
-    try:
-        u = urllib.request.urlopen(url, timeout=10)
-        data = u.read()
-        data_json = json.loads(data, "utf-8")
-        self.stdout.write(data_json)
-    except:
-        return
-
-    if data_json['latitude'] != 0 and data_json['longitude'] != 0:
-        viz = UserLocationVisualization()
-        viz.ip = t['ip']
-        viz.lat = data_json['latitude']
-        viz.lng = data_json['longitude']
-        viz.hits = t['count_hits']
-        viz.region = data_json['city'] + " " + data_json['region_name']
-        viz.country_code = data_json['country_code']
-        viz.country_name = data_json['country_name']
-        viz.geonames_data = data_json
-        viz.save()
-
-    time.sleep(5)
