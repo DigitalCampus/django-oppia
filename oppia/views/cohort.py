@@ -31,6 +31,28 @@ def cohort_list_view(request):
     cohorts = Cohort.objects.all()
     return render(request, 'cohort/list.html', {'cohorts': cohorts, })
 
+def cohort_add_roles(cohort, role, users):
+    user_list = users.strip().split(",")
+    if len(user_list) > 0:
+        for u in user_list:
+            try:
+                participant = Participant()
+                participant.cohort = cohort
+                participant.user = User.objects.get(username=u.strip())
+                participant.role = role
+                participant.save()
+            except User.DoesNotExist:
+                pass
+
+def cohort_add_courses(cohort, courses):
+    course_list = courses.strip().split(",")
+    if len(course_list) > 0:
+        for c in course_list:
+            try:
+                course = Course.objects.get(shortname=c.strip())
+                CourseCohort(cohort=cohort, course=course).save()
+            except Course.DoesNotExist:
+                pass
 
 def cohort_add(request):
     if not can_add_cohort(request):
@@ -45,40 +67,14 @@ def cohort_add(request):
             cohort.description = form.cleaned_data.get("description").strip()
             cohort.save()
 
-            students = form.cleaned_data.get("students").strip().split(",")
-            if len(students) > 0:
-                for s in students:
-                    try:
-                        student = User.objects.get(username=s.strip())
-                        participant = Participant()
-                        participant.cohort = cohort
-                        participant.user = student
-                        participant.role = Participant.STUDENT
-                        participant.save()
-                    except User.DoesNotExist:
-                        pass
+            students = form.cleaned_data.get("students")
+            cohort_add_roles(cohort, Participant.STUDENT, students)
 
-            teachers = form.cleaned_data.get("teachers").strip().split(",")
-            if len(teachers) > 0:
-                for t in teachers:
-                    try:
-                        teacher = User.objects.get(username=t.strip())
-                        participant = Participant()
-                        participant.cohort = cohort
-                        participant.user = teacher
-                        participant.role = Participant.TEACHER
-                        participant.save()
-                    except User.DoesNotExist:
-                        pass
+            teachers = form.cleaned_data.get("teachers")
+            cohort_add_roles(cohort, Participant.TEACHER, teachers)
 
-            courses = form.cleaned_data.get("courses").strip().split(",")
-            if len(courses) > 0:
-                for c in courses:
-                    try:
-                        course = Course.objects.get(shortname=c.strip())
-                        CourseCohort(cohort=cohort, course=course).save()
-                    except Course.DoesNotExist:
-                        pass
+            courses = form.cleaned_data.get("courses")
+            cohort_add_courses(cohort, courses)
 
             return HttpResponseRedirect('../')  # Redirect after POST
         else:
@@ -186,39 +182,15 @@ def cohort_edit(request, cohort_id):
 
             Participant.objects.filter(cohort=cohort).delete()
 
-            students = form.cleaned_data.get("students").split(",")
-            if len(students) > 0:
-                for s in students:
-                    try:
-                        participant = Participant()
-                        participant.cohort = cohort
-                        participant.user = User.objects.get(username=s.strip())
-                        participant.role = Participant.STUDENT
-                        participant.save()
-                    except User.DoesNotExist:
-                        pass
-            teachers = form.cleaned_data.get("teachers").split(",")
-            if len(teachers) > 0:
-                for t in teachers:
-                    try:
-                        participant = Participant()
-                        participant.cohort = cohort
-                        participant.user = User.objects.get(username=t.strip())
-                        participant.role = Participant.TEACHER
-                        participant.save()
-                    except User.DoesNotExist:
-                        pass
+            students = form.cleaned_data.get("students")
+            cohort_add_roles(cohort, Participant.STUDENT, students)
+
+            teachers = form.cleaned_data.get("teachers")
+            cohort_add_roles(cohort, Participant.TEACHER, teachers)
 
             CourseCohort.objects.filter(cohort=cohort).delete()
-            courses = form.cleaned_data.get("courses").strip().split(",")
-            print(courses)
-            if len(courses) > 0:
-                for c in courses:
-                    try:
-                        course = Course.objects.get(shortname=c.strip())
-                        CourseCohort(cohort=cohort, course=course).save()
-                    except Course.DoesNotExist:
-                        pass
+            courses = form.cleaned_data.get("courses")
+            cohort_add_courses(cohort, courses)
 
             return HttpResponseRedirect('../../')
         else:

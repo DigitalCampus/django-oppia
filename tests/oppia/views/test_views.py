@@ -51,7 +51,6 @@ class OppiaViewsTest(OppiaTestCase):
     # recent_activity_detail
     # export_tracker_detail
     # cohort_add
-    # cohort_leaderboard_view
     # leaderboard_view
     # course_quiz
     # course_quiz_attempts
