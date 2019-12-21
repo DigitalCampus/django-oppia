@@ -1,13 +1,8 @@
 from django.urls import reverse
-from django.test import TestCase
-
-from tests.user_logins import ADMIN_USER, \
-                              STAFF_USER, \
-                              NORMAL_USER, \
-                              TEACHER_USER
+from oppia.test import OppiaTestCase
 
 
-class BadgesViewTest(TestCase):
+class BadgesViewTest(OppiaTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
@@ -15,11 +10,13 @@ class BadgesViewTest(TestCase):
 
     def test_view_badges(self):
         url = reverse('profile_badges')
-        allowed_users = [ADMIN_USER, STAFF_USER, TEACHER_USER, NORMAL_USER]
+        allowed_users = [self.admin_user,
+                         self.staff_user,
+                         self.teacher_user,
+                         self.normal_user]
 
         for allowed_user in allowed_users:
-            self.client.login(username=allowed_user['user'],
-                              password=allowed_user['password'])
+            self.client.force_login(allowed_user)
             response = self.client.get(url)
             self.assertTemplateUsed(response, 'profile/badges.html')
             self.assertEqual(response.status_code, 200)

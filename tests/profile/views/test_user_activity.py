@@ -1,11 +1,6 @@
 from django.urls import reverse
 from oppia.test import OppiaTestCase
 
-from tests.user_logins import ADMIN_USER, \
-                              STAFF_USER, \
-                              NORMAL_USER, \
-                              TEACHER_USER
-
 
 class UserActivityViewTest(OppiaTestCase):
     fixtures = ['tests/test_user.json',
@@ -20,99 +15,90 @@ class UserActivityViewTest(OppiaTestCase):
 
     def test_view_own_activity(self):
 
-        allowed_users = [ADMIN_USER, STAFF_USER, TEACHER_USER, NORMAL_USER]
+        allowed_users = [self.admin_user,
+                         self.staff_user,
+                         self.teacher_user,
+                         self.normal_user]
 
         for allowed_user in allowed_users:
-            url = reverse('profile_user_activity', args=[allowed_user['id']])
+            url = reverse('profile_user_activity', args=[allowed_user.id])
             self.client.force_login(allowed_user)
             response = self.client.get(url)
             self.assertTemplateUsed(response, self.template)
             self.assertEqual(response.status_code, 200)
 
     def test_admin_view_others_activity(self):
-        url = reverse('profile_user_activity', args=[STAFF_USER['id']])
-        self.client.login(username=ADMIN_USER['user'],
-                          password=ADMIN_USER['password'])
+        url = reverse('profile_user_activity', args=[self.staff_user.id])
+        self.client.force_login(self.admin_user)
         response = self.client.get(url)
         self.assertTemplateUsed(response, self.template)
         self.assertEqual(response.status_code, 200)
 
-        url = reverse('profile_user_activity', args=[TEACHER_USER['id']])
-        self.client.login(username=ADMIN_USER['user'],
-                          password=ADMIN_USER['password'])
+        url = reverse('profile_user_activity', args=[self.teacher_user.id])
+        self.client.force_login(self.admin_user)
         response = self.client.get(url)
         self.assertTemplateUsed(response, self.template)
         self.assertEqual(response.status_code, 200)
 
-        url = reverse('profile_user_activity', args=[NORMAL_USER['id']])
-        self.client.login(username=ADMIN_USER['user'],
-                          password=ADMIN_USER['password'])
+        url = reverse('profile_user_activity', args=[self.normal_user.id])
+        self.client.force_login(self.admin_user)
         response = self.client.get(url)
         self.assertTemplateUsed(response, self.template)
         self.assertEqual(response.status_code, 200)
 
     def test_staff_view_others_activity(self):
-        url = reverse('profile_user_activity', args=[ADMIN_USER['id']])
-        self.client.login(username=STAFF_USER['user'],
-                          password=STAFF_USER['password'])
+        url = reverse('profile_user_activity', args=[self.admin_user.id])
+        self.client.force_login(self.staff_user)
         response = self.client.get(url)
         self.assertTemplateUsed(response, self.template)
         self.assertEqual(response.status_code, 200)
 
-        url = reverse('profile_user_activity', args=[TEACHER_USER['id']])
-        self.client.login(username=STAFF_USER['user'],
-                          password=STAFF_USER['password'])
+        url = reverse('profile_user_activity', args=[self.teacher_user.id])
+        self.client.force_login(self.staff_user)
         response = self.client.get(url)
         self.assertTemplateUsed(response, self.template)
         self.assertEqual(response.status_code, 200)
 
-        url = reverse('profile_user_activity', args=[NORMAL_USER['id']])
-        self.client.login(username=STAFF_USER['user'],
-                          password=STAFF_USER['password'])
+        url = reverse('profile_user_activity', args=[self.normal_user.id])
+        self.client.force_login(self.staff_user)
         response = self.client.get(url)
         self.assertTemplateUsed(response, self.template)
         self.assertEqual(response.status_code, 200)
 
     def test_teacher_view_others_activity(self):
-        url = reverse('profile_user_activity', args=[ADMIN_USER['id']])
-        self.client.login(username=TEACHER_USER['user'],
-                          password=TEACHER_USER['password'])
+        url = reverse('profile_user_activity', args=[self.admin_user.id])
+        self.client.force_login(self.teacher_user)
         response = self.client.get(url)
         self.assertTemplateUsed(response, '403.html')
         self.assertEqual(response.status_code, 403)
 
-        url = reverse('profile_user_activity', args=[STAFF_USER['id']])
-        self.client.login(username=TEACHER_USER['user'],
-                          password=TEACHER_USER['password'])
+        url = reverse('profile_user_activity', args=[self.staff_user.id])
+        self.client.force_login(self.teacher_user)
         response = self.client.get(url)
         self.assertTemplateUsed(response, self.unauthorised_template)
         self.assertEqual(response.status_code, 403)
 
-        url = reverse('profile_user_activity', args=[NORMAL_USER['id']])
-        self.client.login(username=TEACHER_USER['user'],
-                          password=TEACHER_USER['password'])
+        url = reverse('profile_user_activity', args=[self.normal_user.id])
+        self.client.force_login(self.teacher_user)
         response = self.client.get(url)
         self.assertTemplateUsed(response, self.unauthorised_template)
         self.assertEqual(response.status_code, 403)
 
     def test_user_view_others_activity(self):
-        url = reverse('profile_user_activity', args=[ADMIN_USER['id']])
-        self.client.login(username=NORMAL_USER['user'],
-                          password=NORMAL_USER['password'])
+        url = reverse('profile_user_activity', args=[self.admin_user.id])
+        self.client.force_login(self.normal_user)
         response = self.client.get(url)
         self.assertTemplateUsed(response, self.unauthorised_template)
         self.assertEqual(response.status_code, 403)
 
-        url = reverse('profile_user_activity', args=[STAFF_USER['id']])
-        self.client.login(username=NORMAL_USER['user'],
-                          password=NORMAL_USER['password'])
+        url = reverse('profile_user_activity', args=[self.staff_user.id])
+        self.client.force_login(self.normal_user)
         response = self.client.get(url)
         self.assertTemplateUsed(response, self.unauthorised_template)
         self.assertEqual(response.status_code, 403)
 
-        url = reverse('profile_user_activity', args=[TEACHER_USER['id']])
-        self.client.login(username=NORMAL_USER['user'],
-                          password=NORMAL_USER['password'])
+        url = reverse('profile_user_activity', args=[self.teacher_user.id])
+        self.client.force_login(self.normal_user)
         response = self.client.get(url)
         self.assertTemplateUsed(response, self.unauthorised_template)
         self.assertEqual(response.status_code, 403)
