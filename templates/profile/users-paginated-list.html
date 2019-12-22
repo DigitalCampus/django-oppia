@@ -6,7 +6,7 @@
 	 <caption class="d-none">{% trans "Users" %}</caption>
      <thead>
         <tr>
-        	<th scope="col" class="d-none></th>
+        	<th scope="col" class="d-none"></th>
         {% if users_list_template %}
             {% with "profile/list/header-user-"|add:users_list_template|add:".html" as header_template_path %}
                 {% include header_template_path %}
