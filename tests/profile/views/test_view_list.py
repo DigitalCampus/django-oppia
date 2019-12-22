@@ -1,13 +1,8 @@
 from django.urls import reverse
-from django.test import TestCase
-
-from tests.user_logins import ADMIN_USER, \
-                              STAFF_USER, \
-                              NORMAL_USER, \
-                              TEACHER_USER
+from oppia.test import OppiaTestCase
 
 
-class UserSearchActivityViewTest(TestCase):
+class UserSearchActivityViewTest(OppiaTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
@@ -20,19 +15,17 @@ class UserSearchActivityViewTest(TestCase):
 
     def test_view_export(self):
 
-        allowed_users = [ADMIN_USER, STAFF_USER]
-        disallowed_users = [TEACHER_USER, NORMAL_USER]
+        allowed_users = [self.admin_user, self.staff_user]
+        disallowed_users = [self.teacher_user, self.normal_user]
 
         for allowed_user in allowed_users:
-            self.client.login(username=allowed_user['user'],
-                              password=allowed_user['password'])
+            self.client.force_login(user=allowed_user)
             response = self.client.get(self.url)
             self.assertTemplateUsed(response, self.template)
             self.assertEqual(response.status_code, 200)
 
         for disallowed_user in disallowed_users:
-            self.client.login(username=disallowed_user['user'],
-                              password=disallowed_user['password'])
+            self.client.force_login(user=disallowed_user)
             response = self.client.get(self.url)
             self.assertRedirects(response,
                                  '/admin/login/?next=' + self.url,

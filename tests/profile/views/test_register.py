@@ -1,11 +1,10 @@
 from django.urls import reverse
-from django.test import TestCase
-
+from oppia.test import OppiaTestCase
 from settings import constants
 from settings.models import SettingProperties
 
 
-class RegisterViewTest(TestCase):
+class RegisterViewTest(OppiaTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json']

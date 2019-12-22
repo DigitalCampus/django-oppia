@@ -239,7 +239,7 @@ class EditProfileViewTest(OppiaTestCase):
         self.client.force_login(self.admin_user)
         response = self.client.get(reverse('profile_edit'))
         self.assertRedirects(response,
-                             reverse('profile_login')
+                             self.login_url
                              + "?next="
                              + reverse('profile_edit'), 302, 200)
 
@@ -263,7 +263,7 @@ class EditProfileViewTest(OppiaTestCase):
         self.client.force_login(self.staff_user)
         response = self.client.get(reverse('profile_edit'))
         self.assertRedirects(response,
-                             reverse('profile_login')
+                             self.login_url
                              + "?next=" +
                              reverse('profile_edit'), 302, 200)
 
@@ -287,7 +287,7 @@ class EditProfileViewTest(OppiaTestCase):
         self.client.force_login(self.teacher_user)
         response = self.client.get(reverse('profile_edit'))
         self.assertRedirects(response,
-                             reverse('profile_login')
+                             self.login_url
                              + "?next="
                              + reverse('profile_edit'), 302, 200)
 
@@ -311,7 +311,7 @@ class EditProfileViewTest(OppiaTestCase):
         self.client.force_login(self.normal_user)
         response = self.client.get(reverse('profile_edit'))
         self.assertRedirects(response,
-                             reverse('profile_login')
+                             self.login_url
                              + "?next="
                              + reverse('profile_edit'), 302, 200)
 

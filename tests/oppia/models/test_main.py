@@ -1,13 +1,5 @@
-from django.test import TestCase
-from django.contrib.auth.models import User
-from tastypie.test import ResourceTestCaseMixin
-
 from oppia.models import Course, Activity, Tracker
-
-from tests.user_logins import ADMIN_USER, \
-                              STAFF_USER, \
-                              NORMAL_USER, \
-                              TEACHER_USER
+from oppia.test import OppiaTestCase
 
 MAIN_FIXTURES = ['tests/test_user.json',
                  'tests/test_oppia.json',
@@ -16,15 +8,13 @@ MAIN_FIXTURES = ['tests/test_user.json',
                  'default_gamification_events.json',
                  'tests/test_tracker.json']
 
-class MainModelsCoreTest(ResourceTestCaseMixin, TestCase):
+
+class MainModelsCoreTest(OppiaTestCase):
     fixtures = MAIN_FIXTURES
 
     def setUp(self):
+        super(MainModelsCoreTest, self).setUp()
         self.course = Course.objects.get(pk=1)
-        self.admin_user = User.objects.get(pk=ADMIN_USER['id'])
-        self.staff_user = User.objects.get(pk=STAFF_USER['id'])
-        self.teacher_user = User.objects.get(pk=TEACHER_USER['id'])
-        self.normal_user = User.objects.get(pk=NORMAL_USER['id'])
 
         # test course.__unicode__()
     def test_course_get_title(self):
@@ -76,15 +66,12 @@ class MainModelsCoreTest(ResourceTestCaseMixin, TestCase):
         activity = Activity.objects.get(pk=1)
         self.assertEqual(activity.get_previous_activity(), None)
     
-class MainModelsCourseDownloadloadsNoneTest(ResourceTestCaseMixin, TestCase):
+class MainModelsCourseDownloadloadsNoneTest(OppiaTestCase):
     fixtures = MAIN_FIXTURES
 
     def setUp(self):
+        super(MainModelsCourseDownloadloadsNoneTest, self).setUp()
         self.course = Course.objects.get(pk=1)
-        self.admin_user = User.objects.get(pk=ADMIN_USER['id'])
-        self.staff_user = User.objects.get(pk=STAFF_USER['id'])
-        self.teacher_user = User.objects.get(pk=TEACHER_USER['id'])
-        self.normal_user = User.objects.get(pk=NORMAL_USER['id'])
         
     # test course is_first_download()
     def test_course_first_download_admin(self):
@@ -111,15 +98,12 @@ class MainModelsCourseDownloadloadsNoneTest(ResourceTestCaseMixin, TestCase):
                                type='download').delete()
         self.assertTrue(self.course.is_first_download(self.normal_user))
 
-class MainModelsCourseDownloadloadsTest(ResourceTestCaseMixin, TestCase):
+class MainModelsCourseDownloadloadsTest(OppiaTestCase):
     fixtures = MAIN_FIXTURES
 
     def setUp(self):
+        super(MainModelsCourseDownloadloadsTest, self).setUp()
         self.course = Course.objects.get(pk=1)
-        self.admin_user = User.objects.get(pk=ADMIN_USER['id'])
-        self.staff_user = User.objects.get(pk=STAFF_USER['id'])
-        self.teacher_user = User.objects.get(pk=TEACHER_USER['id'])
-        self.normal_user = User.objects.get(pk=NORMAL_USER['id'])
 
     # test course is not first_download()
     def test_course_not_first_download_admin(self):
@@ -133,5 +117,3 @@ class MainModelsCourseDownloadloadsTest(ResourceTestCaseMixin, TestCase):
 
     def test_course_not_first_download_user(self):
         self.assertFalse(self.course.is_first_download(self.normal_user))
-   
-        

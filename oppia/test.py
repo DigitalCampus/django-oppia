@@ -1,10 +1,6 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
-from tests.user_logins import ADMIN_USER, \
-                              STAFF_USER, \
-                              NORMAL_USER, \
-                              TEACHER_USER
 
 
 class OppiaTestCase(TestCase):
@@ -13,13 +9,11 @@ class OppiaTestCase(TestCase):
 
     def setUp(self):
         super(OppiaTestCase, self).setUp()
-        
         self.login_url = reverse('profile_login')
-        
-        self.admin_user = User.objects.get(pk=ADMIN_USER['id'])
-        self.staff_user = User.objects.get(pk=STAFF_USER['id'])
-        self.teacher_user = User.objects.get(pk=TEACHER_USER['id'])
-        self.normal_user = User.objects.get(pk=NORMAL_USER['id'])
+        self.admin_user = User.objects.get(pk=1)
+        self.staff_user = User.objects.get(pk=3)
+        self.teacher_user = User.objects.get(pk=4)
+        self.normal_user = User.objects.get(pk=2)
 
     
     def get_view(self, route, user=None):

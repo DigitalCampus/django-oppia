@@ -1,22 +1,16 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
-from django.test import TestCase
+from oppia.test import OppiaTestCase
 
 from profile.models import UserProfile, CustomField, UserProfileCustomField
 
-from tests.user_logins import ADMIN_USER, STAFF_USER, TEACHER_USER, NORMAL_USER
 
-
-class ProfileCustomFieldsTest(TestCase):
+class ProfileCustomFieldsTest(OppiaTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json']
     VALUE_STR_DEFAULT = "my string"
-
-    def setUp(self):
-        super(ProfileCustomFieldsTest, self).setUp()
-        self.user = User.objects.get(pk=NORMAL_USER['id'])
 
     def test_custom_field_model_name(self):
         custom_field = CustomField(
@@ -28,35 +22,35 @@ class ProfileCustomFieldsTest(TestCase):
         self.assertEqual(str(custom_field), 'my_cf_key')
 
     def test_get_can_upload_admin(self):
-        profile = UserProfile.objects.get(user_id=ADMIN_USER['id'])
+        profile = UserProfile.objects.get(user=self.admin_user)
         self.assertEqual(profile.get_can_upload(), True)
 
     def test_get_can_upload_staff(self):
-        profile = UserProfile.objects.get(user_id=STAFF_USER['id'])
+        profile = UserProfile.objects.get(user=self.staff_user)
         self.assertEqual(profile.get_can_upload(), True)
 
     def test_get_can_upload_teacher(self):
-        profile = UserProfile.objects.get(user_id=TEACHER_USER['id'])
+        profile = UserProfile.objects.get(user=self.teacher_user)
         self.assertEqual(profile.get_can_upload(), True)
 
     def test_get_can_upload_user(self):
-        profile = UserProfile.objects.get(user_id=NORMAL_USER['id'])
+        profile = UserProfile.objects.get(user=self.normal_user)
         self.assertEqual(profile.get_can_upload(), False)
 
     def test_get_can_upload_activity_log_admin(self):
-        profile = UserProfile.objects.get(user_id=ADMIN_USER['id'])
+        profile = UserProfile.objects.get(user=self.admin_user)
         self.assertEqual(profile.get_can_upload_activitylog(), True)
 
     def test_get_can_upload_activity_log_staff(self):
-        profile = UserProfile.objects.get(user_id=STAFF_USER['id'])
+        profile = UserProfile.objects.get(user=self.staff_user)
         self.assertEqual(profile.get_can_upload_activitylog(), True)
 
     def test_get_can_upload_activity_log_teacher(self):
-        profile = UserProfile.objects.get(user_id=TEACHER_USER['id'])
+        profile = UserProfile.objects.get(user=self.teacher_user)
         self.assertEqual(profile.get_can_upload_activitylog(), False)
 
     def test_get_can_upload_activity_log_user(self):
-        profile = UserProfile.objects.get(user_id=NORMAL_USER['id'])
+        profile = UserProfile.objects.get(user=self.normal_user)
         self.assertEqual(profile.get_can_upload_activitylog(), False)
         
     # test get_value string
@@ -69,7 +63,7 @@ class ProfileCustomFieldsTest(TestCase):
         custom_field.save()
 
         upcf = UserProfileCustomField(key_name=custom_field,
-                                      user=self.user,
+                                      user=self.normal_user,
                                       value_str=self.VALUE_STR_DEFAULT)
         upcf.save()
 
@@ -88,7 +82,7 @@ class ProfileCustomFieldsTest(TestCase):
             type='int')
         custom_field.save()
         upcf = UserProfileCustomField(key_name=custom_field,
-                                      user=self.user,
+                                      user=self.normal_user,
                                       value_int=123)
         upcf.save()
 
@@ -107,7 +101,7 @@ class ProfileCustomFieldsTest(TestCase):
             type='bool')
         custom_field.save()
         upcf = UserProfileCustomField(key_name=custom_field,
-                                      user=self.user,
+                                      user=self.normal_user,
                                       value_bool=True)
         upcf.save()
 
@@ -126,13 +120,13 @@ class ProfileCustomFieldsTest(TestCase):
             type='str')
         custom_field.save()
         upcf = UserProfileCustomField(key_name=custom_field,
-                                      user=self.user,
+                                      user=self.normal_user,
                                       value_str=self.VALUE_STR_DEFAULT)
         upcf.save()
 
         with self.assertRaises(IntegrityError):
             upcf = UserProfileCustomField(key_name=custom_field,
-                                          user=self.user,
+                                          user=self.normal_user,
                                           value_str="my other string")
             upcf.save()
 
@@ -144,7 +138,7 @@ class ProfileCustomFieldsTest(TestCase):
             type='int')
         custom_field.save()
         upcf = UserProfileCustomField(key_name=custom_field,
-                                      user=self.user,
+                                      user=self.normal_user,
                                       value_int=True)
         upcf.save()
 
@@ -161,7 +155,7 @@ class ProfileCustomFieldsTest(TestCase):
             type='str')
         custom_field.save()
         upcf = UserProfileCustomField(key_name=custom_field,
-                                      user=self.user,
+                                      user=self.normal_user,
                                       value_str=True)
         upcf.save()
         self.assertEqual(True, upcf.get_value())
@@ -178,7 +172,7 @@ class ProfileCustomFieldsTest(TestCase):
         custom_field.save()
         with self.assertRaises(ValidationError):
             UserProfileCustomField(key_name=custom_field,
-                                   user=self.user,
+                                   user=self.normal_user,
                                    value_bool=123).save()
 
     def test_wrong_type_int_in_bool_0(self):
@@ -189,7 +183,7 @@ class ProfileCustomFieldsTest(TestCase):
             type='bool')
         custom_field.save()
         upcf = UserProfileCustomField(key_name=custom_field,
-                                      user=self.user,
+                                      user=self.normal_user,
                                       value_bool=0)
         upcf.save()
         self.assertEqual(0, upcf.get_value())
@@ -202,7 +196,7 @@ class ProfileCustomFieldsTest(TestCase):
             type='bool')
         custom_field.save()
         upcf = UserProfileCustomField(key_name=custom_field,
-                                      user=self.user,
+                                      user=self.normal_user,
                                       value_bool=1)
         upcf.save()
         self.assertEqual(1, upcf.get_value())
@@ -215,7 +209,7 @@ class ProfileCustomFieldsTest(TestCase):
             type='str')
         custom_field.save()
         upcf = UserProfileCustomField(key_name=custom_field,
-                                      user=self.user,
+                                      user=self.normal_user,
                                       value_str=123)
         upcf.save()
         self.assertEqual(123, upcf.get_value())
@@ -229,7 +223,7 @@ class ProfileCustomFieldsTest(TestCase):
         custom_field.save()
         with self.assertRaises(ValidationError):
             UserProfileCustomField(key_name=custom_field,
-                                   user=self.user,
+                                   user=self.normal_user,
                                    value_bool=self.VALUE_STR_DEFAULT).save()
 
     def test_wrong_type_str_in_int(self):
@@ -241,5 +235,5 @@ class ProfileCustomFieldsTest(TestCase):
         custom_field.save()
         with self.assertRaises(ValueError):
             UserProfileCustomField(key_name=custom_field,
-                                   user=self.user,
+                                   user=self.normal_user,
                                    value_int=self.VALUE_STR_DEFAULT).save()

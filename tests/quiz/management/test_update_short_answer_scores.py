@@ -1,7 +1,7 @@
-from django.test import TestCase
+from oppia.test import OppiaTestCase
 
 
-class UpdateShortAnswerScoresTest(TestCase):
+class UpdateShortAnswerScoresTest(OppiaTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',

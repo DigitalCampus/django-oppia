@@ -1,11 +1,11 @@
 from io import StringIO
 from django.core.management import call_command
-from django.test import TestCase
+from oppia.test import OppiaTestCase
 
 from quiz.models import QuizAttempt
 
 
-class RemoveDuplicateQuizAttemptsTest(TestCase):
+class RemoveDuplicateQuizAttemptsTest(OppiaTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',

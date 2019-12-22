@@ -15,19 +15,13 @@ class UploadActivityLogTest(OppiaTestCase):
                 'tests/test_permissions.json',
                 'default_gamification_events.json']
 
-    def setUp(self):
-        super(UploadActivityLogTest, self).setUp()
-        self.url = reverse('oppia_activitylog_upload')
-        self.basic_activity_log = \
-            './oppia/fixtures/activity_logs/basic_activity.json'
-        self.activity_log_file_path = \
+    url = reverse('oppia_activitylog_upload')
+    basic_activity_log = './oppia/fixtures/activity_logs/basic_activity.json'
+    activity_log_file_path = \
             './oppia/fixtures/activity_logs/activity_upload_test.json'
-        self.wrong_activity_file = \
-            './oppia/fixtures/activity_logs/wrong_format.json'
-        self.new_user_activity = \
-            './oppia/fixtures/activity_logs/new_user_activity.json'
-        self.quiz_attempt_log = \
-            './oppia/fixtures/activity_logs/quiz_attempts.json'
+    wrong_activity_file = './oppia/fixtures/activity_logs/wrong_format.json'
+    new_user_activity = './oppia/fixtures/activity_logs/new_user_activity.json'
+    quiz_attempt_log = './oppia/fixtures/activity_logs/quiz_attempts.json'
 
     def test_no_file(self):
         # no file
