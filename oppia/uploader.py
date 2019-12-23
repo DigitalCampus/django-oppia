@@ -192,6 +192,7 @@ def process_course(extract_path, f, mod_name, request, user):
 
     return course, 200
 
+
 def process_course_sections(request, structure, course, user, new_course):
     for index, section in enumerate(structure.findall("section")):
 
@@ -228,6 +229,7 @@ def process_course_sections(request, structure, course, user, new_course):
                                     act,
                                     new_course)
 
+
 def process_course_media_events(request, media, events, course, user):
     for event in events:
         # Only add events if the didn't exist previously
@@ -245,6 +247,7 @@ def process_course_media_events(request, media, events, course, user):
                                 user=user,
                                 action="course_gamification_added",
                                 data=msg_text).save()
+
 
 def process_course_media(request, media_element, course, user):
     for file_element in media_element.findall('file'):
@@ -280,6 +283,7 @@ def process_course_media(request, media_element, course, user):
             events = parse_gamification_events(gamification)
 
             process_course_media_events(request, media, events, course, user)
+
 
 def parse_course_contents(request, xml_doc, course, user, new_course):
 
@@ -326,6 +330,7 @@ def parse_baseline_activities(request, xml_doc, course, user, new_course):
                                         new_course,
                                         is_baseline=True)
 
+
 def get_activity_content(activity):
     content = ""
     activity_type = activity.get("type")
@@ -343,8 +348,9 @@ def get_activity_content(activity):
             content = c.text
     else:
         content = None
-        
+
     return content, activity_type
+
 
 def parse_and_save_activity(request,
                             user,
@@ -428,7 +434,8 @@ def parse_and_save_activity(request,
                                            activity_node)
         # we need to update the JSON contents both in the XML and in the
         # activity data
-        activity_node.find("content").text = "<![CDATA[ " + updated_json + "]]>"
+        activity_node.find("content").text = \
+            "<![CDATA[ " + updated_json + "]]>"
         activity.content = updated_json
 
     activity.save()
