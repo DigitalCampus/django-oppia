@@ -3,9 +3,7 @@ import datetime
 
 from django.core.exceptions import FieldDoesNotExist
 from django.http import HttpResponse
-from django.utils.decorators import classonlymethod
-from django.views import View
-from django_filters.views import BaseFilterView, FilterView
+from django_filters.views import FilterView
 
 
 class ExportAsCSVMixin(FilterView):
@@ -42,12 +40,11 @@ class ExportAsCSVMixin(FilterView):
                 # If it is not a field, we try to find a property with that
                 # name
                 if field_name in dir(self.model) \
-                        and isinstance(getattr(self.model, 
+                        and isinstance(getattr(self.model,
                                                field_name), property) \
                         and field_name in self.field_labels:
                     return self.field_labels[field_name]
         return None
-
 
     def export_csv(self, request, filter_list=None, *args, **kwargs):
 
@@ -82,7 +79,7 @@ class ExportAsCSVMixin(FilterView):
             for field in final_fields:
                 value = getattr(elem, field)
                 value = str(value).strip() if value else ''
-                results.append( value )
+                results.append(value)
             writer.writerow(results)
 
         return response
@@ -92,9 +89,8 @@ class ExportAsCSVMixin(FilterView):
         context['export_csv_fields'] = self.__csv_fields
         return context
 
-
     def get(self, request, *args, **kwargs):
-        if request.GET.get('export','') == 'csv':
+        if request.GET.get('export', '') == 'csv':
             if 'o' in request.GET:
                 request.GET = request.GET.copy()
                 del request.GET['o']

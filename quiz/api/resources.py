@@ -28,19 +28,19 @@ class QuizAttemptResponseResource(ModelResource):
 
     def hydrate(self, bundle, request=None):
         try:
-            bundle.obj.question = Question.objects.get(pk=bundle.data['question_id'])
+            bundle.obj.question = Question.objects.get(
+                pk=bundle.data['question_id'])
         except Question.DoesNotExist:
             raise BadRequest(_(u'Question does not exist'))
-        
         return bundle
 
 
 class QuizAttemptResource(ModelResource):
     responses = fields.ToManyField(QuizAttemptResponseResource,
-                     'responses',
-                     related_name='quizattempt',
-                     full=True,
-                     null=True)
+                                   'responses',
+                                   related_name='quizattempt',
+                                   full=True,
+                                   null=True)
     points = fields.IntegerField(readonly=True)
     badges = fields.IntegerField(readonly=True)
 

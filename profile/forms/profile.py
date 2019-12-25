@@ -88,7 +88,7 @@ class ProfileForm(forms.Form):
                     css_class="form-group",
                 )
             )
-        
+
         self.helper.layout.extend(
             ['api_key',
              'username',

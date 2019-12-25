@@ -59,7 +59,7 @@ class Command(BaseCommand):
 
             except Quiz.DoesNotExist:
                 pass
-            
+
     def handle(self, *args, **options):
 
         self.remove_duplicate_quizzes()
