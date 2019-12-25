@@ -6,7 +6,6 @@ from django.dispatch import Signal
 
 from gamification.models import DefaultGamificationEvent
 from oppia.models import Points, Tracker, Activity
-from quiz.models import QuizAttempt
 
 course_downloaded = Signal(providing_args=["course", "user"])
 
@@ -120,6 +119,7 @@ def calculate_media_points(tracker):
 
     return points
 
+
 def tracker_process_points(tracker, type, description, points):
     if tracker.points is not None:
         points = tracker.points
@@ -140,6 +140,7 @@ def tracker_process_points(tracker, type, description, points):
     p.user = tracker.user
     p.course = tracker.course
     p.save()
+
 
 def tracker_callback(sender, **kwargs):
 

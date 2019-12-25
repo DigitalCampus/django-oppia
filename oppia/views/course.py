@@ -5,7 +5,7 @@ from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db.models import Count, Sum
-from django.http import HttpResponseRedirect, HttpResponse, Http404
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
@@ -72,9 +72,6 @@ def render_courses_list(request, courses, params=None):
     params['course_filter'] = course_filter
 
     return render(request, 'course/list.html', params)
-
-
-
 
 
 def tag_courses_view(request, tag_id):
@@ -180,6 +177,7 @@ def upload_step2(request, course_id, editing=False):
                    'editing': editing,
                    'title': page_title})
 
+
 def update_course_tags(form, course, user):
     tags = form.cleaned_data.get("tags", "").strip().split(",")
     is_draft = form.cleaned_data.get("is_draft")
@@ -188,7 +186,7 @@ def update_course_tags(form, course, user):
         course.save()
         # remove any existing tags
         CourseTag.objects.filter(course=course).delete()
-        # now add the new ones        
+        # now add the new ones
         for t in tags:
             try:
                 tag = Tag.objects.get(name__iexact=t.strip())

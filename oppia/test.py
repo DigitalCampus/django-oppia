@@ -15,7 +15,6 @@ class OppiaTestCase(TestCase):
         self.teacher_user = User.objects.get(pk=4)
         self.normal_user = User.objects.get(pk=2)
 
-    
     def get_view(self, route, user=None):
         if user is not None:
             self.client.force_login(user)

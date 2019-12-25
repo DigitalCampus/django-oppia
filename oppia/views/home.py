@@ -154,6 +154,7 @@ def teacher_home_view(request):
                   {'cohorts': cohorts,
                    'activity_graph_data': activity, })
 
+
 def leaderboard_view(request):
     lb = Points.get_leaderboard()
     paginator = Paginator(lb, 25)  # Show 25 per page
@@ -171,6 +172,7 @@ def leaderboard_view(request):
         leaderboard = paginator.page(paginator.num_pages)
 
     return render(request, 'oppia/leaderboard.html', {'page': leaderboard})
+
 
 def app_launch_activity_redirect_view(request):
     try:

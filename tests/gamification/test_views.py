@@ -3,12 +3,12 @@ from oppia.test import OppiaTestCase
 
 
 class GamificationViewsTest(OppiaTestCase):
-    
+
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
                 'default_gamification_events.json']
-    
+
     export_server = reverse('oppia_gamification_leaderboard_export_server')
 
     def test_leaderboard_export_admin(self):
@@ -50,4 +50,3 @@ class GamificationViewsTest(OppiaTestCase):
                       args=[121])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 404)
-        
