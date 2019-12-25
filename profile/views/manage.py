@@ -225,23 +225,25 @@ class UploadUsers(View):
             auto_password = True
         try:
             user.save()
-            up = UserProfile()
-            up.user = user
-            for col_name in row:
-                setattr(up, col_name, row[col_name])
-            up.save()
-            result = {}
-            result['username'] = row['username']
-            result['created'] = True
-            if auto_password:
-                result['message'] = \
-                    _(u'User created with password: %s' % password)
-            else:
-                result['message'] = _(u'User created')
         except IntegrityError:
             result = {}
             result['username'] = row['username']
             result['created'] = False
             result['message'] = _(u'User already exists')
-    
+            return result
+
+        up = UserProfile()
+        up.user = user
+        for col_name in row:
+            setattr(up, col_name, row[col_name])
+        up.save()
+        result = {}
+        result['username'] = row['username']
+        result['created'] = True
+        if auto_password:
+            result['message'] = \
+                _(u'User created with password: %s' % password)
+        else:
+            result['message'] = _(u'User created')
+        
         return result
