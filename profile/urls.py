@@ -61,7 +61,7 @@ urlpatterns = [
         name="profile_user_quiz_attempt_detail"),
 
     url(r'^upload/$',
-        oppia_profile_views.upload_view,
+        oppia_profile_views.UploadUsers.as_view(),
         name="profile_upload"),
     url(r'^search/$',
         oppia_profile_views.search_users,
