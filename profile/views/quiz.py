@@ -1,10 +1,12 @@
 import time
 from django.contrib.auth.models import User
+from django.core.exceptions import PermissionDenied
 from django.views.generic import ListView, DetailView
 
 from helpers.mixins.AjaxTemplateResponseMixin import AjaxTemplateResponseMixin
 from helpers.mixins.ListItemUrlMixin import ListItemUrlMixin
 from oppia.models import Course
+from oppia.permissions import get_user
 from quiz.models import QuizAttempt, Quiz
 
 
@@ -50,7 +52,10 @@ class UserAttemptsList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
         context['profile'] = User.objects.get(pk=self.kwargs['user_id'])
         context['show_course_info'] = True
         return context
-
+    
+    def get(self, request, **kwargs):
+        get_user(request, self.kwargs['user_id'])
+        return super(UserAttemptsList, self).get(request)
 
 class QuizAttemptDetail(DetailView):
 
@@ -71,3 +76,4 @@ class QuizAttemptDetail(DetailView):
         context['course'] = Course.objects.get(pk=self.kwargs['course_id'])
 
         return context
+
