@@ -33,7 +33,7 @@ class Command(BaseCommand):
                 or source_site is None:
             self.stdout.write("Please check account/key and source site.")
             return
-        
+
         # check can connect to cartodb API
         sql = "SELECT * FROM %s WHERE source_site='%s'" \
             % (CARTODB_TABLE, source_site)

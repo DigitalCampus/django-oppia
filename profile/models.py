@@ -97,4 +97,3 @@ class UserProfileCustomField (models.Model):
             return self.value_int
         else:
             return self.value_str
-

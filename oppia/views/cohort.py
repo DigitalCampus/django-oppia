@@ -31,6 +31,7 @@ def cohort_list_view(request):
     cohorts = Cohort.objects.all()
     return render(request, 'cohort/list.html', {'cohorts': cohorts, })
 
+
 def cohort_add_roles(cohort, role, users):
     user_list = users.strip().split(",")
     if len(user_list) > 0:
@@ -44,6 +45,7 @@ def cohort_add_roles(cohort, role, users):
             except User.DoesNotExist:
                 pass
 
+
 def cohort_add_courses(cohort, courses):
     course_list = courses.strip().split(",")
     if len(course_list) > 0:
@@ -53,6 +55,7 @@ def cohort_add_courses(cohort, courses):
                 CourseCohort(cohort=cohort, course=course).save()
             except Course.DoesNotExist:
                 pass
+
 
 def cohort_add(request):
     if not can_add_cohort(request):

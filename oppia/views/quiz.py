@@ -1,12 +1,11 @@
 # oppia/views.py
 
-from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.shortcuts import render
 
 from oppia.models import Activity
 from oppia.permissions import check_owner
 from oppia.views.utils import quiz_attempts_pagination
-from quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
+from quiz.models import Quiz
 
 
 def course_quiz(request, course_id):

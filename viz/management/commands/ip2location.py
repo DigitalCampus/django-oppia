@@ -4,10 +4,6 @@ Management command to get user locations based on their IP address in the
 Tracker model
 """
 
-import json
-import time
-import urllib
-
 from django.core.management.base import BaseCommand
 from django.db.models import Count
 from django.utils.translation import ugettext_lazy as _
@@ -36,7 +32,7 @@ class Command(BaseCommand):
             except UserLocationVisualization.DoesNotExist:
                 pass
                 # https://freegeoip.net is no longer available
-                # see: issue: 
+                # see: issue:
                 # https://github.com/DigitalCampus/django-oppia/issues/720
 
         self.stdout.write("completed")

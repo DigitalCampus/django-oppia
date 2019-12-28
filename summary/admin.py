@@ -6,6 +6,7 @@ from summary.models import UserCourseSummary, \
 
 STR_UPDATE_SUMMARY = "Update summary"
 
+
 def message_user(model, request, model_name, query_count):
     if query_count == 1:
         model.message_user(request,

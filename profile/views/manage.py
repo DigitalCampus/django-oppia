@@ -9,6 +9,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import ugettext as _
+from django.views import View
 from tastypie.models import ApiKey
 
 import profile
@@ -146,51 +147,91 @@ def delete_account_complete_view(request):
     return render(request, 'profile/delete_account_complete.html')
 
 
-def process_upload_user_file(csv_file, required_fields):
-    results = []
-    try:
-        for row in csv_file:
-            # check all required fields defined
-            all_defined = True
-            for rf in required_fields:
-                if rf not in row or row[rf].strip() == '':
-                    result = {}
-                    result['username'] = row['username']
-                    result['created'] = False
-                    result['message'] = _(u'No %s set' % rf)
-                    results.append(result)
-                    all_defined = False
+class UploadUsers(View):
 
-            if not all_defined:
-                continue
+    form_class = UploadProfileForm
+    template_name = 'profile/upload.html'
 
-            results.append(process_upload_file_save_user(row))
+    def get(self, request):
+        if not request.user.is_superuser:
+            raise PermissionDenied
+    
+        results = []
+        form = self.form_class()
+    
+        return render(request, self.template_name,
+                      {'form': form,
+                       'results': results})
+    
+        
+    def post(self, request):
+        if not request.user.is_superuser:
+            raise PermissionDenied
+        
+        results = []
+        form = self.form_class(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = csv.DictReader(
+                chunk.decode() for chunk in request.FILES['upload_file'])
+            required_fields = ['username', 'firstname', 'lastname', 'email']
+            results = self.process_upload_user_file(csv_file, required_fields)
+            
+        return render(request, self.template_name,
+                      {'form': form,
+                       'results': results})
 
-    except Exception:
-        result = {}
-        result['username'] = None
-        result['created'] = False
-        result['message'] = _(u'Could not parse file')
-        results.append(result)
+    def process_upload_user_file(self, csv_file, required_fields):
+        results = []
+        try:
+            for row in csv_file:
+                # check all required fields defined
+                all_defined = True
+                for rf in required_fields:
+                    if rf not in row or row[rf].strip() == '':
+                        result = {}
+                        result['username'] = row['username']
+                        result['created'] = False
+                        result['message'] = _(u'No %s set' % rf)
+                        results.append(result)
+                        all_defined = False
+    
+                if not all_defined:
+                    continue
+    
+                results.append(self.process_upload_file_save_user(row))
+    
+        except Exception:
+            result = {}
+            result['username'] = None
+            result['created'] = False
+            result['message'] = _(u'Could not parse file')
+            results.append(result)
+    
+        return results
+    
+    
+    def process_upload_file_save_user(self, row):
+        user = User()
+        user.username = row['username']
+        user.first_name = row['firstname']
+        user.last_name = row['lastname']
+        user.email = row['email']
+        auto_password = False
+        if 'password' in row:
+            user.set_password(row['password'])
+        else:
+            password = User.objects.make_random_password()
+            user.set_password(password)
+            auto_password = True
+        try:
+            user.save()
+        except IntegrityError:
+            result = {}
+            result['username'] = row['username']
+            result['created'] = False
+            result['message'] = _(u'User already exists')
+            return result
 
-    return results
-
-
-def process_upload_file_save_user(row):
-    user = User()
-    user.username = row['username']
-    user.first_name = row['firstname']
-    user.last_name = row['lastname']
-    user.email = row['email']
-    auto_password = False
-    if 'password' in row:
-        user.set_password(row['password'])
-    else:
-        password = User.objects.make_random_password()
-        user.set_password(password)
-        auto_password = True
-    try:
-        user.save()
         up = UserProfile()
         up.user = user
         for col_name in row:
@@ -204,29 +245,5 @@ def process_upload_file_save_user(row):
                 _(u'User created with password: %s' % password)
         else:
             result['message'] = _(u'User created')
-    except IntegrityError:
-        result = {}
-        result['username'] = row['username']
-        result['created'] = False
-        result['message'] = _(u'User already exists')
-
-    return result
-
-def upload_view(request):
-    if not request.user.is_superuser:
-        raise PermissionDenied
-
-    if request.method == 'POST':  # if form submitted...
-        form = UploadProfileForm(request.POST, request.FILES)
-        if form.is_valid():
-            csv_file = csv.DictReader(
-                chunk.decode() for chunk in request.FILES['upload_file'])
-            required_fields = ['username', 'firstname', 'lastname', 'email']
-            results = process_upload_user_file(csv_file, required_fields)
-    else:
-        results = []
-        form = UploadProfileForm()
-
-    return render(request, 'profile/upload.html',
-                  {'form': form,
-                   'results': results})
+        
+        return result
