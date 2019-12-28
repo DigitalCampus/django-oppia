@@ -18,10 +18,6 @@ class QuizAttemptsList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
     template_name = 'profile/quiz/attempts.html'
     ajax_template_name = 'quiz/attempts_query.html'
     paginate_by = 15
-
-    #def get(self, request, **kwargs):
-    #    get_user(request, self.kwargs['user_id'])
-    #    return super(UserAttemptsList, self).get(request)
     
     def get_queryset(self):
         user = self.kwargs['user_id']
@@ -65,10 +61,6 @@ class QuizAttemptDetail(DetailView):
 
     model = QuizAttempt
     template_name = 'quiz/attempt.html'
-
-    def get(self, request, **kwargs):
-        print(get_user(request, self.kwargs['user_id']))
-        return super(QuizAttemptDetail, self).get(request)
     
     def get_queryset(self):
         user = self.kwargs['user_id']

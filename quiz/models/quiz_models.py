@@ -115,6 +115,7 @@ class QuizAttempt(models.Model):
     class Meta:
         verbose_name = _('QuizAttempt')
         verbose_name_plural = _('QuizAttempts')
+        ordering = ['-submitted_date', '-attempt_date']
 
     def get_score_percent(self):
         if self.maxscore > 0:

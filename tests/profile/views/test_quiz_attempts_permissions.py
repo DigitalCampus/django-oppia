@@ -149,14 +149,12 @@ class ProfileQuizAttemptPermissionsViewTest(OppiaTestCase):
             self.assertRaises(PermissionDenied)
             self.assertEqual(403, response.status_code)
             self.assertTemplateUsed(response, UNAUTHORISED_TEMPLATE)
-         
-        '''   
+           
         # can view  
-        url = reverse('profile_user_quiz_attempts', args=[user.id,
+        url = reverse('profile_user_quiz_attempts', args=[self.normal_user.id,
                                                           self.course_id,
                                                           self.quiz_id])
         response = self.client.get(url)
         self.assertEqual(200, response.status_code)
-        '''
     
     # test profile_user_quiz_attempt_detail
