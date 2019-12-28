@@ -1,4 +1,3 @@
-# oppia/views.py
 import datetime
 import json
 
@@ -8,8 +7,7 @@ from django.db.models import Sum
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from helpers.forms.dates import DateRangeIntervalForm, \
-    DateRangeForm
+from helpers.forms.dates import DateRangeIntervalForm, DateRangeForm
 from oppia.models import Points
 from oppia.models import Tracker
 from oppia.permissions import can_view_course_detail

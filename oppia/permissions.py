@@ -198,7 +198,7 @@ def can_view_course_detail(request, course_id):
             raise Http404
         return course, None
     else:
-        return None, PermissionDenied
+        raise PermissionDenied
 
 
 def can_edit_course(request, course_id):
