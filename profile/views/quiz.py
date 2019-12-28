@@ -22,8 +22,13 @@ class QuizAttemptsList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
     def get_queryset(self):
         user = self.kwargs['user_id']
         quiz = self.kwargs['quiz_id']
+
+        # check permissions, get_user raises PermissionDenied
         get_user(self.request, user)
-        return QuizAttempt.objects.filter(user__pk=user, quiz__pk=quiz)
+
+        return QuizAttempt.objects \
+            .filter(user__pk=user, quiz__pk=quiz) \
+            .order_by('-submitted_date', '-attempt_date')
 
     def get_context_data(self, **kwargs):
 
@@ -45,17 +50,20 @@ class UserAttemptsList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
 
     def get_queryset(self):
         user = self.kwargs['user_id']
-        return QuizAttempt.objects.filter(user__pk=user)
+
+        # check permissions, get_user raises PermissionDenied
+        get_user(self.request, user)
+
+        return QuizAttempt.objects \
+            .filter(user__pk=user) \
+            .order_by('-submitted_date', '-attempt_date')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['profile'] = User.objects.get(pk=self.kwargs['user_id'])
         context['show_course_info'] = True
         return context
-    
-    def get(self, request, **kwargs):
-        user, exception = get_user(request, self.kwargs['user_id'])
-        return super(UserAttemptsList, self).get(request)
+
 
 class QuizAttemptDetail(DetailView):
 
@@ -66,7 +74,13 @@ class QuizAttemptDetail(DetailView):
         user = self.kwargs['user_id']
         quiz = self.kwargs['quiz_id']
 
-        return QuizAttempt.objects.filter(user__pk=user, quiz__pk=quiz).prefetch_related('responses')
+        # check permissions, get_user raises PermissionDenied
+        get_user(self.request, user)
+
+        return QuizAttempt.objects \
+            .filter(user__pk=user, quiz__pk=quiz) \
+            .order_by('-submitted_date', '-attempt_date') \
+            .prefetch_related('responses')
 
     def get_context_data(self, **kwargs):
 
