@@ -4,7 +4,6 @@ from itertools import chain
 
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.core import exceptions
 from django.core.exceptions import PermissionDenied
 from django.http import Http404, HttpResponseForbidden
 
@@ -79,9 +78,9 @@ def get_user(request, view_user_id):
         if courses > 0:
             return view_user, None
         else:
-            raise exceptions.PermissionDenied
+            raise PermissionDenied
     except User.DoesNotExist:
-        raise exceptions.PermissionDenied
+        raise PermissionDenied
 
 
 def get_user_courses(request, view_user):
@@ -152,8 +151,8 @@ def can_view_cohort(request, cohort_id):
                                   participant__user=request.user,
                                   participant__role=Participant.TEACHER), None
     except Cohort.DoesNotExist:
-        raise exceptions.PermissionDenied
-    raise exceptions.PermissionDenied
+        raise PermissionDenied
+    raise PermissionDenied
 
 
 def get_cohorts(request):
@@ -165,7 +164,7 @@ def get_cohorts(request):
             participant__role=Participant.TEACHER).order_by('description')
 
     if cohorts.count() == 0:
-        raise exceptions.PermissionDenied
+        raise PermissionDenied
 
     return cohorts, None
 
@@ -199,7 +198,7 @@ def can_view_course_detail(request, course_id):
             raise Http404
         return course, None
     else:
-        return None, exceptions.PermissionDenied
+        return None, PermissionDenied
 
 
 def can_edit_course(request, course_id):
