@@ -1,4 +1,5 @@
 from django.urls import reverse
+from django.core.exceptions import PermissionDenied
 from oppia.test import OppiaTestCase
 
 from tests.defaults import UNAUTHORISED_TEMPLATE
@@ -107,7 +108,7 @@ class ProfileQuizAttemptPermissionsViewTest(OppiaTestCase):
                                                               self.quiz_id])
             response = self.client.get(url)
             self.assertEqual(200, response.status_code)
-
+    
     def test_profile_user_quiz_attempts_teacher(self):
         # teacher can only viewing course activity
         self.client.force_login(user=self.teacher_user)
@@ -115,18 +116,18 @@ class ProfileQuizAttemptPermissionsViewTest(OppiaTestCase):
         # cannot view
         for user in [self.admin_user,
                      self.staff_user]:
-            print(user.username)
             url = reverse('profile_user_quiz_attempts', args=[user.id,
                                                               self.course_id,
                                                               self.quiz_id])
             response = self.client.get(url)
+            self.assertRaises(PermissionDenied)
             self.assertEqual(403, response.status_code)
             self.assertTemplateUsed(response, UNAUTHORISED_TEMPLATE)
 
+        
         # can view  
         for user in [self.teacher_user,
                      self.normal_user]:
-            print(user.username)
             url = reverse('profile_user_quiz_attempts', args=[user.id,
                                                               self.course_id,
                                                               self.quiz_id])
@@ -145,14 +146,17 @@ class ProfileQuizAttemptPermissionsViewTest(OppiaTestCase):
                                                               self.course_id,
                                                               self.quiz_id])
             response = self.client.get(url)
+            self.assertRaises(PermissionDenied)
             self.assertEqual(403, response.status_code)
             self.assertTemplateUsed(response, UNAUTHORISED_TEMPLATE)
-            
+         
+        '''   
         # can view  
         url = reverse('profile_user_quiz_attempts', args=[user.id,
                                                           self.course_id,
                                                           self.quiz_id])
         response = self.client.get(url)
         self.assertEqual(200, response.status_code)
+        '''
     
     # test profile_user_quiz_attempt_detail
