@@ -178,9 +178,7 @@ class PermissionsViewTest(OppiaTestCase):
         self.assertEqual(res.context['page'].paginator.count, 3)
 
     def test_student_cantview_courses_list(self):
-        res = self.assert_can_view('oppia_course', self.normal_user)
-        # check that the number of courses dont include the draft ones
-        self.assertEqual(res.context['page'].paginator.count, 2)
+        res = self.assert_unauthorized('oppia_course', self.normal_user)
 
     # View course recent activity
 
