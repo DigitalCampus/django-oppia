@@ -4,7 +4,6 @@ from django.shortcuts import render
 
 from oppia.models import Activity
 from oppia.permissions import check_owner
-from oppia.views.utils import quiz_attempts_pagination
 from quiz.models import Quiz
 
 
@@ -29,18 +28,6 @@ def course_quiz(request, course_id):
                    'quizzes': quizzes})
 
 
-def course_quiz_attempts(request, course_id, quiz_id):
-    # get the quiz digests for this course
-    course, quiz, attempts = quiz_attempts_pagination(request,
-                                                      course_id,
-                                                      quiz_id)
-
-    return render(request, 'course/quiz-attempts.html',
-                  {'course': course,
-                   'quiz': quiz,
-                   'page': attempts})
-
-
 def course_feedback(request, course_id):
     course = check_owner(request, course_id)
     digests = Activity.objects.filter(section__course=course,
@@ -58,14 +45,3 @@ def course_feedback(request, course_id):
                   {'course': course,
                    'feedback': feedback})
 
-
-def course_feedback_responses(request, course_id, quiz_id):
-    # get the quiz digests for this course
-    course, quiz, attempts = quiz_attempts_pagination(request,
-                                                      course_id,
-                                                      quiz_id)
-
-    return render(request, 'course/feedback-responses.html',
-                  {'course': course,
-                   'quiz': quiz,
-                   'page': attempts})
