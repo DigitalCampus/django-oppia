@@ -51,12 +51,6 @@ urlpatterns = [
     url(r'^course/(?P<course_id>\d+)/download/$',
         oppia_views.course_download_view,
         name="oppia_course_download"),
-    url(r'^course/(?P<course_id>\d+)/quiz/$',
-        oppia_views.course_quiz,
-        name="oppia_course_quiz"),
-    url(r'^course/(?P<course_id>\d+)/feedback/$',
-        oppia_views.course_feedback,
-        name="oppia_course_feedback"),
 
     url(r'^cohort/$',
         oppia_views.cohort_list_view,
