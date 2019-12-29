@@ -63,7 +63,7 @@ def get_user(request, view_user_id):
     if request.user.is_staff or (request.user.id == int(view_user_id)):
         try:
             view_user = User.objects.get(pk=view_user_id)
-            return view_user, None
+            return view_user
         except User.DoesNotExist:
             raise Http404()
     try:
@@ -76,7 +76,7 @@ def get_user(request, view_user_id):
                 coursecohort__cohort__participant__role=Participant.TEACHER) \
             .count()
         if courses > 0:
-            return view_user, None
+            return view_user
         else:
             raise PermissionDenied
     except User.DoesNotExist:
