@@ -196,7 +196,7 @@ def can_view_course_detail(request, course_id):
             course = Course.objects.get(pk=course_id)
         except Course.DoesNotExist:
             raise Http404
-        return course, None
+        return course
     else:
         raise PermissionDenied
 
