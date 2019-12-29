@@ -49,7 +49,13 @@ class OppiaActivityViewsTest(OppiaTestCase):
         response = self.client.get(self.url_recent_activity)
         self.assertEqual(403, response.status_code)
         self.assertTemplateUsed(self.activity_detail_template)
-               
+
+    def test_recent_activity_invalid_course(self):
+        self.client.force_login(user=self.admin_user)
+        response = self.client.get(reverse('oppia_recent_activity',
+                                           args=[999]))
+        self.assertEqual(404, response.status_code)
+          
     def test_recent_activity_post_dates(self):
         self.client.force_login(user=self.admin_user)
         post_data = {'start_date': '2019-11-28 00:00:00',
@@ -94,7 +100,7 @@ class OppiaActivityViewsTest(OppiaTestCase):
         self.assertRaises(ValidationError)
         self.assertEqual(200, response.status_code)
         self.assertTemplateUsed(self.activity_detail_template)
-
+        
     def test_recent_activity_detail_get_admin(self):
         self.client.force_login(user=self.admin_user)
         response = self.client.get(self.url_recent_activity_detail)

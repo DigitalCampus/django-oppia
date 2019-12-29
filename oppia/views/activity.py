@@ -18,9 +18,7 @@ from summary.models import CourseDailyStats
 
 def recent_activity(request, course_id):
 
-    course, response = can_view_course_detail(request, course_id)
-    if response is not None:
-        raise response
+    course = can_view_course_detail(request, course_id)
 
     dashboard_accessed.send(sender=None, request=request, data=course)
 
@@ -76,10 +74,7 @@ def recent_activity(request, course_id):
 
 
 def recent_activity_detail(request, course_id):
-    course, response = can_view_course_detail(request, course_id)
-
-    if response is not None:
-        return response
+    course = can_view_course_detail(request, course_id)
 
     start_date = datetime.datetime.now() - datetime.timedelta(days=31)
     end_date = datetime.datetime.now()
@@ -135,10 +130,7 @@ def recent_activity_detail(request, course_id):
 
 
 def export_tracker_detail(request, course_id):
-    course, response = can_view_course_detail(request, course_id)
-
-    if response is not None:
-        return response
+    course = can_view_course_detail(request, course_id)
 
     headers = ('Date',
                'UserId',

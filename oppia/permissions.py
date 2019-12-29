@@ -63,7 +63,7 @@ def get_user(request, view_user_id):
     if request.user.is_staff or (request.user.id == int(view_user_id)):
         try:
             view_user = User.objects.get(pk=view_user_id)
-            return view_user, None
+            return view_user
         except User.DoesNotExist:
             raise Http404()
     try:
@@ -76,7 +76,7 @@ def get_user(request, view_user_id):
                 coursecohort__cohort__participant__role=Participant.TEACHER) \
             .count()
         if courses > 0:
-            return view_user, None
+            return view_user
         else:
             raise PermissionDenied
     except User.DoesNotExist:
@@ -146,10 +146,10 @@ def can_view_cohort(request, cohort_id):
         raise Http404
     try:
         if request.user.is_staff:
-            return cohort, None
+            return cohort
         return Cohort.objects.get(pk=cohort_id,
                                   participant__user=request.user,
-                                  participant__role=Participant.TEACHER), None
+                                  participant__role=Participant.TEACHER)
     except Cohort.DoesNotExist:
         raise PermissionDenied
     raise PermissionDenied
@@ -166,7 +166,7 @@ def get_cohorts(request):
     if cohorts.count() == 0:
         raise PermissionDenied
 
-    return cohorts, None
+    return cohorts
 
 
 def can_view_course(request, course_id):
@@ -196,7 +196,7 @@ def can_view_course_detail(request, course_id):
             course = Course.objects.get(pk=course_id)
         except Course.DoesNotExist:
             raise Http404
-        return course, None
+        return course
     else:
         raise PermissionDenied
 

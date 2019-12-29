@@ -102,10 +102,7 @@ def cohort_add(request):
 
 
 def cohort_view(request, cohort_id):
-    cohort, response = can_view_cohort(request, cohort_id)
-
-    if response is not None:
-        return response
+    cohort = can_view_cohort(request, cohort_id)
 
     start_date = timezone.now() - datetime.timedelta(days=31)
     end_date = timezone.now()
@@ -140,10 +137,7 @@ def cohort_view(request, cohort_id):
 
 def cohort_leaderboard_view(request, cohort_id):
 
-    cohort, response = can_view_cohort(request, cohort_id)
-
-    if cohort is None:
-        return response
+    cohort = can_view_cohort(request, cohort_id)
 
     # get leaderboard
     lb = cohort.get_leaderboard(0)
@@ -229,9 +223,7 @@ def cohort_edit(request, cohort_id):
 
 
 def cohort_course_view(request, cohort_id, course_id):
-    cohort, response = can_view_cohort(request, cohort_id)
-    if response is not None:
-        return response
+    cohort = can_view_cohort(request, cohort_id)
 
     try:
         course = Course.objects.get(pk=course_id, coursecohort__cohort=cohort)

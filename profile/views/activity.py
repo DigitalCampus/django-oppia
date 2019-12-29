@@ -19,9 +19,7 @@ from summary.models import UserCourseSummary
 
 def user_activity(request, user_id):
 
-    view_user, response = get_user(request, user_id)
-    if response is not None:
-        return response
+    view_user = get_user(request, user_id)
 
     dashboard_accessed.send(sender=None, request=request, data=None)
 
@@ -94,9 +92,7 @@ def user_activity(request, user_id):
 
 def user_course_activity_view(request, user_id, course_id):
 
-    view_user, response = get_user(request, user_id)
-    if response is not None:
-        return response
+    view_user = get_user(request, user_id)
 
     dashboard_accessed.send(sender=None, request=request, data=None)
     course = can_view_course(request, course_id)
