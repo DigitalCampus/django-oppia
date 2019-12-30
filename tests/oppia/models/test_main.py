@@ -1,5 +1,20 @@
-from oppia.models import Course, Activity, Tracker
+from oppia.models import Course, Activity, Tracker, Media
 from oppia.test import OppiaTestCase
+
+'''
+@todo
+'''
+# Course.has_feedback - with feedback
+# Activity.get_event_points - with custom points
+# Media.get_event_points - with inherited
+# Media.get_event_points - with custom points
+# Tracker.title
+# Tracker.get_media_title
+# Tracker.get_activity_title - invalid json
+# Tracker.get_section_title - valid json
+# Tracker.get_section_title - invalid json
+# Tracker.to_xml_string
+# Tracker.get_lang
 
 
 class MainModelsCoreTest(OppiaTestCase):
@@ -11,9 +26,8 @@ class MainModelsCoreTest(OppiaTestCase):
                 'tests/test_tracker.json',
                 'tests/test_gamification.json']
 
-    def setUp(self):
-        super(MainModelsCoreTest, self).setUp()
-        self.course = Course.objects.get(pk=1)
+    course = Course.objects.get(pk=1)
+    reference_course = Course.objects.get(pk=4)
 
     '''
     COURSE Model
@@ -37,10 +51,13 @@ class MainModelsCoreTest(OppiaTestCase):
         self.assertEqual(0, self.course.get_activity_week())
         
     def test_course_has_quizzes(self):
-        self.assertEqual(True, self.course.has_quizzes())
+        self.assertTrue(self.course.has_quizzes())
+
+    def test_course_has_no_quizzes(self):
+        self.assertFalse(self.reference_course.has_quizzes())
 
     def test_course_has_feedback(self):
-        self.assertEqual(False, self.course.has_feedback())
+        self.assertFalse(self.course.has_feedback())
 
     # test course is_first_download()
     def test_course_first_download_admin(self):
@@ -79,6 +96,24 @@ class MainModelsCoreTest(OppiaTestCase):
 
     def test_course_not_first_download_user(self):
         self.assertFalse(self.course.is_first_download(self.normal_user))
+
+    def test_course_sections(self):
+        sections = self.course.sections()
+        self.assertEqual(13, len(sections))
+
+    def test_reference_course_sections(self):
+        sections = self.reference_course.sections()
+        self.assertEqual(1, len(sections))
+
+    def test_pre_test_score_course(self):
+        score = Course.get_pre_test_score(self.course, self.normal_user)
+        self.assertEqual(None, score)
+
+    def test_pre_test_score_reference(self):
+        score = Course.get_pre_test_score(self.reference_course,
+                                          self.normal_user)
+        self.assertRaises(Activity.DoesNotExist)
+        self.assertEqual(None, score)
 
     '''
     ACTIVITY model
@@ -125,26 +160,18 @@ class MainModelsCoreTest(OppiaTestCase):
         event_points = activity.get_event_points()
         self.assertEqual(1, len(event_points['events']))
         self.assertEqual("Inherited from course", event_points['source'])
-        
 
-        
+    '''
+    MEDIA Model
+    '''
+    def test_media_get_event_points_default(self):
+        media = Media.objects.get(pk=1)
+        self.assertEqual(4, len(media.get_event_points()['events']))
+        media_started_event = media.get_event_points()['events'][0]
+        self.assertEqual(20, media_started_event.points)
 
-# Course.has_quizzes - with no quizzes
-# Course.has_feedback - with feedback
-# Course.sections
-# Course.pre_test_score - with no pretest
-# Activity.get_event_points - with custom points
-# Media.get_event_points - with inherited
-# Media.get_event_points - with custom points
-# Tracker.title
-# Tracker.get_media_title
-# Tracker.get_activity_title - invalid json
-# Tracker.get_section_title - valid json
-# Tracker.get_section_title - invalid json
-# Tracker.to_xml_string
-# Tracker.activity_secs
-# Tracker.get_lang
-
-
-
-
+    def test_media_get_event_points_custom(self):
+        media = Media.objects.get(pk=4)
+        self.assertEqual(4, len(media.get_event_points()['events']))
+        media_started_event = media.get_event_points()['events'][0]
+        self.assertEqual(100, media_started_event.points)
