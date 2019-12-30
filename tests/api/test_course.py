@@ -70,7 +70,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
         response_data = self.deserialize(resp)
         self.assertTrue('courses' in response_data)
         # should have 2 courses with the test data set
-        self.assertEqual(len(response_data['courses']), 2)
+        self.assertEqual(3, len(response_data['courses']))
         # check each course had a download url
         for course in response_data['courses']:
             self.assertTrue('url' in course)

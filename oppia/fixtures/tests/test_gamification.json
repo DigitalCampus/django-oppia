@@ -1,0 +1,178 @@
+[
+{
+    "model": "gamification.activitygamificationevent",
+    "pk": 1,
+    "fields": {
+        "user": 1,
+        "created_date": "2019-12-30T14:06:40.748Z",
+        "event": "activity_completed",
+        "points": 123,
+        "activity": 373
+    }
+},
+{
+    "model": "gamification.activitygamificationevent",
+    "pk": 2,
+    "fields": {
+        "user": 1,
+        "created_date": "2019-12-30T14:06:40.756Z",
+        "event": "activity_completed",
+        "points": 999,
+        "activity": 375
+    }
+},
+{
+    "model": "gamification.coursegamificationevent",
+    "pk": 1,
+    "fields": {
+        "user": 1,
+        "created_date": "2019-12-30T14:05:15.090Z",
+        "event": "quiz_first_attempt",
+        "points": 20,
+        "course": 4
+    }
+},
+{
+    "model": "gamification.coursegamificationevent",
+    "pk": 2,
+    "fields": {
+        "user": 1,
+        "created_date": "2019-12-30T14:05:15.101Z",
+        "event": "quiz_attempt",
+        "points": 10,
+        "course": 4
+    }
+},
+{
+    "model": "gamification.coursegamificationevent",
+    "pk": 3,
+    "fields": {
+        "user": 1,
+        "created_date": "2019-12-30T14:05:15.110Z",
+        "event": "quiz_first_attempt_threshold",
+        "points": 100,
+        "course": 4
+    }
+},
+{
+    "model": "gamification.coursegamificationevent",
+    "pk": 4,
+    "fields": {
+        "user": 1,
+        "created_date": "2019-12-30T14:05:15.122Z",
+        "event": "quiz_first_attempt_bonus",
+        "points": 50,
+        "course": 4
+    }
+},
+{
+    "model": "gamification.coursegamificationevent",
+    "pk": 5,
+    "fields": {
+        "user": 1,
+        "created_date": "2019-12-30T14:05:15.128Z",
+        "event": "activity_completed",
+        "points": 10,
+        "course": 4
+    }
+},
+{
+    "model": "gamification.coursegamificationevent",
+    "pk": 6,
+    "fields": {
+        "user": 1,
+        "created_date": "2019-12-30T14:05:15.136Z",
+        "event": "media_started",
+        "points": 20,
+        "course": 4
+    }
+},
+{
+    "model": "gamification.coursegamificationevent",
+    "pk": 7,
+    "fields": {
+        "user": 1,
+        "created_date": "2019-12-30T14:05:15.142Z",
+        "event": "media_playing_interval",
+        "points": 30,
+        "course": 4
+    }
+},
+{
+    "model": "gamification.coursegamificationevent",
+    "pk": 8,
+    "fields": {
+        "user": 1,
+        "created_date": "2019-12-30T14:05:15.156Z",
+        "event": "media_playing_points_per_interval",
+        "points": 5,
+        "course": 4
+    }
+},
+{
+    "model": "gamification.coursegamificationevent",
+    "pk": 9,
+    "fields": {
+        "user": 1,
+        "created_date": "2019-12-30T14:05:15.161Z",
+        "event": "media_max_points",
+        "points": 200,
+        "course": 4
+    }
+},
+{
+    "model": "gamification.coursegamificationevent",
+    "pk": 10,
+    "fields": {
+        "user": 1,
+        "created_date": "2019-12-30T14:05:15.169Z",
+        "event": "course_downloaded",
+        "points": 50,
+        "course": 4
+    }
+},
+{
+    "model": "gamification.mediagamificationevent",
+    "pk": 1,
+    "fields": {
+        "user": 1,
+        "created_date": "2019-12-30T14:06:19.018Z",
+        "event": "media_started",
+        "points": 100,
+        "media": 4
+    }
+},
+{
+    "model": "gamification.mediagamificationevent",
+    "pk": 2,
+    "fields": {
+        "user": 1,
+        "created_date": "2019-12-30T14:06:19.023Z",
+        "event": "media_playing_interval",
+        "points": 100,
+        "media": 4
+    }
+},
+{
+    "model": "gamification.mediagamificationevent",
+    "pk": 3,
+    "fields": {
+        "user": 1,
+        "created_date": "2019-12-30T14:06:19.031Z",
+        "event": "media_playing_points_per_interval",
+        "points": 100,
+        "media": 4
+    }
+},
+{
+    "model": "gamification.mediagamificationevent",
+    "pk": 4,
+    "fields": {
+        "user": 1,
+        "created_date": "2019-12-30T14:06:19.042Z",
+        "event": "media_max_points",
+        "points": 200,
+        "media": 4
+    }
+}
+]
