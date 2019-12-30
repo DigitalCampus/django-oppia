@@ -625,24 +625,6 @@ class Tracker(models.Model):
             results = results.filter(course=course)
         return results.count()
 
-    @staticmethod
-    def activity_secs(user,
-                      type,
-                      start_date=None,
-                      end_date=None,
-                      course=None):
-        results = Tracker.objects.filter(user=user, type=type)
-        if start_date:
-            results = results.filter(submitted_date__gte=start_date)
-        if end_date:
-            results = results.filter(submitted_date__lte=end_date)
-        if course:
-            results = results.filter(course=course)
-        time = results.aggregate(total=Sum('time_taken'))
-        if time['total'] is None:
-            return 0
-        return time['total']
-
     def get_lang(self):
         try:
             json_data = json.loads(self.data)
