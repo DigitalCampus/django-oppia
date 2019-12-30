@@ -71,10 +71,10 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
         points_count_end = Points.objects.all().count()
         self.assertEqual(points_count_start, points_count_end)
 
-        latest_points = Points.objects.latest('date')
+        latest_points = Points.objects.get(pk=1)
 
-        self.assertEqual(latest_points.points, 100)
-        self.assertEqual(latest_points.type, 'signup')
+        self.assertEqual(100, latest_points.points)
+        self.assertEqual('signup', latest_points.type)
 
         # check that all data is there
         response_data = self.deserialize(resp)

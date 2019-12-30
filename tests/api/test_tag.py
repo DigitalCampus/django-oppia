@@ -50,7 +50,7 @@ class TagResourceTest(ResourceTestCaseMixin, TestCase):
         response_data = self.deserialize(resp)
         self.assertTrue('tags' in response_data)
         # should have 5 tags with the test data set
-        self.assertEqual(len(response_data['tags']), 4)
+        self.assertEqual(5, len(response_data['tags']))
         # check each course had a download url
         for tag in response_data['tags']:
             self.assertTrue('count' in tag)
