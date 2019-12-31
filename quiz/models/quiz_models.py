@@ -40,7 +40,7 @@ class Quiz(models.Model):
         total = 0
         for a in attempts:
             total = total + a.get_score_percent()
-        if self.no_attempts > 0:
+        if self.no_attempts() > 0:
             avg_score = int(total / self.no_attempts())
         else:
             avg_score = 0

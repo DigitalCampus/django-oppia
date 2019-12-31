@@ -5,7 +5,7 @@ from django.forms import ValidationError
 from django.urls import reverse
 from oppia.test import OppiaTestCase
 
-                            
+
 class ContentViewsTest(OppiaTestCase):
 
     fixtures = ['tests/test_user.json',
@@ -14,13 +14,6 @@ class ContentViewsTest(OppiaTestCase):
                 'tests/test_permissions.json',
                 'default_gamification_events.json',
                 'tests/test_tracker.json']
-
-    # @TODO process_media_file
-    # @TODO check_media_link
-    # @TODO get_length
-    # @TODO generate_media_screenshots
-    # @TODO can_execute
-    # @TODO md5_checksum
     
     def setUp(self):
         super(ContentViewsTest, self).setUp()
