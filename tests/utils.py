@@ -32,7 +32,7 @@ def get_api_url(resource_name, resource_id=None):
 
 
 def update_course_visibility(id, is_draft, is_archived):
-    course = Course.objects.get(pk=1)
+    course = Course.objects.get(pk=id)
     course.is_draft = is_draft
     course.is_archived = is_archived
     course.save()
