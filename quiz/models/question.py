@@ -27,9 +27,6 @@ class Question(models.Model):
         verbose_name = _('Question')
         verbose_name_plural = _('Questions')
 
-    def __unicode__(self):
-        return self.title
-
     def __str__(self):
         return self.title
 
@@ -46,9 +43,6 @@ class QuestionProps(models.Model):
     class Meta:
         verbose_name = _('QuestionProp')
         verbose_name_plural = _('QuestionProps')
-
-    def __unicode__(self):
-        return self.name
 
     def __str__(self):
         return self.name

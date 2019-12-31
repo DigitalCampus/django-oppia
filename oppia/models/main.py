@@ -231,9 +231,6 @@ class Section(models.Model):
         verbose_name = _('Section')
         verbose_name_plural = _('Sections')
 
-    def __unicode__(self):
-        return self.get_title()
-
     def __str__(self):
         return self.get_title()
 
@@ -275,9 +272,6 @@ class Activity(models.Model):
     image = models.TextField(blank=True, null=True, default=None)
     content = models.TextField(blank=True, null=True, default=None)
     description = models.TextField(blank=True, null=True, default=None)
-
-    def __unicode__(self):
-        return self.get_title()
 
     def __str__(self):
         return self.get_title()
@@ -405,9 +399,6 @@ class Media(models.Model):
         verbose_name = _('Media')
         verbose_name_plural = _('Media')
 
-    def __unicode__(self):
-        return self.filename
-
     def __str__(self):
         return self.filename
 
@@ -486,9 +477,6 @@ class Tracker(models.Model):
     class Meta:
         verbose_name = _('Tracker')
         verbose_name_plural = _('Trackers')
-
-    def __unicode__(self):
-        return self.agent
 
     def __str__(self):
         return self.agent

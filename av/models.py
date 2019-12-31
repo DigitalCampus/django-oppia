@@ -42,9 +42,6 @@ class UploadedMedia(models.Model):
         verbose_name = _(u'Uploaded Media')
         verbose_name_plural = _(u'Uploaded Media')
 
-    def __unicode__(self):
-        return self.file.name
-
     def __str__(self):
         return self.file.name
 
@@ -111,9 +108,6 @@ class UploadedMediaImage(models.Model):
     class Meta:
         verbose_name = _(u'Uploaded Media Image')
         verbose_name_plural = _(u'Uploaded Media Images')
-
-    def __unicode__(self):
-        return self.image.name
 
     def __str__(self):
         return self.image.name

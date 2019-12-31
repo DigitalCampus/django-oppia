@@ -65,9 +65,6 @@ class CustomField (models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
-    def __unicode__(self):
-        return self.id
-
     def __str__(self):
         return self.id
 
@@ -83,9 +80,6 @@ class UserProfileCustomField (models.Model):
 
     class Meta:
         unique_together = ['key_name', 'user']
-
-    def __unicode__(self):
-        return self.key_name.id + ": " + self.user.username
 
     def __str__(self):
         return self.key_name.id + ": " + self.user.username

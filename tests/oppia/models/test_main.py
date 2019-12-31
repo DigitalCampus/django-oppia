@@ -34,7 +34,7 @@ class MainModelsCoreTest(OppiaTestCase):
     '''
     COURSE Model
     '''
-    # test course.__unicode__()
+    # test course.__str__()
     def test_course_get_title(self):
         self.assertEqual('Antenatal Care Part 1', self.course.get_title())
 

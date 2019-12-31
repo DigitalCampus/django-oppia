@@ -10,14 +10,14 @@ class SettingPropertiesTest(OppiaTestCase):
         sp.key = u"testintkey"
         sp.int_value = 123
         sp.save()
-        self.assertEqual(sp.__unicode__(), u"testintkey")
+        self.assertEqual(str(sp), u"testintkey")
 
     def test_self_name_string(self):
         sp = SettingProperties()
         sp.key = u"teststrkey"
         sp.str_value = u"test string"
         sp.save()
-        self.assertEqual(sp.__unicode__(), u"teststrkey")
+        self.assertEqual(str(sp), u"teststrkey")
 
     def test_set_string(self):
         key = "testkey"
