@@ -26,8 +26,10 @@ class MainModelsCoreTest(OppiaTestCase):
                 'tests/test_tracker.json',
                 'tests/test_gamification.json']
 
-    course = Course.objects.get(pk=1)
-    reference_course = Course.objects.get(pk=4)
+    def setUp(self):
+        super(MainModelsCoreTest, self).setUp()
+        self.course = Course.objects.get(pk=1)
+        self.reference_course = Course.objects.get(pk=4)
 
     '''
     COURSE Model
