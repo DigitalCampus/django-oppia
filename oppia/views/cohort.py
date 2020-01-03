@@ -34,27 +34,25 @@ def cohort_list_view(request):
 
 def cohort_add_roles(cohort, role, users):
     user_list = users.strip().split(",")
-    if len(user_list) > 0:
-        for u in user_list:
-            try:
-                participant = Participant()
-                participant.cohort = cohort
-                participant.user = User.objects.get(username=u.strip())
-                participant.role = role
-                participant.save()
-            except User.DoesNotExist:
-                pass
+    for u in user_list:
+        try:
+            participant = Participant()
+            participant.cohort = cohort
+            participant.user = User.objects.get(username=u.strip())
+            participant.role = role
+            participant.save()
+        except User.DoesNotExist:
+            pass
 
 
 def cohort_add_courses(cohort, courses):
     course_list = courses.strip().split(",")
-    if len(course_list) > 0:
-        for c in course_list:
-            try:
-                course = Course.objects.get(shortname=c.strip())
-                CourseCohort(cohort=cohort, course=course).save()
-            except Course.DoesNotExist:
-                pass
+    for c in course_list:
+        try:
+            course = Course.objects.get(shortname=c.strip())
+            CourseCohort(cohort=cohort, course=course).save()
+        except Course.DoesNotExist:
+            pass
 
 
 def cohort_add(request):
@@ -190,9 +188,6 @@ def cohort_edit(request, cohort_id):
             cohort_add_courses(cohort, courses)
 
             return HttpResponseRedirect('../../')
-        else:
-            print(form.errors)
-            print('Form invalidad!!')
 
     else:
         form = CohortForm(initial={'description': cohort.description,

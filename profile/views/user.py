@@ -115,7 +115,6 @@ def register(request):
             if u is not None and u.is_active:
                 login(request, u)
                 return HttpResponseRedirect('thanks/')
-            return HttpResponseRedirect('thanks/')  # Redirect after POST
     else:
         form = RegisterForm(initial={'next': filter_redirect(request.GET), })
 

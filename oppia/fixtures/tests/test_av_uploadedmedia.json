@@ -79,7 +79,7 @@
         "created_date": "2019-10-18T09:12:53.869Z",
         "image": "uploaded/images/fr/am/frame-004_DjG9Zk4.png",
         "uploaded_media": 2,
-        "default_image": true
+        "default_image": false
     }
 },
 {
@@ -124,39 +124,6 @@
         "image": "uploaded/images/fr/am/frame-003_iWDwO6I.png",
         "uploaded_media": 2,
         "default_image": false
-    }
-},
-{
-    "model": "av.uploadedmediaimage",
-    "pk": 9,
-    "fields": {
-        "create_user": 1,
-        "created_date": "2019-10-18T09:12:56.152Z",
-        "image": "uploaded/images/fr/am/frame-001_HQPV2Xc.png",
-        "uploaded_media": 3,
-        "default_image": false
-    }
-},
-{
-    "model": "av.uploadedmediaimage",
-    "pk": 10,
-    "fields": {
-        "create_user": 1,
-        "created_date": "2019-10-18T09:12:56.159Z",
-        "image": "uploaded/images/fr/am/frame-002_hdt2vjU.png",
-        "uploaded_media": 3,
-        "default_image": false
-    }
-},
-{
-    "model": "av.uploadedmediaimage",
-    "pk": 11,
-    "fields": {
-        "create_user": 1,
-        "created_date": "2019-10-18T09:12:56.170Z",
-        "image": "uploaded/images/fr/am/frame-003_SR0SkFu.png",
-        "uploaded_media": 3,
-        "default_image": true
     }
 }
 ]

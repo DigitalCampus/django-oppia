@@ -22,6 +22,7 @@ class AppLaunchActivityTest(OppiaTestCase):
     def test_access_no_digest(self):
         url = ('%s') % reverse('oppia_app_launch_activity_redirect')
         response = self.client.get(url)
+        self.assertRaises(ValueError)
         self.assertEqual(response.status_code, 404)
         
     def test_access_invalid_digest(self):

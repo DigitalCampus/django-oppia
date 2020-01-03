@@ -1,8 +1,13 @@
+
+from django.core.paginator import InvalidPage, EmptyPage
+from django.forms import ValidationError
 from django.urls import reverse
 from oppia.test import OppiaTestCase
 
 
 class OppiaViewsTest(OppiaTestCase):
+
+    leaderboard_template = 'oppia/leaderboard.html'
 
     def test_home(self):
         response = self.client.get(reverse('oppia_home'))
@@ -45,17 +50,63 @@ class OppiaViewsTest(OppiaTestCase):
         # check it can load as json object
         self.assertEqual(response.status_code, 200)
 
-    # TODO :
-    # tag_courses_view
-    # add_course_tags
-    # recent_activity_detail
-    # export_tracker_detail
-    # cohort_add
-    # leaderboard_view
-    # course_quiz
-    # course_quiz_attempts
-    # course_feedback
-    # course_feedback_responses
+    '''
+    homepage - post
+    '''
+    def test_home_post_days(self):
+        self.client.force_login(user=self.admin_user)
+        data = { 'start_date': '2019-12-01',
+                 'end_date': '2019-12-31',
+                 'interval': 'days'}
+        response = self.client.post(reverse('oppia_home'), data)
+        self.assertEqual(200, response.status_code)
+        
+    def test_home_post_months(self):
+        self.client.force_login(user=self.admin_user)
+        data = { 'start_date': '2019-01-01',
+                 'end_date': '2019-12-31',
+                 'interval': 'months'}
+        response = self.client.post(reverse('oppia_home'), data)
+        self.assertEqual(200, response.status_code)
 
-    # TODO test login redirected correctly for all pages
-    # except those with login exempt
+    def test_home_post_invalid_dates(self):
+        self.client.force_login(user=self.admin_user)
+        data = { 'start_date': '2019-01',
+                 'end_date': '2019-12',
+                 'interval': 'months'}
+        response = self.client.post(reverse('oppia_home'), data)
+        self.assertRaises(ValidationError)
+        self.assertEqual(200, response.status_code)
+  
+    '''
+    Leaderboard view
+    '''
+    def test_leaderboard_get(self):
+        self.client.force_login(user=self.admin_user)
+        response = self.client.get(reverse('oppia_leaderboard'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(self.leaderboard_template)
+
+    def test_leaderboard_get_page_1(self):
+        self.client.force_login(user=self.admin_user)
+        url = '%s?page=1' % reverse('oppia_leaderboard')
+        response = self.client.get(url)
+        self.assertEqual(200, response.status_code)
+        self.assertTemplateUsed(self.leaderboard_template)
+
+    def test_leaderboard_get_page_9999(self):
+        self.client.force_login(user=self.admin_user)
+        url = '%s?page=9999' % reverse('oppia_leaderboard')
+        response = self.client.get(url)
+        self.assertRaises(InvalidPage)
+        self.assertEqual(200, response.status_code)
+        self.assertTemplateUsed(self.leaderboard_template)
+    
+    def test_leaderboard_get_page_abc(self):
+        self.client.force_login(user=self.admin_user)
+        url = '%s?page=abc' % reverse('oppia_leaderboard')
+        response = self.client.get(url)
+        self.assertRaises(ValueError)
+        self.assertEqual(200, response.status_code)
+        self.assertTemplateUsed(self.leaderboard_template)
+

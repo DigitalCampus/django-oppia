@@ -34,7 +34,7 @@ class MainModelsCoreTest(OppiaTestCase):
     '''
     COURSE Model
     '''
-    # test course.__unicode__()
+    # test course.__str__()
     def test_course_get_title(self):
         self.assertEqual('Antenatal Care Part 1', self.course.get_title())
 
@@ -162,6 +162,13 @@ class MainModelsCoreTest(OppiaTestCase):
         event_points = activity.get_event_points()
         self.assertEqual(1, len(event_points['events']))
         self.assertEqual("Inherited from course", event_points['source'])
+
+    def test_activity_event_points_custom(self):
+        activity = Activity.objects.get(pk=373)
+        event_points = activity.get_event_points()
+        self.assertEqual(1, len(event_points['events']))
+        self.assertEqual("Custom Points", event_points['source'])
+        self.assertEqual(123, event_points['events'][0].points)
 
     '''
     MEDIA Model

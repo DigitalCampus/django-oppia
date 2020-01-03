@@ -24,9 +24,6 @@ class Quiz(models.Model):
         verbose_name = _('Quiz')
         verbose_name_plural = _('Quizzes')
 
-    def __unicode__(self):
-        return self.title
-
     def __str__(self):
         return self.title
 
@@ -40,7 +37,7 @@ class Quiz(models.Model):
         total = 0
         for a in attempts:
             total = total + a.get_score_percent()
-        if self.no_attempts > 0:
+        if self.no_attempts() > 0:
             avg_score = int(total / self.no_attempts())
         else:
             avg_score = 0
@@ -79,9 +76,6 @@ class QuizProps(models.Model):
     class Meta:
         verbose_name = _('QuizProp')
         verbose_name_plural = _('QuizProps')
-
-    def __unicode__(self):
-        return self.name
 
     def __str__(self):
         return self.name

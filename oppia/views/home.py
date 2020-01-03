@@ -39,13 +39,7 @@ def home_view(request):
     leaderboard = None
 
     if request.user.is_authenticated:
-        # create profile if none exists (historical for very old users)
-        try:
-            up = request.user.userprofile
-        except UserProfile.DoesNotExist:
-            up = UserProfile()
-            up.user = request.user
-            up.save()
+        up = request.user.userprofile
 
         dashboard_accessed.send(sender=None, request=request, data=None)
 

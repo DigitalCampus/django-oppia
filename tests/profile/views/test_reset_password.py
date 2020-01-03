@@ -9,6 +9,10 @@ class ResetPasswordTest(OppiaTestCase):
     demo_email_address = 'demo@me.com'
     url = reverse('profile_reset')
 
+    def test_get(self):
+        response = self.client.get(self.url)
+        self.assertTemplateUsed(response, 'common/form/form.html')
+        self.assertEqual(200, response.status_code)
 
     def test_no_username(self):
         data = {}

@@ -21,6 +21,13 @@ class ProfileCustomFieldsTest(OppiaTestCase):
         custom_field.save()
         self.assertEqual(str(custom_field), 'my_cf_key')
 
+    def test_teacher_only(self):
+        user = self.normal_user
+        self.assertFalse(user.userprofile.is_teacher_only())
+        
+    '''
+    Upload permissions
+    '''
     def test_get_can_upload_admin(self):
         profile = UserProfile.objects.get(user=self.admin_user)
         self.assertEqual(profile.get_can_upload(), True)
@@ -52,7 +59,24 @@ class ProfileCustomFieldsTest(OppiaTestCase):
     def test_get_can_upload_activity_log_user(self):
         profile = UserProfile.objects.get(user=self.normal_user)
         self.assertEqual(profile.get_can_upload_activitylog(), False)
-        
+
+    '''
+    Custom fields
+    '''
+    def test_user_custom_field_model_name(self):
+        custom_field = CustomField(
+            id='str',
+            label='String',
+            required=True,
+            type='str')
+        custom_field.save()
+
+        upcf = UserProfileCustomField(key_name=custom_field,
+                                      user=self.normal_user,
+                                      value_str=self.VALUE_STR_DEFAULT)
+        upcf.save()
+        self.assertEqual('str: demo', str(upcf))
+  
     # test get_value string
     def test_custom_field_get_value_str(self):
         custom_field = CustomField(
