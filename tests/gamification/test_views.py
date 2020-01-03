@@ -10,18 +10,18 @@ class GamificationViewsTest(OppiaTestCase):
                 'default_gamification_events.json']
 
     export_server = reverse('oppia_gamification_leaderboard_export_server')
-
+    STR_JSON_CONTENT_TYPE = "application/json"
     def test_leaderboard_export_admin(self):
         self.client.force_login(self.admin_user)
         response = self.client.get(self.export_server)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response['Content-Type'], "application/json")
+        self.assertEqual(self.STR_JSON_CONTENT_TYPE, response['Content-Type'])
 
     def test_leaderboard_export_staff(self):
         self.client.force_login(self.staff_user)
         response = self.client.get(self.export_server)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response['Content-Type'], "application/json")
+        self.assertEqual(self.STR_JSON_CONTENT_TYPE, response['Content-Type'])
 
     def test_leaderboard_export_teacher(self):
         self.client.force_login(self.teacher_user)
@@ -41,7 +41,7 @@ class GamificationViewsTest(OppiaTestCase):
         url = reverse('oppia_gamification_leaderboard_export_course', args=[1])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response['Content-Type'], "application/json")
+        self.assertEqual(self.STR_JSON_CONTENT_TYPE, response['Content-Type'])
 
     # for invalid course
     def test_leaderboard_export_course_invalid_admin(self):

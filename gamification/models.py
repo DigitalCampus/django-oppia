@@ -80,9 +80,6 @@ class ActivityGamificationEvent(GamificationEvent):
                                  on_delete=models.CASCADE,
                                  related_name='gamification_events')
 
-    def __str__(self):
-        return self.event
-
     class Meta:
         verbose_name = _(u'Activity Gamification Event')
         verbose_name_plural = _(u'Activity Gamification Events')
@@ -96,6 +93,3 @@ class MediaGamificationEvent(GamificationEvent):
     class Meta:
         verbose_name = _(u'Media Gamification Event')
         verbose_name_plural = _(u'Media Gamification Events')
-
-    def __str__(self):
-        return self.event

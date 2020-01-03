@@ -14,6 +14,11 @@ class RegisterViewTest(OppiaTestCase):
         self.url = reverse('profile_register')
         self.thanks_url = reverse('profile_register_thanks')
 
+    def test_get(self):
+        response = self.client.get(self.url)
+        self.assertTemplateUsed(response, 'common/form/form.html')
+        self.assertEqual(200, response.status_code)
+        
     # check form not filled
     def test_missing_fields(self):
         unfilled_form = {
