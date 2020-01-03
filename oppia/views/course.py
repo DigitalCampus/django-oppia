@@ -181,25 +181,24 @@ def upload_step2(request, course_id, editing=False):
 def update_course_tags(form, course, user):
     tags = form.cleaned_data.get("tags", "").strip().split(",")
     is_draft = form.cleaned_data.get("is_draft")
-    if len(tags) > 0:
-        course.is_draft = is_draft
-        course.save()
-        # remove any existing tags
-        CourseTag.objects.filter(course=course).delete()
-        # now add the new ones
-        for t in tags:
-            try:
-                tag = Tag.objects.get(name__iexact=t.strip())
-            except Tag.DoesNotExist:
-                tag = Tag()
-                tag.name = t.strip()
-                tag.created_by = user
-                tag.save()
-            # add tag to course
-            try:
-                ct = CourseTag.objects.get(course=course, tag=tag)
-            except CourseTag.DoesNotExist:
-                ct = CourseTag()
-                ct.course = course
-                ct.tag = tag
-                ct.save()
+    course.is_draft = is_draft
+    course.save()
+    # remove any existing tags
+    CourseTag.objects.filter(course=course).delete()
+    # now add the new ones
+    for t in tags:
+        try:
+            tag = Tag.objects.get(name__iexact=t.strip())
+        except Tag.DoesNotExist:
+            tag = Tag()
+            tag.name = t.strip()
+            tag.created_by = user
+            tag.save()
+        # add tag to course
+        try:
+            ct = CourseTag.objects.get(course=course, tag=tag)
+        except CourseTag.DoesNotExist:
+            ct = CourseTag()
+            ct.course = course
+            ct.tag = tag
+            ct.save()
