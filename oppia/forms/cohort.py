@@ -1,3 +1,5 @@
+import datetime
+
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div
 from django import forms
@@ -11,6 +13,7 @@ class CohortHelperDiv(Div):
 class CohortForm(forms.Form):
 
     STR_VALID_DATE = _(u'Please enter a valid date')
+    DATE_FORMAT = "%Y-%m-%d"
 
     description = forms.CharField(required=True)
     teachers = forms.CharField(
@@ -52,3 +55,24 @@ class CohortForm(forms.Form):
                     css_class='d-none'
                 ),
             )
+
+    def clean(self):
+        cleaned_data = super(CohortForm, self).clean()
+        start_date = cleaned_data.get("start_date")
+        end_date = cleaned_data.get("end_date")
+        DATE_FORMAT = "%Y-%m-%d"
+        try:
+            start_date = datetime.datetime.strptime(start_date, DATE_FORMAT)
+        except (TypeError, ValueError):
+            raise forms.ValidationError(_("Please enter a valid start date"))
+        try:
+            end_date = datetime.datetime.strptime(end_date, DATE_FORMAT)
+        except (TypeError, ValueError):
+            raise forms.ValidationError(_("Please enter a valid end date"))
+
+        # check start date before end date
+        if start_date > end_date:
+            raise forms.ValidationError(
+                _("Start date must be before the end date."))
+
+        return cleaned_data
