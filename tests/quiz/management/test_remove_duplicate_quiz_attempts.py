@@ -19,4 +19,3 @@ class RemoveDuplicateQuizAttemptsTest(OppiaTestCase):
 
         quiz_attempt_count_end = QuizAttempt.objects.all().count()
         self.assertEqual(quiz_attempt_count_start, quiz_attempt_count_end)
-        

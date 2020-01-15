@@ -71,5 +71,3 @@ class AVModelsTest(OppiaTestCase):
                                                 uploaded_media=um)
         umi.delete()
         self.assertRaises(OSError)
-                                         
-        
