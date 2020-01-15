@@ -1,4 +1,3 @@
-import os
 
 from oppia.test import OppiaTestCase
 from av.models import UploadedMedia, UploadedMediaImage, image_file_name
@@ -50,7 +49,7 @@ class AVModelsTest(OppiaTestCase):
         um.get_embed_code("http://mydomain.com/")
         self.assertRaises(FileNotFoundError)
 
-    def test_uploadedmedia_file_missing_delete(self):
+    def test_uploadedmedia_file_missing_new_delete(self):
         um = UploadedMedia.objects.create(create_user=self.admin_user,
                                           update_user=self.admin_user,
                                           file="my_media_file2.m4v")
@@ -60,20 +59,17 @@ class AVModelsTest(OppiaTestCase):
     def test_uploadedmedia_image_filename(self):
         um = UploadedMedia.objects.get(pk=1)
         umi = UploadedMediaImage.objects.create(create_user=self.admin_user,
-                                               image="my_media_file3.m4v",
-                                               uploaded_media=um)
+                                                image="my_media_file3.m4v",
+                                                uploaded_media=um)
         name = image_file_name(umi, "my_media_file2.m4v")
         self.assertEqual("uploaded/images/my/_m/my_media_file2.m4v", name)
 
-    def test_uploadedmedia_file_missing_delete(self):
+    def test_uploadedmedia_file_missing_existing_delete(self):
         um = UploadedMedia.objects.get(pk=1)
         umi = UploadedMediaImage.objects.create(create_user=self.admin_user,
-                                               image="my_media_file3.m4v",
-                                               uploaded_media=um)
+                                                image="my_media_file3.m4v",
+                                                uploaded_media=um)
         umi.delete()
         self.assertRaises(OSError)
-        
-        
-        
                                          
         

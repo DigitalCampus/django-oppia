@@ -21,7 +21,7 @@ class MediaURLCheckTest(OppiaTestCase):
         call_command('media_url_check', stdout=out)
         self.assertEqual(u'Checking: who-why-did-mrs-x-die-20140220.m4v',
                          out.getvalue()[0:44])
-        
+
     @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_media_url_invalid_url(self):
         media = Media.objects.get(pk=1)
@@ -29,7 +29,7 @@ class MediaURLCheckTest(OppiaTestCase):
         media.download_url = \
             "http://invalid/media/anc/who-why-did-mrs-x-die-20140220.m4v"
         media.save()
-        
+
         out = StringIO()
         call_command('media_url_check', stdout=out)
         self.assertEqual(u'Checking: who-why-did-mrs-x-die-20140220.m4v',

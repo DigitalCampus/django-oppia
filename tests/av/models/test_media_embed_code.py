@@ -11,7 +11,7 @@ class MediaEmbedCodeTest(OppiaTestCase):
                 'tests/test_oppia.json',
                 'tests/test_permissions.json',
                 'tests/test_av_uploadedmedia.json']
-    
+
     expected_embed_output = "[[media \
         object='{\"filename\":\"ldrshp-mgmt-unit-2-risk-mgmt-D-v2.m4v\", \
         \"download_url\":\"https://download.digital-campus.org/\", \
@@ -24,7 +24,6 @@ class MediaEmbedCodeTest(OppiaTestCase):
         uploaded_media = UploadedMedia.objects.get(pk=1)
         embed_code = uploaded_media. \
             get_embed_code('https://download.digital-campus.org/')
-        supplied_embed_code = re.sub(' +' , ' ', embed_code)
-        expected_embed_code = re.sub(' +' , ' ', self.expected_embed_output)
+        supplied_embed_code = re.sub(' +', ' ', embed_code)
+        expected_embed_code = re.sub(' +', ' ', self.expected_embed_output)
         self.assertEqual(supplied_embed_code, expected_embed_code)
-        
