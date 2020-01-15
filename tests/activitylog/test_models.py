@@ -17,14 +17,13 @@ class ActivityLogModelsTest(OppiaTestCase):
 
     basic_activity_log = './oppia/fixtures/activity_logs/basic_activity.json'
     url = reverse('oppia_activitylog_upload')
-        
+
     def test_model_str(self):
         self.client.force_login(self.admin_user)
 
         with open(self.basic_activity_log, 'rb') as activity_log_file:
             self.client.post(self.url,
-                             {'activity_log_file':
-                             activity_log_file})
+                             {'activity_log_file': activity_log_file})
 
         act_log = UploadedActivityLog.objects.latest('created_date')
         name_components = str(act_log).split('/')
@@ -36,8 +35,7 @@ class ActivityLogModelsTest(OppiaTestCase):
 
         with open(self.basic_activity_log, 'rb') as activity_log_file:
             self.client.post(self.url,
-                             {'activity_log_file':
-                             activity_log_file})
+                             {'activity_log_file': activity_log_file})
 
         act_log = UploadedActivityLog.objects.latest('created_date')
         path = Path(os.path.join(settings.MEDIA_ROOT, str(act_log)))

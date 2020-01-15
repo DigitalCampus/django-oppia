@@ -33,4 +33,3 @@ class ProfileFormResetTest(OppiaTestCase):
     def test_valid_email(self):
         form = ResetForm({'username': 'admin@me.com'})
         self.assertTrue(form.is_valid())
-        

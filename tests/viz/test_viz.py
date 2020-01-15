@@ -71,7 +71,7 @@ class VisualisationsTest(OppiaTestCase):
         allowed_users = [self.admin_user,
                          self.teacher_user,
                          self.staff_user,
-                         self.normal_user,]
+                         self.normal_user]
 
         for allowed_user in allowed_users:
             self.client.force_login(allowed_user)

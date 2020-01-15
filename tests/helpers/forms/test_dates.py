@@ -5,6 +5,7 @@ from oppia.test import OppiaTestCase
 from django.utils import timezone
 from helpers.forms import dates
 
+
 class DatesHelperTest(OppiaTestCase):
 
     STR_DATE_FORMAT = '%Y-%m-%d'
@@ -21,14 +22,14 @@ class DatesHelperTest(OppiaTestCase):
         form_data = {'start': '2019-12-18'}
         form = dates.DateDiffForm(data=form_data)
         self.assertRaises(forms.ValidationError)
-        self.assertFalse(form.is_valid())  
+        self.assertFalse(form.is_valid())
 
     def test_date_diff_form_invalid_date(self):
         form_data = {'start_date': '2019-22-22'}
         form = dates.DateDiffForm(data=form_data)
         self.assertRaises(forms.ValidationError)
         self.assertFalse(form.is_valid())
-        
+
     def test_date_diff_form_no_date(self):
         form_data = {}
         form = dates.DateDiffForm(data=form_data)
@@ -42,7 +43,7 @@ class DatesHelperTest(OppiaTestCase):
         form_data = {'start_date': '2017-12-18', 'end_date': '2018-01-18'}
         form = dates.DateRangeForm(data=form_data)
         self.assertTrue(form.is_valid())
-        
+
     def test_date_range_form_start_date_future(self):
         start_date_in_advance = timezone.now() + datetime.timedelta(days=31)
         form_data = {'start_date':
@@ -60,7 +61,7 @@ class DatesHelperTest(OppiaTestCase):
         form = dates.DateRangeForm(data=form_data)
         self.assertRaises(forms.ValidationError)
         self.assertFalse(form.is_valid())
-        
+
     def test_date_range_form_start_date_after_end_date(self):
         start_date = timezone.now() + datetime.timedelta(days=31)
         end_date = timezone.now()
@@ -91,7 +92,7 @@ class DatesHelperTest(OppiaTestCase):
                      'end_date': '2018-01-18'}
         form = dates.DateRangeIntervalForm(data=form_data)
         self.assertTrue(form.is_valid())
-        
+
     def test_date_range_interval_form_start_date_future(self):
         start_date_in_advance = timezone.now() + datetime.timedelta(days=31)
         form_data = {'start_date':
@@ -109,7 +110,7 @@ class DatesHelperTest(OppiaTestCase):
         form = dates.DateRangeIntervalForm(data=form_data)
         self.assertRaises(forms.ValidationError)
         self.assertFalse(form.is_valid())
-        
+
     def test_date_range_interval_form_start_date_after_end_date(self):
         start_date = timezone.now() + datetime.timedelta(days=31)
         end_date = timezone.now()

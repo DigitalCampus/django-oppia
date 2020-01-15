@@ -49,7 +49,7 @@ class UserResourceTest(ResourceTestCaseMixin, TestCase):
         user = User.objects.get(username='demo')
         user.is_active = False
         user.save()
-        
+
         data = {
             'username': 'demo',
             'password': 'password'
@@ -63,7 +63,7 @@ class UserResourceTest(ResourceTestCaseMixin, TestCase):
         # rest back to active
         user.is_active = True
         user.save()
-        
+
     # check no username
     def test_no_username(self):
         data = {

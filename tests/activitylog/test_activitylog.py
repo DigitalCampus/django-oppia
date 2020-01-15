@@ -18,7 +18,7 @@ class UploadActivityLogTest(OppiaTestCase):
     url = reverse('oppia_activitylog_upload')
     basic_activity_log = './oppia/fixtures/activity_logs/basic_activity.json'
     activity_log_file_path = \
-            './oppia/fixtures/activity_logs/activity_upload_test.json'
+        './oppia/fixtures/activity_logs/activity_upload_test.json'
     wrong_activity_file = './oppia/fixtures/activity_logs/wrong_format.json'
     new_user_activity = './oppia/fixtures/activity_logs/new_user_activity.json'
     quiz_attempt_log = './oppia/fixtures/activity_logs/quiz_attempts.json'

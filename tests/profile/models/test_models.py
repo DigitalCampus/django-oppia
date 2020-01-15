@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
 from oppia.test import OppiaTestCase
@@ -24,7 +23,7 @@ class ProfileCustomFieldsTest(OppiaTestCase):
     def test_teacher_only(self):
         user = self.normal_user
         self.assertFalse(user.userprofile.is_teacher_only())
-        
+
     '''
     Upload permissions
     '''
@@ -76,7 +75,7 @@ class ProfileCustomFieldsTest(OppiaTestCase):
                                       value_str=self.VALUE_STR_DEFAULT)
         upcf.save()
         self.assertEqual('str: demo', str(upcf))
-  
+
     # test get_value string
     def test_custom_field_get_value_str(self):
         custom_field = CustomField(

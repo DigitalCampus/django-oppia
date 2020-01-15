@@ -17,7 +17,6 @@ class ResetPasswordResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertHttpMethodNotAllowed(self.api_client.get(self.url,
                                                             format='json'))
 
-
     def test_no_username(self):
         data = {}
         resp = self.api_client.post(self.url, format='json', data=data)
@@ -29,7 +28,7 @@ class ResetPasswordResourceTest(ResourceTestCaseMixin, TestCase):
         resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpBadRequest(resp)
         self.assertValidJSON(resp.content)
-        
+
     def test_invalid_username(self):
         data = {'username': 'invalidusername'}
         resp = self.api_client.post(self.url, format='json', data=data)
@@ -53,4 +52,3 @@ class ResetPasswordResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to[0], self.demo_email_address)
         mail.outbox = []
-    

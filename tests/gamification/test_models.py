@@ -20,7 +20,7 @@ class GamificationModelsTest(OppiaTestCase):
 
     def test_course_event_str(self):
         event = CourseGamificationEvent.objects.get(pk=9)
-        self.assertEqual("media_max_points", str(event)) 
+        self.assertEqual("media_max_points", str(event))
 
     def test_activity_event_str(self):
         event = ActivityGamificationEvent.objects.get(pk=2)
@@ -40,5 +40,5 @@ class GamificationModelsTest(OppiaTestCase):
 
     def test_event_helper_text(self):
         event = CourseGamificationEvent.objects.get(pk=2)
-        self.assertEqual("Number of points for attempting a quiz", event.get_helper_text())
-    
+        self.assertEqual("Number of points for attempting a quiz",
+                         event.get_helper_text())

@@ -14,7 +14,6 @@ class DHISIntegrationViewsTest(OppiaTestCase):
         self.dhis_home_url = reverse('oppia_integrations_dhis_home')
         self.dhis_latest_url = reverse('oppia_integrations_dhis_export_latest')
 
-
     # test permissions for home
 
     def test_anon_cantview_integrations_home(self):
@@ -32,11 +31,13 @@ class DHISIntegrationViewsTest(OppiaTestCase):
 
     def test_student_cantview_integrations_home(self):
         response = self.get_view(self.dhis_home_url, self.normal_user)
-        self.assertRedirects(response, '/admin/login/?next=/integrations/dhis/')
+        self.assertRedirects(response,
+                             '/admin/login/?next=/integrations/dhis/')
 
     def test_teacher_canupload_integrations_home(self):
         response = self.get_view(self.dhis_home_url, self.teacher_user)
-        self.assertRedirects(response, '/admin/login/?next=/integrations/dhis/')
+        self.assertRedirects(response,
+                             '/admin/login/?next=/integrations/dhis/')
 
     # test permissions and response for latest
 

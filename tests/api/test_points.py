@@ -56,4 +56,3 @@ class PointsResourceTest(ResourceTestCaseMixin, TestCase):
                                   authentication=auth_header)
         self.assertHttpOK(res)
         self.assertValidJSON(res.content)
-        

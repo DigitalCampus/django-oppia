@@ -2,7 +2,7 @@ from django.db import IntegrityError
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
-from oppia.test import OppiaTestCase, OppiaTransactionTestCase
+from oppia.test import OppiaTransactionTestCase
 
 from tests.defaults import UNAUTHORISED_TEMPLATE
 
@@ -24,13 +24,13 @@ class UserUploadActivityViewTest(OppiaTransactionTestCase):
 
     template = 'profile/upload.html'
     url = reverse('profile_upload')
-        
+
     def setUp(self):
         super(UserUploadActivityViewTest, self).setUp()
         self.allowed_users = [self.admin_user]
         self.disallowed_users = [self.staff_user,
-                            self.teacher_user,
-                            self.normal_user]
+                                 self.teacher_user,
+                                 self.normal_user]
 
     def test_view_upload_permissions_get(self):
 
@@ -59,7 +59,7 @@ class UserUploadActivityViewTest(OppiaTransactionTestCase):
             response = self.client.post(self.url)
             self.assertTemplateUsed(response, UNAUTHORISED_TEMPLATE)
             self.assertEqual(response.status_code, 403)
-    
+
     def test_view_upload_valid_file(self):
         self.client.force_login(user=self.admin_user)
 
@@ -124,4 +124,3 @@ class UserUploadActivityViewTest(OppiaTransactionTestCase):
         self.client.login(username='user100', password='password100')
         self.client.get(reverse('oppia_home'))
         self.assertTemplateUsed('profile/user-scorecard.htm')
-

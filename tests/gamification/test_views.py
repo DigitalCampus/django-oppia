@@ -11,6 +11,7 @@ class GamificationViewsTest(OppiaTestCase):
 
     export_server = reverse('oppia_gamification_leaderboard_export_server')
     STR_JSON_CONTENT_TYPE = "application/json"
+
     def test_leaderboard_export_admin(self):
         self.client.force_login(self.admin_user)
         response = self.client.get(self.export_server)

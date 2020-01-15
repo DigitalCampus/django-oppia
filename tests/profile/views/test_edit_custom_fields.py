@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 from oppia.test import OppiaTestCase
@@ -11,7 +10,7 @@ class ProfileEditCustomFieldsViewTest(OppiaTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json']
-    
+
     def setUp(self):
         super(ProfileEditCustomFieldsViewTest, self).setUp()
         self.url = reverse('profile_edit')

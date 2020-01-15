@@ -3,7 +3,6 @@ import pytest
 import unittest
 
 from django import forms
-from django.contrib.auth.models import User
 from oppia.test import OppiaTestCase
 
 
@@ -13,7 +12,7 @@ class MediaPublishResourceTest(OppiaTestCase):
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
                 'tests/test_permissions.json']
-    
+
     def setUp(self):
         super(MediaPublishResourceTest, self).setUp()
         self.url = '/api/media/'

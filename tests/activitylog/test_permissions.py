@@ -8,7 +8,6 @@ class PermissionsViewTest(OppiaTestCase):
                 'tests/test_quiz.json',
                 'tests/test_permissions.json']
 
-
     def assert_response(self, view, status_code, user=None, view_kwargs=None):
         route = reverse(view, kwargs=view_kwargs)
         res = self.get_view(route, user)

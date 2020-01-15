@@ -40,17 +40,16 @@ class RemoveDuplicateTrackersTest(OppiaTestCase):
     def test_remove_with_duplicates(self):
         Tracker.objects.create(
             user_id=1,
-            course_id = 1,
-            type = "page",
-            completed = True,
-            time_taken = 280,
-            activity_title = "{\"en\": \"Calculating the uptake of antenatal care services\"}",
-            section_title = "{\"en\": \"Planning Antenatal Care\"}",
-            uuid = "835713f3-b85e-4960-9cdf-128f04014178")
+            course_id=1,
+            type="page",
+            completed=True,
+            time_taken=280,
+            activity_title="{\"en\": \"Calculating the uptake of antenatal care services\"}",
+            section_title="{\"en\": \"Planning Antenatal Care\"}",
+            uuid="835713f3-b85e-4960-9cdf-128f04014178")
         tracker_count_start = Tracker.objects.all().count()
 
         self._call_wrapper('y')
 
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start-1, tracker_count_end)
-

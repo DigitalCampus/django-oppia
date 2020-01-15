@@ -441,7 +441,7 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertValidJSON(resp.content)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
-        
+
     # test tracker date
     def test_tracker_date(self):
         tracker_count_start = Tracker.objects.all().count()

@@ -1,5 +1,5 @@
 from django.urls import reverse
-from oppia.test import OppiaTestCase 
+from oppia.test import OppiaTestCase
 
 from tests.defaults import UNAUTHORISED_TEMPLATE
 

@@ -13,7 +13,7 @@ class XAPIIntegrationViewsTest(OppiaTestCase):
         super(XAPIIntegrationViewsTest, self).setUp()
         self.xapi_home_url = reverse('oppia_integrations_xapi_home')
         self.xapi_export_url = reverse('oppia_integrations_xapi_csv_export')
-        
+
     # test permissions for home
 
     def test_anon_cantview_integrations_home(self):
