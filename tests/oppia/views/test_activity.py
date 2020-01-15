@@ -1,5 +1,5 @@
 from django.core.exceptions import PermissionDenied
-from django.core.paginator import InvalidPage, EmptyPage
+from django.core.paginator import InvalidPage
 from django.forms import ValidationError
 from django.urls import reverse
 from oppia.test import OppiaTestCase
@@ -43,7 +43,7 @@ class OppiaActivityViewsTest(OppiaTestCase):
         response = self.client.get(self.url_recent_activity)
         self.assertEqual(403, response.status_code)
         self.assertTemplateUsed(self.activity_detail_template)
-    
+
     def test_recent_activity_get_user(self):
         self.client.force_login(user=self.normal_user)
         response = self.client.get(self.url_recent_activity)
@@ -55,7 +55,7 @@ class OppiaActivityViewsTest(OppiaTestCase):
         response = self.client.get(reverse('oppia_recent_activity',
                                            args=[999]))
         self.assertEqual(404, response.status_code)
-          
+
     def test_recent_activity_post_dates(self):
         self.client.force_login(user=self.admin_user)
         post_data = {'start_date': '2019-11-28 00:00:00',
@@ -72,7 +72,7 @@ class OppiaActivityViewsTest(OppiaTestCase):
         response = self.client.post(self.url_recent_activity, data=post_data)
         self.assertEqual(200, response.status_code)
         self.assertTemplateUsed(self.activity_detail_template)
-    
+
     def test_recent_activity_post_interval_months(self):
         self.client.force_login(user=self.admin_user)
         post_data = {'start_date': self.start_date,
@@ -117,7 +117,7 @@ class OppiaActivityViewsTest(OppiaTestCase):
         self.client.force_login(user=self.teacher_user)
         self.client.get(self.url_recent_activity_detail)
         self.assertRaises(PermissionDenied)
-    
+
     def test_recent_activity_detail_get_user(self):
         self.client.force_login(user=self.normal_user)
         self.client.get(self.url_recent_activity_detail)
@@ -179,12 +179,12 @@ class OppiaActivityViewsTest(OppiaTestCase):
         self.assertEqual(200, response.status_code)
         self.assertEqual(response['Content-Type'],
                          "application/vnd.ms-excel;charset=utf-8")
-        
+
     def test_export_tracker_detail_teacher(self):
         self.client.force_login(user=self.teacher_user)
         self.client.get(self.url_oppia_export_tracker_detail)
         self.assertRaises(PermissionDenied)
-    
+
     def test_export_tracker_detail_user(self):
         self.client.force_login(user=self.normal_user)
         self.client.get(self.url_oppia_export_tracker_detail)

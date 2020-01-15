@@ -16,7 +16,7 @@ class CohortViewsTest(OppiaTestCase):
 
     leaderboard_template = 'cohort/leaderboard.html'
     cohort_form_template = 'cohort/form.html'
-    
+
     '''
     Leaderboard view
     '''
@@ -40,13 +40,13 @@ class CohortViewsTest(OppiaTestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, self.leaderboard_template)
-    
+
     def test_cohort_leaderboard_teacher_invalid(self):
         self.client.force_login(self.teacher_user)
         url = reverse('oppia_cohort_leaderboard', args=[1])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 403)
- 
+
     def test_cohort_leaderboard_admin_invalid_cohort(self):
         self.client.force_login(self.admin_user)
         url = reverse('oppia_cohort_leaderboard', args=[100])
@@ -91,7 +91,7 @@ class CohortViewsTest(OppiaTestCase):
         participant_count_end = \
             Participant.objects.filter(role=Participant.STUDENT).count()
         self.assertEqual(participant_count_start, participant_count_end)
-        
+
     def test_cohort_add_courses(self):
         cohort = Cohort.objects.get(pk=1)
         courses = 'draft-test, ncd1-et, another'
@@ -130,7 +130,7 @@ class CohortViewsTest(OppiaTestCase):
         url = reverse('oppia_cohort_edit', args=[3])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 403)
-    
+
     def test_cohort_edit_get_user(self):
         self.client.force_login(self.normal_user)
         url = reverse('oppia_cohort_edit', args=[1])
@@ -143,12 +143,12 @@ class CohortViewsTest(OppiaTestCase):
     def test_cohort_edit_post_valid(self):
         self.client.force_login(self.admin_user)
         url = reverse('oppia_cohort_edit', args=[1])
-        data = { 'start_date': '2020-01-01',
-                 'end_date': '2020-12-31',
-                 'description': 'Test cohort',
-                 'students': 'demo, staff',
-                 'teachers': 'teacher',
-                 'courses': 'draft-test, ncd1-et'}
+        data = {'start_date': '2020-01-01',
+                'end_date': '2020-12-31',
+                'description': 'Test cohort',
+                'students': 'demo, staff',
+                'teachers': 'teacher',
+                'courses': 'draft-test, ncd1-et'}
         response = self.client.post(url, data)
         self.assertRedirects(response,
                              reverse('oppia_cohorts'),
@@ -158,12 +158,12 @@ class CohortViewsTest(OppiaTestCase):
     def test_cohort_edit_post_invalid_dates(self):
         self.client.force_login(self.admin_user)
         url = reverse('oppia_cohort_edit', args=[1])
-        data = { 'start_date': '20-01',
-                 'end_date': '2020-12-35',
-                 'description': 'Test cohort',
-                 'students': 'demo, staff',
-                 'teachers': 'teacher',
-                 'courses': 'draft-test, ncd1-et'}
+        data = {'start_date': '20-01',
+                'end_date': '2020-12-35',
+                'description': 'Test cohort',
+                'students': 'demo, staff',
+                'teachers': 'teacher',
+                'courses': 'draft-test, ncd1-et'}
         self.client.post(url, data)
         self.assertRaises(ValidationError)
     
@@ -173,12 +173,12 @@ class CohortViewsTest(OppiaTestCase):
     def test_cohort_add_post_valid(self):
         self.client.force_login(self.admin_user)
         url = reverse('oppia_cohort_add')
-        data = { 'start_date': '2020-01-01',
-                 'end_date': '2020-12-31',
-                 'description': 'my new cohort',
-                 'students': 'demo, staff',
-                 'teachers': 'teacher',
-                 'courses': 'draft-test, ncd1-et'}
+        data = {'start_date': '2020-01-01',
+                'end_date': '2020-12-31',
+                'description': 'my new cohort',
+                'students': 'demo, staff',
+                'teachers': 'teacher',
+                'courses': 'draft-test, ncd1-et'}
         response = self.client.post(url, data)
         self.assertRedirects(response,
                              reverse('oppia_cohorts'),
@@ -188,12 +188,12 @@ class CohortViewsTest(OppiaTestCase):
     def test_cohort_add_post_invalid_dates(self):
         self.client.force_login(self.admin_user)
         url = reverse('oppia_cohort_add')
-        data = { 'start_date': '2020-01',
-                 'end_date': '2019-31',
-                 'description': 'my new cohort',
-                 'students': 'demo, staff',
-                 'teachers': 'teacher',
-                 'courses': 'draft-test, ncd1-et'}
+        data = {'start_date': '2020-01',
+                'end_date': '2019-31',
+                'description': 'my new cohort',
+                'students': 'demo, staff',
+                'teachers': 'teacher',
+                'courses': 'draft-test, ncd1-et'}
         self.client.post(url, data)
         self.assertRaises(ValidationError)
 
@@ -217,4 +217,5 @@ class CohortViewsTest(OppiaTestCase):
         url = reverse('oppia_cohort_course_view', args=[3, 1])
         response = self.client.get('%s?order_by=abcdef' % url)
         self.assertEqual(200, response.status_code)
+
         

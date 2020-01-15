@@ -1,4 +1,3 @@
-import os
 import pytest
 
 from django.forms import ValidationError
@@ -27,7 +26,7 @@ class ContentViewsTest(OppiaTestCase):
         self.client.force_login(self.admin_user)
         response = self.client.get(self.media_embed_helper_url)
         self.assertEqual(200, response.status_code)
-        
+
         response = self.client.get(self.video_embed_helper_url)
         self.assertEqual(200, response.status_code)
 
@@ -35,7 +34,7 @@ class ContentViewsTest(OppiaTestCase):
         self.client.force_login(self.staff_user)
         response = self.client.get(self.media_embed_helper_url)
         self.assertEqual(200, response.status_code)
-        
+
         response = self.client.get(self.video_embed_helper_url)
         self.assertEqual(200, response.status_code)
 
@@ -43,7 +42,7 @@ class ContentViewsTest(OppiaTestCase):
         self.client.force_login(self.teacher_user)
         response = self.client.get(self.media_embed_helper_url)
         self.assertEqual(200, response.status_code)
-        
+
         response = self.client.get(self.video_embed_helper_url)
         self.assertEqual(200, response.status_code)  
 
@@ -51,7 +50,7 @@ class ContentViewsTest(OppiaTestCase):
         self.client.force_login(self.normal_user)
         response = self.client.get(self.media_embed_helper_url)
         self.assertEqual(200, response.status_code)
-        
+
         response = self.client.get(self.video_embed_helper_url)
         self.assertEqual(200, response.status_code)
 
@@ -59,7 +58,7 @@ class ContentViewsTest(OppiaTestCase):
         self.client.logout()
         response = self.client.get(self.media_embed_helper_url)
         self.assertEqual(200, response.status_code)
-        
+
         response = self.client.get(self.video_embed_helper_url)
         self.assertEqual(200, response.status_code)
 
@@ -68,13 +67,13 @@ class ContentViewsTest(OppiaTestCase):
         self.client.force_login(self.admin_user)
         media_url = ""
         response = self.client.post(self.media_embed_helper_url,
-                                        {'media_url': media_url})
+                                    {'media_url': media_url})
         self.assertRaises(ValidationError)
         self.assertEqual(200, response.status_code)
 
     def test_media_embed_helper_post_no_url(self):
         self.client.force_login(self.admin_user)
-        response = self.client.post(self.media_embed_helper_url,{})
+        response = self.client.post(self.media_embed_helper_url, {})
         self.assertRaises(ValidationError)
         self.assertEqual(200, response.status_code)
 
@@ -83,7 +82,7 @@ class ContentViewsTest(OppiaTestCase):
         self.client.force_login(self.admin_user)
         media_url = "https://downloads.digital-campus.org/media/anc/iheed-20140217-breastfeeding-technique-part1.m4v"
         response = self.client.post(self.media_embed_helper_url,
-                                        {'media_url': media_url})
+                                    {'media_url': media_url})
         self.assertEqual(200, response.status_code)
 
     @pytest.mark.xfail(reason="works on local but not on github workflows")
@@ -91,6 +90,6 @@ class ContentViewsTest(OppiaTestCase):
         self.client.force_login(self.admin_user)
         media_url = "https://downloads.d/media/part1.m4v"
         response = self.client.post(self.media_embed_helper_url,
-                                        {'media_url': media_url})
+                                    {'media_url': media_url})
         self.assertRaises(IOError)
         self.assertEqual(200, response.status_code)
