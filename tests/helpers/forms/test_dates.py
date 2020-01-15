@@ -82,7 +82,7 @@ class DatesHelperTest(OppiaTestCase):
         form = dates.DateRangeForm(data=form_data)
         self.assertRaises(forms.ValidationError)
         self.assertFalse(form.is_valid())
-    
+
     '''
     DateRangeIntervalForm
     '''

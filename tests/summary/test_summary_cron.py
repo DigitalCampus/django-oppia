@@ -15,7 +15,7 @@ class SummaryCronTest(OppiaTestCase):
                 'default_gamification_events.json',
                 'tests/test_tracker.json',
                 'default_badges.json']
-    
+
     @pytest.mark.xfail(reason="works on local, but not on Github workflow \
         see issue: https://github.com/DigitalCampus/django-oppia/issues/691")
     def test_summary_cron(self):
