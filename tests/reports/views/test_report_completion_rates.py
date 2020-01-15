@@ -13,10 +13,10 @@ class ReportCompletionRatesViewTest(OppiaTestCase):
         super(ReportCompletionRatesViewTest, self).setUp()
         self.allowed_users = [self.admin_user, self.staff_user]
         self.disallowed_users = [self.teacher_user, self.normal_user]
-    
+
     def test_view_completion_rates(self):
         template = 'reports/completion_rates.html'
-        url = reverse('oppia_completion_rates')        
+        url = reverse('oppia_completion_rates')
 
         for allowed_user in self.allowed_users:
             self.client.force_login(user=allowed_user)
