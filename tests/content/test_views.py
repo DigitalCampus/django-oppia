@@ -14,7 +14,7 @@ class ContentViewsTest(OppiaTestCase):
                 'tests/test_permissions.json',
                 'default_gamification_events.json',
                 'tests/test_tracker.json']
-    
+
     def setUp(self):
         super(ContentViewsTest, self).setUp()
         self.media_embed_helper_url = reverse('oppia_media_embed_helper')
