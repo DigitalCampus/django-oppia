@@ -19,6 +19,8 @@ class CourseUploadTest(OppiaTestCase):
     no_module_xml = file_root + 'test_course_no_module_xml.zip'
     corrupt_course_zip = file_root + 'corrupt_course.zip'
     course_no_sub_dir = file_root + 'test_course_no_sub_dir.zip'
+    course_old_version = file_root + 'ncd1_old_course.zip'
+    course_no_activities = file_root + 'test_course_no_activities.zip'
 
     @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_upload_template(self):
@@ -84,3 +86,27 @@ class CourseUploadTest(OppiaTestCase):
             self.assertEqual(200, response.status_code)
             course_log = CoursePublishingLog.objects.latest('log_date')
             self.assertEqual("invalid_zip", course_log.action)
+
+    @pytest.mark.xfail(reason="works on local but not on github workflows")
+    def test_newer_version_exists(self):
+
+        with open(self.course_old_version, 'rb') as course_file:
+            self.client.force_login(self.admin_user)
+            response = self.client.post(reverse('oppia_upload'),
+                                        {'course_file': course_file})
+
+            self.assertEqual(200, response.status_code)
+            course_log = CoursePublishingLog.objects.latest('log_date')
+            self.assertEqual("newer_version_exists", course_log.action)
+
+    @pytest.mark.xfail(reason="works on local but not on github workflows")
+    def test_course_no_activities(self):
+
+        with open(self.course_no_activities, 'rb') as course_file:
+            self.client.force_login(self.admin_user)
+            response = self.client.post(reverse('oppia_upload'),
+                                        {'course_file': course_file})
+
+            self.assertEqual(200, response.status_code)
+            course_log = CoursePublishingLog.objects.latest('log_date')
+            self.assertEqual("no_activities", course_log.action)

@@ -52,7 +52,6 @@ def handle_uploaded_file(f, extract_path, request, user):
         return False, 500
 
     mod_name = ''
-    print(os.listdir(extract_path))
     for x in os.listdir(extract_path):
         if os.path.isdir(os.path.join(extract_path, x)):
             mod_name = x
@@ -159,6 +158,10 @@ def process_course(extract_path, f, mod_name, request, user):
     course.filename = f.name
     course.save()
 
+    if not parse_course_contents(request, doc, course, user, new_course):
+        return False, 500
+    clean_old_course(request, user, oldsections, old_course_filename, course)
+
     # save gamification events
     if 'gamification' in meta_info:
         events = parse_gamification_events(meta_info['gamification'])
@@ -179,9 +182,6 @@ def process_course(extract_path, f, mod_name, request, user):
                                     user=user,
                                     action="gamification_added",
                                     data=msg_text).save()
-
-    parse_course_contents(request, doc, course, user, new_course)
-    clean_old_course(request, user, oldsections, old_course_filename, course)
 
     tmp_path = replace_zip_contents(xml_path, doc, mod_name, extract_path)
     # Extract the final file into the courses area for preview
@@ -300,18 +300,18 @@ def parse_course_contents(request, xml_doc, course, user, new_course):
         course.delete()
         msg_text = \
             _(u"There don't appear to be any activities in this upload file.")
-        messages.info(request, msg_text)
-        CoursePublishingLog(course=course,
-                            user=user,
+        messages.info(request, msg_text, extra_tags="danger")
+        CoursePublishingLog(user=user,
                             action="no_activities",
                             data=msg_text).save()
-        return
+        return False
 
     process_course_sections(request, structure, course, user, new_course)
 
     media_element = xml_doc.find('media')
     if media_element is not None:
         process_course_media(request, media_element, course, user)
+    return True
 
 
 def parse_baseline_activities(request, xml_doc, course, user, new_course):
