@@ -1,9 +1,7 @@
 import datetime
-from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.core.paginator import Paginator
 
-from oppia.models import Course, Quiz, QuizAttempt
-from oppia.permissions import check_owner
-from quiz.models import QuizAttemptResponse
+from oppia.models import Course
 
 
 def get_paginated_courses(request):

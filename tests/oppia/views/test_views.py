@@ -1,5 +1,5 @@
 
-from django.core.paginator import InvalidPage, EmptyPage
+from django.core.paginator import InvalidPage
 from django.forms import ValidationError
 from django.urls import reverse
 from oppia.test import OppiaTestCase
@@ -55,29 +55,29 @@ class OppiaViewsTest(OppiaTestCase):
     '''
     def test_home_post_days(self):
         self.client.force_login(user=self.admin_user)
-        data = { 'start_date': '2019-12-01',
-                 'end_date': '2019-12-31',
-                 'interval': 'days'}
+        data = {'start_date': '2019-12-01',
+                'end_date': '2019-12-31',
+                'interval': 'days'}
         response = self.client.post(reverse('oppia_home'), data)
         self.assertEqual(200, response.status_code)
-        
+
     def test_home_post_months(self):
         self.client.force_login(user=self.admin_user)
-        data = { 'start_date': '2019-01-01',
-                 'end_date': '2019-12-31',
-                 'interval': 'months'}
+        data = {'start_date': '2019-01-01',
+                'end_date': '2019-12-31',
+                'interval': 'months'}
         response = self.client.post(reverse('oppia_home'), data)
         self.assertEqual(200, response.status_code)
 
     def test_home_post_invalid_dates(self):
         self.client.force_login(user=self.admin_user)
-        data = { 'start_date': '2019-01',
-                 'end_date': '2019-12',
-                 'interval': 'months'}
+        data = {'start_date': '2019-01',
+                'end_date': '2019-12',
+                'interval': 'months'}
         response = self.client.post(reverse('oppia_home'), data)
         self.assertRaises(ValidationError)
         self.assertEqual(200, response.status_code)
-  
+
     '''
     Leaderboard view
     '''
@@ -101,7 +101,7 @@ class OppiaViewsTest(OppiaTestCase):
         self.assertRaises(InvalidPage)
         self.assertEqual(200, response.status_code)
         self.assertTemplateUsed(self.leaderboard_template)
-    
+
     def test_leaderboard_get_page_abc(self):
         self.client.force_login(user=self.admin_user)
         url = '%s?page=abc' % reverse('oppia_leaderboard')
@@ -109,4 +109,3 @@ class OppiaViewsTest(OppiaTestCase):
         self.assertRaises(ValueError)
         self.assertEqual(200, response.status_code)
         self.assertTemplateUsed(self.leaderboard_template)
-

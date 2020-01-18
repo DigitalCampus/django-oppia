@@ -35,23 +35,6 @@ def user_can_upload(function):
     return wrap
 
 
-def check_owner(request, id):
-    try:
-        # check only the owner can view
-        if request.user.is_staff:
-            course = Course.objects.get(pk=id)
-        else:
-            try:
-                course = Course.objects.get(pk=id, user=request.user)
-            except Course.DoesNotExist:
-                course = Course.objects.get(pk=id,
-                                            coursemanager__course__id=id,
-                                            coursemanager__user=request.user)
-    except Course.DoesNotExist:
-        raise Http404
-    return course
-
-
 def can_edit_user(request, view_user_id):
     if request.user.is_staff:
         return True
@@ -144,6 +127,7 @@ def can_view_cohort(request, cohort_id):
         cohort = Cohort.objects.get(pk=cohort_id)
     except Cohort.DoesNotExist:
         raise Http404
+
     try:
         if request.user.is_staff:
             return cohort
@@ -152,7 +136,6 @@ def can_view_cohort(request, cohort_id):
                                   participant__role=Participant.TEACHER)
     except Cohort.DoesNotExist:
         raise PermissionDenied
-    raise PermissionDenied
 
 
 def get_cohorts(request):

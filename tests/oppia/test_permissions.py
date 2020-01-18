@@ -1,6 +1,6 @@
 from django.urls import reverse
 from oppia.test import OppiaTestCase
-
+from oppia.permissions import is_manager
 
 class PermissionsViewTest(OppiaTestCase):
     fixtures = ['tests/test_user.json',
@@ -286,3 +286,17 @@ class PermissionsViewTest(OppiaTestCase):
         self.client.force_login(self.normal_user)
         response = self.client.get(reverse('oppia_viz_summary'))
         self.assertEqual(response.status_code, 302)
+
+    # Test is_manager permissions
+
+    def test_is_manager_admin(self):
+        self.assertTrue(is_manager(1, self.admin_user))
+
+    def test_is_manager_staff(self):
+        self.assertTrue(is_manager(1, self.staff_user))
+
+    def test_is_manager_teacher(self):
+        self.assertFalse(is_manager(1, self.teacher_user))
+
+    def test_is_manager_user(self):
+        self.assertFalse(is_manager(1, self.normal_user))
