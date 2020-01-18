@@ -18,7 +18,9 @@ from profile.forms import UploadProfileForm, \
     UserSearchForm, \
     DeleteAccountForm
 from profile.models import UserProfile
-from profile.views.utils import get_paginated_users, get_filters_from_row, get_query
+from profile.views.utils import get_paginated_users, \
+                                get_filters_from_row, \
+                                get_query
 from quiz.models import QuizAttempt, QuizAttemptResponse
 
 
@@ -155,15 +157,14 @@ class UploadUsers(View):
     def get(self, request):
         if not request.user.is_superuser:
             raise PermissionDenied
-    
+
         results = []
         form = self.form_class()
     
         return render(request, self.template_name,
                       {'form': form,
                        'results': results})
-    
-        
+
     def post(self, request):
         if not request.user.is_superuser:
             raise PermissionDenied
@@ -208,8 +209,7 @@ class UploadUsers(View):
             results.append(result)
     
         return results
-    
-    
+
     def process_upload_file_save_user(self, row):
         user = User()
         user.username = row['username']
