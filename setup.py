@@ -55,5 +55,6 @@ setup(
         "pytest",
         "pytest-django",
         "django-ses",
+        "openpyxl==3.0.3"
     ],
 )

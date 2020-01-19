@@ -172,8 +172,8 @@ def export_tracker_detail(request, course_id):
                          ""))
 
     response = HttpResponse(
-        data.xls,
+        data.export('xlsx'),
         content_type='application/vnd.ms-excel;charset=utf-8')
-    response['Content-Disposition'] = "attachment; filename=export.xls"
+    response['Content-Disposition'] = "attachment; filename=export.xlsx"
 
     return response
