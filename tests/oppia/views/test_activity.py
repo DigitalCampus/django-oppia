@@ -102,7 +102,7 @@ class OppiaActivityViewsTest(OppiaTestCase):
         self.assertRaises(ValidationError)
         self.assertEqual(200, response.status_code)
         self.assertTemplateUsed(self.activity_detail_template)
-        
+
     def test_recent_activity_detail_get_admin(self):
         self.client.force_login(user=self.admin_user)
         response = self.client.get(self.url_recent_activity_detail)

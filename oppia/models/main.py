@@ -6,7 +6,7 @@ import os
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Max, Sum
+from django.db.models import Max
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from tastypie.models import create_api_key

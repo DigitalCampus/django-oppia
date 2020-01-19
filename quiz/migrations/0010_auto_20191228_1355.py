@@ -13,11 +13,16 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name='quizattempt',
-            options={'ordering': ['-submitted_date', '-attempt_date'], 'verbose_name': 'QuizAttempt', 'verbose_name_plural': 'QuizAttempts'},
+            options={'ordering': ['-submitted_date', '-attempt_date'],
+                     'verbose_name': 'QuizAttempt',
+                     'verbose_name_plural': 'QuizAttempts'},
         ),
         migrations.AlterField(
             model_name='quizattemptresponse',
             name='quizattempt',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='responses', to='quiz.QuizAttempt'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='responses',
+                to='quiz.QuizAttempt'),
         ),
     ]

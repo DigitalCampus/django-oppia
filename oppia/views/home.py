@@ -17,7 +17,6 @@ from oppia.models import Tracker, \
     Participant, \
     Course
 from oppia.permissions import get_cohorts
-from profile.models import UserProfile
 from reports.signals import dashboard_accessed
 from summary.models import CourseDailyStats
 

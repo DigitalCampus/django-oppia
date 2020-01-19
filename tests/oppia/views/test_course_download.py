@@ -20,7 +20,7 @@ class DownloadViewTest(OppiaTestCase):
                                                  args=[1])
         self.course_download_url_invalid = reverse('oppia_course_download',
                                                    args=[123])
-        
+
     @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_live_course_admin(self):
         response = self.get_view(self.course_download_url_valid,

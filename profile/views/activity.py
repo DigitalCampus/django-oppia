@@ -1,5 +1,4 @@
 import datetime
-import datetime
 import operator
 from itertools import chain
 
@@ -109,7 +108,7 @@ def user_course_activity_view(request, user_id, course_id):
     for aq in act_quizzes:
 
         quiz = Quiz.objects.filter(quizprops__value=aq.digest,
-                                           quizprops__name="digest").first()
+                                   quizprops__name="digest").first()
 
         no_attempts = quiz.get_no_attempts_by_user(quiz, view_user)
         attempts = QuizAttempt.objects.filter(quiz=quiz, user=view_user)
@@ -205,4 +204,3 @@ def user_course_activity_view(request, user_id, course_id):
                    'activities_percent': activities_percent,
                    'page_ordering': ('-' if inverse_order else '') + ordering,
                    'activity_graph_data': activity})
-

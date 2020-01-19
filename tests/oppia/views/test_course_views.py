@@ -1,6 +1,5 @@
 
-from django.core.paginator import InvalidPage, EmptyPage
-from django.forms import ValidationError
+from django.core.paginator import InvalidPage
 from django.urls import reverse
 from oppia.test import OppiaTestCase
 

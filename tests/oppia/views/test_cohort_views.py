@@ -1,7 +1,7 @@
 from django.forms import ValidationError
 from django.urls import reverse
 
-from oppia.models import Course, Cohort, Participant, CourseCohort
+from oppia.models import Cohort, Participant, CourseCohort
 from oppia.test import OppiaTestCase
 from oppia.views.cohort import cohort_add_roles, cohort_add_courses
 
@@ -154,7 +154,7 @@ class CohortViewsTest(OppiaTestCase):
                              reverse('oppia_cohorts'),
                              302,
                              200)
-    
+
     def test_cohort_edit_post_invalid_dates(self):
         self.client.force_login(self.admin_user)
         url = reverse('oppia_cohort_edit', args=[1])
@@ -166,7 +166,7 @@ class CohortViewsTest(OppiaTestCase):
                 'courses': 'draft-test, ncd1-et'}
         self.client.post(url, data)
         self.assertRaises(ValidationError)
-    
+
     '''
     Cohort add view - post
     '''
@@ -217,5 +217,4 @@ class CohortViewsTest(OppiaTestCase):
         url = reverse('oppia_cohort_course_view', args=[3, 1])
         response = self.client.get('%s?order_by=abcdef' % url)
         self.assertEqual(200, response.status_code)
-
         
