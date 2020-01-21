@@ -155,11 +155,35 @@ class CohortViewsTest(OppiaTestCase):
                              302,
                              200)
 
-    def test_cohort_edit_post_invalid_dates(self):
+    def test_cohort_edit_post_invalid_start_date(self):
         self.client.force_login(self.admin_user)
         url = reverse('oppia_cohort_edit', args=[1])
         data = {'start_date': '20-01',
                 'end_date': '2020-12-35',
+                'description': 'Test cohort',
+                'students': 'demo, staff',
+                'teachers': 'teacher',
+                'courses': 'draft-test, ncd1-et'}
+        self.client.post(url, data)
+        self.assertRaises(ValidationError)
+
+    def test_cohort_edit_post_invalid_end_date(self):
+        self.client.force_login(self.admin_user)
+        url = reverse('oppia_cohort_edit', args=[1])
+        data = {'start_date': '2020-01-14',
+                'end_date': '20-35',
+                'description': 'Test cohort',
+                'students': 'demo, staff',
+                'teachers': 'teacher',
+                'courses': 'draft-test, ncd1-et'}
+        self.client.post(url, data)
+        self.assertRaises(ValidationError)
+
+    def test_cohort_edit_post_invalid_start_before_end_date(self):
+        self.client.force_login(self.admin_user)
+        url = reverse('oppia_cohort_edit', args=[1])
+        data = {'start_date': '2020-01-14',
+                'end_date': '2020-01-01',
                 'description': 'Test cohort',
                 'students': 'demo, staff',
                 'teachers': 'teacher',
