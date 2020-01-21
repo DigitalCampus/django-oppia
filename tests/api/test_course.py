@@ -115,7 +115,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertValidJSON(resp.content)
 
     def test_course_download_file_zip_not_found(self):
-        resource_url = get_api_url('course', 2) + self.STR_DOWNLOAD
+        resource_url = get_api_url('course', 5) + self.STR_DOWNLOAD
         resp = self.api_client.get(
             resource_url, format='json', data=self.user_auth)
         self.assertHttpNotFound(resp)
