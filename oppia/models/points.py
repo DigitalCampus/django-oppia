@@ -37,9 +37,6 @@ class Points(models.Model):
         verbose_name = _('Points')
         verbose_name_plural = _('Points')
 
-    def __unicode__(self):
-        return self.description
-
     def __str__(self):
         return self.description
 
@@ -75,52 +72,6 @@ class Points(models.Model):
     def get_userscore(user):
         score = Points.objects.filter(user=user) \
             .aggregate(total=Sum('points'))
-        if score['total'] is None:
-            return 0
-        return score['total']
-
-    @staticmethod
-    def media_points(user, start_date=None, end_date=None, course=None):
-        results = Points.objects.filter(user=user, type='mediaplayed')
-        if start_date:
-            results = results.filter(date__gte=start_date)
-        if end_date:
-            results = results.filter(date__lte=end_date)
-        if course:
-            results = results.filter(course=course)
-        score = results.aggregate(total=Sum('points'))
-        if score['total'] is None:
-            return 0
-        return score['total']
-
-    @staticmethod
-    def page_points(user, start_date=None, end_date=None, course=None):
-        results = Points.objects.filter(user=user, type='activitycompleted')
-        if start_date:
-            results = results.filter(date__gte=start_date)
-        if end_date:
-            results = results.filter(date__lte=end_date)
-        if course:
-            results = results.filter(course=course)
-        score = results.aggregate(total=Sum('points'))
-        if score['total'] is None:
-            return 0
-        return score['total']
-
-    @staticmethod
-    def quiz_points(user, start_date=None, end_date=None, course=None):
-        results = Points.objects.filter(user=user).filter(
-            Q(type='firstattempt')
-            | Q(type='firstattemptscore')
-            | Q(type='firstattemptbonus')
-            | Q(type='quizattempt'))
-        if start_date:
-            results = results.filter(date__gte=start_date)
-        if end_date:
-            results = results.filter(date__lte=end_date)
-        if course:
-            results = results.filter(course=course)
-        score = results.aggregate(total=Sum('points'))
         if score['total'] is None:
             return 0
         return score['total']
