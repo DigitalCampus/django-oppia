@@ -32,14 +32,16 @@ from quiz.models import Quiz, \
 logger = logging.getLogger(__name__)
 
 
-def clean_lang_dict(lang_dict):
-    if isinstance(lang_dict, dict):
-        for lang in lang_dict:
-            lang_dict[lang] = lang_dict[lang].strip().replace(u"\u00A0", " ")
-            return json.dumps(lang_dict)
+def clean_lang_dict(elem_content):
+    if isinstance(elem_content, dict):
+        for lang in elem_content:
+            elem_content[lang] = elem_content[lang].strip().replace(u"\u00A0", " ")
+            return json.dumps(elem_content)
+    elif isinstance(elem_content, str):
+        return elem_content.strip().replace(u"\u00A0", " ")
     else:
-        return lang_dict.strip().replace(u"\u00A0", " ")
-
+        #If it was a boolean or a number (for some response types), return the value as is
+        return elem_content
 
 def handle_uploaded_file(f, extract_path, request, user):
     zipfilepath = os.path.join(settings.COURSE_UPLOAD_DIR, f.name)
