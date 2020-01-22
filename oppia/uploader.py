@@ -32,6 +32,15 @@ from quiz.models import Quiz, \
 logger = logging.getLogger(__name__)
 
 
+def clean_lang_dict(lang_dict):
+    if isinstance(lang_dict, dict):
+        for lang in lang_dict:
+            lang_dict[lang] = lang_dict[lang].strip().replace(u"\u00A0", " ")
+            return json.dumps(lang_dict)
+    else:
+        return lang_dict.strip().replace(u"\u00A0", " ")
+
+
 def handle_uploaded_file(f, extract_path, request, user):
     zipfilepath = os.path.join(settings.COURSE_UPLOAD_DIR, f.name)
 
@@ -513,8 +522,8 @@ def create_quiz(req, user, quiz_obj, act_xml, activity=None):
 
     quiz = Quiz()
     quiz.owner = user
-    quiz.title = quiz_obj['title']
-    quiz.description = quiz_obj['description']
+    quiz.title = clean_lang_dict(quiz_obj['title'])
+    quiz.description = clean_lang_dict(quiz_obj['description'])
     quiz.save()
 
     quiz_obj['id'] = quiz.pk
@@ -625,7 +634,9 @@ def create_quiz_questions(user, quiz, quiz_obj):
 
         question = Question(owner=user,
                             type=q['question']['type'],
-                            title=q['question']['title'])
+                            title=clean_lang_dict(q['question']['title']))
+
+
         question.save()
 
         quiz_question = QuizQuestion(quiz=quiz,
@@ -647,7 +658,7 @@ def create_quiz_questions(user, quiz, quiz_obj):
             response = Response(
                 owner=user,
                 question=question,
-                title=r['title'],
+                title=clean_lang_dict(r['title']),
                 score=r['score'],
                 order=r['order']
             )
