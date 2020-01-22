@@ -1,21 +1,6 @@
 from oppia.models import Course, Activity, Tracker, Media
 from oppia.test import OppiaTestCase
 
-'''
-@todo
-'''
-# Course.has_feedback - with feedback
-# Activity.get_event_points - with custom points
-# Media.get_event_points - with inherited
-# Media.get_event_points - with custom points
-# Tracker.title
-# Tracker.get_media_title
-# Tracker.get_activity_title - invalid json
-# Tracker.get_section_title - valid json
-# Tracker.get_section_title - invalid json
-# Tracker.to_xml_string
-# Tracker.get_lang
-
 
 class MainModelsCoreTest(OppiaTestCase):
     fixtures = ['tests/test_user.json',
