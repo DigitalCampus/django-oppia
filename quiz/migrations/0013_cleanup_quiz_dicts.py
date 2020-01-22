@@ -8,8 +8,8 @@ from oppia.uploader import clean_lang_dict
 
 
 def clean_quiz_dicts(apps, schema_editor):
-    Quiz = apps.get_model("quiz", "Quiz")
-    for quiz in Quiz.objects.all():
+    quiz_model = apps.get_model("quiz", "Quiz")
+    for quiz in quiz_model.objects.all():
         if '{' in quiz.title:
             title = ast.literal_eval(quiz.title)
             quiz.title = clean_lang_dict(title)
@@ -18,15 +18,15 @@ def clean_quiz_dicts(apps, schema_editor):
             quiz.description = clean_lang_dict(description)
         quiz.save()
 
-    Question = apps.get_model("quiz", "Question")
-    for q in Question.objects.all():
+    question_model = apps.get_model("quiz", "Question")
+    for q in question_model.objects.all():
         if '{' in q.title:
             title = ast.literal_eval(q.title)
             q.title = clean_lang_dict(title)
             q.save()
 
-    Response = apps.get_model("quiz", "Response")
-    for r in Response.objects.all():
+    response_model = apps.get_model("quiz", "Response")
+    for r in response_model.objects.all():
         if '{' in r.title:
             title = ast.literal_eval(r.title)
             r.title = clean_lang_dict(title)
