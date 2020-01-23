@@ -1,0 +1,468 @@
+[
+{
+    "model": "oppia.course",
+    "pk": 5,
+    "fields": {
+        "user": 1,
+        "created_date": "2020-01-23T14:36:22.485Z",
+        "lastupdated_date": "2020-01-23T14:36:22.945Z",
+        "version": 20200123143622,
+        "title": "{\"en\": \"Award Test Course\"}",
+        "description": "{\"en\": \"A test course for testing the badge awarding\"}",
+        "shortname": "award-test",
+        "filename": "award-test.zip",
+        "badge_icon": "",
+        "is_draft": false,
+        "is_archived": false
+    }
+},
+{
+    "model": "oppia.section",
+    "pk": 42,
+    "fields": {
+        "course": 5,
+        "order": 1,
+        "title": "{\"en\": \"Topic 1\"}"
+    }
+},
+{
+    "model": "oppia.section",
+    "pk": 43,
+    "fields": {
+        "course": 5,
+        "order": 2,
+        "title": "{\"en\": \"Topic 2\"}"
+    }
+},
+{
+    "model": "oppia.activity",
+    "pk": 525,
+    "fields": {
+        "section": 42,
+        "order": 1,
+        "title": "{\"en\": \"Intro page\"}",
+        "type": "page",
+        "digest": "b789636875418fff16845784fc0dd0d0504",
+        "baseline": false,
+        "image": null,
+        "content": "{\"en\": \"01_504_en.html\"}",
+        "description": null
+    }
+},
+{
+    "model": "oppia.activity",
+    "pk": 526,
+    "fields": {
+        "section": 42,
+        "order": 2,
+        "title": "{\"en\": \"Second page - custom points\"}",
+        "type": "page",
+        "digest": "a68146dd7f3b93efaeeca333dc0c4ae9505",
+        "baseline": false,
+        "image": null,
+        "content": "{\"en\": \"01_505_en.html\"}",
+        "description": null
+    }
+},
+{
+    "model": "oppia.activity",
+    "pk": 527,
+    "fields": {
+        "section": 42,
+        "order": 3,
+        "title": "{\"en\": \"Media - inherited points\"}",
+        "type": "page",
+        "digest": "ba61c987ef3ae0b5c66d0e6c6f0079c2506",
+        "baseline": false,
+        "image": null,
+        "content": "{\"en\": \"01_506_en.html\"}",
+        "description": null
+    }
+},
+{
+    "model": "oppia.activity",
+    "pk": 528,
+    "fields": {
+        "section": 42,
+        "order": 4,
+        "title": "{\"en\": \"Topic 1 Quiz\"}",
+        "type": "quiz",
+        "digest": "cb81b8fe962962426245472af2078f67509cr0s2a1p80a0m0",
+        "baseline": false,
+        "image": null,
+        "content": "{\"id\": 38, \"title\": {\"en\": \"Topic 1 Quiz\"}, \"description\": {\"en\": \"\"}, \"props\": {\"digest\": \"cb81b8fe962962426245472af2078f67509cr0s2a1p80a0m0\", \"courseversion\": \"20200123114742\", \"showfeedback\": 2, \"allowtryagain\": 1, \"passthreshold\": 80, \"availability\": 0, \"maxattempts\": 0, \"maxscore\": 2}, \"questions\": [{\"order\": 1, \"id\": 476, \"question\": {\"id\": 476, \"type\": \"multichoice\", \"title\": {\"en\": \"The sky is blue\"}, \"props\": {\"maxscore\": 1}, \"responses\": [{\"order\": 1, \"id\": 1140, \"props\": {\"id\": 183}, \"title\": {\"en\": \"True\"}, \"score\": \"1.0000\"}, {\"order\": 2, \"id\": 1141, \"props\": {\"id\": 956}, \"title\": {\"en\": \"False\"}, \"score\": \"0.0000\"}]}}, {\"order\": 2, \"id\": 477, \"question\": {\"id\": 477, \"type\": \"multichoice\", \"title\": {\"en\": \"Edinburgh is the capital of UK\"}, \"props\": {\"maxscore\": 1}, \"responses\": [{\"order\": 1, \"id\": 1142, \"props\": {\"id\": 263}, \"title\": {\"en\": \"True\"}, \"score\": \"0.0000\"}, {\"order\": 2, \"id\": 1143, \"props\": {\"id\": 190}, \"title\": {\"en\": \"False\"}, \"score\": \"1.0000\"}]}}]}",
+        "description": null
+    }
+},
+{
+    "model": "oppia.activity",
+    "pk": 529,
+    "fields": {
+        "section": 43,
+        "order": 1,
+        "title": "{\"en\": \"Page activity with no description\"}",
+        "type": "page",
+        "digest": "534dbc6927ae88c2d8d21e454fac3d90508",
+        "baseline": false,
+        "image": null,
+        "content": "{\"en\": \"02_508_en.html\"}",
+        "description": null
+    }
+},
+{
+    "model": "oppia.activity",
+    "pk": 530,
+    "fields": {
+        "section": 43,
+        "order": 2,
+        "title": "{\"en\": \"Final Quiz\"}",
+        "type": "quiz",
+        "digest": "c4ba27a3e57eacf8469e23bd6ae7f3a3510cr0s2a1p80a0m0",
+        "baseline": false,
+        "image": null,
+        "content": "{\"id\": 39, \"title\": {\"en\": \"Final Quiz\"}, \"description\": {\"en\": \"\"}, \"props\": {\"digest\": \"c4ba27a3e57eacf8469e23bd6ae7f3a3510cr0s2a1p80a0m0\", \"courseversion\": \"20200123114742\", \"showfeedback\": 2, \"allowtryagain\": 1, \"passthreshold\": 80, \"availability\": 0, \"maxattempts\": 0, \"maxscore\": 2}, \"questions\": [{\"order\": 1, \"id\": 478, \"question\": {\"id\": 478, \"type\": \"multichoice\", \"title\": {\"en\": \"2 plus 2 equals 5\"}, \"props\": {\"maxscore\": 1}, \"responses\": [{\"order\": 1, \"id\": 1144, \"props\": {\"id\": 993}, \"title\": {\"en\": \"True\"}, \"score\": \"0.0000\"}, {\"order\": 2, \"id\": 1145, \"props\": {\"id\": 583}, \"title\": {\"en\": \"False\"}, \"score\": \"1.0000\"}]}}, {\"order\": 2, \"id\": 479, \"question\": {\"id\": 479, \"type\": \"numerical\", \"title\": {\"en\": \"4 plus 5 equals what?\"}, \"props\": {\"maxscore\": 1}, \"responses\": [{\"order\": 1, \"id\": 1146, \"props\": {\"id\": 599, \"tolerance\": \"0\"}, \"title\": {\"en\": \"9\"}, \"score\": \"1.0000\"}]}}]}",
+        "description": null
+    }
+},
+{
+    "model": "quiz.quiz",
+    "pk": 38,
+    "fields": {
+        "owner": 1,
+        "created_date": "2020-01-23T14:36:22.553Z",
+        "lastupdated_date": "2020-01-23T14:36:22.553Z",
+        "draft": false,
+        "deleted": false,
+        "title": "{\"en\": \"Topic 1 Quiz\"}",
+        "description": "{\"en\": \"\"}"
+    }
+},
+{
+    "model": "quiz.quiz",
+    "pk": 39,
+    "fields": {
+        "owner": 1,
+        "created_date": "2020-01-23T14:36:22.647Z",
+        "lastupdated_date": "2020-01-23T14:36:22.647Z",
+        "draft": false,
+        "deleted": false,
+        "title": "{\"en\": \"Final Quiz\"}",
+        "description": "{\"en\": \"\"}"
+    }
+},
+{
+    "model": "quiz.quizprops",
+    "pk": 272,
+    "fields": {
+        "quiz": 38,
+        "name": "digest",
+        "value": "cb81b8fe962962426245472af2078f67509cr0s2a1p80a0m0"
+    }
+},
+{
+    "model": "quiz.quizprops",
+    "pk": 273,
+    "fields": {
+        "quiz": 38,
+        "name": "courseversion",
+        "value": "20200123114742"
+    }
+},
+{
+    "model": "quiz.quizprops",
+    "pk": 274,
+    "fields": {
+        "quiz": 38,
+        "name": "showfeedback",
+        "value": "2"
+    }
+},
+{
+    "model": "quiz.quizprops",
+    "pk": 275,
+    "fields": {
+        "quiz": 38,
+        "name": "allowtryagain",
+        "value": "1"
+    }
+},
+{
+    "model": "quiz.quizprops",
+    "pk": 276,
+    "fields": {
+        "quiz": 38,
+        "name": "passthreshold",
+        "value": "80"
+    }
+},
+{
+    "model": "quiz.quizprops",
+    "pk": 277,
+    "fields": {
+        "quiz": 38,
+        "name": "availability",
+        "value": "0"
+    }
+},
+{
+    "model": "quiz.quizprops",
+    "pk": 278,
+    "fields": {
+        "quiz": 38,
+        "name": "maxattempts",
+        "value": "0"
+    }
+},
+{
+    "model": "quiz.quizprops",
+    "pk": 279,
+    "fields": {
+        "quiz": 38,
+        "name": "maxscore",
+        "value": "2"
+    }
+},
+{
+    "model": "quiz.quizprops",
+    "pk": 280,
+    "fields": {
+        "quiz": 39,
+        "name": "digest",
+        "value": "c4ba27a3e57eacf8469e23bd6ae7f3a3510cr0s2a1p80a0m0"
+    }
+},
+{
+    "model": "quiz.quizprops",
+    "pk": 281,
+    "fields": {
+        "quiz": 39,
+        "name": "courseversion",
+        "value": "20200123114742"
+    }
+},
+{
+    "model": "quiz.quizprops",
+    "pk": 282,
+    "fields": {
+        "quiz": 39,
+        "name": "showfeedback",
+        "value": "2"
+    }
+},
+{
+    "model": "quiz.quizprops",
+    "pk": 283,
+    "fields": {
+        "quiz": 39,
+        "name": "allowtryagain",
+        "value": "1"
+    }
+},
+{
+    "model": "quiz.quizprops",
+    "pk": 284,
+    "fields": {
+        "quiz": 39,
+        "name": "passthreshold",
+        "value": "80"
+    }
+},
+{
+    "model": "quiz.quizprops",
+    "pk": 285,
+    "fields": {
+        "quiz": 39,
+        "name": "availability",
+        "value": "0"
+    }
+},
+{
+    "model": "quiz.quizprops",
+    "pk": 286,
+    "fields": {
+        "quiz": 39,
+        "name": "maxattempts",
+        "value": "0"
+    }
+},
+{
+    "model": "quiz.quizprops",
+    "pk": 287,
+    "fields": {
+        "quiz": 39,
+        "name": "maxscore",
+        "value": "2"
+    }
+},
+{
+    "model": "quiz.quizquestion",
+    "pk": 476,
+    "fields": {
+        "quiz": 38,
+        "question": 476,
+        "order": 1
+    }
+},
+{
+    "model": "quiz.quizquestion",
+    "pk": 477,
+    "fields": {
+        "quiz": 38,
+        "question": 477,
+        "order": 2
+    }
+},
+{
+    "model": "quiz.quizquestion",
+    "pk": 478,
+    "fields": {
+        "quiz": 39,
+        "question": 478,
+        "order": 1
+    }
+},
+{
+    "model": "quiz.quizquestion",
+    "pk": 479,
+    "fields": {
+        "quiz": 39,
+        "question": 479,
+        "order": 2
+    }
+},
+{
+    "model": "quiz.question",
+    "pk": 476,
+    "fields": {
+        "owner": 1,
+        "created_date": "2020-01-23T14:36:22.579Z",
+        "lastupdated_date": "2020-01-23T14:36:22.579Z",
+        "title": "{\"en\": \"The sky is blue\"}",
+        "type": "multichoice"
+    }
+},
+{
+    "model": "quiz.question",
+    "pk": 477,
+    "fields": {
+        "owner": 1,
+        "created_date": "2020-01-23T14:36:22.600Z",
+        "lastupdated_date": "2020-01-23T14:36:22.600Z",
+        "title": "{\"en\": \"Edinburgh is the capital of UK\"}",
+        "type": "multichoice"
+    }
+},
+{
+    "model": "quiz.question",
+    "pk": 478,
+    "fields": {
+        "owner": 1,
+        "created_date": "2020-01-23T14:36:22.674Z",
+        "lastupdated_date": "2020-01-23T14:36:22.674Z",
+        "title": "{\"en\": \"2 plus 2 equals 5\"}",
+        "type": "multichoice"
+    }
+},
+{
+    "model": "quiz.question",
+    "pk": 479,
+    "fields": {
+        "owner": 1,
+        "created_date": "2020-01-23T14:36:22.695Z",
+        "lastupdated_date": "2020-01-23T14:36:22.695Z",
+        "title": "{\"en\": \"4 plus 5 equals what?\"}",
+        "type": "numerical"
+    }
+},
+{
+    "model": "quiz.response",
+    "pk": 1140,
+    "fields": {
+        "owner": 1,
+        "question": 476,
+        "created_date": "2020-01-23T14:36:22.590Z",
+        "lastupdated_date": "2020-01-23T14:36:22.590Z",
+        "score": "1.00",
+        "title": "{\"en\": \"True\"}",
+        "order": 1
+    }
+},
+{
+    "model": "quiz.response",
+    "pk": 1141,
+    "fields": {
+        "owner": 1,
+        "question": 476,
+        "created_date": "2020-01-23T14:36:22.595Z",
+        "lastupdated_date": "2020-01-23T14:36:22.596Z",
+        "score": "0.00",
+        "title": "{\"en\": \"False\"}",
+        "order": 2
+    }
+},
+{
+    "model": "quiz.response",
+    "pk": 1142,
+    "fields": {
+        "owner": 1,
+        "question": 477,
+        "created_date": "2020-01-23T14:36:22.605Z",
+        "lastupdated_date": "2020-01-23T14:36:22.605Z",
+        "score": "0.00",
+        "title": "{\"en\": \"True\"}",
+        "order": 1
+    }
+},
+{
+    "model": "quiz.response",
+    "pk": 1143,
+    "fields": {
+        "owner": 1,
+        "question": 477,
+        "created_date": "2020-01-23T14:36:22.607Z",
+        "lastupdated_date": "2020-01-23T14:36:22.607Z",
+        "score": "1.00",
+        "title": "{\"en\": \"False\"}",
+        "order": 2
+    }
+},
+{
+    "model": "quiz.response",
+    "pk": 1144,
+    "fields": {
+        "owner": 1,
+        "question": 478,
+        "created_date": "2020-01-23T14:36:22.687Z",
+        "lastupdated_date": "2020-01-23T14:36:22.687Z",
+        "score": "0.00",
+        "title": "{\"en\": \"True\"}",
+        "order": 1
+    }
+},
+{
+    "model": "quiz.response",
+    "pk": 1145,
+    "fields": {
+        "owner": 1,
+        "question": 478,
+        "created_date": "2020-01-23T14:36:22.693Z",
+        "lastupdated_date": "2020-01-23T14:36:22.693Z",
+        "score": "1.00",
+        "title": "{\"en\": \"False\"}",
+        "order": 2
+    }
+},
+{
+    "model": "quiz.response",
+    "pk": 1146,
+    "fields": {
+        "owner": 1,
+        "question": 479,
+        "created_date": "2020-01-23T14:36:22.710Z",
+        "lastupdated_date": "2020-01-23T14:36:22.710Z",
+        "score": "1.00",
+        "title": "{\"en\": \"9\"}",
+        "order": 1
+    }
+}
+]
