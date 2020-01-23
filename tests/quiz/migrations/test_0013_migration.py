@@ -21,6 +21,7 @@ class QuizTestMigrations(TestCase):
         executor = MigrationExecutor(connection)
         old_apps = executor.loader.project_state(self.migrate_from).apps
 
+        connection.disable_constraint_checking()
         # Reverse to the original migration
         executor.migrate(self.migrate_from)
 
