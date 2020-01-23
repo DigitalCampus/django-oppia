@@ -36,7 +36,7 @@ class QuizTestMigrations(TestCase):
         self.apps = executor.loader.project_state(self.migrate_to).apps
 
     def setUpBeforeMigration(self, apps):
-        #
+        # will be defined in the implementation class
         pass
 
 class QuizDictsTestCase(QuizTestMigrations):
