@@ -4,8 +4,8 @@ import datetime
 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.models import User
+from django.core import exceptions
 from django.db.models import Count, Sum
-from django.db.models.functions import ExtractMonth, ExtractYear
 from django.shortcuts import render
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
@@ -72,11 +72,11 @@ def map_view(request):
 
 # helper functions
 def summary_get_registrations(start_date):
-    user_registrations = User.objects.filter(date_joined__gte=start_date) \
-                        .annotate(month=ExtractMonth('date_joined')) \
-                        .annotate(year=ExtractYear('date_joined')) \
-                        .annotate(count=Count('id')) \
-                        .order_by('year', 'month')
+    user_registrations = User.objects.filter(date_joined__gte=start_date). \
+        extra(select={'month': 'extract( month from date_joined )',
+                      'year': 'extract( year from date_joined )'}). \
+        values('month', 'year'). \
+        annotate(count=Count('id')).order_by('year', 'month')
 
     previous_user_registrations = User.objects \
         .filter(date_joined__lt=start_date).count()
@@ -156,8 +156,8 @@ def summary_get_languages(start_date):
 def summary_get_downloads(start_date):
     course_downloads = CourseDailyStats.objects.filter(day__gte=start_date,
                                                        type='download') \
-                        .annotate(month=ExtractMonth('day')) \
-                        .annotate(year=ExtractYear('day')) \
+                        .extra({'month': 'month(day)', 'year': 'year(day)'}) \
+                        .values('month', 'year') \
                         .annotate(count=Sum('total')) \
                         .order_by('year', 'month')
     previous_course_downloads = CourseDailyStats.objects \
@@ -172,8 +172,8 @@ def summary_get_downloads(start_date):
 
 def summary_get_course_activity(start_date):
     course_activity = CourseDailyStats.objects.filter(day__gte=start_date) \
-                        .annotate(month=ExtractMonth('day')) \
-                        .annotate(year=ExtractYear('day')) \
+                        .extra({'month': 'month(day)', 'year': 'year(day)'}) \
+                        .values('month', 'year') \
                         .annotate(count=Sum('total')) \
                         .order_by('year', 'month')
 
@@ -214,12 +214,12 @@ def summary_get_course_activity(start_date):
 
 
 def summary_get_searches(start_date):
-    searches = CourseDailyStats.objects \
-        .filter(day__gte=start_date, type='search') \
-        .annotate(month=ExtractMonth('day')) \
-        .annotate(year=ExtractYear('day')) \
-        .annotate(count=Sum('total')) \
-        .order_by('year', 'month')
+    searches = CourseDailyStats.objects.filter(day__gte=start_date,
+                                               type='search') \
+                        .extra({'month': 'month(day)', 'year': 'year(day)'}) \
+                        .values('month', 'year') \
+                        .annotate(count=Sum('total')) \
+                        .order_by('year', 'month')
 
     previous_searches = CourseDailyStats.objects \
         .filter(day__lt=start_date,
