@@ -28,10 +28,6 @@ class Command(BaseCommand):
             return self.prompt(query)
         return ret
 
-    def print_waiting_dot(self):
-        self.stdout.write("..", ending='')
-        self.stdout.flush()
-
     def remove_duplicate_quizzes(self):
         act_quizzes = Activity.objects.filter(type=Activity.QUIZ)
         for aq in act_quizzes:
