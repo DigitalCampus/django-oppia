@@ -3,7 +3,7 @@
 {% load static %}
 {% block content %}
 
-{%if request.user.is_authenticated %}
+{% if request.user.is_authenticated %}
     {% if request.user.is_superuser %}
         {% include 'includes/navbar_superuser.html' %}
     {% else %}

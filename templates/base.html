@@ -35,13 +35,21 @@
 
 <body class="d-flex flex-column" {% block extra_body %}{% endblock extra_body %}>
 
+{% if CRON_WARNING and request.user.is_authenticated and request.user.is_superuser %}
+    <div class="fixed-bottom alert alert-danger alert-dismissable debug-alert" style="z-index:200;">
+       <a href="#" class="close ml-2" data-dismiss="alert" aria-label="close">&times;</a>
+       <em class="material-icons mr-2 float-left">bug_report</em>
+       {% trans 'Cron tasks have not been run for over 7 days' %}
+    </div>
+{% endif %}
+
 {% if DEBUG %}
      <div class="fixed-bottom alert alert-danger alert-dismissable debug-alert" style="z-index:200;">
         <a href="#" class="close ml-2" data-dismiss="alert" aria-label="close">&times;</a>
         <em class="material-icons mr-2 float-left">bug_report</em>
         {% trans 'This is a development server, anything added here will not be shared on the live site' %}
      </div>
- {% endif %}
+{% endif %}
 
 {% include "includes/header.html" %}
 
