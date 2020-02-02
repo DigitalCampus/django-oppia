@@ -9,12 +9,16 @@ from settings import constants
 
 
 def insert_maxuploadsize(apps, schema_editor):
-    current = SettingProperties.get_int(constants.MAX_UPLOAD_SIZE, None)
-    if current is None and hasattr(settings, 'OPPIA_MAX_UPLOAD_SIZE'):
-        settings_prop = SettingProperties()
-        settings_prop.key = constants.MAX_UPLOAD_SIZE
-        settings_prop.int_value = settings.OPPIA_MAX_UPLOAD_SIZE
-        settings_prop.save()
+    props = apps.get_model("settings", "SettingProperties")
+
+    try:
+        props.objects.get(key=constants.MAX_UPLOAD_SIZE)
+    except props.DoesNotExist:
+        if hasattr(settings, 'OPPIA_MAX_UPLOAD_SIZE'):
+            settings_prop = props()
+            settings_prop.key = constants.MAX_UPLOAD_SIZE
+            settings_prop.int_value = settings.OPPIA_MAX_UPLOAD_SIZE
+            settings_prop.save()
 
 
 class Migration(migrations.Migration):

@@ -8,14 +8,24 @@ from settings import constants
 
 
 def insert_cartodb(apps, schema_editor):
-    current = SettingProperties.get_string(constants.OPPIA_CARTODB_ACCOUNT,
-                                           None)
-    if current is None:
-        SettingProperties.set_string(constants.OPPIA_CARTODB_ACCOUNT, None)
 
-    current = SettingProperties.get_string(constants.OPPIA_CARTODB_KEY, None)
-    if current is None:
-        SettingProperties.set_string(constants.OPPIA_CARTODB_KEY, None)
+    props = apps.get_model("settings", "SettingProperties")
+
+    try:
+        props.objects.get(key=constants.OPPIA_CARTODB_ACCOUNT)
+    except props.DoesNotExist:
+        settings_prop = props()
+        settings_prop.key = constants.OPPIA_CARTODB_ACCOUNT
+        settings_prop.str_value = None
+        settings_prop.save()
+
+    try:
+        props.objects.get(key=constants.OPPIA_CARTODB_KEY)
+    except props.DoesNotExist:
+        settings_prop = props()
+        settings_prop.key = constants.OPPIA_CARTODB_KEY
+        settings_prop.str_value = None
+        settings_prop.save()
 
 
 class Migration(migrations.Migration):

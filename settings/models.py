@@ -3,9 +3,10 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class SettingProperties(models.Model):
-    key = models.CharField(max_length=30, null=False, primary_key=True)
-    str_value = models.CharField(max_length=50, blank=True, null=True)
+    key = models.CharField(max_length=50, null=False, primary_key=True)
+    str_value = models.CharField(max_length=200, blank=True, null=True)
     int_value = models.IntegerField(blank=True, null=True)
+    bool_value = models.BooleanField(blank=True, null=True)
 
     class Meta:
         verbose_name = _('Settings')
@@ -47,6 +48,16 @@ class SettingProperties(models.Model):
         return default_value
 
     @staticmethod
+    def get_boolean(property_key, default_value):
+        try:
+            prop = SettingProperties.objects.get(key=property_key)
+            if prop.bool_value is not None:
+                return prop.bool_value
+        except SettingProperties.DoesNotExist:
+            pass
+        return default_value
+
+    @staticmethod
     def set_int(property_key, value):
         prop, created = SettingProperties.objects \
             .get_or_create(key=property_key)
@@ -58,6 +69,13 @@ class SettingProperties(models.Model):
         prop, created = SettingProperties.objects \
             .get_or_create(key=property_key)
         prop.str_value = value
+        prop.save()
+
+    @staticmethod
+    def set_boolean(property_key, value):
+        prop, created = SettingProperties.objects \
+            .get_or_create(key=property_key)
+        prop.bool_value = value
         prop.save()
 
     @staticmethod
