@@ -169,10 +169,14 @@ class RegisterResource(ModelResource):
         return badges
 
     def dehydrate_scoring(self, bundle):
-        return settings.OPPIA_POINTS_ENABLED
+        return SettingProperties.get_bool(
+            constants.OPPIA_POINTS_ENABLED,
+            settings.OPPIA_POINTS_ENABLED)
 
     def dehydrate_badging(self, bundle):
-        return settings.OPPIA_BADGES_ENABLED
+        return SettingProperties.get_bool(
+            constants.OPPIA_BADGES_ENABLED,
+            settings.OPPIA_BADGES_ENABLED)
 
     def dehydrate_metadata(self, bundle):
         return settings.OPPIA_METADATA

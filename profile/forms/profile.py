@@ -14,6 +14,9 @@ from django.utils.translation import ugettext as _
 from profile.models import CustomField
 from profile.forms import helpers
 
+from settings import constants
+from settings.models import SettingProperties
+
 class ProfileForm(forms.Form):
     api_key = forms.CharField(widget=forms.TextInput(attrs={'readonly':
                                                             'readonly'}),
@@ -64,7 +67,9 @@ class ProfileForm(forms.Form):
 
         self.helper.layout = Layout()
 
-        if settings.OPPIA_SHOW_GRAVATARS:
+        if SettingProperties.get_bool(
+                constants.OPPIA_SHOW_GRAVATARS,
+                settings.OPPIA_SHOW_GRAVATARS):
             gravatar_url = "https://www.gravatar.com/avatar.php?"
             gravatar_id = hashlib.md5(str(email).encode('utf-8')).hexdigest()
             gravatar_url += urllib.parse.urlencode({

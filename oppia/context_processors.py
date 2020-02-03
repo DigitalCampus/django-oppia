@@ -33,6 +33,22 @@ def get_settings(request):
     self_register = SettingProperties.get_int(
                                 constants.OPPIA_ALLOW_SELF_REGISTRATION,
                                 settings.OPPIA_ALLOW_SELF_REGISTRATION)
+
+    show_gravatars = SettingProperties.get_bool(
+                                constants.OPPIA_SHOW_GRAVATARS,
+                                settings.OPPIA_SHOW_GRAVATARS)
+
+    ga_enabled = SettingProperties.get_bool(
+                                constants.OPPIA_GOOGLE_ANALYTICS_ENABLED,
+                                settings.OPPIA_GOOGLE_ANALYTICS_ENABLED)
+
+    ga_code = SettingProperties.get_string(
+                                constants.OPPIA_GOOGLE_ANALYTICS_CODE,
+                                settings.OPPIA_GOOGLE_ANALYTICS_CODE)
+
+    ga_domain = SettingProperties.get_string(
+                                constants.OPPIA_GOOGLE_ANALYTICS_DOMAIN,
+                                settings.OPPIA_GOOGLE_ANALYTICS_DOMAIN)
     cron_warning = False
     last_cron = SettingProperties.get_string(
         constants.OPPIA_CRON_LAST_RUN, None)
@@ -55,12 +71,10 @@ def get_settings(request):
 
     return {
         'OPPIA_ALLOW_SELF_REGISTRATION': self_register,
-        'OPPIA_GOOGLE_ANALYTICS_ENABLED':
-            settings.OPPIA_GOOGLE_ANALYTICS_ENABLED,
-        'OPPIA_GOOGLE_ANALYTICS_CODE': settings.OPPIA_GOOGLE_ANALYTICS_CODE,
-        'OPPIA_GOOGLE_ANALYTICS_DOMAIN':
-            settings.OPPIA_GOOGLE_ANALYTICS_DOMAIN,
-        'OPPIA_SHOW_GRAVATARS': settings.OPPIA_SHOW_GRAVATARS,
+        'OPPIA_GOOGLE_ANALYTICS_ENABLED': ga_enabled,
+        'OPPIA_GOOGLE_ANALYTICS_CODE': ga_code,
+        'OPPIA_GOOGLE_ANALYTICS_DOMAIN': ga_domain,
+        'OPPIA_SHOW_GRAVATARS': show_gravatars,
         'OPPIA_REPORTS': menu_reports(request),
         'DEBUG': settings.DEBUG,
         'CRON_WARNING': cron_warning }

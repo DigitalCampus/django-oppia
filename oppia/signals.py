@@ -7,6 +7,9 @@ from django.dispatch import Signal
 from gamification.models import DefaultGamificationEvent
 from oppia.models import Points, Tracker, Activity
 
+from settings import constants
+from settings.models import SettingProperties
+
 course_downloaded = Signal(providing_args=["course", "user"])
 
 NON_ACTIVITY_EVENTS = [
@@ -16,7 +19,9 @@ NON_ACTIVITY_EVENTS = [
 
 # rules for applying points (or not)
 def apply_points(user):
-    if not settings.OPPIA_POINTS_ENABLED:
+    if not SettingProperties.get_bool(
+            constants.OPPIA_POINTS_ENABLED,
+            settings.OPPIA_POINTS_ENABLED):
         return False
     if user.is_staff:
         return False

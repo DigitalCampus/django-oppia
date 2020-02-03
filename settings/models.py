@@ -17,11 +17,15 @@ class SettingProperties(models.Model):
     def get_property(property_key, default_value):
         try:
             prop = SettingProperties.objects.get(key=property_key)
-            value = prop.str_value \
-                if prop.str_value is not None else prop.int_value
+            value = None
+            if prop.str_value is not None:
+                value = prop.str_value
+            elif prop.int_value is not None:
+                value = prop.int_value
+            elif prop.bool_value is not None:
+                value = prop.bool_value
             if value is not None:
                 return value
-
         except SettingProperties.DoesNotExist:
             pass
 
@@ -48,7 +52,7 @@ class SettingProperties(models.Model):
         return default_value
 
     @staticmethod
-    def get_boolean(property_key, default_value):
+    def get_bool(property_key, default_value):
         try:
             prop = SettingProperties.objects.get(key=property_key)
             if prop.bool_value is not None:
@@ -72,7 +76,7 @@ class SettingProperties(models.Model):
         prop.save()
 
     @staticmethod
-    def set_boolean(property_key, value):
+    def set_bool(property_key, value):
         prop, created = SettingProperties.objects \
             .get_or_create(key=property_key)
         prop.bool_value = value
