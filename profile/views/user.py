@@ -174,7 +174,7 @@ def edit_form_initial(view_user, key):
     for custom_field in custom_fields:
         upcf_row = UserProfileCustomField.objects \
             .filter(key_name=custom_field, user=view_user)
-        if upcf_row.count == 1:
+        if upcf_row.exists():
             initial[custom_field.id] = upcf_row.first().get_value()
 
     return initial

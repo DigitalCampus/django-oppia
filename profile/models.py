@@ -44,6 +44,26 @@ class UserProfile (models.Model):
         else:
             return False
 
+    def update_customfields(self, fields_dict):
+
+        custom_fields = CustomField.objects.all()
+        for custom_field in custom_fields:
+            if (custom_field.id in fields_dict
+                and fields_dict[custom_field.id] != '') \
+                    or custom_field.required is True:
+
+                profile_field, created = UserProfileCustomField.objects \
+                    .get_or_create(key_name=custom_field, user=self.user)
+
+                if custom_field.type == 'int':
+                    profile_field.value_int = fields_dict.get(custom_field.id, None)
+                elif custom_field.type == 'bool':
+                    profile_field.value_bool = fields_dict.get(custom_field.id, None)
+                else:
+                    profile_field.value_str = fields_dict.get(custom_field.id, None)
+
+                profile_field.save()
+
 
 class CustomField (models.Model):
 
