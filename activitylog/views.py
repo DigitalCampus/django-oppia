@@ -78,26 +78,18 @@ def process_uploaded_file(request, json_data):
                 req_user.save()
 
                 user_profile = UserProfile()
-
-
                 messages.warning(request,
                                  _(u"%(username)s did not exist previously, \
                                    and was created." % {'username': username}),
                                  'danger')
             else:
                 req_user = User.objects.filter(username=username).first()
-                user_profile = UserProfile.objects.filter(user=req_user).first()
+                user_profile = UserProfile.objects.get_or_create(user=req_user)
 
-
-            user_profile.phone_number = user['phoneno'] \
-                if 'phoneno' in user else None
-            user_profile.job_title = user['jobtitle'] \
-                if 'jobtitle' in user else None
-            user_profile.organisation = user['organisation'] \
-                if 'organisation' in user else None
-
+            user_profile.phone_number = user.get('phoneno', None)
+            user_profile.job_title = user.get('jobtitle', None)
+            user_profile.organisation = user.get('organisation', None)
             user_profile.update_customfields(user)
-
             user_profile.save()
 
             try:
@@ -143,7 +135,6 @@ def process_activitylog(request, contents):
 
 def validate_server(request, data):
     url_comp = request.build_absolute_uri().split('/')
-    print(url_comp)
     server_url = "%(protocol)s//%(domain)s" % ({'protocol': url_comp[0],
                                                 'domain': url_comp[2]})
 
