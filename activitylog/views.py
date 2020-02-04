@@ -5,11 +5,11 @@ import json
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
+from django.urls import reverse
 from django.http import HttpResponseRedirect, \
                         HttpResponse, \
                         HttpResponseBadRequest
 from django.shortcuts import render
-from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
 from tastypie.models import ApiKey
@@ -62,43 +62,39 @@ def process_uploaded_file(request, json_data):
         for user in json_data['users']:
             username = user['username']
             print(_(u"processing activity log for %s" % username))
+            for field in user:
+                if user[field] == "null":
+                    user[field] = None
 
             if not User.objects.filter(username=username).exists():
                 print(_(u"New user!"))
                 # User was registered offline, we create a new one
+
                 req_user = User(
                     username=username,
-                    email=user['email'],
+                    email=user['email'] if user['email'] is not None else '',
                 )
 
                 req_user.password = user['password'] \
                     if 'password' in user else make_password(None)
-                req_user.first_name = user['firstname']
-                req_user.last_name = user['lastname']
+                req_user.first_name = user.get('firstname', '')
+                req_user.last_name = user.get('lastname', '')
                 req_user.save()
 
                 user_profile = UserProfile()
-
-
                 messages.warning(request,
                                  _(u"%(username)s did not exist previously, \
                                    and was created." % {'username': username}),
                                  'danger')
             else:
                 req_user = User.objects.filter(username=username).first()
-                user_profile = UserProfile.objects.filter(user=req_user).first()
+                user_profile, created = UserProfile.objects.get_or_create(user=req_user)
 
-
-            user_profile.phone_number = user['phoneno'] \
-                if 'phoneno' in user else None
-            user_profile.job_title = user['jobtitle'] \
-                if 'jobtitle' in user else None
-            user_profile.organisation = user['organisation'] \
-                if 'organisation' in user else None
-
-            user_profile.update_customfields(user)
-
+            user_profile.phone_number = user.get('phoneno', None)
+            user_profile.job_title = user.get('jobtitle', None)
+            user_profile.organisation = user.get('organisation', None)
             user_profile.save()
+            user_profile.update_customfields(user)
 
             try:
                 user_api_key, created = ApiKey.objects \
