@@ -82,7 +82,7 @@ class RegisterResource(ModelResource):
         
     def obj_create(self, bundle, **kwargs):
         self_register = SettingProperties \
-            .get_int(constants.OPPIA_ALLOW_SELF_REGISTRATION,
+            .get_bool(constants.OPPIA_ALLOW_SELF_REGISTRATION,
                      settings.OPPIA_ALLOW_SELF_REGISTRATION)
         if not self_register:
             raise BadRequest(_(u'Registration is disabled on this server.'))

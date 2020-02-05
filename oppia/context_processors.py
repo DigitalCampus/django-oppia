@@ -30,7 +30,7 @@ def get_version(request):
 
 
 def get_settings(request):
-    self_register = SettingProperties.get_int(
+    self_register = SettingProperties.get_bool(
                                 constants.OPPIA_ALLOW_SELF_REGISTRATION,
                                 settings.OPPIA_ALLOW_SELF_REGISTRATION)
 

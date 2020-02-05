@@ -15,7 +15,6 @@ ALLOWABLE_DB_SETTINGS = ("OPPIA_ANDROID_PACKAGEID",
 # settings value (based on https://stackoverflow.com/a/21593607)
 @register.simple_tag
 def settings_value(name):
-    print(name)
     if name in ALLOWABLE_SETTING_VALUES:
         return getattr(settings, name, '')
     if name in ALLOWABLE_DB_SETTINGS:

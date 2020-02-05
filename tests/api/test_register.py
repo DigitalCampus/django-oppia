@@ -211,7 +211,8 @@ class RegisterResourceTest(ResourceTestCaseMixin, TestCase):
 
     def test_self_registration_disabled_cant_view(self):
         # turn off self registration
-        SettingProperties.set_int(constants.OPPIA_ALLOW_SELF_REGISTRATION, 0)
+        SettingProperties.set_bool(constants.OPPIA_ALLOW_SELF_REGISTRATION,
+                                   False)
         data = {
             'username': 'demo3',
             'password': 'secret',
@@ -225,4 +226,5 @@ class RegisterResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertValidJSON(response.content)
 
         # turn back on
-        SettingProperties.set_int(constants.OPPIA_ALLOW_SELF_REGISTRATION, 1)
+        SettingProperties.set_bool(constants.OPPIA_ALLOW_SELF_REGISTRATION,
+                                   True)
