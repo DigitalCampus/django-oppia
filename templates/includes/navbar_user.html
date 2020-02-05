@@ -32,7 +32,9 @@
                 <a class="nav-link dropdown-toggle" href="#" id="analytics-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans 'Analytics' %}</a>
                 <div class="dropdown-menu" aria-labelledby="analytics-menu">
                     <a class="dropdown-item" href="{% url 'oppia_viz_summary' %}">{% trans 'Summary Overview' %}</a>
-                    <a class="dropdown-item" href="{% url 'oppia_viz_map' %}">{% trans 'Activity Map' %}</a>
+                    {% if OPPIA_MAP_VISUALISATION_ENABLED %}
+                    	<a class="dropdown-item" href="{% url 'oppia_viz_map' %}">{% trans 'Activity Map' %}</a>
+                    {% endif %}
                     {% for report in OPPIA_REPORTS %}
                         <a class="dropdown-item" href="{{ report.url }}">{{ report.name }}</a>
 

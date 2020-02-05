@@ -6,6 +6,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.models import User
 from django.core import exceptions
 from django.db.models import Count, Sum
+from django.http import Http404
 from django.shortcuts import render
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
@@ -15,6 +16,8 @@ from oppia.models import Tracker, Course
 from summary.models import CourseDailyStats
 from viz.models import UserLocationVisualization
 
+from settings import constants
+from settings.models import SettingProperties
 
 @staff_member_required
 def summary_view(request):
@@ -67,7 +70,11 @@ def summary_view(request):
 
 
 def map_view(request):
-    return render(request, 'viz/map.html')
+    if SettingProperties.get_bool(constants.OPPIA_MAP_VISUALISATION_ENABLED,
+                                  False):
+        return render(request, 'viz/map.html')
+    else:
+        raise Http404()
 
 
 # helper functions

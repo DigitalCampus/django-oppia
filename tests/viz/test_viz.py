@@ -5,6 +5,9 @@ from oppia.test import OppiaTestCase
 from django.urls import reverse
 from django.utils import timezone
 
+from settings import constants
+from settings.models import SettingProperties
+
 from viz.views import summary_get_registrations, \
                       summary_get_countries, \
                       summary_get_languages, \
@@ -23,6 +26,8 @@ class VisualisationsTest(OppiaTestCase):
                 'default_gamification_events.json',
                 'tests/test_tracker.json']
 
+    viz_summary_template = 'viz/summary.html'
+
     # summary
     # only staff/admins can view
     @pytest.mark.xfail(reason="works on local, but not on Github workflow \
@@ -35,7 +40,7 @@ class VisualisationsTest(OppiaTestCase):
             self.client.force_login(allowed_user)
             response = self.client.get(reverse('oppia_viz_summary'))
 
-            self.assertTemplateUsed(response, 'viz/summary.html')
+            self.assertTemplateUsed(response, self.viz_summary_template)
             self.assertEqual(response.status_code, 200)
 
         for disallowed_user in disallowed_users:
@@ -51,7 +56,7 @@ class VisualisationsTest(OppiaTestCase):
         start_date = timezone.now() - datetime.timedelta(days=31)
         response = self.client.post(reverse('oppia_viz_summary'),
                                     data={'start_date': start_date})
-        self.assertTemplateUsed(response, 'viz/summary.html')
+        self.assertTemplateUsed(response, self.viz_summary_template)
         self.assertEqual(response.status_code, 200)
 
     @pytest.mark.xfail(reason="works on local, but not on Github workflow \
@@ -61,7 +66,7 @@ class VisualisationsTest(OppiaTestCase):
         start_date = timezone.now() + datetime.timedelta(days=31)
         response = self.client.post(reverse('oppia_viz_summary'),
                                     data={'start_date': start_date})
-        self.assertTemplateUsed(response, 'viz/summary.html')
+        self.assertTemplateUsed(response, self.viz_summary_template)
         self.assertEqual(response.status_code, 200)
 
     @pytest.mark.xfail(reason="works on local, but not on Github workflow \
@@ -71,11 +76,29 @@ class VisualisationsTest(OppiaTestCase):
         start_date = "not a valid date"
         response = self.client.post(reverse('oppia_viz_summary'),
                                     data={'start_date': start_date})
-        self.assertTemplateUsed(response, 'viz/summary.html')
-        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, self.viz_summary_template)
+        self.assertEqual(200, response.status_code)
 
     # map
-    def test_view_map(self):
+    def test_view_map_disabled(self):
+        SettingProperties.set_bool(
+            constants.OPPIA_MAP_VISUALISATION_ENABLED,
+            False)
+
+        allowed_users = [self.admin_user,
+                         self.teacher_user,
+                         self.staff_user,
+                         self.normal_user]
+
+        for allowed_user in allowed_users:
+            self.client.force_login(allowed_user)
+            response = self.client.get(reverse('oppia_viz_map'))
+            self.assertEqual(404, response.status_code)
+
+    def test_view_map_enabled(self):
+        SettingProperties.set_bool(
+            constants.OPPIA_MAP_VISUALISATION_ENABLED,
+            True)
 
         allowed_users = [self.admin_user,
                          self.teacher_user,

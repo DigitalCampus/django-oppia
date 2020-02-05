@@ -49,6 +49,11 @@ def get_settings(request):
     ga_domain = SettingProperties.get_string(
                                 constants.OPPIA_GOOGLE_ANALYTICS_DOMAIN,
                                 settings.OPPIA_GOOGLE_ANALYTICS_DOMAIN)
+
+    map_viz_enabled = SettingProperties.get_bool(
+                                constants.OPPIA_MAP_VISUALISATION_ENABLED,
+                                False)
+
     cron_warning = False
     last_cron = SettingProperties.get_string(
         constants.OPPIA_CRON_LAST_RUN, None)
@@ -77,4 +82,5 @@ def get_settings(request):
         'OPPIA_SHOW_GRAVATARS': show_gravatars,
         'OPPIA_REPORTS': menu_reports(request),
         'DEBUG': settings.DEBUG,
-        'CRON_WARNING': cron_warning }
+        'CRON_WARNING': cron_warning,
+        'OPPIA_MAP_VISUALISATION_ENABLED': map_viz_enabled }

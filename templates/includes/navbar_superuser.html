@@ -124,14 +124,6 @@
               <em class="material-icons mr-3">save_alt</em> {% trans 'Export users' %}
             </a>
             </li>
-
-            {% if OPPIA_DEVICEADMIN_ENABLED %}
-            <li class="nav-item">
-            <a class="nav-link" href="{% url 'deviceadmin_devices_list' %}">
-              <em class="material-icons mr-3">phonelink_setup</em> {% trans 'Remote Device Administration' %}
-            </a>
-            </li>
-            {% endif %}
         </ul>
 
 
@@ -145,11 +137,13 @@
             </a>
             </li>
 
+			{% if OPPIA_MAP_VISUALISATION_ENABLED %}
             <li class="nav-item">
             <a class="nav-link" href="{% url 'oppia_viz_map' %}">
               <em class="material-icons mr-3">map</em> {% trans 'Activity Map' %}
             </a>
             </li>
+			{% endif %}
 
             {% for report in OPPIA_REPORTS %}
                 <li class="nav-item">
