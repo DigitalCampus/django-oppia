@@ -62,6 +62,7 @@ def process_uploaded_file(request, json_data):
         for user in json_data['users']:
             username = user['username']
             print(_(u"processing activity log for %s" % username))
+
             for field in user:
                 if user[field] == "null":
                     user[field] = None
@@ -69,7 +70,6 @@ def process_uploaded_file(request, json_data):
             if not User.objects.filter(username=username).exists():
                 print(_(u"New user!"))
                 # User was registered offline, we create a new one
-
                 req_user = User(
                     username=username,
                     email=user['email'] if user['email'] is not None else '',
@@ -81,7 +81,7 @@ def process_uploaded_file(request, json_data):
                 req_user.last_name = user.get('lastname', '')
                 req_user.save()
 
-                user_profile = UserProfile()
+                user_profile = UserProfile(user=req_user)
                 messages.warning(request,
                                  _(u"%(username)s did not exist previously, \
                                    and was created." % {'username': username}),
