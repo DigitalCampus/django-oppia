@@ -1,0 +1,19 @@
+name: Static files check
+
+on:
+  pull_request:
+    paths:
+      - 'static/**'
+
+jobs:
+  commentstatic:
+    name: Warning for new static files in Django site
+    runs-on: ubuntu-latest
+    steps:
+      - name: comment PR
+        uses: unsplash/comment-on-pr@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          msg: "Some static files have changed in the project. Remember to run: \n ```\n$ python ./manage.py compilescss\n$ python ./manage.py collectstatic –ignore=*.scss\n```"
+          
