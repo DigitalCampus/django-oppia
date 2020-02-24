@@ -107,8 +107,12 @@ def user_course_activity_view(request, user_id, course_id):
     quizzes = []
     for aq in act_quizzes:
 
-        quiz, course_pretest, quizzes_attempted = process_quiz_activity(
-            view_user, aq, course_pretest, quizzes_attempted)
+        quiz, course_pretest, quizzes_attempted, quizzes_passed = \
+            process_quiz_activity(view_user,
+                                  aq,
+                                  course_pretest,
+                                  quizzes_attempted,
+                                  quizzes_passed)
         quizzes.append(quiz)
 
     activities_completed = course.get_activities_completed(course, view_user)
@@ -154,7 +158,12 @@ def user_course_activity_view(request, user_id, course_id):
                    'page_ordering': ('-' if inverse_order else '') + ordering,
                    'activity_graph_data': activity})
 
-def process_quiz_activity(view_user, aq, course_pretest, quizzes_attempted):
+
+def process_quiz_activity(view_user,
+                          aq,
+                          course_pretest,
+                          quizzes_attempted,
+                          quizzes_passed):
     quiz = Quiz.objects.filter(quizprops__value=aq.digest,
                                    quizprops__name="digest").first()
 
@@ -208,4 +217,4 @@ def process_quiz_activity(view_user, aq, course_pretest, quizzes_attempted):
             'avg_score': avg_score,
             'passed': passed
             }
-    return quiz, course_pretest, quizzes_attempted
+    return quiz, course_pretest, quizzes_attempted, quizzes_passed
