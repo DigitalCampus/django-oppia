@@ -107,59 +107,8 @@ def user_course_activity_view(request, user_id, course_id):
     quizzes = []
     for aq in act_quizzes:
 
-        quiz = Quiz.objects.filter(quizprops__value=aq.digest,
-                                   quizprops__name="digest").first()
-
-        no_attempts = quiz.get_no_attempts_by_user(quiz, view_user)
-        attempts = QuizAttempt.objects.filter(quiz=quiz, user=view_user)
-
-        passed = False
-        if no_attempts > 0:
-
-            quiz_maxscore = float(attempts[0].maxscore)
-            attemps_stats = attempts.aggregate(max=Max('score'),
-                                               min=Min('score'),
-                                               avg=Avg('score'))
-            max_score = 100 * float(attemps_stats['max']) / quiz_maxscore
-            min_score = 100 * float(attemps_stats['min']) / quiz_maxscore
-            avg_score = 100 * float(attemps_stats['avg']) / quiz_maxscore
-            first_date = attempts \
-                .aggregate(date=Min('attempt_date'))['date']
-            recent_date = attempts \
-                .aggregate(date=Max('attempt_date'))['date']
-            first_score = 100 * float(attempts
-                                      .filter(attempt_date=first_date)[0]
-                                      .score) / quiz_maxscore
-            latest_score = 100 * float(attempts
-                                       .filter(attempt_date=recent_date)[0]
-                                       .score) / quiz_maxscore
-
-            passed = max_score is not None and max_score > 75
-            if aq.section.order == 0:
-                course_pretest = first_score
-            else:
-                quizzes_attempted += 1
-                quizzes_passed = (quizzes_passed + 1) \
-                    if passed else quizzes_passed
-
-        else:
-            max_score = None
-            min_score = None
-            avg_score = None
-            first_score = None
-            latest_score = None
-
-        quiz = {'quiz': aq,
-                'id': quiz.pk if quiz else None,
-                'quiz_order': aq.order,
-                'no_attempts': no_attempts,
-                'max_score': max_score,
-                'min_score': min_score,
-                'first_score': first_score,
-                'latest_score': latest_score,
-                'avg_score': avg_score,
-                'passed': passed
-                }
+        quiz, course_pretest, quizzes_attempted = process_quiz_activity(
+            view_user, aq, course_pretest, quizzes_attempted)
         quizzes.append(quiz)
 
     activities_completed = course.get_activities_completed(course, view_user)
@@ -204,3 +153,59 @@ def user_course_activity_view(request, user_id, course_id):
                    'activities_percent': activities_percent,
                    'page_ordering': ('-' if inverse_order else '') + ordering,
                    'activity_graph_data': activity})
+
+def process_quiz_activity(view_user, aq, course_pretest, quizzes_attempted):
+    quiz = Quiz.objects.filter(quizprops__value=aq.digest,
+                                   quizprops__name="digest").first()
+
+    no_attempts = quiz.get_no_attempts_by_user(quiz, view_user)
+    attempts = QuizAttempt.objects.filter(quiz=quiz, user=view_user)
+
+    passed = False
+    if no_attempts > 0:
+
+        quiz_maxscore = float(attempts[0].maxscore)
+        attemps_stats = attempts.aggregate(max=Max('score'),
+                                           min=Min('score'),
+                                           avg=Avg('score'))
+        max_score = 100 * float(attemps_stats['max']) / quiz_maxscore
+        min_score = 100 * float(attemps_stats['min']) / quiz_maxscore
+        avg_score = 100 * float(attemps_stats['avg']) / quiz_maxscore
+        first_date = attempts \
+            .aggregate(date=Min('attempt_date'))['date']
+        recent_date = attempts \
+            .aggregate(date=Max('attempt_date'))['date']
+        first_score = 100 * float(attempts
+                                  .filter(attempt_date=first_date)[0]
+                                  .score) / quiz_maxscore
+        latest_score = 100 * float(attempts
+                                   .filter(attempt_date=recent_date)[0]
+                                   .score) / quiz_maxscore
+
+        passed = max_score is not None and max_score > 75
+        if quiz.section.order == 0:
+            course_pretest = first_score
+        else:
+            quizzes_attempted += 1
+            quizzes_passed = (quizzes_passed + 1) \
+                if passed else quizzes_passed
+
+    else:
+        max_score = None
+        min_score = None
+        avg_score = None
+        first_score = None
+        latest_score = None
+
+    quiz = {'quiz': aq,
+            'id': quiz.pk if quiz else None,
+            'quiz_order': aq.order,
+            'no_attempts': no_attempts,
+            'max_score': max_score,
+            'min_score': min_score,
+            'first_score': first_score,
+            'latest_score': latest_score,
+            'avg_score': avg_score,
+            'passed': passed
+            }
+    return quiz, course_pretest, quizzes_attempted
