@@ -401,24 +401,23 @@ def parse_and_save_activity(request,
         image = i.get('filename')
 
     digest = activity_node.get("digest")
-    existed = False
-    try:
-        activity = Activity.objects.get(digest=digest)
-        existed = True
-    except Activity.DoesNotExist:
-        activity = Activity()
+
+    activity, created = Activity.objects.get_or_create(section=section,
+                                                       title=title,
+                                                       type=activity_type,
+                                                       digest=digest)
 
     activity.section = section
     activity.title = title
     activity.type = activity_type
-    activity.order = activity_node.get("order")
     activity.digest = digest
+    activity.order = activity_node.get("order")
     activity.baseline = is_baseline
     activity.image = image
     activity.content = content
     activity.description = description
 
-    if not existed and not new_course:
+    if created and not new_course:
         msg_text = _(u'Activity "%(act)s"(%(digest)s) did not exist \
                      previously.') % {'act': activity.title,
                                       'digest': activity.digest}
