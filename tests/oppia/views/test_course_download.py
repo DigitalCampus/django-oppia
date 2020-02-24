@@ -1,6 +1,7 @@
 import pytest
 
 from django.urls import reverse
+from oppia.models import Tracker
 from oppia.test import OppiaTestCase
 
 from tests.utils import update_course_visibility
@@ -47,11 +48,14 @@ class DownloadViewTest(OppiaTestCase):
 
     @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_live_course_normal(self):
+        tracker_count_start = Tracker.objects.all().count()
         response = self.get_view(self.course_download_url_valid,
                                  self.normal_user)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['content-type'],
                          self.STR_EXPECTED_CONTENT_TYPE)
+        tracker_count_end = Tracker.objects.all().count()
+        self.assertEqual(tracker_count_start+1, tracker_count_end)
 
     @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_draft_course_admin(self):

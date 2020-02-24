@@ -49,7 +49,7 @@ urlpatterns = [
         oppia_views.export_tracker_detail,
         name="oppia_export_tracker_detail"),
     url(r'^course/(?P<course_id>\d+)/download/$',
-        oppia_views.course_download_view,
+        oppia_views.CourseDownload.as_view(),
         name="oppia_course_download"),
 
     url(r'^cohort/$',

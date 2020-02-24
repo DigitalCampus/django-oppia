@@ -119,17 +119,7 @@ class CourseResource(ModelResource):
         except IOError:
             raise Http404(self.STR_COURSE_NOT_FOUND)
 
-        # Add to tracker
-        tracker = Tracker()
-        tracker.user = request.user
-        tracker.course = course
-        tracker.type = 'download'
-        tracker.data = json.dumps({'version': course.version})
-        tracker.ip = request.META.get('REMOTE_ADDR', DEFAULT_IP_ADDRESS)
-        tracker.agent = request.META.get('HTTP_USER_AGENT', 'unknown')
-        tracker.save()
-
-        course_downloaded.send(sender=self, course=course, user=request.user)
+        course_downloaded.send(sender=self, course=course, request=request)
 
         return response
 
