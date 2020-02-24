@@ -34,6 +34,7 @@ def clean_quiz_dicts(apps, schema_editor):
 
 
 def noop(app, schema_editor):
+    # this migration is not reversible
     pass
 
 class Migration(migrations.Migration):

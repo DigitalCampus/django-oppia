@@ -56,39 +56,20 @@ def process_uploaded_quizresponses(request,
                           _(u"Already uploaded: quiz attempt for \
                            %(username)s added" % {'username': user.username}))
 
+def process_activitylog(request, contents):
+    # open file and process
+    json_data = json.loads(contents)
+    if not validate_server(request, json_data):
+        return False
+    else:
+        process_uploaded_file(request, json_data)
+        return True
 
 def process_uploaded_file(request, json_data):
     if 'users' in json_data:
         for user in json_data['users']:
             username = user['username']
-            print(_(u"processing activity log for %s" % username))
-
-            for field in user:
-                if user[field] == "null":
-                    user[field] = None
-
-            if not User.objects.filter(username=username).exists():
-                print(_(u"New user!"))
-                # User was registered offline, we create a new one
-                req_user = User(
-                    username=username,
-                    email=user['email'] if user['email'] is not None else '',
-                )
-
-                req_user.password = user['password'] \
-                    if 'password' in user else make_password(None)
-                req_user.first_name = user.get('firstname', '')
-                req_user.last_name = user.get('lastname', '')
-                req_user.save()
-
-                user_profile = UserProfile(user=req_user)
-                messages.warning(request,
-                                 _(u"%(username)s did not exist previously, \
-                                   and was created." % {'username': username}),
-                                 'danger')
-            else:
-                req_user = User.objects.filter(username=username).first()
-                user_profile, created = UserProfile.objects.get_or_create(user=req_user)
+            req_user, user_profile = get_user_from_uploaded_log(request, user)
 
             user_profile.phone_number = user.get('phoneno', None)
             user_profile.job_title = user.get('jobtitle', None)
@@ -127,15 +108,38 @@ def process_uploaded_file(request, json_data):
                 print(_(u"No user api key found for %s" % user['username']))
 
 
-def process_activitylog(request, contents):
-    # open file and process
-    json_data = json.loads(contents)
-    if not validate_server(request, json_data):
-        return False
-    else:
-        process_uploaded_file(request, json_data)
-        return True
+def get_user_from_uploaded_log(request, user):
+    username = user['username']
+    print(_(u"processing activity log for %s" % username))
 
+    for field in user:
+        if user[field] == "null":
+            user[field] = None
+
+    if not User.objects.filter(username=username).exists():
+        print(_(u"New user!"))
+        # User was registered offline, we create a new one
+        req_user = User(
+            username=username,
+            email=user['email'] if user['email'] is not None else '',
+        )
+
+        req_user.password = user['password'] \
+            if 'password' in user else make_password(None)
+        req_user.first_name = user.get('firstname', '')
+        req_user.last_name = user.get('lastname', '')
+        req_user.save()
+
+        user_profile = UserProfile(user=req_user)
+        messages.warning(request,
+                         _(u"%(username)s did not exist previously, \
+                           and was created." % {'username': username}),
+                         'danger')
+    else:
+        req_user = User.objects.filter(username=username).first()
+        user_profile, created = UserProfile.objects.get_or_create(user=req_user)
+
+    return req_user, user_profile
 
 def validate_server(request, data):
     url_comp = request.build_absolute_uri().split('/')

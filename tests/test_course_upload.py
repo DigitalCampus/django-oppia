@@ -167,6 +167,12 @@ class CourseUploadTest(OppiaTestCase):
         activity_game_events_start = ActivityGamificationEvent. \
             objects.all().count()
 
+        # reset course version no to avoid issue with newer version being
+        # reported in the test
+        update_course = Course.objects.get(shortname='ref-1')
+        update_course.version = 0
+        update_course.save()
+
         with open(self.course_with_custom_points_updated, 'rb') as course_file:
             self.client.force_login(self.admin_user)
             response = self.client.post(reverse('oppia_upload'),

@@ -19,6 +19,9 @@ from viz.models import UserLocationVisualization
 from settings import constants
 from settings.models import SettingProperties
 
+STR_YEAR_DAY = "year(day)"
+STR_MONTH_DAY = "month(day)"
+
 @staff_member_required
 def summary_view(request):
 
@@ -163,7 +166,7 @@ def summary_get_languages(start_date):
 def summary_get_downloads(start_date):
     course_downloads = CourseDailyStats.objects.filter(day__gte=start_date,
                                                        type='download') \
-                        .extra({'month': 'month(day)', 'year': 'year(day)'}) \
+                        .extra({'month': STR_MONTH_DAY, 'year': STR_YEAR_DAY}) \
                         .values('month', 'year') \
                         .annotate(count=Sum('total')) \
                         .order_by('year', 'month')
@@ -179,7 +182,7 @@ def summary_get_downloads(start_date):
 
 def summary_get_course_activity(start_date):
     course_activity = CourseDailyStats.objects.filter(day__gte=start_date) \
-                        .extra({'month': 'month(day)', 'year': 'year(day)'}) \
+                        .extra({'month': STR_MONTH_DAY, 'year': STR_YEAR_DAY}) \
                         .values('month', 'year') \
                         .annotate(count=Sum('total')) \
                         .order_by('year', 'month')
@@ -223,7 +226,7 @@ def summary_get_course_activity(start_date):
 def summary_get_searches(start_date):
     searches = CourseDailyStats.objects.filter(day__gte=start_date,
                                                type='search') \
-                        .extra({'month': 'month(day)', 'year': 'year(day)'}) \
+                        .extra({'month': STR_MONTH_DAY, 'year': STR_YEAR_DAY}) \
                         .values('month', 'year') \
                         .annotate(count=Sum('total')) \
                         .order_by('year', 'month')

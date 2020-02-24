@@ -62,60 +62,7 @@ def edit_course_gamification(request, course_id):
                                      can_delete=True)
     if request.method == 'POST':
         formset = events_formset(request.POST, request.FILES, prefix='events')
-        if formset.is_valid():
-
-            updated = False
-            for form in formset:
-                # extract name from each form and save
-                event = form.cleaned_data.get('event')
-                level = form.cleaned_data.get('level')
-                points = form.cleaned_data.get('points')
-                reference = form.cleaned_data.get('reference')
-                defaults = {'points': points, 'user': request.user}
-
-                to_delete = formset.can_delete \
-                    and formset._should_delete_form(form)
-
-                updated = True
-                if level == 'course':
-                    if to_delete:
-                        CourseGamificationEvent.objects \
-                            .filter(course_id=reference,
-                                    event=event).delete()
-                    else:
-                        CourseGamificationEvent.objects \
-                            .update_or_create(course_id=reference,
-                                              event=event,
-                                              defaults=defaults)
-                elif level == 'activity':
-                    if to_delete:
-                        ActivityGamificationEvent.objects \
-                            .filter(activity_id=reference,
-                                    event=event).delete()
-                    else:
-                        ActivityGamificationEvent.objects \
-                            .update_or_create(activity_id=reference,
-                                              event=event,
-                                              defaults=defaults)
-                elif level == 'media':
-                    if to_delete:
-                        MediaGamificationEvent.objects \
-                            .filter(media_id=reference,
-                                    event=event).delete()
-                    else:
-                        MediaGamificationEvent.objects \
-                            .update_or_create(media_id=reference,
-                                              event=event,
-                                              defaults=defaults)
-
-            if updated:
-                writer = GamificationXMLWriter(course)
-                new_version = writer.update_gamification(request.user)
-                messages.success(request,
-                                 'Course XML updated. New version: {}'
-                                 .format(new_version))
-        else:
-            print(formset.errors)
+        process_edit_gamification_post(request, course, events_formset)
     else:
         formset = events_formset(prefix='events')
 
@@ -158,3 +105,64 @@ def edit_course_gamification(request, course_id):
                    'course_events': course_events,
                    'activities': activities,
                    'media': media})
+
+def process_edit_gamification_post(request, course, events_formset):
+    formset = events_formset(request.POST, request.FILES, prefix='events')
+    if formset.is_valid():
+
+        updated = False
+        for form in formset:
+            process_gamification_formset(request, formset, form)
+            updated = True
+
+        if updated:
+            writer = GamificationXMLWriter(course)
+            new_version = writer.update_gamification(request.user)
+            messages.success(request,
+                             'Course XML updated. New version: {}'
+                             .format(new_version))
+    else:
+        print(formset.errors)
+
+def process_gamification_formset(request, formset, form):
+    # extract name from each form and save
+    event = form.cleaned_data.get('event')
+    level = form.cleaned_data.get('level')
+    points = form.cleaned_data.get('points')
+    reference = form.cleaned_data.get('reference')
+    defaults = {'points': points, 'user': request.user}
+
+    to_delete = formset.can_delete \
+        and formset._should_delete_form(form)
+
+    if level == 'course':
+        if to_delete:
+            CourseGamificationEvent.objects \
+                .filter(course_id=reference,
+                        event=event).delete()
+        else:
+            CourseGamificationEvent.objects \
+                .update_or_create(course_id=reference,
+                                  event=event,
+                                  defaults=defaults)
+    elif level == 'activity':
+        if to_delete:
+            ActivityGamificationEvent.objects \
+                .filter(activity_id=reference,
+                        event=event).delete()
+        else:
+            ActivityGamificationEvent.objects \
+                .update_or_create(activity_id=reference,
+                                  event=event,
+                                  defaults=defaults)
+    elif level == 'media':
+        if to_delete:
+            MediaGamificationEvent.objects \
+                .filter(media_id=reference,
+                        event=event).delete()
+        else:
+            MediaGamificationEvent.objects \
+                .update_or_create(media_id=reference,
+                                  event=event,
+                                  defaults=defaults)
+
