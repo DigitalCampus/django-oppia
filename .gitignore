@@ -13,6 +13,7 @@
 /.scannerwork
 oppiamobile/settings_secret.py
 .coverage
+/tests/coverage.xml
 
 /sonarcloud.sh
 /sonarcloud
