@@ -1,13 +1,13 @@
-# oppia/reports/urls.py
-from django.conf.urls import url
-
+from django.urls import path
 from reports import views as oppia_reports_views
 
+app_name = 'reports'
+
 urlpatterns = [
-        url(r'^completion_rates/$',
-            oppia_reports_views.CompletionRates.as_view(),
-            name="oppia_completion_rates"),
-        url(r'^completion_rates/(?P<course_id>\d+)/$',
-            oppia_reports_views.CourseCompletionRates.as_view(),
-            name="course_completion_rates"),
-        ]
+    path('completion_rates/',
+        oppia_reports_views.CompletionRates.as_view(),
+        name="completion_rates"),
+    path('completion_rates/<int:course_id>/',
+        oppia_reports_views.CourseCompletionRates.as_view(),
+        name="course_completion_rates"),
+]

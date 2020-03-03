@@ -19,7 +19,7 @@ def menu_reports(request):
     #         {'name': 'test2',
     #            'url':'/reports/2/'}]
     return [{'name': _('Completion Rates'),
-             'url': reverse('oppia_completion_rates')}]
+             'url': reverse('reports:completion_rates')}]
 
 
 

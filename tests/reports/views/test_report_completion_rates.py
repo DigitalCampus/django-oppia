@@ -16,7 +16,7 @@ class ReportCompletionRatesViewTest(OppiaTestCase):
 
     def test_view_completion_rates(self):
         template = 'reports/completion_rates.html'
-        url = reverse('oppia_completion_rates')
+        url = reverse('reports:completion_rates')
 
         for allowed_user in self.allowed_users:
             self.client.force_login(user=allowed_user)
@@ -33,7 +33,7 @@ class ReportCompletionRatesViewTest(OppiaTestCase):
                                  200)
 
     def test_view_course_completion_rates_valid_course(self):
-        url = reverse('course_completion_rates', args=[1])
+        url = reverse('reports:course_completion_rates', args=[1])
         template = 'reports/course_completion_rates.html'
 
         for allowed_user in self.allowed_users:
@@ -51,7 +51,7 @@ class ReportCompletionRatesViewTest(OppiaTestCase):
                                  200)
 
     def test_view_course_completion_rates_invalid_course(self):
-        url = reverse('course_completion_rates', args=[999])
+        url = reverse('reports:course_completion_rates', args=[999])
 
         for allowed_user in self.allowed_users:
             self.client.force_login(user=allowed_user)
