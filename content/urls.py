@@ -1,12 +1,13 @@
-from django.conf.urls import url
+from django.urls import path
 
-from content import views as oppia_content_views
+from content import views as content_views
 
+app_name = 'content'
 urlpatterns = [
-                url(r'^video-embed-helper/$',
-                    oppia_content_views.media_embed_helper,
-                    name="oppia_video_embed_helper"),
-                url(r'^media-embed-helper/$',
-                    oppia_content_views.media_embed_helper,
-                    name="oppia_media_embed_helper"),
-        ]
+    path('video-embed-helper/',
+         content_views.media_embed_helper,
+         name="video_embed_helper"),
+    path('media-embed-helper/',
+         content_views.media_embed_helper,
+         name="media_embed_helper"),
+]

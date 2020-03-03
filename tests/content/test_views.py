@@ -16,8 +16,8 @@ class ContentViewsTest(OppiaTestCase):
 
     def setUp(self):
         super(ContentViewsTest, self).setUp()
-        self.media_embed_helper_url = reverse('oppia_media_embed_helper')
-        self.video_embed_helper_url = reverse('oppia_video_embed_helper')
+        self.media_embed_helper_url = reverse('content:media_embed_helper')
+        self.video_embed_helper_url = reverse('content:video_embed_helper')
         self.video_file_path = \
             './oppia/fixtures/reference_files/sample_video.m4v'
 
