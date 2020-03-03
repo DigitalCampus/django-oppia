@@ -11,7 +11,7 @@ class UserExportActivityViewTest(OppiaTestCase):
     def setUp(self):
         super(UserExportActivityViewTest, self).setUp()
         self.template = 'profile/export-users.html'
-        self.url = reverse('profile_export')
+        self.url = reverse('profile:export')
 
     def test_view_export(self):
         allowed_users = [self.admin_user, self.staff_user]

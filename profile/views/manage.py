@@ -136,7 +136,7 @@ def delete_account_view(request):
 
             # redirect
             return HttpResponseRedirect(
-                reverse('profile_delete_account_complete'))
+                reverse('profile:delete_complete'))
     else:
         form = DeleteAccountForm(initial={'username': request.user.username})
 

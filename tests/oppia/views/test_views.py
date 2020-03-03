@@ -14,7 +14,7 @@ class OppiaViewsTest(OppiaTestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_register(self):
-        response = self.client.post(reverse('profile_register'),
+        response = self.client.post(reverse('profile:register'),
                                     {'username': 'demo2',
                                      'password': 'secret',
                                      'password_again': 'secret',
@@ -24,7 +24,7 @@ class OppiaViewsTest(OppiaTestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_register_with_no_data(self):
-        response = self.client.post(reverse('profile_register'), {})
+        response = self.client.post(reverse('profile:register'), {})
         self.assertEqual(response.status_code, 200)
 
     def test_login(self):

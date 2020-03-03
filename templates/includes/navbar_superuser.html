@@ -21,11 +21,11 @@
                         <small class="text-muted">{{user.email}}</small>
                     </div>
 
-                <a class="dropdown-item" href="{% url 'profile_edit' %}"><em class="material-icons mr-2">mode_edit</em> {% trans 'Edit Profile' %}</a>
-                <a class="dropdown-item" href="{% url 'profile_points' %}"><em class="material-icons mr-2">star</em> {% trans 'Points' %}</a>
-                <a class="dropdown-item" href="{% url 'profile_badges' %}"><em class="material-icons mr-2">group_work</em> {% trans 'Badges' %}</a>
+                <a class="dropdown-item" href="{% url 'profile:edit' %}"><em class="material-icons mr-2">mode_edit</em> {% trans 'Edit Profile' %}</a>
+                <a class="dropdown-item" href="{% url 'profile:points' %}"><em class="material-icons mr-2">star</em> {% trans 'Points' %}</a>
+                <a class="dropdown-item" href="{% url 'profile:badges' %}"><em class="material-icons mr-2">group_work</em> {% trans 'Badges' %}</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{% url 'profile_logout' %}"><em class="material-icons mr-2">exit_to_app</em> {% trans 'Logout' %}</a>
+                <a class="dropdown-item" href="{% url 'profile:logout' %}"><em class="material-icons mr-2">exit_to_app</em> {% trans 'Logout' %}</a>
 
                 </div>
               </li>
@@ -79,7 +79,7 @@
         <div class="collapse" id="upload-menu">
             <ul class="navdrawer-nav">
                 <li class="nav-item">
-                <a class="nav-link pl-5" href="{% url 'profile_upload' %}">
+                <a class="nav-link pl-5" href="{% url 'profile:upload' %}">
               <em class="material-icons mr-3">account_circle</em> {% trans 'Users' %}
                 </a>
                 </li>
@@ -114,13 +114,13 @@
         <p class="navdrawer-subheader"> <em class="material-icons mr-1">group</em> {% trans 'Admin' %}</p>
         <ul class="navdrawer-nav">
             <li class="nav-item">
-            <a class="nav-link" href="{% url 'profile_search_users' %}">
+            <a class="nav-link" href="{% url 'profile:search' %}">
               <em class="material-icons mr-3">search</em> {% trans 'Search users' %}
             </a>
             </li>
 
             <li class="nav-item">
-            <a class="nav-link" href="{% url 'profile_export' %}">
+            <a class="nav-link" href="{% url 'profile:export' %}">
               <em class="material-icons mr-3">save_alt</em> {% trans 'Export users' %}
             </a>
             </li>

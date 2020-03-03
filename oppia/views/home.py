@@ -38,7 +38,7 @@ def home_view(request):
         up = request.user.userprofile
         # if user is student redirect to their scorecard
         if up.is_student_only():
-            return HttpResponseRedirect(reverse('profile_user_activity',
+            return HttpResponseRedirect(reverse('profile:user_activity',
                                                 args=[request.user.id]))
 
         # is user is teacher redirect to teacher home

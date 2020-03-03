@@ -10,9 +10,9 @@
 
     <div class="collapse navbar-collapse" id="main-menu">
         <ul class="navbar-nav ml-auto mt-2 mt-lg-0 ml-4">
-            <li class="nav-item"><a class="nav-link" href="{% url 'profile_login' %}?next={{ request.path }}">{% trans 'Login' %}</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'profile:login' %}?next={{ request.path }}">{% trans 'Login' %}</a></li>
             {% if OPPIA_ALLOW_SELF_REGISTRATION %}
-                <li class="nav-item"><a class="nav-link" href="{% url 'profile_register' %}?next={{ request.path }}">{% trans 'Register' %}</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'profile:register' %}?next={{ request.path }}">{% trans 'Register' %}</a></li>
             {% endif %}
         </ul>
     </div>

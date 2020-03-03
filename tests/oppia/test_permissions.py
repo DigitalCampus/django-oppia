@@ -71,16 +71,16 @@ class PermissionsViewTest(OppiaTestCase):
     # Bulk upload users view
 
     def test_anon_cantview_bulk_upload(self):
-        self.assert_must_login('profile_upload')
+        self.assert_must_login('profile:upload')
 
     def test_admin_canview_bulk_upload(self):
-        self.assert_can_view('profile_upload', self.admin_user)
+        self.assert_can_view('profile:upload', self.admin_user)
 
     def test_staff_cantview_bulk_upload(self):
-        self.assert_unauthorized('profile_upload', self.staff_user)
+        self.assert_unauthorized('profile:upload', self.staff_user)
 
     def test_student_cantview_bulk_upload(self):
-        self.assert_unauthorized('profile_upload', self.normal_user)
+        self.assert_unauthorized('profile:upload', self.normal_user)
 
     # View cohort list
 
@@ -212,31 +212,31 @@ class PermissionsViewTest(OppiaTestCase):
     # View student activity (all activity)
 
     def test_anon_cantview_user_activity(self):
-        self.assert_must_login('profile_user_activity',
+        self.assert_must_login('profile:user_activity',
                                view_kwargs={'user_id': 1})
 
     def test_view_nonexisting_user_activity(self):
-        self.assert_not_found('profile_user_activity',
+        self.assert_not_found('profile:user_activity',
                               self.admin_user,
                               view_kwargs={'user_id': 1000})
 
     def test_admin_canview_user_activity(self):
-        self.assert_can_view('profile_user_activity',
+        self.assert_can_view('profile:user_activity',
                              self.admin_user,
                              view_kwargs={'user_id': 1})
 
     def test_staff_canview_user_activity(self):
-        self.assert_can_view('profile_user_activity',
+        self.assert_can_view('profile:user_activity',
                              self.staff_user,
                              view_kwargs={'user_id': 1})
 
     def test_student_cantview_user_activity(self):
-        self.assert_unauthorized('profile_user_activity',
+        self.assert_unauthorized('profile:user_activity',
                                  self.normal_user,
                                  view_kwargs={'user_id': 1})
 
     def test_student_canview_self_activity(self):
-        self.assert_can_view('profile_user_activity',
+        self.assert_can_view('profile:user_activity',
                              self.normal_user,
                              view_kwargs={'user_id': 2})
     # @TODO: Teacher view user activity of a user in a cohort he is assigned
@@ -244,31 +244,31 @@ class PermissionsViewTest(OppiaTestCase):
     # View student activity (for a course)
 
     def test_anon_cantview_user_course_activity(self):
-        self.assert_must_login('profile_user_course_activity',
+        self.assert_must_login('profile:user_course_activity',
                                view_kwargs={'course_id': 1, 'user_id': 1})
 
     def test_view_nonexisting_user_course_activity(self):
-        self.assert_not_found('profile_user_course_activity', self.admin_user,
+        self.assert_not_found('profile:user_course_activity', self.admin_user,
                               view_kwargs={'course_id': 1000,
                                            'user_id': 1000})
 
     def test_admin_canview_user_course_activity(self):
-        self.assert_can_view('profile_user_course_activity',
+        self.assert_can_view('profile:user_course_activity',
                              self.admin_user,
                              view_kwargs={'course_id': 1, 'user_id': 1})
 
     def test_staff_canview_user_course_activity(self):
-        self.assert_can_view('profile_user_course_activity',
+        self.assert_can_view('profile:user_course_activity',
                              self.staff_user,
                              view_kwargs={'course_id': 1, 'user_id': 1})
 
     def test_student_cantview_user_course_activity(self):
-        self.assert_unauthorized('profile_user_course_activity',
+        self.assert_unauthorized('profile:user_course_activity',
                                  self.normal_user,
                                  view_kwargs={'course_id': 1, 'user_id': 1})
 
     def test_student_canview_self_course_activity(self):
-        self.assert_can_view('profile_user_course_activity',
+        self.assert_can_view('profile:user_course_activity',
                              self.normal_user,
                              view_kwargs={'course_id': 1, 'user_id': 2})
     # TODO: Teacher view user activity of a user in a cohort he is assigned

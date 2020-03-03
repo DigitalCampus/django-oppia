@@ -9,7 +9,7 @@ class OppiaTestCase(TestCase):
 
     def setUp(self):
         super(OppiaTestCase, self).setUp()
-        self.login_url = reverse('profile_login')
+        self.login_url = reverse('profile:login')
         self.admin_user = User.objects.get(pk=1)
         self.staff_user = User.objects.get(pk=3)
         self.teacher_user = User.objects.get(pk=4)
@@ -27,7 +27,7 @@ class OppiaTransactionTestCase(TransactionTestCase):
 
     def setUp(self):
         super(OppiaTransactionTestCase, self).setUp()
-        self.login_url = reverse('profile_login')
+        self.login_url = reverse('profile:login')
         self.admin_user = User.objects.get(pk=1)
         self.staff_user = User.objects.get(pk=3)
         self.teacher_user = User.objects.get(pk=4)

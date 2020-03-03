@@ -9,7 +9,7 @@ class BadgesViewTest(OppiaTestCase):
                 'tests/test_permissions.json']
 
     def test_view_badges(self):
-        url = reverse('profile_badges')
+        url = reverse('profile:badges')
         allowed_users = [self.admin_user,
                          self.staff_user,
                          self.teacher_user,

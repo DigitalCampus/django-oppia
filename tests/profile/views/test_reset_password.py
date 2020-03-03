@@ -7,7 +7,7 @@ from oppia.test import OppiaTestCase
 class ResetPasswordTest(OppiaTestCase):
 
     demo_email_address = 'demo@me.com'
-    url = reverse('profile_reset')
+    url = reverse('profile:reset')
 
     def test_get(self):
         response = self.client.get(self.url)
@@ -33,7 +33,7 @@ class ResetPasswordTest(OppiaTestCase):
         data = {'username': 'demo'}
         response = self.client.post(self.url, data=data)
         self.assertRedirects(response,
-                             reverse('profile_reset_sent'),
+                             reverse('profile:reset_sent'),
                              302,
                              200)
         self.assertEqual(len(mail.outbox), 1)
@@ -44,7 +44,7 @@ class ResetPasswordTest(OppiaTestCase):
         data = {'username': self.demo_email_address}
         response = self.client.post(self.url, data=data)
         self.assertRedirects(response,
-                             reverse('profile_reset_sent'),
+                             reverse('profile:reset_sent'),
                              302,
                              200)
         self.assertEqual(len(mail.outbox), 1)

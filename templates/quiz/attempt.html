@@ -19,7 +19,7 @@
     <div class="d-flex align-items-center">
         <div class="quiz d-flex justify-content-center rounded bg-white shadow-sm p-2 mr-3 align-items-center" style="width:60px;height:60px;">{{object.get_score_percent}}%</div>
         <div>
-            <em class="fas fa-user text-secondary mr-2"></em><a href="{% url 'profile_user_activity' profile.id %}" class="lead text-black">{{ profile.first_name }} {{ profile.last_name }}</a><br>
+            <em class="fas fa-user text-secondary mr-2"></em><a href="{% url 'profile:user_activity' profile.id %}" class="lead text-black">{{ profile.first_name }} {{ profile.last_name }}</a><br>
             <em class="far fa-calendar-alt text-secondary mr-2"></em>{{object.attempt_date|date:'d/m/Y H:i'}}<br>
             <em class="fas fa-stamp text-secondary mr-2"></em>{{object.score}}/{{object.maxscore}}
         </div>

@@ -72,7 +72,7 @@
        				{{ t.user|gravatar:24 }}
        			{% endif %}
        			{% if request.user.is_staff %}
-					<a href="{% url 'profile_user_activity' t.user.id %}">{{ t.user.first_name }} {{ t.user.last_name }}</a>
+					<a href="{% url 'profile:user_activity' t.user.id %}">{{ t.user.first_name }} {{ t.user.last_name }}</a>
 				{% else %}
 					{{ t.user.first_name }} {{ t.user.last_name }}
 				{% endif %}</td>

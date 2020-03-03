@@ -12,9 +12,9 @@
 <div class="jumbotron mb-4 ">
     <h3 class="mb-0">{% trans 'Quiz attempts' %}</h3>
 <h4>
-    <a href="{% url 'profile_user_activity' profile.id %}">{{ profile.first_name }} {{ profile.last_name }}</a>
+    <a href="{% url 'profile:user_activity' profile.id %}">{{ profile.first_name }} {{ profile.last_name }}</a>
     <em class="material-icons md-18 ">arrow_forward_ios</em>
-    <a href="{% url 'profile_user_course_activity' profile.id course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a>
+    <a href="{% url 'profile:user_course_activity' profile.id course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a>
     <em class="material-icons md-18 ">arrow_forward_ios</em>
     {{ quiz.title|title_lang:LANGUAGE_CODE }}
 </h4>

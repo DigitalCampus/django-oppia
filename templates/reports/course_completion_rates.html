@@ -40,7 +40,7 @@
          <tr>
               <td>
                 {% if OPPIA_SHOW_GRAVATARS %}{{ u.user|gravatar:24 }} {% endif %}
-                <a href="{% url 'profile_user_activity' u.user.id %}">{{ u.user.first_name }} {{ u.user.last_name }}</a>
+                <a href="{% url 'profile:user_activity' u.user.id %}">{{ u.user.first_name }} {{ u.user.last_name }}</a>
               </td>
          <td>
             <span> {{ u.activities_completed }} ({{ u.completion_percent|floatformat:2 }}%)</span></td>
@@ -55,7 +55,7 @@
         <tr>
           <td>
             {% if OPPIA_SHOW_GRAVATARS %} {{ u.user|gravatar:24 }} {% endif %}
-            <a href="{% url 'profile_user_activity' u.user.id %}">{{ u.user.first_name }} {{ u.user.last_name }}</a>
+            <a href="{% url 'profile:user_activity' u.user.id %}">{{ u.user.first_name }} {{ u.user.last_name }}</a>
           </td>
           <td>{{ u.activities_completed }} ({{ u.completion_percent|floatformat:2 }}%)</td>
         </tr>

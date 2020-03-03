@@ -11,8 +11,8 @@ class RegisterViewTest(OppiaTestCase):
 
     def setUp(self):
         super(RegisterViewTest, self).setUp()
-        self.url = reverse('profile_register')
-        self.thanks_url = reverse('profile_register_thanks')
+        self.url = reverse('profile:register')
+        self.thanks_url = reverse('profile:register_thanks')
 
     def test_get(self):
         response = self.client.get(self.url)

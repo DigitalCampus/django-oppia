@@ -13,7 +13,7 @@ class ProfileEditCustomFieldsViewTest(OppiaTestCase):
 
     def setUp(self):
         super(ProfileEditCustomFieldsViewTest, self).setUp()
-        self.url = reverse('profile_edit')
+        self.url = reverse('profile:edit')
 
     def test_edit_profile_no_data(self):
         custom_field = CustomField(

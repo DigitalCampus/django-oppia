@@ -20,7 +20,7 @@ class LoginForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(* args, ** kwargs)
         self.helper = FormHelper()
-        self.helper.form_action = reverse('profile_login')
+        self.helper.form_action = reverse('profile:login')
         self.helper.form_class = 'form-horizontal'
         self.helper.label_class = 'col-lg-2'
         self.helper.field_class = 'col-lg-4'
@@ -30,7 +30,7 @@ class LoginForm(forms.Form):
             'next',
             Div(
                 Submit('submit', _(u'Login'), css_class='btn btn-default'),
-                HTML("""<a class="btn btn-default" href="{% url 'profile_reset' %}">""" + _(
+                HTML("""<a class="btn btn-default" href="{% url 'profile:reset' %}">""" + _(
                     u'Forgotten password?') + """</a>"""),
                 css_class='col-lg-offset-2 col-lg-4',
             ),

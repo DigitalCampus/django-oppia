@@ -16,7 +16,7 @@
 		</div>
 
 		<div class="col-sm-7 text-right">
-			<a href="{% url 'profile_delete_account' %}" class="btn btn-light mr-2 mb-3">{% trans 'Delete Account' %}</a>
+			<a href="{% url 'profile:delete' %}" class="btn btn-light mr-2 mb-3">{% trans 'Delete Account' %}</a>
 			<a href="#" class="btn btn-secondary mb-3" data-toggle="collapse" data-target="#export-data" aria-expanded="false">Export</a>
 		</div>
 	</div>
@@ -24,10 +24,10 @@
 	<div id="export-data" class="collapse mt-4   {% if advanced_search %}show{% endif %}">
             <h5>{% trans 'Export data' %}</h5>
 
-			<a href="{% url 'profile_export_mydata' 'activity' %}" class="btn btn-light mr-2" target="_blank">{% trans 'Export Course Activity' %} <em class="fas fa-external-link-alt ml-2"></em></a>
-			<a href="{% url 'profile_export_mydata' 'quiz' %}" class="btn btn-light mr-2" target="_blank">{% trans 'Export Quiz Attempts' %} <em class="fas fa-external-link-alt ml-2"></em></a>
-			<a href="{% url 'profile_export_mydata' 'points' %}" class="btn btn-light mr-2" target="_blank">{% trans 'Export Points' %} <em class="fas fa-external-link-alt ml-2"></em></a>
-			<a href="{% url 'profile_export_mydata' 'badges' %}" class="btn btn-light mr-2" target="_blank">{% trans 'Export Badges' %} <em class="fas fa-external-link-alt ml-2"></em></a>
+			<a href="{% url 'profile:export_mydata' 'activity' %}" class="btn btn-light mr-2" target="_blank">{% trans 'Export Course Activity' %} <em class="fas fa-external-link-alt ml-2"></em></a>
+			<a href="{% url 'profile:export_mydata' 'quiz' %}" class="btn btn-light mr-2" target="_blank">{% trans 'Export Quiz Attempts' %} <em class="fas fa-external-link-alt ml-2"></em></a>
+			<a href="{% url 'profile:export_mydata' 'points' %}" class="btn btn-light mr-2" target="_blank">{% trans 'Export Points' %} <em class="fas fa-external-link-alt ml-2"></em></a>
+			<a href="{% url 'profile:export_mydata' 'badges' %}" class="btn btn-light mr-2" target="_blank">{% trans 'Export Badges' %} <em class="fas fa-external-link-alt ml-2"></em></a>
     </div>
 
 </div>

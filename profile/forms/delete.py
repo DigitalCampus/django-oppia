@@ -21,7 +21,7 @@ class DeleteAccountForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(DeleteAccountForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
-        self.helper.form_action = reverse('profile_delete_account')
+        self.helper.form_action = reverse('profile:delete')
         self.helper.form_class = 'form-horizontal'
         self.helper.label_class = 'col-lg-2'
         self.helper.field_class = 'col-lg-4'
@@ -33,7 +33,7 @@ class DeleteAccountForm(forms.Form):
                        _(u'Delete Account'),
                        css_class='btn btn-default'),
                 HTML("""<a role="button" class="btn btn-default"
-                        href="{% url "profile_edit" %}">Cancel</a>"""),
+                        href="{% url "profile:edit" %}">Cancel</a>"""),
                 css_class='col-lg-offset-2 col-lg-4',
 
             ),

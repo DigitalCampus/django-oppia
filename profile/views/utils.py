@@ -12,7 +12,7 @@ from oppia.models import Tracker
 def filter_redirect(request_content):
     redirection = request_content.get('next')
     # Avoid redirecting to logout after login
-    if redirection == reverse('profile_logout'):
+    if redirection == reverse('profile:logout'):
         return None
     else:
         return redirection

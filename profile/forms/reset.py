@@ -17,7 +17,7 @@ class ResetForm(forms.Form):
         super(ResetForm, self).__init__(* args, ** kwargs)
         self.fields['username'].label = "Username or email"
         self.helper = FormHelper()
-        self.helper.form_action = reverse('profile_reset')
+        self.helper.form_action = reverse('profile:reset')
         self.helper.form_class = 'form-horizontal'
         self.helper.label_class = 'col-lg-2'
         self.helper.field_class = 'col-lg-4'

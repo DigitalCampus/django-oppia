@@ -21,8 +21,8 @@ class RegisterCustomFieldsViewTest(OppiaTestCase):
 
     def setUp(self):
         super(RegisterCustomFieldsViewTest, self).setUp()
-        self.url = reverse('profile_register')
-        self.thanks_url = reverse('profile_register_thanks')
+        self.url = reverse('profile:register')
+        self.thanks_url = reverse('profile:register_thanks')
 
     # INTEGER REQUIRED
     # with int in form - correct

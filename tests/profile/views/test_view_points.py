@@ -9,7 +9,7 @@ class PointsViewTest(OppiaTestCase):
                 'tests/test_quiz.json',
                 'tests/test_permissions.json']
 
-    url_points = reverse('profile_points')
+    url_points = reverse('profile:points')
     template = 'profile/points.html'
 
     def test_view_points(self):

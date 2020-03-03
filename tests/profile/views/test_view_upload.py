@@ -23,7 +23,7 @@ class UserUploadActivityViewTest(OppiaTransactionTestCase):
         './oppia/fixtures/reference_files/upload-user-file-valid-with-password.csv'
 
     template = 'profile/upload.html'
-    url = reverse('profile_upload')
+    url = reverse('profile:upload')
 
     def setUp(self):
         super(UserUploadActivityViewTest, self).setUp()

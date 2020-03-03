@@ -16,71 +16,71 @@ class EditProfileViewTest(OppiaTestCase):
 
         # admin
         self.client.force_login(self.admin_user)
-        response = self.client.get(reverse('profile_edit'))
+        response = self.client.get(reverse('profile:edit'))
         self.assertEqual(response.status_code, 200)
 
         # staff
         self.client.force_login(self.staff_user)
-        response = self.client.get(reverse('profile_edit'))
+        response = self.client.get(reverse('profile:edit'))
         self.assertEqual(response.status_code, 200)
 
         # teacher
         self.client.force_login(self.teacher_user)
-        response = self.client.get(reverse('profile_edit'))
+        response = self.client.get(reverse('profile:edit'))
         self.assertEqual(response.status_code, 200)
 
         # user
         self.client.force_login(self.normal_user)
-        response = self.client.get(reverse('profile_edit'))
+        response = self.client.get(reverse('profile:edit'))
         self.assertEqual(response.status_code, 200)
 
     def test_view_others_profile_admin(self):
 
         # admin
         self.client.force_login(self.admin_user)
-        response = self.client.get(reverse('profile_edit_user', args=[2]))
+        response = self.client.get(reverse('profile:edit_user', args=[2]))
         self.assertEqual(response.status_code, 200)
 
-        response = self.client.get(reverse('profile_edit_user', args=[3]))
+        response = self.client.get(reverse('profile:edit_user', args=[3]))
         self.assertEqual(response.status_code, 200)
 
-        response = self.client.get(reverse('profile_edit_user', args=[4]))
+        response = self.client.get(reverse('profile:edit_user', args=[4]))
         self.assertEqual(response.status_code, 200)
 
     def test_view_others_profile_staff(self):
         # staff
         self.client.force_login(self.staff_user)
-        response = self.client.get(reverse('profile_edit_user', args=[1]))
+        response = self.client.get(reverse('profile:edit_user', args=[1]))
         self.assertEqual(response.status_code, 200)
 
-        response = self.client.get(reverse('profile_edit_user', args=[2]))
+        response = self.client.get(reverse('profile:edit_user', args=[2]))
         self.assertEqual(response.status_code, 200)
 
-        response = self.client.get(reverse('profile_edit_user', args=[4]))
+        response = self.client.get(reverse('profile:edit_user', args=[4]))
         self.assertEqual(response.status_code, 200)
 
     def test_view_others_profile_teacher(self):
         # teacher
         self.client.force_login(self.teacher_user)
-        response = self.client.get(reverse('profile_edit_user', args=[1]))
+        response = self.client.get(reverse('profile:edit_user', args=[1]))
         self.assertEqual(response.status_code, 403)
 
-        response = self.client.get(reverse('profile_edit_user', args=[2]))
+        response = self.client.get(reverse('profile:edit_user', args=[2]))
         self.assertEqual(response.status_code, 403)
 
-        response = self.client.get(reverse('profile_edit_user', args=[3]))
+        response = self.client.get(reverse('profile:edit_user', args=[3]))
         self.assertEqual(response.status_code, 403)
 
     def test_view_others_profile_user(self):
         # user
         self.client.force_login(self.normal_user)
-        response = self.client.get(reverse('profile_edit_user', args=[1]))
+        response = self.client.get(reverse('profile:edit_user', args=[1]))
         self.assertEqual(response.status_code, 403)
 
-        response = self.client.get(reverse('profile_edit_user', args=[2]))
+        response = self.client.get(reverse('profile:edit_user', args=[2]))
         self.assertEqual(response.status_code, 403)
 
-        response = self.client.get(reverse('profile_edit_user', args=[3]))
+        response = self.client.get(reverse('profile:edit_user', args=[3]))
         self.assertEqual(response.status_code, 403)
 
     def test_edit_own_profile_admin(self):
@@ -94,7 +94,7 @@ class EditProfileViewTest(OppiaTestCase):
                      'first_name': 'admin',
                      'last_name': 'user'}
         response = self.client.post(
-            reverse('profile_edit'), data=post_data)
+            reverse('profile:edit'), data=post_data)
         self.assertEqual(response.status_code, 200)
 
         new_org = User.objects.get(
@@ -111,7 +111,7 @@ class EditProfileViewTest(OppiaTestCase):
                      'username': 'admin',
                      'first_name': 'admin',
                      'last_name': 'user'}
-        response = self.client.post(reverse('profile_edit'), data=post_data)
+        response = self.client.post(reverse('profile:edit'), data=post_data)
         self.assertEqual(response.status_code, 200)
 
         new_org = User.objects.get(
@@ -128,7 +128,7 @@ class EditProfileViewTest(OppiaTestCase):
                      'username': 'admin',
                      'first_name': 'admin',
                      'last_name': 'user'}
-        response = self.client.post(reverse('profile_edit'), data=post_data)
+        response = self.client.post(reverse('profile:edit'), data=post_data)
         self.assertEqual(response.status_code, 200)
 
         new_org = User.objects.get(
@@ -145,7 +145,7 @@ class EditProfileViewTest(OppiaTestCase):
                      'username': 'admin',
                      'first_name': 'admin',
                      'last_name': 'user'}
-        response = self.client.post(reverse('profile_edit'), data=post_data)
+        response = self.client.post(reverse('profile:edit'), data=post_data)
         self.assertEqual(response.status_code, 200)
 
         new_org = User.objects.get(
@@ -162,7 +162,7 @@ class EditProfileViewTest(OppiaTestCase):
                      'username': 'admin',
                      'first_name': 'admin',
                      'last_name': 'user'}
-        response = self.client.post(reverse('profile_edit_user',
+        response = self.client.post(reverse('profile:edit_user',
                                             args=[2]), data=post_data)
         self.assertEqual(response.status_code, 200)
 
@@ -180,7 +180,7 @@ class EditProfileViewTest(OppiaTestCase):
                      'username': 'admin',
                      'first_name': 'admin',
                      'last_name': 'user'}
-        response = self.client.post(reverse('profile_edit_user',
+        response = self.client.post(reverse('profile:edit_user',
                                             args=[2]), data=post_data)
         self.assertEqual(response.status_code, 200)
 
@@ -198,7 +198,7 @@ class EditProfileViewTest(OppiaTestCase):
                      'username': 'admin',
                      'first_name': 'admin',
                      'last_name': 'user'}
-        response = self.client.post(reverse('profile_edit_user',
+        response = self.client.post(reverse('profile:edit_user',
                                             args=[2]), data=post_data)
         self.assertEqual(response.status_code, 403)
 
@@ -216,7 +216,7 @@ class EditProfileViewTest(OppiaTestCase):
                      'username': 'admin',
                      'first_name': 'admin',
                      'last_name': 'user'}
-        response = self.client.post(reverse('profile_edit_user',
+        response = self.client.post(reverse('profile:edit_user',
                                             args=[1]), data=post_data)
         self.assertEqual(response.status_code, 403)
 
@@ -233,19 +233,19 @@ class EditProfileViewTest(OppiaTestCase):
                      'last_name': 'user',
                      'password': 'newpassword',
                      'password_again': 'newpassword'}
-        response = self.client.post(reverse('profile_edit'), data=post_data)
+        response = self.client.post(reverse('profile:edit'), data=post_data)
         self.assertEqual(response.status_code, 200)
 
         self.client.force_login(self.admin_user)
-        response = self.client.get(reverse('profile_edit'))
+        response = self.client.get(reverse('profile:edit'))
         self.assertRedirects(response,
                              self.login_url
                              + "?next="
-                             + reverse('profile_edit'), 302, 200)
+                             + reverse('profile:edit'), 302, 200)
 
         self.client.login(username=self.admin_user.username,
                           password='newpassword')
-        response = self.client.get(reverse('profile_edit'))
+        response = self.client.get(reverse('profile:edit'))
         self.assertEqual(response.status_code, 200)
 
     def test_edit_own_password_staff(self):
@@ -257,19 +257,19 @@ class EditProfileViewTest(OppiaTestCase):
                      'last_name': 'user',
                      'password': 'newpassword',
                      'password_again': 'newpassword'}
-        response = self.client.post(reverse('profile_edit'), data=post_data)
+        response = self.client.post(reverse('profile:edit'), data=post_data)
         self.assertEqual(response.status_code, 200)
 
         self.client.force_login(self.staff_user)
-        response = self.client.get(reverse('profile_edit'))
+        response = self.client.get(reverse('profile:edit'))
         self.assertRedirects(response,
                              self.login_url
                              + "?next=" +
-                             reverse('profile_edit'), 302, 200)
+                             reverse('profile:edit'), 302, 200)
 
         self.client.login(username=self.staff_user.username,
                           password='newpassword')
-        response = self.client.get(reverse('profile_edit'))
+        response = self.client.get(reverse('profile:edit'))
         self.assertEqual(response.status_code, 200)
 
     def test_edit_own_password_teacher(self):
@@ -281,19 +281,19 @@ class EditProfileViewTest(OppiaTestCase):
                      'last_name': 'user',
                      'password': 'newpassword',
                      'password_again': 'newpassword'}
-        response = self.client.post(reverse('profile_edit'), data=post_data)
+        response = self.client.post(reverse('profile:edit'), data=post_data)
         self.assertEqual(response.status_code, 200)
 
         self.client.force_login(self.teacher_user)
-        response = self.client.get(reverse('profile_edit'))
+        response = self.client.get(reverse('profile:edit'))
         self.assertRedirects(response,
                              self.login_url
                              + "?next="
-                             + reverse('profile_edit'), 302, 200)
+                             + reverse('profile:edit'), 302, 200)
 
         self.client.login(username=self.teacher_user.username,
                           password='newpassword')
-        response = self.client.get(reverse('profile_edit'))
+        response = self.client.get(reverse('profile:edit'))
         self.assertEqual(response.status_code, 200)
 
     def test_edit_own_password_user(self):
@@ -305,19 +305,19 @@ class EditProfileViewTest(OppiaTestCase):
                      'last_name': 'user',
                      'password': 'newpassword',
                      'password_again': 'newpassword'}
-        response = self.client.post(reverse('profile_edit'), data=post_data)
+        response = self.client.post(reverse('profile:edit'), data=post_data)
         self.assertEqual(response.status_code, 200)
 
         self.client.force_login(self.normal_user)
-        response = self.client.get(reverse('profile_edit'))
+        response = self.client.get(reverse('profile:edit'))
         self.assertRedirects(response,
                              self.login_url
                              + "?next="
-                             + reverse('profile_edit'), 302, 200)
+                             + reverse('profile:edit'), 302, 200)
 
         self.client.login(username=self.normal_user.username,
                           password='newpassword')
-        response = self.client.get(reverse('profile_edit'))
+        response = self.client.get(reverse('profile:edit'))
         self.assertEqual(response.status_code, 200)
 
     def test_edit_other_password_admin(self):
@@ -329,13 +329,13 @@ class EditProfileViewTest(OppiaTestCase):
                      'last_name': 'user',
                      'password': 'newpassword',
                      'password_again': 'newpassword'}
-        response = self.client.post(reverse('profile_edit_user',
+        response = self.client.post(reverse('profile:edit_user',
                                             args=[2]), data=post_data)
         self.assertEqual(response.status_code, 200)
 
         self.client.login(username=self.normal_user.username,
                           password='newpassword')
-        response = self.client.get(reverse('profile_edit'))
+        response = self.client.get(reverse('profile:edit'))
         self.assertEqual(response.status_code, 200)
 
     def test_edit_other_password_staff(self):
@@ -347,13 +347,13 @@ class EditProfileViewTest(OppiaTestCase):
                      'last_name': 'user',
                      'password': 'newpassword',
                      'password_again': 'newpassword'}
-        response = self.client.post(reverse('profile_edit_user',
+        response = self.client.post(reverse('profile:edit_user',
                                             args=[2]), data=post_data)
         self.assertEqual(response.status_code, 200)
 
         self.client.login(username=self.normal_user.username,
                           password='newpassword')
-        response = self.client.get(reverse('profile_edit'))
+        response = self.client.get(reverse('profile:edit'))
         self.assertEqual(response.status_code, 200)
 
     def test_edit_other_password_teacher(self):
@@ -365,7 +365,7 @@ class EditProfileViewTest(OppiaTestCase):
                      'last_name': 'user',
                      'password': 'newpassword',
                      'password_again': 'newpassword'}
-        response = self.client.post(reverse('profile_edit_user',
+        response = self.client.post(reverse('profile:edit_user',
                                             args=[2]), data=post_data)
         self.assertEqual(response.status_code, 403)
 
@@ -378,7 +378,7 @@ class EditProfileViewTest(OppiaTestCase):
                      'last_name': 'user',
                      'password': 'newpassword',
                      'password_again': 'newpassword'}
-        response = self.client.post(reverse('profile_edit_user',
+        response = self.client.post(reverse('profile:edit_user',
                                             args=[1]), data=post_data)
         self.assertEqual(response.status_code, 403)
 
@@ -389,87 +389,87 @@ class EditProfileViewTest(OppiaTestCase):
                      'username': 'user',
                      'first_name': 'demo',
                      'last_name': 'user'}
-        self.client.post(reverse('profile_edit'), data=post_data)
+        self.client.post(reverse('profile:edit'), data=post_data)
         self.assertRaisesMessage(forms.ValidationError,
                                  'Email address already in use')
 
     def test_delete_account_admin(self):
         self.client.force_login(self.admin_user)
         post_data = {'username': 'admin', 'password': 'password'}
-        response = self.client.post(reverse('profile_delete_account'),
+        response = self.client.post(reverse('profile:delete'),
                                     data=post_data)
         self.assertRedirects(response,
-                             reverse('profile_delete_account_complete'),
+                             reverse('profile:delete_complete'),
                              302,
                              200)
 
     def test_delete_account_staff(self):
         self.client.force_login(self.staff_user)
         post_data = {'username': 'staff', 'password': 'password'}
-        response = self.client.post(reverse('profile_delete_account'),
+        response = self.client.post(reverse('profile:delete'),
                                     data=post_data)
         self.assertRedirects(response,
-                             reverse('profile_delete_account_complete'),
+                             reverse('profile:delete_complete'),
                              302,
                              200)
 
     def test_delete_account_teacher(self):
         self.client.force_login(self.teacher_user)
         post_data = {'username': 'teacher', 'password': 'password'}
-        response = self.client.post(reverse('profile_delete_account'),
+        response = self.client.post(reverse('profile:delete'),
                                     data=post_data)
         self.assertRedirects(response,
-                             reverse('profile_delete_account_complete'),
+                             reverse('profile:delete_complete'),
                              302,
                              200)
 
     def test_delete_account_user(self):
         self.client.force_login(self.normal_user)
         post_data = {'username': 'demo', 'password': 'password'}
-        response = self.client.post(reverse('profile_delete_account'),
+        response = self.client.post(reverse('profile:delete'),
                                     data=post_data)
         self.assertRedirects(response,
-                             reverse('profile_delete_account_complete'),
+                             reverse('profile:delete_complete'),
                              302,
                              200)
 
     def test_delete_account_wrong_password(self):
         self.client.force_login(self.normal_user)
         post_data = {'username': 'demo', 'password': 'wrongpassword'}
-        self.client.post(reverse('profile_delete_account'), data=post_data)
+        self.client.post(reverse('profile:delete'), data=post_data)
         self.assertRaisesMessage(forms.ValidationError,
                                  'Invalid password. Please try again. ')
 
     def test_export_data_activity_user(self):
         self.client.force_login(self.normal_user)
-        response = self.client.get(reverse('profile_export_mydata',
+        response = self.client.get(reverse('profile:export_mydata',
                                            args=['activity']))
         self.assertTemplateUsed(response, 'profile/export/activity.html')
         self.assertEqual(response.status_code, 200)
 
     def test_export_data_quiz_user(self):
         self.client.force_login(self.normal_user)
-        response = self.client.get(reverse('profile_export_mydata',
+        response = self.client.get(reverse('profile:export_mydata',
                                            args=['quiz']))
         self.assertTemplateUsed(response, 'profile/export/quiz_attempts.html')
         self.assertEqual(response.status_code, 200)
 
     def test_export_data_points_user(self):
         self.client.force_login(self.normal_user)
-        response = self.client.get(reverse('profile_export_mydata',
+        response = self.client.get(reverse('profile:export_mydata',
                                            args=['points']))
         self.assertTemplateUsed(response, 'profile/export/points.html')
         self.assertEqual(response.status_code, 200)
 
     def test_export_data_badges_user(self):
         self.client.force_login(self.normal_user)
-        response = self.client.get(reverse('profile_export_mydata',
+        response = self.client.get(reverse('profile:export_mydata',
                                            args=['badges']))
         self.assertTemplateUsed(response, 'profile/export/badges.html')
         self.assertEqual(response.status_code, 200)
 
     def test_export_data_other_user(self):
         self.client.force_login(self.normal_user)
-        response = self.client.get(reverse('profile_export_mydata',
+        response = self.client.get(reverse('profile:export_mydata',
                                            args=['somethingelse']))
         self.assertEqual(response.status_code, 404)

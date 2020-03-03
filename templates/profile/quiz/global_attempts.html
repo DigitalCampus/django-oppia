@@ -11,7 +11,7 @@
 {% block header %}
 <div class="jumbotron mb-4 ">
 <h4>
-    <a href="{% url 'profile_user_activity' profile.id %}">{{ profile.first_name }} {{ profile.last_name }}</a>
+    <a href="{% url 'profile:user_activity' profile.id %}">{{ profile.first_name }} {{ profile.last_name }}</a>
     <em class="material-icons md-18 ">arrow_forward_ios</em>
     {% trans 'Quiz attempts' %}
 </h4>

@@ -4,7 +4,7 @@
 <tr id="{{ user.username }}">
     <td>{{user.username}}</td>
     <td>{% if OPPIA_SHOW_GRAVATARS %} {{ user|gravatar:24 }} {% endif %}
-        <a href="{% url 'profile_user_activity' user.id %}">{{ user.first_name }} {{ user.last_name }}</a>
+        <a href="{% url 'profile:user_activity' user.id %}">{{ user.first_name }} {{ user.last_name }}</a>
     </td>
     <td>{{ user.date_joined|date:"d/m/Y" }}</td>
     <td class="text-right">

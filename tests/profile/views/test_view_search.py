@@ -8,7 +8,7 @@ class UserSearchActivityViewTest(OppiaTestCase):
                 'tests/test_quiz.json',
                 'tests/test_permissions.json']
 
-    url = reverse('profile_search_users')
+    url = reverse('profile:search')
     template = 'profile/search_user.html'
 
     def setUp(self):

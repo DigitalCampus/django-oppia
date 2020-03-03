@@ -14,7 +14,7 @@ class QuizAttemptsList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
 
     model = QuizAttempt
 
-    objects_url_name = 'profile_user_quiz_attempt_detail'
+    objects_url_name = 'quiz_attempt_detail'
     template_name = 'profile/quiz/attempts.html'
     ajax_template_name = 'quiz/attempts_query.html'
     paginate_by = 15
@@ -43,7 +43,7 @@ class QuizAttemptsList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
 class UserAttemptsList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
 
     model = QuizAttempt
-    objects_url_name = 'profile_user_quiz_attempt_detail'
+    objects_url_name = 'quiz_attempt_detail'
     template_name = 'profile/quiz/global_attempts.html'
     ajax_template_name = 'quiz/attempts_query.html'
     paginate_by = 15

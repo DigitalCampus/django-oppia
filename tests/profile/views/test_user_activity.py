@@ -21,83 +21,83 @@ class UserActivityViewTest(OppiaTestCase):
                          self.normal_user]
 
         for allowed_user in allowed_users:
-            url = reverse('profile_user_activity', args=[allowed_user.id])
+            url = reverse('profile:user_activity', args=[allowed_user.id])
             self.client.force_login(allowed_user)
             response = self.client.get(url)
             self.assertTemplateUsed(response, self.template)
             self.assertEqual(response.status_code, 200)
 
     def test_admin_view_others_activity(self):
-        url = reverse('profile_user_activity', args=[self.staff_user.id])
+        url = reverse('profile:user_activity', args=[self.staff_user.id])
         self.client.force_login(self.admin_user)
         response = self.client.get(url)
         self.assertTemplateUsed(response, self.template)
         self.assertEqual(response.status_code, 200)
 
-        url = reverse('profile_user_activity', args=[self.teacher_user.id])
+        url = reverse('profile:user_activity', args=[self.teacher_user.id])
         self.client.force_login(self.admin_user)
         response = self.client.get(url)
         self.assertTemplateUsed(response, self.template)
         self.assertEqual(response.status_code, 200)
 
-        url = reverse('profile_user_activity', args=[self.normal_user.id])
+        url = reverse('profile:user_activity', args=[self.normal_user.id])
         self.client.force_login(self.admin_user)
         response = self.client.get(url)
         self.assertTemplateUsed(response, self.template)
         self.assertEqual(response.status_code, 200)
 
     def test_staff_view_others_activity(self):
-        url = reverse('profile_user_activity', args=[self.admin_user.id])
+        url = reverse('profile:user_activity', args=[self.admin_user.id])
         self.client.force_login(self.staff_user)
         response = self.client.get(url)
         self.assertTemplateUsed(response, self.template)
         self.assertEqual(response.status_code, 200)
 
-        url = reverse('profile_user_activity', args=[self.teacher_user.id])
+        url = reverse('profile:user_activity', args=[self.teacher_user.id])
         self.client.force_login(self.staff_user)
         response = self.client.get(url)
         self.assertTemplateUsed(response, self.template)
         self.assertEqual(response.status_code, 200)
 
-        url = reverse('profile_user_activity', args=[self.normal_user.id])
+        url = reverse('profile:user_activity', args=[self.normal_user.id])
         self.client.force_login(self.staff_user)
         response = self.client.get(url)
         self.assertTemplateUsed(response, self.template)
         self.assertEqual(response.status_code, 200)
 
     def test_teacher_view_others_activity(self):
-        url = reverse('profile_user_activity', args=[self.admin_user.id])
+        url = reverse('profile:user_activity', args=[self.admin_user.id])
         self.client.force_login(self.teacher_user)
         response = self.client.get(url)
         self.assertTemplateUsed(response, '403.html')
         self.assertEqual(response.status_code, 403)
 
-        url = reverse('profile_user_activity', args=[self.staff_user.id])
+        url = reverse('profile:user_activity', args=[self.staff_user.id])
         self.client.force_login(self.teacher_user)
         response = self.client.get(url)
         self.assertTemplateUsed(response, self.unauthorised_template)
         self.assertEqual(response.status_code, 403)
 
-        url = reverse('profile_user_activity', args=[self.normal_user.id])
+        url = reverse('profile:user_activity', args=[self.normal_user.id])
         self.client.force_login(self.teacher_user)
         response = self.client.get(url)
         self.assertTemplateUsed(response, self.unauthorised_template)
         self.assertEqual(response.status_code, 403)
 
     def test_user_view_others_activity(self):
-        url = reverse('profile_user_activity', args=[self.admin_user.id])
+        url = reverse('profile:user_activity', args=[self.admin_user.id])
         self.client.force_login(self.normal_user)
         response = self.client.get(url)
         self.assertTemplateUsed(response, self.unauthorised_template)
         self.assertEqual(response.status_code, 403)
 
-        url = reverse('profile_user_activity', args=[self.staff_user.id])
+        url = reverse('profile:user_activity', args=[self.staff_user.id])
         self.client.force_login(self.normal_user)
         response = self.client.get(url)
         self.assertTemplateUsed(response, self.unauthorised_template)
         self.assertEqual(response.status_code, 403)
 
-        url = reverse('profile_user_activity', args=[self.teacher_user.id])
+        url = reverse('profile:user_activity', args=[self.teacher_user.id])
         self.client.force_login(self.normal_user)
         response = self.client.get(url)
         self.assertTemplateUsed(response, self.unauthorised_template)
