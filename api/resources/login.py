@@ -27,6 +27,7 @@ class UserResource(ModelResource):
     scoring = fields.BooleanField(readonly=True)
     badging = fields.BooleanField(readonly=True)
     metadata = fields.CharField(readonly=True)
+    email = fields.CharField(readonly=True)
     course_points = fields.CharField(readonly=True)
 
     class Meta:
@@ -37,7 +38,8 @@ class UserResource(ModelResource):
                   'last_login',
                   'username',
                   'points',
-                  'badges']
+                  'badges',
+                  'email']
         allowed_methods = ['post']
         authentication = Authentication()
         authorization = Authorization()
