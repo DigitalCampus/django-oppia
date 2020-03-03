@@ -132,14 +132,14 @@
         <p class="navdrawer-subheader"><em class="material-icons mr-1">timeline</em>{% trans 'Analytics' %}</p>
         <ul class="navdrawer-nav">
             <li class="nav-item">
-            <a class="nav-link" href="{% url 'oppia_viz_summary' %}">
+            <a class="nav-link" href="{% url 'viz:summary' %}">
               <em class="material-icons mr-3">pie_chart</em> {% trans 'Summary Overview' %}
             </a>
             </li>
 
 			{% if OPPIA_MAP_VISUALISATION_ENABLED %}
             <li class="nav-item">
-            <a class="nav-link" href="{% url 'oppia_viz_map' %}">
+            <a class="nav-link" href="{% url 'viz:map' %}">
               <em class="material-icons mr-3">map</em> {% trans 'Activity Map' %}
             </a>
             </li>

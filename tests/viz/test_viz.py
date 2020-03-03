@@ -33,14 +33,14 @@ class VisualisationsTest(OppiaTestCase):
 
         for allowed_user in allowed_users:
             self.client.force_login(allowed_user)
-            response = self.client.get(reverse('oppia_viz_summary'))
+            response = self.client.get(reverse('viz:summary'))
 
             self.assertTemplateUsed(response, self.viz_summary_template)
             self.assertEqual(response.status_code, 200)
 
         for disallowed_user in disallowed_users:
             self.client.force_login(disallowed_user)
-            response = self.client.get(reverse('oppia_viz_summary'))
+            response = self.client.get(reverse('viz:summary'))
             self.assertEqual(response.status_code, 302)
 
     # test posting dates (
@@ -49,7 +49,7 @@ class VisualisationsTest(OppiaTestCase):
     def test_view_summary_previous_date(self):
         self.client.force_login(self.admin_user)
         start_date = timezone.now() - datetime.timedelta(days=31)
-        response = self.client.post(reverse('oppia_viz_summary'),
+        response = self.client.post(reverse('viz:summary'),
                                     data={'start_date': start_date})
         self.assertTemplateUsed(response, self.viz_summary_template)
         self.assertEqual(response.status_code, 200)
@@ -59,7 +59,7 @@ class VisualisationsTest(OppiaTestCase):
     def test_view_summary_future_date(self):
         self.client.force_login(self.admin_user)
         start_date = timezone.now() + datetime.timedelta(days=31)
-        response = self.client.post(reverse('oppia_viz_summary'),
+        response = self.client.post(reverse('viz:summary'),
                                     data={'start_date': start_date})
         self.assertTemplateUsed(response, self.viz_summary_template)
         self.assertEqual(response.status_code, 200)
@@ -69,7 +69,7 @@ class VisualisationsTest(OppiaTestCase):
     def test_view_summary_invalid_date(self):
         self.client.force_login(self.admin_user)
         start_date = "not a valid date"
-        response = self.client.post(reverse('oppia_viz_summary'),
+        response = self.client.post(reverse('viz:summary'),
                                     data={'start_date': start_date})
         self.assertTemplateUsed(response, self.viz_summary_template)
         self.assertEqual(200, response.status_code)
@@ -87,7 +87,7 @@ class VisualisationsTest(OppiaTestCase):
 
         for allowed_user in allowed_users:
             self.client.force_login(allowed_user)
-            response = self.client.get(reverse('oppia_viz_map'))
+            response = self.client.get(reverse('viz:map'))
             self.assertEqual(404, response.status_code)
 
     def test_view_map_enabled(self):
@@ -102,7 +102,7 @@ class VisualisationsTest(OppiaTestCase):
 
         for allowed_user in allowed_users:
             self.client.force_login(allowed_user)
-            response = self.client.get(reverse('oppia_viz_map'))
+            response = self.client.get(reverse('viz:map'))
             self.assertTemplateUsed(response, 'viz/map.html')
             self.assertEqual(response.status_code, 200)
 

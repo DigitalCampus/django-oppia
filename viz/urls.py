@@ -1,11 +1,10 @@
-# oppia/viz/urls.py
-from django.conf.urls import url
+from django.urls import path
 
-from viz import views as oppia_viz_views
+from viz import views as viz_views
+
+app_name = 'viz'
 
 urlpatterns = [
-        url(r'^summary/$',
-            oppia_viz_views.Summary.as_view(),
-            name="oppia_viz_summary"),
-        url(r'^map/$', oppia_viz_views.Map.as_view(), name="oppia_viz_map"),
-        ]
+    path('summary/', viz_views.Summary.as_view(), name="summary"),
+    path('map/', viz_views.Map.as_view(), name="map"),
+]
