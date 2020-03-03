@@ -27,11 +27,11 @@ class MediaUploadResourceTest(OppiaTestCase):
                                             content_type="video/m4v")
 
         self.client.force_login(self.admin_user)
-        response = self.client.post(reverse('oppia_av_upload'),
+        response = self.client.post(reverse('av:upload'),
                                     {'media_file': media_file})
         latest = UploadedMedia.objects.latest('id')
         self.assertRedirects(response,
-                             reverse('oppia_av_upload_success',
+                             reverse('av:upload_success',
                                      args=[latest.id]),
                              302,
                              200)
@@ -45,7 +45,7 @@ class MediaUploadResourceTest(OppiaTestCase):
                                             content_type="video/m4v")
 
         self.client.force_login(self.admin_user)
-        response = self.client.post(reverse('oppia_av_upload'),
+        response = self.client.post(reverse('av:upload'),
                                     {'media_file': media_file})
         self.assertRaisesMessage(Exception, "Corrupted media file")
         self.assertEqual(response.status_code, 200)

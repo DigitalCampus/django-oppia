@@ -26,13 +26,14 @@ from settings import constants
 from settings.models import SettingProperties
 
 STR_COMMON_FORM = 'common/form/form.html'
+STR_OPPIA_HOME = 'oppia:index'
 
 def login_view(request):
     username = password = ''
 
     # if already logged in
     if request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('oppia_home'))
+        return HttpResponseRedirect(reverse(STR_OPPIA_HOME))
 
     if request.POST:
         form = LoginForm(request.POST)
@@ -48,9 +49,9 @@ def login_view(request):
                 if parsed_uri.netloc == '':
                     return HttpResponseRedirect(next)
                 else:
-                    return HttpResponseRedirect(reverse('oppia_home'))
+                    return HttpResponseRedirect(reverse(STR_OPPIA_HOME))
             else:
-                return HttpResponseRedirect(reverse('oppia_home'))
+                return HttpResponseRedirect(reverse(STR_OPPIA_HOME))
     else:
         form = LoginForm(initial={'next': filter_redirect(request.GET), })
 

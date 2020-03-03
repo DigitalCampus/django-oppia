@@ -21,9 +21,9 @@
 	<form method="post" class="inline-form">
     <em class="fas fa-tags mr-1 text-primary"></em> {% trans 'Filter by tag: ' %}
 	<select class="form-control" name="tag" id="course-tag-filter">
-		<option value="{% url 'oppia_course' %}">{% trans 'All courses' %}</option>
+		<option value="{% url 'oppia:course' %}">{% trans 'All courses' %}</option>
 		{% for tag in tag_list %}
-		 		<option value="{% url 'oppia_tag_courses' tag.id %}" {% if current_tag|slugify == tag.id|slugify %}selected="selected"{% endif %}>
+		 		<option value="{% url 'oppia:tag_courses' tag.id %}" {% if current_tag|slugify == tag.id|slugify %}selected="selected"{% endif %}>
 		 			{{ tag.name }}
 		 		</option>
 		{% endfor %}
@@ -61,7 +61,7 @@
 		<tr>
 				<td>
 					{% if course.access_detail %}
-						<a href="{% url 'oppia_recent_activity' course.id %}"><strong>{{ course.title|title_lang:LANGUAGE_CODE }}</strong></a>
+						<a href="{% url 'oppia:recent_activity' course.id %}"><strong>{{ course.title|title_lang:LANGUAGE_CODE }}</strong></a>
 					{% else %}
 						<strong>{{ course.title|title_lang:LANGUAGE_CODE }}</strong>
 					{% endif %}	
@@ -74,11 +74,11 @@
 				<small>{% trans 'Tags:' %} {{ course.get_tags }}</small></td>
 				<td>{{ course.lastupdated_date }} </td>
 				<td>{{ course.total_downloads }} downloads by {{ course.distinct_downloads }} users<br/>
-					<a href="{% url 'oppia_course_download' course.id %}">{% trans 'download course' %}</a>
+					<a href="{% url 'oppia:course_download' course.id %}">{% trans 'download course' %}</a>
 				</td>
                 <td class="py-1">
                     {% if course.can_edit %}
-                    	<a href="{% url 'oppia_course_edit' course.id %}" data-toggle="tooltip" title="{% trans 'Edit' %}" class="btn btn-inline btn-outline-primary"><em class="fas fa-2x fa-edit"></em> </a>
+                    	<a href="{% url 'oppia:course_edit' course.id %}" data-toggle="tooltip" title="{% trans 'Edit' %}" class="btn btn-inline btn-outline-primary"><em class="fas fa-2x fa-edit"></em> </a>
                     	<a href="{% url 'oppia_gamification_edit_course' course.id %}" data-toggle="tooltip" title="{% trans 'Edit Gamification' %}" class="btn btn-inline btn-outline-primary"><em class="fas fa-2x fa-gamepad"></em></a>
                     {% endif %}
                 </td>
@@ -89,7 +89,7 @@
 	</div>
     {% include "common/pagination.html" %}
 {% else %}
-	{% url 'oppia_upload' as url_upload %}
+	{% url 'oppia:upload' as url_upload %}
 	{% blocktrans %}
 		<p>You don't yet have any courses uploaded, why not <a href="{{ url_upload }}">upload one now</a>?</p>
 	{% endblocktrans %}

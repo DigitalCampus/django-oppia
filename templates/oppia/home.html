@@ -32,7 +32,7 @@
 
 	<h3 class="mt-3">{% trans 'home_leaderboard' %}<a class="btn btn-primary" style="margin-left:20px;" href="{% url 'oppia_gamification_leaderboard_export_server' %}" download="leaderboard.json">{% trans 'Export' %}</a></h3>
 	{% include "oppia/includes/leaderboard.html" %}
-	<div><a href="{% url 'oppia_leaderboard' %}">{% trans "more..." %}</a></div>
+	<div><a href="{% url 'oppia:leaderboard' %}">{% trans "more..." %}</a></div>
 {% else %}
     {% static "oppia/images/dc-logo-150x150.png" as oppia_logo %}
 

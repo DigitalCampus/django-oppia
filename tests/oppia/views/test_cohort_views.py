@@ -22,47 +22,47 @@ class CohortViewsTest(OppiaTestCase):
     '''
     def test_cohort_leaderboard_admin(self):
         self.client.force_login(self.admin_user)
-        url = reverse('oppia_cohort_leaderboard', args=[1])
+        url = reverse('oppia:cohort_leaderboard', args=[1])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, self.leaderboard_template)
 
     def test_cohort_leaderboard_staff(self):
         self.client.force_login(self.staff_user)
-        url = reverse('oppia_cohort_leaderboard', args=[1])
+        url = reverse('oppia:cohort_leaderboard', args=[1])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, self.leaderboard_template)
 
     def test_cohort_leaderboard_teacher_valid(self):
         self.client.force_login(self.teacher_user)
-        url = reverse('oppia_cohort_leaderboard', args=[3])
+        url = reverse('oppia:cohort_leaderboard', args=[3])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, self.leaderboard_template)
 
     def test_cohort_leaderboard_teacher_invalid(self):
         self.client.force_login(self.teacher_user)
-        url = reverse('oppia_cohort_leaderboard', args=[1])
+        url = reverse('oppia:cohort_leaderboard', args=[1])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 403)
 
     def test_cohort_leaderboard_admin_invalid_cohort(self):
         self.client.force_login(self.admin_user)
-        url = reverse('oppia_cohort_leaderboard', args=[100])
+        url = reverse('oppia:cohort_leaderboard', args=[100])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 404)
 
     def test_cohort_leaderboard_admin_page123(self):
         self.client.force_login(self.admin_user)
-        url = '%s?page=123' % reverse('oppia_cohort_leaderboard', args=[1])
+        url = '%s?page=123' % reverse('oppia:cohort_leaderboard', args=[1])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, self.leaderboard_template)
 
     def test_cohort_leaderboard_admin_pageabc(self):
         self.client.force_login(self.admin_user)
-        url = '%s?page=abc' % reverse('oppia_cohort_leaderboard', args=[1])
+        url = '%s?page=abc' % reverse('oppia:cohort_leaderboard', args=[1])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, self.leaderboard_template)
@@ -113,27 +113,27 @@ class CohortViewsTest(OppiaTestCase):
     '''
     def test_cohort_edit_get_admin(self):
         self.client.force_login(self.admin_user)
-        url = reverse('oppia_cohort_edit', args=[1])
+        url = reverse('oppia:cohort_edit', args=[1])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, self.cohort_form_template)
 
     def test_cohort_edit_get_staff(self):
         self.client.force_login(self.staff_user)
-        url = reverse('oppia_cohort_edit', args=[1])
+        url = reverse('oppia:cohort_edit', args=[1])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, self.cohort_form_template)
 
     def test_cohort_edit_get_teacher(self):
         self.client.force_login(self.teacher_user)
-        url = reverse('oppia_cohort_edit', args=[3])
+        url = reverse('oppia:cohort_edit', args=[3])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 403)
 
     def test_cohort_edit_get_user(self):
         self.client.force_login(self.normal_user)
-        url = reverse('oppia_cohort_edit', args=[1])
+        url = reverse('oppia:cohort_edit', args=[1])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 403)
 
@@ -142,7 +142,7 @@ class CohortViewsTest(OppiaTestCase):
     '''
     def test_cohort_edit_post_valid(self):
         self.client.force_login(self.admin_user)
-        url = reverse('oppia_cohort_edit', args=[1])
+        url = reverse('oppia:cohort_edit', args=[1])
         data = {'start_date': '2020-01-01',
                 'end_date': '2020-12-31',
                 'description': 'Test cohort',
@@ -151,13 +151,13 @@ class CohortViewsTest(OppiaTestCase):
                 'courses': 'draft-test, ncd1-et'}
         response = self.client.post(url, data)
         self.assertRedirects(response,
-                             reverse('oppia_cohorts'),
+                             reverse('oppia:cohorts'),
                              302,
                              200)
 
     def test_cohort_edit_post_invalid_start_date(self):
         self.client.force_login(self.admin_user)
-        url = reverse('oppia_cohort_edit', args=[1])
+        url = reverse('oppia:cohort_edit', args=[1])
         data = {'start_date': '20-01',
                 'end_date': '2020-12-35',
                 'description': 'Test cohort',
@@ -169,7 +169,7 @@ class CohortViewsTest(OppiaTestCase):
 
     def test_cohort_edit_post_invalid_end_date(self):
         self.client.force_login(self.admin_user)
-        url = reverse('oppia_cohort_edit', args=[1])
+        url = reverse('oppia:cohort_edit', args=[1])
         data = {'start_date': '2020-01-14',
                 'end_date': '20-35',
                 'description': 'Test cohort',
@@ -181,7 +181,7 @@ class CohortViewsTest(OppiaTestCase):
 
     def test_cohort_edit_post_invalid_start_before_end_date(self):
         self.client.force_login(self.admin_user)
-        url = reverse('oppia_cohort_edit', args=[1])
+        url = reverse('oppia:cohort_edit', args=[1])
         data = {'start_date': '2020-01-14',
                 'end_date': '2020-01-01',
                 'description': 'Test cohort',
@@ -196,7 +196,7 @@ class CohortViewsTest(OppiaTestCase):
     '''
     def test_cohort_add_post_valid(self):
         self.client.force_login(self.admin_user)
-        url = reverse('oppia_cohort_add')
+        url = reverse('oppia:cohort_add')
         data = {'start_date': '2020-01-01',
                 'end_date': '2020-12-31',
                 'description': 'my new cohort',
@@ -205,13 +205,13 @@ class CohortViewsTest(OppiaTestCase):
                 'courses': 'draft-test, ncd1-et'}
         response = self.client.post(url, data)
         self.assertRedirects(response,
-                             reverse('oppia_cohorts'),
+                             reverse('oppia:cohorts'),
                              302,
                              200)
 
     def test_cohort_add_post_invalid_dates(self):
         self.client.force_login(self.admin_user)
-        url = reverse('oppia_cohort_add')
+        url = reverse('oppia:cohort_add')
         data = {'start_date': '2020-01',
                 'end_date': '2019-31',
                 'description': 'my new cohort',
@@ -226,19 +226,19 @@ class CohortViewsTest(OppiaTestCase):
     '''
     def test_cohort_course_invalid_course(self):
         self.client.force_login(self.admin_user)
-        url = reverse('oppia_cohort_course_view', args=[3, 999])
+        url = reverse('oppia:cohort_course_view', args=[3, 999])
         response = self.client.get(url)
         self.assertEqual(404, response.status_code)
 
     def test_cohort_course_inverse_order(self):
         self.client.force_login(self.admin_user)
-        url = reverse('oppia_cohort_course_view', args=[3, 1])
+        url = reverse('oppia:cohort_course_view', args=[3, 1])
         response = self.client.get('%s?order_by=-no_points' % url)
         self.assertEqual(200, response.status_code)
 
     def test_cohort_course_invalid_order(self):
         self.client.force_login(self.admin_user)
-        url = reverse('oppia_cohort_course_view', args=[3, 1])
+        url = reverse('oppia:cohort_course_view', args=[3, 1])
         response = self.client.get('%s?order_by=abcdef' % url)
         self.assertEqual(200, response.status_code)
         

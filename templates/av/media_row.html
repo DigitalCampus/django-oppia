@@ -10,6 +10,6 @@
 	  			<p>No image</p>
 		{% endthumbnail %}
 	</td>
-	<td><a href="{% url 'oppia_av_view' media.uploaded_media.id %}">{{ media.uploaded_media.filename }}</a></td>
+	<td><a href="{% url 'av:view' media.uploaded_media.id %}">{{ media.uploaded_media.filename }}</a></td>
 	<td><code>{{ media.embed_code }}</code></td>
 </tr>

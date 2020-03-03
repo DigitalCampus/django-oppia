@@ -43,7 +43,7 @@ def home_view(request):
 
         # is user is teacher redirect to teacher home
         if up.is_teacher_only():
-            return HttpResponseRedirect(reverse('oppia_teacher_home'))
+            return HttpResponseRedirect(reverse('oppia:teacher_index'))
 
         # admin/staff view
         form, activity = home_view_admin_authenticated(request)

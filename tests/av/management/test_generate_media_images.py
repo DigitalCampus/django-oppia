@@ -20,7 +20,7 @@ class GenerateMediaImagesTest(OppiaTestCase):
                                             content_type="video/m4v")
 
         self.client.force_login(self.admin_user)
-        self.client.post(reverse('oppia_av_upload'),
+        self.client.post(reverse('av:upload'),
                          {'media_file': media_file})
 
         image_count_start = UploadedMediaImage.objects.all().count()

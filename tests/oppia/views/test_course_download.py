@@ -17,9 +17,9 @@ class DownloadViewTest(OppiaTestCase):
 
     def setUp(self):
         super(DownloadViewTest, self).setUp()
-        self.course_download_url_valid = reverse('oppia_course_download',
+        self.course_download_url_valid = reverse('oppia:course_download',
                                                  args=[1])
-        self.course_download_url_invalid = reverse('oppia_course_download',
+        self.course_download_url_invalid = reverse('oppia:course_download',
                                                    args=[123])
 
     @pytest.mark.xfail(reason="works on local but not on github workflows")

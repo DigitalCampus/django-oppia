@@ -32,11 +32,11 @@ class CourseUploadTest(OppiaTestCase):
 
         with open(self.course_file_path, 'rb') as course_file:
             self.client.force_login(self.admin_user)
-            response = self.client.post(reverse('oppia_upload'),
+            response = self.client.post(reverse('oppia:upload'),
                                         {'course_file': course_file})
             # should be redirected to the update step 2 form
             self.assertRedirects(response,
-                                 reverse('oppia_upload2', args=[2]),
+                                 reverse('oppia:upload_step2', args=[2]),
                                  302,
                                  200)
 
@@ -45,13 +45,13 @@ class CourseUploadTest(OppiaTestCase):
 
         with open(self.empty_section_course, 'rb') as course_file:
             self.client.force_login(self.admin_user)
-            response = self.client.post(reverse('oppia_upload'),
+            response = self.client.post(reverse('oppia:upload'),
                                         {'course_file': course_file})
 
             course = Course.objects.latest('created_date')
             # should be redirected to the update step 2 form
             self.assertRedirects(response,
-                                 reverse('oppia_upload2', args=[course.id]),
+                                 reverse('oppia:upload_step2', args=[course.id]),
                                  302,
                                  200)
 
@@ -60,7 +60,7 @@ class CourseUploadTest(OppiaTestCase):
 
         with open(self.no_module_xml, 'rb') as course_file:
             self.client.force_login(self.admin_user)
-            response = self.client.post(reverse('oppia_upload'),
+            response = self.client.post(reverse('oppia:upload'),
                                         {'course_file': course_file})
 
             self.assertEqual(200, response.status_code)
@@ -72,7 +72,7 @@ class CourseUploadTest(OppiaTestCase):
 
         with open(self.corrupt_course_zip, 'rb') as course_file:
             self.client.force_login(self.admin_user)
-            response = self.client.post(reverse('oppia_upload'),
+            response = self.client.post(reverse('oppia:upload'),
                                         {'course_file': course_file})
 
             self.assertEqual(200, response.status_code)
@@ -85,7 +85,7 @@ class CourseUploadTest(OppiaTestCase):
 
         with open(self.course_no_sub_dir, 'rb') as course_file:
             self.client.force_login(self.admin_user)
-            response = self.client.post(reverse('oppia_upload'),
+            response = self.client.post(reverse('oppia:upload'),
                                         {'course_file': course_file})
 
             self.assertEqual(200, response.status_code)
@@ -97,7 +97,7 @@ class CourseUploadTest(OppiaTestCase):
 
         with open(self.course_old_version, 'rb') as course_file:
             self.client.force_login(self.admin_user)
-            response = self.client.post(reverse('oppia_upload'),
+            response = self.client.post(reverse('oppia:upload'),
                                         {'course_file': course_file})
 
             self.assertEqual(200, response.status_code)
@@ -109,7 +109,7 @@ class CourseUploadTest(OppiaTestCase):
 
         with open(self.course_no_activities, 'rb') as course_file:
             self.client.force_login(self.admin_user)
-            response = self.client.post(reverse('oppia_upload'),
+            response = self.client.post(reverse('oppia:upload'),
                                         {'course_file': course_file})
 
             self.assertEqual(200, response.status_code)
@@ -128,11 +128,11 @@ class CourseUploadTest(OppiaTestCase):
 
         with open(self.course_with_custom_points, 'rb') as course_file:
             self.client.force_login(self.admin_user)
-            response = self.client.post(reverse('oppia_upload'),
+            response = self.client.post(reverse('oppia:upload'),
                                         {'course_file': course_file})
             course = Course.objects.latest('created_date')
             self.assertRedirects(response,
-                                 reverse('oppia_upload2', args=[course.id]),
+                                 reverse('oppia:upload_step2', args=[course.id]),
                                  302,
                                  200)
 
@@ -152,11 +152,11 @@ class CourseUploadTest(OppiaTestCase):
 
         with open(self.course_with_custom_points, 'rb') as course_file:
             self.client.force_login(self.admin_user)
-            response = self.client.post(reverse('oppia_upload'),
+            response = self.client.post(reverse('oppia:upload'),
                                         {'course_file': course_file})
             course = Course.objects.latest('created_date')
             self.assertRedirects(response,
-                                 reverse('oppia_upload2', args=[course.id]),
+                                 reverse('oppia:upload_step2', args=[course.id]),
                                  302,
                                  200)
 
@@ -175,11 +175,11 @@ class CourseUploadTest(OppiaTestCase):
 
         with open(self.course_with_custom_points_updated, 'rb') as course_file:
             self.client.force_login(self.admin_user)
-            response = self.client.post(reverse('oppia_upload'),
+            response = self.client.post(reverse('oppia:upload'),
                                         {'course_file': course_file})
             course = Course.objects.latest('created_date')
             self.assertRedirects(response,
-                                 reverse('oppia_upload2', args=[course.id]),
+                                 reverse('oppia:upload_step2', args=[course.id]),
                                  302,
                                  200)
         course_game_events_end = CourseGamificationEvent.objects.all().count()

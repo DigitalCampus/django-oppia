@@ -30,7 +30,7 @@ class UploadMediaForm(forms.Form):
         self.request = kwargs.pop('request', None)
         super(UploadMediaForm, self).__init__(* args, ** kwargs)
         self.helper = FormHelper()
-        self.helper.form_action = reverse('oppia_av_upload')
+        self.helper.form_action = reverse('av:upload')
         self.helper.form_class = 'form-horizontal'
         self.helper.label_class = 'col-lg-2'
         self.helper.field_class = 'col-lg-8'
@@ -75,7 +75,7 @@ class UploadMediaForm(forms.Form):
 
         media = UploadedMedia.objects.filter(md5=md5)
         if media.count() > 0:
-            url = reverse('oppia_av_view', args=[media.first().id])
+            url = reverse('av:view', args=[media.first().id])
             raise forms.ValidationError({
                 'media_file':
                     mark_safe(

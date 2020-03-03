@@ -68,7 +68,7 @@
 			<p><em>{% trans 'Tags:' %} {{ course.get_tags}}</em></p>
 		</div>
 		<div class="col-md-4 text-right">
-			<a href="{% url 'oppia_course_edit' course.id %}" class="btn btn-light mr-2 mb-3">{% trans 'Edit' %}</a>
+			<a href="{% url 'oppia:course_edit' course.id %}" class="btn btn-light mr-2 mb-3">{% trans 'Edit' %}</a>
 			<a href="{% url 'oppia_gamification_edit_course' course.id %}" class="btn btn-secondary mb-3">Gamification settings</a>
 		</div>
 	</div>
@@ -78,7 +78,7 @@
 
 {% block content %}
 
-<h3>{% trans 'courses_recent_activity' %} <a href="{% url 'oppia_recent_activity_detail' course.pk %}" class="btn btn-sm btn-light ml-3">View detail activity</a> </h3>
+<h3>{% trans 'courses_recent_activity' %} <a href="{% url 'oppia:recent_activity_detail' course.pk %}" class="btn btn-sm btn-light ml-3">View detail activity</a> </h3>
 <div id="attempts_chart_div" class="graph">{% trans 'graph_generating'%}</div>
 
 {% include "includes/messages.html" %}	

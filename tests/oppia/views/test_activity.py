@@ -16,10 +16,10 @@ class OppiaActivityViewsTest(OppiaTestCase):
                 'default_gamification_events.json',
                 'tests/test_tracker.json']
 
-    url_recent_activity = reverse('oppia_recent_activity', args=[1])
-    url_recent_activity_detail = reverse('oppia_recent_activity_detail',
+    url_recent_activity = reverse('oppia:recent_activity', args=[1])
+    url_recent_activity_detail = reverse('oppia:recent_activity_detail',
                                          args=[1])
-    url_oppia_export_tracker_detail = reverse('oppia_export_tracker_detail',
+    url_oppia_export_tracker_detail = reverse('oppia:export_tracker_detail',
                                               args=[1])
 
     activity_detail_template = 'course/activity-detail.html'
@@ -55,7 +55,7 @@ class OppiaActivityViewsTest(OppiaTestCase):
 
     def test_recent_activity_invalid_course(self):
         self.client.force_login(user=self.admin_user)
-        response = self.client.get(reverse('oppia_recent_activity',
+        response = self.client.get(reverse('oppia:recent_activity',
                                            args=[999]))
         self.assertEqual(404, response.status_code)
 

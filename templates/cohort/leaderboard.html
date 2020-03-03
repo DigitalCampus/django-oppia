@@ -9,7 +9,7 @@
 
 {% block header %}
 <div class="jumbotron mb-3 ">
-	<h3><em class="fas fa-trophy mr-2"></em> <a href="{% url 'oppia_cohort_view' cohort.id %}">{{ cohort.description }}</a> &gt; {% trans 'Leaderboard' %}</h3>
+	<h3><em class="fas fa-trophy mr-2"></em> <a href="{% url 'oppia:cohort_view' cohort.id %}">{{ cohort.description }}</a> &gt; {% trans 'Leaderboard' %}</h3>
 </div>
 {% endblock header %}
 

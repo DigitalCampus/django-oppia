@@ -26,11 +26,11 @@
 
 				{% for cohort in cohorts %}
 					<tr>
-						<td><a href="{% url 'oppia_cohort_view' cohort.id %}">{{ cohort.description }}</a></td>
+						<td><a href="{% url 'oppia:cohort_view' cohort.id %}">{{ cohort.description }}</a></td>
 						<td>{{ cohort.no_student_members }}</td>
 						<td>
 						{% for course in cohort.get_courses %}
-							<a href="{% url 'oppia_cohort_course_view' cohort.id course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a><br/>
+							<a href="{% url 'oppia:cohort_course_view' cohort.id course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a><br/>
 						{% endfor %}
 						</td>
 					</tr>

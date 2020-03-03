@@ -122,5 +122,5 @@ class UserUploadActivityViewTest(OppiaTransactionTestCase):
         # check can login with new password
         self.client.logout()
         self.client.login(username='user100', password='password100')
-        self.client.get(reverse('oppia_home'))
+        self.client.get(reverse('oppia:index'))
         self.assertTemplateUsed('profile/user-scorecard.htm')

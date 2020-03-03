@@ -6,7 +6,7 @@
     <button class="navbar-toggler always-show" type="button" data-toggle="navdrawer" data-target="#doc-navdrawer" aria-controls="doc-navdrawer" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <a class="navbar-brand text-light" href="{% url 'oppia_home' %}"><img class="mr-2" src="{% static "oppia/images/dc_logo.png" %}" height="30" alt="{% trans 'app_name' %} {% trans 'logo' %}"/>{% trans 'app_name' %}</a>
+      <a class="navbar-brand text-light" href="{% url 'oppia:index' %}"><img class="mr-2" src="{% static "oppia/images/dc_logo.png" %}" height="30" alt="{% trans 'app_name' %} {% trans 'logo' %}"/>{% trans 'app_name' %}</a>
 
 
       <div class="collapse navbar-collapse" id="navbar-collapse">
@@ -51,19 +51,19 @@
 
         <ul class="navdrawer-nav mb-0">
             <li class="nav-item">
-            <a class="nav-link" href="{% url 'oppia_course' %}">
+            <a class="nav-link" href="{% url 'oppia:course' %}">
               <em class="material-icons mr-3">book</em> {% trans 'menu_courses' %}
             </a>
             </li>
 
             <li class="nav-item">
-            <a class="nav-link" href="{% url 'oppia_av_home' %}">
+            <a class="nav-link" href="{% url 'av:index' %}">
               <em class="material-icons mr-3">video_library</em> {% trans 'Media' %}
             </a>
             </li>
 
             <li class="nav-item">
-            <a class="nav-link" href="{% url 'oppia_cohorts' %}">
+            <a class="nav-link" href="{% url 'oppia:cohorts' %}">
               <em class="material-icons mr-3">school</em> {% trans 'Cohorts' %}
             </a>
             </li>
@@ -85,13 +85,13 @@
                 </li>
 
                 <li class="nav-item">
-                <a class="nav-link pl-5" href="{% url 'oppia_upload' %}">
+                <a class="nav-link pl-5" href="{% url 'oppia:upload' %}">
                   <em class="material-icons mr-3">book</em> {% trans 'Course' %}
                 </a>
                 </li>
 
                 <li class="nav-item">
-                <a class="nav-link pl-5" href="{% url 'oppia_av_upload' %}">
+                <a class="nav-link pl-5" href="{% url 'av:upload' %}">
                   <em class="material-icons mr-3">video_library</em> {% trans 'Media' %}
                 </a>
                 </li>

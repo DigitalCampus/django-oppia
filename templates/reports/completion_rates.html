@@ -46,7 +46,7 @@
  		</table>
 	</div>
 {% else %}
-	{% url 'oppia_upload' as url_upload %}
+	{% url 'oppia:upload' as url_upload %}
 	{% blocktrans %}
 		<p>You don't yet have any courses uploaded, why not <a href="{{ url_upload }}">upload one now</a>?</p>
 	{% endblocktrans %}

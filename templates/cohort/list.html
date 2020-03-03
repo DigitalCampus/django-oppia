@@ -31,16 +31,16 @@
               <tbody>
 	{% for cohort in cohorts %}
 		<tr>
-			<td><a href="{% url 'oppia_cohort_view' cohort.id %}">{{ cohort.description }}</a></td>
+			<td><a href="{% url 'oppia:cohort_view' cohort.id %}">{{ cohort.description }}</a></td>
 			<td>{{ cohort.no_teacher_members }}</td>
 			<td>{{ cohort.no_student_members }}</td>
 			<td>
 			{% for course in cohort.get_courses %}
-				<a href="{% url 'oppia_cohort_course_view' cohort.id course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a><br/>
+				<a href="{% url 'oppia:cohort_course_view' cohort.id course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a><br/>
 			{% endfor %}
 			</td>
 			<td class="py-1">
-				<a href="{% url 'oppia_cohort_edit' cohort.id %}" data-toggle="tooltip" title="{% trans 'Edit' %}" class="btn btn-inline btn-outline-primary"><em class="fas fa-2x fa-edit"></em> </a>
+				<a href="{% url 'oppia:cohort_edit' cohort.id %}" data-toggle="tooltip" title="{% trans 'Edit' %}" class="btn btn-inline btn-outline-primary"><em class="fas fa-2x fa-edit"></em> </a>
 			</td>	
 		</tr>
 	{% endfor %}
@@ -52,6 +52,6 @@
 	
 {% endif %}
 
-<p><a href="{% url 'oppia_cohort_add' %}" class="btn btn-default btn-primary">{% trans 'Add a cohort' %}</a></p>
+<p><a href="{% url 'oppia:cohort_add' %}" class="btn btn-default btn-primary">{% trans 'Add a cohort' %}</a></p>
 
 {% endblock %}

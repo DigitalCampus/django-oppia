@@ -27,7 +27,7 @@ class UploadCourseStep1Form(forms.Form):
             {'size': int(math.floor(max_upload / 1024 / 1024))}
 
         self.helper = FormHelper()
-        self.helper.form_action = reverse('oppia_upload')
+        self.helper.form_action = reverse('oppia:upload')
         self.helper.form_class = 'form-horizontal'
         self.helper.label_class = 'col-lg-2'
         self.helper.field_class = 'col-lg-4'

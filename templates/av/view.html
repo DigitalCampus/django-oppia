@@ -10,7 +10,7 @@
 
 {% block header %}
 <div class="jumbotron mb-3">
-	<h3><a href="{% url 'oppia_av_home' %}">Uploaded media</a> <em class="material-icons md-18 ">arrow_forward_ios</em> {{ media.file.url }}</h3>
+	<h3><a href="{% url 'av:index' %}">Uploaded media</a> <em class="material-icons md-18 ">arrow_forward_ios</em> {{ media.file.url }}</h3>
 </div>
 {% endblock header %}
 
@@ -33,7 +33,7 @@
 				{% if image.default_image %}
 					[{% trans 'default' %}]
 				{% else %}
-					[<a href="{% url 'oppia_av_set_default_image' image.id %}">{% trans 'set as default' %}</a>]
+					[<a href="{% url 'av:set_default_image' image.id %}">{% trans 'set as default' %}</a>]
 				{% endif %}
 			</div>
 	   	{% endfor %}

@@ -69,8 +69,8 @@
         <div class="container-fluid py-3">
             <div class="row">
                 <div class="col-md-9 pb-2 text-center text-md-left">
-                        <a href="{% url 'oppia_about' %}">{% trans 'footer_about' %}</a> |
-                        <a href="{% url 'oppia_about' %}#terms">{% trans 'footer_terms' %}</a>
+                        <a href="{% url 'oppia:about' %}">{% trans 'footer_about' %}</a> |
+                        <a href="{% url 'oppia:about' %}#terms">{% trans 'footer_terms' %}</a>
                 </div>
                 <div class="col-md-3 small align-self-end pb-2 text-center text-md-right">{{ version }} &copy; {% now "Y" %} <a href="http://digital-campus.org">Digital Campus</a></div>
             </div>

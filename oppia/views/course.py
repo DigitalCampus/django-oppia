@@ -136,7 +136,7 @@ def upload_step1(request):
                                     action="file_uploaded",
                                     data=request.FILES['course_file'].name) \
                                 .save()
-                return HttpResponseRedirect(reverse('oppia_upload2',
+                return HttpResponseRedirect(reverse('oppia:upload_step2',
                                                     args=[course.id]))
     else:
         form = UploadCourseStep1Form()  # An unbound form
@@ -160,7 +160,7 @@ def upload_step2(request, course_id, editing=False):
             # add the tags
 
             update_course_tags(form, course, request.user)
-            redirect = 'oppia_course' if editing else 'oppia_upload_success'
+            redirect = 'oppia:course' if editing else 'oppia_upload_success'
             CoursePublishingLog(
                 course=course,
                 new_version=course.version,
