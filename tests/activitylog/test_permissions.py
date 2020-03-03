@@ -32,16 +32,16 @@ class PermissionsViewTest(OppiaTestCase):
 
     # upload activity log file
     def test_anon_cantview_av_upload(self):
-        self.assert_must_login('oppia_activitylog_upload')
+        self.assert_must_login('activitylog:upload')
 
     def test_admin_canview_av_upload(self):
-        self.assert_can_view('oppia_activitylog_upload', self.admin_user)
+        self.assert_can_view('activitylog:upload', self.admin_user)
 
     def test_staff_canview_av_upload(self):
-        self.assert_can_view('oppia_activitylog_upload', self.staff_user)
+        self.assert_can_view('activitylog:upload', self.staff_user)
 
     def test_teacher_cantview_av_upload(self):
-        self.assert_can_view('oppia_activitylog_upload', self.teacher_user)
+        self.assert_can_view('activitylog:upload', self.teacher_user)
 
     def test_student_cantview_av_upload(self):
-        self.assert_unauthorized('oppia_activitylog_upload', self.normal_user)
+        self.assert_unauthorized('activitylog:upload', self.normal_user)

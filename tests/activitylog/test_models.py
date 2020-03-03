@@ -16,7 +16,7 @@ class ActivityLogModelsTest(OppiaTestCase):
                 'default_gamification_events.json']
 
     basic_activity_log = './oppia/fixtures/activity_logs/basic_activity.json'
-    url = reverse('oppia_activitylog_upload')
+    url = reverse('activitylog:upload')
 
     def test_model_str(self):
         self.client.force_login(self.admin_user)

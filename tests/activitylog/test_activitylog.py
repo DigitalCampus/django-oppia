@@ -15,7 +15,7 @@ class UploadActivityLogTest(OppiaTestCase):
                 'tests/test_permissions.json',
                 'default_gamification_events.json']
 
-    url = reverse('oppia_activitylog_upload')
+    url = reverse('activitylog:upload')
     basic_activity_log = './oppia/fixtures/activity_logs/basic_activity.json'
     activity_log_file_path = \
         './oppia/fixtures/activity_logs/activity_upload_test.json'
@@ -57,7 +57,7 @@ class UploadActivityLogTest(OppiaTestCase):
 
         # should be redirected to the success page
         self.assertRedirects(response,
-                             reverse('oppia_activitylog_upload_success'),
+                             reverse('activitylog:upload_success'),
                              302,
                              200)
 
@@ -77,7 +77,7 @@ class UploadActivityLogTest(OppiaTestCase):
 
         # should be redirected to the update step 2 form
         self.assertRedirects(response,
-                             reverse('oppia_activitylog_upload_success'),
+                             reverse('activitylog:upload_success'),
                              302,
                              200)
 
@@ -99,7 +99,7 @@ class UploadActivityLogTest(OppiaTestCase):
                                          activity_log_quiz_file})
 
         self.assertRedirects(response,
-                             reverse('oppia_activitylog_upload_success'),
+                             reverse('activitylog:upload_success'),
                              302,
                              200)
 
@@ -122,7 +122,7 @@ class UploadActivityLogTest(OppiaTestCase):
                                          activity_log_file})
 
         self.assertRedirects(response,
-                             reverse('oppia_activitylog_upload_success'),
+                             reverse('activitylog:upload_success'),
                              302,
                              200)
 
@@ -133,7 +133,7 @@ class UploadActivityLogTest(OppiaTestCase):
                                          activity_log_file})
 
         self.assertRedirects(response,
-                             reverse('oppia_activitylog_upload_success'),
+                             reverse('activitylog:upload_success'),
                              302,
                              200)
 
@@ -153,7 +153,7 @@ class UploadActivityLogTest(OppiaTestCase):
                                          activity_log_quiz_file})
 
         self.assertRedirects(response,
-                             reverse('oppia_activitylog_upload_success'),
+                             reverse('activitylog:upload_success'),
                              302,
                              200)
 
@@ -164,7 +164,7 @@ class UploadActivityLogTest(OppiaTestCase):
                                          activity_log_quiz_file})
 
         self.assertRedirects(response,
-                             reverse('oppia_activitylog_upload_success'),
+                             reverse('activitylog:upload_success'),
                              302,
                              200)
 

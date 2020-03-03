@@ -194,7 +194,7 @@ def upload_view(request):
                 success = process_activitylog(request, file_data)
                 if success:
                     return HttpResponseRedirect(
-                        reverse('oppia_activitylog_upload_success'))
+                        reverse('activitylog:upload_success'))
     else:
         form = UploadActivityLogForm()
     return render(request, 'common/upload.html',

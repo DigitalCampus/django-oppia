@@ -1,4 +1,3 @@
-# oppia/content/urls.py
 from django.conf.urls import url
 
 from content import views as oppia_content_views

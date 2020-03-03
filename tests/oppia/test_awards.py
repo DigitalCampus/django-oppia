@@ -30,7 +30,7 @@ class AwardsTest(OppiaTestCase):
                 'tests/awards/award-course.json']
 
     file_root = './oppia/fixtures/tests/awards/'
-    url = reverse('oppia_activitylog_upload')
+    url = reverse('activitylog:upload')
 
     '''
     BADGE_AWARD_METHOD_ALL_ACTIVITIES
