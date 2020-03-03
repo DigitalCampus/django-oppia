@@ -8,7 +8,7 @@
 
 {% block header %}
 <div class="jumbotron pb-2 mb-3">
-	<h3><a href="{% url 'oppia_integrations_home' %}">{% trans 'Integrations' %}</a> &gt {% trans 'DHIS2' %}</h3>
+	<h3><a href="{% url 'integrations:index' %}">{% trans 'Integrations' %}</a> &gt {% trans 'DHIS2' %}</h3>
 </div>
 {% endblock header %}
 
@@ -17,7 +17,7 @@
 <h3>{% trans 'Exports by month/year' %}</h3>
 <ul>
 {% for months in monthly_exports %}
-	<li><a href="{% url 'oppia_integrations_dhis_export_month' months.year months.month %}">{{ months|date:'F Y' }}</a></li>
+	<li><a href="{% url 'integrations:dhis:export_month' months.year months.month %}">{{ months|date:'F Y' }}</a></li>
 {% endfor %}	
 </ul>
 

@@ -11,7 +11,7 @@ class IntegrationViewsTest(OppiaTestCase):
 
     def setUp(self):
         super(IntegrationViewsTest, self).setUp()
-        self.intgrations_home_url = reverse('oppia_integrations_home')
+        self.intgrations_home_url = reverse('integrations:index')
 
     def test_anon_cantview_integrations_home(self):
         res = self.get_view(self.intgrations_home_url, None)

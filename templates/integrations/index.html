@@ -16,13 +16,13 @@
 
 <h3>DHIS2</h3>
 <ul>
-	<li><a href="{% url 'oppia_integrations_dhis_export_latest' %}">{% trans 'Download most recent export (last month)' %}</a></li>
-	<li><a href="{% url 'oppia_integrations_dhis_home' %}">{% trans 'View all exports' %}</a></li>
+	<li><a href="{% url 'integrations:dhis:export_latest' %}">{% trans 'Download most recent export (last month)' %}</a></li>
+	<li><a href="{% url 'integrations:dhis:index' %}">{% trans 'View all exports' %}</a></li>
 </ul>
 
 <h3>xAPI</h3>
 <ul>
-	<li><a href="{% url 'oppia_integrations_xapi_csv_export' %}">{% trans 'Download most recent export (last 7 days)' %}</a></li>
+	<li><a href="{% url 'integrations:xapi:export' %}">{% trans 'Download most recent export (last 7 days)' %}</a></li>
 	<li>{% trans 'View all exports' %} - to be completed</li>
 </ul>
 

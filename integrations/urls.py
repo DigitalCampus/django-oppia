@@ -1,11 +1,11 @@
-# oppia/reports/urls.py
-from django.conf.urls import include, url
+from django.conf.urls import include
+from django.urls import path
 
-from integrations import views as oppia_integrations_views
+from integrations import views as integration_views
 
+app_name = 'integrations'
 urlpatterns = [
-        url(r'^$', oppia_integrations_views.home,
-            name="oppia_integrations_home"),
-        url(r'^dhis/', include('integrations.dhis.urls')),
-        url(r'^xapi/', include('integrations.xapi.urls')),
-        ]
+    path('', integration_views.home, name="index"),
+    path('dhis/', include('integrations.dhis.urls')),
+    path('xapi/', include('integrations.xapi.urls')),
+]

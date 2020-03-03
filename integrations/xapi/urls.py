@@ -1,11 +1,9 @@
-# integrations/xapi/urls.py
-from django.conf.urls import url
+from django.urls import path
 
 from integrations.xapi import views as xapi_views
 
+app_name = 'xapi'
 urlpatterns = [
-        url(r'^$', xapi_views.home, name="oppia_integrations_xapi_home"),
-        url(r'^export/$',
-            xapi_views.csv_export,
-            name="oppia_integrations_xapi_csv_export"),
+    path('', xapi_views.home, name="index"),
+    path('export/', xapi_views.csv_export, name="export")
 ]

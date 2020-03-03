@@ -1,14 +1,12 @@
-# oppia/reports/urls.py
-from django.conf.urls import url
+from django.urls import path
 
-from integrations.dhis import views as oppia_dhis_views
+from integrations.dhis import views as dhis_views
 
+app_name = 'dhis'
 urlpatterns = [
-        url(r'^$', oppia_dhis_views.home, name="oppia_integrations_dhis_home"),
-        url(r'^export/latest/$',
-            oppia_dhis_views.export_latest,
-            name="oppia_integrations_dhis_export_latest"),
-        url(r'^export/(?P<year>\d+)/(?P<month>\d+)$',
-            oppia_dhis_views.export_month,
-            name="oppia_integrations_dhis_export_month")
-        ]
+    path('', dhis_views.home, name="index"),
+    path('export/latest/', dhis_views.export_latest, name="export_latest"),
+    path('export/<int:year>/<int:month>',
+         dhis_views.export_month,
+         name="export_month")
+]

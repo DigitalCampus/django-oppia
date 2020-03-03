@@ -11,8 +11,8 @@ class XAPIIntegrationViewsTest(OppiaTestCase):
 
     def setUp(self):
         super(XAPIIntegrationViewsTest, self).setUp()
-        self.xapi_home_url = reverse('oppia_integrations_xapi_home')
-        self.xapi_export_url = reverse('oppia_integrations_xapi_csv_export')
+        self.xapi_home_url = reverse('integrations:xapi:index')
+        self.xapi_export_url = reverse('integrations:xapi:export')
 
     # test permissions for home
 
