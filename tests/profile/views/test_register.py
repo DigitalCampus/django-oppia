@@ -108,7 +108,7 @@ class RegisterViewTest(OppiaTestCase):
     def test_self_registration_disabled_cant_post(self):
         # turn off self registration
         SettingProperties.set_bool(constants.OPPIA_ALLOW_SELF_REGISTRATION,
-                                  False)
+                                   False)
         filled_form = {
             'username': 'new_username',
             'email': 'newusername@email.com',

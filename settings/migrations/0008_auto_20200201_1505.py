@@ -13,7 +13,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='settingproperties',
             name='key',
-            field=models.CharField(max_length=50, primary_key=True, serialize=False),
+            field=models.CharField(max_length=50,
+                                   primary_key=True,
+                                   serialize=False),
         ),
         migrations.AlterField(
             model_name='settingproperties',

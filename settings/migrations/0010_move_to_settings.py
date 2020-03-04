@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.db import migrations
-from settings.models import SettingProperties
 
 from settings import constants
 
@@ -20,6 +19,7 @@ def move_to_settings(apps, schema_editor):
     move_ga_domain(props)
     move_packageid(props)
 
+
 def move_gravatars(props):
     try:
         props.objects.get(key=constants.OPPIA_SHOW_GRAVATARS)
@@ -31,6 +31,7 @@ def move_gravatars(props):
         else:
             settings_prop.bool_value = True
         settings_prop.save()
+
 
 def move_points(props):
     try:
@@ -44,6 +45,7 @@ def move_points(props):
             settings_prop.bool_value = True
         settings_prop.save()
 
+
 def move_badges(props):
     try:
         props.objects.get(key=constants.OPPIA_BADGES_ENABLED)
@@ -55,6 +57,7 @@ def move_badges(props):
         else:
             settings_prop.bool_value = True
         settings_prop.save()
+
 
 def move_ga(props):
     try:
@@ -68,6 +71,7 @@ def move_ga(props):
             settings_prop.bool_value = False
         settings_prop.save()
 
+
 def move_google_play(props):
     try:
         props.objects.get(key=constants.OPPIA_ANDROID_ON_GOOGLE_PLAY)
@@ -79,6 +83,7 @@ def move_google_play(props):
         else:
             settings_prop.bool_value = False
         settings_prop.save()
+
 
 def move_ga_code(props):
     try:
@@ -92,6 +97,7 @@ def move_ga_code(props):
             settings_prop.str_value = None
         settings_prop.save()
 
+
 def move_ga_domain(props):
     try:
         props.objects.get(key=constants.OPPIA_GOOGLE_ANALYTICS_DOMAIN)
@@ -104,6 +110,7 @@ def move_ga_domain(props):
             settings_prop.str_value = None
         settings_prop.save()
 
+
 def move_packageid(props):
     try:
         props.objects.get(key=constants.OPPIA_ANDROID_PACKAGEID)
@@ -115,6 +122,7 @@ def move_packageid(props):
         else:
             settings_prop.str_value = None
         settings_prop.save()
+
 
 class Migration(migrations.Migration):
 

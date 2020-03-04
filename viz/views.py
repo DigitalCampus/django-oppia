@@ -3,7 +3,6 @@ import datetime
 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.models import User
-from django.core import exceptions
 from django.db.models import Count, Sum
 from django.http import Http404
 from django.shortcuts import render
@@ -19,6 +18,7 @@ from viz.models import UserLocationVisualization
 
 from settings import constants
 from settings.models import SettingProperties
+
 
 @method_decorator(staff_member_required, name='dispatch')
 class Summary(TemplateView):
@@ -40,7 +40,7 @@ class Summary(TemplateView):
             start_date = form.cleaned_data.get("start_date")
         return self.process_response(request, form, start_date)
 
-    def process_response(self,request, form, start_date):
+    def process_response(self, request, form, start_date):
         # User registrations
         user_registrations, previous_user_registrations \
             = self.get_registrations(start_date)
@@ -65,7 +65,8 @@ class Summary(TemplateView):
         return render(request, 'viz/summary.html',
                       {'form': form,
                        'user_registrations': user_registrations,
-                       'previous_user_registrations': previous_user_registrations,
+                       'previous_user_registrations':
+                       previous_user_registrations,
                        'total_countries': total_countries,
                        'country_activity': country_activity,
                        'languages': languages,
@@ -79,7 +80,8 @@ class Summary(TemplateView):
 
     # helper functions
     def get_registrations(self, start_date):
-        user_registrations = User.objects.filter(date_joined__gte=start_date). \
+        user_registrations = User.objects.filter(
+            date_joined__gte=start_date). \
             extra(select={'month': 'extract( month from date_joined )',
                           'year': 'extract( year from date_joined )'}). \
             values('month', 'year'). \
@@ -89,7 +91,6 @@ class Summary(TemplateView):
             .filter(date_joined__lt=start_date).count()
 
         return user_registrations, previous_user_registrations
-
 
     def get_countries(self, start_date):
         hits_by_country = UserLocationVisualization.objects.all() \
@@ -125,7 +126,6 @@ class Summary(TemplateView):
 
         return total_countries, country_activity
 
-
     def get_languages(self, start_date):
         hit_by_language = Tracker.objects \
             .filter(user__is_staff=False) \
@@ -155,10 +155,10 @@ class Summary(TemplateView):
             hits_percent = float(other_languages
                                  * 100.0
                                  / total_hits['total_hits'])
-            languages.append({'lang': _('Other'), 'hits_percent': hits_percent})
+            languages.append({'lang': _('Other'),
+                              'hits_percent': hits_percent})
 
         return languages
-
 
     def get_downloads(self, start_date):
         course_downloads = CourseDailyStats.objects.filter(day__gte=start_date,
@@ -177,9 +177,9 @@ class Summary(TemplateView):
 
         return course_downloads, previous_course_downloads
 
-
     def get_course_activity(self, start_date):
-        course_activity = CourseDailyStats.objects.filter(day__gte=start_date) \
+        course_activity = CourseDailyStats.objects.filter(
+                            day__gte=start_date) \
                             .extra({'month': self.STR_MONTH_DAY,
                                     'year': self.STR_YEAR_DAY}) \
                             .values('month', 'year') \
@@ -221,7 +221,6 @@ class Summary(TemplateView):
 
         return course_activity, previous_course_activity, hot_courses
 
-
     def get_searches(self, start_date):
         searches = CourseDailyStats.objects.filter(day__gte=start_date,
                                                    type='search') \
@@ -244,10 +243,9 @@ class Summary(TemplateView):
 
 class Map(TemplateView):
 
-    def get(self,request):
+    def get(self, request):
         if SettingProperties.get_bool(
                 constants.OPPIA_MAP_VISUALISATION_ENABLED, False):
             return render(request, 'viz/map.html')
         else:
             raise Http404()
-

@@ -56,6 +56,7 @@ def process_uploaded_quizresponses(request,
                           _(u"Already uploaded: quiz attempt for \
                            %(username)s added" % {'username': user.username}))
 
+
 def process_activitylog(request, contents):
     # open file and process
     json_data = json.loads(contents)
@@ -64,6 +65,7 @@ def process_activitylog(request, contents):
     else:
         process_uploaded_file(request, json_data)
         return True
+
 
 def process_uploaded_file(request, json_data):
     if 'users' in json_data:
@@ -137,9 +139,11 @@ def get_user_from_uploaded_log(request, user):
                          'danger')
     else:
         req_user = User.objects.filter(username=username).first()
-        user_profile, created = UserProfile.objects.get_or_create(user=req_user)
+        user_profile, created = UserProfile.objects.get_or_create(
+            user=req_user)
 
     return req_user, user_profile
+
 
 def validate_server(request, data):
     url_comp = request.build_absolute_uri().split('/')

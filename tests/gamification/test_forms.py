@@ -1,7 +1,6 @@
 import pytest
 
 from django.urls import reverse
-from gamification.forms import GamificationEventForm
 from gamification.models import ActivityGamificationEvent, \
                                 CourseGamificationEvent, \
                                 MediaGamificationEvent
@@ -74,7 +73,8 @@ class GamificationFormsTest(OppiaTestCase):
         # course
         self.assertEqual(course_start_count, course_end_count)
 
-        course_game = CourseGamificationEvent.objects.get(course__id=2,
+        course_game = CourseGamificationEvent.objects.get(
+            course__id=2,
             event='course_downloaded')
         self.assertEqual(500, course_game.points)
 

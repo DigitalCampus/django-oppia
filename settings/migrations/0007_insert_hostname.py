@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 
 from django.db import migrations
-from settings.models import SettingProperties
 
 from settings import constants
 
@@ -18,6 +17,7 @@ def insert_hostname(apps, schema_editor):
         settings_prop.key = constants.OPPIA_HOSTNAME
         settings_prop.str_value = None
         settings_prop.save()
+
 
 class Migration(migrations.Migration):
 

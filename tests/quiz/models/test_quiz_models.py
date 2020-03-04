@@ -1,8 +1,7 @@
-from django.urls import reverse
 from oppia.test import OppiaTestCase
 from quiz.models import Quiz, QuizAttempt
 
-       
+
 class QuizModelsTest(OppiaTestCase):
 
     fixtures = ['tests/test_user.json',

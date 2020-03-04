@@ -13,14 +13,15 @@ class UserUploadActivityViewTest(OppiaTransactionTestCase):
                 'tests/test_quiz.json',
                 'tests/test_permissions.json']
 
+    fixture_root = './oppia/fixtures/reference_files/'
     upload_user_file_valid = \
-        './oppia/fixtures/reference_files/upload-user-file-valid.csv'
+        fixture_root + 'upload-user-file-valid.csv'
     upload_user_file_duplicate_user = \
-        './oppia/fixtures/reference_files/upload-user-duplicate-user.csv'
+        fixture_root + 'pload-user-duplicate-user.csv'
     upload_user_file_invalid = \
-        './oppia/fixtures/reference_files/upload-user-file-invalid.csv'
+        fixture_root + 'upload-user-file-invalid.csv'
     upload_user_file_valid_with_password = \
-        './oppia/fixtures/reference_files/upload-user-file-valid-with-password.csv'
+        fixture_root + 'upload-user-file-valid-with-password.csv'
 
     template = 'profile/upload.html'
     url = reverse('profile:upload')

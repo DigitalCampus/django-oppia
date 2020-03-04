@@ -106,6 +106,7 @@ def edit_course_gamification(request, course_id):
                    'activities': activities,
                    'media': media})
 
+
 def process_edit_gamification_post(request, course, events_formset):
     formset = events_formset(request.POST, request.FILES, prefix='events')
     if formset.is_valid():
@@ -123,6 +124,7 @@ def process_edit_gamification_post(request, course, events_formset):
                              .format(new_version))
     else:
         print(formset.errors)
+
 
 def process_gamification_formset(request, formset, form):
     # extract name from each form and save
@@ -165,4 +167,3 @@ def process_gamification_formset(request, formset, form):
                 .update_or_create(media_id=reference,
                                   event=event,
                                   defaults=defaults)
-

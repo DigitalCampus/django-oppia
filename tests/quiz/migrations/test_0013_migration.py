@@ -5,11 +5,11 @@ from django.db import connection
 from django.apps import apps
 from django.test import TestCase
 
+
 class QuizTestMigrations(TestCase):
 
     @property
     def app(self):
-        #return apps.get_containing_app_config(type(self).__module__).name
         return 'quiz'
 
     migrate_from = None
@@ -39,6 +39,7 @@ class QuizTestMigrations(TestCase):
         # will be defined in the implementation class
         pass
 
+
 class QuizDictsTestCase(QuizTestMigrations):
 
     migrate_from = '0012_merge_20191228_1740'
@@ -47,39 +48,39 @@ class QuizDictsTestCase(QuizTestMigrations):
     def setUpBeforeMigration(self, apps):
         quiz_model = apps.get_model('quiz', 'Quiz')
         self.quiz_id_1 = quiz_model.objects.create(
-            title = "{u'en': u'Substance Abuse'}",
-            description = "{u'en': u'A long description about the quiz'}"
+            title="{u'en': u'Substance Abuse'}",
+            description="{u'en': u'A long description about the quiz'}"
         ).id
 
         self.quiz_id_2 = quiz_model.objects.create(
-            title = "Substance Abuse",
-            description = "A long description about the quiz"
+            title="Substance Abuse",
+            description="A long description about the quiz"
         ).id
 
         question_model = apps.get_model('quiz', 'Question')
         self.question_1 = question_model.objects.create(
-            title = "{u'en': u'my question about stuff'}"
+            title="{u'en': u'my question about stuff'}"
         )
         self.question_id_1 = self.question_1.id
 
         self.question_id_2 = question_model.objects.create(
-            title = "my question about stuff"
+            title="my question about stuff"
         ).id
 
         response_model = apps.get_model('quiz', 'Response')
         self.response_id_1 = response_model.objects.create(
-            title = "{u'en': u'option 1'}",
-            question = self.question_1
+            title="{u'en': u'option 1'}",
+            question=self.question_1
         ).id
 
         self.response_id_2 = response_model.objects.create(
-            title = "option 2",
-            question = self.question_1
+            title="option 2",
+            question=self.question_1
         ).id
 
         self.response_id_3 = response_model.objects.create(
-            title = "100",
-            question = self.question_1
+            title="100",
+            question=self.question_1
         ).id
 
     @pytest.mark.xfail(reason="doesn't work on SQLite, so then doesn't work \

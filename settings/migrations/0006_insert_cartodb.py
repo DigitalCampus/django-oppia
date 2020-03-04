@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 
 from django.db import migrations
-from settings.models import SettingProperties
 
 from settings import constants
 
