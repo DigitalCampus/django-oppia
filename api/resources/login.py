@@ -17,8 +17,11 @@ from oppia import DEFAULT_IP_ADDRESS
 from oppia.models import Tracker
 from oppia.models import Points, Award
 
+from profile.models import UserProfile
+
 from settings import constants
 from settings.models import SettingProperties
+
 
 class UserResource(ModelResource):
 
@@ -39,7 +42,10 @@ class UserResource(ModelResource):
                   'username',
                   'points',
                   'badges',
-                  'email']
+                  'email',
+                  'job_title',
+                  'organisation']
+
         allowed_methods = ['post']
         authentication = Authentication()
         authorization = Authorization()
@@ -75,6 +81,16 @@ class UserResource(ModelResource):
         del bundle.data['password']
         key = ApiKey.objects.get(user=u)
         bundle.data['api_key'] = key.key
+        try:
+            up = UserProfile.objects.get(user=u)
+            job_title = up.job_title
+            organisation = up.organisation
+        except UserProfile.DoesNotExist:
+            job_title = ""
+            organisation = ""
+
+        bundle.data['job_title'] = job_title
+        bundle.data['organisation'] = organisation
         bundle.obj = u
         return bundle
 
