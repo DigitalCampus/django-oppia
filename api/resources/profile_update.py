@@ -28,8 +28,8 @@ class ProfileUpdateResource(ModelResource):
     def process_profile_update_base_profile(self, bundle):
         user_profile, created = UserProfile.objects \
             .get_or_create(user=bundle.obj)
-        if 'jobtitle' in bundle.data:
-            user_profile.job_title = bundle.data['jobtitle']
+        if 'job_title' in bundle.data:
+            user_profile.job_title = bundle.data['job_title']
         if 'organisation' in bundle.data:
             user_profile.organisation = bundle.data['organisation']
         if 'phoneno' in bundle.data:
