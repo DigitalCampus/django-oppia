@@ -30,7 +30,6 @@ class UserResource(ModelResource):
     scoring = fields.BooleanField(readonly=True)
     badging = fields.BooleanField(readonly=True)
     metadata = fields.CharField(readonly=True)
-    email = fields.CharField(readonly=True)
     course_points = fields.CharField(readonly=True)
 
     class Meta:
@@ -81,8 +80,9 @@ class UserResource(ModelResource):
         del bundle.data['password']
         key = ApiKey.objects.get(user=u)
         bundle.data['api_key'] = key.key
+
         try:
-            up = UserProfile.objects.get(user=u)
+            up = UserProfile.objects.get(user__username=username)
             job_title = up.job_title
             organisation = up.organisation
         except UserProfile.DoesNotExist:
