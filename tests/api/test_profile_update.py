@@ -17,8 +17,8 @@ class ProfileUpdateResourceTest(ResourceTestCaseMixin, TestCase):
         self.api_key = get_api_key(user=self.user).key
         self.base_data = {
             'email': 'demo@me.com',
-            'firstname': 'demo',
-            'lastname': 'user',
+            'first_name': 'demo',
+            'last_name': 'user',
             'organisation': ''
         }
         self.url = get_api_url('profileupdate')
@@ -37,8 +37,8 @@ class ProfileUpdateResourceTest(ResourceTestCaseMixin, TestCase):
         new_org = 'my organisation'
 
         post_data = self.base_data.copy()
-        post_data['firstname'] = new_firstname
-        post_data['lastname'] = new_lastname
+        post_data['first_name'] = new_firstname
+        post_data['last_name'] = new_lastname
         post_data['organisation'] = new_org
 
         response = self.api_client.post(self.url,

@@ -41,8 +41,8 @@ class ProfileUpdateResource(ModelResource):
     def process_profile_update(self, bundle):
         data = {'email': bundle.data['email']
         if 'email' in bundle.data else '',
-                'first_name': bundle.data['firstname'],
-                'last_name': bundle.data['lastname'],
+                'first_name': bundle.data['first_name'],
+                'last_name': bundle.data['last_name'],
                 'username': bundle.request.user}
 
         custom_fields = CustomField.objects.all()
@@ -61,8 +61,8 @@ class ProfileUpdateResource(ModelResource):
             raise BadRequest(str)
         else:
             email = bundle.data['email'] if 'email' in bundle.data else ''
-            first_name = bundle.data['firstname']
-            last_name = bundle.data['lastname']
+            first_name = bundle.data['first_name']
+            last_name = bundle.data['last_name']
 
         try:
             bundle.obj = User.objects.get(username=bundle.request.user)
@@ -82,8 +82,8 @@ class ProfileUpdateResource(ModelResource):
         return bundle
 
     def obj_create(self, bundle, **kwargs):
-        required = ['firstname',
-                    'lastname']
+        required = ['first_name',
+                    'last_name']
         check_required_params(bundle, required)
 
         # can't edit another users account

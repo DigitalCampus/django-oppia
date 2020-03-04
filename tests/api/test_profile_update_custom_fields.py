@@ -19,8 +19,8 @@ class ProfileEditCustomFieldsViewTest(ResourceTestCaseMixin, TestCase):
         self.api_key = get_api_key(user=self.user).key
         self.base_data = {
             'email': 'demo@me.com',
-            'firstname': 'demo',
-            'lastname': 'user',
+            'first_name': 'demo',
+            'last_name': 'user',
             'organisation': ''
         }
         self.url = get_api_url('profileupdate')
