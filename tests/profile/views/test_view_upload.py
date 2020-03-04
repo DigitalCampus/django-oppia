@@ -17,7 +17,7 @@ class UserUploadActivityViewTest(OppiaTransactionTestCase):
     upload_user_file_valid = \
         fixture_root + 'upload-user-file-valid.csv'
     upload_user_file_duplicate_user = \
-        fixture_root + 'pload-user-duplicate-user.csv'
+        fixture_root + 'upload-user-duplicate-user.csv'
     upload_user_file_invalid = \
         fixture_root + 'upload-user-file-invalid.csv'
     upload_user_file_valid_with_password = \
