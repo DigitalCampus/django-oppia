@@ -1,4 +1,3 @@
-import pytest
 
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
@@ -12,7 +11,6 @@ class OppiaTestMigrations(TestCase):
 
     @property
     def app(self):
-        #return apps.get_containing_app_config(type(self).__module__).name
         return 'oppia'
 
     migrate_from = None
@@ -42,6 +40,7 @@ class OppiaTestMigrations(TestCase):
         # will be defined in the implementation class
         pass
 
+
 class TrackerMigrationTestCase(OppiaTestMigrations):
 
     migrate_from = '0011_auto_20170620_1722'
@@ -51,7 +50,7 @@ class TrackerMigrationTestCase(OppiaTestMigrations):
         tracker_model = apps.get_model('oppia', 'Tracker')
         future_date = datetime.today() + relativedelta(months=1)
         self.tracker_id = tracker_model.objects.create(
-            submitted_date = future_date
+            submitted_date=future_date
         ).id
 
 

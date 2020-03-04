@@ -1,6 +1,7 @@
 from django import forms
 from profile.models import CustomField
 
+
 def custom_fields(object):
     custom_fields = CustomField.objects.all().order_by('order')
     for custom_field in custom_fields:

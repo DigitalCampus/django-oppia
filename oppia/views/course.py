@@ -1,4 +1,3 @@
-# oppia/views.py
 import os
 
 from django.conf import settings
@@ -99,6 +98,7 @@ def courses_list_view(request):
 
         dashboard_accessed.send(sender=None, request=request, data=None)
         return render_courses_list(request, courses)
+
 
 class CourseDownload(TemplateView):
 

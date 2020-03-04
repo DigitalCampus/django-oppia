@@ -1,4 +1,3 @@
-from oppia.models import Course, Activity, Tracker, Media
 from oppia.test import OppiaTestCase
 
 

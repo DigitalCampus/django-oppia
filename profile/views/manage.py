@@ -160,7 +160,7 @@ class UploadUsers(View):
 
         results = []
         form = self.form_class()
-    
+
         return render(request, self.template_name,
                       {'form': form,
                        'results': results})
@@ -168,7 +168,7 @@ class UploadUsers(View):
     def post(self, request):
         if not request.user.is_superuser:
             raise PermissionDenied
-        
+
         results = []
         form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
@@ -176,7 +176,7 @@ class UploadUsers(View):
                 chunk.decode() for chunk in request.FILES['upload_file'])
             required_fields = ['username', 'firstname', 'lastname', 'email']
             results = self.process_upload_user_file(csv_file, required_fields)
-            
+
         return render(request, self.template_name,
                       {'form': form,
                        'results': results})
@@ -195,19 +195,19 @@ class UploadUsers(View):
                         result['message'] = _(u'No %s set' % rf)
                         results.append(result)
                         all_defined = False
-    
+
                 if not all_defined:
                     continue
-    
+
                 results.append(self.process_upload_file_save_user(row))
-    
+
         except Exception:
             result = {}
             result['username'] = None
             result['created'] = False
             result['message'] = _(u'Could not parse file')
             results.append(result)
-    
+
         return results
 
     def process_upload_file_save_user(self, row):
@@ -245,5 +245,5 @@ class UploadUsers(View):
                 _(u'User created with password: %s' % password)
         else:
             result['message'] = _(u'User created')
-        
+
         return result

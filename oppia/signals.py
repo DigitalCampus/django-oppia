@@ -7,7 +7,7 @@ from django.dispatch import Signal
 
 from gamification.models import DefaultGamificationEvent
 from oppia import DEFAULT_IP_ADDRESS
-from oppia.models import Points, Tracker, Activity
+from oppia.models import Points, Tracker
 
 from settings import constants
 from settings.models import SettingProperties
@@ -17,6 +17,7 @@ course_downloaded = Signal(providing_args=["request", "course", "user"])
 NON_ACTIVITY_EVENTS = [
     'course_downloaded', 'register'
 ]
+
 
 def course_downloaded_callback(sender, **kwargs):
     request = kwargs.get('request')
@@ -30,6 +31,7 @@ def course_downloaded_callback(sender, **kwargs):
     tracker.ip = request.META.get('REMOTE_ADDR', DEFAULT_IP_ADDRESS)
     tracker.agent = request.META.get('HTTP_USER_AGENT', 'unknown')
     tracker.save()
+
 
 # rules for applying points (or not)
 def apply_points(user):

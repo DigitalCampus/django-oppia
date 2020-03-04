@@ -15,14 +15,17 @@ from oppia.permissions import user_can_upload
 
 STR_UPLOAD_MEDIA = _(u'Upload Media')
 
+
 class AVHome(TemplateView):
     def get(self, request):
         uploaded_media = []
 
         objs = UploadedMedia.objects.all().order_by('-created_date')
         for o in objs:
-            embed_code = o.get_embed_code(request.build_absolute_uri(o.file.url))
-            uploaded_media.append({'uploaded_media': o, 'embed_code': embed_code})
+            embed_code = o.get_embed_code(
+                request.build_absolute_uri(o.file.url))
+            uploaded_media.append({'uploaded_media': o,
+                                   'embed_code': embed_code})
 
         paginator = Paginator(uploaded_media, 25)
 

@@ -56,11 +56,14 @@ class UserProfile (models.Model):
                     .get_or_create(key_name=custom_field, user=self.user)
 
                 if custom_field.type == 'int':
-                    profile_field.value_int = fields_dict.get(custom_field.id, None)
+                    profile_field.value_int = fields_dict.get(custom_field.id,
+                                                              None)
                 elif custom_field.type == 'bool':
-                    profile_field.value_bool = fields_dict.get(custom_field.id, None)
+                    profile_field.value_bool = fields_dict.get(custom_field.id,
+                                                               None)
                 else:
-                    profile_field.value_str = fields_dict.get(custom_field.id, None)
+                    profile_field.value_str = fields_dict.get(custom_field.id,
+                                                              None)
 
                 profile_field.save()
 

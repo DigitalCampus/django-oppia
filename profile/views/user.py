@@ -28,6 +28,7 @@ from settings.models import SettingProperties
 STR_COMMON_FORM = 'common/form/form.html'
 STR_OPPIA_HOME = 'oppia:index'
 
+
 def login_view(request):
     username = password = ''
 
@@ -103,10 +104,11 @@ def register_form_process(form):
                 or custom_field.required is True:
             profile_field.save()
 
+
 def register(request):
     self_register = SettingProperties \
         .get_bool(constants.OPPIA_ALLOW_SELF_REGISTRATION,
-                 settings.OPPIA_ALLOW_SELF_REGISTRATION)
+                  settings.OPPIA_ALLOW_SELF_REGISTRATION)
     if not self_register:
         raise Http404
 

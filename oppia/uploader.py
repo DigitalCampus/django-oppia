@@ -35,13 +35,17 @@ logger = logging.getLogger(__name__)
 def clean_lang_dict(elem_content):
     if isinstance(elem_content, dict):
         for lang in elem_content:
-            elem_content[lang] = elem_content[lang].strip().replace(u"\u00A0", " ")
+            elem_content[lang] = elem_content[lang] \
+                .strip() \
+                .replace(u"\u00A0", " ")
             return json.dumps(elem_content)
     elif isinstance(elem_content, str):
         return elem_content.strip().replace(u"\u00A0", " ")
     else:
-        #If it was a boolean or a number (for some response types), return the value as is
+        # If it was a boolean or a number (for some response types),
+        # return the value as is
         return elem_content
+
 
 def handle_uploaded_file(f, extract_path, request, user):
     zipfilepath = os.path.join(settings.COURSE_UPLOAD_DIR, f.name)
@@ -637,7 +641,6 @@ def create_quiz_questions(user, quiz, quiz_obj):
         question = Question(owner=user,
                             type=q['question']['type'],
                             title=clean_lang_dict(q['question']['title']))
-
 
         question.save()
 

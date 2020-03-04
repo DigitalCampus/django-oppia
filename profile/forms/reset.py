@@ -10,8 +10,9 @@ from django.utils.translation import ugettext as _
 
 class ResetForm(forms.Form):
     username = forms.CharField(max_length=30,
-                               error_messages={'invalid': _(u'Please enter a username or email address.')},
-                               required=True)
+       error_messages={'invalid':
+                       _(u'Please enter a username or email address.')},
+       required=True)
 
     def __init__(self, *args, **kwargs):
         super(ResetForm, self).__init__(* args, ** kwargs)
@@ -24,7 +25,9 @@ class ResetForm(forms.Form):
         self.helper.layout = Layout(
             'username',
             Div(
-                Submit('submit', _(u'Reset password'), css_class='btn btn-default'),
+                Submit('submit',
+                       _(u'Reset password'),
+                       css_class='btn btn-default'),
                 css_class='col-lg-offset-2 col-lg-4',
             ),
         )

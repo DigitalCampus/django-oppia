@@ -22,7 +22,6 @@ def menu_reports(request):
              'url': reverse('reports:completion_rates')}]
 
 
-
 @method_decorator(staff_member_required, name='dispatch')
 class CompletionRates(TemplateView):
 
@@ -58,7 +57,6 @@ class CompletionRates(TemplateView):
 
         return render(request, 'reports/completion_rates.html',
                       {'courses_list': courses_list})
-
 
 
 @method_decorator(staff_member_required, name='dispatch')
