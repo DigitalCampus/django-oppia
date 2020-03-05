@@ -19,7 +19,7 @@ class AwardsResourceTest(ResourceTestCaseMixin, OppiaTestCase):
             'username': 'demo',
             'api_key': api_key.key,
         }
-        self.url = get_api_url('awards')
+        self.url = get_api_url('v1', 'awards')
 
     # check post not allowed
     def test_post_invalid(self):

@@ -39,7 +39,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
             'username': 'teacher',
             'api_key': get_api_key(user=teacher).key
         }
-        self.url = get_api_url('course')
+        self.url = get_api_url('v2', 'course')
 
     # Post invalid
     def test_post_invalid(self):
@@ -81,7 +81,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
             self.assertTrue('organisation' in course)
 
     def test_course_get_single(self):
-        resource_url = get_api_url('course', 1)
+        resource_url = get_api_url('v2', 'course', 1)
         resp = self.api_client.get(
             resource_url, format='json', data=self.user_auth)
         self.assertHttpOK(resp)
@@ -96,62 +96,62 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertTrue('organisation' in course)
 
     def test_course_get_single_not_found(self):
-        resource_url = get_api_url('course', 999)
+        resource_url = get_api_url('v2', 'course', 999)
         resp = self.api_client.get(
             resource_url, format='json', data=self.user_auth)
         self.assertHttpNotFound(resp)
 
     def test_course_get_single_draft_nonvisible(self):
-        resource_url = get_api_url('course', 3)
+        resource_url = get_api_url('v2', 'course', 3)
         resp = self.api_client.get(
             resource_url, format='json', data=self.user_auth)
         self.assertHttpNotFound(resp)
 
     def test_course_get_single_draft_admin_visible(self):
-        resource_url = get_api_url('course', 3)
+        resource_url = get_api_url('v2', 'course', 3)
         resp = self.api_client.get(
             resource_url, format='json', data=self.admin_auth)
         self.assertHttpOK(resp)
         self.assertValidJSON(resp.content)
 
     def test_course_download_file_zip_not_found(self):
-        resource_url = get_api_url('course', 5) + self.STR_DOWNLOAD
+        resource_url = get_api_url('v2', 'course', 5) + self.STR_DOWNLOAD
         resp = self.api_client.get(
             resource_url, format='json', data=self.user_auth)
         self.assertHttpNotFound(resp)
 
     def test_course_download_file_course_not_found(self):
-        resource_url = get_api_url('course', 999) + self.STR_DOWNLOAD
+        resource_url = get_api_url('v2', 'course', 999) + self.STR_DOWNLOAD
         resp = self.api_client.get(
             resource_url, format='json', data=self.user_auth)
         self.assertHttpNotFound(resp)
 
     def test_course_download_draft_nonvisible(self):
-        resource_url = get_api_url('course', 3) + self.STR_DOWNLOAD
+        resource_url = get_api_url('v2', 'course', 3) + self.STR_DOWNLOAD
         resp = self.api_client.get(
             resource_url, format='json', data=self.user_auth)
         self.assertHttpNotFound(resp)
 
     def test_course_get_activity(self):
-        resource_url = get_api_url('course', 1) + self.STR_ACTIVITY
+        resource_url = get_api_url('v2', 'course', 1) + self.STR_ACTIVITY
         resp = self.api_client.get(
             resource_url, format='json', data=self.user_auth)
         self.assertHttpOK(resp)
 
     def test_course_get_activity_notfound(self):
-        resource_url = get_api_url('course', 999) + self.STR_ACTIVITY
+        resource_url = get_api_url('v2', 'course', 999) + self.STR_ACTIVITY
         resp = self.api_client.get(
             resource_url, format='json', data=self.user_auth)
         self.assertHttpNotFound(resp)
 
     def test_course_get_activity_draft_nonvisible(self):
-        resource_url = get_api_url('course', 3) + self.STR_ACTIVITY
+        resource_url = get_api_url('v2', 'course', 3) + self.STR_ACTIVITY
         resp = self.api_client.get(
             resource_url, format='json', data=self.user_auth)
         self.assertHttpNotFound(resp)
 
     def test_course_get_activity_draft_admin_visible(self):
-        resource_url = get_api_url('course', 3) + self.STR_ACTIVITY
+        resource_url = get_api_url('v2', 'course', 3) + self.STR_ACTIVITY
         resp = self.api_client.get(
             resource_url, format='json', data=self.admin_auth)
         self.assertHttpOK(resp)
@@ -159,7 +159,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
     @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_live_course_admin(self):
         tracker_count_start = Tracker.objects.all().count()
-        resource_url = get_api_url('course', 1) + self.STR_DOWNLOAD
+        resource_url = get_api_url('v2', 'course', 1) + self.STR_DOWNLOAD
         response = self.api_client.get(
             resource_url, format='json', data=self.admin_auth)
         self.assertHttpOK(response)
@@ -171,7 +171,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
     @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_live_course_staff(self):
         tracker_count_start = Tracker.objects.all().count()
-        resource_url = get_api_url('course', 1) + self.STR_DOWNLOAD
+        resource_url = get_api_url('v2', 'course', 1) + self.STR_DOWNLOAD
         response = self.api_client.get(
             resource_url, format='json', data=self.staff_auth)
         self.assertHttpOK(response)
@@ -183,7 +183,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
     @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_live_course_teacher(self):
         tracker_count_start = Tracker.objects.all().count()
-        resource_url = get_api_url('course', 1) + self.STR_DOWNLOAD
+        resource_url = get_api_url('v2', 'course', 1) + self.STR_DOWNLOAD
         response = self.api_client.get(
             resource_url, format='json', data=self.teacher_auth)
         self.assertHttpOK(response)
@@ -195,7 +195,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
     @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_live_course_normal(self):
         tracker_count_start = Tracker.objects.all().count()
-        resource_url = get_api_url('course', 1) + self.STR_DOWNLOAD
+        resource_url = get_api_url('v2', 'course', 1) + self.STR_DOWNLOAD
         response = self.api_client.get(
             resource_url, format='json', data=self.user_auth)
         self.assertHttpOK(response)
@@ -208,7 +208,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
     def test_draft_course_admin(self):
         tracker_count_start = Tracker.objects.all().count()
         update_course_visibility(1, True, False)
-        resource_url = get_api_url('course', 1) + self.STR_DOWNLOAD
+        resource_url = get_api_url('v2', 'course', 1) + self.STR_DOWNLOAD
         response = self.api_client.get(
             resource_url, format='json', data=self.admin_auth)
         self.assertHttpOK(response)
@@ -222,7 +222,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
     def test_draft_course_staff(self):
         tracker_count_start = Tracker.objects.all().count()
         update_course_visibility(1, True, False)
-        resource_url = get_api_url('course', 1) + self.STR_DOWNLOAD
+        resource_url = get_api_url('v2', 'course', 1) + self.STR_DOWNLOAD
         response = self.api_client.get(
             resource_url, format='json', data=self.staff_auth)
         self.assertHttpOK(response)
@@ -235,7 +235,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
     def test_draft_course_teacher(self):
         tracker_count_start = Tracker.objects.all().count()
         update_course_visibility(1, True, False)
-        resource_url = get_api_url('course', 1) + self.STR_DOWNLOAD
+        resource_url = get_api_url('v2', 'course', 1) + self.STR_DOWNLOAD
         response = self.api_client.get(
             resource_url, format='json', data=self.teacher_auth)
         self.assertEqual(response.status_code, 404)
@@ -246,7 +246,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
     def test_draft_course_normal(self):
         tracker_count_start = Tracker.objects.all().count()
         update_course_visibility(1, True, False)
-        resource_url = get_api_url('course', 1) + self.STR_DOWNLOAD
+        resource_url = get_api_url('v2', 'course', 1) + self.STR_DOWNLOAD
         response = self.api_client.get(
             resource_url, format='json', data=self.user_auth)
         self.assertEqual(response.status_code, 404)
@@ -257,7 +257,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
     def test_archived_course_admin(self):
         tracker_count_start = Tracker.objects.all().count()
         update_course_visibility(1, False, True)
-        resource_url = get_api_url('course', 1) + self.STR_DOWNLOAD
+        resource_url = get_api_url('v2', 'course', 1) + self.STR_DOWNLOAD
         response = self.api_client.get(
             resource_url, format='json', data=self.admin_auth)
         self.assertEqual(response.status_code, 404)
@@ -267,7 +267,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
     def test_archived_course_staff(self):
         tracker_count_start = Tracker.objects.all().count()
         update_course_visibility(1, False, True)
-        resource_url = get_api_url('course', 1) + self.STR_DOWNLOAD
+        resource_url = get_api_url('v2', 'course', 1) + self.STR_DOWNLOAD
         response = self.api_client.get(
             resource_url, format='json', data=self.staff_auth)
         self.assertEqual(response.status_code, 404)
@@ -278,7 +278,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
     def test_archived_course_teacher(self):
         tracker_count_start = Tracker.objects.all().count()
         update_course_visibility(1, False, True)
-        resource_url = get_api_url('course', 1) + self.STR_DOWNLOAD
+        resource_url = get_api_url('v2', 'course', 1) + self.STR_DOWNLOAD
         response = self.api_client.get(
             resource_url, format='json', data=self.teacher_auth)
         self.assertEqual(response.status_code, 404)
@@ -289,7 +289,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
     def test_archived_course_normal(self):
         tracker_count_start = Tracker.objects.all().count()
         update_course_visibility(1, False, True)
-        resource_url = get_api_url('course', 1) + self.STR_DOWNLOAD
+        resource_url = get_api_url('v2', 'course', 1) + self.STR_DOWNLOAD
         response = self.api_client.get(
             resource_url, format='json', data=self.user_auth)
         self.assertEqual(response.status_code, 404)
@@ -300,7 +300,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
     # Course does not exist
     def test_dne_course_admin(self):
         tracker_count_start = Tracker.objects.all().count()
-        resource_url = get_api_url('course', 1123) + self.STR_DOWNLOAD
+        resource_url = get_api_url('v2', 'course', 1123) + self.STR_DOWNLOAD
         response = self.api_client.get(
             resource_url, format='json', data=self.admin_auth)
         self.assertEqual(response.status_code, 404)
@@ -309,7 +309,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
 
     def test_dne_course_staff(self):
         tracker_count_start = Tracker.objects.all().count()
-        resource_url = get_api_url('course', 1123) + self.STR_DOWNLOAD
+        resource_url = get_api_url('v2', 'course', 1123) + self.STR_DOWNLOAD
         response = self.api_client.get(
             resource_url, format='json', data=self.staff_auth)
         self.assertEqual(response.status_code, 404)
@@ -318,7 +318,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
 
     def test_dne_course_teacher(self):
         tracker_count_start = Tracker.objects.all().count()
-        resource_url = get_api_url('course', 1123) + self.STR_DOWNLOAD
+        resource_url = get_api_url('v2', 'course', 1123) + self.STR_DOWNLOAD
         response = self.api_client.get(
             resource_url, format='json', data=self.teacher_auth)
         self.assertEqual(response.status_code, 404)
@@ -327,7 +327,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TestCase):
 
     def test_dne_course_normal(self):
         tracker_count_start = Tracker.objects.all().count()
-        resource_url = get_api_url('course', 1123) + self.STR_DOWNLOAD
+        resource_url = get_api_url('v2', 'course', 1123) + self.STR_DOWNLOAD
         response = self.api_client.get(
             resource_url, format='json', data=self.user_auth)
         self.assertEqual(response.status_code, 404)

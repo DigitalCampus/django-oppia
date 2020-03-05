@@ -20,7 +20,7 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
         user = User.objects.get(username=self.username)
         api_key = get_api_key(user)
         self.api_key = api_key.key
-        self.url = get_api_url('quizattempt')
+        self.url = get_api_url('v1', 'quizattempt')
 
     def get_credentials(self):
         return self.create_apikey(username=self.username,

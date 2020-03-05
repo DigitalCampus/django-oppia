@@ -19,7 +19,7 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         user = User.objects.get(username=self.username)
         api_key = get_api_key(user=user)
         self.api_key = api_key.key
-        self.url = get_api_url('tracker')
+        self.url = get_api_url('v1', 'tracker')
 
     def get_credentials(self):
         return self.create_apikey(username=self.username, api_key=self.api_key)

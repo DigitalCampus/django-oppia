@@ -16,7 +16,7 @@ class PointsResourceTest(ResourceTestCaseMixin, TestCase):
         user = User.objects.get(username='demo')
         api_key = get_api_key(user=user)
         self.api_key = api_key.key
-        self.url = get_api_url('points')
+        self.url = get_api_url('v2', 'points')
 
     # check get not allowed
     def test_get_unauthorized(self):

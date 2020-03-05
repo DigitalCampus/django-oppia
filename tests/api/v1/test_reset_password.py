@@ -10,7 +10,7 @@ class ResetPasswordResourceTest(ResourceTestCaseMixin, TestCase):
 
     def setUp(self):
         super(ResetPasswordResourceTest, self).setUp()
-        self.url = get_api_url('reset')
+        self.url = get_api_url('v1', 'reset')
 
     # check get method not allowed
     def test_get_invalid(self):

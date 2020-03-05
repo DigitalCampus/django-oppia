@@ -23,7 +23,7 @@ class ProfileEditCustomFieldsViewTest(ResourceTestCaseMixin, TestCase):
             'last_name': 'user',
             'organisation': ''
         }
-        self.url = get_api_url('profileupdate')
+        self.url = get_api_url('v2', 'profileupdate')
 
     def get_credentials(self):
         return self.create_apikey(username=self.username, api_key=self.api_key)

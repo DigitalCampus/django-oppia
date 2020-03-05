@@ -23,7 +23,7 @@ class ProfileUpdatePermissionsResourceTest(ResourceTestCaseMixin, TestCase):
             'last_name': 'user',
             'organisation': ''
         }
-        self.url = get_api_url('profileupdate')
+        self.url = get_api_url('v1', 'profileupdate')
 
     def get_credentials(self):
         return self.create_apikey(username=self.username, api_key=self.api_key)

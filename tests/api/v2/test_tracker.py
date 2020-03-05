@@ -22,7 +22,7 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         user = User.objects.get(username=self.username)
         api_key = get_api_key(user=user)
         self.api_key = api_key.key
-        self.url = get_api_url('tracker')
+        self.url = get_api_url('v2', 'tracker')
 
     def get_credentials(self):
         return self.create_apikey(username=self.username,
@@ -47,7 +47,7 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
 
     # check put not allowed
     def test_put_invalid(self):
-        resource_url = get_api_url('tracker', 1)
+        resource_url = get_api_url('v2', 'tracker', 1)
         self.assertHttpMethodNotAllowed(self.api_client.put(resource_url))
 
     # test what happens when the digest is not found

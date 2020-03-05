@@ -18,7 +18,7 @@ class BadgesResourceTest(ResourceTestCaseMixin, TestCase):
             'username': 'demo',
             'api_key': api_key.key,
         }
-        self.url = get_api_url('badges')
+        self.url = get_api_url('v1', 'badges')
 
     # check post not allowed
     def test_post_invalid(self):

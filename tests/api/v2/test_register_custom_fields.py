@@ -13,13 +13,13 @@ class RegisterCustomFieldsResourceTest(ResourceTestCaseMixin, TestCase):
             'email': 'newusername@email.com',
             'password': 'password',
             'passwordagain': 'password',
-            'firstname': 'Test name',
-            'lastname': 'Last name'
+            'first_name': 'Test name',
+            'last_name': 'Last name'
         }
 
     def setUp(self):
         super(RegisterCustomFieldsResourceTest, self).setUp()
-        self.url = get_api_url('register')
+        self.url = get_api_url('v2', 'register')
 
     # INTEGER REQUIRED
     # with int in form - correct

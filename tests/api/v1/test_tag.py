@@ -19,7 +19,7 @@ class TagResourceTest(ResourceTestCaseMixin, TestCase):
             'username': 'demo',
             'api_key': api_key.key,
         }
-        self.url = get_api_url('tag')
+        self.url = get_api_url('v1', 'tag')
 
     # Post invalid
     def test_post_invalid(self):
@@ -63,7 +63,7 @@ class TagResourceTest(ResourceTestCaseMixin, TestCase):
 
     # test getting a listing of courses for one of the tags
     def test_tag_list(self):
-        resource_url = get_api_url('tag', 2)
+        resource_url = get_api_url('v1', 'tag', 2)
         resp = self.api_client.get(resource_url,
                                    format='json',
                                    data=self.auth_data)
@@ -83,7 +83,7 @@ class TagResourceTest(ResourceTestCaseMixin, TestCase):
 
     # test getting listing of courses for an invalid tag
     def test_tag_not_found(self):
-        resource_url = get_api_url('tag', 999)
+        resource_url = get_api_url('v1', 'tag', 999)
         resp = self.api_client.get(resource_url,
                                    format='json',
                                    data=self.auth_data)

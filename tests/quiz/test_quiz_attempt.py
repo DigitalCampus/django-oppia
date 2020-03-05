@@ -21,7 +21,7 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
         user = User.objects.get(username=self.username)
         api_key = get_api_key(user)
         self.api_key = api_key.key
-        self.url = get_api_url('quizattempt')
+        self.url = get_api_url('v1', 'quizattempt')
 
     def get_credentials(self):
         return self.create_apikey(username=self.username,
@@ -33,12 +33,12 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
                                                             format='json'))
 
     def test_put_invalid(self):
-        resource_url = get_api_url('quizattempt', 1192)
+        resource_url = get_api_url('v1', 'quizattempt', 1192)
         self.assertHttpMethodNotAllowed(self.api_client.put(resource_url,
                                                             format='json'))
 
     def test_delete_invalid(self):
-        resource_url = get_api_url('quizattempt', 1192)
+        resource_url = get_api_url('v1', 'quizattempt', 1192)
         self.assertHttpMethodNotAllowed(self.api_client.delete(resource_url,
                                                                format='json'))
 

@@ -12,7 +12,7 @@ class RegisterResourceTest(ResourceTestCaseMixin, TestCase):
 
     def setUp(self):
         super(RegisterResourceTest, self).setUp()
-        self.url = get_api_url('register')
+        self.url = get_api_url('v1', 'register')
 
     # check get method not allowed
     def test_get_list_invalid(self):
