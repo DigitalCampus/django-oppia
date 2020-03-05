@@ -1,6 +1,5 @@
 import json
 import datetime
-import api
 
 from django.conf import settings
 
@@ -24,6 +23,7 @@ from api.validation import TrackerValidation
 
 from settings import constants
 from settings.models import SettingProperties
+
 
 class TrackerResource(ModelResource):
     '''
@@ -88,8 +88,8 @@ class TrackerResource(ModelResource):
             pass
         except KeyError:
             pass
-        except TypeError: # means json_data is None
-            pass  
+        except TypeError:  # means json_data is None
+            pass
 
         if 'points' in bundle.data:
             bundle.obj.points = bundle.data['points']
@@ -114,7 +114,7 @@ class TrackerResource(ModelResource):
         if 'type' in bundle.data and bundle.data['type'] == 'search':
             if 'data' not in bundle.data:
                 return None
-                
+
             # if the tracker is a search, we just need to save it
             bundle.obj.course = None
             bundle.obj.type = "search"
@@ -213,7 +213,7 @@ class TrackerResource(ModelResource):
                     self.obj_create(bundle, request=request)
             else:
                 self.obj_create(bundle, request=request)
-                
+
         response_data = {'points': self.dehydrate_points(bundle),
                          'badges': self.dehydrate_badges(bundle),
                          'scoring': self.dehydrate_scoring(bundle),

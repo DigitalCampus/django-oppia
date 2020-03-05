@@ -10,9 +10,9 @@ from django.utils.translation import ugettext as _
 
 class ResetForm(forms.Form):
     username = forms.CharField(max_length=30,
-       error_messages={'invalid':
-                       _(u'Please enter a username or email address.')},
-       required=True)
+        error_messages={'invalid':
+                        _(u'Please enter a username or email address.')},
+        required=True)
 
     def __init__(self, *args, **kwargs):
         super(ResetForm, self).__init__(* args, ** kwargs)

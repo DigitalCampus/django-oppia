@@ -14,7 +14,8 @@ class AppLaunchActivityTest(OppiaTestCase):
 
     # all users should be able to access without logging in
     def test_access_valid_digest(self):
-        url = ('%s?digest=' + self.valid_digest) % reverse('oppia:app_launch_activity_redirect')
+        url = ('%s?digest=' + self.valid_digest) \
+            % reverse('oppia:app_launch_activity_redirect')
         response = self.client.get(url)
         self.assertTemplateUsed('course/activity_digest.html')
         self.assertEqual(200, response.status_code)
@@ -24,9 +25,9 @@ class AppLaunchActivityTest(OppiaTestCase):
         response = self.client.get(url)
         self.assertRaises(ValueError)
         self.assertEqual(404, response.status_code)
-        
+
     def test_access_invalid_digest(self):
-        url = ('%s?digest=' + self.invalid_digest) % reverse('oppia:app_launch_activity_redirect')
+        url = ('%s?digest=' + self.invalid_digest) \
+            % reverse('oppia:app_launch_activity_redirect')
         response = self.client.get(url)
         self.assertEqual(404, response.status_code)
-        

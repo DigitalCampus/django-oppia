@@ -3,7 +3,6 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from django.db.migrations.executor import MigrationExecutor
 from django.db import connection
-from django.apps import apps
 from django.test import TestCase
 
 
@@ -18,7 +17,8 @@ class OppiaTestMigrations(TestCase):
 
     def setUp(self):
         assert self.migrate_from and self.migrate_to, \
-            "TestCase '{}' must define migrate_from and migrate_to properties".format(type(self).__name__)
+            "TestCase '{}' must define migrate_from and migrate_to " \
+            "properties".format(type(self).__name__)
         self.migrate_from = [(self.app, self.migrate_from)]
         self.migrate_to = [(self.app, self.migrate_to)]
         executor = MigrationExecutor(connection)
@@ -52,7 +52,6 @@ class TrackerMigrationTestCase(OppiaTestMigrations):
         self.tracker_id = tracker_model.objects.create(
             submitted_date=future_date
         ).id
-
 
     '''
     @pytest.mark.xfail(reason="doesn't work on SQLite, so then doesn't work \

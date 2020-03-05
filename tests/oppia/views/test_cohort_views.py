@@ -241,4 +241,3 @@ class CohortViewsTest(OppiaTestCase):
         url = reverse('oppia:cohort_course_view', args=[3, 1])
         response = self.client.get('%s?order_by=abcdef' % url)
         self.assertEqual(200, response.status_code)
-        

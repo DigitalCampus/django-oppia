@@ -68,7 +68,8 @@ class JsonFieldsTest(ResourceTestCaseMixin, TestCase):
         self.assertEqual(new_section.get_title("es"), 'Mi nuevo session')
 
         # test lang that's not defined
-        self.assertEqual(new_section.get_title("fi"), self.STR_NEW_SECTION_TITLE)
+        self.assertEqual(new_section.get_title("fi"),
+                         self.STR_NEW_SECTION_TITLE)
 
     def test_section_title_invalid_json(self):
         new_section = self.create_section('{"en" My new section"}')

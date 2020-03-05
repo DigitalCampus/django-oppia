@@ -1,5 +1,3 @@
-import api
-
 from django.conf import settings
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
@@ -79,11 +77,11 @@ class RegisterResource(ModelResource):
                     and value != '') \
                     or custom_field.required is True:
                 profile_field.save()
-        
+
     def obj_create(self, bundle, **kwargs):
         self_register = SettingProperties \
             .get_bool(constants.OPPIA_ALLOW_SELF_REGISTRATION,
-                     settings.OPPIA_ALLOW_SELF_REGISTRATION)
+                      settings.OPPIA_ALLOW_SELF_REGISTRATION)
         if not self_register:
             raise BadRequest(_(u'Registration is disabled on this server.'))
         required = ['username',

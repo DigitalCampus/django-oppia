@@ -165,7 +165,7 @@ def process_quiz_activity(view_user,
                           quizzes_attempted,
                           quizzes_passed):
     quiz = Quiz.objects.filter(quizprops__value=aq.digest,
-                                   quizprops__name="digest").first()
+                               quizprops__name="digest").first()
 
     no_attempts = quiz.get_no_attempts_by_user(quiz, view_user)
     attempts = QuizAttempt.objects.filter(quiz=quiz, user=view_user)

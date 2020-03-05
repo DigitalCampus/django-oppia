@@ -2,7 +2,6 @@ import json
 import os
 import shutil
 import zipfile
-import api
 
 from django.conf import settings
 from django.conf.urls import url
@@ -15,7 +14,6 @@ from tastypie.resources import ModelResource
 from tastypie.utils import trailing_slash
 
 from api.serializers import CourseJSONSerializer
-from oppia import DEFAULT_IP_ADDRESS
 from oppia.models import Tracker, Course, CourseTag
 from oppia.signals import course_downloaded
 

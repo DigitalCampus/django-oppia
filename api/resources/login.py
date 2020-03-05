@@ -1,4 +1,3 @@
-import api
 
 from django.conf import settings
 from django.contrib.auth import authenticate, login
@@ -64,16 +63,16 @@ class UserResource(ModelResource):
 
         u = authenticate(username=username, password=password)
         if u is not None and u.is_active:
-                login(bundle.request, u)
-                # Add to tracker
-                tracker = Tracker()
-                tracker.user = u
-                tracker.type = 'login'
-                tracker.ip = bundle.request.META.get('REMOTE_ADDR',
-                                                     DEFAULT_IP_ADDRESS)
-                tracker.agent = bundle.request.META.get('HTTP_USER_AGENT',
-                                                        'unknown')
-                tracker.save()
+            login(bundle.request, u)
+            # Add to tracker
+            tracker = Tracker()
+            tracker.user = u
+            tracker.type = 'login'
+            tracker.ip = bundle.request.META.get('REMOTE_ADDR',
+                                                 DEFAULT_IP_ADDRESS)
+            tracker.agent = bundle.request.META.get('HTTP_USER_AGENT',
+                                                    'unknown')
+            tracker.save()
         else:
             raise BadRequest(_(u'Authentication failure'))
 

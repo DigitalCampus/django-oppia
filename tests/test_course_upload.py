@@ -51,7 +51,8 @@ class CourseUploadTest(OppiaTestCase):
             course = Course.objects.latest('created_date')
             # should be redirected to the update step 2 form
             self.assertRedirects(response,
-                                 reverse('oppia:upload_step2', args=[course.id]),
+                                 reverse('oppia:upload_step2',
+                                         args=[course.id]),
                                  302,
                                  200)
 
@@ -132,7 +133,8 @@ class CourseUploadTest(OppiaTestCase):
                                         {'course_file': course_file})
             course = Course.objects.latest('created_date')
             self.assertRedirects(response,
-                                 reverse('oppia:upload_step2', args=[course.id]),
+                                 reverse('oppia:upload_step2',
+                                         args=[course.id]),
                                  302,
                                  200)
 
@@ -156,7 +158,8 @@ class CourseUploadTest(OppiaTestCase):
                                         {'course_file': course_file})
             course = Course.objects.latest('created_date')
             self.assertRedirects(response,
-                                 reverse('oppia:upload_step2', args=[course.id]),
+                                 reverse('oppia:upload_step2',
+                                         args=[course.id]),
                                  302,
                                  200)
 
@@ -179,7 +182,8 @@ class CourseUploadTest(OppiaTestCase):
                                         {'course_file': course_file})
             course = Course.objects.latest('created_date')
             self.assertRedirects(response,
-                                 reverse('oppia:upload_step2', args=[course.id]),
+                                 reverse('oppia:upload_step2',
+                                         args=[course.id]),
                                  302,
                                  200)
         course_game_events_end = CourseGamificationEvent.objects.all().count()

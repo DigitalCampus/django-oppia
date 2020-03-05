@@ -44,7 +44,8 @@ class RemoveDuplicateTrackersTest(OppiaTestCase):
             type="page",
             completed=True,
             time_taken=280,
-            activity_title="{\"en\": \"Calculating the uptake of antenatal care services\"}",
+            activity_title="{\"en\":"
+            "\"Calculating the uptake of antenatal care services\"}",
             section_title="{\"en\": \"Planning Antenatal Care\"}",
             uuid="835713f3-b85e-4960-9cdf-128f04014178")
         tracker_count_start = Tracker.objects.all().count()

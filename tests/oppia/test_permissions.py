@@ -4,6 +4,7 @@ from django.urls import reverse
 from oppia.test import OppiaTestCase
 from oppia.permissions import is_manager
 
+
 class PermissionsViewTest(OppiaTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',

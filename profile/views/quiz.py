@@ -1,6 +1,4 @@
-import time
 from django.contrib.auth.models import User
-from django.core.exceptions import PermissionDenied
 from django.views.generic import ListView, DetailView
 
 from helpers.mixins.AjaxTemplateResponseMixin import AjaxTemplateResponseMixin
@@ -18,7 +16,7 @@ class QuizAttemptsList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
     template_name = 'profile/quiz/attempts.html'
     ajax_template_name = 'quiz/attempts_query.html'
     paginate_by = 15
-    
+
     def get_queryset(self):
         user = self.kwargs['user_id']
         quiz = self.kwargs['quiz_id']
@@ -69,7 +67,7 @@ class QuizAttemptDetail(DetailView):
 
     model = QuizAttempt
     template_name = 'quiz/attempt.html'
-    
+
     def get_queryset(self):
         user = self.kwargs['user_id']
         quiz = self.kwargs['quiz_id']
@@ -90,4 +88,3 @@ class QuizAttemptDetail(DetailView):
         context['course'] = Course.objects.get(pk=self.kwargs['course_id'])
 
         return context
-

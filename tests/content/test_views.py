@@ -44,7 +44,7 @@ class ContentViewsTest(OppiaTestCase):
         self.assertEqual(200, response.status_code)
 
         response = self.client.get(self.video_embed_helper_url)
-        self.assertEqual(200, response.status_code)  
+        self.assertEqual(200, response.status_code)
 
     def test_media_embed_helper_get_normal(self):
         self.client.force_login(self.normal_user)
@@ -80,7 +80,8 @@ class ContentViewsTest(OppiaTestCase):
     @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_media_embed_helper_post_valid_url(self):
         self.client.force_login(self.admin_user)
-        media_url = "https://downloads.digital-campus.org/media/anc/iheed-20140217-breastfeeding-technique-part1.m4v"
+        media_url = "https://downloads.digital-campus.org/media/anc/" \
+            "iheed-20140217-breastfeeding-technique-part1.m4v"
         response = self.client.post(self.media_embed_helper_url,
                                     {'media_url': media_url})
         self.assertEqual(200, response.status_code)

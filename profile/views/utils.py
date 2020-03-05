@@ -34,6 +34,7 @@ def get_paginated_users(request):
 
     return ordering, paginator.page(page)
 
+
 def get_query(query_string, search_fields):
     ''' Returns a query, that is a combination of Q objects. That combination
         aims to search keywords within a model by testing the given search

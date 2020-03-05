@@ -28,11 +28,11 @@ class TrackerValidation(Validation):
                 uuids = Tracker.objects.filter(uuid=bundle.obj.uuid)
                 if uuids.count() > 0:
                     errors['uuid'] = 'This UUID has already been submitted'
-        except json.JSONDecodeError: # invalid json
+        except json.JSONDecodeError:  # invalid json
             pass
         except KeyError:
             pass
-        except TypeError: # json_data is none
+        except TypeError:  # json_data is none
             pass
 
         return errors

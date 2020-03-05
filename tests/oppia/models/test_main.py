@@ -30,13 +30,13 @@ class MainModelsCoreTest(OppiaTestCase):
     # Course.no_downloads
     def test_course_no_downloads(self):
         self.assertEqual(55, self.course.no_downloads())
-        
+
     def test_course_get_activity_today(self):
         self.assertEqual(0, self.course.get_activity_today())
 
     def test_course_get_activity_week(self):
         self.assertEqual(0, self.course.get_activity_week())
-        
+
     def test_course_has_quizzes(self):
         self.assertTrue(self.course.has_quizzes())
 
@@ -104,7 +104,7 @@ class MainModelsCoreTest(OppiaTestCase):
 
     '''
     ACTIVITY model
-    '''   
+    '''
     # Activity has next
     def test_activity_next_activity_within_section(self):
         activity = Activity.objects.get(pk=3)
@@ -119,7 +119,7 @@ class MainModelsCoreTest(OppiaTestCase):
     def test_activity_next_activity_end_of_course(self):
         activity = Activity.objects.get(pk=222)
         self.assertEqual(None, activity.get_next_activity())
-        
+
     # Activity has previous
     def test_activity_previous_activity_within_section(self):
         activity = Activity.objects.get(pk=3)

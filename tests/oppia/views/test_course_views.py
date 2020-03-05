@@ -7,7 +7,7 @@ from oppia.test import OppiaTestCase
 class CourseViewsTest(OppiaTestCase):
 
     course_list_template = 'course/list.html'
-    
+
     def test_tag_view(self):
         self.client.force_login(user=self.admin_user)
         url = reverse('oppia:tag_courses', args=[2])
@@ -43,7 +43,7 @@ class CourseViewsTest(OppiaTestCase):
         self.assertRaises(InvalidPage)
         self.assertEqual(200, response.status_code)
         self.assertTemplateUsed(self.course_list_template)
-    
+
     def test_tag_view_get_page_abc(self):
         self.client.force_login(user=self.admin_user)
         url = '%s?page=abc' % reverse('oppia:tag_courses', args=[2])

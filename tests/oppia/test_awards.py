@@ -2,14 +2,17 @@ from django.conf import settings
 from django.urls import reverse
 
 from oppia.awards import courses_completed
-from oppia.models import Badge, Award, Tracker, Course
+from oppia.models import Award, Tracker
 from oppia.test import OppiaTestCase
 
 
 '''
 badge not loaded
 '''
+
+
 class AwardsNoBadgesTest(OppiaTestCase):
+
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
@@ -142,7 +145,6 @@ class AwardsTest(OppiaTestCase):
         courses_completed(0)
         award_count_end = Award.objects.all().count()
         self.assertEqual(award_count_start+1, award_count_end)
-
 
     '''
     BADGE_AWARD_METHOD_FINAL_QUIZ
@@ -302,7 +304,7 @@ class AwardsTest(OppiaTestCase):
         self.assertEqual(award_count_start, award_count_end)
 
     # some other activities completed but not quizzes
-    def test_all_quiz_some_complete(self):
+    def test_all_quiz_some_activities_complete(self):
         settings.BADGE_AWARDING_METHOD = \
             settings.BADGE_AWARD_METHOD_ALL_QUIZZES
 
@@ -367,9 +369,9 @@ class AwardsTest(OppiaTestCase):
         award_count_end = Award.objects.all().count()
         self.assertEqual(award_count_start, award_count_end)
 
-
     # check badge cannot be awarded twice
     def test_all_quiz_duplicate_awards(self):
+
         settings.BADGE_AWARDING_METHOD = \
             settings.BADGE_AWARD_METHOD_ALL_QUIZZES
 
