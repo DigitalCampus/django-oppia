@@ -7,7 +7,7 @@ from activitylog import views as activitylog_views
 app_name = 'activitylog'
 urlpatterns = [
     path('upload/',
-         activitylog_views.upload_view,
+         activitylog_views.UploadView.as_view(),
          name="upload"),
     path('upload/success/',
          TemplateView.as_view(template_name="activitylog/upload_success.html"),
