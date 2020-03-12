@@ -94,7 +94,6 @@ class CourseResource(ModelResource):
                                                                 request.user)
 
         try:
-            # add scheduling XML file
             if has_completed_trackers:
                 file_to_download = os.path.join(
                     settings.COURSE_UPLOAD_DIR,

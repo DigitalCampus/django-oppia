@@ -590,6 +590,7 @@ class Tracker(models.Model):
                     quiz.setAttribute("course", course.shortname)
                     quiz.setAttribute("event", quiz_attempt.event)
                     quiz.setAttribute("points", str(quiz_attempt.points))
+                    quiz.setAttribute("timetaken", quiz_attempt.time_taken)
                     track.appendChild(quiz)
                 except QuizAttempt.DoesNotExist:
                     pass

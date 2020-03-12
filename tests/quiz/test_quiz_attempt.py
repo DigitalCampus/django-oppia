@@ -76,6 +76,34 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertEqual(quizattemptresponse_count_start + 3,
                          quizattemptresponse_count_end)
 
+    def test_time_taken_saved(self):
+        data = {
+                "quiz_id": 2,
+                "maxscore": 30,
+                "score": 10,
+                "attempt_date": "2012-12-18T15:35:12",
+                "instance_id": "343c1dbf-b61a-4b74-990c-b94e3dc7d855",
+                "responses": [
+                             {"question_id": "132",
+                              "score": 0,
+                              "text": "true"},
+                             {"question_id": "133",
+                              "score": 10,
+                              "text": "true"},
+                             {"question_id": "134",
+                              "score": 0,
+                              "text": "false"}],
+                "timetaken": 120 }
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data,
+                                    authentication=self.get_credentials())
+        self.assertHttpCreated(resp)
+        self.assertValidJSON(resp.content)
+        quiz_attempt = QuizAttempt.objects.latest('submitted_date')
+
+        self.assertEqual(120, quiz_attempt.time_taken)
+
     def test_unauthorized(self):
         data = {
                 "quiz_id": "354",

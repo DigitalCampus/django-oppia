@@ -105,6 +105,8 @@ class QuizAttempt(models.Model):
                              null=True,
                              blank=True,
                              default=None)
+    time_taken = models.IntegerField(default=0)
+
 
     class Meta:
         verbose_name = _('QuizAttempt')

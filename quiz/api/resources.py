@@ -95,6 +95,9 @@ class QuizAttemptResource(ModelResource):
         if 'event' in bundle.data:
             bundle.obj.event = bundle.data['event']
 
+        if 'timetaken' in bundle.data:
+            bundle.obj.time_taken = bundle.data['timetaken']
+
         return bundle
 
     def dehydrate_points(self, bundle):
