@@ -1,6 +1,6 @@
 # coding: utf-8
 from django.contrib.auth.models import User
-from django.test import TestCase
+from django.test import TransactionTestCase
 from tastypie.test import ResourceTestCaseMixin
 
 from oppia.models import Points
@@ -8,7 +8,7 @@ from quiz.models import QuizAttemptResponse, QuizAttempt
 from tests.utils import get_api_key, get_api_url
 
 
-class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
+class QuizAttemptResourceTest(ResourceTestCaseMixin, TransactionTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
