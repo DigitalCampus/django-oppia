@@ -1,5 +1,3 @@
-import pytest
-import unittest
 
 from django.conf import settings
 from oppia.test import OppiaTestCase
