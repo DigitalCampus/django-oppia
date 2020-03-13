@@ -87,7 +87,6 @@ class UserUploadActivityViewTest(OppiaTransactionTestCase):
 
         self.client.post(self.url, {'upload_file': upload_file})
 
-        self.assertRaises(IntegrityError)
         user_count_end = User.objects.all().count()
         self.assertEqual(user_count_start+2, user_count_end)
 
