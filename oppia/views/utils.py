@@ -31,9 +31,9 @@ def generate_graph_data(dates_types_stats, is_monthly=False):
         if is_monthly:
             # depending if it is monthly or daily, we parse differently the
             # day "tag"
-            day = datetime.date(month=date['month'], year=date['year'], day=1)
+            day = date['month']
         else:
-            day = date['day']
+            day = date['stat_date']
 
         if current_date is None or day != current_date:
             if current_date is not None:

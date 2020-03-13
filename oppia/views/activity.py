@@ -4,6 +4,7 @@ import json
 import tablib
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db.models import Sum
+from django.db.models.functions import TruncDay, TruncMonth, TruncYear
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -48,7 +49,8 @@ def recent_activity(request, course_id):
         daily_stats = CourseDailyStats.objects.filter(course=course,
                                                       day__gte=start_date,
                                                       day__lte=end_date) \
-                        .values('day', 'type') \
+                        .annotate(stat_date=TruncDay('day')) \
+                        .values('stat_date', 'type') \
                         .annotate(total=Sum('total'))
 
         dates = generate_graph_data(daily_stats, False)
@@ -57,7 +59,8 @@ def recent_activity(request, course_id):
         monthly_stats = CourseDailyStats.objects.filter(course=course,
                                                         day__gte=start_date,
                                                         day__lte=end_date) \
-                        .extra({'month': 'month(day)', 'year': 'year(day)'}) \
+                        .annotate(month=TruncMonth('day'),
+                                  year=TruncYear('day')) \
                         .values('month', 'year', 'type') \
                         .annotate(total=Sum('total')) \
                         .order_by('year', 'month')
