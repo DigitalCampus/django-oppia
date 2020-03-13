@@ -1,5 +1,7 @@
 import pytest
+import unittest
 
+from django.conf import settings
 from django.urls import reverse
 from oppia.test import OppiaTestCase
 from oppia.permissions import is_manager
@@ -281,11 +283,15 @@ class PermissionsViewTest(OppiaTestCase):
 
     @pytest.mark.xfail(reason="works on local, but not on Github workflow \
         due to SQLite")
+    @unittest.skipIf(settings.DATABASES['default']['ENGINE'] == 'django.db.backends.sqlite3',
+                     "This is an sqlite-specific issue")
     def test_admin_canview_summary_overview(self):
         self.assert_can_view('viz:summary', self.admin_user)
 
     @pytest.mark.xfail(reason="works on local, but not on Github workflow \
         due to SQLite")
+    @unittest.skipIf(settings.DATABASES['default']['ENGINE'] == 'django.db.backends.sqlite3',
+                     "This is an sqlite-specific issue")
     def test_staff_canview_summary_overview(self):
         self.assert_can_view('viz:summary', self.staff_user)
 

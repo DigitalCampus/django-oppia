@@ -1,6 +1,8 @@
 import datetime
 import pytest
+import unittest
 
+from django.conf import settings
 from oppia.test import OppiaTestCase
 from django.urls import reverse
 from django.utils import timezone
@@ -27,6 +29,8 @@ class VisualisationsTest(OppiaTestCase):
     # only staff/admins can view
     @pytest.mark.xfail(reason="works on local, but not on Github workflow \
         due to SQLite")
+    @unittest.skipIf(settings.DATABASES['default']['ENGINE'] == 'django.db.backends.sqlite3',
+                     "This is an sqlite-specific issue")
     def test_view_summary(self):
         allowed_users = [self.admin_user, self.staff_user]
         disallowed_users = [self.teacher_user, self.normal_user]
@@ -46,6 +50,8 @@ class VisualisationsTest(OppiaTestCase):
     # test posting dates (
     @pytest.mark.xfail(reason="works on local, but not on Github workflow \
         due to SQLite")
+    @unittest.skipIf(settings.DATABASES['default']['ENGINE'] == 'django.db.backends.sqlite3',
+                     "This is an sqlite-specific issue")
     def test_view_summary_previous_date(self):
         self.client.force_login(self.admin_user)
         start_date = timezone.now() - datetime.timedelta(days=31)
@@ -56,6 +62,8 @@ class VisualisationsTest(OppiaTestCase):
 
     @pytest.mark.xfail(reason="works on local, but not on Github workflow \
         due to SQLite")
+    @unittest.skipIf(settings.DATABASES['default']['ENGINE'] == 'django.db.backends.sqlite3',
+                     "This is an sqlite-specific issue")
     def test_view_summary_future_date(self):
         self.client.force_login(self.admin_user)
         start_date = timezone.now() + datetime.timedelta(days=31)
@@ -66,6 +74,8 @@ class VisualisationsTest(OppiaTestCase):
 
     @pytest.mark.xfail(reason="works on local, but not on Github workflow \
         due to SQLite")
+    @unittest.skipIf(settings.DATABASES['default']['ENGINE'] == 'django.db.backends.sqlite3',
+                     "This is an sqlite-specific issue")
     def test_view_summary_invalid_date(self):
         self.client.force_login(self.admin_user)
         start_date = "not a valid date"
@@ -109,6 +119,8 @@ class VisualisationsTest(OppiaTestCase):
     # test summary helper methods
     @pytest.mark.xfail(reason="works on local, but not on Github workflow \
         due to SQLite")
+    @unittest.skipIf(settings.DATABASES['default']['ENGINE'] == 'django.db.backends.sqlite3',
+                     "This is an sqlite-specific issue")
     def test_summary_helper_reg(self):
         start_date = timezone.now() - datetime.timedelta(days=365)
         summary = Summary()
@@ -135,6 +147,8 @@ class VisualisationsTest(OppiaTestCase):
 
     @pytest.mark.xfail(reason="works on local, but not on Github workflow \
         due to SQLite")
+    @unittest.skipIf(settings.DATABASES['default']['ENGINE'] == 'django.db.backends.sqlite3',
+                     "This is an sqlite-specific issue")
     def test_summary_helper_downloads(self):
         start_date = timezone.now() - datetime.timedelta(days=365)
         # Course Downloads
@@ -146,6 +160,8 @@ class VisualisationsTest(OppiaTestCase):
 
     @pytest.mark.xfail(reason="works on local, but not on Github workflow \
         due to SQLite")
+    @unittest.skipIf(settings.DATABASES['default']['ENGINE'] == 'django.db.backends.sqlite3',
+                     "This is an sqlite-specific issue")
     def test_summary_helper_activity(self):
         start_date = timezone.now() - datetime.timedelta(days=365)
         # Course Activity
@@ -158,6 +174,8 @@ class VisualisationsTest(OppiaTestCase):
 
     @pytest.mark.xfail(reason="works on local, but not on Github workflow \
         due to SQLite")
+    @unittest.skipIf(settings.DATABASES['default']['ENGINE'] == 'django.db.backends.sqlite3',
+                     "This is an sqlite-specific issue")
     def test_summary_helper_search(self):
         start_date = timezone.now() - datetime.timedelta(days=365)
         # Searches

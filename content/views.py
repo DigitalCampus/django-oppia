@@ -9,6 +9,7 @@ import uuid
 from django.conf import settings
 from django.shortcuts import render
 from django.utils.translation import ugettext_lazy as _
+from django.views.generic import TemplateView
 
 import content
 from content.forms import MediaEmbedHelperForm
@@ -22,11 +23,17 @@ NOTE: for this to run you will need to have ffmpeg and avprobe installed
 '''
 
 
-def media_embed_helper(request):
+class MediaEmbedView(TemplateView):
 
-    processed_media = None
+    def get(self, request):
+        form = MediaEmbedHelperForm()
+        return render(request, 'oppia/content/media-embed-helper.html',
+                      {'settings': settings,
+                       'form': form,
+                       'processed_media': None})
 
-    if request.method == 'POST':
+    def post(self, request):
+
         form = MediaEmbedHelperForm(request.POST)
         if form.is_valid():
             media_url = form.cleaned_data.get("media_url")
@@ -38,7 +45,7 @@ def media_embed_helper(request):
             processed_media = {}
 
             # Need to add better validation here
-            download_error, processed_media = check_media_link(
+            download_error, processed_media = self.check_media_link(
                 media_url, media_local_file, download_error, processed_media)
 
             download_error, processed_media = process_media_file(
@@ -53,14 +60,24 @@ def media_embed_helper(request):
                 os.remove(media_local_file)
             except OSError:
                 pass
-    else:
-        form = MediaEmbedHelperForm()
 
-    return render(request, 'oppia/content/media-embed-helper.html',
-                  {'settings': settings,
-                   'form': form,
-                   'processed_media': processed_media})
+        return render(request, 'oppia/content/media-embed-helper.html',
+                      {'settings': settings,
+                       'form': form,
+                       'processed_media': processed_media})
 
+    def check_media_link(self,
+                         media_url,
+                         media_local_file,
+                         download_error,
+                         processed_media):
+        try:
+            urllib.request.urlretrieve(media_url, media_local_file)
+        except IOError as err:
+            download_error = err
+            processed_media['success'] = False
+            processed_media['error'] = _("url_download_fail")
+        return download_error, processed_media
 
 def process_media_file(media_guid,
                        media_url,
@@ -112,17 +129,7 @@ def process_media_file(media_guid,
     return download_error, processed_media
 
 
-def check_media_link(media_url,
-                     media_local_file,
-                     download_error,
-                     processed_media):
-    try:
-        urllib.request.urlretrieve(media_url, media_local_file)
-    except IOError as err:
-        download_error = err
-        processed_media['success'] = False
-        processed_media['error'] = _("url_download_fail")
-    return download_error, processed_media
+
 
 
 def get_length(filename):
