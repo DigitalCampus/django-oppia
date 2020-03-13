@@ -53,6 +53,8 @@ class QueryStringNode(template.Node):
 def get_query_string(p, new_params, remove, context):
     """
     Add and remove query parameters. From `django.contrib.admin`.
+    https://github.com/django/django/blob/master/
+    django/contrib/admin/views/main.py
     """
     for r in remove:
         for k in p.copy().keys():
@@ -67,7 +69,7 @@ def get_query_string(p, new_params, remove, context):
     for k, v in p.items():
         try:
             p[k] = template.Variable(v).resolve(context)
-        except:
+        except ValueError:
             p[k] = v
 
     return mark_safe('?' + '&amp;'
