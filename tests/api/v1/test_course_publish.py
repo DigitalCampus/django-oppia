@@ -234,7 +234,8 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
 
     # check file size of course
     def test_course_filesize_limit(self):
-        setting = SettingProperties.objects.get(key='MAX_UPLOAD_SIZE')
+        setting, created = SettingProperties.objects \
+            .get_or_create(key='MAX_UPLOAD_SIZE')
         setting.int_value = 1000
         setting.save()
 
