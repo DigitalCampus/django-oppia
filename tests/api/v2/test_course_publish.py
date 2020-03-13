@@ -2,13 +2,13 @@
 import api
 import pytest
 
-from oppia.test import OppiaTestCase
+from oppia.test import OppiaTransactionTestCase
 
 from oppia.models import Course, CoursePublishingLog
 from settings.models import SettingProperties
 
 
-class CoursePublishResourceTest(OppiaTestCase):
+class CoursePublishResourceTest(OppiaTransactionTestCase):
 
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
