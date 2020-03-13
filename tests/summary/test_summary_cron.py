@@ -17,10 +17,6 @@ class SummaryCronTest(OppiaTestCase):
                 'tests/test_tracker.json',
                 'default_badges.json']
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow \
-        see issue: https://github.com/DigitalCampus/django-oppia/issues/691")
-    @unittest.skipIf(settings.DATABASES['default']['ENGINE'] == 'django.db.backends.sqlite3',
-                     "This is an sqlite-specific issue")
     def test_summary_cron(self):
         # check lock not set
         lock = SettingProperties.get_int('oppia_summary_cron_lock', 999)

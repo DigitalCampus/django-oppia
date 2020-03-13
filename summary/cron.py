@@ -1,4 +1,4 @@
-# Interpreter deliberately excluded here - set it in your cron shell script.
+
 import time
 
 from datetime import date
@@ -9,7 +9,7 @@ def update_summaries(last_tracker_pk=0, last_points_pk=0):
 
     from django.contrib.auth.models import User
     from django.db.models import Count
-
+    from django.db.models.functions import TruncDay, TruncMonth, TruncYear
     from oppia.models import Tracker, Points, Course
     from settings.models import SettingProperties
     from summary.models import UserCourseSummary, \
@@ -86,9 +86,9 @@ def update_summaries(last_tracker_pk=0, last_points_pk=0):
     course_daily_type_logs = Tracker.objects \
         .filter(pk__gt=last_tracker_pk, pk__lte=newest_tracker_pk) \
         .exclude(course__isnull=True) \
-        .extra({'day': "day(tracker_date)",
-                'month': "month(tracker_date)",
-                'year': "year(tracker_date)"}) \
+        .annotate(day=TruncDay('tracker_date'),
+                  month=TruncMonth('tracker_date'),
+                  year=TruncYear('tracker_date')) \
         .values('course', 'day', 'month', 'year', 'type') \
         .annotate(total=Count('type')) \
         .order_by('day')
@@ -97,11 +97,10 @@ def update_summaries(last_tracker_pk=0, last_points_pk=0):
     print('%d different courses/dates/types to process.' % total_logs)
     count = 0
     for type_log in course_daily_type_logs:
-        day = date(type_log['year'], type_log['month'], type_log['day'])
         course = Course.objects.get(pk=type_log['course'])
         stats, created = CourseDailyStats.objects \
             .get_or_create(course=course,
-                           day=day,
+                           day=type_log['day'],
                            type=type_log['type'])
         stats.total = (0 if first_tracker else stats.total) + type_log['total']
         stats.save()
@@ -115,19 +114,18 @@ def update_summaries(last_tracker_pk=0, last_points_pk=0):
                 pk__lte=newest_tracker_pk,
                 user__is_staff=False,
                 type='search') \
-        .extra({'day': "day(tracker_date)",
-                'month': "month(tracker_date)",
-                'year': "year(tracker_date)"}) \
+        .annotate(day=TruncDay('tracker_date'),
+                  month=TruncMonth('tracker_date'),
+                  year=TruncYear('tracker_date')) \
         .values('day', 'month', 'year') \
         .annotate(total=Count('id')) \
         .order_by('day')
 
     print('%d different search/dates to process.' % search_daily_logs.count())
     for search_log in search_daily_logs:
-        day = date(search_log['year'], search_log['month'], search_log['day'])
         stats, created = CourseDailyStats.objects \
             .get_or_create(course=None,
-                           day=day,
+                           day=search_log['day'],
                            type='search')
         stats.total = (0 if first_tracker else stats.total) \
             + search_log['total']
