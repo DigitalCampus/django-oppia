@@ -35,10 +35,10 @@
 
 			count = {{ previous_user_registrations }};
 			{% for u in user_registrations %}
-                dsets['users_regs'].setValue({{ forloop.counter0 }},0, new Date({{ u.year }},{{ u.month }}-1,1));
+                dsets['users_regs'].setValue({{ forloop.counter0 }},0, new Date({{ u.year|date:"Y" }},{{ u.month|date:"m" }}-1,1));
 				dsets['users_regs'].setValue({{ forloop.counter0 }},1,{{ u.count }});
 				count += {{ u.count }};
-				dsets['users_regs_aggr'].setValue({{ forloop.counter0 }},0,new Date({{ u.year }},{{ u.month }}-1,1));
+				dsets['users_regs_aggr'].setValue({{ forloop.counter0 }},0,new Date({{ u.year|date:"Y" }},{{ u.month|date:"m" }}-1,1));
 				dsets['users_regs_aggr'].setValue({{ forloop.counter0 }},1,count);
 			{% endfor %}
 
@@ -99,10 +99,10 @@
 
             count =  {{ previous_course_downloads }}
 			{% for cd in course_downloads %}
-				dsets['downloads'].setValue({{ forloop.counter0 }},0,new Date({{ cd.year }},{{ cd.month }}-1,1));
+				dsets['downloads'].setValue({{ forloop.counter0 }},0,new Date({{ cd.year|date:"Y" }},{{ cd.month|date:"m" }}-1,1));
 				dsets['downloads'].setValue({{ forloop.counter0 }},1,{{ cd.count }});
                 count += {{ cd.count }};
-				dsets['downloads_aggr'].setValue({{ forloop.counter0 }},0,new Date({{ cd.year }},{{ cd.month }}-1,1));
+				dsets['downloads_aggr'].setValue({{ forloop.counter0 }},0,new Date({{ cd.year|date:"Y" }},{{ cd.month|date:"m" }}-1,1));
 				dsets['downloads_aggr'].setValue({{ forloop.counter0 }},1,count);
 			{% endfor %}
 
@@ -119,10 +119,10 @@
 
             count = {{ previous_course_activity }};
             {% for ca in course_activity %}
-				dsets['activity'].setValue({{ forloop.counter0 }},0,new Date({{ ca.year }},{{ ca.month }}-1,1));
+				dsets['activity'].setValue({{ forloop.counter0 }},0,new Date({{ ca.year|date:"Y" }},{{ ca.month|date:"m" }}-1,1));
 				dsets['activity'].setValue({{ forloop.counter0 }},1,{{ ca.count }});
                 count += {{ ca.count }};
-				dsets['activity_aggr'].setValue({{ forloop.counter0 }},0,new Date({{ ca.year }},{{ ca.month }}-1,1));
+				dsets['activity_aggr'].setValue({{ forloop.counter0 }},0,new Date({{ ca.year|date:"Y" }},{{ ca.month|date:"m" }}-1,1));
 				dsets['activity_aggr'].setValue({{ forloop.counter0 }},1,count);
 			{% endfor %}
 
@@ -161,10 +161,10 @@
 
 			count = {{ previous_searches }};
 			{% for ss in searches %}
-                dsets['searches'].setValue({{ forloop.counter0 }},0,new Date({{ ss.year }},{{ ss.month }}-1,1));
+                dsets['searches'].setValue({{ forloop.counter0 }},0,new Date({{ ss.year|date:"Y" }},{{ ss.month|date:"m" }}-1,1));
 				dsets['searches'].setValue({{ forloop.counter0 }},1,{{ ss.count }});
                 count += {{ ss.count }};
-				dsets['searches_aggr'].setValue({{ forloop.counter0 }},0,new Date({{ ss.year }},{{ ss.month }}-1,1));
+				dsets['searches_aggr'].setValue({{ forloop.counter0 }},0,new Date({{ ss.year|date:"Y" }},{{ ss.month|date:"m" }}-1,1));
 				dsets['searches_aggr'].setValue({{ forloop.counter0 }},1,count);
 			{% endfor %}
 

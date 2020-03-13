@@ -4,6 +4,7 @@ import datetime
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.models import User
 from django.db.models import Count, Sum
+from django.db.models.functions import TruncMonth, TruncYear
 from django.http import Http404
 from django.shortcuts import render
 from django.utils import timezone
@@ -80,13 +81,12 @@ class Summary(TemplateView):
 
     # helper functions
     def get_registrations(self, start_date):
-        user_registrations = User.objects.filter(
-            date_joined__gte=start_date). \
-            extra(select={'month': 'extract( month from date_joined )',
-                          'year': 'extract( year from date_joined )'}). \
-            values('month', 'year'). \
-            annotate(count=Count('id')).order_by('year', 'month')
-
+        user_registrations = User.objects.filter(date_joined__gte=start_date) \
+            .annotate(month=TruncMonth('date_joined'),
+                      year=TruncYear('date_joined')) \
+            .values('month', 'year') \
+            .annotate(count=Count('id')) \
+            .order_by('year', 'month')
         previous_user_registrations = User.objects \
             .filter(date_joined__lt=start_date).count()
 
@@ -161,13 +161,14 @@ class Summary(TemplateView):
         return languages
 
     def get_downloads(self, start_date):
-        course_downloads = CourseDailyStats.objects.filter(day__gte=start_date,
-                                                           type='download') \
-                            .extra({'month': self.STR_MONTH_DAY,
-                                    'year': self.STR_YEAR_DAY}) \
-                            .values('month', 'year') \
-                            .annotate(count=Sum('total')) \
-                            .order_by('year', 'month')
+        course_downloads = CourseDailyStats.objects \
+            .filter(day__gte=start_date, type='download') \
+            .annotate(month=TruncMonth('day'),
+                      year=TruncYear('day')) \
+            .values('month', 'year') \
+            .annotate(count=Sum('total')) \
+            .order_by('year', 'month')
+
         previous_course_downloads = CourseDailyStats.objects \
             .filter(day__lt=start_date, type='download') \
             .aggregate(total=Sum('total')) \
@@ -178,13 +179,13 @@ class Summary(TemplateView):
         return course_downloads, previous_course_downloads
 
     def get_course_activity(self, start_date):
-        course_activity = CourseDailyStats.objects.filter(
-                            day__gte=start_date) \
-                            .extra({'month': self.STR_MONTH_DAY,
-                                    'year': self.STR_YEAR_DAY}) \
-                            .values('month', 'year') \
-                            .annotate(count=Sum('total')) \
-                            .order_by('year', 'month')
+        course_activity = CourseDailyStats.objects \
+            .filter(day__gte=start_date) \
+            .annotate(month=TruncMonth('day'),
+                      year=TruncYear('day')) \
+            .values('month', 'year') \
+            .annotate(count=Sum('total')) \
+            .order_by('year', 'month')
 
         previous_course_activity = CourseDailyStats.objects \
             .filter(day__lt=start_date) \
@@ -222,13 +223,13 @@ class Summary(TemplateView):
         return course_activity, previous_course_activity, hot_courses
 
     def get_searches(self, start_date):
-        searches = CourseDailyStats.objects.filter(day__gte=start_date,
-                                                   type='search') \
-                            .extra({'month': self.STR_MONTH_DAY,
-                                    'year': self.STR_YEAR_DAY}) \
-                            .values('month', 'year') \
-                            .annotate(count=Sum('total')) \
-                            .order_by('year', 'month')
+        searches = CourseDailyStats.objects \
+            .filter(day__gte=start_date, type='search') \
+            .annotate(month=TruncMonth('day'),
+                      year=TruncYear('day')) \
+            .values('month', 'year') \
+            .annotate(count=Sum('total')) \
+            .order_by('year', 'month')
 
         previous_searches = CourseDailyStats.objects \
             .filter(day__lt=start_date,
