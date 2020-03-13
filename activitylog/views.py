@@ -100,9 +100,6 @@ def process_uploaded_quizresponses(request,
                            %(username)s added" % {'username': user.username}))
 
 
-
-
-
 def process_uploaded_file(request, json_data):
     if 'users' in json_data:
         for user in json_data['users']:
@@ -183,7 +180,6 @@ def get_user_from_uploaded_log(request, user):
 
 def validate_server(request, data):
     url_comp = request.build_absolute_uri().split('/')
-    print(url_comp)
     server_url = "%(protocol)s//%(domain)s" % ({'protocol': url_comp[0],
                                                 'domain': url_comp[2]})
 
