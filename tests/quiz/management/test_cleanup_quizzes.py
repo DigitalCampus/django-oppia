@@ -1,9 +1,9 @@
 from io import StringIO
 from django.core.management import call_command
-from oppia.test import OppiaTestCase
+from oppia.test import OppiaTransactionTestCase
 
 
-class CleanUpQuizzesTest(OppiaTestCase):
+class CleanUpQuizzesTest(OppiaTransactionTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',

@@ -15,10 +15,7 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TransactionTestCase):
                 'default_gamification_events.json']
 
     username = 'demo'
-
-    def setUp(self):
-        super(QuizAttemptResourceTest, self).setUp()
-        self.url = get_api_url('v2', 'quizattempt')
+    url = get_api_url('v2', 'quizattempt')
 
     def get_credentials(self):
         user = User.objects.get(username=self.username)
