@@ -35,6 +35,7 @@ class MediaEmbedView(TemplateView):
     def post(self, request):
 
         form = MediaEmbedHelperForm(request.POST)
+        processed_media = {}
         if form.is_valid():
             media_url = form.cleaned_data.get("media_url")
             media_guid = str(uuid.uuid4())
@@ -42,7 +43,6 @@ class MediaEmbedView(TemplateView):
                                             'temp',
                                             media_guid)
             download_error = None
-            processed_media = {}
 
             # Need to add better validation here
             download_error, processed_media = self.check_media_link(
