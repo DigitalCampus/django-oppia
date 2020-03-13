@@ -15,13 +15,14 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TestCase):
                 'tests/test_quiz.json',
                 'default_gamification_events.json']
 
+    username = 'demo'
+
     def setUp(self):
         super(QuizAttemptResourceTest, self).setUp()
-        self.username = 'demo'
         user = User.objects.get(username=self.username)
         api_key = get_api_key(user)
         self.api_key = api_key.key
-        self.url = get_api_url('v1', 'quizattempt')
+        self.url = get_api_url('v2', 'quizattempt')
 
     def get_credentials(self):
         return self.create_apikey(username=self.username,
