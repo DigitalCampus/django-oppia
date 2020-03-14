@@ -4,9 +4,12 @@ from django import forms
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.db.models import Count, Q
+from django.db.models.functions import TruncDay, TruncMonth, TruncYear
 from django.urls import reverse
 
 from oppia.models import Tracker
+
+STR_DATE_FORMAT = "%d %b %Y"
 
 
 def filter_redirect(request_content):
@@ -79,15 +82,18 @@ def get_tracker_activities(start_date,
     trackers = trackers.filter(user=user,
                                tracker_date__gte=start_date,
                                tracker_date__lte=end_date) \
-                       .extra({'activity_date': "date(tracker_date)"}) \
-                       .values('activity_date') \
+                       .annotate(day=TruncDay('tracker_date'),
+                                 month=TruncMonth('tracker_date'),
+                                 year=TruncYear('tracker_date')) \
+                       .values('day') \
                        .annotate(count=Count('id'))
 
     for i in range(0, no_days, +1):
         temp = start_date + datetime.timedelta(days=i)
+        temp_date = temp.date().strftime(STR_DATE_FORMAT)
         count = next((dct['count']
-                      for dct in trackers
-                      if dct['activity_date'] == temp.date()), 0)
-        activity.append([temp.strftime("%d %b %Y"), count])
+                     for dct in trackers
+                     if dct['day'].strftime(STR_DATE_FORMAT) == temp_date), 0)
+        activity.append([temp_date, count])
 
     return activity

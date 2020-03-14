@@ -106,7 +106,7 @@ def process_home_activity_days(activity, start_date, end_date):
         count = next((dct['count']
                       for dct in tracker_stats
                       if dct['day'] == temp.date()), 0)
-        activity.append([temp.strftime("%d %b %Y"), count])
+        activity.append([temp.strftime(STR_DATE_FORMAT), count])
     return activity
 
 
@@ -160,7 +160,7 @@ def teacher_home_view(request):
         count = next((dct['count']
                      for dct in trackers
                      if dct['day'].strftime(STR_DATE_FORMAT) == temp_date), 0)
-        activity.append([temp.strftime("%d %b %Y"), count])
+        activity.append([temp.strftime(STR_DATE_FORMAT), count])
 
     return render(request, 'oppia/home-teacher.html',
                   {'cohorts': cohorts,
