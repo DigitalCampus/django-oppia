@@ -6,6 +6,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db.models import Count, Sum
+from django.db.models.functions import TruncDay, TruncMonth, TruncYear
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
@@ -20,6 +21,7 @@ from oppia.permissions import get_cohorts
 from reports.signals import dashboard_accessed
 from summary.models import CourseDailyStats
 
+STR_DATE_FORMAT = "%d %b %Y"
 
 def server_view(request):
     return render(request, 'oppia/server.html',
@@ -147,13 +149,17 @@ def teacher_home_view(request):
                                       user__in=students,
                                       tracker_date__gte=start_date,
                                       tracker_date__lte=end_date) \
-        .extra({'activity_date': "date(tracker_date)"}) \
-        .values('activity_date').annotate(count=Count('id'))
+        .annotate(day=TruncDay('tracker_date'),
+                  month=TruncMonth('tracker_date'),
+                  year=TruncYear('tracker_date')) \
+        .values('day') \
+        .annotate(count=Count('id'))
     for i in range(0, no_days, +1):
         temp = start_date + datetime.timedelta(days=i)
+        temp_date = temp.date().strftime(STR_DATE_FORMAT)
         count = next((dct['count']
-                      for dct in trackers
-                      if dct['activity_date'] == temp.date()), 0)
+                     for dct in trackers
+                     if dct['day'].strftime(STR_DATE_FORMAT) == temp_date), 0)
         activity.append([temp.strftime("%d %b %Y"), count])
 
     return render(request, 'oppia/home-teacher.html',

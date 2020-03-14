@@ -244,14 +244,17 @@ def cohort_course_view(request, cohort_id, course_id):
                                       user__in=users,
                                       tracker_date__gte=start_date,
                                       tracker_date__lte=end_date) \
-        .extra({'activity_date': "date(tracker_date)"}) \
-        .values('activity_date') \
+        .annotate(day=TruncDay('tracker_date'),
+                  month=TruncMonth('tracker_date'),
+                  year=TruncYear('tracker_date')) \
+        .values('day') \
         .annotate(count=Count('id'))
     for i in range(0, no_days, +1):
         temp = start_date + datetime.timedelta(days=i)
+        temp_date = temp.date().strftime(STR_DATE_FORMAT)
         count = next((dct['count']
-                      for dct in trackers
-                      if dct['activity_date'] == temp.date()), 0)
+                     for dct in trackers
+                     if dct['day'].strftime(STR_DATE_FORMAT) == temp_date), 0)
         student_activity.append([temp.strftime(STR_DATE_FORMAT), count])
 
     students = []
