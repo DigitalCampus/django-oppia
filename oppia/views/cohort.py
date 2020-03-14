@@ -261,10 +261,14 @@ def cohort_course_view(request, cohort_id, course_id):
                                                         course=course_id)
         if course_stats:
             course_stats = course_stats[0]
+            if course_stats.pretest_score:
+                pretest_score = course_stats.pretest_score
+            else:
+                pretest_score = 0
             data = {'user': user,
                     'user_display': str(user),
                     'no_quizzes_completed': course_stats.quizzes_passed,
-                    'pretest_score': course_stats.pretest_score,
+                    'pretest_score': pretest_score,
                     'no_activities_completed':
                         course_stats.completed_activities,
                     'no_points': course_stats.points,
