@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{{ course.title|title_lang:LANGUAGE_CODE }}
+{% endblock extra_head_title %}
+
+{% block header %}
+<div class="jumbotron pb-2 mb-3">
+	<div class="row">
+		<div class="col-md-8">
+			<h3><a href="{% url 'oppia:recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a>
+			{% if course.is_draft %}
+				<span class="badge badge-dark ml-2"><small>{% trans 'draft' %}</small></span>
+			{% endif %}
+			{% if course.is_archived %}
+				<span class="badge badge-dark ml-2"><small>{% trans 'archived' %}</small></span>
+			{% endif %}
+				<em class="material-icons md-18 ">arrow_forward_ios</em>  {% trans 'Structure' %}
+			</h3>
+			<p><em>{% trans 'Tags:' %} {{ course.get_tags}}</em></p>
+		</div>
+
+	</div>
+
+</div>
+{% endblock header %}
+
+{% block content %}
+
+<ol>
+{% for section in course.sections %}
+	<li><h3>{{ section.title|title_lang:LANGUAGE_CODE }}</h3></li>
+	<ol>
+	{% for activity in section.activities %}
+		<li>
+			<h4>{{ activity.title|title_lang:LANGUAGE_CODE }}</h4>
+			<a href="{{ settings.OPPIA_HOSTNAME }}/view?digest={{ activity.digest }}" id="{{ activity.digest }}">{% trans "Integration link" %}</a>
+		</li>
+	{% endfor %}
+	</ol>
+{% endfor %}
+</ol>
+{% endblock %}

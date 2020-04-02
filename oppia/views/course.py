@@ -205,3 +205,15 @@ def update_course_tags(form, course, user):
             ct.course = course
             ct.tag = tag
             ct.save()
+
+
+class CourseStructure(TemplateView):
+
+    def get(self, request, course_id):
+        if (not can_edit_course(request, course_id)):
+            raise PermissionDenied
+
+        course = Course.objects.get(pk=course_id)
+
+        return render(request, 'course/structure.html',
+                  {'course': course})

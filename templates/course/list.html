@@ -80,6 +80,7 @@
                     {% if course.can_edit %}
                     	<a href="{% url 'oppia:course_edit' course.id %}" data-toggle="tooltip" title="{% trans 'Edit' %}" class="btn btn-inline btn-outline-primary"><em class="fas fa-2x fa-edit"></em> </a>
                     	<a href="{% url 'oppia_gamification_edit_course' course.id %}" data-toggle="tooltip" title="{% trans 'Edit Gamification' %}" class="btn btn-inline btn-outline-primary"><em class="fas fa-2x fa-gamepad"></em></a>
+                    	<a href="{% url 'oppia:course_structure' course.id %}" data-toggle="tooltip" title="{% trans 'View structure' %}" class="btn btn-inline btn-outline-primary"><em class="material-icons mr-2">ballot</em></a>
                     {% endif %}
                 </td>
 			</tr>

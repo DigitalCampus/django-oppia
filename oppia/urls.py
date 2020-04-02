@@ -48,6 +48,9 @@ urlpatterns = [
     path('course/<int:course_id>/download',
          oppia_views.CourseDownload.as_view(),
          name="course_download"),
+    path('course/<int:course_id>/structure/',
+         oppia_views.CourseStructure.as_view(),
+         name="course_structure"),
 
     path('cohort/',
          oppia_views.cohort_list_view,
