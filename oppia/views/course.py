@@ -160,7 +160,7 @@ def upload_step2(request, course_id, editing=False):
             # add the tags
 
             update_course_tags(form, course, request.user)
-            redirect = 'oppia:course' if editing else 'oppia_upload_success'
+            redirect = 'oppia:course' if editing else 'oppia:upload_success'
             CoursePublishingLog(
                 course=course,
                 new_version=course.version,
