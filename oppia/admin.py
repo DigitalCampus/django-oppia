@@ -32,7 +32,7 @@ class CourseAdmin(admin.ModelAdmin):
                     'filename',
                     'is_draft',
                     'is_archived')
-    search_fields = ['title', 'shortname']
+    search_fields = ['title', 'shortname', 'version', 'filename']
 
 
 class ParticipantAdmin(admin.ModelAdmin):
@@ -64,7 +64,7 @@ class PointsAdmin(admin.ModelAdmin):
 
 class ActivityAdmin(admin.ModelAdmin):
     list_display = ('title', 'section', 'type', 'digest')
-
+    search_fields = ['title', 'type', 'digest']
 
 class AwardCourseAdmin(admin.ModelAdmin):
     list_display = ('award', 'course', 'course_version')
@@ -97,7 +97,7 @@ class MediaAdmin(admin.ModelAdmin):
 
 class SectionAdmin(admin.ModelAdmin):
     list_display = ('course', 'title', 'order')
-
+    search_fields = ['title']
 
 class TagAdmin(admin.ModelAdmin):
     list_display = ('name',
@@ -107,7 +107,7 @@ class TagAdmin(admin.ModelAdmin):
                     'order_priority',
                     'highlight')
     ordering = ['-order_priority', 'name']
-
+    search_fields = ['name', 'description']
 
 admin.site.register(Activity, ActivityAdmin)
 admin.site.register(Award, AwardAdmin)

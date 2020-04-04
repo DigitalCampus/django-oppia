@@ -42,7 +42,7 @@ class QuestionAdmin(admin.ModelAdmin):
                     'type',
                     'created_date',
                     'lastupdated_date')
-
+    search_fields = ['title']
 
 class QuizAttemptResponseAdmin(admin.ModelAdmin):
     list_display = ('question', 'score', 'text')
@@ -56,7 +56,7 @@ class QuizAdmin(admin.ModelAdmin):
                     'lastupdated_date',
                     'draft',
                     'deleted')
-
+    search_fields = ['title', 'description']
 
 class ResponseAdmin(admin.ModelAdmin):
     list_display = ('question',
@@ -66,6 +66,7 @@ class ResponseAdmin(admin.ModelAdmin):
                     'lastupdated_date',
                     'score',
                     'order')
+    search_fields = ['title']
 
 
 class QuizQuestionAdmin(admin.ModelAdmin):
