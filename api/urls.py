@@ -9,6 +9,7 @@ from api.resources.awards import AwardsResource
 from api.resources.badges import BadgesResource
 from api.resources.course import CourseResource
 from api.resources.login import UserResource as UserResource
+from api.resources.media import MediaResource
 from api.resources.points import PointsResource
 from api.resources.profile_update import ProfileUpdateResource
 from api.resources.v1.register import RegisterResource as RegisterResourceV1
@@ -47,6 +48,7 @@ def get_api_v2():
     api.register(ResetPasswordResource())
     api.register(ProfileUpdateResource())
     api.register(QuizAttemptResource())
+    api.register(MediaResource())
     return api
 
 urlpatterns = [

@@ -16,7 +16,7 @@ class MediaEmbedCodeTest(OppiaTestCase):
         object='{\"filename\":\"ldrshp-mgmt-unit-2-risk-mgmt-D-v2.m4v\", \
         \"download_url\":\"https://download.digital-campus.org/\", \
         \"digest\":\"33e2c3cfc3e91d06b8a826f626fe39c3\", \
-        \"filesize\":4725661, \
+        \"filesize\":0, \
         \"length\":82}']]IMAGE/TEXT HERE[[/media]]"
 
     @pytest.mark.xfail(reason="works on local, but not on Github workflow")

@@ -53,7 +53,11 @@ class UploadedMedia(models.Model):
                                      self.file.size,
                                      self.length)
         except FileNotFoundError:
-            return _("File %s not found" % self.file.name)
+            return EMBED_TEMPLATE % (os.path.basename(self.file.name),
+                                     uri,
+                                     self.md5,
+                                     0,
+                                     self.length)
 
     def filename(self):
         return os.path.basename(self.file.name)
@@ -73,6 +77,11 @@ class UploadedMedia(models.Model):
             except UploadedMediaImage.DoesNotExist:
                 return None
 
+    def get_filesize(self):
+        try:
+            return self.file.size
+        except FileNotFoundError:
+            return 0
 
 @receiver(post_delete, sender=UploadedMedia)
 def uploaded_media_delete_file(sender, instance, **kwargs):

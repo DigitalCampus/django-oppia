@@ -1,4 +1,3 @@
-# tests/api/test_course_publish.py
 import pytest
 import unittest
 
