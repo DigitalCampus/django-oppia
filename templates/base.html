@@ -72,7 +72,7 @@
                         <a href="{% url 'oppia:about' %}">{% trans 'footer_about' %}</a> |
                         <a href="{% url 'oppia:about' %}#terms">{% trans 'footer_terms' %}</a>
                 </div>
-                <div class="col-md-3 small align-self-end pb-2 text-center text-md-right">{{ version }} &copy; {% now "Y" %} <a href="http://digital-campus.org">Digital Campus</a></div>
+                <div class="col-md-3 align-self-end pb-2 text-center text-md-right">{{ version }} &copy; {% now "Y" %} {% trans 'Powered by' %} <a href="https://digital-campus.org/oppiamobile">OppiaMobile</a></div>
             </div>
         </div>
     </footer>
