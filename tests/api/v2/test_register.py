@@ -55,7 +55,7 @@ class RegisterResourceTest(ResourceTestCaseMixin, TestCase):
             'last_name': 'user',
         }
         resp = self.api_client.post(self.url, format='json', data=data)
-        self.assertHttpBadRequest(resp)
+        self.assertHttpCreated(resp)
         self.assertValidJSON(resp.content)
 
     # check posting with invalid email

@@ -30,7 +30,6 @@ class RegisterResource(RegisterBaseResource):
         required = ['username',
                     'password',
                     'passwordagain',
-                    'email',
                     'first_name',
                     'last_name']
         check_required_params(bundle, required)
@@ -60,13 +59,15 @@ class RegisterResource(RegisterBaseResource):
         else:
             username = bundle.data['username']
             password = bundle.data['password']
-            email = bundle.data['email']
+            email = bundle.data['email'] if 'email' in bundle.data else '',
             first_name = bundle.data['first_name']
             last_name = bundle.data['last_name']
 
         try:
-            bundle.obj = User.objects.create_user(username, email, password)
+            bundle.obj = User.objects.create_user(username=username,
+                                                  password=password)
             bundle.obj.first_name = first_name
+            bundle.obj.email = email
             bundle.obj.last_name = last_name
             bundle.obj.save()
         except IntegrityError:

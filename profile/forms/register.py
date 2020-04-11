@@ -15,8 +15,7 @@ class RegisterForm(forms.Form):
                                error_messages={
                                    'required':
                                    _(u'Please enter a username.')})
-    email = forms.CharField(validators=[validate_email],
-                            error_messages={
+    email = forms.CharField(error_messages={
                                 'invalid':
                                 _(u'Please enter a valid e-mail address.'),
                                 'required':
@@ -101,8 +100,12 @@ class RegisterForm(forms.Form):
                 _(u"Username has already been registered, please select another."))
 
         # check the email address not already used
-        if email and User.objects.filter(email=email).exists():
+        if email != '' and User.objects.filter(email=email).exists():
             raise forms.ValidationError(_(u"Email has already been registered"))
+
+        if email != '':
+            validate_email(email)
+
 
         # check the password are the same
         if password and password_again and password != password_again:
