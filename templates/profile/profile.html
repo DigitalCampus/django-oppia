@@ -16,7 +16,7 @@
 		</div>
 
 		<div class="col-sm-7 text-right">
-			<a href="{% url 'profile:delete' %}" class="btn btn-light mr-2 mb-3">{% trans 'Delete Account' %}</a>
+			<a href="{% url 'profile:delete' user.id %}" class="btn btn-light mr-2 mb-3">{% trans 'Delete Account' %}</a>
 			<a href="#" class="btn btn-secondary mb-3" data-toggle="collapse" data-target="#export-data" aria-expanded="false">Export</a>
 		</div>
 	</div>

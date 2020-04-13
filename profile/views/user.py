@@ -255,7 +255,7 @@ def edit(request, user_id=0):
         initial = edit_form_initial(view_user, key)
         form = ProfileForm(initial=initial)
 
-    return render(request, 'profile/profile.html', {'form': form})
+    return render(request, 'profile/profile.html', {'form': form, 'user': view_user})
 
 
 def export_mydata_view(request, data_type):

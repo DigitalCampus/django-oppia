@@ -396,7 +396,8 @@ class EditProfileViewTest(OppiaTestCase):
     def test_delete_account_admin(self):
         self.client.force_login(self.admin_user)
         post_data = {'username': 'admin', 'password': 'password'}
-        response = self.client.post(reverse('profile:delete'),
+        response = self.client.post(reverse('profile:delete',
+                                            args=[self.admin_user.id]),
                                     data=post_data)
         self.assertRedirects(response,
                              reverse('profile:delete_complete'),
@@ -406,7 +407,8 @@ class EditProfileViewTest(OppiaTestCase):
     def test_delete_account_staff(self):
         self.client.force_login(self.staff_user)
         post_data = {'username': 'staff', 'password': 'password'}
-        response = self.client.post(reverse('profile:delete'),
+        response = self.client.post(reverse('profile:delete',
+                                            args=[self.staff_user.id]),
                                     data=post_data)
         self.assertRedirects(response,
                              reverse('profile:delete_complete'),
@@ -416,7 +418,8 @@ class EditProfileViewTest(OppiaTestCase):
     def test_delete_account_teacher(self):
         self.client.force_login(self.teacher_user)
         post_data = {'username': 'teacher', 'password': 'password'}
-        response = self.client.post(reverse('profile:delete'),
+        response = self.client.post(reverse('profile:delete',
+                                            args=[self.teacher_user.id]),
                                     data=post_data)
         self.assertRedirects(response,
                              reverse('profile:delete_complete'),
@@ -426,7 +429,8 @@ class EditProfileViewTest(OppiaTestCase):
     def test_delete_account_user(self):
         self.client.force_login(self.normal_user)
         post_data = {'username': 'demo', 'password': 'password'}
-        response = self.client.post(reverse('profile:delete'),
+        response = self.client.post(reverse('profile:delete',
+                                            args=[self.normal_user.id]),
                                     data=post_data)
         self.assertRedirects(response,
                              reverse('profile:delete_complete'),
@@ -436,7 +440,8 @@ class EditProfileViewTest(OppiaTestCase):
     def test_delete_account_wrong_password(self):
         self.client.force_login(self.normal_user)
         post_data = {'username': 'demo', 'password': 'wrongpassword'}
-        self.client.post(reverse('profile:delete'), data=post_data)
+        self.client.post(reverse('profile:delete',
+                                 args=[self.normal_user.id]), data=post_data)
         self.assertRaisesMessage(forms.ValidationError,
                                  'Invalid password. Please try again. ')
 

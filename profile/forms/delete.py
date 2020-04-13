@@ -3,14 +3,16 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Div, HTML
 from django import forms
-from django.contrib.auth import (authenticate)
+from django.contrib.auth import authenticate
 from django.urls import reverse
 from django.utils.translation import ugettext as _
 
 
 class DeleteAccountForm(forms.Form):
-    username = forms.CharField(widget=forms.TextInput(attrs={'readonly':
-                                                             'readonly'}),
+    username = forms.CharField(widget=forms.TextInput(),
+                               error_messages={
+                                   'required':
+                                   _(u'Please enter your username.')},
                                required=True)
     password = forms.CharField(widget=forms.PasswordInput,
                                error_messages={
@@ -21,7 +23,6 @@ class DeleteAccountForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(DeleteAccountForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
-        self.helper.form_action = reverse('profile:delete')
         self.helper.form_class = 'form-horizontal'
         self.helper.label_class = 'col-lg-2'
         self.helper.field_class = 'col-lg-4'

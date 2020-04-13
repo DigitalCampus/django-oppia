@@ -2,6 +2,7 @@ import csv
 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db import IntegrityError
@@ -105,34 +106,42 @@ def list_users(request):
                    'ajax_url': request.path})
 
 
-def delete_account_view(request):
+def delete_account_view(request, user_id):
     if request.method == 'POST':  # if form submitted...
         form = DeleteAccountForm(request.POST)
         if form.is_valid():
-            user = request.user
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+            user = authenticate(username=username, password=password)
+            posted_user = User.objects.get(pk=user_id)
+
+            if user.is_superuser or user.id == user_id:
+                delete_user = posted_user
+            else:
+                raise PermissionDenied
 
             # delete points
-            Points.objects.filter(user=user).delete()
+            Points.objects.filter(user=delete_user).delete()
 
             # delete badges
-            Award.objects.filter(user=user).delete()
+            Award.objects.filter(user=delete_user).delete()
 
             # delete trackers
-            Tracker.objects.filter(user=user).delete()
+            Tracker.objects.filter(user=delete_user).delete()
 
             # delete quiz attempts
             QuizAttemptResponse.objects \
-                .filter(quizattempt__user=user).delete()
-            QuizAttempt.objects.filter(user=user).delete()
+                .filter(quizattempt__user=delete_user).delete()
+            QuizAttempt.objects.filter(user=delete_user).delete()
 
             # delete profile
-            UserProfile.objects.filter(user=user).delete()
+            UserProfile.objects.filter(user=delete_user).delete()
 
             # delete api key
-            ApiKey.objects.filter(user=user).delete()
+            ApiKey.objects.filter(user=delete_user).delete()
 
             # logout and delete user
-            User.objects.get(pk=user.id).delete()
+            User.objects.get(pk=delete_user.id).delete()
 
             # redirect
             return HttpResponseRedirect(
