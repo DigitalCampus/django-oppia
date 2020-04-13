@@ -437,6 +437,42 @@ class EditProfileViewTest(OppiaTestCase):
                              302,
                              200)
 
+    def test_delete_account_user_by_admin(self):
+        self.client.force_login(self.admin_user)
+        post_data = {'username': 'admin', 'password': 'password'}
+        response = self.client.post(reverse('profile:delete',
+                                            args=[self.normal_user.id]),
+                                    data=post_data)
+        self.assertRedirects(response,
+                             reverse('profile:delete_complete'),
+                             302,
+                             200)
+
+    def test_delete_account_user_by_staff(self):
+        self.client.force_login(self.staff_user)
+        post_data = {'username': 'staff', 'password': 'password'}
+        response = self.client.post(reverse('profile:delete',
+                                            args=[self.normal_user.id]),
+                                    data=post_data)
+        self.assertEqual(response.status_code, 403)
+
+    def test_delete_account_user_by_teacher(self):
+        self.client.force_login(self.teacher_user)
+        post_data = {'username': 'teacher', 'password': 'password'}
+        response = self.client.post(reverse('profile:delete',
+                                            args=[self.normal_user.id]),
+                                    data=post_data)
+        self.assertEqual(response.status_code, 403)
+
+    def test_delete_account_user_by_user(self):
+        self.client.force_login(self.normal_user)
+        post_data = {'username': 'demo', 'password': 'password'}
+        response = self.client.post(reverse('profile:delete',
+                                            args=[self.teacher_user.id]),
+                                    data=post_data)
+        self.assertEqual(response.status_code, 403)
+
+
     def test_delete_account_wrong_password(self):
         self.client.force_login(self.normal_user)
         post_data = {'username': 'demo', 'password': 'wrongpassword'}
