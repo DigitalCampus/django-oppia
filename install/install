@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo "installing packages..."
+
+apt-get update
+
+apt-get upgrade
+
+apt-get install mysql-server build-essential checkinstall libreadline-gplv2-dev openssl libncursesw5-dev libgdbm-dev libc6-dev libbz2-dev python-dev libmysqlclient-dev

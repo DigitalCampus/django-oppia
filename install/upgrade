@@ -1,0 +1,49 @@
+#!/bin/bash
+
+echo "This script assumes you are using Ubuntu and already have an OppiaMobile server installed on this machine and running under a virtualenv"
+echo "Please confirm this is the case (y|n):"
+read confirm
+
+if [ $confirm != 'y' ]
+then
+	echo "exiting"
+	exit
+fi
+
+# virtualenv location
+VENV_DIR="$( cd "$( dirname "../../${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/env/"
+echo "Please confirm the location of your virtualenv"
+echo "The default location is shown below, if this is the case just press enter"
+echo "If this default is not the location of your virtualenv, please enter the full or relative path"
+read -p "(default: $VENV_DIR)" venv
+venv=${venv:-$VENV_DIR}
+
+
+# oppia code location
+DJANGO_DIR="$( cd "$( dirname "../../${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/django-oppia/"
+echo "Please confirm the location of your Django Oppia source code"
+echo "The default location is shown below, if this is the case just press enter"
+echo "If this default is not the location of your Django Oppia source code, please enter the full or relative path"
+read -p "(default: $DJANGO_DIR)" djangodir
+djangodir=${djangodir:-$DJANGO_DIR}
+
+cd $djangodir
+
+git pull
+
+source $venv/bin/activate
+
+pip install -r requirements.txt
+
+python manage.py migrate
+
+python manage.py compilescss
+
+python manage.py collectstatic
+
+echo "The apache webserver will now be restarted, you might need to confirm with your root/sudo password"
+
+sudo service apache2 restart
+
+echo "Upgrade complete"
+
