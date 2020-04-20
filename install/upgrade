@@ -10,6 +10,12 @@ then
 	exit
 fi
 
+echo "First to ensure your Ubuntu OS is fully up to date... you will need sudo/root privileges to do this"
+
+sudo apt-get update
+
+sudo apt-get upgrade
+
 # virtualenv location
 VENV_DIR="$( cd "$( dirname "../../${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/env/"
 echo "Please confirm the location of your virtualenv"
@@ -41,7 +47,7 @@ python manage.py compilescss
 
 python manage.py collectstatic
 
-echo "The apache webserver will now be restarted, you might need to confirm with your root/sudo password"
+echo "The apache webserver will now be restarted..."
 
 sudo service apache2 restart
 

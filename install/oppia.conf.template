@@ -1,0 +1,33 @@
+<VirtualHost *:80>
+
+        ServerName [SERVER_NAME]
+        WSGIDaemonProcess localhost.oppia python-path=[DJANGO_PATH]:[SITE_ROOT]/env/lib/python3.6/site-packages
+        WSGIProcessGroup localhost.oppia
+        WSGIScriptAlias / [DJANGO_PATH]/oppiamobile/wsgi.py
+        WSGIPassAuthorization On
+
+        <Directory [DJANGO_PATH]/oppiamobile/>
+                <Files wsgi.py>
+                        Require all granted
+                </Files>
+        </Directory>
+
+        Alias /media [SITE_ROOT]/media/
+        <Directory "[SITE_ROOT]/media/">
+                Options MultiViews FollowSymLinks
+                AllowOverride None
+                Require all granted
+        </Directory>
+
+        Alias /static [SITE_ROOT]/static/
+        <Directory "[SITE_ROOT]/static/">
+                Options MultiViews FollowSymLinks
+                AllowOverride None
+                Require all granted
+        </Directory>
+
+        LogLevel warn
+        ErrorLog /var/log/apache2/oppia-error.log
+        CustomLog /var/log/apache2/oppia-access.log combined
+
+</VirtualHost>

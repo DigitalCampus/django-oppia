@@ -1,9 +1,183 @@
 #!/bin/bash
 
-echo "installing packages..."
+echo "This script assumes you are using Ubuntu and that you already have a domain name pointing to this machine."
+printf "Please confirm this is the case (y|n):"
+read confirm
+printf "\n"
 
-apt-get update
+if [ $confirm != 'y' ]
+then
+	echo "exiting"
+	exit
+fi
 
-apt-get upgrade
+echo "First to ensure your Ubuntu OS is fully up to date..."
+echo "you will need sudo/root privileges to do this"
 
-apt-get install mysql-server build-essential checkinstall libreadline-gplv2-dev openssl libncursesw5-dev libgdbm-dev libc6-dev libbz2-dev python-dev libmysqlclient-dev
+sudo apt-get update
+
+sudo apt-get upgrade
+
+echo "Installing new packages..."
+
+sudo apt-get install mysql-server build-essential checkinstall \
+	libreadline-gplv2-dev openssl libncursesw5-dev libgdbm-dev libc6-dev \
+	libbz2-dev python-dev libmysqlclient-dev apache2 python3-mysqldb \
+	python3-dev libpython3-dev libjpeg-dev zlib1g-dev ffmpeg \
+	libapache2-mod-wsgi-py3 software-properties-common
+
+sudo add-apt-repository universe
+sudo add-apt-repository ppa:certbot/certbot
+sudo apt-get update
+sudo apt-get install certbot python-certbot-apache
+
+# Create database
+printf "\n\n"
+echo "Do you already have a specific MySQL database set up for Oppia (y|n):"
+read confirm
+
+if [ $confirm == 'y' ]
+then
+	# ask for mysql db name
+	printf "Please enter your database name:"
+	read mysql_db
+	printf "\n\n"
+
+	# ask for mysql oppia username
+	printf "Please enter your database username:"
+	read mysql_username
+	printf "\n\n"
+
+	# ask for mysql oppia password
+	stty -echo
+	printf "Please enter your database password:"
+	read mysql_password
+	stty echo
+	printf "\n"
+
+elif [ $confirm == 'n' ]
+then
+	# ask for root mysql pw
+	stty -echo
+	printf "Please enter your MySQL root password:"
+	read mysql_root_pw
+	stty echo
+	printf "\n"
+
+	# ask for mysql db name
+	MySQLDB='oppia'
+	printf "Please enter the name for your Oppia MySQL database:"
+	read -p "(default: $MySQLDB)" mysql_db
+	mysql_db=${mysql_db:-$MySQLDB}
+	printf "\n"
+
+	# ask for mysql oppia username
+	MySQLUSER='oppiauser'
+	printf "Please enter a username for your Oppia MySQL database:"
+	read -p "(default: $MySQLUSER)" mysql_username
+	mysql_username=${mysql_username:-$MySQLUSER}
+	printf "\n"
+
+	# ask for mysql oppia password
+	MySQLPW='oppiapassword'
+	stty -echo
+	printf "Please enter a password for your Oppia MySQL database:"
+	read -p "(default: $MySQLPW)" mysql_password
+	mysql_password=${mysql_password:-$MySQLPW}
+	stty echo
+	printf "\n"
+
+	# write script file
+	echo "create database ``$mysql_db`` default character set utf8mb4;" > script.sql
+	echo "grant all privileges on ``$mysql_db``.* to '$mysql_username'@'localhost' identified by '$mysql_password';" >> script.sql
+	echo "flush privileges;" >> script.sql
+
+	# create db and user
+	mysql -uroot -p$mysql_root_pw < script.sql
+
+	rm script.sql
+else
+	echo "exiting"
+	exit
+fi
+
+# create settings secret file
+NEW_SECRET_KEY="$(date +%s | sha256sum | base64 | head -c 48 ; echo)"
+
+setting_secret_template="$( cd "$( dirname "../${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/oppiamobile/settings_secret.py.template"
+setting_secret_file="$( cd "$( dirname "../${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/oppiamobile/settings_secret.py"
+
+cp $setting_secret_template $setting_secret_file
+
+sed -i -e "s/NEW_SECRET_KEY/$NEW_SECRET_KEY/g" $setting_secret_file
+sed -i -e "s/DATABASE_NAME/$mysql_db/g" $setting_secret_file
+sed -i -e "s/DATABASE_USER/$mysql_username/g" $setting_secret_file
+sed -i -e "s/DATABASE_PASSWORD/$mysql_password/g" $setting_secret_file
+
+printf "Please enter the domain name, excluding the protocol (eg oppia.example.org):"
+read DOMAIN_NAME
+printf "\n"
+
+sed -i -e "s/DOMAIN_NAME/$DOMAIN_NAME/g" $setting_secret_file
+
+# set up virtualenv
+VENV_DIR="$( cd "$( dirname "../../${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/env/"
+echo "Please confirm the location for your virtualenv"
+echo "The default location is shown below, to use this default, just press enter"
+echo "If your prefer a different location for your virtualenv, please enter the full path"
+read -p "(default: $VENV_DIR)" venv
+venv=${venv:-$VENV_DIR}
+
+virtualenv -p /usr/bin/python3 $venv
+
+source $venv/bin/activate
+
+# create dirs and permissions
+cd "$( cd "$( dirname "../${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/"
+
+mkdir ../media/
+sudo chown -R www-data ../media/
+
+mkdir ../static/
+sudo chown -R www-data ../static/
+
+mkdir ../upload/
+sudo chown -R www-data ../upload/
+
+# set up packages and structure
+pip install -r requirements.txt
+pip install mysqlclient
+
+python manage.py migrate
+
+python manage.py loaddata oppia/fixtures/default_badges.json
+python manage.py loaddata oppia/fixtures/default_gamification_events.json
+
+python manage.py compilescss
+
+python manage.py collectstatic
+
+# configure webserver
+printf "\n\n"
+echo "Would you like to configure the apache webserver now (y|n):"
+read confirm
+
+if [ $confirm == 'y' ]
+then
+
+	# configure SSL
+
+
+	sudo certbot certonly --apache
+else
+echo "Continuing, if needed you can configure apache later."
+fi
+
+# set up cron tasks
+
+
+# Final tasks...
+# create admin user
+# enable cron
+# email config
+
