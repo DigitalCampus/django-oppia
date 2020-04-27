@@ -12,5 +12,4 @@ django-sass-processor==0.7.2
 pycodestyle
 pytest
 pytest-django
-django-ses
 openpyxl==3.0.3
