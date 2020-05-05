@@ -21,6 +21,8 @@ from oppia.permissions import get_cohorts
 from reports.signals import dashboard_accessed
 from summary.models import CourseDailyStats
 
+from profile.models import UserProfile
+
 STR_DATE_FORMAT = "%d %b %Y"
 
 def server_view(request):
@@ -36,25 +38,29 @@ def about_view(request):
 
 def home_view(request):
 
-    user = request.user
+    if request.user.is_authenticated:
 
-    if user.is_authenticated:
+        # create profile if none exists (for first admin user login and historical for very old users)
+        try:
+            request.user.userprofile
+        except UserProfile.DoesNotExist:
+            up = UserProfile()
+            up.user = request.user
+            up.save()
 
-        if user.is_superuser or user.is_staff:
-            form, activity = home_view_admin_authenticated(request)
-            leaderboard = Points.get_leaderboard(10)
+        up = request.user.userprofile
+        # if user is student redirect to their scorecard
+        if up.is_student_only():
+            return HttpResponseRedirect(reverse('profile:user_activity',
+                                                args=[request.user.id]))
 
-        else:
-            up = user.userprofile
-            # if user is student redirect to their scorecard
-            if up.is_student_only():
-                return HttpResponseRedirect(reverse('profile:user_activity',
-                                                    args=[user.id]))
+        # is user is teacher redirect to teacher home
+        if up.is_teacher_only():
+            return HttpResponseRedirect(reverse('oppia:teacher_index'))
 
-            # is user is teacher redirect to teacher home
-            if up.is_teacher_only():
-                return HttpResponseRedirect(reverse('oppia:teacher_index'))
-
+        # admin/staff view
+        form, activity = home_view_admin_authenticated(request)
+        leaderboard = Points.get_leaderboard(10)
     else:
         activity = []
         leaderboard = None
