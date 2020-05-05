@@ -36,20 +36,25 @@ def about_view(request):
 
 def home_view(request):
 
-    if request.user.is_authenticated:
-        up = request.user.userprofile
-        # if user is student redirect to their scorecard
-        if up.is_student_only():
-            return HttpResponseRedirect(reverse('profile:user_activity',
-                                                args=[request.user.id]))
+    user = request.user
 
-        # is user is teacher redirect to teacher home
-        if up.is_teacher_only():
-            return HttpResponseRedirect(reverse('oppia:teacher_index'))
+    if user.is_authenticated:
 
-        # admin/staff view
-        form, activity = home_view_admin_authenticated(request)
-        leaderboard = Points.get_leaderboard(10)
+        if user.is_superuser or user.is_staff:
+            form, activity = home_view_admin_authenticated(request)
+            leaderboard = Points.get_leaderboard(10)
+
+        else:
+            up = user.userprofile
+            # if user is student redirect to their scorecard
+            if up.is_student_only():
+                return HttpResponseRedirect(reverse('profile:user_activity',
+                                                    args=[user.id]))
+
+            # is user is teacher redirect to teacher home
+            if up.is_teacher_only():
+                return HttpResponseRedirect(reverse('oppia:teacher_index'))
+
     else:
         activity = []
         leaderboard = None
