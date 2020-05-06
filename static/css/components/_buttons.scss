@@ -21,6 +21,8 @@
         top:50%;
         margin-top:-7px;
         transition: transform 0.3s;
-
     }
+
+     &:not(.collapsed) .unfold-more { display: none; }
+     &.collapsed .unfold-less { display: none; }
 }
