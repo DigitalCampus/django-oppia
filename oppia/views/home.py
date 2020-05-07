@@ -21,6 +21,8 @@ from oppia.permissions import get_cohorts
 from reports.signals import dashboard_accessed
 from summary.models import CourseDailyStats
 
+from profile.models import UserProfile
+
 STR_DATE_FORMAT = "%d %b %Y"
 
 def server_view(request):
@@ -37,6 +39,15 @@ def about_view(request):
 def home_view(request):
 
     if request.user.is_authenticated:
+
+        # create profile if none exists (for first admin user login and historical for very old users)
+        try:
+            request.user.userprofile
+        except UserProfile.DoesNotExist:
+            up = UserProfile()
+            up.user = request.user
+            up.save()
+
         up = request.user.userprofile
         # if user is student redirect to their scorecard
         if up.is_student_only():

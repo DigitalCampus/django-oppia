@@ -17,3 +17,4 @@ oppiamobile/settings_secret.py
 
 /sonarcloud.sh
 /sonarcloud
+/static/css/oppia.css
