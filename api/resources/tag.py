@@ -65,11 +65,11 @@ class TagResource(ModelResource):
         if request.user.is_staff:
             courses = Course.objects.filter(
                 tag=tag,
-                is_archived=False).order_by("title")
+                is_archived=False).order_by('-priority', 'title')
         else:
             courses = Course.objects.filter(tag=tag,
                                             is_archived=False,
-                                            is_draft=False).order_by("title")
+                                            is_draft=False).order_by('-priority', 'title')
 
         course_data = []
         cr = CourseResource()

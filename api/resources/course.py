@@ -30,6 +30,7 @@ class CourseResource(ModelResource):
                   'title',
                   'version',
                   'shortname',
+                  'priority',
                   'is_draft',
                   'description',
                   'author',
@@ -43,9 +44,9 @@ class CourseResource(ModelResource):
 
     def get_object_list(self, request):
         if request.user.is_staff:
-            return Course.objects.filter(is_archived=False)
+            return Course.objects.filter(is_archived=False).order_by('-priority', 'title')
         else:
-            return Course.objects.filter(is_archived=False, is_draft=False)
+            return Course.objects.filter(is_archived=False, is_draft=False).order_by('-priority', 'title')
 
     def prepend_urls(self):
         return [

@@ -169,6 +169,7 @@ def process_course(extract_path, f, mod_name, request, user):
     course.title = meta_info['title']
     course.description = meta_info['description']
     course.version = meta_info['versionid']
+    course.priority = int(meta_info['priority'])
     course.user = user
     course.filename = f.name
     course.save()
@@ -554,6 +555,8 @@ def parse_course_meta(xml_doc):
     meta_info = {'versionid': 0, 'shortname': ''}
     for meta in xml_doc.findall('meta')[:1]:
         meta_info['versionid'] = int(meta.find('versionid').text)
+
+        meta_info['priority'] = int(meta.find('priority').text)
 
         title = {}
         for t in meta.findall('title'):

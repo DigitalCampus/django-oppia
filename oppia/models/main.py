@@ -33,6 +33,8 @@ class Course(models.Model):
                                    null=True,
                                    default=None)
     shortname = models.CharField(max_length=200)
+    priority = models.IntegerField(default=0)
+
     filename = models.CharField(max_length=200)
     badge_icon = models.FileField(upload_to="badges",
                                   blank=True,
