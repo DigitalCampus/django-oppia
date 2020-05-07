@@ -593,12 +593,12 @@ msgstr ""
 msgid "button_cohort_save"
 msgstr ""
 
-#: templates/oppia/home.html:25 templates/oppia/course/activity.html:24
+#: templates/oppia/home.html:25 templates/oppia/course/detail.html:24
 #: templates/oppia/course/course.html:18
 msgid "Date"
 msgstr ""
 
-#: templates/oppia/home.html:26 templates/oppia/course/activity.html:25
+#: templates/oppia/home.html:26 templates/oppia/course/detail.html:25
 #: templates/oppia/course/course.html:19 templates/viz/summary.html:30
 #: templates/viz/summary.html:53 templates/viz/summary.html:78
 #: templates/viz/summary.html:101 templates/viz/summary.html:124
@@ -607,11 +607,11 @@ msgstr ""
 msgid "Total"
 msgstr ""
 
-#: templates/oppia/home.html:53 templates/oppia/course/activity.html:58
+#: templates/oppia/home.html:53 templates/oppia/course/detail.html:58
 msgid "courses_recent_activity"
 msgstr ""
 
-#: templates/oppia/home.html:54 templates/oppia/course/activity.html:59
+#: templates/oppia/home.html:54 templates/oppia/course/detail.html:59
 #: templates/oppia/course/course.html:92 templates/viz/summary.html:251
 #: templates/viz/summary.html:252 templates/viz/summary.html:256
 #: templates/viz/summary.html:257 templates/viz/summary.html:260
@@ -620,7 +620,7 @@ msgstr ""
 msgid "graph_generating"
 msgstr ""
 
-#: templates/oppia/home.html:59 templates/oppia/course/activity.html:65
+#: templates/oppia/home.html:59 templates/oppia/course/detail.html:65
 msgid "home_leaderboard"
 msgstr ""
 
@@ -773,7 +773,7 @@ msgid ""
 msgstr ""
 
 #: templates/oppia/course/activity-detail.html:26
-#: templates/oppia/course/activity.html:56
+#: templates/oppia/course/detail.html:56
 #: templates/oppia/course/cohorts.html:8 templates/oppia/course/course.html:90
 #: templates/oppia/course/feedback-responses.html:25
 #: templates/oppia/course/feedback.html:7
@@ -828,23 +828,23 @@ msgstr ""
 msgid "No hits yet"
 msgstr ""
 
-#: templates/oppia/course/activity.html:26
+#: templates/oppia/course/detail.html:26
 msgid "Page completed"
 msgstr ""
 
-#: templates/oppia/course/activity.html:27
+#: templates/oppia/course/detail.html:27
 msgid "Quiz completed"
 msgstr ""
 
-#: templates/oppia/course/activity.html:28
+#: templates/oppia/course/detail.html:28
 msgid "Media viewed"
 msgstr ""
 
-#: templates/oppia/course/activity.html:29
+#: templates/oppia/course/detail.html:29
 msgid "Resources viewed"
 msgstr ""
 
-#: templates/oppia/course/activity.html:44
+#: templates/oppia/course/detail.html:44
 msgid "No. attempts"
 msgstr ""
 

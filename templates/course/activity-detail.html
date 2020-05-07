@@ -21,7 +21,7 @@
 {% block header %}
 <div class="jumbotron pb-2 mb-3">
 	<div class="row">
-		<div class="col-md-8">
+		<div class="col-md-12">
 			<h3><a href="{% url 'oppia:recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a>
 			{% if course.is_draft %}
 				<span class="badge badge-dark ml-2"><small>{% trans 'draft' %}</small></span>
