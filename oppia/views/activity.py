@@ -27,8 +27,6 @@ def course_detail(request, course_id):
         .values('course')\
         .annotate(distinct=Count('user'), total=Sum('total_downloads')).first()
 
-    print(download_stats)
-
     start_date = datetime.datetime.now() - datetime.timedelta(days=31)
     end_date = datetime.datetime.now()
     interval = 'days'

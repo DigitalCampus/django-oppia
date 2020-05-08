@@ -6,11 +6,14 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 
 from av import handler
 from av.forms import UploadMediaForm
 from av.models import UploadedMedia, UploadedMediaImage
+from helpers.mixins.AjaxTemplateResponseMixin import AjaxTemplateResponseMixin
+from helpers.mixins.ListItemUrlMixin import ListItemUrlMixin
+from oppia.models import Media, Course
 from oppia.permissions import user_can_upload
 
 STR_UPLOAD_MEDIA = _(u'Upload Media')
@@ -110,3 +113,23 @@ def set_default_image_view(request, image_id):
     image.save()
 
     return HttpResponseRedirect(reverse('av:view', args=[media.id]))
+
+
+class CourseMediaList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
+
+    model = Media
+    template_name = 'course/media/list.html'
+    ajax_template_name = 'course/media/query.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        id = self.kwargs['course_id']
+        return Media.objects.filter(course__id=id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['course'] = Course.objects.get(pk=self.kwargs['course_id'])
+        for media in context['object_list']:
+            media.uploaded = UploadedMedia.objects.filter(md5=media.digest).first()
+
+        return context

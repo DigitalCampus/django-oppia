@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{% trans 'Courses' %}
+{% endblock extra_head_title %}
+
+
+{% block header %}
+<div class="jumbotron mb-2">
+		<h3><a href="{% url 'oppia:recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a>
+			<em class="material-icons md-18 ">arrow_forward_ios</em>  {% trans 'Media' %}
+		</h3>
+
+</div>
+{% endblock header %}
+
+{% block content %}
+
+        {% include 'common/ajax_wrapper.html' with query_template='course/media/query.html' %}
+
+
+{% endblock %}
+
+{% block extra_scripts %}
+
+{% endblock %}
