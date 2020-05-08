@@ -23,6 +23,12 @@
 			<div class="rounded-circle mx-auto my-3 bg-light-1 text-white align-items-center d-flex justify-content-center" style="width:100px;height:100px;"><i class="fas fa-3x fa-photo-video"></i></div>
 			{% if uploaded %}
 				This course has {{uploaded}} media files uploaded to the server. You can download all of them in a <strong>zip package</strong>.<br>
+
+				{% if no_media %}
+					<div class="alert alert-warning mt-3 mb-1" role="alert">
+					  It seems that none of the uploaded media is present.
+					</div>
+				{% endif %}
 				<a class="btn btn-primary mt-3" href="{% url 'av:download_course_media' course.id %}">Download</a>
 			{% else %}
 				This course has no media files uploaded to the server.
