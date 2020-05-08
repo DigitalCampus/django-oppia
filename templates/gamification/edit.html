@@ -8,47 +8,60 @@
 
 
 {% block header %}
-<div class="jumbotron mb-4 py-3">
+<div class="jumbotron pb-5 mb-0">
 	<div class="row">
-		<div class="col-md-7">
-			<h2><em class="fas fa-gamepad mt-2 mr-3"></em>Gamification</h2>
-			{{ course.title|title_lang:LANGUAGE_CODE }}
+		<div class="col-lg-6">
+			<h3><a href="{% url 'oppia:recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a>
+				<em class="material-icons md-18 ">arrow_forward_ios</em>  {% trans 'Gamification' %}
+			</h3>
+			<p>{% if course.is_draft %}
+				<span class="badge badge-dark ml-2"><small>{% trans 'draft' %}</small></span>
+			{% endif %}
+			{% if course.is_archived %}
+				<span class="badge badge-dark ml-2"><small>{% trans 'archived' %}</small></span>
+			{% endif %}
+				<em>{% trans 'Tags:' %} {{ course.get_tags}}</em></p>
 		</div>
-		<div class="col-md-5">
+		<div class="col-lg-3">
 			<h5 class="mb-0 badge badge-info">Legend</h5><br>
 			<em class="fas lead mr-2 fa-globe-africa text-info" ></em> Global settings<br>
 			<em class="fas lead mr-2 fa-cog text-info"></em> Custom points <br>
             <em class="fas lead mr-2 fa-level-down-alt text-info" ></em> Inherited from course <br>
 
 		</div>
+		<div class="col-lg-3 text-right">
+			<a href="#" class="btn btn-secondary mr-2 mb-3" id="collapse-all" style="display:none;"><span class="material-icons mr-2">unfold_less</span> {% trans 'Collapse all' %}</a>
+			<a href="#" class="btn btn-secondary mr-2 mb-3" id="unfold-all"><span class="material-icons mr-2">unfold_more</span> {% trans 'Unfold all' %}</a>
+		</div>
 	</div>
-
-
 </div>
+
 {% endblock header %}
 
 
 {% block content %}
 
-    <div class="container">
-	    <div class="row">
-	    	<div class="col-md-12">{% include "includes/messages.html" %}</div>
-	    </div>
+<div class="row">
+	<div class="col-md-12">{% include "includes/messages.html" %}</div>
+</div>
 
-		<div class="list-group mb-2 mt-4">
-		<a class="list-group-item list-group-item-action bg-primary text-light collapsed" data-toggle="collapse" href="#global-settings" role="button" aria-expanded="false">
-			<h6>Course global settings
-				<span class="badge badge-light">{{default_points.course|length}}</span>
-			</h6>
-			<em class="fas fa-chevron-down expand-btn"></em>
+<div class="card mx-3" style="margin-top:-2rem;">
+
+	<div class="card-header bg-light-3 d-flex justify-content-between">
+		<div>
+			<h5 class="mb-0">Course global settings</h5>
+			<span class="text-black-50"> {{default_points.course|length}} settings </span>
+		</div>
+
+		<a class="btn btn-inline btn-outline-dark collapsed" aria-expanded="false" data-toggle="collapse" href="#global-settings">
+			<span class="material-icons unfold-less">unfold_less</span>
+			<span class="material-icons unfold-more">unfold_more</span>
 		</a>
+	</div>
 
-		<div class="collapse gamification-config" id="global-settings">
-			<div class="card">
-				<div class="card-body">
-
-
-
+	<div class="collapse gamification-config course-section" id="global-settings">
+		<div class="card">
+			<div class="card-body">
 
 		<div class="row">
 		{% for events in default_points.course|split_half %}
@@ -75,29 +88,31 @@
 				<div class="custom-gamification pt-2 collapse" data-type="course" id="custom-course"></div>
 			</div>
 			</div>
-		</div>
-		</div>
+	</div>
 
-		<div class="list-group mb-2">
-		<a class="list-group-item list-group-item-action bg-info text-light">
+
+	<div class="list-group">
+		<div class="list-group-item list-group-item-action bg-light-1">
 			<h6>Topics</h6>
-		</a>
+		</div>
 
 		{% regroup activities by section as section_list %}
 
 		{% for section in section_list %}
 
+		<div class="list-group-item d-flex justify-content-between bg-light">
+			<div>
+				<h6 class="mb-0">{{forloop.counter0|add:1}}. {{section.grouper}}</h6>
+				<span class="text-black-50"> {{section.list|length}} activities </span>
+			</div>
 
-		<a class="list-group-item list-group-item-action bg-light collapsed" data-toggle="collapse" href="#section{{forloop.counter0}}" role="button" aria-expanded="false">
-			<h6>{{section.grouper}}
-				<span class="badge badge-info">{{section.list|length}} activities</span></h6>
-			<em class="fas fa-chevron-down expand-btn"></em>
-		</a>
+			<a class="btn btn-inline btn-outline-dark collapsed" aria-expanded="false" data-toggle="collapse" href="#section{{forloop.counter0}}">
+				<span class="material-icons unfold-less">unfold_less</span>
+				<span class="material-icons unfold-more">unfold_more</span>
+			</a>
+		</div>
 
-		<div class="collapse" id="section{{forloop.counter0}}">
-			<div class="card">
-				<div class="card-body py-0">
-
+		<div class="collapse course-section" id="section{{forloop.counter0}}">
 		<div class="table-responsive">
 		 <table class="table table-striped-expandable mb-0">
 		 	<caption class="d-none">{% trans "Sections" %}</caption>
@@ -162,8 +177,6 @@
 		 </table>
 			</div>
 	</div>
-				</div>
-			</div>
 
 		{% endfor %}
 
@@ -171,17 +184,20 @@
 
 
 		{% if media %}
-		<div class="list-group mb-2">
+		<div class="list-group-item d-flex justify-content-between bg-light-1">
+			<div>
+				<h6 class="mb-0">Media elements</h6>
+				<span class="text-black-50"> {{media|length}} elements </span>
+			</div>
 
-			<a class="list-group-item list-group-item-action bg-info text-light collapsed" data-toggle="collapse" href="#media-elements" role="button" aria-expanded="false">
-			<h6>Media elements
-				<span class="badge badge-light">{{media|length}}</span></h6>
-				<em class="fas fa-chevron-down expand-btn"></em>
-		</a>
+			<a class="btn btn-inline btn-outline-dark collapsed" aria-expanded="false" data-toggle="collapse" href="#media-elements">
+				<span class="material-icons unfold-less">unfold_less</span>
+				<span class="material-icons unfold-more">unfold_more</span>
+			</a>
+		</div>
 
-		<div class="collapse" id="media-elements">
-			<div class="card">
-				<div class="card-body pt-0">
+		<div class="collapse course-section" id="media-elements">
+
 
 	<div class="table-responsive">
 		 <table class="table table-striped-expandable">
@@ -224,27 +240,10 @@
 		{% endfor %}
 		 </table>
 	</div>
-				</div></div>
-			</div>
+				</div>
 		{% endif %}
 
-<form method='POST' id="gamification-events-form" data-prefix="{{events_formset.prefix}}">
-	{% csrf_token %}
-	{{ events_formset.management_form }}
 
-	 <div id="empty-form" style="display:none">
-		 <table class="no_error">
-		 	 <caption class="d-none">{% trans "Events form" %}</caption>
-		 	 <th scope="col" class="d-none"></th>
-			 {{ events_formset.empty_form.as_p }}
-		 </table>
-	 </div>
-
-	<div class="values" style="display:none;"></div>
-	<div class="text-center">
-	  <button type="submit" class="btn btn-lg btn-primary mt-3" name='sampleform'>Save</button>
-	</div>
- </form>
 
 <div class="gamification-input" style="display:none;">
 	<div class="form-row">
@@ -259,12 +258,34 @@
 </div>
 
 	</div>
-	
+
+<form method='POST' id="gamification-events-form" data-prefix="{{events_formset.prefix}}">
+	{% csrf_token %}
+	{{ events_formset.management_form }}
+
+	 <div id="empty-form" style="display:none">
+		 <table class="no_error">
+		 	 <caption class="d-none">{% trans "Events form" %}</caption>
+		 	 <th scope="col" class="d-none"></th>
+			 {{ events_formset.empty_form.as_p }}
+		 </table>
+	 </div>
+
+	<div class="values" style="display:none;"></div>
+	<div class="text-center mt-3">
+	  <button type="submit" class="btn btn-lg btn-primary mt-3" name='sampleform'>Save settings</button>
+	</div>
+ </form>
+
 {% endblock %}
 
 {% block extra_scripts %}
 <script type="text/javascript">
 $(function(){
+	var close = $('#collapse-all');
+	var open = $('#unfold-all');
+	close.on('click', function(){ $('.course-section').collapse('hide'); open.show(); close.hide(); });
+	open.on('click', function(){ $('.course-section').collapse('show'); close.show(); open.hide(); });
 
 	var gamifInput = $('.gamification-input');
 

@@ -8,17 +8,25 @@
 
 {% block header %}
 <div class="jumbotron pb-5 mb-0">
+	<div class="row">
+		<div class="col-lg-9">
+			<h3><a href="{% url 'oppia:recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a>
+				<em class="material-icons md-18 ">arrow_forward_ios</em>  {% trans 'Course index' %}
+			</h3>
+			<p>{% if course.is_draft %}
+				<span class="badge badge-dark ml-2"><small>{% trans 'draft' %}</small></span>
+			{% endif %}
+			{% if course.is_archived %}
+				<span class="badge badge-dark ml-2"><small>{% trans 'archived' %}</small></span>
+			{% endif %}
+				<em>{% trans 'Tags:' %} {{ course.get_tags}}</em></p>
+		</div>
+		<div class="col-lg-3 text-right">
+			<a href="#" class="btn btn-secondary mr-2 mb-3" id="collapse-all"><span class="material-icons mr-2">unfold_less</span> {% trans 'Collapse all' %}</a>
+			<a href="#" class="btn btn-secondary mr-2 mb-3" id="unfold-all" style="display:none;"><span class="material-icons mr-2">unfold_more</span> {% trans 'Unfold all' %}</a>
+		</div>
+	</div>
 
-		<h3><a href="{% url 'oppia:recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a>
-			<em class="material-icons md-18 ">arrow_forward_ios</em>  {% trans 'Course index' %}
-		</h3>
-		<p>{% if course.is_draft %}
-			<span class="badge badge-dark ml-2"><small>{% trans 'draft' %}</small></span>
-		{% endif %}
-		{% if course.is_archived %}
-			<span class="badge badge-dark ml-2"><small>{% trans 'archived' %}</small></span>
-		{% endif %}
-			<em>{% trans 'Tags:' %} {{ course.get_tags}}</em></p>
 
 
 </div>
@@ -57,4 +65,15 @@
 	{% endfor %}
 </div>
 
+{% endblock %}
+
+{% block extra_scripts %}
+<script type="text/javascript">
+	$(function(){
+		var close = $('#collapse-all');
+		var open = $('#unfold-all');
+		close.on('click', function(){ $('.course-section').collapse('hide'); open.show(); close.hide(); });
+		open.on('click', function(){ $('.course-section').collapse('show'); close.show(); open.hide(); });
+	});
+</script>
 {% endblock %}
