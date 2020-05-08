@@ -3,6 +3,7 @@ import hashlib
 import math
 import os
 import subprocess
+import zipfile
 
 from django.conf import settings
 from django.contrib import messages
@@ -90,3 +91,25 @@ def get_length(filepath):
         return 0, False
 
     return int((hours * 60 * 60) + (mins * 60) + secs), True
+
+
+def zip_course_media(zipname, media_contents):
+
+    files = []
+
+    for media in media_contents:
+        if media.file and media.file.storage.exists(media.file.name):
+            files.append(media.file)
+            #zip.writestr(course.shortname + "/tracker.xml",Tracker.to_xml_string(course, request.user))
+
+    if len(files) == 0:
+        return False
+
+    path = os.path.join(settings.COURSE_UPLOAD_DIR,"temp", zipname)
+    with zipfile.ZipFile(path, "w") as zip:
+        for file in files:
+            upload, filename = os.path.split(file.name)
+            print(file.path)
+            zip.write(file.path, filename)
+
+    return path
