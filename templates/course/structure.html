@@ -7,39 +7,73 @@
 {% endblock extra_head_title %}
 
 {% block header %}
-<div class="jumbotron pb-2 mb-3">
+<div class="jumbotron pb-5 mb-0">
 	<div class="row">
-		<div class="col-md-8">
+		<div class="col-lg-9">
 			<h3><a href="{% url 'oppia:recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a>
-			{% if course.is_draft %}
+				<em class="material-icons md-18 ">arrow_forward_ios</em>  {% trans 'Course index' %}
+			</h3>
+			<p>{% if course.is_draft %}
 				<span class="badge badge-dark ml-2"><small>{% trans 'draft' %}</small></span>
 			{% endif %}
 			{% if course.is_archived %}
 				<span class="badge badge-dark ml-2"><small>{% trans 'archived' %}</small></span>
 			{% endif %}
-				<em class="material-icons md-18 ">arrow_forward_ios</em>  {% trans 'Structure' %}
-			</h3>
-			<p><em>{% trans 'Tags:' %} {{ course.get_tags}}</em></p>
+				<em>{% trans 'Tags:' %} {{ course.get_tags}}</em></p>
 		</div>
-
+		<div class="col-lg-3 text-right">
+			<a href="#" class="btn btn-secondary mr-2 mb-3" id="collapse-all"><span class="material-icons mr-2">unfold_less</span> {% trans 'Collapse all' %}</a>
+			<a href="#" class="btn btn-secondary mr-2 mb-3" id="unfold-all" style="display:none;"><span class="material-icons mr-2">unfold_more</span> {% trans 'Unfold all' %}</a>
+		</div>
 	</div>
+
+
 
 </div>
 {% endblock header %}
 
 {% block content %}
 
-<ol>
-{% for section in course.sections %}
-	<li><h3>{{ section.title|title_lang:LANGUAGE_CODE }}</h3></li>
-	<ol>
-	{% for activity in section.activities %}
-		<li>
-			<h4>{{ activity.title|title_lang:LANGUAGE_CODE }}</h4>
-			<a href="{{ settings.OPPIA_HOSTNAME }}/view?digest={{ activity.digest }}" id="{{ activity.digest }}">{% trans "Integration link" %}</a>
-		</li>
+<div class="card mx-3" style="margin-top:-2rem;">
+	{% for section in course.sections %}
+	<div class="card-header bg-light-3 d-flex justify-content-between">
+		<div>
+			<h5 class="mb-0">{{section.order}}. {{ section.title|title_lang:LANGUAGE_CODE }}</h5>
+			<span class="text-black-50"> {{ section.activities|length }} activities </span>
+		</div>
+
+		<a class="btn btn-inline btn-outline-dark" aria-expanded="false" data-toggle="collapse" href="#section{{ forloop.counter }}">
+			<span class="material-icons unfold-less">unfold_less</span>
+			<span class="material-icons unfold-more">unfold_more</span>
+		</a>
+	</div>
+	<div class="course-section collapse show" id="section{{ forloop.counter }}">
+		<ul class="list-group list-group-flush">
+			{% for activity in section.activities %}
+			<li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center position-relative">
+				{% include "course/activity/type_icon.html" %}
+				<span class="pl-5 ml-4 d-inline-block"> {{ activity.title|title_lang:LANGUAGE_CODE }} </span>
+				<a href="{{ settings.OPPIA_HOSTNAME }}/view?digest={{ activity.digest }}"
+				   id="{{ activity.digest }}"
+				   class="badge badge-primary badge-pill" data-toggle="tooltip" title="{% trans 'Integration link' %}">
+					<span class="material-icons">link</span>
+				</a>
+			  </li>
+			{% endfor %}
+		</ul>
+	</div>
 	{% endfor %}
-	</ol>
-{% endfor %}
-</ol>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script type="text/javascript">
+	$(function(){
+		var close = $('#collapse-all');
+		var open = $('#unfold-all');
+		close.on('click', function(){ $('.course-section').collapse('hide'); open.show(); close.hide(); });
+		open.on('click', function(){ $('.course-section').collapse('show'); close.show(); open.hide(); });
+	});
+</script>
 {% endblock %}

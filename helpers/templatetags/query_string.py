@@ -1,6 +1,7 @@
 import urllib
 
 from django import template
+from django.template import VariableDoesNotExist, TemplateSyntaxError
 from django.utils.safestring import mark_safe
 
 register = template.Library()
@@ -69,7 +70,11 @@ def get_query_string(p, new_params, remove, context):
     for k, v in p.items():
         try:
             p[k] = template.Variable(v).resolve(context)
-        except ValueError:
+        except (IndexError,
+                VariableDoesNotExist,
+                TemplateSyntaxError,
+                ValueError):
+
             p[k] = v
 
     return mark_safe('?' + '&amp;'

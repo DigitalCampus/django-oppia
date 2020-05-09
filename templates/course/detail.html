@@ -56,7 +56,8 @@
 {% block header %}
 <div class="jumbotron pb-2 mb-3">
 	<div class="row">
-		<div class="col-md-8">
+		<div class="col-md-6">
+			<div class="d-lg-none">
 			<h3>{{ course.title|title_lang:LANGUAGE_CODE }}
 			{% if course.is_draft %}
 				<span class="badge badge-dark ml-2"><small>{% trans 'draft' %}</small></span>
@@ -66,8 +67,9 @@
 			{% endif %}
 			</h3>
 			<p><em>{% trans 'Tags:' %} {{ course.get_tags}}</em></p>
+			</div>
 		</div>
-		<div class="col-md-4 text-right">
+		<div class="col-md-6 text-right">
 			<a href="{% url 'oppia:course_edit' course.id %}" class="btn btn-light mr-2 mb-3">{% trans 'Edit' %}</a>
 			<a href="{% url 'oppia_gamification_edit_course' course.id %}" class="btn btn-secondary mb-3">Gamification settings</a>
 		</div>
@@ -78,13 +80,61 @@
 
 {% block content %}
 
-<h3>{% trans 'courses_recent_activity' %} <a href="{% url 'oppia:recent_activity_detail' course.pk %}" class="btn btn-sm btn-light ml-3">View detail activity</a> </h3>
-<div id="attempts_chart_div" class="graph">{% trans 'graph_generating'%}</div>
+<div class="row">
+	<div class="col-lg-4 d-none d-lg-block">
+		<div class="card" style="margin-top:-5.5rem;">
+			<div class="card-header">
+				<h6 class="card-title">{{ course.title|title_lang:LANGUAGE_CODE }}
+				{% if course.is_draft %}
+					<span class="badge badge-dark badge-sm ml-2"><small>{% trans 'draft' %}</small></span>
+				{% endif %}
+				{% if course.is_archived %}
+					<span class="badge badge-dark badge-sm ml-2"><small>{% trans 'archived' %}</small></span>
+				{% endif %}
+				</h6>
+				<h6 class="card-subtitle mb-2 text-muted"><em>{% trans 'Tags:' %} {{ course.get_tags}}</em></h6>
+			</div>
+			<div class="card-body">
 
-{% include "includes/messages.html" %}	
-<div class="container">
-{% include "common/form/date-range.html" with dateform=form drop='up' %}
+				<div class="card-text">
+					<p>
+						{{ course.description|title_lang:LANGUAGE_CODE|default_if_none:"No description"  }}
+					</p>
+					<strong class="text-black-50">Shortname:</strong> <code>{{course.shortname}}</code><br>
+					<strong class="text-black-50">Version:</strong> <code>{{course.version}}</code><br>
+					<strong class="text-black-50">Created: </strong> {{ course.created_date }}<br>
+					<strong class="text-black-50">Last updated: </strong> {{ course.lastupdated_date }}<br>
+					<a href="{% url 'oppia:course_download' course.id %}" class="btn btn-primary mt-3 mb-2"><i class="fas mr-2 fa-arrow-down"></i> Download course</a><br>
+					{{ download_stats.total|default:0 }} downloads by {{ download_stats.distinct|default:0 }} users<br/>
+
+				</div>
+
+			</div>
+
+			<div class="list-group list-group-flush">
+				<a href="{% url 'oppia:recent_activity_detail' course.pk %}" class="list-group-item list-group-item-action"><i class="fas text-primary mr-2 fa-chart-bar"></i> Detailed activity</a>
+				<a href="{% url 'reports:course_completion_rates' course.pk %}" class="list-group-item list-group-item-action"><i class="fas text-primary mr-2 fa-chart-pie"></i> Completion rates</a>
+				<a href="{% url 'oppia:course_structure' course.pk %}" class="list-group-item list-group-item-action"><i class="far text-primary mr-2 fa-list-alt"></i>View structure</a>
+				<a href="{% url 'av:course_media' course.pk %}" class="list-group-item list-group-item-action"><i class="fas text-primary mr-2 fa-photo-video"></i> Related media <span class="badge badge-info">{{course.get_no_media}}</span></a>
+		  	</div>
+
+		</div>
+	</div>
+
+	<div class="col-lg-8">
+		{% include "includes/messages.html" %}
+
+		<h3 class="mb-0 d-lg-none ">{% trans 'courses_recent_activity' %} <a href="{% url 'oppia:recent_activity_detail' course.pk %}" class="btn btn-sm btn-light ml-3">View detail activity</a> </h3>
+		<div id="attempts_chart_div" class="graph">{% trans 'graph_generating'%}</div>
+
+		<div class="container">
+		{% include "common/form/date-range.html" with dateform=form drop='up' %}
+		</div>
+	</div>
 </div>
+
+
+
 
 {% if leaderboard %}
 <h3>{% trans 'home_leaderboard' %}</h3>

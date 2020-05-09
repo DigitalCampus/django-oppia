@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{% trans 'Courses' %}
+{% endblock extra_head_title %}
+
+
+{% block header %}
+<div class="jumbotron mb-2">
+		<h3><a href="{% url 'oppia:recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a>
+			<em class="material-icons md-18 ">arrow_forward_ios</em>  {% trans 'Media' %} {{uploaded}}
+		</h3>
+
+</div>
+{% endblock header %}
+
+{% block content %}
+<div class="row">
+	<div class="col-lg-2 mb-4">
+		<div class="text-center">
+			<div class="rounded-circle mx-auto my-3 bg-light-1 text-white align-items-center d-flex justify-content-center" style="width:100px;height:100px;"><i class="fas fa-3x fa-photo-video"></i></div>
+			{% if uploaded %}
+				This course has {{uploaded}} media files uploaded to the server. You can download all of them in a <strong>zip package</strong>.<br>
+
+				{% if no_media %}
+					<div class="alert alert-warning mt-3 mb-1" role="alert">
+					  It seems that none of the uploaded media is present.
+					</div>
+				{% endif %}
+				<a class="btn btn-primary mt-3" href="{% url 'av:download_course_media' course.id %}">Download</a>
+			{% else %}
+				This course has no media files uploaded to the server.
+			{% endif %}
+		</div>
+
+
+	</div>
+	<div class="col-lg-10 px-0">
+		{% include 'common/ajax_wrapper.html' with query_template='course/media/query.html' %}
+	</div>
+</div>
+
+
+
+
+
+{% endblock %}
+
+{% block extra_scripts %}
+
+{% endblock %}

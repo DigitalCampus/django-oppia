@@ -12,7 +12,7 @@ urlpatterns = [
     url(r'^reports/', include('reports.urls')),
     url(r'^activitylog/', include('activitylog.urls')),
     url(r'^viz/', include('viz.urls')),
-    path(r'av', include('av.urls', namespace="oppia_av")),
+    path(r'av/', include('av.urls', namespace="oppia_av")),
     url(r'^gamification/', include('gamification.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^integrations/', include('integrations.urls')),
