@@ -59,9 +59,13 @@ def get_settings(request):
     last_summary_cron = SettingProperties.get_string(
         constants.OPPIA_SUMMARY_CRON_LAST_RUN, None)
 
+    TIME_ZONE_FIX = '+00:00'
     # fix for bad timezone dates
-    last_cron += '+00:00' if '+00:00' not in last_cron else ''
-    last_summary_cron += '+00:00' if '+00:00' not in last_summary_cron else ''
+    if last_cron and TIME_ZONE_FIX not in last_cron:
+        last_cron += TIME_ZONE_FIX
+
+    if last_summary_cron and TIME_ZONE_FIX not in last_summary_cron:
+        last_summary_cron += TIME_ZONE_FIX
 
     if last_cron is None or last_summary_cron is None:
         cron_warning = True
