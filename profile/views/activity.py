@@ -106,7 +106,6 @@ def user_course_activity_view(request, user_id, course_id):
 
     quizzes = []
     for aq in act_quizzes:
-
         quiz, course_pretest, quizzes_attempted, quizzes_passed = \
             process_quiz_activity(view_user,
                                   aq,
@@ -172,7 +171,6 @@ def process_quiz_activity(view_user,
 
     passed = False
     if no_attempts > 0:
-
         quiz_maxscore = float(attempts[0].maxscore)
         attemps_stats = attempts.aggregate(max=Max('score'),
                                            min=Min('score'),
@@ -192,7 +190,7 @@ def process_quiz_activity(view_user,
                                    .score) / quiz_maxscore
 
         passed = max_score is not None and max_score > 75
-        if quiz.section.order == 0:
+        if quiz.is_baseline():
             course_pretest = first_score
         else:
             quizzes_attempted += 1

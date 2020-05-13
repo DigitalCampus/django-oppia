@@ -1,8 +1,11 @@
 {% extends 'common/list/base.html' %}
+{% load display_functions %}
 
 {% block item_link %}
 {% if not course %}
+{% if item.quiz.get_course %}
     {% url object_url_name profile.pk item.quiz.get_course.pk item.quiz.pk item.pk %}
+{% else %}#{% endif %}
 {% else %}
     {% url object_url_name profile.pk course.pk quiz.pk item.pk %}
 {% endif %}
@@ -17,7 +20,12 @@
 
 
 {% block item_row %}
-{% if show_course_info %}<td>{{ item.quiz.get_course}}</td>{% endif %}
+{% if show_course_info %}
+<td>
+    {{ item.quiz|title_lang:LANGUAGE_CODE }}<br>
+    <strong class="mt-0 text-secondary">{{ item.quiz.get_course }}</strong>
+</td>
+{% endif %}
 <td>{{item.attempt_date|date:'d/m/Y'}}</td>
 <td> {{item.score}} ({{item.get_score_percent}} %) </td>
 <td> {{item.maxscore}}</td>

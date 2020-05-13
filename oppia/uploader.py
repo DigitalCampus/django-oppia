@@ -447,7 +447,7 @@ def parse_and_save_activity(request,
                             action="activity_updated",
                             data=msg_text).save()
 
-    if (activity_type == "quiz"):
+    if (activity_type == "quiz") or (activity_type == "feedback"):
         updated_json = parse_and_save_quiz(request,
                                            user,
                                            activity,

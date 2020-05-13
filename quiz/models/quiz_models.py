@@ -1,5 +1,6 @@
 # quiz/models.py
 import datetime
+
 from django.apps import apps
 from django.contrib.auth.models import User
 from django.db import models
@@ -26,6 +27,14 @@ class Quiz(models.Model):
 
     def __str__(self):
         return self.title
+
+    def is_baseline(self):
+        from oppia.models import Activity
+        digest = QuizProps.objects.filter(quiz=self, name='digest').first()
+        if digest:
+            return Activity.objects.filter(digest=digest.value, baseline=True).exists()
+        else:
+            return False
 
     def no_attempts(self):
         no_attempts = QuizAttempt.objects.filter(quiz=self).count()
