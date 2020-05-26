@@ -524,7 +524,7 @@ class Tracker(models.Model):
                 else:
                     for l in titles:
                         return titles[l]
-        except json.JSONDecodeError:
+        except TypeError:
             pass
         return self.activity_title
 
@@ -536,7 +536,7 @@ class Tracker(models.Model):
             else:
                 for l in titles:
                     return titles[l]
-        except json.JSONDecodeError:
+        except TypeError:
             pass
         return self.section_title
 
