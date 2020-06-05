@@ -2,102 +2,87 @@ import os
 
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
-from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from django.db.models import Count, Sum
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 
+from helpers.mixins.AjaxTemplateResponseMixin import AjaxTemplateResponseMixin
 from oppia.forms.upload import UploadCourseStep1Form, UploadCourseStep2Form
 from oppia.models import Tag, \
-                         CourseTag, \
-                         CoursePublishingLog, \
-                         Course
+    CourseTag, \
+    CoursePublishingLog, \
+    Course
 from oppia.permissions import can_edit_course, \
-                              can_view_course, \
-                              can_view_course_detail, \
-                              user_can_upload, \
-                              can_view_courses_list
+    can_view_course, \
+    can_view_course_detail, \
+    user_can_upload, \
+    can_view_courses_list
 from oppia.signals import course_downloaded
 from oppia.uploader import handle_uploaded_file
-from oppia.views.utils import get_paginated_courses
 from reports.signals import dashboard_accessed
 from summary.models import UserCourseSummary
 
 
-def render_courses_list(request, courses, params=None):
+class CourseListView(ListView, AjaxTemplateResponseMixin):
 
-    if params is None:
-        params = {}
+    template_name = 'course/list.html'
+    ajax_template_name = 'course/query.html'
+    default_order = 'title'
+    paginate_by = 20
 
-    course_filter = request.GET.get('visibility', '')
-    if course_filter == 'draft':
-        courses = courses.filter(is_draft=True)
-    elif course_filter == 'archived':
-        courses = courses.filter(is_archived=True)
+    def get_queryset(self):
 
-    tag_list = Tag.objects.all().exclude(coursetag=None).order_by('name')
-    paginator = Paginator(courses, 25)  # Show 25 per page
-    # Make sure page request is an int. If not, deliver first page.
-    try:
-        page = int(request.GET. get('page', '1'))
-    except ValueError:
-        page = 1
+        courses = can_view_courses_list(self.request, self.get_ordering())
+        course_filter = self.get_filter()
+        if course_filter == 'draft':
+            courses = courses.filter(is_draft=True)
+        elif course_filter == 'archived':
+            courses = courses.filter(is_archived=True)
 
-    course_stats = list(UserCourseSummary.objects.filter(course__in=courses)
-                        .values('course')
-                        .annotate(distinct=Count('user'),
-                                  total=Sum('total_downloads')))
+        tag = self.get_current_tag()
+        if tag is not None:
+            courses = courses.filter(coursetag__tag__pk=tag)
 
-    try:
-        courses = paginator.page(page)
-    except (EmptyPage, InvalidPage):
-        courses = paginator.page(paginator.num_pages)
+        return courses
 
-    for course in courses:
-        access_detail = can_view_course_detail(request, course.id)
-        course.can_edit = can_edit_course(request, course.id)
-        course.access_detail = access_detail is not None
+    def get_current_tag(self):
+        return self.kwargs['tag_id'] if 'tag_id' in self.kwargs else None
 
-        for stats in course_stats:
-            if stats['course'] == course.id:
-                course.distinct_downloads = stats['distinct']
-                course.total_downloads = stats['total']
-                # remove the element to optimize next searches
-                course_stats.remove(stats)
+    def get_ordering(self):
+        return self.request.GET.get('order_by', self.default_order)
 
-    params['page'] = courses
-    params['tag_list'] = tag_list
-    params['course_filter'] = course_filter
+    def get_filter(self):
+        return self.request.GET.get('visibility', '')
 
-    return render(request, 'course/list.html', params)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        dashboard_accessed.send(sender=None, request=self.request, data=None)
 
+        course_list = context['page_obj'].object_list
+        course_stats = UserCourseSummary.objects\
+            .filter(course__in=list(course_list))\
+            .aggregated_stats('total_downloads')
 
-def tag_courses_view(request, tag_id):
-    courses = can_view_courses_list(request)
+        for course in course_list:
+            access_detail = can_view_course_detail(self.request, course.id)
+            course.can_edit = can_edit_course(self.request, course.id)
+            course.access_detail = access_detail is not None
+            for stats in course_stats:
+                if stats['course'] == course.id:
+                    course.distinct_downloads = stats['distinct']
+                    course.total_downloads = stats['total']
+                    # remove the element to optimize next searches
+                    course_stats.remove(stats)
 
-    courses = courses.filter(coursetag__tag__pk=tag_id)
+        context['page_ordering'] = self.get_ordering()
+        context['tag_list'] = Tag.objects.all().exclude(coursetag=None).order_by('name')
+        context['current_tag'] = self.get_current_tag()
+        context['course_filter'] = self.get_filter()
 
-    dashboard_accessed.send(sender=None, request=request, data=None)
-    return render_courses_list(request, courses, {'current_tag': tag_id})
+        return context
 
-
-def courses_list_view(request):
-
-    if request.is_ajax():
-        # if we are requesting via ajax, just show the course list
-        ordering, courses = get_paginated_courses(request)
-        return render(request, 'course/list_page.html',
-                      {'page': courses,
-                          'page_ordering': ordering,
-                          'ajax_url': request.path})
-    else:
-        courses = can_view_courses_list(request)
-
-        dashboard_accessed.send(sender=None, request=request, data=None)
-        return render_courses_list(request, courses)
 
 
 class CourseDownload(TemplateView):
