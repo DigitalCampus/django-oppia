@@ -43,57 +43,8 @@
 	</div>
 </div>
 
-{% if page.object_list %}
+{% include 'common/ajax_wrapper.html' with query_template='course/query.html' %}
 
-	 <div class="table-responsive">
-         <table class="table table-striped-expandable">
-             <caption class="d-none">{% trans 'Courses' %}</caption>
-         	 <thead>
-                <tr>
-                  <th scope="col">{% trans 'Course' %}</th>
-                  <th scope="col">{% trans 'Last updated' %}</th>
-                  <th scope="col">{% trans 'Downloads' %}</th>
-                  <th scope="col"></th>
-                </tr>
-              </thead>
-              <tbody>
-	{% for course in page.object_list %}
-		<tr>
-				<td>
-					{% if course.access_detail %}
-						<a href="{% url 'oppia:recent_activity' course.id %}"><strong>{{ course.title|title_lang:LANGUAGE_CODE }}</strong></a>
-					{% else %}
-						<strong>{{ course.title|title_lang:LANGUAGE_CODE }}</strong>
-					{% endif %}	
-				{% if course.is_draft %}
-					<span class="badge badge-dark ml-2">{% trans 'draft' %}</span>
-				{% endif %}	
-				{% if course.is_archived %}
-					<span class="badge badge-dark ml-2">{% trans 'archived' %}</span>
-				{% endif %}<br/>
-				<small>{% trans 'Tags:' %} {{ course.get_tags }}</small></td>
-				<td>{{ course.lastupdated_date }} </td>
-				<td>{{ course.total_downloads|default:0 }} downloads by {{ course.distinct_downloads|default:0 }} users<br/>
-					<a href="{% url 'oppia:course_download' course.id %}">{% trans 'download course' %}</a>
-				</td>
-                <td class="py-1">
-                    {% if course.can_edit %}
-                    	<a href="{% url 'oppia:course_edit' course.id %}" data-toggle="tooltip" title="{% trans 'Edit' %}" class="btn btn-inline btn-outline-primary"><em class="fas fa-2x fa-edit"></em> </a>
-                    	<a href="{% url 'oppia_gamification_edit_course' course.id %}" data-toggle="tooltip" title="{% trans 'Edit Gamification' %}" class="btn btn-inline btn-outline-primary"><em class="fas fa-2x fa-gamepad"></em></a>
-					{% endif %}
-                </td>
-			</tr>
-	{% endfor %}
-			</tbody>
- 		</table>
-	</div>
-    {% include "common/pagination.html" %}
-{% else %}
-	{% url 'oppia:upload' as url_upload %}
-	{% blocktrans %}
-		<p>You don't yet have any courses uploaded, why not <a href="{{ url_upload }}">upload one now</a>?</p>
-	{% endblocktrans %}
-{% endif %}
 
 {% endblock %}
 

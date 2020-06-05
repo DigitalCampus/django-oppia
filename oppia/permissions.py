@@ -186,12 +186,12 @@ def can_edit_course(request, course_id):
     return request.user.is_staff
 
 
-def can_view_courses_list(request):
+def can_view_courses_list(request, order_by='title'):
     if request.user.is_staff:
-        courses = Course.objects.all().order_by('title')
+        courses = Course.objects.all().order_by(order_by)
     else:
         courses = Course.objects.filter(is_draft=False,
-                                        is_archived=False).order_by('title')
+                                        is_archived=False).order_by(order_by)
     return courses
 
 
