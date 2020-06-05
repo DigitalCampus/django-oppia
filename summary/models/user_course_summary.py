@@ -2,11 +2,24 @@ import time
 
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Sum
+from django.db.models import Sum, Count, QuerySet
 from django.utils.translation import ugettext_lazy as _
 
 from oppia.models import Course, Tracker, Points, Award
 
+
+
+class UserCourseSummaryQS(QuerySet):
+
+    AGGREGABLE_STATS = ('total_downloads', 'total_activity', 'badges_achieved', 'media_viewed', 'completed_activities')
+
+    def aggregated_stats(qs, type, single=False):
+        if type in qs.AGGREGABLE_STATS:
+            stats = list(qs.values('course').annotate(distinct=Count('user'), total=Sum(type)))
+            if single:
+                return stats[0] if len(stats) > 0 else None
+            else:
+                return stats
 
 class UserCourseSummary (models.Model):
     user = models.ForeignKey(User,
@@ -29,10 +42,14 @@ class UserCourseSummary (models.Model):
                                                null=False,
                                                default=0)
 
+    objects = UserCourseSummaryQS.as_manager()
+
+
     class Meta:
         verbose_name = _('UserCourseSummary')
         unique_together = ("user", "course")
         index_together = ["user", "course"]
+
 
     def update_summary(self,
                        last_tracker_pk=0, newest_tracker_pk=0,

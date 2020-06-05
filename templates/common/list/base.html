@@ -20,12 +20,15 @@
     </tr>
 
 {% empty %}
+    <tr><td colspan="4">
+    {% block empty_list %}
     {% if not simple_list %}
-    <tr>
-      <td colspan="4">There are no results matching these criteria.</td>
-    </tr>
-    {% endif %}
 
+      There are no results matching these criteria.
+
+    {% endif %}
+    {% endblock %}
+    </td></tr>
 {% endfor %}
       </tbody>
 </table>

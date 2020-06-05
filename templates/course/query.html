@@ -1,0 +1,48 @@
+{% extends 'common/list/base.html' %}
+{% load i18n %}
+{% load display_functions %}
+{% load sort_link %}
+
+ {% block table_head %}
+    <th scope="col">{{% sort_link 'title' 'Course' %} </th>
+    <th scope="col">{% sort_link 'lastupdated_date' 'Last updated' %}</th>
+    <th scope="col">{% trans 'Downloads' %}</th>
+    <th scope="col"></th>
+{% endblock %}
+
+{% block item_row %}
+
+<td>
+    {% if item.access_detail %}
+        <a href="{% url 'oppia:recent_activity' item.id %}"><strong>{{ item.title|title_lang:LANGUAGE_CODE }}</strong></a>
+    {% else %}
+        <strong>{{ item.title|title_lang:LANGUAGE_CODE }}</strong>
+    {% endif %}
+{% if item.is_draft %}
+    <span class="badge badge-dark ml-2">{% trans 'draft' %}</span>
+{% endif %}
+{% if item.is_archived %}
+    <span class="badge badge-dark ml-2">{% trans 'archived' %}</span>
+{% endif %}<br/>
+<small>{% trans 'Tags:' %} {{ item.get_tags }}</small>
+</td>
+<td>{{ item.lastupdated_date }} </td>
+<td>{{ item.total_downloads|default:0 }} downloads by {{ item.distinct_downloads|default:0 }} users<br/>
+    <a href="{% url 'oppia:course_download' item.id %}">{% trans 'download course' %}</a>
+</td>
+<td class="py-1">
+    {% if item.can_edit %}
+        <a href="{% url 'oppia:course_edit' item.id %}" data-toggle="tooltip" title="{% trans 'Edit' %}" class="btn btn-inline btn-outline-primary"><em class="fas fa-2x fa-edit"></em> </a>
+        <a href="{% url 'oppia_gamification_edit_course' item.id %}" data-toggle="tooltip" title="{% trans 'Edit Gamification' %}" class="btn btn-inline btn-outline-primary"><em class="fas fa-2x fa-gamepad"></em></a>
+    {% endif %}
+</td>
+{% endblock %}
+
+{% block empty_list %}
+    <div class="my-2">
+    {% url 'oppia:upload' as url_upload %}
+	{% blocktrans %}
+		<p>You don't yet have any courses uploaded, why not <a href="{{ url_upload }}">upload one now</a>?</p>
+	{% endblocktrans %}
+    </div>
+{% endblock %}

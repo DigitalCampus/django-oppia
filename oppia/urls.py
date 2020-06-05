@@ -21,14 +21,16 @@ urlpatterns = [
     path('upload2/<int:course_id>', views.upload_step2, name="upload_step2"),
     path('upload2/success', TemplateView.as_view(template_name="course/upload-success.html"), name="upload_success"),
 
-    path('course/', views.courses_list_view, name="course"),
-    path('course/tag/<int:tag_id>', views.tag_courses_view, name="tag_courses"),
+    path('course/', views.CourseListView.as_view(), name="course"),
+    path('course/tag/<int:tag_id>', views.CourseListView.as_view(), name="tag_courses"),
     path('course/<int:course_id>/', views.course_detail, name="recent_activity"),
     path('course/<int:course_id>/edit/', views.upload_step2, {'editing': True}, name="course_edit"),
     path('course/<int:course_id>/detail/', views.recent_activity_detail, name="recent_activity_detail"),
     path('course/<int:course_id>/detail/export/', views.export_tracker_detail, name="export_tracker_detail"),
     path('course/<int:course_id>/download', views.CourseDownload.as_view(), name="course_download"),
     path('course/<int:course_id>/structure/', views.CourseStructure.as_view(), name="course_structure"),
+
+
 
     path('cohort/', views.cohort_list_view, name="cohorts"),
     path('cohort/add/', views.cohort_add, name="cohort_add"),
