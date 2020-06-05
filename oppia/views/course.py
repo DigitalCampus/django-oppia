@@ -2,7 +2,6 @@ import os
 
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
-from django.db.models import Count, Sum
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
@@ -31,7 +30,7 @@ class CourseListView(ListView, AjaxTemplateResponseMixin):
     template_name = 'course/list.html'
     ajax_template_name = 'course/query.html'
     default_order = 'title'
-    paginate_by = 10
+    paginate_by = 20
 
     def get_queryset(self):
 
@@ -62,10 +61,9 @@ class CourseListView(ListView, AjaxTemplateResponseMixin):
         dashboard_accessed.send(sender=None, request=self.request, data=None)
 
         course_list = context['page_obj'].object_list
-        course_stats = list(UserCourseSummary.objects.filter(course__in=list(course_list))
-                            .values('course')
-                            .annotate(distinct=Count('user'),
-                                      total=Sum('total_downloads')))
+        course_stats = UserCourseSummary.objects\
+            .filter(course__in=list(course_list))\
+            .aggregated_stats('total_downloads')
 
         for course in course_list:
             access_detail = can_view_course_detail(self.request, course.id)
