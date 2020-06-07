@@ -41,7 +41,7 @@ class CourseViewsTest(OppiaTestCase):
         url = '%s?page=9999' % reverse('oppia:tag_courses', args=[2])
         response = self.client.get(url)
         self.assertRaises(InvalidPage)
-        self.assertEqual(200, response.status_code)
+        self.assertEqual(404, response.status_code)
         self.assertTemplateUsed(self.course_list_template)
 
     def test_tag_view_get_page_abc(self):
@@ -49,5 +49,5 @@ class CourseViewsTest(OppiaTestCase):
         url = '%s?page=abc' % reverse('oppia:tag_courses', args=[2])
         response = self.client.get(url)
         self.assertRaises(ValueError)
-        self.assertEqual(200, response.status_code)
+        self.assertEqual(404, response.status_code)
         self.assertTemplateUsed(self.course_list_template)
