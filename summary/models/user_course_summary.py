@@ -11,11 +11,16 @@ from oppia.models import Course, Tracker, Points, Award
 
 class UserCourseSummaryQS(QuerySet):
 
-    AGGREGABLE_STATS = ('total_downloads', 'total_activity', 'badges_achieved', 'media_viewed', 'completed_activities')
+    AGGREGABLE_STATS = ('total_downloads',
+                        'total_activity',
+                        'badges_achieved',
+                        'media_viewed',
+                        'completed_activities')
 
-    def aggregated_stats(qs, type, single=False):
-        if type in qs.AGGREGABLE_STATS:
-            stats = list(qs.values('course').annotate(distinct=Count('user'), total=Sum(type)))
+    def aggregated_stats(self, type, single=False):
+        if type in self.AGGREGABLE_STATS:
+            stats = list(self.values('course').annotate(distinct=Count('user'),
+                                                        total=Sum(type)))
             if single:
                 return stats[0] if len(stats) > 0 else None
             else:

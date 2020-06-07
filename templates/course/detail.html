@@ -104,7 +104,7 @@
 					<strong class="text-black-50">Version:</strong> <code>{{course.version}}</code><br>
 					<strong class="text-black-50">Created: </strong> {{ course.created_date }}<br>
 					<strong class="text-black-50">Last updated: </strong> {{ course.lastupdated_date }}<br>
-					<a href="{% url 'oppia:course_download' course.id %}" class="btn btn-primary mt-3 mb-2"><i class="fas mr-2 fa-arrow-down"></i> Download course</a><br>
+					<a href="{% url 'oppia:course_download' course.id %}" class="btn btn-primary mt-3 mb-2"><em class="fas mr-2 fa-arrow-down"></em> Download course</a><br>
 					{{ download_stats.total|default:0 }} downloads by {{ download_stats.distinct|default:0 }} users<br/>
 
 				</div>
@@ -112,10 +112,15 @@
 			</div>
 
 			<div class="list-group list-group-flush">
-				<a href="{% url 'oppia:recent_activity_detail' course.pk %}" class="list-group-item list-group-item-action"><i class="fas text-primary mr-2 fa-chart-bar"></i> Detailed activity</a>
-				<a href="{% url 'reports:course_completion_rates' course.pk %}" class="list-group-item list-group-item-action"><i class="fas text-primary mr-2 fa-chart-pie"></i> Completion rates</a>
-				<a href="{% url 'oppia:course_structure' course.pk %}" class="list-group-item list-group-item-action"><i class="far text-primary mr-2 fa-list-alt"></i>View structure</a>
-				<a href="{% url 'av:course_media' course.pk %}" class="list-group-item list-group-item-action"><i class="fas text-primary mr-2 fa-photo-video"></i> Related media <span class="badge badge-info">{{course.get_no_media}}</span></a>
+				<a href="{% url 'oppia:recent_activity_detail' course.pk %}" class="list-group-item list-group-item-action">
+					<em class="fas text-primary mr-2 fa-chart-bar"></em> Detailed activity</a>
+				<a href="{% url 'reports:course_completion_rates' course.pk %}" class="list-group-item list-group-item-action">
+					<em class="fas text-primary mr-2 fa-chart-pie"></em> Completion rates</a>
+				<a href="{% url 'oppia:course_structure' course.pk %}" class="list-group-item list-group-item-action">
+					<em class="far text-primary mr-2 fa-list-alt"></em>View structure</a>
+				<a href="{% url 'av:course_media' course.pk %}" class="list-group-item list-group-item-action">
+					<em class="fas text-primary mr-2 fa-photo-video"></em> Related media
+					<span class="badge badge-info">{{course.get_no_media}}</span></a>
 		  	</div>
 
 		</div>
