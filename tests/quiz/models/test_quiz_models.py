@@ -23,6 +23,14 @@ class QuizModelsTest(OppiaTestCase):
         quiz = Quiz.objects.get(pk=1)
         self.assertEqual(0, quiz.avg_score())
 
+    def test_quiz_is_baseline(self):
+        quiz = Quiz.objects.get(pk=1)
+        self.assertEqual(True, quiz.is_baseline())
+
+    def test_quiz_not_baseline(self):
+        quiz = Quiz.objects.get(pk=2)
+        self.assertEqual(False, quiz.is_baseline())
+
     '''
     QuizAttempt model
     '''
