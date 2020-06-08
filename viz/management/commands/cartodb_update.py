@@ -12,6 +12,8 @@ from django.db.models import Sum
 from settings.models import SettingProperties
 from settings import constants
 
+from urllib.parse import urlencode, quote_plus
+
 from viz.models import UserLocationVisualization
 
 CARTODB_TABLE = "oppiamobile_users"
@@ -19,6 +21,8 @@ CARTODB_TABLE = "oppiamobile_users"
 
 class Command(BaseCommand):
     help = 'Updates user map on CartoDB'
+
+    CARTO_DB_QUERY = "https://%s.cartodb.com/api/v2/sql?%s"
 
     def handle(self, *args, **options):
         cartodb_account = SettingProperties \
@@ -28,6 +32,10 @@ class Command(BaseCommand):
         source_site = SettingProperties \
             .get_string(constants.OPPIA_HOSTNAME, None)
 
+        print(cartodb_account)
+        print(cartodb_key)
+        print(source_site)
+
         if cartodb_account is None \
                 or cartodb_key is None \
                 or source_site is None:
@@ -35,10 +43,10 @@ class Command(BaseCommand):
             return
 
         # check can connect to cartodb API
-        sql = "SELECT * FROM %s WHERE source_site='%s'" \
-            % (CARTODB_TABLE, source_site)
-        url = "https://%s.cartodb.com/api/v2/sql?q=%s" % (cartodb_account,
-                                                          sql)
+        payload = {'q': "SELECT * FROM %s WHERE source_site='%s'" \
+            % (CARTODB_TABLE, source_site)}
+        url = self.CARTO_DB_QUERY % (cartodb_account,
+                                     urlencode(payload, quote_via=quote_plus))
         u = urllib.request.urlopen(url)
         data = u.read()
         carto_db_data = json.loads(data)
@@ -52,26 +60,29 @@ class Command(BaseCommand):
                     and c['total_hits'] != location['total']:
                 self.stdout.write("found - will update")
                 cartodb_id = c['cartodb_id']
-                sql = "UPDATE %s SET total_hits=%d WHERE cartodb_id=%d  \
+                payload = {'q': "UPDATE %s SET total_hits=%d WHERE cartodb_id=%d  \
                       AND source_site='%s'" % (CARTODB_TABLE,
                                                location['total'],
                                                cartodb_id,
-                                               source_site)
-                url = "https://%s.cartodb.com/api/v2/sql?q=%s&api_key=%s" \
+                                               source_site),
+                           'api_key': cartodb_key}
+
+                url = self.CARTO_DB_QUERY \
                     % (cartodb_account,
-                       sql,
-                       cartodb_key)
-                u = urllib.request.urlopen(url)
-                data = u.read()
-                data_json = json.loads(data)
-                self.stdout.write(data_json)
+                       urlencode(payload, quote_via=quote_plus))
+                req = urllib.request.Request(url)
+                with urllib.request.urlopen(req) as response:
+                    data = response.read()
+
+                    data_json = json.loads(data)
+                    print(data_json)
                 time.sleep(1)
 
         # add any new points
         locations = UserLocationVisualization.objects \
-            .exclude(lat=0, lng=0) \
-            .values('lat', 'lng', 'country_code') \
-            .annotate(total_hits=Sum('hits'))
+                        .exclude(lat=0, lng=0) \
+                        .values('lat', 'lng', 'country_code') \
+                        .annotate(total_hits=Sum('hits'))
         for l in locations:
             found = False
             # loop through and see if in carto_db_data
@@ -94,9 +105,13 @@ class Command(BaseCommand):
                      l['total_hits'],
                      l['country_code'],
                      source_site)
-                url = "https://%s.cartodb.com/api/v2/sql?q=%s&api_key=%s" % \
-                      (cartodb_account, sql, cartodb_key)
+                payload = { 'q': sql, 'api_key': cartodb_key}
+
+                url = self.CARTO_DB_QUERY % \
+                      (cartodb_account, urlencode(payload, quote_via=quote_plus))
                 u = urllib.request.urlopen(url)
                 data = u.read()
-                self.stdout.write(data)
+                print(data)
                 time.sleep(1)
+
+
