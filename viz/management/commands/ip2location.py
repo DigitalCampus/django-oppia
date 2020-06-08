@@ -60,7 +60,12 @@ class Command(BaseCommand):
             viz.lat = data_json['latitude']
             viz.lng = data_json['longitude']
             viz.hits = t['count_hits']
-            viz.region = data_json['city'] + " " + data_json['region_name']
+            if data_json['city'] and data_json['region_name']:
+                viz.region = data_json['city'] + " " + data_json['region_name']
+            elif data_json['city']:
+                viz.region = data_json['city']
+            elif data_json['region_name']:
+                viz.region = data_json['region_name']
             viz.country_code = data_json['country_code']
             viz.country_name = data_json['country_name']
             #viz.geonames_data = data_json
