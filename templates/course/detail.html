@@ -71,7 +71,7 @@
 		</div>
 		<div class="col-md-6 text-right">
 			<a href="{% url 'oppia:course_edit' course.id %}" class="btn btn-light mr-2 mb-3">{% trans 'Edit' %}</a>
-			<a href="{% url 'oppia_gamification_edit_course' course.id %}" class="btn btn-secondary mb-3">Gamification settings</a>
+			<a href="{% url 'oppia_gamification_edit_course' course.id %}" class="btn btn-secondary mb-3">{% trans 'Gamification settings' %}</a>
 		</div>
 	</div>
 
@@ -100,11 +100,11 @@
 					<p>
 						{{ course.description|title_lang:LANGUAGE_CODE|default_if_none:"No description"  }}
 					</p>
-					<strong class="text-black-50">Shortname:</strong> <code>{{course.shortname}}</code><br>
-					<strong class="text-black-50">Version:</strong> <code>{{course.version}}</code><br>
-					<strong class="text-black-50">Created: </strong> {{ course.created_date }}<br>
-					<strong class="text-black-50">Last updated: </strong> {{ course.lastupdated_date }}<br>
-					<a href="{% url 'oppia:course_download' course.id %}" class="btn btn-primary mt-3 mb-2"><em class="fas mr-2 fa-arrow-down"></em> Download course</a><br>
+					<strong class="text-black-50">{% trans 'Shortname:' %}</strong> <code>{{ course.shortname }}</code><br>
+					<strong class="text-black-50">{% trans 'Version:' %}</strong> <code>{{ course.version }}</code><br>
+					<strong class="text-black-50">{% trans 'Created:' %} </strong> {{ course.created_date }}<br>
+					<strong class="text-black-50">{% trans 'Last updated:' %} </strong> {{ course.lastupdated_date }}<br>
+					<a href="{% url 'oppia:course_download' course.id %}" class="btn btn-primary mt-3 mb-2"><em class="fas mr-2 fa-arrow-down"></em> {% trans 'Download course' %}</a><br>
 					{{ download_stats.total|default:0 }} downloads by {{ download_stats.distinct|default:0 }} users<br/>
 
 				</div>
@@ -113,14 +113,20 @@
 
 			<div class="list-group list-group-flush">
 				<a href="{% url 'oppia:recent_activity_detail' course.pk %}" class="list-group-item list-group-item-action">
-					<em class="fas text-primary mr-2 fa-chart-bar"></em> Detailed activity</a>
+					<em class="fas text-primary mr-2 fa-chart-bar"></em> {% trans 'Detailed activity' %}</a>
 				<a href="{% url 'reports:course_completion_rates' course.pk %}" class="list-group-item list-group-item-action">
-					<em class="fas text-primary mr-2 fa-chart-pie"></em> Completion rates</a>
+					<em class="fas text-primary mr-2 fa-chart-pie"></em> {% trans 'Completion rates' %}</a>
 				<a href="{% url 'oppia:course_structure' course.pk %}" class="list-group-item list-group-item-action">
-					<em class="far text-primary mr-2 fa-list-alt"></em>View structure</a>
+					<em class="far text-primary mr-2 fa-list-alt"></em>{% trans 'View structure' %}</a>
 				<a href="{% url 'av:course_media' course.pk %}" class="list-group-item list-group-item-action">
-					<em class="fas text-primary mr-2 fa-photo-video"></em> Related media
+					<em class="fas text-primary mr-2 fa-photo-video"></em> {% trans 'Related media' %}
 					<span class="badge badge-info">{{course.get_no_media}}</span></a>
+				{% if course.has_feedback %}
+					{% for fb in course.get_feedback_activities %}
+						<a href="{% url 'oppia:course_feedback_download' course.pk fb.id%}" class="list-group-item list-group-item-action">
+							<em class="far text-primary mr-2 fa-list-alt"></em>{% trans 'Download:' %} {{ fb.title|title_lang:LANGUAGE_CODE }}</a>
+					{% endfor %}
+				{% endif %}
 		  	</div>
 
 		</div>
@@ -129,7 +135,7 @@
 	<div class="col-lg-8">
 		{% include "includes/messages.html" %}
 
-		<h3 class="mb-0 d-lg-none ">{% trans 'courses_recent_activity' %} <a href="{% url 'oppia:recent_activity_detail' course.pk %}" class="btn btn-sm btn-light ml-3">View detail activity</a> </h3>
+		<h3 class="mb-0 d-lg-none ">{% trans 'courses_recent_activity' %} <a href="{% url 'oppia:recent_activity_detail' course.pk %}" class="btn btn-sm btn-light ml-3">{% trans 'View detail activity' %}</a> </h3>
 		<div id="attempts_chart_div" class="graph">{% trans 'graph_generating'%}</div>
 
 		<div class="container">

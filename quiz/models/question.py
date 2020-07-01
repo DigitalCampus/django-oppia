@@ -1,3 +1,5 @@
+import json
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
@@ -33,6 +35,18 @@ class Question(models.Model):
     def get_maxscore(self):
         props = QuestionProps.objects.get(question=self, name='maxscore')
         return float(props.value)
+
+    def get_title(self, lang='en'):
+        try:
+            titles = json.loads(self.title)
+            if lang in titles:
+                return titles[lang]
+            else:
+                for l in titles:
+                    return titles[l]
+        except json.JSONDecodeError:
+            pass
+        return self.title
 
 
 class QuestionProps(models.Model):

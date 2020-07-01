@@ -111,11 +111,21 @@ class Course(models.Model):
 
     def has_feedback(self):
         fb_count = Activity.objects.filter(section__course=self,
-                                           type='feedback').count()
+                                           type=Activity.FEEDBACK).count()
         if fb_count > 0:
             return True
         else:
             return False
+
+    def get_feedback_activities(self):
+        feedback = Activity.objects.filter(section__course=self,
+                                           type=Activity.FEEDBACK)
+        return feedback
+
+    def get_quiz_activities(self):
+        quiz = Activity.objects.filter(section__course=self,
+                                           type=Activity.QUIZ)
+        return quiz
 
     def get_tags(self):
         from oppia.models import Tag

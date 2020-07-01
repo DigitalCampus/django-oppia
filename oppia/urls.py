@@ -31,6 +31,8 @@ urlpatterns = [
     path('course/<int:course_id>/structure/', views.CourseStructure.as_view(), name="course_structure"),
 
 
+    path('course/<int:course_id>/feedback/<int:feedback_id>/download', views.FeedbackDownload.as_view(), name="course_feedback_download"),
+
 
     path('cohort/', views.cohort_list_view, name="cohorts"),
     path('cohort/add/', views.cohort_add, name="cohort_add"),
