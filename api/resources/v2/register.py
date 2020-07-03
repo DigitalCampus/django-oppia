@@ -37,8 +37,7 @@ class RegisterResource(RegisterBaseResource):
         data = {'username': bundle.data['username'],
                 'password': bundle.data['password'],
                 'password_again': bundle.data['passwordagain'],
-                'email': bundle.data['email']
-                if 'email' in bundle.data else '',
+                'email': bundle.data['email'] if 'email' in bundle.data else None,
                 'first_name': bundle.data['first_name'],
                 'last_name': bundle.data['last_name'], }
 
@@ -57,11 +56,11 @@ class RegisterResource(RegisterBaseResource):
                     str += error + "\n"
             raise BadRequest(str)
         else:
-            username = bundle.data['username']
-            password = bundle.data['password']
-            email = bundle.data['email'] if 'email' in bundle.data else '',
-            first_name = bundle.data['first_name']
-            last_name = bundle.data['last_name']
+            username = rf.cleaned_data.get('username')
+            password = rf.cleaned_data.get('password')
+            email = rf.cleaned_data.get('email', '')
+            first_name = rf.cleaned_data.get('first_name')
+            last_name = rf.cleaned_data.get('last_name')
 
         try:
             bundle.obj = User.objects.create_user(username=username,
