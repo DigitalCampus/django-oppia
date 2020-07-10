@@ -10,7 +10,7 @@ ALLOWABLE_SETTING_VALUES = ("OPPIA_ANDROID_DEFAULT_PACKAGEID",
                             "BASESITE_URL",
                             "OPPIA_MAX_UPLOAD_SIZE")
 ALLOWABLE_DB_SETTINGS = ("OPPIA_ANDROID_PACKAGEID",
-                         "OPPIA_ANDROID_ON_GOOGLE_PLAY")
+                         "OPPIA_ANDROID_ON_GOOGLE_PLAY", "OPPIA_HOSTNAME")
 
 # settings value (based on https://stackoverflow.com/a/21593607)
 @register.simple_tag
