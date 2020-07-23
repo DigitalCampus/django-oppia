@@ -25,9 +25,9 @@
 	{% settings_value 'OPPIA_ANDROID_DEFAULT_PACKAGEID' as default_package_id %}
     {% settings_value 'OPPIA_ANDROID_ON_GOOGLE_PLAY' as on_googleplay %}
 
-    <a href="intent://view?digest={{digest}}#Intent;scheme=oppiamobile;package={{package_id}};end" class="btn btn-primary">Open in app</a>
+    <a href="intent://{% settings_value 'OPPIA_HOSTNAME' %}/view?digest={{digest}}#Intent;scheme=oppiamobile;package={{package_id}};end" class="btn btn-primary d-block d-sm-inline-block mb-2">Open in app</a>
 
-    <a href="https://play.google.com/store/apps/details?id={% if on_googleplay %}{{package_id}}{% else %}{{default_package_id}}{% endif %}" class="btn btn-info">Get it on Google Play</a>
+    <a href="https://play.google.com/store/apps/details?id={% if on_googleplay %}{{package_id}}{% else %}{{default_package_id}}{% endif %}" class="btn btn-info d-block d-sm-inline-block mb-2">Get it on Google Play</a>
 
     </div>
 

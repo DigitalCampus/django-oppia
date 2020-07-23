@@ -65,7 +65,7 @@ def calculate_media_points(tracker):
     return points
 
 
-def tracker_process_points(tracker, type, description, points):
+def tracker_process_points(tracker, type, description, points=None):
     if tracker.points is not None:
         points = tracker.points
         type = tracker.event
@@ -77,6 +77,9 @@ def tracker_process_points(tracker, type, description, points):
                 return
             if not tracker.completed:
                 return
+
+    if points is None or points <= 0:
+        return
 
     p = Points()
     p.points = points
