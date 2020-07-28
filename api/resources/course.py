@@ -5,6 +5,7 @@ import zipfile
 
 from django.conf import settings
 from django.conf.urls import url
+from django.db.models import Q
 from django.http import HttpResponse, Http404
 from django.utils.translation import ugettext_lazy as _
 from tastypie import fields
@@ -44,9 +45,14 @@ class CourseResource(ModelResource):
 
     def get_object_list(self, request):
         if request.user.is_staff:
-            return Course.objects.filter(is_archived=False).order_by('-priority', 'title')
+            return Course.objects.filter(is_archived=False) \
+                .order_by('-priority', 'title')
         else:
-            return Course.objects.filter(is_archived=False, is_draft=False).order_by('-priority', 'title')
+            return Course.objects.filter(is_archived=False) \
+                .filter(
+                        Q(is_draft=False) |
+                        (Q(is_draft=True) & Q(user=request.user))) \
+                .order_by('-priority', 'title')
 
     def prepend_urls(self):
         return [
@@ -68,9 +74,11 @@ class CourseResource(ModelResource):
             if request.user.is_staff:
                 course = self._meta.queryset.get(pk=pk, is_archived=False)
             else:
-                course = self._meta.queryset.get(pk=pk,
-                                                 is_archived=False,
-                                                 is_draft=False)
+                course = self._meta.queryset \
+                    .filter(
+                            Q(is_draft=False) |
+                            (Q(is_draft=True) & Q(user=request.user))) \
+                    .get(pk=pk, is_archived=False)
         except Course.DoesNotExist:
             raise Http404(self.STR_COURSE_NOT_FOUND)
         except ValueError:
@@ -79,9 +87,11 @@ class CourseResource(ModelResource):
                     course = self._meta.queryset.get(shortname=pk,
                                                      is_archived=False)
                 else:
-                    course = self._meta.queryset.get(shortname=pk,
-                                                     is_archived=False,
-                                                     is_draft=False)
+                    course = self._meta.queryset \
+                        .filter(
+                                Q(is_draft=False) |
+                                (Q(is_draft=True) & Q(user=request.user))) \
+                        .get(shortname=pk, is_archived=False)
             except Course.DoesNotExist:
                 raise Http404(self.STR_COURSE_NOT_FOUND)
 

@@ -1,6 +1,7 @@
 import json
 
 from django.conf.urls import url
+from django.db.models import Q
 from django.http import HttpResponse, Http404
 from tastypie import fields
 from tastypie.authentication import ApiKeyAuthentication
@@ -39,9 +40,11 @@ class TagResource(ModelResource):
                     '-order_priority', 'name')
         else:
             return Tag.objects.filter(
-                courses__isnull=False,
-                coursetag__course__is_archived=False,
-                coursetag__course__is_draft=False) \
+                                      courses__isnull=False,
+                                      coursetag__course__is_archived=False) \
+                .filter(
+                        Q(coursetag__course__is_draft=False) |
+                        (Q(coursetag__course__is_draft=True) & Q(coursetag__course__user=request.user))) \
                 .distinct().order_by('-order_priority', 'name')
 
     def prepend_urls(self):
@@ -68,8 +71,11 @@ class TagResource(ModelResource):
                 is_archived=False).order_by('-priority', 'title')
         else:
             courses = Course.objects.filter(tag=tag,
-                                            is_archived=False,
-                                            is_draft=False).order_by('-priority', 'title')
+                                            is_archived=False) \
+                        .filter(
+                                Q(is_draft=False) |
+                                (Q(is_draft=True) & Q(user=request.user))) \
+                        .order_by('-priority', 'title')
 
         course_data = []
         cr = CourseResource()
@@ -91,7 +97,8 @@ class TagResource(ModelResource):
         if bundle.request.user.is_staff:
             count = tmp.count()
         else:
-            count = tmp.filter(is_draft=False).count()
+            count = tmp.filter(Q(is_draft=False) |
+                (Q(is_draft=True) & Q(user=bundle.request.user))).count()
         return count
 
     def dehydrate_icon(self, bundle):

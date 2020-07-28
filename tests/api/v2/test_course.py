@@ -4,7 +4,10 @@ from django.contrib.auth.models import User
 from django.test import TransactionTestCase
 from tastypie.test import ResourceTestCaseMixin
 
-from tests.utils import get_api_key, get_api_url, update_course_visibility
+from tests.utils import get_api_key, \
+    get_api_url, \
+    update_course_visibility, \
+    update_course_owner
 from oppia.models import Tracker
 
 
@@ -19,25 +22,25 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
 
     def setUp(self):
         super(CourseResourceTest, self).setUp()
-        user = User.objects.get(username='demo')
-        admin = User.objects.get(username='admin')
-        staff = User.objects.get(username='staff')
-        teacher = User.objects.get(username='teacher')
+        self.user = User.objects.get(username='demo')
+        self.admin = User.objects.get(username='admin')
+        self.staff = User.objects.get(username='staff')
+        self.teacher = User.objects.get(username='teacher')
         self.user_auth = {
             'username': 'demo',
-            'api_key': get_api_key(user=user).key,
+            'api_key': get_api_key(user=self.user).key,
         }
         self.admin_auth = {
             'username': 'admin',
-            'api_key': get_api_key(user=admin).key
+            'api_key': get_api_key(user=self.admin).key
         }
         self.staff_auth = {
             'username': 'staff',
-            'api_key': get_api_key(user=staff).key
+            'api_key': get_api_key(user=self.staff).key
         }
         self.teacher_auth = {
             'username': 'teacher',
-            'api_key': get_api_key(user=teacher).key
+            'api_key': get_api_key(user=self.teacher).key
         }
         self.url = get_api_url('v2', 'course')
 
@@ -242,6 +245,22 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         update_course_visibility(1, False, False)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
+
+    @pytest.mark.xfail(reason="works on local but not on github workflows")
+    def test_draft_course_teacher_owner(self):
+        tracker_count_start = Tracker.objects.all().count()
+        update_course_visibility(1, True, False)
+        update_course_owner(1, self.teacher.id)
+        resource_url = get_api_url('v2', 'course', 1) + self.STR_DOWNLOAD
+        response = self.api_client.get(
+            resource_url, format='json', data=self.teacher_auth)
+        self.assertHttpOK(response)
+        self.assertEqual(response['content-type'],
+                         self.STR_ZIP_EXPECTED_CONTENT_TYPE)
+        update_course_visibility(1, False, False)
+        update_course_owner(1, self.admin.id)
+        tracker_count_end = Tracker.objects.all().count()
+        self.assertEqual(tracker_count_start+1, tracker_count_end)
 
     def test_draft_course_normal(self):
         tracker_count_start = Tracker.objects.all().count()
