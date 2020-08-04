@@ -79,6 +79,7 @@ class MediaEmbedView(TemplateView):
             processed_media['error'] = _("url_download_fail")
         return download_error, processed_media
 
+
 def process_media_file(media_guid,
                        media_url,
                        media_local_file,
@@ -127,9 +128,6 @@ def process_media_file(media_guid,
             processed_media['error'] = _("ffmpeg_missing")
 
     return download_error, processed_media
-
-
-
 
 
 def get_length(filename):

@@ -1,13 +1,13 @@
 import json
 
 from django.contrib.auth.models import User
-from django.urls import reverse
 from django.test import TestCase
 
 from oppia.models import Tracker
 from quiz.models import QuizAttemptResponse, QuizAttempt
 from tastypie.test import ResourceTestCaseMixin
-from tests.utils import get_api_key, get_api_url
+from tests.utils import get_api_key
+
 
 class UploadAPIActivityLogTest(ResourceTestCaseMixin, TestCase):
 
@@ -90,7 +90,6 @@ class UploadAPIActivityLogTest(ResourceTestCaseMixin, TestCase):
         self.assertEqual(tracker_count_start + 2, tracker_count_end)
         self.assertEqual(user_count_start + 1, user_count_end)
 
-
     def test_wrong_format_file(self):
 
         with open(self.wrong_activity_file) as activity_log_file:
@@ -107,7 +106,6 @@ class UploadAPIActivityLogTest(ResourceTestCaseMixin, TestCase):
         tracker_count_start = Tracker.objects.all().count()
         qa_count_start = QuizAttempt.objects.all().count()
         qar_count_start = QuizAttemptResponse.objects.all().count()
-
 
         with open(self.quiz_attempt_log) as activity_log_file:
             json_data = json.load(activity_log_file)
@@ -155,7 +153,6 @@ class UploadAPIActivityLogTest(ResourceTestCaseMixin, TestCase):
         tracker_count_start = Tracker.objects.all().count()
         qa_count_start = QuizAttempt.objects.all().count()
         qar_count_start = QuizAttemptResponse.objects.all().count()
-
 
         with open(self.quiz_attempt_log) as activity_log_file:
             json_data = json.load(activity_log_file)

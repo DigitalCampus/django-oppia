@@ -122,15 +122,16 @@ class CourseMediaList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
     paginate_by = 10
 
     def get_queryset(self):
-        id = self.kwargs['course_id']
-        return Media.objects.filter(course__id=id)
+        course_id = self.kwargs['course_id']
+        return Media.objects.filter(course__id=course_id)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['course'] = Course.objects.get(pk=self.kwargs['course_id'])
         context['uploaded'] = 0
         for media in context['object_list']:
-            media.uploaded = UploadedMedia.objects.filter(md5=media.digest).first()
+            media.uploaded = UploadedMedia.objects \
+                .filter(md5=media.digest).first()
             context['uploaded'] += 1 if media.uploaded else 0
 
         print(self.request.GET.get('error', None))
@@ -141,7 +142,8 @@ class CourseMediaList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
 
 def download_course_media(request, course_id):
     course = can_view_course(request, course_id)
-    digests = Media.objects.filter(course=course).values_list('digest', flat=True)
+    digests = Media.objects.filter(course=course).values_list('digest',
+                                                              flat=True)
     media = UploadedMedia.objects.filter(md5__in=digests)
 
     filename = course.shortname + "_media.zip"
@@ -149,9 +151,13 @@ def download_course_media(request, course_id):
 
     if path:
         with open(path, 'rb') as package:
-            response = HttpResponse(package.read(), content_type='application/zip')
+            response = HttpResponse(package.read(),
+                                    content_type='application/zip')
             response['Content-Length'] = os.path.getsize(path)
-            response['Content-Disposition'] = 'attachment; filename="%s"' % (filename)
+            response['Content-Disposition'] = 'attachment; filename="%s"' \
+                % (filename)
             return response
     else:
-        return redirect(reverse('av:course_media', kwargs={'course_id': course.pk})+'?error=no_media')
+        return redirect(reverse('av:course_media',
+                                kwargs={'course_id':
+                                        course.pk})+'?error=no_media')

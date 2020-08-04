@@ -37,7 +37,8 @@ class RegisterResource(RegisterBaseResource):
         data = {'username': bundle.data['username'],
                 'password': bundle.data['password'],
                 'password_again': bundle.data['passwordagain'],
-                'email': bundle.data['email'] if 'email' in bundle.data else None,
+                'email': bundle.data['email']
+                if 'email' in bundle.data else None,
                 'first_name': bundle.data['first_name'],
                 'last_name': bundle.data['last_name'], }
 

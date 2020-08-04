@@ -53,11 +53,11 @@ class ProfileUpdateResource(ModelResource):
 
         profile_form = ProfileForm(data)
         if not profile_form.is_valid():
-            str = ""
+            error_str = ""
             for key, value in profile_form.errors.items():
                 for error in value:
-                    str += error + "\n"
-            raise BadRequest(str)
+                    error_str += error + "\n"
+            raise BadRequest(error_str)
         else:
             email = bundle.data['email'] if 'email' in bundle.data else ''
             first_name = bundle.data['first_name']

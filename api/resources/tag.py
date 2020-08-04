@@ -44,7 +44,8 @@ class TagResource(ModelResource):
                                       coursetag__course__is_archived=False) \
                 .filter(
                         Q(coursetag__course__is_draft=False) |
-                        (Q(coursetag__course__is_draft=True) & Q(coursetag__course__user=request.user))) \
+                        (Q(coursetag__course__is_draft=True)
+                         & Q(coursetag__course__user=request.user))) \
                 .distinct().order_by('-order_priority', 'name')
 
     def prepend_urls(self):
@@ -98,7 +99,8 @@ class TagResource(ModelResource):
             count = tmp.count()
         else:
             count = tmp.filter(Q(is_draft=False) |
-                (Q(is_draft=True) & Q(user=bundle.request.user))).count()
+                               (Q(is_draft=True) &
+                                Q(user=bundle.request.user))).count()
         return count
 
     def dehydrate_icon(self, bundle):

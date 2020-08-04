@@ -43,8 +43,8 @@ class Command(BaseCommand):
             return
 
         # check can connect to cartodb API
-        payload = {'q': "SELECT * FROM %s WHERE source_site='%s'" \
-            % (CARTODB_TABLE, source_site)}
+        payload = {'q': "SELECT * FROM %s WHERE source_site='%s'"
+                   % (CARTODB_TABLE, source_site)}
         url = self.CARTO_DB_QUERY % (cartodb_account,
                                      urlencode(payload, quote_via=quote_plus))
         u = urllib.request.urlopen(url)
@@ -80,9 +80,9 @@ class Command(BaseCommand):
 
         # add any new points
         locations = UserLocationVisualization.objects \
-                        .exclude(lat=0, lng=0) \
-                        .values('lat', 'lng', 'country_code') \
-                        .annotate(total_hits=Sum('hits'))
+            .exclude(lat=0, lng=0) \
+            .values('lat', 'lng', 'country_code') \
+            .annotate(total_hits=Sum('hits'))
         for l in locations:
             found = False
             # loop through and see if in carto_db_data
@@ -92,11 +92,11 @@ class Command(BaseCommand):
 
             if not found:
                 self.stdout.write("not found - will insert")
-                str = "INSERT INTO %s (the_geom, lat, lng, total_hits, \
+                sql_str = "INSERT INTO %s (the_geom, lat, lng, total_hits, \
                         country_code, source_site) VALUES \
                         (ST_SetSRID(ST_Point(%f, %f),4326), \
                         %f,%f,%d ,'%s','%s')"
-                sql = str % \
+                sql = sql_str % \
                     (CARTODB_TABLE,
                      l['lng'],
                      l['lat'],
@@ -105,13 +105,12 @@ class Command(BaseCommand):
                      l['total_hits'],
                      l['country_code'],
                      source_site)
-                payload = { 'q': sql, 'api_key': cartodb_key}
+                payload = {'q': sql, 'api_key': cartodb_key}
 
                 url = self.CARTO_DB_QUERY % \
-                      (cartodb_account, urlencode(payload, quote_via=quote_plus))
+                      (cartodb_account,
+                       urlencode(payload, quote_via=quote_plus))
                 u = urllib.request.urlopen(url)
                 data = u.read()
                 print(data)
                 time.sleep(1)
-
-

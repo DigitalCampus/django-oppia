@@ -26,6 +26,7 @@ from summary.models import UserCourseSummary
 
 STR_DATE_FORMAT = "%d %b %Y"
 
+
 def cohort_list_view(request):
     if not request.user.is_staff:
         raise PermissionDenied

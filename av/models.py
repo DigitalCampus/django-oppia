@@ -83,6 +83,7 @@ class UploadedMedia(models.Model):
         except FileNotFoundError:
             return 0
 
+
 @receiver(post_delete, sender=UploadedMedia)
 def uploaded_media_delete_file(sender, instance, **kwargs):
     file_to_delete = os.path.join(settings.MEDIA_ROOT, instance.file.name)

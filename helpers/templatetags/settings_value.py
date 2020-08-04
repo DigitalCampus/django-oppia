@@ -1,7 +1,6 @@
 from django import template
 from django.conf import settings
 
-from settings import constants
 from settings.models import SettingProperties
 
 register = template.Library()
@@ -11,6 +10,7 @@ ALLOWABLE_SETTING_VALUES = ("OPPIA_ANDROID_DEFAULT_PACKAGEID",
                             "OPPIA_MAX_UPLOAD_SIZE")
 ALLOWABLE_DB_SETTINGS = ("OPPIA_ANDROID_PACKAGEID",
                          "OPPIA_ANDROID_ON_GOOGLE_PLAY", "OPPIA_HOSTNAME")
+
 
 # settings value (based on https://stackoverflow.com/a/21593607)
 @register.simple_tag

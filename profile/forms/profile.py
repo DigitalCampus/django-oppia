@@ -17,6 +17,7 @@ from profile.forms import helpers
 from settings import constants
 from settings.models import SettingProperties
 
+
 class ProfileForm(forms.Form):
     api_key = forms.CharField(widget=forms.TextInput(attrs={'readonly':
                                                             'readonly'}),
@@ -27,15 +28,15 @@ class ProfileForm(forms.Form):
                                required=False,
                                help_text=_(u'You cannot edit your username.'))
     email = forms.CharField(validators=[validate_email],
-                            error_messages={'invalid':
-                                            _(u'Please enter a valid e-mail address.')},
-                            required=False)
+        error_messages={'invalid':
+                        _(u'Please enter a valid e-mail address.')},
+        required=False)
     password = forms.CharField(widget=forms.PasswordInput,
-                               required=False,
-                               min_length=6,
-                               error_messages={
-                                   'min_length':
-                                   _(u'The new password should be at least 6 characters long')}, )
+       required=False,
+       min_length=6,
+       error_messages={
+           'min_length':
+           _(u'The new password should be at least 6 characters long')})
     password_again = forms.CharField(widget=forms.PasswordInput,
                                      required=False,
                                      min_length=6)

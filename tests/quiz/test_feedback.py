@@ -1,16 +1,10 @@
 # coding: utf-8
 
-from django.contrib.auth.models import User
 from django.urls import reverse
-from django.test import TransactionTestCase
-from tastypie.test import ResourceTestCaseMixin
 
-from quiz.models import QuizAttemptResponse, QuizAttempt
 from oppia.test import OppiaTestCase
 
 from tests.defaults import UNAUTHORISED_TEMPLATE
-
-from tests.utils import get_api_key, get_api_url
 
 
 class FeedbackResourceTest(OppiaTestCase):
@@ -24,7 +18,6 @@ class FeedbackResourceTest(OppiaTestCase):
         self.client.force_login(self.admin_user)
         response = self.client.get(self.valid_course_feedback_url)
         self.assertEqual(200, response.status_code)
-
 
     def test_staff_download(self):
         self.client.force_login(self.staff_user)

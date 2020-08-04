@@ -25,6 +25,7 @@ from profile.models import UserProfile
 
 STR_DATE_FORMAT = "%d %b %Y"
 
+
 def server_view(request):
     return render(request, 'oppia/server.html',
                   {'settings': settings},
@@ -40,7 +41,8 @@ def home_view(request):
 
     if request.user.is_authenticated:
 
-        # create profile if none exists (for first admin user login and historical for very old users)
+        # create profile if none exists (for first admin user login and
+        # historical for very old users)
         try:
             request.user.userprofile
         except UserProfile.DoesNotExist:

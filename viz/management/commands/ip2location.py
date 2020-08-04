@@ -16,6 +16,7 @@ from viz.models import UserLocationVisualization
 from settings.models import SettingProperties
 from settings import constants
 
+
 class Command(BaseCommand):
     help = _(u'Gets user locations based on their IP address in the \
             Tracker model')
@@ -68,7 +69,6 @@ class Command(BaseCommand):
                 viz.region = data_json['region_name']
             viz.country_code = data_json['country_code']
             viz.country_name = data_json['country_name']
-            #viz.geonames_data = data_json
             viz.save()
 
         time.sleep(5)

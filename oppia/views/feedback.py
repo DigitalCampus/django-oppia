@@ -2,14 +2,11 @@ import tablib
 
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
-from django.utils.translation import ugettext_lazy as _
 from django.views.generic import TemplateView
 
 from oppia.models import Activity
 from oppia.permissions import can_view_course_detail
-from quiz.models import Quiz, \
-                        QuizProps, \
-                        QuizQuestion, \
+from quiz.models import QuizProps, \
                         Question, \
                         QuizAttempt, \
                         QuizAttemptResponse
@@ -30,8 +27,7 @@ class FeedbackDownload(TemplateView):
 
         print(prop.quiz.title)
 
-        headers = ['Date',
-               'UserId']
+        headers = ['Date', 'UserId']
 
         for question in feedback_questions:
             headers.append(question.get_title())
@@ -58,8 +54,8 @@ class FeedbackDownload(TemplateView):
             data.append(row)
 
         response = HttpResponse(
-        data.export('xlsx'),
-        content_type='application/vnd.ms-excel;charset=utf-8')
+            data.export('xlsx'),
+            content_type='application/vnd.ms-excel;charset=utf-8')
         response['Content-Disposition'] = "attachment; filename=export.xlsx"
 
         return response

@@ -66,6 +66,7 @@ def process_activitylog(request, contents):
         process_uploaded_file(request, json_data)
         return True
 
+
 def process_uploaded_trackers(request, trackers, user, user_api_key):
     request.user = user
     for tracker in trackers:
@@ -209,6 +210,3 @@ def post_activitylog(request):
         return HttpResponse()
     else:
         return HttpResponseBadRequest()
-
-
-

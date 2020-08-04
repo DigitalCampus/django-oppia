@@ -2,11 +2,10 @@
 from django.contrib.auth.models import User
 from django.test import TransactionTestCase
 
-from oppia.test import OppiaTestCase
-
 from tastypie.test import ResourceTestCaseMixin
 
 from tests.utils import get_api_key, get_api_url
+
 
 class MediaResourceTest(ResourceTestCaseMixin, TransactionTestCase):
 
@@ -79,11 +78,9 @@ class MediaResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(0,
                          response_data['filesize'])
 
-
     # test get with md5 that doesn;t exist
     def test_media_not_uploaded(self):
         url = self.url + "md5/aaaaaaaaaa"
         response = self.api_client.get(
             url, format='json', data=self.user_auth)
         self.assertEqual(404, response.status_code)
-

@@ -5,14 +5,11 @@ from django.shortcuts import get_object_or_404
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie.authorization import ReadOnlyAuthorization
 from tastypie.resources import ModelResource
-from tastypie.utils import timezone
-from tastypie.utils import trailing_slash
 
-from av.models import UploadedMedia, UploadedMediaImage
+from av.models import UploadedMedia
 
 
 class MediaResource(ModelResource):
-
 
     class Meta:
         queryset = UploadedMedia.objects.all()
@@ -40,7 +37,8 @@ class MediaResource(ModelResource):
         md5 = kwargs.pop('md5', None)
         uploadedmedia = get_object_or_404(UploadedMedia, md5=md5)
 
-        file_url = request.build_absolute_uri(uploadedmedia.file.name).replace('api/v2/media/md5/','media/')
+        file_url = request.build_absolute_uri(uploadedmedia.file.name) \
+            .replace('api/v2/media/md5/', 'media/')
         media_obj = {}
         media_obj['digest'] = uploadedmedia.md5
         media_obj['length'] = uploadedmedia.length

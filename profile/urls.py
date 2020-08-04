@@ -50,7 +50,9 @@ urlpatterns = [
     path('export/', profile_views.export_users, name="export"),
     path('list/', profile_views.list_users, name="list"),
 
-    path('delete/<int:user_id>/', profile_views.delete_account_view, name="delete"),
+    path('delete/<int:user_id>/',
+         profile_views.delete_account_view,
+         name="delete"),
     path('delete/complete/',
          profile_views.delete_account_complete_view,
          name="delete_complete"),

@@ -111,11 +111,11 @@ class CourseResource(ModelResource):
                     "temp",
                     str(request.user.id) + "-" + course.filename)
                 shutil.copy2(course.getAbsPath(), file_to_download)
-                zip = zipfile.ZipFile(file_to_download, 'a')
+                course_zip = zipfile.ZipFile(file_to_download, 'a')
                 if has_completed_trackers:
-                    zip.writestr(course.shortname + "/tracker.xml",
+                    course_zip.writestr(course.shortname + "/tracker.xml",
                                  Tracker.to_xml_string(course, request.user))
-                zip.close()
+                course_zip.close()
 
             binary_file = open(file_to_download, 'rb')
             response = HttpResponse(binary_file.read(),

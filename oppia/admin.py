@@ -66,6 +66,7 @@ class ActivityAdmin(admin.ModelAdmin):
     list_display = ('title', 'section', 'type', 'digest')
     search_fields = ['title', 'type', 'digest']
 
+
 class AwardCourseAdmin(admin.ModelAdmin):
     list_display = ('award', 'course', 'course_version')
 
@@ -99,6 +100,7 @@ class SectionAdmin(admin.ModelAdmin):
     list_display = ('course', 'title', 'order')
     search_fields = ['title']
 
+
 class TagAdmin(admin.ModelAdmin):
     list_display = ('name',
                     'created_date',
@@ -108,6 +110,7 @@ class TagAdmin(admin.ModelAdmin):
                     'highlight')
     ordering = ['-order_priority', 'name']
     search_fields = ['name', 'description']
+
 
 admin.site.register(Activity, ActivityAdmin)
 admin.site.register(Award, AwardAdmin)

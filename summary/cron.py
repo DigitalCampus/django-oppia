@@ -1,7 +1,6 @@
 
 import time
 
-from datetime import date
 from django.utils import timezone
 
 

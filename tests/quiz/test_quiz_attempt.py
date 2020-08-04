@@ -94,7 +94,7 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TransactionTestCase):
                              {"question_id": "134",
                               "score": 0,
                               "text": "false"}],
-                "timetaken": 120 }
+                "timetaken": 120}
         resp = self.api_client.post(self.url,
                                     format='json',
                                     data=data,

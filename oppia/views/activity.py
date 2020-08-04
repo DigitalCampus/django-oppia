@@ -23,7 +23,9 @@ def course_detail(request, course_id):
 
     dashboard_accessed.send(sender=None, request=request, data=course)
 
-    download_stats = UserCourseSummary.objects.filter(course=course_id).aggregated_stats('total_downloads', single=True)
+    download_stats = UserCourseSummary.objects \
+        .filter(course=course_id) \
+        .aggregated_stats('total_downloads', single=True)
     start_date = datetime.datetime.now() - datetime.timedelta(days=31)
     end_date = datetime.datetime.now()
     interval = 'days'

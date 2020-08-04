@@ -33,6 +33,7 @@ def update_course_visibility(id, is_draft, is_archived):
     course.is_archived = is_archived
     course.save()
 
+
 def update_course_owner(id, owner_id):
     course = Course.objects.get(pk=id)
     course.user_id=owner_id

@@ -35,6 +35,7 @@ def get_api_v1():
     api.register(QuizAttemptResource())
     return api
 
+
 def get_api_v2():
     api = Api(api_name='v2')
     api.register(TrackerResource())
@@ -50,6 +51,7 @@ def get_api_v2():
     api.register(QuizAttemptResource())
     api.register(MediaResource())
     return api
+
 
 urlpatterns = [
     url(r'^', include(get_api_v1().urls)),

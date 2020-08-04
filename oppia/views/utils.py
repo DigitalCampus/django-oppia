@@ -1,4 +1,3 @@
-import datetime
 from django.core.paginator import Paginator
 
 from oppia.models import Course

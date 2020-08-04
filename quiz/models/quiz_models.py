@@ -32,7 +32,8 @@ class Quiz(models.Model):
         from oppia.models import Activity
         digest = QuizProps.objects.filter(quiz=self, name='digest').first()
         if digest:
-            return Activity.objects.filter(digest=digest.value, baseline=True).exists()
+            return Activity.objects.filter(digest=digest.value,
+                                           baseline=True).exists()
         else:
             return False
 
@@ -115,7 +116,6 @@ class QuizAttempt(models.Model):
                              blank=True,
                              default=None)
     time_taken = models.IntegerField(default=0)
-
 
     class Meta:
         verbose_name = _('QuizAttempt')

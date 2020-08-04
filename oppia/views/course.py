@@ -77,12 +77,13 @@ class CourseListView(ListView, AjaxTemplateResponseMixin):
                     course_stats.remove(stats)
 
         context['page_ordering'] = self.get_ordering()
-        context['tag_list'] = Tag.objects.all().exclude(coursetag=None).order_by('name')
+        context['tag_list'] = Tag.objects.all() \
+            .exclude(coursetag=None) \
+            .order_by('name')
         context['current_tag'] = self.get_current_tag()
         context['course_filter'] = self.get_filter()
 
         return context
-
 
 
 class CourseDownload(TemplateView):
@@ -201,4 +202,4 @@ class CourseStructure(TemplateView):
         course = Course.objects.get(pk=course_id)
 
         return render(request, 'course/structure.html',
-                  {'course': course})
+                      {'course': course})

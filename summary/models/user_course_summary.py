@@ -8,7 +8,6 @@ from django.utils.translation import ugettext_lazy as _
 from oppia.models import Course, Tracker, Points, Award
 
 
-
 class UserCourseSummaryQS(QuerySet):
 
     AGGREGABLE_STATS = ('total_downloads',
@@ -25,6 +24,7 @@ class UserCourseSummaryQS(QuerySet):
                 return stats[0] if len(stats) > 0 else None
             else:
                 return stats
+
 
 class UserCourseSummary (models.Model):
     user = models.ForeignKey(User,
@@ -49,12 +49,10 @@ class UserCourseSummary (models.Model):
 
     objects = UserCourseSummaryQS.as_manager()
 
-
     class Meta:
         verbose_name = _('UserCourseSummary')
         unique_together = ("user", "course")
         index_together = ["user", "course"]
-
 
     def update_summary(self,
                        last_tracker_pk=0, newest_tracker_pk=0,

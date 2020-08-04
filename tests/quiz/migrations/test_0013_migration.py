@@ -1,9 +1,5 @@
-import pytest
-import unittest
-
 from django.db.migrations.executor import MigrationExecutor
 from django.db import connection
-from django.apps import apps
 from django.test import TestCase
 
 
@@ -84,44 +80,3 @@ class QuizDictsTestCase(QuizTestMigrations):
             title="100",
             question=self.question_1
         ).id
-
-    '''
-    @unittest.expectedFailure
-    @pytest.mark.xfail(reason="fails due to being unable to rollback, "
-                       "django.db.transaction.TransactionManagementError: "
-                       "Executing DDL statements while in a transaction on "
-                       "databases that can't perform a rollback is "
-                       "prohibited.")
-
-    def test_quiz_dicts_migrated(self):
-        quiz_model = apps.get_model('quiz', 'Quiz')
-
-        quiz_1 = quiz_model.objects.get(id=self.quiz_id_1)
-        self.assertEqual('{"en": "Substance Abuse"}', quiz_1.title)
-        self.assertEqual('{"en": "A long description about the quiz"}',
-                         quiz_1.description)
-        quiz_2 = quiz_model.objects.get(id=self.quiz_id_2)
-        self.assertEqual('Substance Abuse', quiz_2.title)
-        self.assertEqual('A long description about the quiz',
-                         quiz_2.description)
-
-        question_model = apps.get_model('quiz', 'Question')
-
-        question_1 = question_model.objects.get(id=self.question_id_1)
-        self.assertEqual('{"en": "my question about stuff"}',
-                         question_1.title)
-        question_2 = question_model.objects.get(id=self.question_id_2)
-        self.assertEqual('my question about stuff',
-                         question_2.title)
-
-        response_model = apps.get_model('quiz', 'Response')
-        response_1 = response_model.objects.get(id=self.response_id_1)
-        self.assertEqual('{"en": "option 1"}',
-                         response_1.title)
-        response_2 = response_model.objects.get(id=self.response_id_2)
-        self.assertEqual('option 2',
-                         response_2.title)
-        response_3 = response_model.objects.get(id=self.response_id_3)
-        self.assertEqual('100',
-                         response_3.title)
-    '''
