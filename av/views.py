@@ -123,7 +123,7 @@ class CourseMediaList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
 
     def get_queryset(self):
         course_id = self.kwargs['course_id']
-        return Media.objects.filter(course__id=course_id)
+        return Media.objects.filter(course__id=course_id).order_by('id')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -134,7 +134,6 @@ class CourseMediaList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
                 .filter(md5=media.digest).first()
             context['uploaded'] += 1 if media.uploaded else 0
 
-        print(self.request.GET.get('error', None))
         if self.request.GET.get('error', None) == 'no_media':
             context['no_media'] = True
         return context
