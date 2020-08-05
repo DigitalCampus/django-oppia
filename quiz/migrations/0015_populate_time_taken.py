@@ -14,17 +14,21 @@ def populate_time_taken(apps, schema_editor):
 
     counter = 1
     for t in trackers:
-        json_data = json.loads(t.data)
-        if 'instance_id' in json_data:
-            quizattempt_model.objects \
-                .filter(instance_id=json_data['instance_id']) \
-                .update(time_taken=t.time_taken)
+        try:
+            json_data = json.loads(t.data)
+            if 'instance_id' in json_data:
+                quizattempt_model.objects \
+                    .filter(instance_id=json_data['instance_id']) \
+                    .update(time_taken=t.time_taken)
 
-        print("{0}/{1} : {2} updated".format(counter,
-                                             trackers.count(),
-                                             json_data['instance_id']))
+            print("{0}/{1} : {2} updated".format(counter,
+                                                 trackers.count(),
+                                                 json_data['instance_id']))
 
-        counter += 1
+            counter += 1
+        except json.decoder.JSONDecodeError:
+            # ignore
+            pass
 
 
 def noop(app, schema_editor):
