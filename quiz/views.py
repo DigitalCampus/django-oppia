@@ -18,8 +18,10 @@ class FeedbackDownload(TemplateView):
 
     def get(self, request, course_id, feedback_id):
 
-        activity = get_object_or_404(Activity, pk=feedback_id, section__course__pk=course_id)
-
+        activity = get_object_or_404(Activity,
+                                     pk=feedback_id,
+                                     type=Activity.FEEDBACK,
+                                     section__course__pk=course_id)
         can_view_course_detail(request, course_id)
 
         dashboard_accessed.send(sender=None, request=request, data=None)
@@ -65,23 +67,26 @@ class FeedbackDownload(TemplateView):
 
 class QuizDownload(TemplateView):
 
-    def get(self, request, course_id, feedback_id):
+    def get(self, request, course_id, quiz_id):
+        activity = get_object_or_404(Activity,
+                                     pk=quiz_id,
+                                     type=Activity.QUIZ,
+                                     section__course__pk=course_id)
         can_view_course_detail(request, course_id)
-
-        activity = get_object_or_404(Activity, pk=feedback_id)
 
         prop = QuizProps.objects.get(name='digest', value=activity.digest)
 
         dashboard_accessed.send(sender=None, request=request, data=None)
 
-        feedback_questions = Question.objects.filter(
+        quiz_questions = Question.objects.filter(
             quizquestion__quiz__pk=prop.quiz_id) \
             .order_by('quizquestion__order')
 
-        headers = ['Date', 'UserId']
+        headers = ['Date', 'UserId', 'Max Score', 'User Score']
 
-        for question in feedback_questions:
+        for question in quiz_questions:
             headers.append(question.get_title())
+            headers.append('Question Score')
 
         data = []
         data = tablib.Dataset(* data, headers=headers)
@@ -91,15 +96,19 @@ class QuizDownload(TemplateView):
 
         for quiz_attempt in quiz_attempts:
             row = [quiz_attempt.attempt_date.strftime('%Y-%m-%d %H:%M:%S'),
-                   quiz_attempt.user_id]
+                   quiz_attempt.user_id,
+                   quiz_attempt.maxscore,
+                   quiz_attempt.score]
 
-            for question in feedback_questions:
+            for question in quiz_questions:
                 try:
                     user_response = QuizAttemptResponse.objects.get(
                         question=question,
                         quizattempt=quiz_attempt)
                     row.append(user_response.text)
+                    row.append(user_response.score)
                 except QuizAttemptResponse.DoesNotExist:
+                    row.append('')
                     row.append('')
 
             data.append(row)
