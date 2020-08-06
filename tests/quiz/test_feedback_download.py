@@ -17,16 +17,15 @@ class FeedbackDownloadTest(OppiaTestCase):
     STR_URL_TEMPLATE = 'quiz:feedback_results_download'
 
     valid_course_valid_feedback_url = reverse(STR_URL_TEMPLATE,
-                                        args=[183, 65323])
+                                              args=[183, 65323])
     invalid_course_valid_feedback_url = reverse(STR_URL_TEMPLATE,
-                                        args=[0, 65323])
+                                                args=[0, 65323])
     valid_course_invalid_feedback_url = reverse(STR_URL_TEMPLATE,
-                                        args=[183, 0])
+                                                args=[183, 0])
     invalid_course_invalid_feedback_url = reverse(STR_URL_TEMPLATE,
-                                        args=[0, 0])
+                                                  args=[0, 0])
     course_feedback_mismatch_url = reverse(STR_URL_TEMPLATE,
-                                        args=[1, 65323])
-
+                                           args=[1, 65323])
 
     def test_admin_download(self):
         count_start = DashboardAccessLog.objects.all().count()
@@ -100,7 +99,8 @@ class FeedbackDownloadTest(OppiaTestCase):
         for user in users:
             count_start = DashboardAccessLog.objects.all().count()
             self.client.force_login(user)
-            response = self.client.get(self.invalid_course_invalid_feedback_url)
+            response = self.client.get(
+                self.invalid_course_invalid_feedback_url)
             self.assertEqual(404, response.status_code)
             count_end = DashboardAccessLog.objects.all().count()
             self.assertEqual(count_start, count_end)

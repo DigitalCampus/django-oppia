@@ -18,16 +18,15 @@ class QuizDownloadTest(OppiaTestCase):
     STR_URL_TEMPLATE = 'quiz:quiz_results_download'
 
     valid_course_valid_quiz_url = reverse(STR_URL_TEMPLATE,
-                                        args=[1, 18])
+                                          args=[1, 18])
     invalid_course_valid_quiz_url = reverse(STR_URL_TEMPLATE,
-                                        args=[0, 18])
+                                            args=[0, 18])
     valid_course_invalid_quiz_url = reverse(STR_URL_TEMPLATE,
-                                        args=[1, 0])
+                                            args=[1, 0])
     invalid_course_invalid_quiz_url = reverse(STR_URL_TEMPLATE,
-                                        args=[0, 0])
+                                              args=[0, 0])
     course_quiz_mismatch_url = reverse(STR_URL_TEMPLATE,
-                                        args=[1, 224])
-
+                                       args=[1, 224])
 
     def test_admin_download(self):
         count_start = DashboardAccessLog.objects.all().count()
