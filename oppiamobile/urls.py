@@ -16,4 +16,5 @@ urlpatterns = [
     url(r'^gamification/', include('gamification.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^integrations/', include('integrations.urls')),
+    url(r'^quiz/', include('quiz.urls')),
 ]

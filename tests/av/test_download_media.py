@@ -13,7 +13,7 @@ class DownloadMediaTest(OppiaTestCase):
         url = reverse('av:course_media', args=[1])
         allowed_users = [self.admin_user,
                          self.staff_user,
-                         self.staff_user,
+                         self.teacher_user,
                          self.normal_user]
 
         for allowed_user in allowed_users:

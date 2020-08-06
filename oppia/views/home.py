@@ -175,6 +175,8 @@ def teacher_home_view(request):
                      if dct['day'].strftime(STR_DATE_FORMAT) == temp_date), 0)
         activity.append([temp.strftime(STR_DATE_FORMAT), count])
 
+    dashboard_accessed.send(sender=None, request=request, data=None)
+
     return render(request, 'oppia/home-teacher.html',
                   {'cohorts': cohorts,
                    'activity_graph_data': activity, })
