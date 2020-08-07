@@ -151,6 +151,9 @@ class Course(models.Model):
     def get_no_media(self):
         return Media.objects.filter(course=self).count()
 
+    def get_no_trackers(self):
+        return Tracker.objects.filter(course=self).count()
+
     @staticmethod
     def get_pre_test_score(course, user):
         try:
@@ -395,6 +398,15 @@ class Activity(models.Model):
                 return {'events': default_quiz_events, 'source': source}
 
         return event_points
+
+    def get_no_quiz_responses(self):
+        # get the actual quiz id
+        try:
+            quiz = Quiz.objects.get(quizprops__name='digest',
+                                    quizprops__value=self.digest)
+        except Quiz.DoesNotExist:
+            return 0
+        return QuizAttempt.objects.filter(quiz_id=quiz.id).count()
 
 
 class Media(models.Model):

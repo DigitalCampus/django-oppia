@@ -20,7 +20,7 @@ class OppiaActivityViewsTest(OppiaTestCase):
     url_recent_activity_detail = reverse('oppia:recent_activity_detail',
                                          args=[1])
     url_oppia_export_course_trackers = reverse('oppia:export_course_trackers',
-                                              args=[1])
+                                               args=[1])
 
     activity_detail_template = 'course/activity-detail.html'
     start_date = '2018-11-28 00:00:00'

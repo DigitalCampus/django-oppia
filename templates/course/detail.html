@@ -121,12 +121,8 @@
 				<a href="{% url 'av:course_media' course.pk %}" class="list-group-item list-group-item-action">
 					<em class="fas text-primary mr-2 fa-photo-video"></em> {% trans 'Related media' %}
 					<span class="badge badge-info">{{course.get_no_media}}</span></a>
-				{% if course.has_feedback %}
-					{% for fb in course.get_feedback_activities %}
-						<a href="{% url 'quiz:feedback_results_download' course.pk fb.id%}" class="list-group-item list-group-item-action">
-							<em class="far text-primary mr-2 fa-list-alt"></em>{% trans 'Download:' %} {{ fb.title|title_lang:LANGUAGE_CODE }}</a>
-					{% endfor %}
-				{% endif %}
+				<a href="{% url 'oppia:course_data_exports' course.pk %}" class="list-group-item list-group-item-action">
+					<em class="far text-primary mr-2 fa-list-alt"></em>{% trans 'Course Data Exports' %}</a>
 		  	</div>
 
 		</div>

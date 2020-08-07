@@ -43,9 +43,9 @@ class CourseActivityDetail(TemplateView):
         daily_stats = CourseDailyStats.objects.filter(course=course,
                                                       day__gte=start_date,
                                                       day__lte=end_date) \
-                        .annotate(stat_date=TruncDay('day')) \
-                        .values('stat_date', 'type') \
-                        .annotate(total=Sum('total'))
+            .annotate(stat_date=TruncDay('day')) \
+            .values('stat_date', 'type') \
+            .annotate(total=Sum('total'))
 
         dates = generate_graph_data(daily_stats, False)
 
@@ -100,14 +100,15 @@ class CourseActivityDetail(TemplateView):
             dates = generate_graph_data(daily_stats, False)
 
         else:
-            monthly_stats = CourseDailyStats.objects.filter(course=course,
-                                                            day__gte=start_date,
-                                                            day__lte=end_date) \
-                            .annotate(month=TruncMonth('day'),
-                                      year=TruncYear('day')) \
-                            .values('month', 'year', 'type') \
-                            .annotate(total=Sum('total')) \
-                            .order_by('year', 'month')
+            monthly_stats = CourseDailyStats.objects \
+                .filter(course=course,
+                        day__gte=start_date,
+                        day__lte=end_date) \
+                .annotate(month=TruncMonth('day'),
+                          year=TruncYear('day')) \
+                .values('month', 'year', 'type') \
+                .annotate(total=Sum('total')) \
+                .order_by('year', 'month')
 
             dates = generate_graph_data(monthly_stats, True)
 
@@ -119,6 +120,7 @@ class CourseActivityDetail(TemplateView):
                        'data': dates,
                        'download_stats': download_stats,
                        'leaderboard': leaderboard})
+
 
 class CourseRecentActivityDetail(TemplateView):
 
@@ -217,6 +219,7 @@ class CourseRecentActivityDetail(TemplateView):
                        'form': form,
                        'page': tracks, })
 
+
 class ExportCourseTrackers(TemplateView):
 
     def get(self, request, course_id):
@@ -233,7 +236,8 @@ class ExportCourseTrackers(TemplateView):
                    'Language')
         data = []
         data = tablib.Dataset(* data, headers=headers)
-        trackers = Tracker.objects.filter(course=course).order_by('-tracker_date')
+        trackers = Tracker.objects.filter(course=course) \
+            .order_by('-tracker_date')
         for t in trackers:
             try:
                 data_dict = json.loads(t.data)

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{% trans 'Course Data Exports' %}
+{% endblock extra_head_title %}
+
+
+{% block header %}
+<div class="jumbotron mb-3">
+	<h3><a href="{% url 'oppia:recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a>
+		<em class="material-icons md-18 ">arrow_forward_ios</em>  {% trans 'Course Data Exports' %}
+	</h3>
+</div>
+{% endblock header %}
+
+{% block content %}
+
+	<p>{% trans 'Note that for courses with a lot of activity, these downloads may take some time.' %}</p>
+
+	<h4>{% trans 'Course Activity Trackers' %}</h4>
+	<a href="{% url 'oppia:export_course_trackers' course.id %}" class="list-group-item list-group-item-action">
+	<em class="far text-primary mr-2 fa-list-alt"></em>{% trans 'Export as: ' %} {% trans 'Excel' %}
+		- {{ course.get_no_trackers }} {% blocktrans count counter=course.get_no_trackers %} row{% plural %}rows{% endblocktrans %}
+	</a>
+
+	<p></p>
+
+	{% if course.has_quizzes %}
+		<h4>{% trans 'Course Quiz Responses' %}</h4>
+		{% for q in course.get_quiz_activities %}
+			<a href="{% url 'quiz:quiz_results_download' course.pk q.id%}" class="list-group-item list-group-item-action">
+				<em class="far text-primary mr-2 fa-list-alt"></em>{{ q.title|title_lang:LANGUAGE_CODE }} ({{ q.section.title|title_lang:LANGUAGE_CODE }})
+				 - {{ q.get_no_quiz_responses }} {% blocktrans count counter=q.get_no_quiz_responses %} response{% plural %}responses{% endblocktrans %}
+			</a>
+		{% endfor %}
+	{% endif %}
+
+	<p></p>
+
+	{% if course.has_feedback %}
+		<h4>{% trans 'Course Feedback Responses' %}</h4>
+		{% for fb in course.get_feedback_activities %}
+			<a href="{% url 'quiz:feedback_results_download' course.pk fb.id%}" class="list-group-item list-group-item-action">
+				<em class="far text-primary mr-2 fa-list-alt"></em>{{ fb.title|title_lang:LANGUAGE_CODE }}
+				- {{ fb.get_no_quiz_responses }} {% blocktrans count counter=fb.get_no_quiz_responses %} response{% plural %}responses{% endblocktrans %}
+			</a>
+		{% endfor %}
+	{% endif %}
+
+{% endblock %}

@@ -205,7 +205,7 @@ class CourseStructure(TemplateView):
                       {'course': course})
 
 
-class CourseActivityExport(TemplateView):
+class CourseDataExports(TemplateView):
 
     def get(self, request, course_id):
         if (not can_edit_course(request, course_id)):
@@ -215,4 +215,3 @@ class CourseActivityExport(TemplateView):
 
         return render(request, 'course/export.html',
                       {'course': course})
-

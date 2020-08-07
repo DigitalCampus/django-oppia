@@ -65,6 +65,7 @@ class FeedbackDownload(TemplateView):
 
         return response
 
+
 class QuizDownload(TemplateView):
 
     def get(self, request, course_id, quiz_id):
