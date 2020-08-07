@@ -203,3 +203,16 @@ class CourseStructure(TemplateView):
 
         return render(request, 'course/structure.html',
                       {'course': course})
+
+
+class CourseActivityExport(TemplateView):
+
+    def get(self, request, course_id):
+        if (not can_edit_course(request, course_id)):
+            raise PermissionDenied
+
+        course = Course.objects.get(pk=course_id)
+
+        return render(request, 'course/export.html',
+                      {'course': course})
+

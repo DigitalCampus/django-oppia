@@ -19,7 +19,7 @@ class OppiaActivityViewsTest(OppiaTestCase):
     url_recent_activity = reverse('oppia:recent_activity', args=[1])
     url_recent_activity_detail = reverse('oppia:recent_activity_detail',
                                          args=[1])
-    url_oppia_export_tracker_detail = reverse('oppia:export_tracker_detail',
+    url_oppia_export_course_trackers = reverse('oppia:export_course_trackers',
                                               args=[1])
 
     activity_detail_template = 'course/activity-detail.html'
@@ -169,26 +169,26 @@ class OppiaActivityViewsTest(OppiaTestCase):
         self.assertEqual(200, response.status_code)
         self.assertTemplateUsed(self.activity_detail_template)
 
-    def test_export_tracker_detail_admin(self):
+    def test_export_course_trackers_admin(self):
         self.client.force_login(user=self.admin_user)
-        response = self.client.get(self.url_oppia_export_tracker_detail)
+        response = self.client.get(self.url_oppia_export_course_trackers)
         self.assertEqual(200, response.status_code)
         self.assertEqual(response['Content-Type'],
                          "application/vnd.ms-excel;charset=utf-8")
 
-    def test_export_tracker_detail_staff(self):
+    def test_export_course_trackers_staff(self):
         self.client.force_login(user=self.staff_user)
-        response = self.client.get(self.url_oppia_export_tracker_detail)
+        response = self.client.get(self.url_oppia_export_course_trackers)
         self.assertEqual(200, response.status_code)
         self.assertEqual(response['Content-Type'],
                          "application/vnd.ms-excel;charset=utf-8")
 
-    def test_export_tracker_detail_teacher(self):
+    def test_export_course_trackers_teacher(self):
         self.client.force_login(user=self.teacher_user)
-        self.client.get(self.url_oppia_export_tracker_detail)
+        self.client.get(self.url_oppia_export_course_trackers)
         self.assertRaises(PermissionDenied)
 
-    def test_export_tracker_detail_user(self):
+    def test_export_course_trackers_user(self):
         self.client.force_login(user=self.normal_user)
-        self.client.get(self.url_oppia_export_tracker_detail)
+        self.client.get(self.url_oppia_export_course_trackers)
         self.assertRaises(PermissionDenied)
