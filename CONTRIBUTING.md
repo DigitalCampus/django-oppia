@@ -12,24 +12,14 @@ It consists of three core components:
 * Server - for managing the users, analytics and courses - but in the Django framework
 * Moodle block - for creating learning content and exporting to the Oppia server - built in PHP as a Moodle block
 
-Submitting Bug Reports or Feature Requests
-------------------------------------------
-
 
 Need Help or have Questions?
 -----------------------------
 
-If you have a question or need help with any aspect of the OppiaMobile platform, then please join the OppiaMobile Community site at
-https://community.oppia-mobile.org/
+If you have a question or need help with any aspect of the OppiaMobile platform, then please join the OppiaMobile Community site at: https://community.oppia-mobile.org/
 
-Submitting Code Updates
-------------------------
-See 'good first issue' tag:
-(server) https://github.com/DigitalCampus/django-oppia/labels/good-first-issue
-(app) https://github.com/DigitalCampus/oppia-mobile-android/labels/good-first-issue
-(block) https://github.com/DigitalCampus/moodle-block_oppia_mobile_export/labels/good-first-issue
 
-Other Ways to Contribute
--------------------------
+Submitting Code Updates and Contributing
+-------------------------------------------
 
-https://oppiamobile.readthedocs.io/en/latest/technical/dev/contribute.html
+Please see: https://oppiamobile.readthedocs.io/en/latest/technical/dev/contribute.html
