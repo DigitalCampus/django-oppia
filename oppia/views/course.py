@@ -3,7 +3,7 @@ import os
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import TemplateView, ListView
@@ -211,7 +211,7 @@ class CourseDataExports(TemplateView):
         if (not can_edit_course(request, course_id)):
             raise PermissionDenied
 
-        course = Course.objects.get(pk=course_id)
+        course = get_object_or_404(Course, pk=course_id)
 
         return render(request, 'course/export.html',
                       {'course': course})
