@@ -115,11 +115,16 @@ SERVER_EMAIL = 'adming@email.org'
 EMAIL_SUBJECT_PREFIX = '[SUBJECT_PREFIX]: '
 
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 LANGUAGE_CODE = 'en-GB'
 USE_I18N = True
 USE_L10N = True
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, "oppia", "locale")
+]
 
 LANGUAGES = ('en', _('English'))
 
@@ -229,6 +234,6 @@ DATABASES = {
 # Import secret_settings.py (if exists)
 # > see settings_secret.py.template for reference
 try:
-    from oppiamobile.settings_secret import *
+    import oppiamobile.settings_secret
 except ImportError:
     print("settings_secret.py file could not be found.")
