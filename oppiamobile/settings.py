@@ -234,6 +234,6 @@ DATABASES = {
 # Import secret_settings.py (if exists)
 # > see settings_secret.py.template for reference
 try:
-    import oppiamobile.settings_secret
+    from oppiamobile.settings_secret import *
 except ImportError:
     print("settings_secret.py file could not be found.")
