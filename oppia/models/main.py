@@ -58,8 +58,8 @@ class Course(models.Model):
             if lang in titles:
                 return titles[lang]
             else:
-                for l in titles:
-                    return titles[l]
+                for local_lang in titles:
+                    return titles[local_lang]
         except json.JSONDecodeError:
             pass
         return self.title
@@ -255,8 +255,8 @@ class Section(models.Model):
             if lang in titles:
                 return titles[lang]
             else:
-                for l in titles:
-                    return titles[l]
+                for local_lang in titles:
+                    return titles[local_lang]
         except json.JSONDecodeError:
             pass
         return self.title
@@ -301,8 +301,8 @@ class Activity(models.Model):
             if lang in titles:
                 return titles[lang]
             else:
-                for l in titles:
-                    return titles[l]
+                for local_lang in titles:
+                    return titles[local_lang]
         except json.JSONDecodeError:
             pass
         return self.title
@@ -313,8 +313,8 @@ class Activity(models.Model):
             if lang in contents:
                 return contents[lang]
             else:
-                for l in contents:
-                    return contents[l]
+                for local_lang in contents:
+                    return contents[local_lang]
         except json.JSONDecodeError:
             pass
         return self.content
@@ -544,8 +544,8 @@ class Tracker(models.Model):
                 if lang in titles:
                     return titles[lang]
                 else:
-                    for l in titles:
-                        return titles[l]
+                    for local_lang in titles:
+                        return titles[local_lang]
         except TypeError:
             pass
         return self.activity_title
@@ -556,8 +556,8 @@ class Tracker(models.Model):
             if lang in titles:
                 return titles[lang]
             else:
-                for l in titles:
-                    return titles[l]
+                for local_lang in titles:
+                    return titles[local_lang]
         except TypeError:
             pass
         return self.section_title

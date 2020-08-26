@@ -40,15 +40,15 @@ def login_view(request):
         form = LoginForm(request.POST)
         username = request.POST.get('username')
         password = request.POST.get('password')
-        next = filter_redirect(request.POST)
+        next_page = filter_redirect(request.POST)
 
         user = authenticate(username=username, password=password)
         if user is not None and user.is_active:
             login(request, user)
-            if next is not None:
-                parsed_uri = urlparse(next)
+            if next_page is not None:
+                parsed_uri = urlparse(next_page)
                 if parsed_uri.netloc == '':
-                    return HttpResponseRedirect(next)
+                    return HttpResponseRedirect(next_page)
                 else:
                     return HttpResponseRedirect(reverse(STR_OPPIA_HOME))
             else:
@@ -255,7 +255,10 @@ def edit(request, user_id=0):
         initial = edit_form_initial(view_user, key)
         form = ProfileForm(initial=initial)
 
-    return render(request, 'profile/profile.html', {'form': form, 'user': view_user})
+    return render(request,
+                  'profile/profile.html',
+                  {'form': form,
+                   'user': view_user})
 
 
 def export_mydata_view(request, data_type):

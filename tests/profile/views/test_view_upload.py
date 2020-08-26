@@ -1,6 +1,5 @@
 import pytest
 
-from django.db import IntegrityError
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse

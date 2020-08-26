@@ -114,7 +114,8 @@ class CourseResource(ModelResource):
                 course_zip = zipfile.ZipFile(file_to_download, 'a')
                 if has_completed_trackers:
                     course_zip.writestr(course.shortname + "/tracker.xml",
-                                 Tracker.to_xml_string(course, request.user))
+                                        Tracker.to_xml_string(course,
+                                                              request.user))
                 course_zip.close()
 
             binary_file = open(file_to_download, 'rb')

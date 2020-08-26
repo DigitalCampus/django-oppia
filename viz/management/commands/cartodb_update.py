@@ -83,11 +83,11 @@ class Command(BaseCommand):
             .exclude(lat=0, lng=0) \
             .values('lat', 'lng', 'country_code') \
             .annotate(total_hits=Sum('hits'))
-        for l in locations:
+        for location in locations:
             found = False
             # loop through and see if in carto_db_data
             for c in carto_db_data['rows']:
-                if l['lat'] == c['lat'] and l['lng'] == c['lng']:
+                if location['lat'] == c['lat'] and location['lng'] == c['lng']:
                     found = True
 
             if not found:
@@ -98,18 +98,18 @@ class Command(BaseCommand):
                         %f,%f,%d ,'%s','%s')"
                 sql = sql_str % \
                     (CARTODB_TABLE,
-                     l['lng'],
-                     l['lat'],
-                     l['lat'],
-                     l['lng'],
-                     l['total_hits'],
-                     l['country_code'],
+                     location['lng'],
+                     location['lat'],
+                     location['lat'],
+                     location['lng'],
+                     location['total_hits'],
+                     location['country_code'],
                      source_site)
                 payload = {'q': sql, 'api_key': cartodb_key}
 
                 url = self.CARTO_DB_QUERY % \
-                      (cartodb_account,
-                       urlencode(payload, quote_via=quote_plus))
+                    (cartodb_account,
+                     urlencode(payload, quote_via=quote_plus))
                 u = urllib.request.urlopen(url)
                 data = u.read()
                 print(data)

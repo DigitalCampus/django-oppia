@@ -472,7 +472,6 @@ class EditProfileViewTest(OppiaTestCase):
                                     data=post_data)
         self.assertEqual(response.status_code, 403)
 
-
     def test_delete_account_wrong_password(self):
         self.client.force_login(self.normal_user)
         post_data = {'username': 'demo', 'password': 'wrongpassword'}

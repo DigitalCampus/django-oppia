@@ -31,7 +31,8 @@ class DownloadMediaTest(OppiaTestCase):
         url = reverse('av:download_course_media', args=[1])
         response = self.client.get(url)
         self.assertRedirects(response,
-                             reverse('av:course_media', args=[1]) + "?error=no_media",
+                             reverse('av:course_media',
+                                     args=[1]) + "?error=no_media",
                              302,
                              200)
 

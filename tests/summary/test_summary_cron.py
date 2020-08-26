@@ -1,5 +1,3 @@
-
-from django.conf import settings
 from oppia.test import OppiaTestCase
 from settings.models import SettingProperties
 from summary.cron import update_summaries
@@ -42,7 +40,6 @@ class SummaryCronTest(OppiaTestCase):
         lock = SettingProperties.get_int('oppia_cron_lock', 999)
         self.assertEqual(lock, 999)
 
-
         update_summaries()
 
         # check new details on pks
@@ -64,7 +61,6 @@ class SummaryCronTest(OppiaTestCase):
 
         lock = SettingProperties.get_int('oppia_summary_cron_lock', 999)
         self.assertEqual(lock, 999)
-
 
         update_summaries()
 
@@ -88,7 +84,6 @@ class SummaryCronTest(OppiaTestCase):
         SettingProperties.set_int('oppia_summary_cron_lock', 1)
         lock = SettingProperties.get_int('oppia_summary_cron_lock', 0)
         self.assertEqual(lock, 1)
-
 
         update_summaries()
 

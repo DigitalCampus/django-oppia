@@ -100,6 +100,7 @@ class CourseActivityDetail(TemplateView):
                        'download_stats': download_stats,
                        'leaderboard': leaderboard})
 
+
 class CourseRecentActivityDetail(TemplateView):
 
     def get(self, request, course_id):
@@ -174,6 +175,7 @@ class CourseRecentActivityDetail(TemplateView):
                       {'course': course,
                        'form': form,
                        'page': tracks, })
+
 
 class ExportCourseTrackers(TemplateView):
 
