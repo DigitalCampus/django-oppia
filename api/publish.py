@@ -97,6 +97,10 @@ def publish_view(request):
 
     validation_errors = []
     validation_errors = check_required_fields(request, validation_errors)
+
+    if validation_errors:
+        return JsonResponse({'errors': validation_errors}, status=400, )
+
     validation_errors = check_upload_file_size(
         request.FILES[api.COURSE_FILE_FIELD],
         validation_errors)
