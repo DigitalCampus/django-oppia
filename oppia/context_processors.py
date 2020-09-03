@@ -24,7 +24,11 @@ def get_points(request):
 
 def get_version(request):
     version = "v" + str(oppia.VERSION[0]) + "." \
-                + str(oppia.VERSION[1]) + "." + str(oppia.VERSION[2])
+                + str(oppia.VERSION[1]) + "." \
+                + str(oppia.VERSION[2]) + "-" \
+                + str(oppia.VERSION[3]) + "." \
+                + str(oppia.VERSION[4]) + "-" \
+                + str(oppia.VERSION[5])
     return {'version': version}
 
 
