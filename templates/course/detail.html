@@ -18,7 +18,7 @@
 	function drawChart() {
 
 		var data = new google.visualization.DataTable();
-		data.addColumn('date', "{% trans 'Date' %}");
+		data.addColumn('string', "{% trans 'Date' %}");
 		data.addColumn('number', "{% trans 'Total' %}");
 		data.addColumn('number', "{% trans 'Page completed' %}");
 		data.addColumn('number', "{% trans 'Quiz completed' %}");
@@ -26,13 +26,17 @@
 		data.addColumn('number', "{% trans 'Resources viewed' %}");
 		data.addRows( {{ data|length }} );
 		
-		{% for date,activity in data %}
-			data.setValue({{ forloop.counter0 }},0,new Date({{ date| date:'Y' }},{{ date|date:'n' }}-1,{{date|date:'j'}}));
-			data.setValue({{ forloop.counter0 }},1,{{ activity.total }});
-			data.setValue({{ forloop.counter0 }},2,{{ activity.page }});
-			data.setValue({{ forloop.counter0 }},3,{{ activity.quiz }});
-			data.setValue({{ forloop.counter0 }},4,{{ activity.media }});
-			data.setValue({{ forloop.counter0 }},5,{{ activity.resource }});
+		{% for date, activity in data %}
+			{% if monthly %}
+				data.setValue({{ forloop.counter0 }}, 0, "{{ date| date:'F Y' }}");
+			{% else %}
+				data.setValue({{ forloop.counter0 }}, 0, "{{ date| date:'j M Y' }}");
+			{% endif %}
+			data.setValue({{ forloop.counter0 }}, 1, {{ activity.total }});
+			data.setValue({{ forloop.counter0 }}, 2 ,{{ activity.page }});
+			data.setValue({{ forloop.counter0 }}, 3, {{ activity.quiz }});
+			data.setValue({{ forloop.counter0 }}, 4, {{ activity.media }});
+			data.setValue({{ forloop.counter0 }}, 5, {{ activity.resource }});
 		{% endfor %}
 
 		var chartOptions = {
