@@ -16,7 +16,7 @@
 
         function getMonthlyDatatable(rowCount){
             var datatable = new google.visualization.DataTable();
-            datatable.addColumn('date', "{% trans 'Month/Year' %}");
+            datatable.addColumn('string', "{% trans 'Month/Year' %}");
             datatable.addColumn('number', "{% trans 'Total' %}");
             datatable.addRows( rowCount );
             return datatable;
@@ -35,11 +35,11 @@
 
 			count = {{ previous_user_registrations }};
 			{% for u in user_registrations %}
-                dsets['users_regs'].setValue({{ forloop.counter0 }},0, new Date({{ u.year|date:"Y" }},{{ u.month|date:"m" }}-1,1));
-				dsets['users_regs'].setValue({{ forloop.counter0 }},1,{{ u.count }});
+                dsets['users_regs'].setValue({{ forloop.counter0 }}, 0, "{{ u.year|date:"Y" }} {{ u.month|date:"M" }}");
+				dsets['users_regs'].setValue({{ forloop.counter0 }}, 1, {{ u.count }});
 				count += {{ u.count }};
-				dsets['users_regs_aggr'].setValue({{ forloop.counter0 }},0,new Date({{ u.year|date:"Y" }},{{ u.month|date:"m" }}-1,1));
-				dsets['users_regs_aggr'].setValue({{ forloop.counter0 }},1,count);
+				dsets['users_regs_aggr'].setValue({{ forloop.counter0 }}, 0, "{{ u.year|date:"Y" }} {{ u.month|date:"M" }}");
+				dsets['users_regs_aggr'].setValue({{ forloop.counter0 }}, 1, count);
 			{% endfor %}
 
             new google.visualization
@@ -57,8 +57,8 @@
 
 			count = 0;
 			{% for ca in country_activity %}
-				dsets['country_activity'].setValue({{ forloop.counter0 }},0,'{{ ca.country_name }}');
-				dsets['country_activity'].setValue({{ forloop.counter0 }},1,{{ ca.hits_percent|floatformat:1 }});
+				dsets['country_activity'].setValue({{ forloop.counter0 }}, 0, '{{ ca.country_name }}');
+				dsets['country_activity'].setValue({{ forloop.counter0 }}, 1, {{ ca.hits_percent|floatformat:1 }});
 			{% endfor %}
 
 			var options3 = {
@@ -79,8 +79,8 @@
 
 			count = 0;
 			{% for l in languages %}
-				dsets['languages'].setValue({{ forloop.counter0 }},0,'{{ l.lang }}');
-				dsets['languages'].setValue({{ forloop.counter0 }},1,{{ l.hits_percent|floatformat:1 }});
+				dsets['languages'].setValue({{ forloop.counter0 }}, 0, '{{ l.lang }}');
+				dsets['languages'].setValue({{ forloop.counter0 }}, 1, {{ l.hits_percent|floatformat:1 }});
 			{% endfor %}
 
 			var optionsLang = {
@@ -99,11 +99,11 @@
 
             count =  {{ previous_course_downloads }}
 			{% for cd in course_downloads %}
-				dsets['downloads'].setValue({{ forloop.counter0 }},0,new Date({{ cd.year|date:"Y" }},{{ cd.month|date:"m" }}-1,1));
-				dsets['downloads'].setValue({{ forloop.counter0 }},1,{{ cd.count }});
+				dsets['downloads'].setValue({{ forloop.counter0 }}, 0, "{{ cd.year|date:"Y" }} {{ cd.month|date:"M" }}");
+				dsets['downloads'].setValue({{ forloop.counter0 }}, 1, {{ cd.count }});
                 count += {{ cd.count }};
-				dsets['downloads_aggr'].setValue({{ forloop.counter0 }},0,new Date({{ cd.year|date:"Y" }},{{ cd.month|date:"m" }}-1,1));
-				dsets['downloads_aggr'].setValue({{ forloop.counter0 }},1,count);
+				dsets['downloads_aggr'].setValue({{ forloop.counter0 }}, 0, "{{ cd.year|date:"Y" }} {{ cd.month|date:"M" }}");
+				dsets['downloads_aggr'].setValue({{ forloop.counter0 }}, 1, count);
 			{% endfor %}
 
 	        new google.visualization
@@ -119,11 +119,11 @@
 
             count = {{ previous_course_activity }};
             {% for ca in course_activity %}
-				dsets['activity'].setValue({{ forloop.counter0 }},0,new Date({{ ca.year|date:"Y" }},{{ ca.month|date:"m" }}-1,1));
-				dsets['activity'].setValue({{ forloop.counter0 }},1,{{ ca.count }});
+				dsets['activity'].setValue({{ forloop.counter0 }}, 0, "{{ ca.year|date:"Y" }} {{ ca.month|date:"M" }}");
+				dsets['activity'].setValue({{ forloop.counter0 }}, 1, {{ ca.count }});
                 count += {{ ca.count }};
-				dsets['activity_aggr'].setValue({{ forloop.counter0 }},0,new Date({{ ca.year|date:"Y" }},{{ ca.month|date:"m" }}-1,1));
-				dsets['activity_aggr'].setValue({{ forloop.counter0 }},1,count);
+				dsets['activity_aggr'].setValue({{ forloop.counter0 }}, 0, "{{ ca.year|date:"Y" }} {{ ca.month|date:"M" }}");
+				dsets['activity_aggr'].setValue({{ forloop.counter0 }}, 1, count);
 			{% endfor %}
 
 	        new google.visualization
@@ -161,11 +161,11 @@
 
 			count = {{ previous_searches }};
 			{% for ss in searches %}
-                dsets['searches'].setValue({{ forloop.counter0 }},0,new Date({{ ss.year|date:"Y" }},{{ ss.month|date:"m" }}-1,1));
-				dsets['searches'].setValue({{ forloop.counter0 }},1,{{ ss.count }});
+                dsets['searches'].setValue({{ forloop.counter0 }}, 0, "{{ ss.year|date:"Y" }} {{ ss.month|date:"M" }}");
+				dsets['searches'].setValue({{ forloop.counter0 }}, 1, {{ ss.count }});
                 count += {{ ss.count }};
-				dsets['searches_aggr'].setValue({{ forloop.counter0 }},0,new Date({{ ss.year|date:"Y" }},{{ ss.month|date:"m" }}-1,1));
-				dsets['searches_aggr'].setValue({{ forloop.counter0 }},1,count);
+				dsets['searches_aggr'].setValue({{ forloop.counter0 }}, 0, "{{ ss.year|date:"Y" }} {{ ss.month|date:"M" }}");
+				dsets['searches_aggr'].setValue({{ forloop.counter0 }}, 1, count);
 			{% endfor %}
 
             new google.visualization
