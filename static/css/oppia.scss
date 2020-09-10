@@ -55,7 +55,9 @@ body { background-color:$material-color-grey-100; min-height: 100vh; }
     display: none!important;
     visibility: hidden!important;
 }
-
+.text-inherit-size{
+    font-size: inherit !important;
+}
 // Import all Bootstrap extensions
 @import './components/type';
 @import './components/buttons';

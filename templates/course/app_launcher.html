@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+{% load settings_value %}
+{% load static %}
+{% block extra_head_title %}
+	{% trans 'Courses' %}
+{% endblock extra_head_title %}
+
+
+{% block header %}
+<div class="jumbotron mb-4 d-none d-md-block py-4">
+</div>
+{% endblock header %}
+
+
+{% block content %}
+
+<div class="container">
+
+<div class="row mt-4">
+    <div class="col-md-5 col-lg-4 mb-4 lead">
+        <div class="text-center mb-2 h1 text-black-50"><span class="material-icons text-inherit-size">add_to_home_screen</span></div>
+        <div class="text-center ">The link you are visiting is intended for opening an activity within the OppiaMobile app.</div>
+    </div>
+
+    <div class="col-md-7 col-lg-8 mb-4">
+
+    {% if misconfigured %}
+        <div class="alert alert-warning mt-md-4 mb-4">
+            <span class="material-icons">error</span> Error processing link: misconfigured.
+            <hr>
+            {% if param_missing %}
+                <strong>Problem: </strong> Missing parameters. There is no parameter identifying a specific course or activity. <br>
+                Please include a <code>digest</code> or <code>course</code> in the URL.
+            {% endif %}
+
+            {% if course_notpermissions %}
+                <strong>Problem: </strong> Unauthorized. You don't have permissions to access this course. Please contact
+                your system administrator if this is an error.
+            {% endif %}
+
+            {% if activity_notfound %}
+                <strong>Problem: </strong> Activity not found. The digest provided didn't match with any current activity in this
+                server. Maybe the course has been updated since you received that URL?
+            {% endif %}
+
+            {% if course_notfound %}
+                <strong>Problem: </strong> Course not found. The course shortname provided didn't match with any course in this
+                server.
+            {% endif %}
+        </div>
+    {% else %}
+
+        {% settings_value 'OPPIA_ANDROID_PACKAGEID' as package_id %}
+        {% settings_value 'OPPIA_ANDROID_DEFAULT_PACKAGEID' as default_package_id %}
+        {% settings_value 'OPPIA_ANDROID_ON_GOOGLE_PLAY' as on_googleplay %}
+
+            <div class="card my-2">
+                {% if activity %}
+                    <div class="card-body">
+                        <span class="lead text-primary">{{activity.section.course.title|title_lang:LANGUAGE_CODE}}</span>
+                        <h4>{{activity.title|title_lang:LANGUAGE_CODE}}</h4>
+                        <h5>{{activity.section.title|title_lang:LANGUAGE_CODE}}</h5>
+                    </div>
+
+                {% endif %}
+
+                {% if course %}
+                   {% include "course/detail_card.html" with course=course %}
+                {% endif %}
+
+                <div class="card-body py-2 actions">
+                     <a href="intent://{% settings_value 'OPPIA_HOSTNAME' %}/view?{% if activity%}digest={{digest}}{% endif %}{% if course %}course={{course.shortname}}{% endif %}#Intent;scheme=oppiamobile;package={{package_id}};end" class="btn btn-primary d-block d-md-inline-block mb-2 mr-md-2">Open in app</a>
+                    <a href="https://play.google.com/store/apps/details?id={% if on_googleplay %}{{package_id}}{% else %}{{default_package_id}}{% endif %}" class="btn btn-info d-block d-md-inline-block mb-2">Get it on Google Play</a>
+                </div>
+
+        </div>
+
+    {% endif %}
+        <p class="mt-3 pt-2">
+            <a href="https://digital-campus.org/oppiamobile/">OppiaMobile</a> is the mobile learning platform from <a href="https://digital-campus.org">Digital Campus</a> to deliver learning content, multimedia and quizzes on your smartphone. All the content and activities can
+            be accessed and used even when you don't have an internet connection available on your mobile.
+        </p>
+    </div>
+</div>
+
+
+
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+	<script type="text/javascript">
+
+    </script>
+{% endblock %}
