@@ -26,6 +26,7 @@ def update_summaries(last_tracker_pk=0, last_points_pk=0):
     try:
         SettingProperties.objects.get(key='oppia_cron_lock')
         print("Oppia cron is already running")
+        SettingProperties.delete_key('oppia_summary_cron_lock')
         return
     except SettingProperties.DoesNotExist:
         # do nothing
