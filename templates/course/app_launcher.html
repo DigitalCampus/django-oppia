@@ -31,7 +31,6 @@
             <span class="material-icons">error</span> Error processing link: misconfigured.
             <hr>
             {% if param_missing %}
-
                 <strong>Problem: </strong> Missing parameters. There is no parameter identifying a specific course or activity. <br>
                 Please include a <code>digest</code> or <code>course</code> in the URL.
             {% endif %}
@@ -48,7 +47,7 @@
 
             {% if course_notfound %}
                 <strong>Problem: </strong> Course not found. The course shortname provided didn't match with any course in this
-                server. 
+                server.
             {% endif %}
         </div>
     {% else %}
@@ -79,7 +78,6 @@
         </div>
 
     {% endif %}
-
         <p class="mt-3 pt-2">
             <a href="https://digital-campus.org/oppiamobile/">OppiaMobile</a> is the mobile learning platform from <a href="https://digital-campus.org">Digital Campus</a> to deliver learning content, multimedia and quizzes on your smartphone. All the content and activities can
             be accessed and used even when you don't have an internet connection available on your mobile.

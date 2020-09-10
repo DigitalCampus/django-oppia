@@ -3,8 +3,10 @@ import os
 import shutil
 import zipfile
 
+import re
 from django.conf import settings
 from django.conf.urls import url
+from django.core.exceptions import MultipleObjectsReturned
 from django.db.models import Q
 from django.http import HttpResponse, Http404
 from django.utils.translation import ugettext_lazy as _
@@ -42,6 +44,27 @@ class CourseResource(ModelResource):
         serializer = CourseJSONSerializer()
         always_return_data = True
         include_resource_uri = True
+
+
+    def obj_get(self, bundle, **kwargs):
+        """
+            Overriden get method to perform a direct lookup if we are searching by shortname instead of pk
+        """
+        lookup = kwargs[self._meta.detail_uri_name]
+        if re.search('[a-zA-Z]', lookup):
+            # If the lookup parameter includes characters, we try to use it as a shortname
+            object_list = self.apply_filters(bundle.request, {'shortname': lookup})
+            if len(object_list) <= 0:
+                raise self._meta.object_class.DoesNotExist("Couldn't find an course whith shortname '%s'." % (lookup))
+            elif len(object_list) > 1:
+                raise MultipleObjectsReturned("More than one course with shortname '%s'." % (lookup))
+
+            bundle.obj = object_list[0]
+            self.authorized_read_detail(object_list, bundle)
+            return bundle.obj
+        else:
+            return super().obj_get(bundle, **kwargs)
+
 
     def get_object_list(self, request):
         if request.user.is_staff:
