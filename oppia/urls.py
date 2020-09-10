@@ -66,7 +66,7 @@ urlpatterns = [
          name="cohort_leaderboard"),
 
     path('view/',
-         views.app_launch_activity_redirect_view,
+         views.AppLauncherDetailView.as_view(),
          name="app_launch_activity_redirect"),
     url(r'^media/(?P<path>.*)$',
         static.serve,

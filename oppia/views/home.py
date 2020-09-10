@@ -7,19 +7,20 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db.models import Count, Sum
 from django.db.models.functions import TruncDay, TruncMonth, TruncYear
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
+from django.views.generic import TemplateView
 
 from helpers.forms.dates import DateRangeIntervalForm
 from oppia.models import Activity, Points
 from oppia.models import Tracker, \
     Participant, \
     Course
-from oppia.permissions import get_cohorts
+from oppia import permissions
 from reports.signals import dashboard_accessed
-from summary.models import CourseDailyStats
+from summary.models import CourseDailyStats, UserCourseSummary
 
 from profile.models import UserProfile
 
@@ -145,7 +146,7 @@ def process_home_activity_months(activity, start_date, end_date):
 
 
 def teacher_home_view(request):
-    cohorts = get_cohorts(request)
+    cohorts = permissions.get_cohorts(request)
 
     start_date = timezone.now() - datetime.timedelta(days=31)
     end_date = timezone.now()
@@ -201,13 +202,45 @@ def leaderboard_view(request):
     return render(request, 'oppia/leaderboard.html', {'page': leaderboard})
 
 
-def app_launch_activity_redirect_view(request):
+class AppLauncherDetailView(TemplateView):
 
-    digest = request.GET.get('digest', None)
+    template_name = 'course/app_launcher.html'
 
-    # get activity and redirect
-    activity = get_object_or_404(Activity, digest=digest)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        digest = self.request.GET.get('digest')
+        course_shortname = self.request.GET.get('course')
 
-    return render(request, 'course/activity_digest.html',
-                  {'activity': activity,
-                   'digest': digest})
+        if digest:
+            context['digest'] = digest
+            activity = Activity.objects.filter(digest=digest).first()
+            if activity:
+                context['activity'] = activity
+            else:
+                context['misconfigured'] = True
+                context['activity_notfound'] = True
+
+        elif course_shortname:
+            context['course_shortname'] = course_shortname
+            course = Course.objects.filter(shortname=course_shortname).first()
+            if course:
+                try:
+                    permissions.can_view_course(self.request, course.id)
+                    context['course'] = course
+                    context['download_stats'] = UserCourseSummary.objects \
+                        .filter(course=course) \
+                        .aggregated_stats('total_downloads', single=True)
+
+                except Http404:
+                    # The user does not have permissions to view this course
+                    context['misconfigured'] = True
+                    context['course_notpermissions'] = True
+
+            else:
+                context['misconfigured'] = True
+                context['course_notfound'] = True
+        else:
+            context['misconfigured'] = True
+            context['param_missing'] = True
+
+        return context

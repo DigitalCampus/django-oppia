@@ -38,14 +38,14 @@
 
 	{% settings_value 'OPPIA_ANDROID_PACKAGEID' as package_id %}
 	{% blocktrans %}
-	<div style="text-align:center; margin-top:20px;">
-		<img src="{{ oppia_logo }}" alt="OppiaMobile logo"/>
-	</div>
-	<div style="max-width:350px; text-align:center; margin: 10px auto ">
-	<p><a href="https://digital-campus.org/oppiamobile/">OppiaMobile</a> is the mobile learning platform from <a href="https://digital-campus.org">Digital Campus</a> to deliver learning content, multimedia and quizzes on your smartphone. All the content and activities can
+	<div class="text-center mt-3 mx-auto" style="max-width:350px;">
+		<img src="{{ oppia_logo }}" class="mb-2" alt="OppiaMobile logo"/>
+
+		<p><a href="https://digital-campus.org/oppiamobile/">OppiaMobile</a> is the mobile learning platform from <a href="https://digital-campus.org">Digital Campus</a> to deliver learning content, multimedia and quizzes on your smartphone. All the content and activities can
 	be accessed and used even when you don't have an internet connection available on your mobile.</p>
 
-	<a class="btn-primary btn btn-default" href="https://play.google.com/store/apps/details?id={{package_id}}">Download OppiaMobile app</a>
+		<a class="btn-primary btn btn-default" href="https://play.google.com/store/apps/details?id={{package_id}}">Download OppiaMobile app</a>
+
 	</div>
 	{% endblocktrans %}
 
