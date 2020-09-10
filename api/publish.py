@@ -41,8 +41,7 @@ def check_required_fields(request, validation_errors):
 
     for field in required:
         if field not in request.POST or request.POST[field].strip() == '':
-            validation_errors.append("field '{0}' is missing or \
-                                      empty".format(field))
+            validation_errors.append("field '{0}' is missing or empty".format(field))
 
     if api.COURSE_FILE_FIELD not in request.FILES:
         validation_errors.append("Course file not found")
@@ -95,24 +94,20 @@ def publish_view(request):
     if request.method != 'POST':
         return HttpResponse(status=405)
 
+    course_file = request.FILES.get(api.COURSE_FILE_FIELD, None)
+
     validation_errors = []
     validation_errors = check_required_fields(request, validation_errors)
+    validation_errors = check_upload_file_size(course_file, validation_errors)
 
     if validation_errors:
         return JsonResponse({'errors': validation_errors}, status=400, )
 
-    validation_errors = check_upload_file_size(
-        request.FILES[api.COURSE_FILE_FIELD],
-        validation_errors)
-
-    if validation_errors:
-        return JsonResponse({'errors': validation_errors}, status=400, )
-
+    username = request.POST.get('username', None)
+    password = request.POST.get('password', None)
     # authenticate user
     authenticated, response_data, user = authenticate_user(
-        request,
-        request.POST['username'],
-        request.POST['password'])
+        request, username, password)
     if not authenticated:
         return JsonResponse(response_data, status=401)
 
@@ -122,11 +117,9 @@ def publish_view(request):
             and user.userprofile.can_upload is False:
         return HttpResponse(status=401)
 
-    extract_path = os.path.join(settings.COURSE_UPLOAD_DIR,
-                                'temp',
-                                str(user.id))
+    extract_path = os.path.join(settings.COURSE_UPLOAD_DIR, 'temp', str(user.id))
     course, status_code = handle_uploaded_file(
-        request.FILES[api.COURSE_FILE_FIELD],
+        course_file,
         extract_path,
         request,
         user)
@@ -135,7 +128,7 @@ def publish_view(request):
                         new_version=course.version if course else None,
                         user=user,
                         action="api_file_uploaded",
-                        data=request.FILES[api.COURSE_FILE_FIELD].name).save()
+                        data=course_file.name).save()
     if course is False:
         status = status_code if status_code is not None else 500
         response_data = {
