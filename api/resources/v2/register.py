@@ -51,11 +51,11 @@ class RegisterResource(RegisterBaseResource):
 
         rf = RegisterForm(data)
         if not rf.is_valid():
-            str = ""
+            error_str = ""
             for key, value in rf.errors.items():
                 for error in value:
-                    str += error + "\n"
-            raise BadRequest(str)
+                    error_str += error + "\n"
+            raise BadRequest(error_str)
         else:
             username = rf.cleaned_data.get('username')
             password = rf.cleaned_data.get('password')

@@ -18,17 +18,27 @@ from viz.models import UserLocationVisualization
 class Command(BaseCommand):
     help = 'Script to anonymize an Oppia database'
     
+    def add_arguments(self, parser):
+
+        # Optional argument to start the summary calculation from the beginning
+        parser.add_argument(
+            '--noinput',
+            dest='noinput',
+            help='run without any user input',
+        )
+    
     def handle(self, *args, **options):
         print(commands.TERMINAL_COLOUR_WARNING)
         print(_(u"WARNING! This script will anonymize all non-admin and " + 
             u"non-staff accounts, all users personal data, usernames, " +
             u"passwords etc will be removed"))
         print(commands.TERMINAL_COLOUR_ENDC)
-        accept = input(_(u" Without a backup you cannot recover from this " +
-            u"operation, are you sure you want to continue? [y/n]"))
-        if accept != 'y':
-            print(_(u"Aborting"))
-            return
+        if not options['noinput']:
+            accept = input(_(u" Without a backup you cannot recover from this " +
+                u"operation, are you sure you want to continue? [y/n]"))
+            if accept != 'y':
+                print(_(u"Aborting"))
+                return
             
         if not settings.DEBUG:
             print(commands.TERMINAL_COLOUR_WARNING)
