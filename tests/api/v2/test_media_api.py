@@ -1,3 +1,4 @@
+import json
 import pytest
 import unittest
 
@@ -5,16 +6,19 @@ from django import forms
 from oppia.test import OppiaTestCase
 
 
-class MediaPublishResourceTest(OppiaTestCase):
+class MediaAPIResourceTest(OppiaTestCase):
 
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
-                'tests/test_permissions.json']
+                'tests/test_permissions.json',
+                'tests/test_av_uploadedmedia.json']
 
     def setUp(self):
-        super(MediaPublishResourceTest, self).setUp()
+        super(MediaAPIResourceTest, self).setUp()
         self.url = '/api/media/'
+        self.get_valid_digest = '/api/media/3f2d7d54e969e303901ba5a177bd2334'
+        self.get_invalid_digest = '/api/media/123456789'
         self.course_file_path = \
             './oppia/fixtures/reference_files/ncd1_test_course.zip'
         self.video_file_path = \
@@ -141,3 +145,17 @@ class MediaPublishResourceTest(OppiaTestCase):
                                          'password': 'password',
                                          'media_file': course_file})
         self.assertEqual(response.status_code, 400)
+
+    def test_digest_valid(self):
+        response = self.client.get(self.get_valid_digest)
+        self.assertEqual(response.status_code, 200)
+        json_data = json.loads(response.content)
+        
+        self.assertEqual(json_data['digest'], "3f2d7d54e969e303901ba5a177bd2334")
+        self.assertEqual(json_data['filesize'], 0)
+        self.assertEqual(json_data['download_url'],
+                         "http://testserver/media/uploaded/2018/02/MH1_Keyboard_480p.mp4")
+
+    def test_digest_invalid(self):
+        response = self.client.get(self.get_invalid_digest)
+        self.assertEqual(response.status_code, 404)

@@ -3,6 +3,7 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.http import HttpResponse, JsonResponse
+from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
 
@@ -10,16 +11,7 @@ from api.publish import get_messages_array
 from av import handler
 from av.models import UploadedMedia
 
-
-@csrf_exempt
-def upload_view(request):
-
-    # get the messages to clear possible previous unprocessed messages
-    get_messages_array(request)
-
-    if request.method != 'POST':
-        return HttpResponse(status=405)
-
+def api_authenticate(request):
     required = ['username', 'password']
 
     validation_errors = []
@@ -29,7 +21,9 @@ def upload_view(request):
             validation_errors.append("field '{0}' missing".format(field))
 
     if len(validation_errors) > 0:
-        return JsonResponse({'errors': validation_errors}, status=400)
+        return False, \
+            JsonResponse({'errors': validation_errors}, status=400), \
+            None
 
     # authenticate user
     username = request.POST.get("username")
@@ -42,8 +36,39 @@ def upload_view(request):
             'message': _('Authentication errors'),
             'messages': get_messages_array(request)
         }
-        return JsonResponse(response_data, status=401)
+        return False, JsonResponse(response_data, status=401), None
+    else:
+        return True, None, user
 
+
+@csrf_exempt
+def get_view(request, digest):
+    get_messages_array(request)
+    
+    media = get_object_or_404(UploadedMedia,md5=digest)
+    
+    embed_code = media.get_embed_code(
+        request.build_absolute_uri(media.file.url))
+    resp_obj = {'embed_code': embed_code,
+                'digest': media.md5,
+                'filesize': media.get_filesize(),
+                'download_url': request.build_absolute_uri(media.file.url)}
+    return JsonResponse(resp_obj, status=200)
+    
+
+@csrf_exempt
+def upload_view(request):
+
+    # get the messages to clear possible previous unprocessed messages
+    get_messages_array(request)
+
+    if request.method != 'POST':
+        return HttpResponse(status=405)
+
+    valid, error, user = api_authenticate(request)
+    if not valid:
+        return error
+   
     result = handler.upload(request, user)
 
     if result['result'] == UploadedMedia.UPLOAD_STATUS_SUCCESS:
