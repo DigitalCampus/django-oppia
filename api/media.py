@@ -51,7 +51,10 @@ def upload_view(request):
         embed_code = media.get_embed_code(
             request.build_absolute_uri(media.file.url))
 
-        return JsonResponse({'embed_code': embed_code}, status=201)
+        return JsonResponse({'embed_code': embed_code,
+                             'digest': media.md5,
+                             'filesize': media.get_filesize(),
+                             'download_url': request.build_absolute_uri(media.file.url)}, status=201)
     else:
         response = {'messages': result['errors']}
         return JsonResponse(response, status=400)
