@@ -1,6 +1,9 @@
+from django.core.management import call_command
+
+from io import StringIO
+
 from oppia.test import OppiaTestCase
 from settings.models import SettingProperties
-from summary.cron import update_summaries
 
 
 class SummaryCronTest(OppiaTestCase):
@@ -19,8 +22,8 @@ class SummaryCronTest(OppiaTestCase):
         self.assertEqual(lock, 999)
         lock = SettingProperties.get_int('oppia_cron_lock', 999)
         self.assertEqual(lock, 999)
-
-        update_summaries()
+        
+        call_command('update_summaries', stdout=StringIO())
 
         # check new details on pks
         tracker_id = SettingProperties.get_int('last_tracker_pk', 0)
@@ -40,7 +43,7 @@ class SummaryCronTest(OppiaTestCase):
         lock = SettingProperties.get_int('oppia_cron_lock', 999)
         self.assertEqual(lock, 999)
 
-        update_summaries()
+        call_command('update_summaries', stdout=StringIO())
 
         # check new details on pks
         # cron is locked so nothing should happen
@@ -62,7 +65,7 @@ class SummaryCronTest(OppiaTestCase):
         lock = SettingProperties.get_int('oppia_summary_cron_lock', 999)
         self.assertEqual(lock, 999)
 
-        update_summaries()
+        call_command('update_summaries', stdout=StringIO())
 
         # check new details on pks
         # cron is locked so nothing should happen
@@ -85,7 +88,7 @@ class SummaryCronTest(OppiaTestCase):
         lock = SettingProperties.get_int('oppia_summary_cron_lock', 0)
         self.assertEqual(lock, 1)
 
-        update_summaries()
+        call_command('update_summaries', stdout=StringIO())
 
         # check new details on pks
         # cron is locked so nothing should happen
