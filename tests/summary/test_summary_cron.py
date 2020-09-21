@@ -5,7 +5,8 @@ from io import StringIO
 from oppia.test import OppiaTestCase
 from oppia.models import Tracker, Points
 from settings.models import SettingProperties
-
+from summary.models import CourseDailyStats
+from itertools import count
 
 class SummaryCronTest(OppiaTestCase):
 
@@ -15,7 +16,8 @@ class SummaryCronTest(OppiaTestCase):
                 'tests/test_permissions.json',
                 'default_gamification_events.json',
                 'tests/test_tracker.json',
-                'default_badges.json']
+                'default_badges.json',
+                'tests/test_search_tracker.json']
 
     def test_summary_cron_open_cron_open(self):
         # check lock not set
@@ -28,7 +30,7 @@ class SummaryCronTest(OppiaTestCase):
 
         # check new details on pks
         tracker_id = SettingProperties.get_int('last_tracker_pk', 0)
-        self.assertEqual(tracker_id, 1472216)
+        self.assertEqual(tracker_id, 1484221)
         # this id is from the test_tracker data
 
         # check unlocked again
@@ -110,7 +112,7 @@ class SummaryCronTest(OppiaTestCase):
 
         # check new details on pks
         tracker_id = SettingProperties.get_int('last_tracker_pk', 0)
-        self.assertEqual(tracker_id, 1472216)
+        self.assertEqual(tracker_id, 1484221)
         # this id is from the test_tracker data
 
     def test_summary_invalid_latest_tracker(self):
@@ -135,3 +137,10 @@ class SummaryCronTest(OppiaTestCase):
         call_command('update_summaries', stdout=StringIO())
 
         self.assertRaises(Points.DoesNotExist)
+
+    def test_summary_search_tracker(self):
+        old_search_count = CourseDailyStats.objects.filter(type='search').count()
+        call_command('update_summaries', stdout=StringIO())
+        new_search_count = CourseDailyStats.objects.filter(type='search').count()
+        self.assertEqual(old_search_count+1, new_search_count)
+        
