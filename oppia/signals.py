@@ -65,10 +65,10 @@ def calculate_media_points(tracker):
     return points
 
 
-def tracker_process_points(tracker, type, description, points=None):
+def tracker_process_points(tracker, activity_type, description, points=None):
     if tracker.points is not None:
         points = tracker.points
-        type = tracker.event
+        activity_type = tracker.event
         if not description:
             description = tracker.event
     else:
@@ -83,7 +83,7 @@ def tracker_process_points(tracker, type, description, points=None):
 
     p = Points()
     p.points = points
-    p.type = type
+    p.type = activity_type
     p.description = description
     p.user = tracker.user
     p.course = tracker.course
@@ -95,7 +95,7 @@ def tracker_callback(sender, **kwargs):
     tracker = kwargs.get('instance')
     description = None
     points = None
-    type = None
+    activity_type = None
 
     if not apply_points(tracker.user):
         return
@@ -107,17 +107,17 @@ def tracker_callback(sender, **kwargs):
     if tracker.event not in NON_ACTIVITY_EVENTS \
             and tracker.activity_exists():
 
-        type = 'activity_completed'
+        activity_type = 'activity_completed'
         points = DefaultGamificationEvent.objects.get(
             event='activity_completed').points
         if tracker.get_activity_type() == "media":
             description = "Media played: " + tracker.get_activity_title()
-            type = 'mediaplayed'
+            activity_type = 'mediaplayed'
             points = calculate_media_points(tracker)
         else:
             description = "Activity completed: " + tracker.get_activity_title()
 
-    tracker_process_points(tracker, type, description, points)
+    tracker_process_points(tracker, activity_type, description, points)
 
 
 def badgeaward_callback(sender, **kwargs):
