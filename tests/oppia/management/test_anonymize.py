@@ -77,8 +77,9 @@ class AnonymizeTest(OppiaTestCase):
         user.save()
 
         out = StringIO()
-        settings.DEBUG = False
+        settings.DEBUG = True
         call_command('anonymize', '--noinput=True', stdout=out)
 
         self.assertRaises(IntegrityError)
         self.assertRaises(UserProfile.DoesNotExist)
+        settings.DEBUG = False
