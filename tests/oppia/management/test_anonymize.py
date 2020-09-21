@@ -1,9 +1,15 @@
 from django.conf import settings
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.core.management import call_command
-from oppia.test import OppiaTestCase
+from django.db import IntegrityError
+
 from io import StringIO
+
 from oppia.models import Tracker
+from oppia.test import OppiaTestCase
+
+from profile.models import UserProfile
 
 
 class AnonymizeTest(OppiaTestCase):
@@ -62,3 +68,17 @@ class AnonymizeTest(OppiaTestCase):
         # username normaluser
         user = User.objects.get(pk=self.normal_user.pk)
         self.assertEqual('demo', user.username)
+
+    def test_anonymize_integrity_errors(self):
+        # add user with exisiting username the same as the id for admin
+        user = User()
+        user.username = "user1"
+        user.password = make_password("1234")
+        user.save()
+
+        out = StringIO()
+        settings.DEBUG = False
+        call_command('anonymize', '--noinput=True', stdout=out)
+
+        self.assertRaises(IntegrityError)
+        self.assertRaises(UserProfile.DoesNotExist)
