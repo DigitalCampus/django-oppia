@@ -161,25 +161,3 @@ def update_summaries(last_tracker_pk=0, last_points_pk=0):
                                                          newest_points_pk})
 
     SettingProperties.delete_key('oppia_summary_cron_lock')
-
-
-def run():
-    print('Starting Oppia Summary cron...')
-    start = time.time()
-
-    from settings.models import SettingProperties
-
-    # get last tracker and points PKs processed
-    last_tracker_pk = SettingProperties.get_property('last_tracker_pk', 0)
-    last_points_pk = SettingProperties.get_property('last_points_pk', 0)
-
-    update_summaries(last_tracker_pk, last_points_pk)
-
-    elapsed_time = time.time() - start
-    print('cron completed, took %.2f seconds' % elapsed_time)
-
-
-if __name__ == "__main__":
-    import django
-    django.setup()
-    run()
