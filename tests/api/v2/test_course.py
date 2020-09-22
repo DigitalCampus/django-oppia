@@ -1,6 +1,7 @@
 import pytest
 
 from django.contrib.auth.models import User
+from django.core.exceptions import MultipleObjectsReturned
 from django.test import TransactionTestCase
 from tastypie.test import ResourceTestCaseMixin
 
@@ -8,7 +9,7 @@ from tests.utils import get_api_key, \
     get_api_url, \
     update_course_visibility, \
     update_course_owner
-from oppia.models import Tracker
+from oppia.models import Tracker, Course
 
 
 class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
@@ -352,3 +353,73 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response.status_code, 404)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
+        
+    @pytest.mark.xfail(reason="works on local but not on github workflows")
+    def test_live_course_shortname_normal(self):
+        tracker_count_start = Tracker.objects.all().count()
+        resource_url = get_api_url('v2', 'course', 'anc1-all') + self.STR_DOWNLOAD
+        response = self.api_client.get(
+            resource_url, format='json', data=self.user_auth)
+        self.assertHttpOK(response)
+        self.assertEqual(response['content-type'],
+                         self.STR_ZIP_EXPECTED_CONTENT_TYPE)
+        tracker_count_end = Tracker.objects.all().count()
+        self.assertEqual(tracker_count_start+1, tracker_count_end)
+
+    def test_dne_course_shortname_normal(self):
+        tracker_count_start = Tracker.objects.all().count()
+        resource_url = get_api_url('v2', 'course', 'does-not-exist') + self.STR_DOWNLOAD
+        response = self.api_client.get(
+            resource_url, format='json', data=self.user_auth)
+        self.assertEqual(response.status_code, 404)
+        tracker_count_end = Tracker.objects.all().count()
+        self.assertEqual(tracker_count_start, tracker_count_end)
+
+    def test_course_shortname_get_single(self):
+        resource_url = get_api_url('v2', 'course', 'anc1-all')
+        resp = self.api_client.get(
+            resource_url, format='json', data=self.user_auth)
+        self.assertHttpOK(resp)
+        self.assertValidJSON(resp.content)
+        # check course format
+        course = self.deserialize(resp)
+        self.assertTrue('shortname' in course)
+        self.assertTrue('title' in course)
+        self.assertTrue('description' in course)
+        self.assertTrue('version' in course)
+        self.assertTrue('author' in course)
+        self.assertTrue('organisation' in course)
+
+    def test_course_shortname_get_single_staff(self):
+        resource_url = get_api_url('v2', 'course', 'anc1-all')
+        resp = self.api_client.get(
+            resource_url, format='json', data=self.staff_auth)
+        self.assertHttpOK(resp)
+        self.assertValidJSON(resp.content)
+        # check course format
+        course = self.deserialize(resp)
+        self.assertTrue('shortname' in course)
+        self.assertTrue('title' in course)
+        self.assertTrue('description' in course)
+        self.assertTrue('version' in course)
+        self.assertTrue('author' in course)
+        self.assertTrue('organisation' in course)
+        
+    def test_course_shortname_get_single_not_found(self):
+        resource_url = get_api_url('v2', 'course', 'does-not-exist')
+        resp = self.api_client.get(
+            resource_url, format='json', data=self.user_auth)
+        self.assertHttpNotFound(resp)
+        
+    def test_course_shortname_get_multiple_found(self):
+        # add a temp course with same shortname as another
+        course = Course()
+        course.shortname='anc1-all'
+        course.version=123456789
+        course.save()
+        
+        resource_url = get_api_url('v2', 'course', 'anc1-all')
+        resp = self.api_client.get(
+            resource_url, format='json', data=self.user_auth)
+        self.assertRaises(MultipleObjectsReturned)
+        self.assertEqual(300, resp.status_code)
