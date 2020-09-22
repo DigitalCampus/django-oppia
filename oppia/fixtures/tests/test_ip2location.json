@@ -1,0 +1,108 @@
+[
+{
+    "model": "oppia.tracker",
+    "pk": 1379509,
+    "fields": {
+        "user": 2,
+        "submitted_date": "2016-09-05T23:21:14Z",
+        "tracker_date": "2016-09-05T21:20:54Z",
+        "ip": "127.0.0.1",
+        "agent": "my browser agent",
+        "digest": "",
+        "data": "",
+        "course": null,
+        "type": "search",
+        "completed": true,
+        "time_taken": 0,
+        "activity_title": null,
+        "section_title": null,
+        "uuid": null,
+        "lang": null,
+        "points": null,
+        "event": null
+    }
+},
+{
+    "model": "oppia.tracker",
+    "pk": 1395416,
+    "fields": {
+        "user": 2,
+        "submitted_date": "2016-10-02T17:59:36Z",
+        "tracker_date": "2016-10-02T15:59:26Z",
+        "ip": "127.0.0.2",
+        "agent": "my browser agent",
+        "digest": "",
+        "data": "",
+        "course": null,
+        "type": "search",
+        "completed": true,
+        "time_taken": 0,
+        "activity_title": null,
+        "section_title": null,
+        "uuid": null,
+        "lang": null,
+        "points": null,
+        "event": null
+    }
+},
+{
+    "model": "oppia.tracker",
+    "pk": 1405313,
+    "fields": {
+        "user": 2,
+        "submitted_date": "2017-01-07T23:55:46Z",
+        "tracker_date": "2017-01-07T22:55:38Z",
+        "ip": "127.0.0.3",
+        "agent": "my browser agent",
+        "digest": "",
+        "data": "",
+        "course": null,
+        "type": "search",
+        "completed": true,
+        "time_taken": 0,
+        "activity_title": null,
+        "section_title": null,
+        "uuid": null,
+        "lang": null,
+        "points": null,
+        "event": null
+    }
+},
+{
+    "model": "oppia.tracker",
+    "pk": 1484221,
+    "fields": {
+        "user": 2,
+        "submitted_date": "2019-09-24T14:49:44Z",
+        "tracker_date": "2019-09-24T14:49:15Z",
+        "ip": "127.0.0.1",
+        "agent": "my browser agent",
+        "digest": "",
+        "data": "",
+        "course": null,
+        "type": "search",
+        "completed": true,
+        "time_taken": 0,
+        "activity_title": null,
+        "section_title": null,
+        "uuid": "6acbaefa-588a-4eaa-b4a3-cce57f88e7d7",
+        "lang": null,
+        "points": null,
+        "event": null
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 6299,
+    "fields": {
+        "ip": "127.0.0.1",
+        "hits": 1,
+        "lat": 9.0,
+        "lng": 39.5,
+        "region": "Ethiopia",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": null
+    }
+}
+]
