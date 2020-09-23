@@ -10,6 +10,7 @@ class PermissionsViewTest(OppiaTestCase):
                 'tests/test_quiz.json',
                 'tests/test_permissions.json']
 
+    STR_ADMIN_INDEX = 'admin:index'
     def assert_response(self, view, status_code, user=None, view_kwargs=None):
         route = reverse(view, kwargs=view_kwargs)
         res = self.get_view(route, user)
@@ -38,17 +39,17 @@ class PermissionsViewTest(OppiaTestCase):
     # Django admin
 
     def test_anon_cantview_admin(self):
-        self.assert_must_login('admin:index')
+        self.assert_must_login(self.STR_ADMIN_INDEX)
 
     def test_admin_canview_admin(self):
-        self.assert_can_view('admin:index', self.admin_user)
+        self.assert_can_view(self.STR_ADMIN_INDEX, self.admin_user)
 
     def test_staff_cantview_admin(self):
-        self.assert_can_view('admin:index', self.staff_user)
+        self.assert_can_view(self.STR_ADMIN_INDEX, self.staff_user)
 
     def test_student_cantview_admin(self):
         # Check that gets redirected to admin login
-        route = reverse('admin:index')
+        route = reverse(self.STR_ADMIN_INDEX)
         res = self.get_view(route, self.normal_user)
         self.assertRedirects(res, route + 'login/?next=' + route)
     # Upload courses view

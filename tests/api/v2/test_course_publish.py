@@ -13,7 +13,8 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
-                'tests/test_permissions.json']
+                'tests/test_permissions.json',
+                'tests/test_course_permissions.json']
 
     def setUp(self):
         super(CoursePublishResourceTest, self).setUp()
@@ -22,6 +23,8 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
             './oppia/fixtures/reference_files/ncd1_test_course.zip'
         self.video_file_path = \
             './oppia/fixtures/reference_files/sample_video.m4v'
+        self.course_draft_file_path = \
+            './oppia/fixtures/reference_files/draft-20150611100319.zip'
 
     # test only POST is available
     def test_no_get(self):
@@ -99,8 +102,7 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
             .filter(action='api_course_published').count()
         self.assertEqual(old_no_cpls+1, new_no_cpls)
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow \
-        see issue: https://github.com/DigitalCampus/django-oppia/issues/689")
+    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_upload_permission_staff(self):
         # set course owner to staff
         course = Course.objects.get(shortname='ncd1-et')
@@ -125,8 +127,7 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
             .filter(action='api_course_published').count()
         self.assertEqual(old_no_cpls+1, new_no_cpls)
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow \
-        see issue: https://github.com/DigitalCampus/django-oppia/issues/689")
+    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_upload_permission_teacher(self):
         # set course owner to teacher
         course = Course.objects.get(shortname='ncd1-et')
@@ -205,8 +206,7 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
             self.assertEqual(old_no_cpls+1, new_no_cpls)
 
     # test if user is trying to overwrite course they don't already own
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow \
-        see issue: https://github.com/DigitalCampus/django-oppia/issues/689")
+    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_overwriting_course_non_owner(self):
         # set course owner to admin
         course = Course.objects.get(shortname='anc1-all')
@@ -232,6 +232,58 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
                 .filter(action='permissions_error').count()
             self.assertEqual(old_no_cpls+1, new_no_cpls)
 
+    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
+    def test_overwriting_course_manager(self):
+        # set course owner to admin
+        course = Course.objects.get(shortname='draft-test')
+        course.user = self.admin_user
+        course.save()
+
+        old_no_cpls = CoursePublishingLog.objects \
+            .filter(action='permissions_error').count()
+
+        with open(self.course_draft_file_path, 'rb') as course_file:
+            # teacher attempts to update
+            response = self.client.post(self.url,
+                                        {'username': 'manager',
+                                         'password': 'manager',
+                                         'tags': 'draft',
+                                         'is_draft': True,
+                                         api.COURSE_FILE_FIELD: course_file})
+            self.assertEqual(response.status_code, 201)
+
+            # check record added to course publishing log
+
+            new_no_cpls = CoursePublishingLog.objects \
+                .filter(action='permissions_error').count()
+            self.assertEqual(old_no_cpls, new_no_cpls)
+    
+    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
+    def test_overwriting_course_viewer(self):
+        # set course owner to admin
+        course = Course.objects.get(shortname='draft-test')
+        course.user = self.admin_user
+        course.save()
+
+        old_no_cpls = CoursePublishingLog.objects \
+            .filter(action='permissions_error').count()
+
+        with open(self.course_draft_file_path, 'rb') as course_file:
+            # teacher attempts to update
+            response = self.client.post(self.url,
+                                        {'username': 'viewer',
+                                         'password': 'viewer',
+                                         'tags': 'draft',
+                                         'is_draft': True,
+                                         api.COURSE_FILE_FIELD: course_file})
+            self.assertEqual(response.status_code, 401)
+
+            # check record added to course publishing log
+
+            new_no_cpls = CoursePublishingLog.objects \
+                .filter(action='permissions_error').count()
+            self.assertEqual(old_no_cpls+1, new_no_cpls)     
+  
     # check file size of course
     def test_course_filesize_limit(self):
         setting, created = SettingProperties.objects \

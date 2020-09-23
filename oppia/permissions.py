@@ -12,9 +12,7 @@ from profile.models import UserProfile
 
 
 def can_upload(user):
-    if settings.OPPIA_STAFF_ONLY_UPLOAD is False \
-       or user.is_superuser \
-       or user.is_staff:
+    if user.is_superuser or user.is_staff:
         return True
     else:
         try:

@@ -173,10 +173,6 @@ OPPIA_METADATA = {
 OPPIA_ALLOW_SELF_REGISTRATION = True
 OPPIA_SHOW_GRAVATARS = True
 
-# prevents anyone without is_staff status being able to upload courses,
-# setting to False allows any registered user to upload a course
-OPPIA_STAFF_ONLY_UPLOAD = True
-
 # determines if the points system is enabled
 OPPIA_POINTS_ENABLED = True
 

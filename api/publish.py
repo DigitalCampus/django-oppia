@@ -11,10 +11,10 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 
-from oppia.models import Tag, CourseTag, CoursePublishingLog
+from oppia.models import Tag, CourseTag, CoursePublishingLog, CoursePermissions
 from settings import constants
 from settings.models import SettingProperties
-from oppia.uploader import handle_uploaded_file
+from oppia.uploader import handle_uploaded_file, get_course_shortname
 
 
 def add_course_tags(user, course, tags):
@@ -111,13 +111,34 @@ def publish_view(request):
     if not authenticated:
         return JsonResponse(response_data, status=401)
 
+    extract_path = os.path.join(settings.COURSE_UPLOAD_DIR, 'temp', str(user.id))
+    
+    result, course_shortname = get_course_shortname(course_file,
+        extract_path,
+        request,
+        user)
+
+    if result:
+        course_manager = CoursePermissions.objects.filter(
+            user=user,
+            course__shortname=course_shortname,
+            role=CoursePermissions.MANAGER).count()
+    else:
+        course_manager = 0
+        
     # check user has permissions to publish course
-    if settings.OPPIA_STAFF_ONLY_UPLOAD is True \
-            and not user.is_staff \
-            and user.userprofile.can_upload is False:
+    if not user.is_staff \
+            and user.userprofile.can_upload is False \
+            and course_manager == 0:
+        msg_text = \
+                _(u"Sorry, only the original owner may update this course")
+        messages.info(request, msg_text)
+        CoursePublishingLog(user=user if user else None,
+                            action="permissions_error",
+                            data=msg_text).save()
         return HttpResponse(status=401)
 
-    extract_path = os.path.join(settings.COURSE_UPLOAD_DIR, 'temp', str(user.id))
+    
     course, status_code = handle_uploaded_file(
         course_file,
         extract_path,
