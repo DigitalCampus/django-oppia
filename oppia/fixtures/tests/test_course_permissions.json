@@ -1,0 +1,148 @@
+[
+{
+    "model": "auth.user",
+    "pk": 5,
+    "fields": {
+        "password": "pbkdf2_sha256$150000$fj3Cjo1i4OGy$DiSFT6y/tBudCosnCeeNxG6V0Hmik/xTaCk5lrOom50=",
+        "last_login": "2020-09-23T13:36:08.836Z",
+        "is_superuser": false,
+        "username": "manager",
+        "first_name": "Manager",
+        "last_name": "User",
+        "email": "manager@oppia-mobile.org",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2020-09-23T13:36:08.561Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 6,
+    "fields": {
+        "password": "pbkdf2_sha256$150000$1CfiemTwucpn$zmqPexngFEEY2T3bzEa+uLCBtl4U50EDl7t39P6DuRU=",
+        "last_login": "2020-09-23T13:36:42.520Z",
+        "is_superuser": false,
+        "username": "viewer",
+        "first_name": "Viewer",
+        "last_name": "User",
+        "email": "viewer@oppia-mobile.org",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2020-09-23T13:36:42.222Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "profile.userprofile",
+    "pk": 5,
+    "fields": {
+        "user": 5,
+        "about": null,
+        "can_upload": false,
+        "job_title": "",
+        "organisation": "",
+        "phone_number": null
+    }
+},
+{
+    "model": "profile.userprofile",
+    "pk": 6,
+    "fields": {
+        "user": 6,
+        "about": null,
+        "can_upload": false,
+        "job_title": "",
+        "organisation": "",
+        "phone_number": null
+    }
+},
+{
+    "model": "oppia.coursepermissions",
+    "pk": 1,
+    "fields": {
+        "course": 1,
+        "user": 5,
+        "role": "manager"
+    }
+},
+{
+    "model": "oppia.coursepermissions",
+    "pk": 2,
+    "fields": {
+        "course": 1,
+        "user": 6,
+        "role": "viewer"
+    }
+},
+{
+    "model": "oppia.coursepermissions",
+    "pk": 3,
+    "fields": {
+        "course": 3,
+        "user": 5,
+        "role": "manager"
+    }
+},
+{
+    "model": "oppia.coursepermissions",
+    "pk": 4,
+    "fields": {
+        "course": 3,
+        "user": 6,
+        "role": "viewer"
+    }
+},
+{
+    "model": "tastypie.apikey",
+    "pk": 5,
+    "fields": {
+        "user": 5,
+        "key": "34a7c86e4565ed15a6789ae1fab6cc13e18a5506",
+        "created": "2020-09-23T13:36:08.673Z"
+    }
+},
+{
+    "model": "tastypie.apikey",
+    "pk": 6,
+    "fields": {
+        "user": 6,
+        "key": "d242e7e01da5dd583803031a221421d0d4383cd0",
+        "created": "2020-09-23T13:36:42.338Z"
+    }
+},
+{
+    "model": "oppia.tag",
+    "pk": 8,
+    "fields": {
+        "name": "draft",
+        "created_date": "2020-09-23T13:49:31.544Z",
+        "created_by": 1,
+        "description": null,
+        "order_priority": 0,
+        "highlight": false,
+        "icon": ""
+    }
+},
+{
+    "model": "oppia.coursetag",
+    "pk": 13,
+    "fields": {
+        "course": 3,
+        "tag": 8
+    }
+}
+,
+{
+    "model": "oppia.coursetag",
+    "pk": 14,
+    "fields": {
+        "course": 3,
+        "tag": 1
+    }
+}
+
+
+]

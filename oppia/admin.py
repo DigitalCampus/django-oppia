@@ -6,7 +6,7 @@ from oppia.models import Course, \
                          Tracker, \
                          Media, \
                          Cohort, \
-                         CourseManager
+                         CoursePermissions
 from oppia.models import Participant, Tag, CourseTag
 from oppia.models import Badge, Award, Points, AwardCourse
 from oppia.models import CourseCohort, CoursePublishingLog
@@ -88,8 +88,8 @@ class CoursePublishingLogAdmin(admin.ModelAdmin):
                     'data')
 
 
-class CourseManagerAdmin(admin.ModelAdmin):
-    list_display = ('user', 'course')
+class CoursePermissionsAdmin(admin.ModelAdmin):
+    list_display = ('user', 'course', 'role')
 
 
 class MediaAdmin(admin.ModelAdmin):
@@ -126,5 +126,5 @@ admin.site.register(Points, PointsAdmin)
 admin.site.register(Section, SectionAdmin)
 admin.site.register(Tag, TagAdmin)
 admin.site.register(Tracker, TrackerAdmin)
-admin.site.register(CourseManager, CourseManagerAdmin)
+admin.site.register(CoursePermissions, CoursePermissionsAdmin)
 admin.site.register(CoursePublishingLog, CoursePublishingLogAdmin)

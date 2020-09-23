@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.http import Http404, HttpResponseForbidden
 
-from oppia.models import Course, Participant, Cohort
+from oppia.models import Course, Participant, Cohort, CoursePermissions
 from profile.models import UserProfile
 
 
@@ -101,8 +101,9 @@ def is_manager(course_id, user):
                 return True
             except Course.DoesNotExist:
                 Course.objects.get(pk=course_id,
-                                   coursemanager__course__id=course_id,
-                                   coursemanager__user=user)
+                                   coursepermissions__course__id=course_id,
+                                   coursepermissions__user=user,
+                                   coursepermissions__role=CoursePermissions.MANAGER)
                 return True
     except Course.DoesNotExist:
         return False
@@ -162,10 +163,10 @@ def can_view_course(request, course_id):
             except Course.DoesNotExist:
                 course = Course.objects.get(
                     pk=course_id,
-                    is_draft=False,
                     is_archived=False,
-                    coursemanager__course__id=course_id,
-                    coursemanager__user__id=request.user.id)
+                    coursepermissions__course__id=course_id,
+                    coursepermissions__user__id=request.user.id,
+                    coursepermissions__role=CoursePermissions.VIEWER)
     except Course.DoesNotExist:
         raise Http404
     return course

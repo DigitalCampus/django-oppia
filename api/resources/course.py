@@ -45,15 +45,17 @@ class CourseResource(ModelResource):
         always_return_data = True
         include_resource_uri = True
 
-
     def obj_get(self, bundle, **kwargs):
         """
-            Overriden get method to perform a direct lookup if we are searching by shortname instead of pk
+            Overriden get method to perform a direct lookup if we are searching
+            by shortname instead of pk
         """
         lookup = kwargs[self._meta.detail_uri_name]
         if re.search('[a-zA-Z]', lookup):
-            # If the lookup parameter includes characters, we try to use it as a shortname
-            object_list = self.apply_filters(bundle.request, {'shortname': lookup})
+            # If the lookup parameter includes characters, we try to use it as a
+            # shortname
+            object_list = self.apply_filters(bundle.request,
+                                             {'shortname': lookup})
             if len(object_list) <= 0:
                 raise self._meta.object_class.DoesNotExist("Couldn't find an course whith shortname '%s'." % (lookup))
             elif len(object_list) > 1:
@@ -100,8 +102,10 @@ class CourseResource(ModelResource):
                 course = self._meta.queryset \
                     .filter(
                             Q(is_draft=False) |
-                            (Q(is_draft=True) & Q(user=request.user))) \
-                    .get(pk=pk, is_archived=False)
+                            (Q(is_draft=True) & Q(user=request.user)) |
+                            (Q(is_draft=True)
+                             & Q(coursepermissions__user=request.user))) \
+                    .distinct().get(pk=pk, is_archived=False)
         except Course.DoesNotExist:
             raise Http404(self.STR_COURSE_NOT_FOUND)
         except ValueError:
@@ -113,8 +117,10 @@ class CourseResource(ModelResource):
                     course = self._meta.queryset \
                         .filter(
                                 Q(is_draft=False) |
-                                (Q(is_draft=True) & Q(user=request.user))) \
-                        .get(shortname=pk, is_archived=False)
+                                (Q(is_draft=True) & Q(user=request.user)) |
+                                (Q(is_draft=True)
+                                 & Q(coursepermissions__user=request.user))) \
+                        .distinct().get(shortname=pk, is_archived=False)
             except Course.DoesNotExist:
                 raise Http404(self.STR_COURSE_NOT_FOUND)
 

@@ -45,7 +45,10 @@ class TagResource(ModelResource):
                 .filter(
                         Q(coursetag__course__is_draft=False) |
                         (Q(coursetag__course__is_draft=True)
-                         & Q(coursetag__course__user=request.user))) \
+                         & Q(coursetag__course__user=request.user)) |
+                        (Q(coursetag__course__is_draft=True)
+                         & Q(coursetag__course__coursepermissions__user=request.user))
+                        ) \
                 .distinct().order_by('-order_priority', 'name')
 
     def prepend_urls(self):
@@ -75,8 +78,11 @@ class TagResource(ModelResource):
                                             is_archived=False) \
                         .filter(
                                 Q(is_draft=False) |
-                                (Q(is_draft=True) & Q(user=request.user))) \
-                        .order_by('-priority', 'title')
+                                (Q(is_draft=True) & Q(user=request.user)) |
+                                (Q(is_draft=True)
+                                 & Q(coursepermissions__user=request.user))
+                                ) \
+                        .distinct().order_by('-priority', 'title')
 
         course_data = []
         cr = CourseResource()
