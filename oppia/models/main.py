@@ -229,18 +229,18 @@ class Course(models.Model):
 
 
 class CoursePermissions(models.Model):
-    
+
     MANAGER = 'manager'
     VIEWER = 'viewer'
     ROLE_TYPES = (
         (MANAGER, 'Manager'),
         (VIEWER, 'Viewer')
     )
-    
+
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     role = models.CharField(max_length=20, choices=ROLE_TYPES)
-    
+
     class Meta:
         verbose_name = _('Course Permission')
         verbose_name_plural = _('Course Permissions')

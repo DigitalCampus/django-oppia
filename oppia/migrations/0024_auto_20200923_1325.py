@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                                         verbose_name='ID')),
                 ('role', models.CharField(choices=[('manager', 'Manager'),
                                                    ('viewer', 'Viewer')],
-                                                   max_length=20)),
+                                          max_length=20)),
                 ('course', models.ForeignKey(
                     on_delete=django.db.models.deletion.CASCADE,
                     to='oppia.Course')),

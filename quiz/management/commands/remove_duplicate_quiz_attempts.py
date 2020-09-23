@@ -44,8 +44,8 @@ class Command(BaseCommand):
                 .delete()
             self.stdout.write(_(u"%(count)d duplicate quiz attempt(s) removed for \
                                instance_id %(instance)s based on max id"
-                                % { 'count': deleted[0],
-                                    'instance': quiz_attempt['instance_id']}))
+                                % {'count': deleted[0],
+                                   'instance': quiz_attempt['instance_id']}))
 
         """
         Remember to run summary cron from start

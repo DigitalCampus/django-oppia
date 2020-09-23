@@ -11,6 +11,7 @@ from api.publish import get_messages_array
 from av import handler
 from av.models import UploadedMedia
 
+
 def api_authenticate(request):
     required = ['username', 'password']
 
@@ -44,9 +45,9 @@ def api_authenticate(request):
 @csrf_exempt
 def get_view(request, digest):
     get_messages_array(request)
-    
-    media = get_object_or_404(UploadedMedia,md5=digest)
-    
+
+    media = get_object_or_404(UploadedMedia, md5=digest)
+
     embed_code = media.get_embed_code(
         request.build_absolute_uri(media.file.url))
     resp_obj = {'embed_code': embed_code,
@@ -54,7 +55,7 @@ def get_view(request, digest):
                 'filesize': media.get_filesize(),
                 'download_url': request.build_absolute_uri(media.file.url)}
     return JsonResponse(resp_obj, status=200)
-    
+
 
 @csrf_exempt
 def upload_view(request):
@@ -68,7 +69,7 @@ def upload_view(request):
     valid, error, user = api_authenticate(request)
     if not valid:
         return error
-   
+
     result = handler.upload(request, user)
 
     if result['result'] == UploadedMedia.UPLOAD_STATUS_SUCCESS:
@@ -79,7 +80,8 @@ def upload_view(request):
         return JsonResponse({'embed_code': embed_code,
                              'digest': media.md5,
                              'filesize': media.get_filesize(),
-                             'download_url': request.build_absolute_uri(media.file.url)}, status=201)
+                             'download_url': request.build_absolute_uri(
+                                 media.file.url)}, status=201)
     else:
         response = {'messages': result['errors']}
         return JsonResponse(response, status=400)

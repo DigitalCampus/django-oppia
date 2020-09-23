@@ -6,7 +6,7 @@ from oppia.test import OppiaTestCase
 from oppia.models import Tracker, Points
 from settings.models import SettingProperties
 from summary.models import CourseDailyStats
-from itertools import count
+
 
 class SummaryCronTest(OppiaTestCase):
 
@@ -25,7 +25,7 @@ class SummaryCronTest(OppiaTestCase):
         self.assertEqual(lock, 999)
         lock = SettingProperties.get_int('oppia_cron_lock', 999)
         self.assertEqual(lock, 999)
-        
+
         call_command('update_summaries', stdout=StringIO())
 
         # check new details on pks
@@ -139,8 +139,9 @@ class SummaryCronTest(OppiaTestCase):
         self.assertRaises(Points.DoesNotExist)
 
     def test_summary_search_tracker(self):
-        old_search_count = CourseDailyStats.objects.filter(type='search').count()
+        old_search_count = CourseDailyStats.objects.filter(
+            type='search').count()
         call_command('update_summaries', stdout=StringIO())
-        new_search_count = CourseDailyStats.objects.filter(type='search').count()
+        new_search_count = CourseDailyStats.objects.filter(
+            type='search').count()
         self.assertEqual(old_search_count+1, new_search_count)
-        

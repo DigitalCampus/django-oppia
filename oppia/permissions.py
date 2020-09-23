@@ -103,7 +103,8 @@ def is_manager(course_id, user):
                 Course.objects.get(pk=course_id,
                                    coursepermissions__course__id=course_id,
                                    coursepermissions__user=user,
-                                   coursepermissions__role=CoursePermissions.MANAGER)
+                                   coursepermissions__role=
+                                   CoursePermissions.MANAGER)
                 return True
     except Course.DoesNotExist:
         return False

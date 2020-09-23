@@ -353,11 +353,12 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response.status_code, 404)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
-        
+
     @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_live_course_shortname_normal(self):
         tracker_count_start = Tracker.objects.all().count()
-        resource_url = get_api_url('v2', 'course', 'anc1-all') + self.STR_DOWNLOAD
+        resource_url = get_api_url('v2', 'course', 'anc1-all') \
+            + self.STR_DOWNLOAD
         response = self.api_client.get(
             resource_url, format='json', data=self.user_auth)
         self.assertHttpOK(response)
@@ -368,7 +369,8 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
 
     def test_dne_course_shortname_normal(self):
         tracker_count_start = Tracker.objects.all().count()
-        resource_url = get_api_url('v2', 'course', 'does-not-exist') + self.STR_DOWNLOAD
+        resource_url = get_api_url('v2', 'course', 'does-not-exist') \
+            + self.STR_DOWNLOAD
         response = self.api_client.get(
             resource_url, format='json', data=self.user_auth)
         self.assertEqual(response.status_code, 404)
@@ -414,10 +416,10 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
     def test_course_shortname_get_multiple_found(self):
         # add a temp course with same shortname as another
         course = Course()
-        course.shortname='anc1-all'
-        course.version=123456789
+        course.shortname = 'anc1-all'
+        course.version = 123456789
         course.save()
-        
+
         resource_url = get_api_url('v2', 'course', 'anc1-all')
         resp = self.api_client.get(
             resource_url, format='json', data=self.user_auth)
