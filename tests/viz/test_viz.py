@@ -18,7 +18,8 @@ class VisualisationsTest(OppiaTestCase):
                 'tests/test_permissions.json',
                 'tests/test_viz.json',
                 'default_gamification_events.json',
-                'tests/test_tracker.json']
+                'tests/test_tracker.json',
+                'tests/test_course_permissions.json']
 
     viz_summary_template = 'viz/summary.html'
 
@@ -103,7 +104,7 @@ class VisualisationsTest(OppiaTestCase):
         summary = Summary()
         user_registrations, previous_user_registrations = \
             summary.get_registrations(start_date)
-        self.assertEqual(user_registrations.count(), 0)
+        self.assertEqual(user_registrations.count(), 1)
         self.assertEqual(previous_user_registrations, 4)
 
     def test_summary_helper_countries(self):

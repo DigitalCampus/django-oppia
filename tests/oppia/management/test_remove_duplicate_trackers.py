@@ -16,7 +16,8 @@ class RemoveDuplicateTrackersTest(OppiaTestCase):
                 'default_gamification_events.json',
                 'tests/test_tracker.json',
                 'tests/test_permissions.json',
-                'default_badges.json']
+                'default_badges.json',
+                'tests/test_course_permissions.json']
 
     def test_remove_no_duplicates(self):
         out = StringIO()
