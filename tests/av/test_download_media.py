@@ -7,7 +7,8 @@ class DownloadMediaTest(OppiaTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_permissions.json',
-                'default_gamification_events.json']
+                'default_gamification_events.json',
+                'tests/test_course_permissions.json']
 
     def test_permissions(self):
         url = reverse('av:course_media', args=[1])

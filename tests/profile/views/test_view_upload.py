@@ -12,7 +12,8 @@ class UserUploadActivityViewTest(OppiaTransactionTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
-                'tests/test_permissions.json']
+                'tests/test_permissions.json',
+                'tests/test_course_permissions.json']
 
     fixture_root = './oppia/fixtures/reference_files/'
     upload_user_file_valid = \

@@ -8,7 +8,8 @@ class AVModelsTest(OppiaTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_permissions.json',
-                'tests/test_av_uploadedmedia.json']
+                'tests/test_av_uploadedmedia.json',
+                'tests/test_course_permissions.json']
 
     def test_uploadedmedia_str(self):
         um = UploadedMedia.objects.get(pk=1)

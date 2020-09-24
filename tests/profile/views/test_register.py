@@ -7,7 +7,8 @@ from settings.models import SettingProperties
 class RegisterViewTest(OppiaTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
-                'tests/test_quiz.json']
+                'tests/test_quiz.json',
+                'tests/test_course_permissions.json']
 
     def setUp(self):
         super(RegisterViewTest, self).setUp()

@@ -9,7 +9,8 @@ class CourseViewsTest(OppiaTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
-                'tests/test_permissions.json']
+                'tests/test_permissions.json',
+                'tests/test_course_permissions.json']
 
     course_list_template = 'course/list.html'
     course_export_template = 'course/export.html'

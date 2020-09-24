@@ -9,7 +9,8 @@ class RegisterCustomFieldsViewTest(OppiaTestCase):
 
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
-                'tests/test_quiz.json']
+                'tests/test_quiz.json',
+                'tests/test_course_permissions.json']
     base_filled_form = {
             'username': 'new_username',
             'email': 'newusername@email.com',

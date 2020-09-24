@@ -14,7 +14,8 @@ class OppiaActivityViewsTest(OppiaTestCase):
                 'tests/test_permissions.json',
                 'tests/test_cohort.json',
                 'default_gamification_events.json',
-                'tests/test_tracker.json']
+                'tests/test_tracker.json',
+                'tests/test_course_permissions.json']
 
     url_recent_activity = reverse('oppia:recent_activity', args=[1])
     url_recent_activity_detail = reverse('oppia:recent_activity_detail',

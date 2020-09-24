@@ -17,7 +17,8 @@ class SummaryCronTest(OppiaTestCase):
                 'default_gamification_events.json',
                 'tests/test_tracker.json',
                 'default_badges.json',
-                'tests/test_search_tracker.json']
+                'tests/test_search_tracker.json',
+                'tests/test_course_permissions.json']
 
     def test_summary_cron_open_cron_open(self):
         # check lock not set

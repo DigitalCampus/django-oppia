@@ -78,8 +78,7 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
         self.assertEqual(response.status_code, 400)
 
     # test is user has correct permissions or not to upload
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow \
-        see issue: https://github.com/DigitalCampus/django-oppia/issues/689")
+    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_upload_permission_admin(self):
         old_no_cpls = CoursePublishingLog.objects \
             .filter(action='api_course_published').count()
@@ -99,8 +98,7 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
             .filter(action='api_course_published').count()
         self.assertEqual(old_no_cpls+1, new_no_cpls)
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow \
-        see issue: https://github.com/DigitalCampus/django-oppia/issues/689")
+    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_upload_permission_staff(self):
         # set course owner to staff
         course = Course.objects.get(shortname='ncd1-et')
@@ -125,8 +123,7 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
             .filter(action='api_course_published').count()
         self.assertEqual(old_no_cpls+1, new_no_cpls)
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow \
-        see issue: https://github.com/DigitalCampus/django-oppia/issues/689")
+    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_upload_permission_teacher(self):
         # set course owner to teacher
         course = Course.objects.get(shortname='ncd1-et')
@@ -151,6 +148,7 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
                 .filter(action='api_course_published').count()
             self.assertEqual(old_no_cpls+1, new_no_cpls)
 
+    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_upload_permission_user(self):
 
         old_no_cpls = CoursePublishingLog.objects \

@@ -12,7 +12,8 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TransactionTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
-                'default_gamification_events.json']
+                'default_gamification_events.json',
+                'tests/test_course_permissions.json']
 
     username = 'demo'
     url = get_api_url('v2', 'quizattempt')

@@ -12,7 +12,8 @@ class GamificationModelsTest(OppiaTestCase):
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
                 'default_gamification_events.json',
-                'tests/test_gamification.json']
+                'tests/test_gamification.json',
+                'tests/test_course_permissions.json']
 
     def test_default_event_str(self):
         event = DefaultGamificationEvent.objects.get(pk=1)

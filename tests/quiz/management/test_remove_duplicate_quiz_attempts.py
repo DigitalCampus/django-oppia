@@ -9,7 +9,8 @@ class RemoveDuplicateQuizAttemptsTest(OppiaTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
-                'tests/test_permissions.json']
+                'tests/test_permissions.json',
+                'tests/test_course_permissions.json']
 
     def test_remove_duplicate_quiz_attempts(self):
         out = StringIO()

@@ -11,7 +11,8 @@ class ProfileQuizAttemptPermissionsViewTest(OppiaTestCase):
                 'tests/test_quiz.json',
                 'tests/test_permissions.json',
                 'tests/test_cohort.json',
-                'tests/test_quizattempt.json']
+                'tests/test_quizattempt.json',
+                'tests/test_course_permissions.json']
 
     course_id = 1
     quiz_id = 2

@@ -8,7 +8,8 @@ class PermissionsViewTest(OppiaTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
-                'tests/test_permissions.json']
+                'tests/test_permissions.json',
+                'tests/test_course_permissions.json']
 
     STR_ADMIN_INDEX = 'admin:index'
     def assert_response(self, view, status_code, user=None, view_kwargs=None):
@@ -293,13 +294,19 @@ class PermissionsViewTest(OppiaTestCase):
     # Test is_manager permissions
 
     def test_is_manager_admin(self):
-        self.assertTrue(is_manager(1, self.admin_user))
+        self.assertTrue(is_manager(self.admin_user))
 
     def test_is_manager_staff(self):
-        self.assertTrue(is_manager(1, self.staff_user))
+        self.assertTrue(is_manager(self.staff_user))
 
     def test_is_manager_teacher(self):
-        self.assertFalse(is_manager(1, self.teacher_user))
+        self.assertFalse(is_manager(self.teacher_user))
 
     def test_is_manager_user(self):
-        self.assertFalse(is_manager(1, self.normal_user))
+        self.assertFalse(is_manager(self.normal_user))
+    
+    def test_is_manager_viewer(self):
+        self.assertFalse(is_manager(self.viewer_user))
+        
+    def test_is_manager_manager(self):
+        self.assertTrue(is_manager(self.manager_user))

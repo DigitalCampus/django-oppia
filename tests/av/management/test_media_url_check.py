@@ -13,7 +13,8 @@ class MediaURLCheckTest(OppiaTestCase):
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
                 'tests/test_permissions.json',
-                'default_badges.json']
+                'default_badges.json',
+                'tests/test_course_permissions.json']
 
     @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_media_url(self):

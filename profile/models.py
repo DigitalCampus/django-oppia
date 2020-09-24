@@ -3,7 +3,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-from oppia.models import Participant
+from oppia.models import Participant, CoursePermissions
 
 
 class UserProfile (models.Model):
@@ -17,6 +17,11 @@ class UserProfile (models.Model):
     def get_can_upload(self):
         if self.user.is_staff:
             return True
+        manager = CoursePermissions.objects \
+            .filter(user=self.user,
+                    role=CoursePermissions.MANAGER).count()
+        if manager > 0:
+            return True
         return self.can_upload
 
     def get_can_upload_activitylog(self):
@@ -27,9 +32,12 @@ class UserProfile (models.Model):
     def is_student_only(self):
         if self.user.is_staff:
             return False
-        teach = Participant.objects.filter(user=self.user,
+        teacher = Participant.objects.filter(user=self.user,
                                            role=Participant.TEACHER).count()
-        if teach > 0:
+        manager = CoursePermissions.objects \
+            .filter(user=self.user,
+                    role=CoursePermissions.MANAGER).count()
+        if teacher > 0 or manager > 0:
             return False
         else:
             return True
@@ -39,7 +47,10 @@ class UserProfile (models.Model):
             return False
         teacher = Participant.objects.filter(user=self.user,
                                              role=Participant.TEACHER).count()
-        if teacher > 0:
+        manager = CoursePermissions.objects \
+            .filter(user=self.user,
+                    role=CoursePermissions.MANAGER).count()
+        if teacher > 0 and manager == 0:
             return True
         else:
             return False

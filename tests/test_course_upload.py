@@ -14,7 +14,8 @@ class CourseUploadTest(OppiaTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
-                'tests/test_permissions.json']
+                'tests/test_permissions.json',
+                'tests/test_course_permissions.json']
     file_root = './oppia/fixtures/reference_files/'
     course_file_path = file_root + 'ncd1_test_course.zip'
     media_file_path = file_root + 'sample_video.m4v'

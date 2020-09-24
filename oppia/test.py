@@ -5,7 +5,9 @@ from django.urls import reverse
 
 class OppiaTestCase(TestCase):
 
-    fixtures = ['tests/test_user.json']
+    fixtures = ['tests/test_user.json',
+                'tests/test_oppia.json',
+                'tests/test_course_permissions.json']
 
     def setUp(self):
         super(OppiaTestCase, self).setUp()
@@ -14,6 +16,8 @@ class OppiaTestCase(TestCase):
         self.staff_user = User.objects.get(pk=3)
         self.teacher_user = User.objects.get(pk=4)
         self.normal_user = User.objects.get(pk=2)
+        self.manager_user = User.objects.get(pk=5)
+        self.viewer_user = User.objects.get(pk=6)
 
     def get_view(self, route, user=None):
         if user is not None:

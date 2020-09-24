@@ -8,7 +8,8 @@ class LoginViewTest(OppiaTestCase):
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
                 'tests/test_permissions.json',
-                'tests/test_cohort.json']
+                'tests/test_cohort.json',
+                'tests/test_course_permissions.json']
 
     def test_already_logged_in_admin(self):
         self.client.force_login(user=self.admin_user)

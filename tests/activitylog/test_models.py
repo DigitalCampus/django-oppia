@@ -13,7 +13,8 @@ class ActivityLogModelsTest(OppiaTestCase):
                 'tests/test_oppia.json',
                 'tests/test_malaria_quiz.json',
                 'tests/test_permissions.json',
-                'default_gamification_events.json']
+                'default_gamification_events.json',
+                'tests/test_course_permissions.json']
 
     basic_activity_log = './oppia/fixtures/activity_logs/basic_activity.json'
     url = reverse('activitylog:upload')

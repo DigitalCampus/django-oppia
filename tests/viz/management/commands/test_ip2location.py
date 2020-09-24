@@ -12,7 +12,8 @@ class Ip2LocationTest(OppiaTransactionTestCase):
                 'tests/test_quiz.json',
                 'tests/test_permissions.json',
                 'tests/test_ip2location.json',
-                'default_badges.json']
+                'default_badges.json',
+                'tests/test_course_permissions.json']
 
     @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_ip2location_output(self):

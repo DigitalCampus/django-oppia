@@ -8,7 +8,8 @@ class CartoDBUpdateTest(OppiaTestCase):
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
                 'tests/test_permissions.json',
-                'default_badges.json']
+                'default_badges.json',
+                'tests/test_course_permissions.json']
 
     def test_cartodb_output(self):
         out = StringIO()

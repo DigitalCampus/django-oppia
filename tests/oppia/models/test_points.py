@@ -8,4 +8,5 @@ class PointsModelTest(OppiaTestCase):
                 'tests/test_permissions.json',
                 'default_gamification_events.json',
                 'tests/test_tracker.json',
-                'tests/test_gamification.json']
+                'tests/test_gamification.json',
+                'tests/test_course_permissions.json']

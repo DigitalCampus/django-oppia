@@ -12,7 +12,8 @@ class MediaAPIResourceTest(OppiaTestCase):
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
                 'tests/test_permissions.json',
-                'tests/test_av_uploadedmedia.json']
+                'tests/test_av_uploadedmedia.json',
+                'tests/test_course_permissions.json']
 
     def setUp(self):
         super(MediaAPIResourceTest, self).setUp()

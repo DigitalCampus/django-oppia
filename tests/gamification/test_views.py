@@ -7,7 +7,8 @@ class GamificationViewsTest(OppiaTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
-                'default_gamification_events.json']
+                'default_gamification_events.json',
+                'tests/test_course_permissions.json']
 
     export_server = reverse('oppia_gamification_leaderboard_export_server')
     STR_JSON_CONTENT_TYPE = "application/json"

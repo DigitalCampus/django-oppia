@@ -7,7 +7,8 @@ class ReportCompletionRatesViewTest(OppiaTestCase):
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
                 'tests/test_permissions.json',
-                'tests/test_cohort.json']
+                'tests/test_cohort.json',
+                'tests/test_course_permissions.json']
 
     def setUp(self):
         super(ReportCompletionRatesViewTest, self).setUp()

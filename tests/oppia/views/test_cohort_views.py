@@ -12,7 +12,8 @@ class CohortViewsTest(OppiaTestCase):
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
                 'tests/test_permissions.json',
-                'tests/test_cohort.json']
+                'tests/test_cohort.json',
+                'tests/test_course_permissions.json']
 
     leaderboard_template = 'cohort/leaderboard.html'
     cohort_form_template = 'cohort/form.html'

@@ -8,7 +8,8 @@ class AppLaunchActivityTest(OppiaTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
-                'tests/test_permissions.json']
+                'tests/test_permissions.json',
+                'tests/test_course_permissions.json']
 
     valid_digest = '11cc12291f730160c324b727dd2268b612137'
     invalid_digest = '1ab2c3d4e5f6'

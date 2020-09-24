@@ -12,7 +12,8 @@ class ContentViewsTest(OppiaTestCase):
                 'tests/test_quiz.json',
                 'tests/test_permissions.json',
                 'default_gamification_events.json',
-                'tests/test_tracker.json']
+                'tests/test_tracker.json',
+                'tests/test_course_permissions.json']
 
     def setUp(self):
         super(ContentViewsTest, self).setUp()

@@ -61,6 +61,12 @@ def home_view(request):
         if up.is_teacher_only():
             return HttpResponseRedirect(reverse('oppia:teacher_index'))
 
+        if permissions.is_manager(request.user):
+            print("yes, is manager")
+            return HttpResponseRedirect(reverse('oppia:manager_index'))
+        else:
+            print("no, not manager")
+        
         # admin/staff view
         form, activity = home_view_admin_authenticated(request)
         leaderboard = Points.get_leaderboard(10)
@@ -144,6 +150,8 @@ def process_home_activity_months(activity, start_date, end_date):
                          0 if count is None else count])
     return activity
 
+def manager_home_view(request):
+    pass
 
 def teacher_home_view(request):
     cohorts = permissions.get_cohorts(request)

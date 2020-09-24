@@ -88,24 +88,22 @@ def get_user_courses(request, view_user):
     return cohort_courses, other_courses, all_courses
 
 
-def is_manager(course_id, user):
-    try:
-        # check only the owner can view
-        if user.is_staff:
+def is_manager(user):
+    # check only the owner can view
+    if user.is_staff:
+        return True
+    else:
+        courses = Course.objects.filter(user=user).count()
+        if courses > 0:
             return True
-        else:
-            try:
-                Course.objects.get(pk=course_id, user=user)
-                return True
-            except Course.DoesNotExist:
-                Course.objects.get(pk=course_id,
-                                   coursepermissions__course__id=course_id,
-                                   coursepermissions__user=user,
-                                   coursepermissions__role=
-                                   CoursePermissions.MANAGER)
-                return True
-    except Course.DoesNotExist:
-        return False
+
+        courses = Course.objects.filter(
+                               coursepermissions__user=user,
+                               coursepermissions__role=
+                               CoursePermissions.MANAGER).count()
+        if courses > 0:
+            return True
+    return False
 
 
 def can_add_cohort(request):

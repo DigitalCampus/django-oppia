@@ -13,7 +13,8 @@ class QuizDownloadTest(OppiaTestCase):
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
                 'tests/test_quizattempt.json',
-                'default_gamification_events.json']
+                'default_gamification_events.json',
+                'tests/test_course_permissions.json']
     STR_EXPECTED_CONTENT_TYPE = 'application/vnd.ms-excel;charset=utf-8'
     STR_URL_TEMPLATE = 'quiz:quiz_results_download'
 

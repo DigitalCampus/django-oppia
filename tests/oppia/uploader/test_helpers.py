@@ -13,7 +13,8 @@ class UploadHelpersTest(OppiaTestCase):
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
                 'tests/test_permissions.json',
-                'default_badges.json']
+                'default_badges.json',
+                'tests/test_course_permissions.json']
     quiz_json_file = './oppia/fixtures/reference_files/sample_quiz.json'
 
     def test_create_quiz_props(self):

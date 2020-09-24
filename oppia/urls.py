@@ -15,6 +15,7 @@ urlpatterns = [
     path('server/', views.server_view, name="server"),
     path('about/', views.about_view, name="about"),
     path('teacher', views.teacher_home_view, name="teacher_index"),
+    path('manager', views.manager_home_view, name="manager_index"),
     path('leaderboard', views.leaderboard_view, name="leaderboard"),
 
     path('upload', views.upload_step1, name="upload"),
