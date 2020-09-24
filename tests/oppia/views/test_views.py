@@ -1,8 +1,11 @@
 
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import User
 from django.core.paginator import InvalidPage
 from django.forms import ValidationError
 from django.urls import reverse
 from oppia.test import OppiaTestCase
+from profile.models import UserProfile
 
 
 class OppiaViewsTest(OppiaTestCase):
@@ -109,3 +112,18 @@ class OppiaViewsTest(OppiaTestCase):
         self.assertRaises(ValueError)
         self.assertEqual(200, response.status_code)
         self.assertTemplateUsed(self.leaderboard_template)
+
+    def test_userprofile_created(self):
+        user = User()
+        user.username = 'noprofile'
+        user.password = make_password('noprofile')
+        user.save()
+        self.client.force_login(user=user)
+        
+        start_count = UserProfile.objects.all().count()
+        self.client.get(reverse('oppia:index'))
+        self.assertRaises(UserProfile.DoesNotExist)
+        
+        end_count = UserProfile.objects.all().count()
+        self.assertEqual(start_count+1, end_count)
+        

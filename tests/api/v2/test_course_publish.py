@@ -1,10 +1,17 @@
 # tests/api/test_course_publish.py
 import api
+import os
 import pytest
+
+from django.conf import settings
+from django.contrib.auth.models import User
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.test.client import RequestFactory
 
 from oppia.test import OppiaTransactionTestCase
 
 from oppia.models import Course, CoursePublishingLog
+from oppia.uploader import get_course_shortname
 from settings.models import SettingProperties
 
 
@@ -16,8 +23,13 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
                 'tests/test_permissions.json',
                 'tests/test_course_permissions.json']
 
+    file_root = './oppia/fixtures/reference_files/'
+    no_module_xml = file_root + 'test_course_no_module_xml.zip'
+    corrupt_course_zip = file_root + 'corrupt_course.zip'
+    
     def setUp(self):
         super(CoursePublishResourceTest, self).setUp()
+        self.factory = RequestFactory()
         self.url = '/api/publish/'
         self.course_file_path = \
             './oppia/fixtures/reference_files/ncd1_test_course.zip'
@@ -336,3 +348,41 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
             new_no_cpls = CoursePublishingLog.objects \
                 .filter(action='over_max_upload').count()
             self.assertEqual(old_no_cpls+1, new_no_cpls)
+        
+    @pytest.mark.xfail(reason="works on local, but not on Github workflow")    
+    def test_get_course_invalid_xml(self):
+        
+        old_no_cpls = CoursePublishingLog.objects \
+            .filter(action='no_module_xml').count()
+            
+        with open(self.no_module_xml, 'rb') as course_file:
+            response = self.client.post(self.url,
+                                        {'username': 'admin',
+                                         'password': 'password',
+                                         'tags': 'demo',
+                                         'is_draft': False,
+                                         api.COURSE_FILE_FIELD: course_file})
+
+            self.assertEqual(400, response.status_code)
+            new_no_cpls = CoursePublishingLog.objects \
+                .filter(action='no_module_xml').count()
+            self.assertEqual(old_no_cpls+2, new_no_cpls)
+            
+    @pytest.mark.xfail(reason="works on local, but not on Github workflow")    
+    def test_get_course_bad_zip(self):
+        
+        old_no_cpls = CoursePublishingLog.objects \
+            .filter(action='invalid_zip').count()
+            
+        with open(self.corrupt_course_zip, 'rb') as course_file:
+            response = self.client.post(self.url,
+                                        {'username': 'admin',
+                                         'password': 'password',
+                                         'tags': 'demo',
+                                         'is_draft': False,
+                                         api.COURSE_FILE_FIELD: course_file})
+
+            self.assertEqual(500, response.status_code)
+            new_no_cpls = CoursePublishingLog.objects \
+                .filter(action='invalid_zip').count()
+            self.assertEqual(old_no_cpls+2, new_no_cpls)

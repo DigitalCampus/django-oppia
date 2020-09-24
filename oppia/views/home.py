@@ -159,25 +159,8 @@ def manager_home_view(request):
     start_date = timezone.now() - datetime.timedelta(days=31)
     end_date = timezone.now()
 
-    # get student activity
-    activity = []
-    no_days = (end_date - start_date).days + 1
-
-    trackers = Tracker.objects.filter(course__in=courses,
-                                      tracker_date__gte=start_date,
-                                      tracker_date__lte=end_date) \
-        .annotate(day=TruncDay('tracker_date'),
-                  month=TruncMonth('tracker_date'),
-                  year=TruncYear('tracker_date')) \
-        .values('day') \
-        .annotate(count=Count('id'))
-    for i in range(0, no_days, +1):
-        temp = start_date + datetime.timedelta(days=i)
-        temp_date = temp.date().strftime(STR_DATE_FORMAT)
-        count = next((dct['count']
-                     for dct in trackers
-                     if dct['day'].strftime(STR_DATE_FORMAT) == temp_date), 0)
-        activity.append([temp.strftime(STR_DATE_FORMAT), count])
+    # get activity
+    activity = get_trackers(start_date, end_date, courses)
 
     dashboard_accessed.send(sender=None, request=request, data=None)
 
@@ -192,20 +175,32 @@ def teacher_home_view(request):
     end_date = timezone.now()
 
     # get student activity
-    activity = []
-    no_days = (end_date - start_date).days + 1
     students = User.objects \
         .filter(participant__role=Participant.STUDENT,
                 participant__cohort__in=cohorts).distinct()
     courses = Course.objects \
         .filter(coursecohort__cohort__in=cohorts).distinct()
+    activity = get_trackers(start_date, end_date, courses, students)
+
+    dashboard_accessed.send(sender=None, request=request, data=None)
+
+    return render(request, 'oppia/home-teacher.html',
+                  {'cohorts': cohorts,
+                   'activity_graph_data': activity, })
+
+def get_trackers(start_date, end_date, courses, students=None):
+    activity = []
+    no_days = (end_date - start_date).days + 1
     trackers = Tracker.objects.filter(course__in=courses,
-                                      user__in=students,
                                       tracker_date__gte=start_date,
-                                      tracker_date__lte=end_date) \
-        .annotate(day=TruncDay('tracker_date'),
-                  month=TruncMonth('tracker_date'),
-                  year=TruncYear('tracker_date')) \
+                                      tracker_date__lte=end_date)
+    
+    if students:
+        trackers.filter(user__in=students)
+        
+    trackers.annotate(day=TruncDay('tracker_date'),
+              month=TruncMonth('tracker_date'),
+              year=TruncYear('tracker_date')) \
         .values('day') \
         .annotate(count=Count('id'))
     for i in range(0, no_days, +1):
@@ -215,14 +210,8 @@ def teacher_home_view(request):
                      for dct in trackers
                      if dct['day'].strftime(STR_DATE_FORMAT) == temp_date), 0)
         activity.append([temp.strftime(STR_DATE_FORMAT), count])
-
-    dashboard_accessed.send(sender=None, request=request, data=None)
-
-    return render(request, 'oppia/home-teacher.html',
-                  {'cohorts': cohorts,
-                   'activity_graph_data': activity, })
-
-
+    return activity
+        
 def leaderboard_view(request):
     lb = Points.get_leaderboard()
     paginator = Paginator(lb, 25)  # Show 25 per page
