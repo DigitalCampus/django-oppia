@@ -4,6 +4,7 @@ import datetime
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db.models import Count, Sum
 from django.db.models.functions import TruncDay, TruncMonth, TruncYear
@@ -17,7 +18,8 @@ from helpers.forms.dates import DateRangeIntervalForm
 from oppia.models import Activity, Points
 from oppia.models import Tracker, \
     Participant, \
-    Course
+    Course, \
+    CoursePermissions
 from oppia import permissions
 from reports.signals import dashboard_accessed
 from summary.models import CourseDailyStats, UserCourseSummary
@@ -61,11 +63,8 @@ def home_view(request):
         if up.is_teacher_only():
             return HttpResponseRedirect(reverse('oppia:teacher_index'))
 
-        if permissions.is_manager(request.user):
-            print("yes, is manager")
+        if permissions.is_manager_only(request.user):
             return HttpResponseRedirect(reverse('oppia:manager_index'))
-        else:
-            print("no, not manager")
         
         # admin/staff view
         form, activity = home_view_admin_authenticated(request)
@@ -151,7 +150,40 @@ def process_home_activity_months(activity, start_date, end_date):
     return activity
 
 def manager_home_view(request):
-    pass
+    if not permissions.is_manager_only(request.user):
+        raise PermissionDenied
+    
+    courses = Course.objects.filter(coursepermissions__user=request.user,
+                                    coursepermissions__role=CoursePermissions.MANAGER)
+
+    start_date = timezone.now() - datetime.timedelta(days=31)
+    end_date = timezone.now()
+
+    # get student activity
+    activity = []
+    no_days = (end_date - start_date).days + 1
+
+    trackers = Tracker.objects.filter(course__in=courses,
+                                      tracker_date__gte=start_date,
+                                      tracker_date__lte=end_date) \
+        .annotate(day=TruncDay('tracker_date'),
+                  month=TruncMonth('tracker_date'),
+                  year=TruncYear('tracker_date')) \
+        .values('day') \
+        .annotate(count=Count('id'))
+    for i in range(0, no_days, +1):
+        temp = start_date + datetime.timedelta(days=i)
+        temp_date = temp.date().strftime(STR_DATE_FORMAT)
+        count = next((dct['count']
+                     for dct in trackers
+                     if dct['day'].strftime(STR_DATE_FORMAT) == temp_date), 0)
+        activity.append([temp.strftime(STR_DATE_FORMAT), count])
+
+    dashboard_accessed.send(sender=None, request=request, data=None)
+
+    return render(request, 'oppia/home-manager.html',
+                  {'courses': courses,
+                   'activity_graph_data': activity, })
 
 def teacher_home_view(request):
     cohorts = permissions.get_cohorts(request)

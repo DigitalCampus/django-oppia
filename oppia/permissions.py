@@ -88,10 +88,10 @@ def get_user_courses(request, view_user):
     return cohort_courses, other_courses, all_courses
 
 
-def is_manager(user):
+def is_manager_only(user):
     # check only the owner can view
     if user.is_staff:
-        return True
+        return False
     else:
         courses = Course.objects.filter(user=user).count()
         if courses > 0:
@@ -173,21 +173,47 @@ def can_view_course_detail(request, course_id):
     if request.user.is_staff:
         try:
             course = Course.objects.get(pk=course_id)
+            return course
         except Course.DoesNotExist:
             raise Http404
-        return course
     else:
-        raise PermissionDenied
+        try:
+            course = Course.objects.get(
+                        pk=course_id,
+                        coursepermissions__course__id=course_id,
+                        coursepermissions__user=request.user,
+                        coursepermissions__role=CoursePermissions.MANAGER)
+            return course
+        except Course.DoesNotExist:
+            raise PermissionDenied
+
 
 
 def can_edit_course(request, course_id):
-    return request.user.is_staff
+    if request.user.is_staff:
+        return True
+    else:
+        try:
+            Course.objects.get(
+                pk=course_id,
+                coursepermissions__course__id=course_id,
+                coursepermissions__user=request.user,
+                coursepermissions__role=CoursePermissions.MANAGER)
+            return True
+        except Course.DoesNotExist:
+            return False
 
 
 def can_view_courses_list(request, order_by='title'):
     if request.user.is_staff:
         courses = Course.objects.all().order_by(order_by)
     else:
+        manager_courses = Course.objects.filter(
+                        coursepermissions__user=request.user,
+                        coursepermissions__role=CoursePermissions.MANAGER).order_by(order_by)
+        if manager_courses.count() > 0:
+            return manager_courses
+        
         courses = Course.objects.filter(is_draft=False,
                                         is_archived=False).order_by(order_by)
     return courses
