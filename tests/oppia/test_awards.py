@@ -13,11 +13,9 @@ badge not loaded
 
 class AwardsNoBadgesTest(OppiaTestCase):
 
-    fixtures = ['tests/test_user.json',
-                'tests/test_oppia.json',
-                'tests/test_quiz.json',
-                'tests/test_permissions.json',
-                'tests/test_course_permissions.json']
+
+    def setUp(self):
+        super(AwardsNoBadgesTest, self).setUp()
 
     def test_badges_not_loaded(self):
         result = courses_completed(0)
@@ -25,6 +23,7 @@ class AwardsNoBadgesTest(OppiaTestCase):
 
 
 class AwardsTest(OppiaTestCase):
+
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
@@ -33,10 +32,9 @@ class AwardsTest(OppiaTestCase):
                 'default_gamification_events.json',
                 'tests/awards/award-course.json',
                 'tests/test_course_permissions.json']
-
     file_root = './oppia/fixtures/tests/awards/'
     url = reverse('activitylog:upload')
-
+    
     '''
     BADGE_AWARD_METHOD_ALL_ACTIVITIES
     '''
