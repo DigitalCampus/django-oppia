@@ -1,4 +1,6 @@
 # oppia/admin.py
+import json
+
 from django.contrib import admin
 from oppia.models import Course, \
                          Section, \
@@ -24,7 +26,7 @@ class TrackerAdmin(admin.ModelAdmin):
 
 
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ('title',
+    list_display = ('title_lang',
                     'shortname',
                     'version',
                     'lastupdated_date',
@@ -33,7 +35,18 @@ class CourseAdmin(admin.ModelAdmin):
                     'is_draft',
                     'is_archived')
     search_fields = ['title', 'shortname', 'version', 'filename']
-
+   
+    def title_lang(self, obj):
+        try:
+            titles = json.loads(obj.title)
+            if "en" in titles:
+                return titles["en"]
+            else:
+                for local_lang in titles:
+                    return titles[local_lang]
+        except json.JSONDecodeError:
+            pass
+        return obj.title
 
 class ParticipantAdmin(admin.ModelAdmin):
     list_display = ('cohort', 'user', 'role')
@@ -63,9 +76,20 @@ class PointsAdmin(admin.ModelAdmin):
 
 
 class ActivityAdmin(admin.ModelAdmin):
-    list_display = ('title', 'section', 'type', 'digest')
+    list_display = ('title_lang', 'section', 'type', 'digest')
     search_fields = ['title', 'type', 'digest']
 
+    def title_lang(self, obj):
+        try:
+            titles = json.loads(obj.title)
+            if "en" in titles:
+                return titles["en"]
+            else:
+                for local_lang in titles:
+                    return titles[local_lang]
+        except json.JSONDecodeError:
+            pass
+        return obj.title
 
 class AwardCourseAdmin(admin.ModelAdmin):
     list_display = ('award', 'course', 'course_version')
