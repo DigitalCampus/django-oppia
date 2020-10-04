@@ -157,6 +157,7 @@ class MediaAPIResourceTest(OppiaTestCase):
         self.assertEqual(json_data['filesize'], 0)
         self.assertEqual(json_data['download_url'],
             "http://testserver/media/uploaded/2018/02/MH1_Keyboard_480p.mp4")
+        self.assertEqual(json_data['length'], 170)
 
     def test_digest_invalid(self):
         response = self.client.get(self.get_invalid_digest)

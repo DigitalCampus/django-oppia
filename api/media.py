@@ -53,7 +53,8 @@ def get_view(request, digest):
     resp_obj = {'embed_code': embed_code,
                 'digest': media.md5,
                 'filesize': media.get_filesize(),
-                'download_url': request.build_absolute_uri(media.file.url)}
+                'download_url': request.build_absolute_uri(media.file.url),
+                'length': media.length}
     return JsonResponse(resp_obj, status=200)
 
 
