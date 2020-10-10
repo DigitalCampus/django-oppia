@@ -1,0 +1,44 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block extrastyle %}
+<style>
+	#header{
+		background: #689e3a;
+		color: #fff;}
+
+	#branding h1, #branding h1 a:link, #branding h1 a:visited {
+    	color: #fff;
+    }
+    
+	div.breadcrumbs {
+    	background: #9aca3c;
+    	color: #fff;
+    }
+    
+    .module h2, .module caption, .inline-group h2 {
+    	background: #689e3a;
+    }
+    a:link, a:visited {
+    	color: #628817;
+    	text-decoration: none;
+	}
+
+</style>
+{% endblock %}
+{% block title %}{% trans 'app_name' %} | {{ site_title|default:_('Site admin') }}{% endblock %}
+
+
+
+{% block branding %}
+
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+        <img src="{% static 'oppia/images/dc_logo.png' %}" height="40px" alt="Site icon"/>
+        {% trans 'app_name' %} {% trans 'Admin' %}
+    </a>
+</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

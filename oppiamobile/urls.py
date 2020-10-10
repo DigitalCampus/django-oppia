@@ -2,7 +2,10 @@
 
 from django.conf.urls import url, include
 from django.urls import path
+from django.utils.translation import ugettext_lazy as _
 from django.contrib import admin
+
+admin.site.index_title = _(u'Welcome to the OppiaMobile admin pages')
 
 urlpatterns = [
     url(r'^', include('oppia.urls')),
