@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 
 class SettingProperties(models.Model):
     key = models.CharField(max_length=50, null=False, primary_key=True)
+    description = models.TextField(blank=True, null=True)
     str_value = models.CharField(max_length=200, blank=True, null=True)
     int_value = models.IntegerField(blank=True, null=True)
     bool_value = models.BooleanField(blank=True, null=True)
