@@ -23,6 +23,7 @@ class Command(BaseCommand):
         parser.add_argument(
             '--noinput',
             dest='noinput',
+            action='store_true',
             help='run without any user input',
         )
 
