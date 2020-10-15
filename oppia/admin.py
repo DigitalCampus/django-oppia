@@ -35,7 +35,7 @@ class CourseAdmin(admin.ModelAdmin):
                     'is_draft',
                     'is_archived')
     search_fields = ['title', 'shortname', 'version', 'filename']
-   
+
     def title_lang(self, obj):
         try:
             titles = json.loads(obj.title)
@@ -47,6 +47,7 @@ class CourseAdmin(admin.ModelAdmin):
         except json.JSONDecodeError:
             pass
         return obj.title
+
 
 class ParticipantAdmin(admin.ModelAdmin):
     list_display = ('cohort', 'user', 'role')
@@ -90,6 +91,7 @@ class ActivityAdmin(admin.ModelAdmin):
         except json.JSONDecodeError:
             pass
         return obj.title
+
 
 class AwardCourseAdmin(admin.ModelAdmin):
     list_display = ('award', 'course', 'course_version')

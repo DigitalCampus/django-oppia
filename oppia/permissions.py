@@ -2,7 +2,6 @@
 
 from itertools import chain
 
-from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.http import Http404, HttpResponseForbidden
@@ -98,9 +97,8 @@ def is_manager_only(user):
             return True
 
         courses = Course.objects.filter(
-                               coursepermissions__user=user,
-                               coursepermissions__role=
-                               CoursePermissions.MANAGER).count()
+            coursepermissions__user=user,
+            coursepermissions__role=CoursePermissions.MANAGER).count()
         if courses > 0:
             return True
     return False
@@ -188,7 +186,6 @@ def can_view_course_detail(request, course_id):
             raise PermissionDenied
 
 
-
 def can_edit_course(request, course_id):
     if request.user.is_staff:
         return True
@@ -209,11 +206,12 @@ def can_view_courses_list(request, order_by='title'):
         courses = Course.objects.all().order_by(order_by)
     else:
         manager_courses = Course.objects.filter(
-                        coursepermissions__user=request.user,
-                        coursepermissions__role=CoursePermissions.MANAGER).order_by(order_by)
+            coursepermissions__user=request.user,
+            coursepermissions__role=CoursePermissions.MANAGER) \
+            .order_by(order_by)
         if manager_courses.count() > 0:
             return manager_courses
-        
+
         courses = Course.objects.filter(is_draft=False,
                                         is_archived=False).order_by(order_by)
     return courses

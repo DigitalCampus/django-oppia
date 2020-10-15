@@ -119,11 +119,10 @@ class OppiaViewsTest(OppiaTestCase):
         user.password = make_password('noprofile')
         user.save()
         self.client.force_login(user=user)
-        
+
         start_count = UserProfile.objects.all().count()
         self.client.get(reverse('oppia:index'))
         self.assertRaises(UserProfile.DoesNotExist)
-        
+
         end_count = UserProfile.objects.all().count()
         self.assertEqual(start_count+1, end_count)
-        

@@ -41,7 +41,8 @@ def check_required_fields(request, validation_errors):
 
     for field in required:
         if field not in request.POST or request.POST[field].strip() == '':
-            validation_errors.append("field '{0}' is missing or empty".format(field))
+            validation_errors.append(
+                "field '{0}' is missing or empty".format(field))
 
     if api.COURSE_FILE_FIELD not in request.FILES:
         validation_errors.append("Course file not found")
@@ -111,7 +112,9 @@ def publish_view(request):
     if not authenticated:
         return JsonResponse(response_data, status=401)
 
-    extract_path = os.path.join(settings.COURSE_UPLOAD_DIR, 'temp', str(user.id))
+    extract_path = os.path.join(settings.COURSE_UPLOAD_DIR,
+                                'temp',
+                                str(user.id))
     
     result, course_shortname = get_course_shortname(course_file,
         extract_path,
@@ -125,7 +128,7 @@ def publish_view(request):
             role=CoursePermissions.MANAGER).count()
     else:
         course_manager = 0
-        
+
     # check user has permissions to publish course
     if not user.is_staff \
             and user.userprofile.can_upload is False \
@@ -138,7 +141,6 @@ def publish_view(request):
                             data=msg_text).save()
         return HttpResponse(status=401)
 
-    
     course, status_code = handle_uploaded_file(
         course_file,
         extract_path,

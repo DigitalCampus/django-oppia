@@ -51,11 +51,12 @@ def clean_lang_dict(elem_content):
         # return the value as is
         return elem_content
 
+
 def get_course_shortname(f, extract_path, request, user):
     result, mod_name = extract_file(f, extract_path, request, user)
     if not result:
         return result, mod_name
-            
+
     xml_path = os.path.join(extract_path, mod_name, "module.xml")
     # check that the module.xml file exists
     if not os.path.isfile(xml_path):
@@ -69,10 +70,11 @@ def get_course_shortname(f, extract_path, request, user):
     # parse the module.xml file
     doc = ET.parse(xml_path)
     meta_info = parse_course_meta(doc)
-    
+
     return True, meta_info['shortname']
 
-def extract_file(f, extract_path, request, user):    
+
+def extract_file(f, extract_path, request, user):
     zipfilepath = os.path.join(settings.COURSE_UPLOAD_DIR, f.name)
     with open(zipfilepath, 'wb+') as destination:
         for chunk in f.chunks():
@@ -88,13 +90,14 @@ def extract_file(f, extract_path, request, user):
                             data=msg_text).save()
         shutil.rmtree(extract_path, ignore_errors=True)
         return False, 500
-    
+
     mod_name = ''
     for x in os.listdir(extract_path):
         if os.path.isdir(os.path.join(extract_path, x)):
             mod_name = x
     return True, mod_name
-                   
+
+
 def handle_uploaded_file(f, extract_path, request, user):
     result, mod_name = extract_file(f, extract_path, request, user)
     if not result:
@@ -153,9 +156,10 @@ def process_course(extract_path, f, mod_name, request, user):
     # Find if course already exists
     try:
         course = Course.objects.get(shortname=meta_info['shortname'])
-        course_manager = CoursePermissions.objects.filter(user=user,
-                                                       course=course,
-                                                       role=CoursePermissions.MANAGER).count()
+        course_manager = CoursePermissions.objects.filter(
+            user=user,
+            course=course,
+            role=CoursePermissions.MANAGER).count()
         # check that the current user is allowed to wipe out the other course
         if course.user != user and course_manager == 0:
             msg_text = \

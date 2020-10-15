@@ -47,7 +47,8 @@ class TagResource(ModelResource):
                         (Q(coursetag__course__is_draft=True)
                          & Q(coursetag__course__user=request.user)) |
                         (Q(coursetag__course__is_draft=True)
-                         & Q(coursetag__course__coursepermissions__user=request.user))
+                         & Q(coursetag__course__coursepermissions__user=
+                             request.user))
                         ) \
                 .distinct().order_by('-order_priority', 'name')
 

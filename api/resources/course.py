@@ -52,21 +52,22 @@ class CourseResource(ModelResource):
         """
         lookup = kwargs[self._meta.detail_uri_name]
         if re.search('[a-zA-Z]', lookup):
-            # If the lookup parameter includes characters, we try to use it as a
-            # shortname
+            # If the lookup parameter includes characters, we try to use it as
+            # a shortname
             object_list = self.apply_filters(bundle.request,
                                              {'shortname': lookup})
             if len(object_list) <= 0:
-                raise self._meta.object_class.DoesNotExist("Couldn't find an course whith shortname '%s'." % (lookup))
+                raise self._meta.object_class.DoesNotExist(
+                    "Couldn't find an course whith shortname '%s'." % (lookup))
             elif len(object_list) > 1:
-                raise MultipleObjectsReturned("More than one course with shortname '%s'." % (lookup))
+                raise MultipleObjectsReturned(
+                    "More than one course with shortname '%s'." % (lookup))
 
             bundle.obj = object_list[0]
             self.authorized_read_detail(object_list, bundle)
             return bundle.obj
         else:
             return super().obj_get(bundle, **kwargs)
-
 
     def get_object_list(self, request):
         if request.user.is_staff:

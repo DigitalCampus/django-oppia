@@ -13,7 +13,6 @@ badge not loaded
 
 class AwardsNoBadgesTest(OppiaTestCase):
 
-
     def setUp(self):
         super(AwardsNoBadgesTest, self).setUp()
 
@@ -34,7 +33,7 @@ class AwardsTest(OppiaTestCase):
                 'tests/test_course_permissions.json']
     file_root = './oppia/fixtures/tests/awards/'
     url = reverse('activitylog:upload')
-    
+
     '''
     BADGE_AWARD_METHOD_ALL_ACTIVITIES
     '''

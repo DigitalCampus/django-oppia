@@ -12,6 +12,7 @@ class PermissionsViewTest(OppiaTestCase):
                 'tests/test_course_permissions.json']
 
     STR_ADMIN_INDEX = 'admin:index'
+
     def assert_response(self, view, status_code, user=None, view_kwargs=None):
         route = reverse(view, kwargs=view_kwargs)
         res = self.get_view(route, user)
@@ -304,9 +305,9 @@ class PermissionsViewTest(OppiaTestCase):
 
     def test_is_manager_user(self):
         self.assertFalse(is_manager_only(self.normal_user))
-    
+
     def test_is_manager_viewer(self):
         self.assertFalse(is_manager_only(self.viewer_user))
-        
+
     def test_is_manager_manager(self):
         self.assertTrue(is_manager_only(self.manager_user))

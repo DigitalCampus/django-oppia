@@ -1,17 +1,12 @@
 # tests/api/test_course_publish.py
 import api
-import os
 import pytest
 
-from django.conf import settings
-from django.contrib.auth.models import User
-from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test.client import RequestFactory
 
 from oppia.test import OppiaTransactionTestCase
 
 from oppia.models import Course, CoursePublishingLog
-from oppia.uploader import get_course_shortname
 from settings.models import SettingProperties
 
 
@@ -26,7 +21,7 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
     file_root = './oppia/fixtures/reference_files/'
     no_module_xml = file_root + 'test_course_no_module_xml.zip'
     corrupt_course_zip = file_root + 'corrupt_course.zip'
-    
+
     def setUp(self):
         super(CoursePublishResourceTest, self).setUp()
         self.factory = RequestFactory()
@@ -268,11 +263,11 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
             new_no_cpls = CoursePublishingLog.objects \
                 .filter(action='permissions_error').count()
             self.assertEqual(old_no_cpls, new_no_cpls)
-            
+
             # check user changed
             course = Course.objects.get(shortname='draft-test')
             self.assertEqual(course.user.username, 'manager')
-            
+
     @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_overwriting_course_viewer(self):
         # set course owner to admin
@@ -298,9 +293,9 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
             new_no_cpls = CoursePublishingLog.objects \
                 .filter(action='permissions_error').count()
             self.assertEqual(old_no_cpls+1, new_no_cpls)
-            
+
     @pytest.mark.xfail(reason="works on local, but not on Github workflow")
-    def test_overwriting_course_viewer(self):
+    def test_overwriting_course_viewer_draft_true(self):
         # set course owner to admin
         course = Course.objects.get(shortname='draft-test')
         course.user = self.admin_user
@@ -323,8 +318,8 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
 
             new_no_cpls = CoursePublishingLog.objects \
                 .filter(action='permissions_error').count()
-            self.assertEqual(old_no_cpls+1, new_no_cpls)     
-  
+            self.assertEqual(old_no_cpls+1, new_no_cpls)
+
     # check file size of course
     def test_course_filesize_limit(self):
         setting, created = SettingProperties.objects \
@@ -348,13 +343,13 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
             new_no_cpls = CoursePublishingLog.objects \
                 .filter(action='over_max_upload').count()
             self.assertEqual(old_no_cpls+1, new_no_cpls)
-        
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")    
+
+    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_get_course_invalid_xml(self):
-        
+
         old_no_cpls = CoursePublishingLog.objects \
             .filter(action='no_module_xml').count()
-            
+
         with open(self.no_module_xml, 'rb') as course_file:
             response = self.client.post(self.url,
                                         {'username': 'admin',
@@ -367,13 +362,13 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
             new_no_cpls = CoursePublishingLog.objects \
                 .filter(action='no_module_xml').count()
             self.assertEqual(old_no_cpls+2, new_no_cpls)
-            
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")    
+
+    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_get_course_bad_zip(self):
-        
+
         old_no_cpls = CoursePublishingLog.objects \
             .filter(action='invalid_zip').count()
-            
+
         with open(self.corrupt_course_zip, 'rb') as course_file:
             response = self.client.post(self.url,
                                         {'username': 'admin',

@@ -52,14 +52,14 @@ class LoginViewTest(OppiaTestCase):
                 'next': 'http://mysite.com/'}
         response = self.client.post(self.login_url, data=data)
         self.assertRedirects(response, reverse('oppia:index'), 302, 200)
-        
+
     def test_teacher_login_redirect(self):
         data = {'username': 'teacher',
                 'password': 'password'}
         response = self.client.post(self.login_url, data=data)
         # should redirect twice - to index then to teacher view
         self.assertRedirects(response, reverse('oppia:index'), 302, 302)
-        
+
     def test_manager_login_redirect(self):
         data = {'username': 'manager',
                 'password': 'manager'}

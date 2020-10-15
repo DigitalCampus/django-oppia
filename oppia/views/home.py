@@ -65,7 +65,7 @@ def home_view(request):
 
         if permissions.is_manager_only(request.user):
             return HttpResponseRedirect(reverse('oppia:manager_index'))
-        
+
         # admin/staff view
         form, activity = home_view_admin_authenticated(request)
         leaderboard = Points.get_leaderboard(10)
@@ -149,12 +149,14 @@ def process_home_activity_months(activity, start_date, end_date):
                          0 if count is None else count])
     return activity
 
+
 def manager_home_view(request):
     if not permissions.is_manager_only(request.user):
         raise PermissionDenied
-    
-    courses = Course.objects.filter(coursepermissions__user=request.user,
-                                    coursepermissions__role=CoursePermissions.MANAGER)
+
+    courses = Course.objects.filter(
+        coursepermissions__user=request.user,
+        coursepermissions__role=CoursePermissions.MANAGER)
 
     start_date = timezone.now() - datetime.timedelta(days=31)
     end_date = timezone.now()
@@ -167,6 +169,7 @@ def manager_home_view(request):
     return render(request, 'oppia/home-manager.html',
                   {'courses': courses,
                    'activity_graph_data': activity, })
+
 
 def teacher_home_view(request):
     cohorts = permissions.get_cohorts(request)
@@ -188,19 +191,20 @@ def teacher_home_view(request):
                   {'cohorts': cohorts,
                    'activity_graph_data': activity, })
 
+
 def get_trackers(start_date, end_date, courses, students=None):
     activity = []
     no_days = (end_date - start_date).days + 1
     trackers = Tracker.objects.filter(course__in=courses,
                                       tracker_date__gte=start_date,
                                       tracker_date__lte=end_date)
-    
+
     if students:
         trackers.filter(user__in=students)
-        
+
     trackers.annotate(day=TruncDay('tracker_date'),
-              month=TruncMonth('tracker_date'),
-              year=TruncYear('tracker_date')) \
+                      month=TruncMonth('tracker_date'),
+                      year=TruncYear('tracker_date')) \
         .values('day') \
         .annotate(count=Count('id'))
     for i in range(0, no_days, +1):
@@ -211,7 +215,8 @@ def get_trackers(start_date, end_date, courses, students=None):
                      if dct['day'].strftime(STR_DATE_FORMAT) == temp_date), 0)
         activity.append([temp.strftime(STR_DATE_FORMAT), count])
     return activity
-        
+
+
 def leaderboard_view(request):
     lb = Points.get_leaderboard()
     paginator = Paginator(lb, 25)  # Show 25 per page
