@@ -1,15 +1,11 @@
 from django.conf import settings
-from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.core.management import call_command
-from django.db import IntegrityError
 
 from io import StringIO
 
 from oppia.models import Tracker
 from oppia.test import OppiaTestCase
-
-from profile.models import UserProfile
 
 
 class DataRetentionTest(OppiaTestCase):
