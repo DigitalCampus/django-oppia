@@ -9,7 +9,7 @@ from quiz.models import Quiz, Question, QuizAttemptResponse
 
 
 class Command(BaseCommand):
-    help = 'Generates the difficulty index for each question in the given quiz'
+    help = 'Generates the discrimination index for each question in the given quiz'
     
     def add_arguments(self, parser):
 
@@ -43,21 +43,31 @@ class Command(BaseCommand):
         # loop to generate difficulty index for each question
         for question in questions:
             print(question.get_title("en"))
-            qars = QuizAttemptResponse.objects.filter(question=question, quizattempt__user__is_staff=False)
-            total_responses = qars.count()
-            total_correct_responses = qars.filter(score__gt=0).count()
-            difficulty_index = total_correct_responses/total_responses
-            print(_(u"Difficulty Index: %0.2f") % difficulty_index)
-            if difficulty_index > 0.90:
-                print(commands.TERMINAL_COLOUR_WARNING)
-                print(_(u"This question might be too easy for users"))
-                print(commands.TERMINAL_COLOUR_ENDC)
+            qars = QuizAttemptResponse.objects.filter(question=question, quizattempt__user__is_staff=False).order_by('-score')
+            total_count = qars.count()
+            
+            top_slice_start = 0
+            top_slice_end = int(total_count/(10/3))
+            bottom_slice_start = total_count - top_slice_end
+            bottom_slice_end = total_count -1
+            
+            top_slice = qars.values_list('id', flat=True)[top_slice_start:top_slice_end]
+            top_slice_ids = [ts for ts in top_slice]
+            #print(top_slice[top_slice_start:top_slice_end])
+            top_slice_correct = QuizAttemptResponse.objects.filter(score__gt=0, pk__in=top_slice_ids).count()
                 
-            if difficulty_index < 0.30:
+            bottom_slice = qars.values_list('id', flat=True)[bottom_slice_start:bottom_slice_end]
+            bottom_slice_ids = [ts for ts in bottom_slice]
+            bottom_slice_correct = QuizAttemptResponse.objects.filter(score__gt=0, pk__in=bottom_slice_ids).count()
+            
+            disc_index = ((top_slice_correct - bottom_slice_correct)/(top_slice.count() + bottom_slice.count())) * 2 * 100
+            print(_(u"Discrimination Index: %0.0f") % disc_index)
+            if disc_index < 40:
                 print(commands.TERMINAL_COLOUR_WARNING)
-                print(_(u"This question might be too difficult for users"))
+                print(_(u"This question might not be useful to distinguish between high and low performing users"))
                 print(commands.TERMINAL_COLOUR_ENDC)
                 
             print("\n")
-        
-        
+            
+            
+                
