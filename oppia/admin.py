@@ -37,16 +37,7 @@ class CourseAdmin(admin.ModelAdmin):
     search_fields = ['title', 'shortname', 'version', 'filename']
 
     def title_lang(self, obj):
-        try:
-            titles = json.loads(obj.title)
-            if "en" in titles:
-                return titles["en"]
-            else:
-                for local_lang in titles:
-                    return titles[local_lang]
-        except json.JSONDecodeError:
-            pass
-        return obj.title
+        return obj.get_title()
 
 
 class ParticipantAdmin(admin.ModelAdmin):
@@ -81,16 +72,7 @@ class ActivityAdmin(admin.ModelAdmin):
     search_fields = ['title', 'type', 'digest']
 
     def title_lang(self, obj):
-        try:
-            titles = json.loads(obj.title)
-            if "en" in titles:
-                return titles["en"]
-            else:
-                for local_lang in titles:
-                    return titles[local_lang]
-        except json.JSONDecodeError:
-            pass
-        return obj.title
+        return obj.get_title()
 
 
 class AwardCourseAdmin(admin.ModelAdmin):

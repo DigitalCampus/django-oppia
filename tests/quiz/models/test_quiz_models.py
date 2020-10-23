@@ -1,5 +1,5 @@
 from oppia.test import OppiaTestCase
-from quiz.models import Quiz, QuizAttempt
+from quiz.models import Quiz, QuizAttempt, Question
 
 
 class QuizModelsTest(OppiaTestCase):
@@ -43,3 +43,33 @@ class QuizModelsTest(OppiaTestCase):
         quiz_attempt = QuizAttempt.objects.get(pk=140106)
         self.assertEqual("d95762029b6285dae57385341145c40112153cr0s2a1p80a0",
                          quiz_attempt.get_quiz_digest())
+    
+    '''
+    Question model
+    '''
+    def test_question_number_responses(self):
+        question = Question.objects.get(pk=135)
+        self.assertEqual(5, question.get_no_responses())
+        
+    def test_question_number_responses_none(self):
+        question = Question.objects.get(pk=1)
+        self.assertEqual(0, question.get_no_responses())
+        
+    def test_question_diff_index(self):
+        question = Question.objects.get(pk=135)
+        # will be 0 as not enough responses
+        self.assertEqual(0, question.get_difficulty_index())
+
+    def test_question_disc_index(self):
+        question = Question.objects.get(pk=135)
+        # will be 0 as not enough responses
+        self.assertEqual(0, question.get_discrimination_index())
+        
+    def test_question_diff_index_no_responses(self):
+        question = Question.objects.get(pk=1)
+        self.assertEqual(0, question.get_difficulty_index())
+        
+    def test_question_disc_index_no_responses(self):
+        question = Question.objects.get(pk=1)
+        # will be 0 as not enough responses
+        self.assertEqual(0, question.get_discrimination_index())
