@@ -41,8 +41,29 @@ class QuestionAdmin(admin.ModelAdmin):
                     'title',
                     'type',
                     'created_date',
-                    'lastupdated_date')
+                    'lastupdated_date',
+                    'no_responses',
+                    'difficulty_index',
+                    'discrimination_index')
     search_fields = ['title']
+    
+    def no_responses(self, obj):
+        return QuizAttemptResponse.objects.filter(question=obj,
+                                                  quizattempt__user__is_staff=False).count()
+    
+    def difficulty_index(self, obj):
+        if self.no_responses(obj) < 30:
+            return "--"
+        else:
+            return 0
+    
+    def discrimination_index(self, obj):
+        if self.no_responses(obj) < 30:
+            return "--"
+        else:
+            return 0
+    
+    
 
 
 class QuizAttemptResponseAdmin(admin.ModelAdmin):
