@@ -7,6 +7,7 @@ from oppia.management import commands
 from oppia.models import Course
 from quiz.models import Quiz, Question, QuizAttemptResponse
 
+from quiz import constants
 
 class Command(BaseCommand):
     help = 'Generates the difficulty index for each question in the given quiz'
@@ -42,20 +43,23 @@ class Command(BaseCommand):
        
         # loop to generate difficulty index for each question
         for question in questions:
-            print(question.get_title("en"))
-            qars = QuizAttemptResponse.objects.filter(question=question, quizattempt__user__is_staff=False)
-            total_responses = qars.count()
-            total_correct_responses = qars.filter(score__gt=0).count()
-            difficulty_index = total_correct_responses/total_responses
-            print(_(u"Difficulty Index: %0.2f") % difficulty_index)
-            if difficulty_index > 0.90:
+            print("[%d] %s" % (question.id, question.get_title("en")))
+            print("No responses: %d" % question.get_no_responses())
+            if question.get_no_responses() > constants.MIN_NO_RESPONSES_FOR_INDICES:
+                difficulty_index = question.get_difficulty_index()
+                print(_(u"Difficulty Index: %0.2f") % difficulty_index)
+                if difficulty_index > 0.90:
+                    print(commands.TERMINAL_COLOUR_WARNING)
+                    print(_(u"This question might be too easy for users"))
+                    print(commands.TERMINAL_COLOUR_ENDC)
+                    
+                if difficulty_index < 0.30:
+                    print(commands.TERMINAL_COLOUR_WARNING)
+                    print(_(u"This question might be too difficult for users"))
+                    print(commands.TERMINAL_COLOUR_ENDC)
+            else:
                 print(commands.TERMINAL_COLOUR_WARNING)
-                print(_(u"This question might be too easy for users"))
-                print(commands.TERMINAL_COLOUR_ENDC)
-                
-            if difficulty_index < 0.30:
-                print(commands.TERMINAL_COLOUR_WARNING)
-                print(_(u"This question might be too difficult for users"))
+                print(_(u"There are not enough responses yet for this index to be useful"))
                 print(commands.TERMINAL_COLOUR_ENDC)
                 
             print("\n")
