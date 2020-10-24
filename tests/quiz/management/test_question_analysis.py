@@ -20,3 +20,17 @@ class QuestionDifficultyTest(OppiaTransactionTestCase):
         call_command('question_analysis',
                      'dd677c7ce6ce8bebaed56dcd0ea0b4e715714cr10s2a0p80a0',
                      stdout=out)
+        
+    # question with not enough responses and show course title
+    def test_not_enough_responses_quiz(self):
+        out = StringIO()
+        call_command('question_analysis',
+                     '1234q0m0',
+                     stdout=out)
+    # difficulty index too easy
+    
+    # discrimination index below 40 - not useful
+    
+    
+    
+    
