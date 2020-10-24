@@ -28321,5 +28321,77 @@
       "score": "1.00",
       "text": "False"
     }
-  }
+  },
+   {
+        "model": "quiz.quizprops",
+        "pk": 11560,
+        "fields": {
+            "quiz": 2104,
+            "name": "digest",
+            "value": "dd677c7ce6ce8bebaed56dcd0ea0b4e715714cr10s2a0p80a0"
+        }
+    },
+    {
+        "model": "quiz.quizprops",
+        "pk": 11561,
+        "fields": {
+            "quiz": 2104,
+            "name": "courseversion",
+            "value": "20150219124157"
+        }
+    },
+    {
+        "model": "quiz.quizprops",
+        "pk": 11562,
+        "fields": {
+            "quiz": 2104,
+            "name": "randomselect",
+            "value": "10"
+        }
+    },
+    {
+        "model": "quiz.quizprops",
+        "pk": 11563,
+        "fields": {
+            "quiz": 2104,
+            "name": "showfeedback",
+            "value": "2"
+        }
+    },
+    {
+        "model": "quiz.quizprops",
+        "pk": 11564,
+        "fields": {
+            "quiz": 2104,
+            "name": "allowtryagain",
+            "value": "0"
+        }
+    },
+    {
+        "model": "quiz.quizprops",
+        "pk": 11565,
+        "fields": {
+            "quiz": 2104,
+            "name": "passthreshold",
+            "value": "80"
+        }
+    },
+    {
+        "model": "quiz.quizprops",
+        "pk": 11566,
+        "fields": {
+            "quiz": 2104,
+            "name": "availability",
+            "value": "0"
+        }
+    },
+    {
+        "model": "quiz.quizprops",
+        "pk": 11621,
+        "fields": {
+            "quiz": 2104,
+            "name": "courseversion",
+            "value": "20150219125505"
+        }
+    }
 ]

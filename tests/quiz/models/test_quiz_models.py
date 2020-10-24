@@ -1,5 +1,5 @@
 from oppia.test import OppiaTestCase
-from quiz.models import Quiz, QuizAttempt, Question
+from quiz.models import Quiz, QuizAttempt, Question, QuestionProps
 
 
 class QuizModelsTest(OppiaTestCase):
@@ -46,7 +46,11 @@ class QuizModelsTest(OppiaTestCase):
     
     '''
     Question model
-    '''
+    ''' 
+    def test_question_maxscore(self):
+        question = Question.objects.get(pk=135)
+        self.assertEqual(1, question.get_maxscore())
+       
     def test_question_number_responses(self):
         question = Question.objects.get(pk=135)
         self.assertEqual(5, question.get_no_responses())
@@ -73,3 +77,12 @@ class QuizModelsTest(OppiaTestCase):
         question = Question.objects.get(pk=1)
         # will be 0 as not enough responses
         self.assertEqual(0, question.get_discrimination_index())
+
+    ''' 
+    QuestionProps Model
+    '''
+    def test_questionprops_name(self):
+        question = Question.objects.get(pk=135)
+        qp = QuestionProps.objects.get(question=question, name='maxscore')
+        self.assertEqual("maxscore", str(qp))
+        
