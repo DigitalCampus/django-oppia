@@ -1,7 +1,10 @@
+import datetime
 
-from distutils.util import strtobool
+from dateutil.relativedelta import relativedelta
 
 from django.core.management.base import BaseCommand
+from django.db.models import Q
+from django.utils.translation import ugettext_lazy as _
 
 from oppia.models import Activity
 from quiz.models import Quiz, \
@@ -12,104 +15,69 @@ from quiz.models import Quiz, \
                         Question, \
                         QuestionProps, \
                         QuizQuestion
-
+from settings.models import SettingProperties
+from settings import constants
 
 class Command(BaseCommand):
-    help = 'Cleans up old data (quizzes and questions) that are not relevant \
-            anymore'
-
-    def prompt(self, query):
-        self.stdout.write('%s [y/n]: ' % query)
-        val = input()
-        try:
-            ret = strtobool(val)
-        except ValueError:
-            self.stdout.write('Please answer with a y/n\n')
-            return self.prompt(query)
-        return ret
-
-    def remove_duplicate_quizzes(self):
-        act_quizzes = Activity.objects.filter(type=Activity.QUIZ)
-        for aq in act_quizzes:
-            try:
-                quizobjs = Quiz.objects.filter(quizprops__value=aq.digest,
-                                               quizprops__name="digest")
-                quiz_to_delete = []
-                if quizobjs.count() > 1:
-                    self.stdout \
-                        .write("\nQuiz {} has {} associated quiz objects:\n"
-                               .format(aq.digest, quizobjs.count()))
-                    for quiz in quizobjs:
-                        attempts = QuizAttempt.objects \
-                            .filter(quiz=quiz).count()
-                        if not attempts:
-                            quiz_to_delete.append(quiz)
-                        self.stdout.write(
-                            "    Quiz {} has {} attempts\n".format(quiz,
-                                                                   attempts))
-
-                    if len(quiz_to_delete) > 0:
-                        self.stdout.write(
-                            "    > Do you want to remove the {} quizzes \
-                             without attempts?\n".format(len(quiz_to_delete)))
-
-            except Quiz.DoesNotExist:
-                pass
+    help = _(u"Cleans up unused/old quizzes and questions")
 
     def handle(self, *args, **options):
+        # remove duplicates
+        self.check_duplicates()
+        
+        # remove quizzes with no quizprops digest
+        self.check_no_digest()
+        
+        # remove quizzes with no responses for X years
+        self.check_old_quizzes()
+        
+        # remove questions not attached to quizzes
+        self.delete_questions_with_no_quiz()
 
-        self.remove_duplicate_quizzes()
+    def check_duplicates(self):
+        act_quizzes = Activity.objects.filter(type=Activity.QUIZ)
+        for aq in act_quizzes:
+            quizzes = Quiz.objects.filter(quizprops__value=aq.digest,
+                                           quizprops__name="digest")
+            if quizzes.count() > 1:
+                self.delete_duplicate(aq.digest, quizzes)
 
-        quiz_act_digests = Activity.objects \
-            .filter(type=Activity.QUIZ) \
-            .values_list('digest', flat=True)
-        quiz_old_digests = QuizProps.objects.filter(name="digest") \
-            .exclude(value__in=quiz_act_digests) \
-            .values_list('value', flat=True)
+    def delete_duplicate(self, digest, quizzes):
+        print(_(u"Quiz {} has {} associated quiz objects:")
+                   .format(digest, quizzes.count()))
+        for quiz in quizzes:
+            attempts = QuizAttempt.objects \
+                .filter(quiz=quiz).count()
+            print(_(u"\tQuiz {} has {} attempts").format(quiz,
+                                                      attempts))
 
-        quizzes = Quiz.objects.filter(quizprops__value__in=quiz_old_digests,
-                                      quizprops__name="digest")
-        quizzes_attempts = QuizAttempt.objects.all().values('quiz').distinct()
+            if attempts == 0:
+                print(_(u"Deleting quiz {}, as it has no attempts and is a duplicate").format(quiz.title))
+                self.delete_quiz(quiz)
 
-        to_delete = {}
-        # quizzes without attempts
-        to_delete['Quizzes'] = quizzes.exclude(pk__in=quizzes_attempts)
-        to_delete['QuizProps'] = QuizProps.objects \
-            .filter(quiz__in=list(to_delete['Quizzes']
-                                  .values_list(flat=True)))
-        to_delete['QuizQuestions'] = QuizQuestion.objects \
-            .filter(quiz__in=to_delete['Quizzes'])
-        to_delete['Questions'] = Question.objects \
-            .filter(quizquestion__quiz__in=to_delete['Quizzes'])
-        to_delete['QuestionProps'] = QuestionProps.objects \
-            .filter(question__in=to_delete['Questions'])
-        to_delete['Responses'] = Response.objects \
-            .filter(question__in=to_delete['Questions'])
-        to_delete['ResponseProps'] = ResponseProps.objects \
-            .filter(response__in=to_delete['Responses'])
+    def check_no_digest(self):
+        quizzes = Quiz.objects.filter(quizprops__isnull=True)
+        for quiz in quizzes:
+            print(_(u"Deleting quiz {}, as it has no digest").format(quiz.title))
+            quiz.delete()
 
-        self.stdout.write(self.style.MIGRATE_HEADING("Summary of deletions:"))
-        total = 0
-        for key in to_delete:
-            elem_count = to_delete[key].count()
-            total += elem_count
-            self.stdout.write(
-                self.style.MIGRATE_LABEL("  * " + key + ":")
-                + ' %d items to delete' % elem_count)
-
-        if total == 0:
-            self.stdout.write("No new elements to clean up.")
-        else:
-            if self.prompt("You are about to delete %d records, are you sure?"
-                           % total):
-                self.stdout.write("Deleting... (may take a while)")
-                # we have to delete them in order, so we cannot traverse the
-                # dict
-                to_delete['ResponseProps'].delete()
-                to_delete['Responses'].delete()
-                to_delete['QuizQuestions'].delete()
-                to_delete['QuestionProps'].delete()
-                to_delete['Questions'].delete()
-                to_delete['QuizProps'].delete()
-                to_delete['Quizzes'].delete()
-                self.stdout.write("Quizzes cleaned up :)")
+    def check_old_quizzes(self):
+        years = SettingProperties.get_property(
+            constants.OPPIA_DATA_RETENTION_YEARS, 999)
+        archive_date = datetime.datetime.now() - relativedelta(years=years)
+        quizzes = Quiz.objects.filter(created_date__lte=archive_date)
+        for quiz in quizzes:
+            qas = QuizAttempt.objects.filter(quiz=quiz, user__is_staff=False)
+            if qas.count() == 0:
+                print(_(u"Deleting quiz {}, as it was created over {} years ago and has no attempts").format(quiz.title, years))
+                self.delete_quiz(quiz)
+        
+    def delete_quiz(self, quiz):
+        quiz.delete()
+        print(_(u"quiz deleted"))
+        
+    def delete_questions_with_no_quiz(self):
+        questions = Question.objects.filter(quizquestion__isnull=True)
+        for question in questions:
+            print(_(u"Deleting question {}, as it is not attached to any quiz").format(question.title))
+            question.delete()

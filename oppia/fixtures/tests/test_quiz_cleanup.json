@@ -1,0 +1,147 @@
+[
+{
+    "model": "quiz.quiz",
+    "pk": 76898,
+    "fields": {
+        "owner": 1,
+        "created_date": "2000-10-16T17:18:50Z",
+        "lastupdated_date": "2000-10-16T17:18:50Z",
+        "draft": false,
+        "deleted": false,
+        "title": "cleanup test",
+        "description": ""
+    }
+},
+{
+    "model": "quiz.quiz",
+    "pk": 76899,
+    "fields": {
+        "owner": 1,
+        "created_date": "2000-10-16T17:18:50Z",
+        "lastupdated_date": "2000-10-16T17:18:50Z",
+        "draft": false,
+        "deleted": false,
+        "title": "duplicate digest",
+        "description": ""
+    }
+},
+{
+    "model": "quiz.quiz",
+    "pk": 76900,
+    "fields": {
+        "owner": 1,
+        "created_date": "2000-10-16T17:18:50Z",
+        "lastupdated_date": "2000-10-16T17:18:50Z",
+        "draft": false,
+        "deleted": false,
+        "title": "duplicate digest 2",
+        "description": ""
+    }
+},
+{
+    "model": "quiz.quiz",
+    "pk": 76901,
+    "fields": {
+        "owner": 1,
+        "created_date": "2000-10-16T17:18:50Z",
+        "lastupdated_date": "2000-10-16T17:18:50Z",
+        "draft": false,
+        "deleted": false,
+        "title": "very old quiz",
+        "description": ""
+    }
+},
+{
+    "model": "quiz.quiz",
+    "pk": 76911,
+    "fields": {
+        "owner": 1,
+        "created_date": "2000-10-16T17:18:50Z",
+        "lastupdated_date": "2000-10-16T17:18:50Z",
+        "draft": false,
+        "deleted": false,
+        "title": "yet another very old quiz",
+        "description": ""
+    }
+},
+{
+    "model": "quiz.quizquestion",
+    "pk": 76898,
+    "fields": {
+        "quiz": 76898,
+        "question": 8000,
+        "order": 1
+    }
+},
+{
+    "model": "quiz.quizprops",
+    "pk": 100,
+    "fields": {
+        "quiz": 76899,
+        "name": "digest",
+        "value": "1234q0m0"
+    }
+},
+{
+    "model": "quiz.quizprops",
+    "pk": 100004345,
+    "fields": {
+        "quiz": 76911,
+        "name": "digest",
+        "value": "mydigest"
+    }
+},
+{
+    "model": "quiz.quizprops",
+    "pk": 101,
+    "fields": {
+        "quiz": 76900,
+        "name": "digest",
+        "value": "1234q0m0"
+    }
+},
+{
+    "model": "quiz.question",
+    "pk": 8000,
+    "fields": {
+        "owner": 1,
+        "created_date": "2020-10-15T17:23:16Z",
+        "lastupdated_date": "2020-10-22T17:23:16Z",
+        "title": "test question",
+        "type": "multichoice"
+    }
+},
+{
+    "model": "quiz.quizattempt",
+    "pk": 76898100,
+    "fields": {
+        "user": 2,
+        "quiz": 76900,
+        "attempt_date": "2020-10-23T18:04:23Z",
+        "submitted_date": "2020-10-25T18:06:38Z",
+        "score": "5.00",
+        "maxscore": "10.00",
+        "ip": null,
+        "instance_id": null,
+        "agent": "",
+        "points": null,
+        "event": null,
+        "time_taken": 10
+    }
+},
+{
+    "model": "oppia.activity",
+    "pk": 199388384,
+    "fields": {
+        "section": 190000,
+        "order": 2,
+        "title": "does not exist",
+        "type": "quiz",
+        "digest": "doesnotexist",
+        "baseline": false,
+        "image": "",
+        "content": "",
+        "description": ""
+    }
+}
+]
