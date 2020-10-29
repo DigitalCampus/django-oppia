@@ -1,5 +1,3 @@
-# oppia/admin.py
-import json
 
 from django.contrib import admin
 from oppia.models import Course, \

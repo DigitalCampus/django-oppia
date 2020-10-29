@@ -6,7 +6,6 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 
-
 class Question(models.Model):
     QUESTION_TYPES = (
         ('multichoice', 'Multiple choice'),
@@ -43,8 +42,8 @@ class Question(models.Model):
             if lang in titles:
                 return titles[lang]
             else:
-                for l in titles:
-                    return titles[l]
+                for temp_lang in titles:
+                    return titles[temp_lang]
         except json.JSONDecodeError:
             pass
         return self.title
@@ -77,18 +76,17 @@ class Question(models.Model):
         top_slice_start = 0
         top_slice_end = int(total_count/(10/3))
         bottom_slice_start = total_count - top_slice_end
-        bottom_slice_end = total_count 
+        bottom_slice_end = total_count
 
         top_slice = qars.values_list('id',
                                      flat=True)[top_slice_start:top_slice_end]
         top_slice_ids = [ts for ts in top_slice]
-        #print(top_slice[top_slice_start:top_slice_end])
         top_slice_correct = QuizAttemptResponse.objects.filter(
             score__gt=0,
             pk__in=top_slice_ids).count()
 
-        bottom_slice = qars.values_list('id',
-            flat=True)[bottom_slice_start:bottom_slice_end]
+        bottom_slice = qars \
+            .values_list('id', flat=True)[bottom_slice_start:bottom_slice_end]
         bottom_slice_ids = [bs for bs in bottom_slice]
         bottom_slice_correct = QuizAttemptResponse.objects.filter(
             score__gt=0,
@@ -96,7 +94,7 @@ class Question(models.Model):
 
         if total_count > 0:
             return ((top_slice_correct - bottom_slice_correct)
-                      /(top_slice.count() + bottom_slice.count())) * 2 * 100
+                    / (top_slice.count() + bottom_slice.count())) * 2 * 100
         else:
             return 0
 

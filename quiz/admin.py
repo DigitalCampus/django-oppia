@@ -13,6 +13,7 @@ from quiz.models import Quiz, \
 
 from quiz import constants
 
+
 class QuizAttemptAdmin(admin.ModelAdmin):
     list_display = ('user',
                     'quiz',
@@ -47,7 +48,7 @@ class QuestionAdmin(admin.ModelAdmin):
                     'difficulty_index',
                     'discrimination_index')
     search_fields = ['title']
-    
+
     def no_responses(self, obj):
         return obj.get_no_responses()
 

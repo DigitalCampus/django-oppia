@@ -3,20 +3,15 @@ import datetime
 from dateutil.relativedelta import relativedelta
 
 from django.core.management.base import BaseCommand
-from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 
 from oppia.models import Activity
 from quiz.models import Quiz, \
-                        QuizProps, \
                         QuizAttempt, \
-                        Response, \
-                        ResponseProps, \
-                        Question, \
-                        QuestionProps, \
-                        QuizQuestion
+                        Question
 from settings.models import SettingProperties
 from settings import constants
+
 
 class Command(BaseCommand):
     help = _(u"Cleans up unused/old quizzes and questions")
@@ -27,10 +22,10 @@ class Command(BaseCommand):
         
         # remove quizzes with no quizprops digest
         self.check_no_digest()
-        
+
         # remove quizzes with no responses for X years
         self.check_old_quizzes()
-        
+
         # remove questions not attached to quizzes
         self.delete_questions_with_no_quiz()
 
@@ -71,11 +66,11 @@ class Command(BaseCommand):
             if qas.count() == 0:
                 print(_(u"Deleting quiz {}, as it was created over {} years ago and has no attempts").format(quiz.title, years))
                 self.delete_quiz(quiz)
-        
+
     def delete_quiz(self, quiz):
         quiz.delete()
         print(_(u"quiz deleted"))
-        
+
     def delete_questions_with_no_quiz(self):
         questions = Question.objects.filter(quizquestion__isnull=True)
         for question in questions:
