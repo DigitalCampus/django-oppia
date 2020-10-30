@@ -40,8 +40,8 @@ def title_lang(title, lang):
         if lang in titles:
             return titles[lang]
         else:
-            for l in titles:
-                return titles[l]
+            for temp_lang in titles:
+                return titles[temp_lang]
     except json.JSONDecodeError:
         pass
 

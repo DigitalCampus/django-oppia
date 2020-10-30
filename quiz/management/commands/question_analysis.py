@@ -51,7 +51,8 @@ class Command(BaseCommand):
         for question in questions:
             print("[%d] %s" % (question.id, question.get_title("en")))
             print("No responses: %d" % question.get_no_responses())
-            if question.get_no_responses() > constants.MIN_NO_RESPONSES_FOR_INDICES:
+            if question.get_no_responses() > \
+                    constants.MIN_NO_RESPONSES_FOR_INDICES:
                 difficulty_index = question.get_difficulty_index()
                 print(_(u"Difficulty Index: %0.2f") % difficulty_index)
                 if difficulty_index > 0.90:

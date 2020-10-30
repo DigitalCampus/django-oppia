@@ -1,4 +1,3 @@
-import time
 
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
@@ -11,6 +10,7 @@ from settings.models import SettingProperties
 from summary.models import UserCourseSummary, \
     CourseDailyStats, \
     UserPointsSummary
+
 
 class Command(BaseCommand):
     help = 'Updates course and points summary tables'
@@ -36,7 +36,7 @@ class Command(BaseCommand):
             last_points_pk = SettingProperties \
                 .get_property('last_points_pk', 0)
             self.update_summaries(last_tracker_pk, last_points_pk)
-            
+
     def update_summaries(self, last_tracker_pk=0, last_points_pk=0):
 
         # check if cron already running
@@ -134,7 +134,8 @@ class Command(BaseCommand):
                 .get_or_create(course=course,
                                day=type_log['day'],
                                type=type_log['type'])
-            stats.total = (0 if first_tracker else stats.total) + type_log['total']
+            stats.total = (0 if first_tracker else stats.total) \
+                + type_log['total']
             stats.save()
 
             count += 1
@@ -153,7 +154,8 @@ class Command(BaseCommand):
             .annotate(total=Count('id')) \
             .order_by('day')
 
-        print('%d different search/dates to process.' % search_daily_logs.count())
+        print('%d different search/dates to process.'
+              % search_daily_logs.count())
         for search_log in search_daily_logs:
             stats, created = CourseDailyStats.objects \
                 .get_or_create(course=None,
@@ -172,14 +174,16 @@ class Command(BaseCommand):
         print('%d different user/points to process.' % total_users)
         for user_points in users_points:
             user = User.objects.get(pk=user_points['user'])
-            points, created = UserPointsSummary.objects.get_or_create(user=user)
+            points, created = UserPointsSummary.objects \
+                .get_or_create(user=user)
             points.update_points(last_points_pk=last_points_pk,
                                  newest_points_pk=newest_points_pk)
 
         # update last tracker and points PKs with the last one processed
-        SettingProperties.objects.update_or_create(key='last_tracker_pk',
-                                                   defaults={"int_value":
-                                                             newest_tracker_pk})
+        SettingProperties.objects \
+            .update_or_create(key='last_tracker_pk',
+                              defaults={"int_value":
+                                        newest_tracker_pk})
         SettingProperties.objects.update_or_create(key='last_points_pk',
                                                    defaults={"int_value":
                                                              newest_points_pk})

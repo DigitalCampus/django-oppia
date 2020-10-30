@@ -406,13 +406,13 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertTrue('version' in course)
         self.assertTrue('author' in course)
         self.assertTrue('organisation' in course)
-        
+
     def test_course_shortname_get_single_not_found(self):
         resource_url = get_api_url('v2', 'course', 'does-not-exist')
         resp = self.api_client.get(
             resource_url, format='json', data=self.user_auth)
         self.assertHttpNotFound(resp)
-        
+
     def test_course_shortname_get_multiple_found(self):
         # add a temp course with same shortname as another
         course = Course()

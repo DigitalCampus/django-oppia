@@ -19,7 +19,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         # remove duplicates
         self.check_duplicates()
-        
+
         # remove quizzes with no quizprops digest
         self.check_no_digest()
 
@@ -33,18 +33,18 @@ class Command(BaseCommand):
         act_quizzes = Activity.objects.filter(type=Activity.QUIZ)
         for aq in act_quizzes:
             quizzes = Quiz.objects.filter(quizprops__value=aq.digest,
-                                           quizprops__name="digest")
+                                          quizprops__name="digest")
             if quizzes.count() > 1:
                 self.delete_duplicate(aq.digest, quizzes)
 
     def delete_duplicate(self, digest, quizzes):
         print(_(u"Quiz {} has {} associated quiz objects:")
-                   .format(digest, quizzes.count()))
+              .format(digest, quizzes.count()))
         for quiz in quizzes:
             attempts = QuizAttempt.objects \
                 .filter(quiz=quiz).count()
             print(_(u"\tQuiz {} has {} attempts").format(quiz,
-                                                      attempts))
+                                                         attempts))
 
             if attempts == 0:
                 print(_(u"Deleting quiz {}, as it has no attempts and is a duplicate").format(quiz.title))
