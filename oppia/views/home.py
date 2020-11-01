@@ -21,6 +21,7 @@ from oppia.models import Tracker, \
     Course, \
     CoursePermissions
 from oppia import permissions
+from oppia import constants
 from reports.signals import dashboard_accessed
 from summary.models import CourseDailyStats, UserCourseSummary
 
@@ -68,7 +69,8 @@ def home_view(request):
 
         # admin/staff view
         form, activity = home_view_admin_authenticated(request)
-        leaderboard = Points.get_leaderboard(10)
+        leaderboard = Points.get_leaderboard(
+            constants.LEADERBOARD_HOMEPAGE_RESULTS_PER_PAGE)
     else:
         activity = []
         leaderboard = None
@@ -85,7 +87,8 @@ def home_view_admin_authenticated(request):
 
     dashboard_accessed.send(sender=None, request=request, data=None)
 
-    start_date = timezone.now() - datetime.timedelta(days=31)
+    start_date = timezone.now() - datetime.timedelta(
+        days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
     end_date = timezone.now()
     interval = 'days'
     if request.method == 'POST':
@@ -158,7 +161,8 @@ def manager_home_view(request):
         coursepermissions__user=request.user,
         coursepermissions__role=CoursePermissions.MANAGER)
 
-    start_date = timezone.now() - datetime.timedelta(days=31)
+    start_date = timezone.now() - datetime.timedelta(
+        days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
     end_date = timezone.now()
 
     # get activity
@@ -174,7 +178,8 @@ def manager_home_view(request):
 def teacher_home_view(request):
     cohorts = permissions.get_cohorts(request)
 
-    start_date = timezone.now() - datetime.timedelta(days=31)
+    start_date = timezone.now() - datetime.timedelta(
+        days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
     end_date = timezone.now()
 
     # get student activity
@@ -219,7 +224,7 @@ def get_trackers(start_date, end_date, courses, students=None):
 
 def leaderboard_view(request):
     lb = Points.get_leaderboard()
-    paginator = Paginator(lb, 25)  # Show 25 per page
+    paginator = Paginator(lb, constants.LEADERBOARD_TABLE_RESULTS_PER_PAGE)
 
     # Make sure page request is an int. If not, deliver first page.
     try:

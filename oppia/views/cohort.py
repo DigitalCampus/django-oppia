@@ -11,6 +11,7 @@ from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.utils import timezone
 
+from oppia import constants
 from oppia.forms.cohort import CohortForm
 from oppia.models import Tracker, \
     CourseCohort, \
@@ -105,7 +106,8 @@ def cohort_add(request):
 def cohort_view(request, cohort_id):
     cohort = can_view_cohort(request, cohort_id)
 
-    start_date = timezone.now() - datetime.timedelta(days=31)
+    start_date = timezone.now() - datetime.timedelta(
+        days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
     end_date = timezone.now()
 
     # get student activity
@@ -133,7 +135,8 @@ def cohort_view(request, cohort_id):
         student_activity.append([temp_date, count])
 
     # get leaderboard
-    leaderboard = cohort.get_leaderboard(10)
+    leaderboard = cohort.get_leaderboard(
+        constants.LEADERBOARD_HOMEPAGE_RESULTS_PER_PAGE)
 
     return render(request, 'cohort/activity.html',
                   {'cohort': cohort,
@@ -148,7 +151,7 @@ def cohort_leaderboard_view(request, cohort_id):
     # get leaderboard
     lb = cohort.get_leaderboard(0)
 
-    paginator = Paginator(lb, 25)  # Show 25 contacts per page
+    paginator = Paginator(lb, constants.LEADERBOARD_TABLE_RESULTS_PER_PAGE)
 
     # Make sure page request is an int. If not, deliver first page.
     try:
@@ -233,7 +236,8 @@ def cohort_course_view(request, cohort_id, course_id):
     except Course.DoesNotExist:
         raise Http404()
 
-    start_date = timezone.now() - datetime.timedelta(days=31)
+    start_date = timezone.now() - datetime.timedelta(
+            days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
     end_date = timezone.now()
     student_activity = []
     no_days = (end_date - start_date).days + 1

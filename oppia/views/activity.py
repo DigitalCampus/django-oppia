@@ -10,6 +10,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 
 from helpers.forms.dates import DateRangeIntervalForm, DateRangeForm
+from oppia import constants
 from oppia.models import Points
 from oppia.models import Tracker
 from oppia.permissions import can_view_course_detail
@@ -26,7 +27,8 @@ class CourseActivityDetail(TemplateView):
 
         dashboard_accessed.send(sender=None, request=request, data=course)
 
-        start_date = datetime.datetime.now() - datetime.timedelta(days=31)
+        start_date = datetime.datetime.now() - datetime.timedelta(
+            days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
         end_date = datetime.datetime.now()
         interval = 'days'
 
@@ -48,7 +50,8 @@ class CourseActivityDetail(TemplateView):
                                                   "%Y-%m-%d %H:%M:%S")
             interval = form.cleaned_data.get("interval")
         else:
-            start_date = datetime.datetime.now() - datetime.timedelta(days=31)
+            start_date = datetime.datetime.now() - datetime.timedelta(
+                days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
             end_date = datetime.datetime.now()
             interval = 'days'
 
@@ -90,7 +93,8 @@ class CourseActivityDetail(TemplateView):
 
             dates = generate_graph_data(monthly_stats, True)
 
-        leaderboard = Points.get_leaderboard(10, course)
+        leaderboard = Points.get_leaderboard(
+            constants.LEADERBOARD_HOMEPAGE_RESULTS_PER_PAGE, course)
 
         return render(request, 'course/detail.html',
                       {'course': course,
@@ -106,7 +110,8 @@ class CourseRecentActivityDetail(TemplateView):
     def get(self, request, course_id):
         course = can_view_course_detail(request, course_id)
 
-        start_date = datetime.datetime.now() - datetime.timedelta(days=31)
+        start_date = datetime.datetime.now() - datetime.timedelta(
+            days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
         end_date = datetime.datetime.now()
 
         data = {}
@@ -130,7 +135,8 @@ class CourseRecentActivityDetail(TemplateView):
             end_date = form.cleaned_data.get("end_date")
             end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d")
         else:
-            start_date = datetime.datetime.now() - datetime.timedelta(days=31)
+            start_date = datetime.datetime.now() - datetime.timedelta(
+                days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
             end_date = datetime.datetime.now()
 
         return self.process(request,
@@ -148,7 +154,8 @@ class CourseRecentActivityDetail(TemplateView):
                                           tracker_date__lte=end_date) \
                           .order_by('-tracker_date')
 
-        paginator = Paginator(trackers, 25)
+        paginator = Paginator(trackers,
+                              constants.LEADERBOARD_TABLE_RESULTS_PER_PAGE)
         # Make sure page request is an int. If not, deliver first page.
         try:
             page = int(request.GET.get('page', '1'))
