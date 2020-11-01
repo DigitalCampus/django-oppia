@@ -8,7 +8,9 @@ class DHISIntegrationViewsTest(OppiaTestCase):
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
                 'tests/test_permissions.json',
-                'tests/test_course_permissions.json']
+                'default_gamification_events.json',
+                'tests/test_course_permissions.json',
+                'tests/test_tracker.json']
 
     def setUp(self):
         super(DHISIntegrationViewsTest, self).setUp()
@@ -80,13 +82,13 @@ class DHISIntegrationViewsTest(OppiaTestCase):
 
     def test_admin_canview_integrations_monthly(self):
         route = reverse('integrations:dhis:export_month',
-                        kwargs={'year': 2019, 'month': 10})
+                        kwargs={'year': 2015, 'month': 1})
         res = self.get_view(route, self.admin_user)
         self.assertEqual(res.status_code, 200)
 
     def test_staff_canview_integrations_monthly(self):
         route = reverse('integrations:dhis:export_month',
-                        kwargs={'year': 2019, 'month': 10})
+                        kwargs={'year': 2015, 'month': 1})
         res = self.get_view(route, self.staff_user)
         self.assertEqual(res.status_code, 200)
 
