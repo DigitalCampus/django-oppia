@@ -18,10 +18,6 @@ EMBED_TEMPLATE = "[[media object='{\"filename\":\"%s\", \
 
 class UploadedMedia(models.Model):
 
-    UPLOAD_STATUS_SUCCESS = 1
-    UPLOAD_STATUS_EXISTS = 2
-    UPLOAD_STATUS_FAILURE = 0
-
     create_user = models.ForeignKey(User,
                                     related_name='media_create_user',
                                     null=True,

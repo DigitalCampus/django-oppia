@@ -8,6 +8,7 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import TemplateView, ListView
 
+from av import constants
 from av import handler
 from av.forms import UploadMediaForm
 from av.models import UploadedMedia, UploadedMediaImage
@@ -59,7 +60,7 @@ class Upload(TemplateView):
     def post(self, request):
         result = handler.upload(request, request.user)
 
-        if result['result'] == UploadedMedia.UPLOAD_STATUS_SUCCESS:
+        if result['result'] == constants.UPLOAD_MEDIA_STATUS_SUCCESS:
             return HttpResponseRedirect(reverse('av:upload_success',
                                                 args=[result['media'].id]))
         else:

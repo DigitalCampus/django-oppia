@@ -9,6 +9,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 
+from av import constants
 from av.forms import UploadMediaForm
 from av.models import UploadedMedia
 
@@ -39,7 +40,7 @@ def upload(request, user):
                     request,
                     messages.ERROR,
                     _(u"Corrupted media file"), "danger")
-                return {'result': UploadedMedia.UPLOAD_STATUS_FAILURE,
+                return {'result': constants.UPLOAD_MEDIA_STATUS_FAILURE,
                         'form': form,
                         'errors': _(u"Corrupted media file")}
         except OSError:
@@ -55,13 +56,13 @@ def upload(request, user):
                   incorrectly configured. Please ask your \
                   Oppia system administrator to install it \
                   for you.") % settings.MEDIA_PROCESSOR_PROGRAM, "danger")
-            return {'result': UploadedMedia.UPLOAD_STATUS_FAILURE,
+            return {'result': constants.UPLOAD_MEDIA_STATUS_FAILURE,
                     'form': form,
                     'errors':
                         _(u"The %s program might not be installed on \
                           this server.") % settings.MEDIA_PROCESSOR_PROGRAM}
 
-        return {'result': UploadedMedia.UPLOAD_STATUS_SUCCESS,
+        return {'result': constants.UPLOAD_MEDIA_STATUS_SUCCESS,
                 'media': uploaded_media}
     else:
 
@@ -69,7 +70,7 @@ def upload(request, user):
         for field, error in form.errors.items():
             for e in error:
                 errors.append(e)
-        return {'result': UploadedMedia.UPLOAD_STATUS_FAILURE,
+        return {'result': constants.UPLOAD_MEDIA_STATUS_FAILURE,
                 'form': form,
                 'errors': errors}
 

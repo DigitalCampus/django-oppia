@@ -8,6 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
 
 from api.publish import get_messages_array
+from av import constants
 from av import handler
 from av.models import UploadedMedia
 
@@ -73,7 +74,7 @@ def upload_view(request):
 
     result = handler.upload(request, user)
 
-    if result['result'] == UploadedMedia.UPLOAD_STATUS_SUCCESS:
+    if result['result'] == constants.UPLOAD_MEDIA_STATUS_SUCCESS:
         media = result['media']
         embed_code = media.get_embed_code(
             request.build_absolute_uri(media.file.url))
