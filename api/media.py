@@ -55,7 +55,10 @@ def get_view(request, digest):
                 'digest': media.md5,
                 'filesize': media.get_filesize(),
                 'download_url': request.build_absolute_uri(media.file.url),
-                'length': media.length}
+                'length': media.length,
+                'title': media.title,
+                'organisation': media.organisation,
+                'license': media.license}
     return JsonResponse(resp_obj, status=200)
 
 
