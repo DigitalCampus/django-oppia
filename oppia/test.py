@@ -7,7 +7,13 @@ class OppiaTestCase(TestCase):
 
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
-                'tests/test_course_permissions.json']
+                'tests/test_quiz.json',
+                'tests/test_permissions.json',
+                'default_badges.json',
+                'default_gamification_events.json',
+                'tests/awards/award-course.json',
+                'tests/test_course_permissions.json',
+                'tests/test_cohort.json']
 
     def setUp(self):
         super(OppiaTestCase, self).setUp()

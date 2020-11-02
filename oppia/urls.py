@@ -11,12 +11,12 @@ handler403 = 'oppia.permissions.oppia_403_handler'
 app_name = 'oppia'
 urlpatterns = [
 
-    path('', views.home_view, name="index"),
-    path('server/', views.server_view, name="server"),
-    path('about/', views.about_view, name="about"),
-    path('teacher', views.teacher_home_view, name="teacher_index"),
-    path('manager', views.manager_home_view, name="manager_index"),
-    path('leaderboard', views.leaderboard_view, name="leaderboard"),
+    path('', views.HomeView.as_view(), name="index"),
+    path('server/', views.ServerView.as_view(), name="server"),
+    path('about/', views.AboutView.as_view(), name="about"),
+    path('teacher', views.TeacherView.as_view(), name="teacher_index"),
+    path('manager', views.ManagerView.as_view(), name="manager_index"),
+    path('leaderboard', views.LeaderboardView.as_view(), name="leaderboard"),
 
     path('upload', views.upload_step1, name="upload"),
     path('upload2/<int:course_id>', views.upload_step2, name="upload_step2"),

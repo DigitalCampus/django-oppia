@@ -45,7 +45,6 @@ class OppiaViewsTest(OppiaTestCase):
         response = self.client.get(reverse('oppia:server'))
         self.assertTemplateUsed(response, 'oppia/server.html')
         self.assertEqual(response['Content-Type'], "application/json")
-        response.json()
         self.assertIsNotNone(response.json()['version'])
         self.assertIsNotNone(response.json()['name'])
         self.assertIsNotNone(response.json()['admin_email'])
@@ -56,7 +55,7 @@ class OppiaViewsTest(OppiaTestCase):
     '''
     homepage - post
     '''
-    def test_home_post_days(self):
+    def test_home_admin_post_days(self):
         self.client.force_login(user=self.admin_user)
         data = {'start_date': '2019-12-01',
                 'end_date': '2019-12-31',
@@ -64,7 +63,7 @@ class OppiaViewsTest(OppiaTestCase):
         response = self.client.post(reverse('oppia:index'), data)
         self.assertEqual(200, response.status_code)
 
-    def test_home_post_months(self):
+    def test_home_admin_post_months(self):
         self.client.force_login(user=self.admin_user)
         data = {'start_date': '2019-01-01',
                 'end_date': '2019-12-31',
@@ -72,7 +71,7 @@ class OppiaViewsTest(OppiaTestCase):
         response = self.client.post(reverse('oppia:index'), data)
         self.assertEqual(200, response.status_code)
 
-    def test_home_post_invalid_dates(self):
+    def test_home_admin_post_invalid_dates(self):
         self.client.force_login(user=self.admin_user)
         data = {'start_date': '2019-01',
                 'end_date': '2019-12',
@@ -80,6 +79,37 @@ class OppiaViewsTest(OppiaTestCase):
         response = self.client.post(reverse('oppia:index'), data)
         self.assertRaises(ValidationError)
         self.assertEqual(200, response.status_code)
+
+    def test_home_manager_post_days(self):
+        self.client.force_login(user=self.manager_user)
+        data = {'start_date': '2019-12-01',
+                'end_date': '2019-12-31',
+                'interval': 'days'}
+        response = self.client.post(reverse('oppia:manager_index'), data)
+        self.assertEqual(200, response.status_code)
+
+    def test_home_manager_post_months(self):
+        self.client.force_login(user=self.manager_user)
+        data = {'start_date': '2019-01-01',
+                'end_date': '2019-12-31',
+                'interval': 'months'}
+        response = self.client.post(reverse('oppia:manager_index'), data)
+        self.assertEqual(200, response.status_code)
+
+    def test_home_manager_post_invalid_dates(self):
+        self.client.force_login(user=self.manager_user)
+        data = {'start_date': '2019-01',
+                'end_date': '2019-12',
+                'interval': 'months'}
+        response = self.client.post(reverse('oppia:manager_index'), data)
+        self.assertRaises(ValidationError)
+        self.assertEqual(200, response.status_code)
+
+    def test_home_teacher_get(self):
+        self.client.force_login(user=self.teacher_user)
+        response = self.client.get(reverse('oppia:teacher_index'))
+        self.assertEqual(200, response.status_code)
+
 
     '''
     Leaderboard view
