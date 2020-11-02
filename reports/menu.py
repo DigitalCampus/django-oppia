@@ -10,4 +10,6 @@ def menu_reports(request):
     #         {'name': 'test2',
     #            'url':'/reports/2/'}]
     return [{'name': _('Completion Rates'),
-             'url': reverse('reports:completion_rates')}]
+             'url': reverse('reports:completion_rates')},
+            {'name': _('Unique Users'),
+             'url': reverse('reports:unique_users')}]

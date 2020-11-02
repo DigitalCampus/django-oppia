@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+
+{% load crispy_forms_tags %}
+
+{% block extra_head_title %}
+	{% trans 'Unique Users' %}
+{% endblock extra_head_title %}
+
+{% block header %}
+<div class="jumbotron mb-4">
+	<h3>{% trans 'Unique Users' %}</h3>
+</div>
+{% endblock header %}
+
+{% block content %}
+
+{% crispy form %}
+
+{% if user_count %}
+	<p>{% trans 'Total no users: '%} {{ user_count }}</p>
+{% endif %}
+
+{% if user_list %}
+	<div class="table-responsive">
+         <table class="table table-striped">
+         <caption class="d-none">{{ filter }}</caption>
+			 <thead>
+                <tr>
+                  <th scope="col">{{ filter }}</th>
+                  <th scope="col">{% trans 'Count' %}</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for u in user_list %}
+              	  <tr>
+                  <th scope="col">{{ u.value_str }}</th>
+                  <th scope="col">{{ u.total }}</th>
+                </tr>
+              {% endfor %}
+              </tbody>
+ 		</table>
+	</div>
+{% endif %}
+
+{% endblock content %}
