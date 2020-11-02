@@ -4,7 +4,7 @@ import oppia
 
 from django.conf import settings
 from oppia.models import Points, Award
-from reports.views import menu_reports
+from reports.menu import menu_reports
 from settings import constants
 from settings.models import SettingProperties
 
