@@ -1,0 +1,54 @@
+[
+{
+    "model": "profile.customfield",
+    "pk": "country",
+    "fields": {
+        "label": "Country",
+        "required": false,
+        "order": 0,
+        "helper_text": "Country",
+        "type": "str",
+        "created": "2020-11-03T12:31:27.271Z",
+        "modified": "2020-11-03T12:31:27.272Z"
+    }
+},
+{
+    "model": "profile.userprofilecustomfield",
+    "pk": 1,
+    "fields": {
+        "key_name": "country",
+        "user": 2,
+        "value_str": "FI",
+        "value_int": null,
+        "value_bool": null,
+        "created": "2020-11-03T12:31:42.402Z",
+        "modified": "2020-11-03T12:31:42.402Z"
+    }
+},
+{
+    "model": "profile.userprofilecustomfield",
+    "pk": 2,
+    "fields": {
+        "key_name": "country",
+        "user": 1,
+        "value_str": "ES",
+        "value_int": null,
+        "value_bool": null,
+        "created": "2020-11-03T12:31:54.347Z",
+        "modified": "2020-11-03T12:31:54.347Z"
+    }
+},
+{
+    "model": "profile.userprofilecustomfield",
+    "pk": 3,
+    "fields": {
+        "key_name": "country",
+        "user": 4,
+        "value_str": "FI",
+        "value_int": null,
+        "value_bool": null,
+        "created": "2020-11-03T12:32:06.063Z",
+        "modified": "2020-11-03T12:32:06.064Z"
+    }
+}
+]

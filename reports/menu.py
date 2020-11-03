@@ -9,7 +9,9 @@ def menu_reports(request):
     #            'url':'/reports/1/'},
     #         {'name': 'test2',
     #            'url':'/reports/2/'}]
-    return [{'name': _('Completion Rates'),
+    return [{'name': _(u'Completion Rates'),
+             'description': _(u'Completion rates for each course'),
              'url': reverse('reports:completion_rates')},
-            {'name': _('Unique Users'),
+            {'name': _(u'Unique Users'),
+             'description': _(u'Number of unique users, grouped by registration fields'),
              'url': reverse('reports:unique_users')}]

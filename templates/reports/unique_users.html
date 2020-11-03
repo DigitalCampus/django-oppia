@@ -10,7 +10,7 @@
 
 {% block header %}
 <div class="jumbotron mb-4">
-	<h3>{% trans 'Unique Users' %}</h3>
+	<h3><a href="{% url 'reports:index' %}">{% trans 'Analytics/Reports' %}</a> &gt; {% trans 'Unique Users' %}</h3>
 </div>
 {% endblock header %}
 

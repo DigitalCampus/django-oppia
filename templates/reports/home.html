@@ -13,6 +13,43 @@
 {% endblock header %}
 
 {% block content %}
-
+	<div class="table-responsive">
+         <table class="table table-striped">
+         <caption class="d-none">{% trans 'Analytics/Reports' %}</caption>
+			 <thead>
+                <tr>
+                  <th scope="col">&nbsp;</th>
+                  <th scope="col">{% trans 'Title' %}</th>
+                  <th scope="col">{% trans 'Description' %}</th>
+                </tr>
+              </thead>
+              <tbody>
+              	  <tr>
+	                  <td><em class="material-icons mr-3">pie_chart</em></td>
+	                  <td><a class="nav-link" href="{% url 'viz:summary' %}">
+	              		{% trans 'Summary Overview' %}
+	            		</a></td>
+	            		<td>{% trans 'Summary graphs of user registrations, course downloads, activity etc' %}</td>
+                	</tr>
+                	{% if OPPIA_MAP_VISUALISATION_ENABLED %}
+	            <tr>
+	                  <td><em class="material-icons mr-3">map</em></td>
+	                  <td><a class="nav-link" href="{% url 'viz:map' %}">
+	             		{% trans 'Activity Map' %}</a></td>
+	             		<td>{% trans 'Map of users locations' %}</td>
+                	</tr>
+				{% endif %}
+				{% for report in OPPIA_REPORTS %}
+	                <tr>
+	                  <td><em class="material-icons mr-3">vertical_split</em></td>
+	                  <td><a class="nav-link" href="{{ report.url }}">
+	                   {{ report.name }}
+	                </a></td>
+	                <td>{{ report.description }}</td>
+                	</tr>
+	            {% endfor %}
+              </tbody>
+ 		</table>
+		</div>
 
 {% endblock content %}
