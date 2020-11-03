@@ -4,6 +4,9 @@ from reports import views
 app_name = 'reports'
 
 urlpatterns = [
+    path('',
+         views.HomeView.as_view(),
+         name="index"),
     path('completion_rates',
          views.CompletionRates.as_view(),
          name="completion_rates"),

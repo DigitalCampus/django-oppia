@@ -35,6 +35,14 @@ class CourseCompletionRatesViewTest(OppiaTestCase):
                                  302,
                                  200)
 
+    def test_view_course_completion_rates_another_course(self):
+        url = reverse('reports:course_completion_rates', args=[2])
+        template = 'reports/course_completion_rates.html'
+        self.client.force_login(user=self.admin_user)
+        response = self.client.get(url)
+        self.assertTemplateUsed(response, template)
+        self.assertEqual(response.status_code, 200)
+        
     def test_view_course_completion_rates_invalid_course(self):
         url = reverse('reports:course_completion_rates', args=[999])
 

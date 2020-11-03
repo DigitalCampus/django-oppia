@@ -17,27 +17,24 @@ class CompletionRates(TemplateView):
                                         is_archived=False).order_by('title')
 
         courses_list = []
-        course_stats = list(UserCourseSummary.objects
-                            .filter(course__in=courses)
-                            .values('course')
-                            .annotate(users=Count('user'),
-                                      completed=Sum('badges_achieved')))
+        
 
         for course in courses:
             obj = {}
             obj['course'] = course
-
+            course_stats = UserCourseSummary.objects \
+                            .filter(course=course) \
+                            .values('course') \
+                            .annotate(users=Count('user'),
+                                      completed=Sum('badges_achieved'))
             for stats in course_stats:
-                if stats['course'] == course.id:
-                    no_users = stats['users']
-                    obj['enroled'] = no_users
-                    if no_users > 0:
-                        obj['completion'] = (float(stats['completed'])
-                                             / float(no_users)) * 100
-                    else:
-                        obj['completion'] = 0
-                    # remove the element to optimize next searches
-                    course_stats.remove(stats)
+                no_users = stats['users']
+                obj['enroled'] = no_users
+                if no_users > 0:
+                    obj['completion'] = (float(stats['completed'])
+                                         / float(no_users)) * 100
+                else:
+                    obj['completion'] = 0
 
             courses_list.append(obj)
 
