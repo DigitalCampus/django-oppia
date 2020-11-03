@@ -9,15 +9,19 @@ from profile.models import CustomField
 
 
 class ReportGroupByForm(forms.Form):
-    group_by = forms.ChoiceField(
-        choices = [(cf.id, cf.label) for cf in CustomField.objects.all()],
-        label=_('Group by'),
-        widget=forms.Select,
-        required=False,
-    )
 
     def __init__(self, *args, **kwargs):
         super(ReportGroupByForm, self).__init__(* args, ** kwargs)
+
+        # this need to be defined here, rather than as a class attribute,
+        # otherwise the tests fail (presume due to class loading ordering?)
+        self.fields['group_by'] = forms.ChoiceField(
+            choices = [(cf.id, cf.label) for cf in CustomField.objects.all()],
+            label=_('Group by'),
+            widget=forms.Select,
+            required=False,
+        )
+
         self.helper = FormHelper()
         self.helper.form_class = 'form-vertical'
         self.helper.label_class = 'col-lg-2'
