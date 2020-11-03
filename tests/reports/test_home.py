@@ -12,7 +12,7 @@ class HomeViewTest(OppiaTestCase):
                 'tests/test_usercoursesummary.json',
                 'tests/test_customfields.json']
     
-    url = reverse('reports:home')
+    url = reverse('reports:index')
     template = 'reports/home.html'
         
     def setUp(self):

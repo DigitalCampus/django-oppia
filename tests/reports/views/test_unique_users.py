@@ -45,7 +45,7 @@ class UniqueUsersViewTest(OppiaTestCase):
 
         for disallowed_user in self.disallowed_users:
             self.client.force_login(user=disallowed_user)
-            rseponse = self.client.post(self.url, {'group_by': 'country'})
+            response = self.client.post(self.url, {'group_by': 'country'})
             self.assertRedirects(response,
                                  '/admin/login/?next=' + self.url,
                                  302,
