@@ -41,7 +41,7 @@
 				{% endif %}
 				{% for report in OPPIA_REPORTS %}
 	                <tr>
-	                  <td><em class="material-icons mr-3">vertical_split</em></td>
+	                  <td><em class="material-icons mr-3">{{ report.icon }}</em></td>
 	                  <td><a class="nav-link" href="{{ report.url }}">
 	                   {{ report.name }}
 	                </a></td>
