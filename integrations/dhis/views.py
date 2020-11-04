@@ -26,10 +26,9 @@ class HomeView(TemplateView):
                       {'monthly_exports': monthly_exports})
 
 
-
 @method_decorator(staff_member_required, name='dispatch')
 class ExportLatestView(TemplateView):
-    
+
     def get(self, request):
         last_month = datetime.datetime.now() \
             + dateutil.relativedelta.relativedelta(months=-1)
@@ -39,7 +38,7 @@ class ExportLatestView(TemplateView):
         response['Content-Disposition'] = \
             "attachment; filename=dhis-export-{year}-{month}.csv" \
             .format(year=last_month.year, month=last_month.month)
-    
+
         return response
 
 
@@ -53,7 +52,6 @@ class ExportMonthView(TemplateView):
         response['Content-Disposition'] = \
             "attachment; filename=dhis-export-{year}-{month}.csv" \
             .format(year=year, month=month)
-    
         return response
 
 

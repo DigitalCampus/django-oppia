@@ -115,11 +115,11 @@ def publish_view(request):
     extract_path = os.path.join(settings.COURSE_UPLOAD_DIR,
                                 'temp',
                                 str(user.id))
-    
+
     result, course_shortname = get_course_shortname(course_file,
-        extract_path,
-        request,
-        user)
+                                                    extract_path,
+                                                    request,
+                                                    user)
 
     if result:
         course_manager = CoursePermissions.objects.filter(

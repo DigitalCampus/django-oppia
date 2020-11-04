@@ -26,10 +26,10 @@ class HomeView(TemplateView):
 class CSVExportView(TemplateView):
 
     def get(self, request):
-    
+
         start_date = timezone.now() - datetime.timedelta(days=7)
         end_date = timezone.now()
-    
+
         headers = ('user_id',
                    'course_id',
                    'course_title',
@@ -43,14 +43,14 @@ class CSVExportView(TemplateView):
                    'time_taken',
                    'score',
                    'maxscore')
-    
+
         data = []
         data = tablib.Dataset(*data, headers=headers)
-    
+
         trackers = Tracker.objects.filter(submitted_date__gte=start_date,
                                           submitted_date__lte=end_date,
                                           type=Activity.QUIZ)
-    
+
         for tracker in trackers:
             # Get the matching quiz attempt object
             try:
@@ -64,7 +64,7 @@ class CSVExportView(TemplateView):
                     instance_id=quiz_instance)
             except QuizAttempt.DoesNotExist:
                 continue
-    
+
             data.append(
                         (
                            tracker.user.id,
@@ -82,10 +82,10 @@ class CSVExportView(TemplateView):
                            quiz_attempt.maxscore
                         )
                     )
-    
+
         response = HttpResponse(data.csv,
                                 content_type='application/text;charset=utf-8')
         response['Content-Disposition'] = \
             "attachment; filename=xapi-export.csv"
-    
+
         return response
