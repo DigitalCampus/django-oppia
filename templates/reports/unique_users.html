@@ -10,7 +10,8 @@
 
 {% block header %}
 <div class="jumbotron mb-4">
-	<h3><a href="{% url 'reports:index' %}">{% trans 'Analytics/Reports' %}</a> &gt; {% trans 'Unique Users' %}</h3>
+	<h3><a href="{% url 'reports:index' %}">{% trans 'Analytics/Reports' %}</a>
+		&gt; {% trans 'Unique Users' %}</h3>
 </div>
 {% endblock header %}
 
@@ -18,12 +19,8 @@
 
 {% crispy form %}
 
-{% if user_count %}
-	<p>{% trans 'Total no users: '%} {{ user_count }}</p>
-{% endif %}
 
-{% if user_list %}
-	<div class="table-responsive">
+<div class="table-responsive">
          <table class="table table-striped">
          <caption class="d-none">{{ filter }}</caption>
 			 <thead>
@@ -33,15 +30,26 @@
                 </tr>
               </thead>
               <tbody>
-              {% for u in user_list %}
-              	  <tr>
-                  <th scope="col">{{ u.value_str }}</th>
-                  <th scope="col">{{ u.total }}</th>
-                </tr>
-              {% endfor %}
-              </tbody>
+{% if user_count %}
+	<tr>
+          <td>{% trans 'Total no users: '%}</td>
+          <td>{{ user_count }}</td>
+        </tr>
+{% endif %}
+
+{% if user_list %}
+	
+      {% for u in user_list %}
+      	  <tr>
+          <td>{{ u.value_str }}</td>
+          <td>{{ u.total }}</td>
+        </tr>
+      {% endfor %}
+         
+{% endif %}
+
+     </tbody>
  		</table>
 	</div>
-{% endif %}
 
 {% endblock content %}

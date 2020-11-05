@@ -14,6 +14,7 @@ def menu_reports(request):
              'url': reverse('reports:completion_rates'),
              'icon': 'vertical_split'},
             {'name': _(u'Unique Users'),
-             'description': _(u'Number of unique users, grouped by registration fields'),
+             'description': _(u'Number of unique users, grouped by \
+                                registration fields'),
              'url': reverse('reports:unique_users'),
              'icon': 'vertical_split'}]

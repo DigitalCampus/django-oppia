@@ -16,4 +16,7 @@ urlpatterns = [
     path('unique_users',
          views.UniqueUsers.as_view(),
          name="unique_users"),
+    path('daus',
+         views.DailyActiveUsers.as_view(),
+         name="daus"),
 ]
