@@ -27,8 +27,6 @@ from summary.models import CourseDailyStats, UserCourseSummary
 
 from profile.models import UserProfile
 
-STR_DATE_FORMAT = "%d %b %Y"
-
 
 class ServerView(TemplateView):
 
@@ -139,7 +137,7 @@ def process_home_activity_days(activity, start_date, end_date):
         count = next((dct['count']
                       for dct in tracker_stats
                       if dct['day'] == temp.date()), 0)
-        activity.append([temp.strftime(STR_DATE_FORMAT), count])
+        activity.append([temp.strftime(constants.STR_DATE_FORMAT), count])
     return activity
 
 
@@ -238,11 +236,11 @@ def get_trackers(start_date, end_date, courses, students=None):
         .annotate(count=Count('id'))
     for i in range(0, no_days, +1):
         temp = start_date + datetime.timedelta(days=i)
-        temp_date = temp.date().strftime(STR_DATE_FORMAT)
+        temp_date = temp.date().strftime(constants.STR_DATE_FORMAT)
         count = next((dct['count']
                      for dct in trackers
-                     if dct['day'].strftime(STR_DATE_FORMAT) == temp_date), 0)
-        activity.append([temp.strftime(STR_DATE_FORMAT), count])
+                     if dct['day'].strftime(constants.STR_DATE_FORMAT) == temp_date), 0)
+        activity.append([temp.strftime(constants.STR_DATE_FORMAT), count])
     return activity
 
 

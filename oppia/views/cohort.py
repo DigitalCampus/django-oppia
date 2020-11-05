@@ -25,8 +25,6 @@ from oppia.views.utils import get_paginated_courses
 from profile.views.utils import get_paginated_users
 from summary.models import UserCourseSummary
 
-STR_DATE_FORMAT = "%d %b %Y"
-
 
 def cohort_list_view(request):
     if not request.user.is_staff:
@@ -128,10 +126,10 @@ def cohort_view(request, cohort_id):
         .annotate(count=Count('id'))
     for i in range(0, no_days, +1):
         temp = start_date + datetime.timedelta(days=i)
-        temp_date = temp.date().strftime(STR_DATE_FORMAT)
+        temp_date = temp.date().strftime(constants.STR_DATE_FORMAT)
         count = next((dct['count']
                      for dct in trackers
-                     if dct['day'].strftime(STR_DATE_FORMAT) == temp_date), 0)
+                     if dct['day'].strftime(constants.STR_DATE_FORMAT) == temp_date), 0)
         student_activity.append([temp_date, count])
 
     # get leaderboard
@@ -256,11 +254,11 @@ def cohort_course_view(request, cohort_id, course_id):
         .annotate(count=Count('id'))
     for i in range(0, no_days, +1):
         temp = start_date + datetime.timedelta(days=i)
-        temp_date = temp.date().strftime(STR_DATE_FORMAT)
+        temp_date = temp.date().strftime(constants.STR_DATE_FORMAT)
         count = next((dct['count']
                      for dct in trackers
-                     if dct['day'].strftime(STR_DATE_FORMAT) == temp_date), 0)
-        student_activity.append([temp.strftime(STR_DATE_FORMAT), count])
+                     if dct['day'].strftime(constants.STR_DATE_FORMAT) == temp_date), 0)
+        student_activity.append([temp.strftime(constants.STR_DATE_FORMAT), count])
 
     students = []
     media_count = course.get_no_media()
