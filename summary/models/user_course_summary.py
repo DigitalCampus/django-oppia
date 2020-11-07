@@ -50,7 +50,8 @@ class UserCourseSummary (models.Model):
     objects = UserCourseSummaryQS.as_manager()
 
     class Meta:
-        verbose_name = _('UserCourseSummary')
+        verbose_name = _(u'UserCourseSummary')
+        verbose_name_plural = _(u'UserCourseSummaries')
         unique_together = ("user", "course")
         index_together = ["user", "course"]
 

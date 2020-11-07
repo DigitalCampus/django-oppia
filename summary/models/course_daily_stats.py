@@ -24,7 +24,8 @@ class CourseDailyStats (models.Model):
                                 default=0)
 
     class Meta:
-        verbose_name = _('CourseDailyStats')
+        verbose_name = _(u'CourseDailyStats')
+        verbose_name_plural = _(u'CourseDailyStats')
         unique_together = ("course", "day", "type")
         index_together = ["course", "day", "type"]
 

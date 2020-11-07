@@ -14,7 +14,8 @@ class UserPointsSummary(models.Model):
     badges = models.IntegerField(blank=False, null=False, default=0)
 
     class Meta:
-        verbose_name = _('UserPointsSummary')
+        verbose_name = _(u'UserPointsSummary')
+        verbose_name_plural = _(u'UserPointsSummaries')
 
     def update_points(self, last_points_pk=0, newest_points_pk=0):
         # range of points ids to process

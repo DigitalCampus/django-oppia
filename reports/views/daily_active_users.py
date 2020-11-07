@@ -10,8 +10,9 @@ from django.views.generic import TemplateView
 
 from profile.models import UserProfileCustomField
 
-from oppia import constants
-from oppia.models import Tracker
+from oppia import constants as oppia_constants
+from reports import constants as reports_constants
+from summary.models import DailyActiveUsers as summary_daus
 from reports.forms import ReportGroupByForm
 
 
@@ -20,20 +21,21 @@ class DailyActiveUsers(TemplateView):
 
     def get(self, request):
         start_date = timezone.now() - datetime.timedelta(
-            days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
+            days=reports_constants.DAUS_DEFAULT_NO_DAYS)
         end_date = timezone.now()
         data = []
         no_days = (end_date - start_date).days + 1
-        recent_trackers = Tracker.objects.filter(submitted_date__gte=start_date)
         for i in range(0, no_days, +1):
             temp = start_date + datetime.timedelta(days=i)
-            day = temp.strftime("%d")
-            month = temp.strftime("%m")
-            year = temp.strftime("%Y")
-            count = recent_trackers.filter(submitted_date__day=day,
-                                           submitted_date__month=month,
-                                           submitted_date__year=year).values('user').distinct().count()
-            data.append([temp.strftime(constants.STR_DATE_FORMAT), count])
+            try:
+                summary_counts = summary_daus.objects.get(
+                    day=temp.strftime("%Y-%m-%d"))
+                data.append([temp.strftime(oppia_constants.STR_DATE_FORMAT),
+                             summary_counts.total_tracker_date,
+                             summary_counts.total_submitted_date])
+            except summary_daus.DoesNotExist:
+                data.append(
+                    [temp.strftime(oppia_constants.STR_DATE_FORMAT), 0, 0])
 
         group_by_form = ReportGroupByForm()
         return render(request, 'reports/daus.html',

@@ -9,7 +9,8 @@ from oppia.models import Tracker, Points, Course
 from settings.models import SettingProperties
 from summary.models import UserCourseSummary, \
     CourseDailyStats, \
-    UserPointsSummary
+    UserPointsSummary, \
+    DailyActiveUsers
 
 
 class Command(BaseCommand):
@@ -27,18 +28,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        if options['fromstart']:
-            self.update_summaries(0, 0)
-        else:
-            # get last tracker and points PKs processed
-            last_tracker_pk = SettingProperties \
-                .get_property('last_tracker_pk', 0)
-            last_points_pk = SettingProperties \
-                .get_property('last_points_pk', 0)
-            self.update_summaries(last_tracker_pk, last_points_pk)
-
-    def update_summaries(self, last_tracker_pk=0, last_points_pk=0):
-
+        
         # check if cron already running
         prop, created = SettingProperties.objects \
             .get_or_create(key='oppia_summary_cron_lock',
@@ -55,10 +45,27 @@ class Command(BaseCommand):
         except SettingProperties.DoesNotExist:
             # do nothing
             pass
+        
+        if options['fromstart']:
+            self.update_summaries(0, 0, options['fromstart'])
+        else:
+            # get last tracker and points PKs processed
+            last_tracker_pk = SettingProperties \
+                .get_property('last_tracker_pk', 0)
+            last_points_pk = SettingProperties \
+                .get_property('last_points_pk', 0)
+            self.update_summaries(last_tracker_pk,
+                                  last_points_pk,
+                                  options['fromstart'])
+
+    def update_summaries(self,
+                         last_tracker_pk=0,
+                         last_points_pk=0,
+                         fromstart=False):
 
         SettingProperties.set_string('oppia_summary_cron_last_run',
                                      timezone.now())
-
+       
         # get last tracker and points PKs to be processed
         # (to avoid leaving some out if new trackers arrive while processing)
         try:
@@ -179,6 +186,10 @@ class Command(BaseCommand):
             points.update_points(last_points_pk=last_points_pk,
                                  newest_points_pk=newest_points_pk)
 
+        self.update_daily_active_users(last_tracker_pk,
+                                       newest_tracker_pk,
+                                       fromstart)
+
         # update last tracker and points PKs with the last one processed
         SettingProperties.objects \
             .update_or_create(key='last_tracker_pk',
@@ -189,3 +200,57 @@ class Command(BaseCommand):
                                                              newest_points_pk})
 
         SettingProperties.delete_key('oppia_summary_cron_lock')
+
+    def update_daily_active_users(self,
+                                  last_tracker_pk=0,
+                                  newest_tracker_pk=0,
+                                  fromstart=False):
+
+        if fromstart:
+            # wipe the cache table first
+            DailyActiveUsers.objects.all().delete()
+
+        # Process based on the tracker_date
+        trackers = Tracker.objects.filter(pk__gt=last_tracker_pk,
+                                          pk__lte=newest_tracker_pk,
+                                          user__is_staff=False) \
+            .annotate(day=TruncDay('tracker_date')).values('day').distinct()
+
+        # for each tracker update the DAU model
+        for tracker in trackers:
+            print('Updating DAUs for %s' % tracker['day'])
+            day = tracker['day'].strftime("%d")
+            month = tracker['day'].strftime("%m")
+            year = tracker['day'].strftime("%Y")
+            count_user_tracker = Tracker.objects.filter( 
+                tracker_date__day=day,
+                tracker_date__month=month,
+                tracker_date__year=year,
+                user__is_staff=False) \
+                .values('user').distinct().count()
+            DailyActiveUsers.objects.update_or_create(
+                day=tracker['day'],
+                defaults={"total_tracker_date":
+                          count_user_tracker})
+
+        # Process based on the submitted_date
+        trackers = Tracker.objects.filter(pk__gt=last_tracker_pk,
+                                          pk__lte=newest_tracker_pk) \
+            .annotate(day=TruncDay('submitted_date')).values('day').distinct()
+
+        # for each tracker update the DAU model
+        for tracker in trackers:
+            print('Updating DAUs for %s' % tracker['day'])
+            day = tracker['day'].strftime("%d")
+            month = tracker['day'].strftime("%m")
+            year = tracker['day'].strftime("%Y")
+            count_user_submitted = Tracker.objects.filter( 
+                submitted_date__day=day,
+                submitted_date__month=month,
+                submitted_date__year=year,
+                user__is_staff=False) \
+                .values('user').distinct().count()
+            DailyActiveUsers.objects.update_or_create(
+                day=tracker['day'],
+                defaults={"total_submitted_date":
+                           count_user_submitted})

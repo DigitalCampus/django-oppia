@@ -22,12 +22,14 @@
 			var data = new google.visualization.DataTable();
 			data.addColumn('string', "{% trans 'Date' %}");
 			data.addColumn('number', "{% trans 'Total' %}");
+			data.addColumn('number', "{% trans 'Total' %}");
 			
 			data.addRows( {{ data|length }} );
 			
-			{% for date,count in data %}
-				data.setValue({{ forloop.counter0 }},0,'{{ date }}');
-				data.setValue({{ forloop.counter0 }},1,{{ count }});
+			{% for date, count_tracker_date, count_submitted_date in data %}
+				data.setValue({{ forloop.counter0 }}, 0, '{{ date }}');
+				data.setValue({{ forloop.counter0 }}, 1, {{ count_tracker_date }});
+				data.setValue({{ forloop.counter0 }}, 2, {{ count_submitted_date }});
 			{% endfor %}
 	
 	        var chart = new google.visualization.AreaChart(document.getElementById('dau_graph_div'));
@@ -54,11 +56,12 @@
 
 {% block content %}
 
-{% crispy form %}
-
 <div id="dau_graph_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating' %}"/></div>
 
-Notes:
-this report excludes any admin/staff users
-is based on the date the activity/interaction was submitted to the server, not the date on which the users phone recorded the date/time
+<p>{% trans 'Notes' %}</p>
+<ul>
+	<li>{% trans 'Admin/staff users are excluded' %}</li>
+	<li>{% trans 'Figures in blue represent number of users based on the date the users phone was set to' %}</li>
+	<li>{% trans 'Figures in red represent number of users based on the date the users activity was recorded on the server' %}</li>
+</ul>
 {% endblock content %}
