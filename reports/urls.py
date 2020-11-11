@@ -19,4 +19,7 @@ urlpatterns = [
     path('daily-active-users',
          views.DailyActiveUsersView.as_view(),
          name="daus"),
+    path('monthly-active-users',
+         views.MonthlyActiveUsersView.as_view(),
+         name="maus"),
 ]

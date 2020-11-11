@@ -2,7 +2,7 @@
 from django.urls import reverse
 from oppia.test import OppiaTestCase
 
-class DailyActiveUsersViewTest(OppiaTestCase):
+class MonthlyActiveUsersViewTest(OppiaTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
@@ -12,11 +12,11 @@ class DailyActiveUsersViewTest(OppiaTestCase):
                 'tests/test_usercoursesummary.json',
                 'tests/test_customfields.json']
     
-    url = reverse('reports:daus')
-    template = 'reports/daily_active_users.html'
+    url = reverse('reports:maus')
+    template = 'reports/monthly_active_users.html'
         
     def setUp(self):
-        super(DailyActiveUsersViewTest, self).setUp()
+        super(MonthlyActiveUsersViewTest, self).setUp()
         self.allowed_users = [self.admin_user, self.staff_user]
         self.disallowed_users = [self.teacher_user, self.normal_user]
         

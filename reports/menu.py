@@ -17,4 +17,12 @@ def menu_reports(request):
              'description': _(u'Number of unique users, grouped by \
                                 registration fields'),
              'url': reverse('reports:unique_users'),
-             'icon': 'vertical_split'}]
+             'icon': 'vertical_split'},
+            {'name': _(u'Daily Active users'),
+             'description': _(u'Number of unique daily users'),
+             'url': reverse('reports:daus'),
+             'icon': 'vertical_split'},
+            {'name': _(u'Monthly Active users'),
+             'description': _(u'Number of unique monthly users'),
+             'url': reverse('reports:maus'),
+             'icon': 'vertical_split'},]
