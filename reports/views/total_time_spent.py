@@ -14,15 +14,19 @@ from django.views.generic import TemplateView
 from profile.models import UserProfileCustomField
 
 from oppia import constants as oppia_constants
+
 from reports import constants as reports_constants
-from summary.models import DailyActiveUsers, DailyActiveUser
 from reports.forms import ReportGroupByForm
+from reports.signals import dashboard_accessed
+
+from summary.models import DailyActiveUsers, DailyActiveUser
 
 
 @method_decorator(staff_member_required, name='dispatch')
 class TotalTimeSpentView(TemplateView):
 
     def get(self, request):
+        dashboard_accessed.send(sender=None, request=request, data=None)
         start_date = timezone.now() - datetime.timedelta(
                 days=reports_constants.DAUS_DEFAULT_NO_DAYS)
         end_date = timezone.now()
