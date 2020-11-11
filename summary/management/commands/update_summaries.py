@@ -1,7 +1,8 @@
 
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
-from django.db.models import Count
+from django.db import IntegrityError
+from django.db.models import Count, Sum
 from django.db.models.functions import TruncDay, TruncMonth, TruncYear
 from django.utils import timezone
 
@@ -10,7 +11,8 @@ from settings.models import SettingProperties
 from summary.models import UserCourseSummary, \
     CourseDailyStats, \
     UserPointsSummary, \
-    DailyActiveUsers
+    DailyActiveUsers, \
+    DailyActiveUser
 
 
 class Command(BaseCommand):
@@ -186,6 +188,7 @@ class Command(BaseCommand):
             points.update_points(last_points_pk=last_points_pk,
                                  newest_points_pk=newest_points_pk)
 
+        
         self.update_daily_active_users(last_tracker_pk,
                                        newest_tracker_pk,
                                        fromstart)
@@ -208,30 +211,7 @@ class Command(BaseCommand):
 
         if fromstart:
             # wipe the cache table first
-            DailyActiveUsers.objects.all().delete()
-
-        # Process based on the tracker_date
-        trackers = Tracker.objects.filter(pk__gt=last_tracker_pk,
-                                          pk__lte=newest_tracker_pk,
-                                          user__is_staff=False) \
-            .annotate(day=TruncDay('tracker_date')).values('day').distinct()
-
-        # for each tracker update the DAU model
-        for tracker in trackers:
-            print('Updating DAUs for %s' % tracker['day'])
-            day = tracker['day'].strftime("%d")
-            month = tracker['day'].strftime("%m")
-            year = tracker['day'].strftime("%Y")
-            count_user_tracker = Tracker.objects.filter( 
-                tracker_date__day=day,
-                tracker_date__month=month,
-                tracker_date__year=year,
-                user__is_staff=False) \
-                .values('user').distinct().count()
-            DailyActiveUsers.objects.update_or_create(
-                day=tracker['day'],
-                defaults={"total_tracker_date":
-                          count_user_tracker})
+            DailyActiveUsers.objects.all().delete()        
 
         # Process based on the submitted_date
         trackers = Tracker.objects.filter(pk__gt=last_tracker_pk,
@@ -241,16 +221,45 @@ class Command(BaseCommand):
         # for each tracker update the DAU model
         for tracker in trackers:
             print('Updating DAUs for %s' % tracker['day'])
-            day = tracker['day'].strftime("%d")
-            month = tracker['day'].strftime("%m")
-            year = tracker['day'].strftime("%Y")
-            count_user_submitted = Tracker.objects.filter( 
-                submitted_date__day=day,
-                submitted_date__month=month,
-                submitted_date__year=year,
-                user__is_staff=False) \
-                .values('user').distinct().count()
-            DailyActiveUsers.objects.update_or_create(
+            total_users = Tracker.objects.annotate(
+                day=TruncDay('submitted_date')) \
+                .filter(day=tracker['day']) \
+                .aggregate(number_of_users=Count('user', distinct=True))
+            
+            dau_obj, created = DailyActiveUsers.objects.update_or_create(
                 day=tracker['day'],
                 defaults={"total_submitted_date":
-                           count_user_submitted})
+                           total_users['number_of_users']})
+            
+            user_submitted = Tracker.objects.annotate(
+                day=TruncDay('submitted_date')) \
+                .filter(day=tracker['day']).values_list('user', flat=True).distinct()
+            
+            for us in user_submitted:
+                time_spent = Tracker.objects.annotate(
+                    day=TruncDay('submitted_date')) \
+                    .filter(day=tracker['day'], user__pk=us) \
+                    .aggregate(time=Sum('time_taken'))
+                u = User.objects.get(pk=us)
+                
+                # to avoid number out of range
+                if time_spent['time'] > 2147483647:
+                    time_taken = 2147483647
+                else:
+                    time_taken = time_spent['time']
+                try:
+                    dau = DailyActiveUser()
+                    dau.dau = dau_obj
+                    dau.user = u
+                    dau.type = DailyActiveUser.SUBMITTED
+                    dau.time_spent = time_taken
+                    dau.save()
+                    print("added %s" % u.username)
+                except IntegrityError:
+                    dau = DailyActiveUser.objects.get(
+                        user=u,
+                        dau=dau_obj,
+                        type= DailyActiveUser.SUBMITTED)
+                    dau.time_spent = time_taken
+                    dau.save()
+                    print("updated %s" % u.username)

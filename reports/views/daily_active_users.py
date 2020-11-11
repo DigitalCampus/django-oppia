@@ -12,12 +12,12 @@ from profile.models import UserProfileCustomField
 
 from oppia import constants as oppia_constants
 from reports import constants as reports_constants
-from summary.models import DailyActiveUsers as summary_daus
+from summary.models import DailyActiveUsers, DailyActiveUser
 from reports.forms import ReportGroupByForm
 
 
 @method_decorator(staff_member_required, name='dispatch')
-class DailyActiveUsers(TemplateView):
+class DailyActiveUsersView(TemplateView):
 
     def get(self, request):
         start_date = timezone.now() - datetime.timedelta(
@@ -28,12 +28,14 @@ class DailyActiveUsers(TemplateView):
         for i in range(0, no_days, +1):
             temp = start_date + datetime.timedelta(days=i)
             try:
-                summary_counts = summary_daus.objects.get(
-                    day=temp.strftime("%Y-%m-%d"))
+                summary_counts_no_admin = DailyActiveUser.objects.filter(
+                    dau__day=temp.strftime("%Y-%m-%d"),
+                    user__is_staff=False) \
+                    .aggregate(total_submitted_date=Count('user'))
                 data.append([temp.strftime(oppia_constants.STR_DATE_FORMAT),
-                             summary_counts.total_tracker_date,
-                             summary_counts.total_submitted_date])
-            except summary_daus.DoesNotExist:
+                             0,
+                             summary_counts_no_admin['total_submitted_date']])
+            except DailyActiveUsers.DoesNotExist:
                 data.append(
                     [temp.strftime(oppia_constants.STR_DATE_FORMAT), 0, 0])
 

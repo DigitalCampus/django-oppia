@@ -9,7 +9,7 @@ from summary.models import UserCourseSummary
 
 
 @method_decorator(staff_member_required, name='dispatch')
-class CourseCompletionRates(TemplateView):
+class CourseCompletionRatesView(TemplateView):
 
     def get(self, request, course_id):
 

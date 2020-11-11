@@ -69,6 +69,7 @@ class UserPointsAdmin(admin.ModelAdmin):
 class DailyActiveUsersAdmin(admin.ModelAdmin):
     list_display = ('day', 'total_submitted_date', 'total_tracker_date')
     ordering = '-day',
+    date_hierarchy = 'day'
     
 admin.site.register(UserCourseSummary, UserCourseSummaryAdmin)
 admin.site.register(CourseDailyStats, CourseDailyStatsAdmin)

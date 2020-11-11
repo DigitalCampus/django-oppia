@@ -11,7 +11,7 @@ from reports.forms import ReportGroupByForm
 
 
 @method_decorator(staff_member_required, name='dispatch')
-class UniqueUsers(TemplateView):
+class UniqueUsersView(TemplateView):
 
     def get(self, request):
         user_count = User.objects.all().count()
