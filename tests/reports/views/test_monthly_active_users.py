@@ -13,7 +13,7 @@ class MonthlyActiveUsersViewTest(OppiaTestCase):
                 'tests/test_customfields.json']
     
     url = reverse('reports:maus')
-    template = 'reports/monthly_active_users.html'
+    template = 'reports/maus.html'
         
     def setUp(self):
         super(MonthlyActiveUsersViewTest, self).setUp()

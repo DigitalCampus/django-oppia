@@ -13,7 +13,7 @@ class DailyActiveUsersViewTest(OppiaTestCase):
                 'tests/test_customfields.json']
     
     url = reverse('reports:daus')
-    template = 'reports/daily_active_users.html'
+    template = 'reports/daus.html'
         
     def setUp(self):
         super(DailyActiveUsersViewTest, self).setUp()
