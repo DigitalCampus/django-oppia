@@ -2,7 +2,7 @@ import datetime
 
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Sum, Count
+from django.db.models import Sum, Count, Avg
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -23,14 +23,22 @@ class DailyActiveUsers(models.Model):
         index_together = ["day", "total_submitted_date"]
 
     def get_total_time_spent(self):
-        summary_count_time_total = DailyActiveUser.objects.filter(
+        time_total = DailyActiveUser.objects.filter(
             dau=self, user__is_staff=False) \
             .aggregate(total_time=Sum('time_spent'))
         time_spent = 0
-        if summary_count_time_total['total_time']:
-            time_spent = summary_count_time_total['total_time']
+        if time_total['total_time']:
+            time_spent = time_total['total_time']
         return time_spent
 
+    def get_avg_time_spent(self):
+        avg_time = DailyActiveUser.objects.filter(
+            dau=self, user__is_staff=False).values('user', 'time_spent') \
+            .aggregate(avg_time=Avg('time_spent'))
+        time_spent = 0
+        if avg_time['avg_time']:
+            time_spent = avg_time['avg_time']
+        return time_spent
 
 class DailyActiveUser(models.Model):
     SUBMITTED = 'submitted'

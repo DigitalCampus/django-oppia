@@ -5,4 +5,5 @@ from reports.views.completion_rates import CompletionRatesView
 from reports.views.course_completion_rates import CourseCompletionRatesView
 from reports.views.monthly_active_users import MonthlyActiveUsersView
 from reports.views.total_time_spent import TotalTimeSpentView
+from reports.views.avg_time_spent import AverageTimeSpentView
 

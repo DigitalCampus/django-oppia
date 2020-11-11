@@ -25,4 +25,12 @@ def menu_reports(request):
             {'name': _(u'Monthly Active users'),
              'description': _(u'Number of unique monthly users'),
              'url': reverse('reports:maus'),
+             'icon': 'vertical_split'},
+            {'name': _(u'Total time spent'),
+             'description': _(u'Total time spent on activities'),
+             'url': reverse('reports:totaltimespent'),
+             'icon': 'vertical_split'},
+            {'name': _(u'Average time spent'),
+             'description': _(u'Average time spent on by user'),
+             'url': reverse('reports:averagetimespent'),
              'icon': 'vertical_split'},]

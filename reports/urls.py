@@ -25,4 +25,7 @@ urlpatterns = [
     path('total-time-spent',
          views.TotalTimeSpentView.as_view(),
          name="totaltimespent"),
+    path('average-time-spent',
+         views.AverageTimeSpentView.as_view(),
+         name="averagetimespent"),
 ]
