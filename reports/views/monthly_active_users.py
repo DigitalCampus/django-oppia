@@ -48,7 +48,7 @@ class MonthlyActiveUsersView(TemplateView):
                 data.append([temp.strftime(oppia_constants.STR_DATE_FORMAT_MONTH),
                              0,
                              summary_count_no_admin['total_submitted_date']])
-            except DailyActiveUsers.DoesNotExist:
+            except DailyActiveUser.DoesNotExist:
                 data.append(
                     [temp.strftime(oppia_constants.STR_DATE_FORMAT_MONTH), 0, 0])
 

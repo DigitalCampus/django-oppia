@@ -22,4 +22,7 @@ urlpatterns = [
     path('monthly-active-users',
          views.MonthlyActiveUsersView.as_view(),
          name="maus"),
+    path('total-time-spent',
+         views.TotalTimeSpentView.as_view(),
+         name="totaltimespent"),
 ]
