@@ -2,6 +2,7 @@
 from django.urls import reverse
 from oppia.test import OppiaTestCase
 
+
 class TotalTimeSpentViewTest(OppiaTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
@@ -11,17 +12,16 @@ class TotalTimeSpentViewTest(OppiaTestCase):
                 'tests/test_course_permissions.json',
                 'tests/test_usercoursesummary.json',
                 'tests/test_customfields.json']
-    
+
     url = reverse('reports:totaltimespent')
     template = 'reports/total_time_spent.html'
-        
+
     def setUp(self):
         super(TotalTimeSpentViewTest, self).setUp()
         self.allowed_users = [self.admin_user, self.staff_user]
         self.disallowed_users = [self.teacher_user, self.normal_user]
-        
-    def test_permissions(self):
 
+    def test_permissions(self):
         for allowed_user in self.allowed_users:
             self.client.force_login(user=allowed_user)
             response = self.client.get(self.url)

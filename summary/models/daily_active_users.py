@@ -1,8 +1,7 @@
-import datetime
 
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Sum, Count, Avg
+from django.db.models import Sum, Avg
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -10,11 +9,11 @@ class DailyActiveUsers(models.Model):
     day = models.DateField(blank=False,
                            null=False)
     total_submitted_date = models.IntegerField(blank=False,
-                                null=False,
-                                default=0)
+                                               null=False,
+                                               default=0)
     total_tracker_date = models.IntegerField(blank=False,
-                                null=False,
-                                default=0)
+                                             null=False,
+                                             default=0)
 
     class Meta:
         verbose_name = _(u'DailyActiveUsers')

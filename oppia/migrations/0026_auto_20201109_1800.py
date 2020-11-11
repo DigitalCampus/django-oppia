@@ -14,11 +14,15 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='tracker',
             name='submitted_date',
-            field=models.DateTimeField(db_index=True, default=django.utils.timezone.now, verbose_name='date submitted'),
+            field=models.DateTimeField(db_index=True,
+                                       default=django.utils.timezone.now,
+                                       verbose_name='date submitted'),
         ),
         migrations.AlterField(
             model_name='tracker',
             name='tracker_date',
-            field=models.DateTimeField(db_index=True, default=django.utils.timezone.now, verbose_name='date tracked'),
+            field=models.DateTimeField(db_index=True,
+                                       default=django.utils.timezone.now,
+                                       verbose_name='date tracked'),
         ),
     ]

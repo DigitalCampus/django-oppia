@@ -42,7 +42,7 @@ class CourseCompletionRatesViewTest(OppiaTestCase):
         response = self.client.get(url)
         self.assertTemplateUsed(response, template)
         self.assertEqual(response.status_code, 200)
-        
+
     def test_view_course_completion_rates_invalid_course(self):
         url = reverse('reports:course_completion_rates', args=[999])
 

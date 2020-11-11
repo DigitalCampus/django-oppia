@@ -12,20 +12,26 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name='coursedailystats',
-            options={'verbose_name': 'CourseDailyStats', 'verbose_name_plural': 'CourseDailyStats'},
+            options={'verbose_name': 'CourseDailyStats',
+                     'verbose_name_plural': 'CourseDailyStats'},
         ),
         migrations.AlterModelOptions(
             name='usercoursesummary',
-            options={'verbose_name': 'UserCourseSummary', 'verbose_name_plural': 'UserCourseSummaries'},
+            options={'verbose_name': 'UserCourseSummary',
+                     'verbose_name_plural': 'UserCourseSummaries'},
         ),
         migrations.AlterModelOptions(
             name='userpointssummary',
-            options={'verbose_name': 'UserPointsSummary', 'verbose_name_plural': 'UserPointsSummaries'},
+            options={'verbose_name': 'UserPointsSummary',
+                     'verbose_name_plural': 'UserPointsSummaries'},
         ),
         migrations.CreateModel(
             name='DailyActiveUsers',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True,
+                                        serialize=False,
+                                        verbose_name='ID')),
                 ('day', models.DateField()),
                 ('total_submitted_date', models.IntegerField(default=0)),
                 ('total_tracker_date', models.IntegerField(default=0)),
