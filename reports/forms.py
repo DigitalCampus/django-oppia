@@ -16,7 +16,7 @@ class ReportGroupByForm(forms.Form):
         # this need to be defined here, rather than as a class attribute,
         # otherwise the tests fail (presume due to class loading ordering?)
         self.fields['group_by'] = forms.ChoiceField(
-            choices = [(cf.id, cf.label) for cf in CustomField.objects.all()],
+            choices=[(cf.id, cf.label) for cf in CustomField.objects.all()],
             label=_('Group by'),
             widget=forms.Select,
             required=False,

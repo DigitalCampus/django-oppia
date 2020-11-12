@@ -33,4 +33,4 @@ def menu_reports(request):
             {'name': _(u'Average time spent'),
              'description': _(u'Average time spent on by user'),
              'url': reverse('reports:averagetimespent'),
-             'icon': 'vertical_split'},]
+             'icon': 'vertical_split'}]

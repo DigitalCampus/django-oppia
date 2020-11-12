@@ -30,7 +30,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        
+
         # check if cron already running
         prop, created = SettingProperties.objects \
             .get_or_create(key='oppia_summary_cron_lock',
@@ -47,7 +47,7 @@ class Command(BaseCommand):
         except SettingProperties.DoesNotExist:
             # do nothing
             pass
-        
+
         if options['fromstart']:
             self.update_summaries(0, 0, options['fromstart'])
         else:
@@ -67,7 +67,7 @@ class Command(BaseCommand):
 
         SettingProperties.set_string('oppia_summary_cron_last_run',
                                      timezone.now())
-       
+
         # get last tracker and points PKs to be processed
         # (to avoid leaving some out if new trackers arrive while processing)
         try:
@@ -188,7 +188,6 @@ class Command(BaseCommand):
             points.update_points(last_points_pk=last_points_pk,
                                  newest_points_pk=newest_points_pk)
 
-        
         self.update_daily_active_users(last_tracker_pk,
                                        newest_tracker_pk,
                                        fromstart)
@@ -229,19 +228,20 @@ class Command(BaseCommand):
             dau_obj, created = DailyActiveUsers.objects.update_or_create(
                 day=tracker['day'],
                 defaults={"total_submitted_date":
-                           total_users['number_of_users']})
+                          total_users['number_of_users']})
             
             user_submitted = Tracker.objects.annotate(
                 day=TruncDay('submitted_date')) \
-                .filter(day=tracker['day']).values_list('user', flat=True).distinct()
-            
+                .filter(day=tracker['day']).values_list('user',
+                                                        flat=True).distinct()
+
             for us in user_submitted:
                 time_spent = Tracker.objects.annotate(
                     day=TruncDay('submitted_date')) \
                     .filter(day=tracker['day'], user__pk=us) \
                     .aggregate(time=Sum('time_taken'))
                 u = User.objects.get(pk=us)
-                
+
                 # to avoid number out of range
                 if time_spent['time'] > 2147483647:
                     time_taken = 2147483647
@@ -259,7 +259,7 @@ class Command(BaseCommand):
                     dau = DailyActiveUser.objects.get(
                         user=u,
                         dau=dau_obj,
-                        type= DailyActiveUser.SUBMITTED)
+                        type=DailyActiveUser.SUBMITTED)
                     dau.time_spent = time_taken
                     dau.save()
                     print("updated %s" % u.username)

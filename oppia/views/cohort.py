@@ -222,28 +222,15 @@ def cohort_course_view(request, cohort_id, course_id):
     start_date = timezone.now() - datetime.timedelta(
             days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
     end_date = timezone.now()
-    student_activity = []
-    no_days = (end_date - start_date).days + 1
+
     users = User.objects.filter(
         participant__role=Participant.STUDENT,
         participant__cohort=cohort).order_by('first_name', 'last_name')
     trackers = Tracker.objects.filter(course=course,
                                       user__is_staff=False,
-                                      user__in=users,
-                                      tracker_date__gte=start_date,
-                                      tracker_date__lte=end_date) \
-        .annotate(day=TruncDay('tracker_date'),
-                  month=TruncMonth('tracker_date'),
-                  year=TruncYear('tracker_date')) \
-        .values('day') \
-        .annotate(count=Count('id'))
-    for i in range(0, no_days, +1):
-        temp = start_date + datetime.timedelta(days=i)
-        temp_date = temp.date().strftime(constants.STR_DATE_FORMAT)
-        count = next((dct['count']
-                     for dct in trackers
-                     if dct['day'].strftime(constants.STR_DATE_FORMAT) == temp_date), 0)
-        student_activity.append([temp.strftime(constants.STR_DATE_FORMAT), count])
+                                      user__in=users)
+    
+    student_activity = filter_trackers(trackers, start_date, end_date)
 
     students = []
     media_count = course.get_no_media()

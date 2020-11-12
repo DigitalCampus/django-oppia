@@ -1,17 +1,10 @@
 import datetime
 
-from dateutil.relativedelta import relativedelta
-
 from django.contrib.admin.views.decorators import staff_member_required
-from django.contrib.auth.models import User
-from django.db.models import Sum, Count
-from django.db.models.functions import TruncMonth
 from django.shortcuts import render
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
-
-from profile.models import UserProfileCustomField
 
 from oppia import constants as oppia_constants
 
@@ -19,7 +12,7 @@ from reports import constants as reports_constants
 from reports.forms import ReportGroupByForm
 from reports.signals import dashboard_accessed
 
-from summary.models import DailyActiveUsers, DailyActiveUser
+from summary.models import DailyActiveUsers
 
 
 @method_decorator(staff_member_required, name='dispatch')
@@ -44,11 +37,12 @@ class AverageTimeSpentView(TemplateView):
             except DailyActiveUsers.DoesNotExist:
                 data.append(
                     [temp.strftime(oppia_constants.STR_DATE_FORMAT), 0])
-    
+
         group_by_form = ReportGroupByForm()
         return render(request, 'reports/average_time_spent.html',
                       {'activity_graph_data': data,
                        'form': group_by_form})
+
 
 @method_decorator(staff_member_required, name='dispatch')
 class TotalTimeSpentView(TemplateView):
@@ -71,7 +65,7 @@ class TotalTimeSpentView(TemplateView):
             except DailyActiveUsers.DoesNotExist:
                 data.append(
                     [temp.strftime(oppia_constants.STR_DATE_FORMAT), 0])
-    
+
         group_by_form = ReportGroupByForm()
         return render(request, 'reports/total_time_spent.html',
                       {'activity_graph_data': data,
