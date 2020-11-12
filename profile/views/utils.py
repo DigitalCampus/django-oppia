@@ -9,7 +9,7 @@ from django.urls import reverse
 
 from oppia import constants
 from oppia.models import Tracker
-
+from oppia.views.utils import filter_trackers
 
 def filter_redirect(request_content):
     redirection = request_content.get('next')
@@ -71,28 +71,11 @@ def get_tracker_activities(start_date,
                            user,
                            course_ids=[],
                            course=None):
-    activity = []
-    no_days = (end_date - start_date).days + 1
     if course:
         trackers = Tracker.objects.filter(course=course)
     else:
         trackers = Tracker.objects.filter(course__id__in=course_ids)
 
-    trackers = trackers.filter(user=user,
-                               tracker_date__gte=start_date,
-                               tracker_date__lte=end_date) \
-                       .annotate(day=TruncDay('tracker_date'),
-                                 month=TruncMonth('tracker_date'),
-                                 year=TruncYear('tracker_date')) \
-                       .values('day') \
-                       .annotate(count=Count('id'))
+    trackers = trackers.filter(user=user)
 
-    for i in range(0, no_days, +1):
-        temp = start_date + datetime.timedelta(days=i)
-        temp_date = temp.date().strftime(constants.STR_DATE_FORMAT)
-        count = next((dct['count']
-                     for dct in trackers
-                     if dct['day'].strftime(constants.STR_DATE_FORMAT) == temp_date), 0)
-        activity.append([temp_date, count])
-
-    return activity
+    return filter_trackers(trackers, start_date, end_date)

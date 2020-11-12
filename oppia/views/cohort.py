@@ -21,7 +21,7 @@ from oppia.models import Tracker, \
 from oppia.permissions import can_add_cohort, \
     can_view_cohort, \
     can_edit_cohort
-from oppia.views.utils import get_paginated_courses
+from oppia.views.utils import get_paginated_courses, filter_trackers
 from profile.views.utils import get_paginated_users
 from summary.models import UserCourseSummary
 
@@ -109,28 +109,13 @@ def cohort_view(request, cohort_id):
     end_date = timezone.now()
 
     # get student activity
-    student_activity = []
-    no_days = (end_date - start_date).days + 1
     students = User.objects.filter(participant__role=Participant.STUDENT,
                                    participant__cohort=cohort)
     trackers = Tracker.objects \
         .filter(course__coursecohort__cohort=cohort,
                 user__is_staff=False,
-                user__in=students,
-                tracker_date__gte=start_date,
-                tracker_date__lte=end_date) \
-        .annotate(day=TruncDay('tracker_date'),
-                  month=TruncMonth('tracker_date'),
-                  year=TruncYear('tracker_date')) \
-        .values('day') \
-        .annotate(count=Count('id'))
-    for i in range(0, no_days, +1):
-        temp = start_date + datetime.timedelta(days=i)
-        temp_date = temp.date().strftime(constants.STR_DATE_FORMAT)
-        count = next((dct['count']
-                     for dct in trackers
-                     if dct['day'].strftime(constants.STR_DATE_FORMAT) == temp_date), 0)
-        student_activity.append([temp_date, count])
+                user__in=students)
+    student_activity = filter_trackers(trackers, start_date, end_date)
 
     # get leaderboard
     leaderboard = cohort.get_leaderboard(
