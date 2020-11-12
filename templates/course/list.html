@@ -36,6 +36,7 @@
 	<em class="fas fa-eye mr-1 text-primary"></em> </span> {% trans 'Filter by visibility: ' %}
 	<select class="form-control" name="visibility" id="course-visibility-filter">
         <option value="">{% trans 'All' %}</option>
+        <option value="live" {% ifequal course_filter "live" %} selected="selected"{% endifequal %}>{% trans 'Live' %}</option>
         <option value="draft" {% ifequal course_filter "draft" %} selected="selected"{% endifequal %}>{% trans 'Draft' %}</option>
 		<option value="archived" {% ifequal course_filter "archived" %} selected="selected"{% endifequal %}>{% trans 'Archived' %}</option>
 	</select>

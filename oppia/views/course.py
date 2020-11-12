@@ -40,6 +40,8 @@ class CourseListView(ListView, AjaxTemplateResponseMixin):
             courses = courses.filter(is_draft=True)
         elif course_filter == 'archived':
             courses = courses.filter(is_archived=True)
+        elif course_filter == 'live':
+            courses = courses.filter(is_archived=False, is_draft=False)
 
         tag = self.get_current_tag()
         if tag is not None:
