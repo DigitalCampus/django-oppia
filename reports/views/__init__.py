@@ -1,9 +1,6 @@
 from reports.views.home import HomeView
-from reports.views.daily_active_users import DailyActiveUsersView
+from reports.views.active_users import *
 from reports.views.unique_users import UniqueUsersView
 from reports.views.completion_rates import CompletionRatesView
 from reports.views.course_completion_rates import CourseCompletionRatesView
-from reports.views.monthly_active_users import MonthlyActiveUsersView
-from reports.views.total_time_spent import TotalTimeSpentView
-from reports.views.avg_time_spent import AverageTimeSpentView
-
+from reports.views.time_spent import *

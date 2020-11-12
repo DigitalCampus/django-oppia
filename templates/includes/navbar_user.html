@@ -27,20 +27,7 @@
             {% endif %}
        {% if user.is_staff %}
             <li class="nav-item"><a class="nav-link" href="{% url 'oppia:cohorts' %}">{% trans 'Cohorts' %}</a></li>
-
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="analytics-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans 'Analytics' %}</a>
-                <div class="dropdown-menu" aria-labelledby="analytics-menu">
-                    <a class="dropdown-item" href="{% url 'viz:summary' %}">{% trans 'Summary Overview' %}</a>
-                    {% if OPPIA_MAP_VISUALISATION_ENABLED %}
-                    	<a class="dropdown-item" href="{% url 'viz:map' %}">{% trans 'Activity Map' %}</a>
-                    {% endif %}
-                    {% for report in OPPIA_REPORTS %}
-                        <a class="dropdown-item" href="{{ report.url }}">{{ report.name }}</a>
-
-                    {% endfor %}
-                </div>
-            </li>
+			<li class="nav-item"><a class="nav-link" href="{% url 'reports:index' %}">{% trans 'Analytics/Reports' %}</a></li>
        {% endif %}
 
         <li class="nav-item dropdown">

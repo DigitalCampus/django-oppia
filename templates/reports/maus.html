@@ -8,42 +8,6 @@
 	{% trans 'Monthly Active Users' %}
 {% endblock extra_head_title %}
 
-{% block extra_scripts %}
-	<script type='text/javascript' src='https://www.google.com/jsapi'></script>
-	<script type="text/javascript">
-		
-		// Load the Visualization API and the piechart package.
-		google.load('visualization', '1.0', {'packages':['corechart']});
-	
-		// Set a callback to run when the Google Visualization API is loaded.
-		google.setOnLoadCallback(drawChart);
-		function drawChart() {
-	
-			var data = new google.visualization.DataTable();
-			data.addColumn('string', "{% trans 'Date' %}");
-			data.addColumn('number', "{% trans 'Total' %}");
-			
-			data.addRows( {{ data|length }} );
-			
-			{% for date, count_tracker_date, count_submitted_date in data %}
-				data.setValue({{ forloop.counter0 }}, 0, '{{ date }}');
-				data.setValue({{ forloop.counter0 }}, 1, {{ count_submitted_date }});
-			{% endfor %}
-	
-	        var chart = new google.visualization.AreaChart(document.getElementById('dau_graph_div'));
-	        chart.draw(data, {	width: "100%",
-	                			height: 400,
-	                			vAxis: {minValue:0, maxLines:2, viewWindow: {min:0 }},
-	                			pointSize:3,
-	                			chartArea: {left:80,top:10,width:"90%",height:"75%"},
-	                			backgroundColor: 'transparent',
-	                			legend: 'none',
-	                			series: [{areaOpacity:0.2}]
-	                			});
-	      }
-	</script>
-	{% endblock extra_scripts %}
-
 
 {% block header %}
 <div class="jumbotron mb-4">
@@ -54,17 +18,6 @@
 
 {% block content %}
 
-<div id="dau_graph_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating' %}"/></div>
-
-<p>{% trans 'Notes' %}</p>
-<ul>
-	<li>{% blocktrans %}
-		An active user is defined by having some real interaction with 
-		the app, eg downloading a course, completing quizzes, activities etc. 
-		Any user who has just opened the app but done nothing else, will be 
-		excluded from this report.
-		{% endblocktrans %}</li>
-	<li>{% trans 'Admin/staff users are excluded' %}</li>
-	<li>{% trans 'Represents number of users based on the date the users activity was submitted to the server' %}</li>
-</ul>
+{% include "oppia/includes/activity-graph.html" %}
+{% include "reports/includes/notes.html" %}
 {% endblock content %}

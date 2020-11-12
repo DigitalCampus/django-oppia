@@ -1,0 +1,14 @@
+{% load i18n %}
+{% load static %}
+
+<p>{% trans 'Notes' %}</p>
+<ul>
+	<li>{% blocktrans %}
+		An active user is defined by having some real interaction with 
+		the app, eg downloading a course, completing quizzes, activities etc. 
+		Any user who has just opened the app but done nothing else, will be 
+		excluded from this report.
+		{% endblocktrans %}</li>
+	<li>{% trans 'Admin/staff users are excluded' %}</li>
+	<li>{% trans 'Represents number of users based on the date the users activity was submitted to the server' %}</li>
+</ul>

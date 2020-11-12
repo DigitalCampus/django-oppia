@@ -130,40 +130,12 @@
         <div class="navdrawer-divider"></div>
         
          <ul class="navdrawer-nav mb-0">
-        	<li class="nav-item">
-	            <a class="nav-link collapsed position-relative" data-toggle="collapse" href="#analytics-menu" role="button" aria-expanded="false">
-	              <em class="material-icons mr-3">timeline</em> {% trans 'Analytics/Reports' %}
-	                <em class="fas fa-chevron-down expand-btn"></em>
-	            </a>
+         	<li class="nav-item">
+            <a class="nav-link" href="{% url 'reports:index' %}">
+              <em class="material-icons mr-3">timeline</em> {% trans 'Analytics/Reports' %}
+            </a>
             </li>
         </ul>
-        
-
-		<div class="collapse" id="analytics-menu">
-			<ul class="navdrawer-nav">
-	            <li class="nav-item">
-	            <a class="nav-link" href="{% url 'viz:summary' %}">
-	              <em class="material-icons mr-3">pie_chart</em> {% trans 'Summary Overview' %}
-	            </a>
-	            </li>
-	
-				{% if OPPIA_MAP_VISUALISATION_ENABLED %}
-	            <li class="nav-item">
-	            <a class="nav-link" href="{% url 'viz:map' %}">
-	              <em class="material-icons mr-3">map</em> {% trans 'Activity Map' %}
-	            </a>
-	            </li>
-				{% endif %}
-	
-	            {% for report in OPPIA_REPORTS %}
-	                <li class="nav-item">
-	                <a class="nav-link" href="{{ report.url }}">
-	                  <em class="material-icons mr-3">vertical_split</em> {{ report.name }}
-	                </a>
-	                </li>
-	            {% endfor %}
-	        </ul>
-        </div>
 
 		<div class="navdrawer-divider"></div>
 

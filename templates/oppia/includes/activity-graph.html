@@ -20,7 +20,7 @@
 			
 			{% for date,count in activity_graph_data %}
 				data.setValue({{ forloop.counter0 }},0,'{{ date }}');
-				data.setValue({{ forloop.counter0 }},1,{{ count }});
+				data.setValue({{ forloop.counter0 }},1, {{ count }});
 			{% endfor %}
 	
 	        var chart = new google.visualization.AreaChart(document.getElementById('activity_graph_div'));
