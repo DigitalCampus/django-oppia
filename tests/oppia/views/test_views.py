@@ -110,7 +110,6 @@ class OppiaViewsTest(OppiaTestCase):
         response = self.client.get(reverse('oppia:teacher_index'))
         self.assertEqual(200, response.status_code)
 
-
     '''
     Leaderboard view
     '''

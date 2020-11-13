@@ -8,11 +8,8 @@ from django.views.generic import TemplateView
 
 from profile.models import UserProfileCustomField
 
-from reports import constants as reports_constants
 from reports.forms import ReportGroupByForm
 from reports.signals import dashboard_accessed
-
-from summary.models import DailyActiveUsers, DailyActiveUser
 
 
 @method_decorator(staff_member_required, name='dispatch')

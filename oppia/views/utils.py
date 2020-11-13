@@ -1,8 +1,7 @@
 import datetime
 
 from django.core.paginator import Paginator
-
-from django.db.models import Count, Q
+from django.db.models import Count
 from django.db.models.functions import TruncDay, TruncMonth, TruncYear
 
 from oppia import constants
@@ -58,11 +57,12 @@ def generate_graph_data(dates_types_stats, is_monthly=False):
 
     return dates
 
+
 def filter_trackers(trackers, start_date, end_date):
-    
+
     activity = []
     no_days = (end_date - start_date).days + 1
-    
+
     trackers = trackers.filter(
                         tracker_date__gte=start_date,
                         tracker_date__lte=end_date) \
@@ -76,7 +76,8 @@ def filter_trackers(trackers, start_date, end_date):
         temp_date = temp.date().strftime(constants.STR_DATE_FORMAT)
         count = next((dct['count']
                      for dct in trackers
-                     if dct['day'].strftime(constants.STR_DATE_FORMAT) == temp_date), 0)
+                     if dct['day'].strftime(constants.STR_DATE_FORMAT)
+                     == temp_date), 0)
         activity.append([temp_date, count])
-        
+
     return activity

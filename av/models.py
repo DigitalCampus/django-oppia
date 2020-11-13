@@ -37,7 +37,6 @@ class UploadedMedia(models.Model):
     organisation = models.CharField(max_length=200, blank=True, null=True)
     license = models.TextField(blank=True, null=True)
 
-
     class Meta:
         verbose_name = _(u'Uploaded Media')
         verbose_name_plural = _(u'Uploaded Media')

@@ -21,16 +21,15 @@ class CompletionRatesView(TemplateView):
                                         is_archived=False).order_by('title')
 
         courses_list = []
-        
 
         for course in courses:
             obj = {}
             obj['course'] = course
             course_stats = UserCourseSummary.objects \
-                            .filter(course=course) \
-                            .values('course') \
-                            .annotate(users=Count('user'),
-                                      completed=Sum('badges_achieved'))
+                .filter(course=course) \
+                .values('course') \
+                .annotate(users=Count('user'),
+                          completed=Sum('badges_achieved'))
             for stats in course_stats:
                 no_users = stats['users']
                 obj['enroled'] = no_users

@@ -5,8 +5,6 @@ import operator
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from django.db.models import Count
-from django.db.models.functions import TruncDay, TruncMonth, TruncYear
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.utils import timezone
@@ -229,7 +227,7 @@ def cohort_course_view(request, cohort_id, course_id):
     trackers = Tracker.objects.filter(course=course,
                                       user__is_staff=False,
                                       user__in=users)
-    
+
     student_activity = filter_trackers(trackers, start_date, end_date)
 
     students = []

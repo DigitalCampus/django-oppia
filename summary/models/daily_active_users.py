@@ -39,6 +39,7 @@ class DailyActiveUsers(models.Model):
             time_spent = avg_time['avg_time']
         return time_spent
 
+
 class DailyActiveUser(models.Model):
     SUBMITTED = 'submitted'
     TRACKER = 'tracker'
@@ -52,7 +53,7 @@ class DailyActiveUser(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     type = models.CharField(max_length=20, choices=DATE_TYPES)
     time_spent = models.IntegerField(default=0)
-    
+
     class Meta:
         verbose_name = _(u'DailyActiveUser')
         verbose_name_plural = _(u'DailyActiveUsers')

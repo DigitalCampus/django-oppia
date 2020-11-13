@@ -31,7 +31,7 @@ class CourseViewsTest(OppiaTestCase):
         response = self.client.get('%s?visibility=live' % url)
         self.assertEqual(200, response.status_code)
         self.assertTemplateUsed(response, self.course_list_template)
-        
+
     def test_tag_view_draft(self):
         self.client.force_login(user=self.admin_user)
         url = reverse(self.STR_URL_TAG_COURSES, args=[2])

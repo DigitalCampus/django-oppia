@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                                         verbose_name='ID')),
                 ('type', models.CharField(choices=[('submitted', 'submitted'),
                                                    ('tracker', 'tracker')],
-                                                   max_length=20)),
+                                          max_length=20)),
                 ('dau', models.ForeignKey(
                     on_delete=django.db.models.deletion.CASCADE,
                     to='summary.DailyActiveUsers')),

@@ -1,15 +1,13 @@
-import datetime
 
 from django import forms
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
-from django.db.models import Count, Q
-from django.db.models.functions import TruncDay, TruncMonth, TruncYear
+from django.db.models import Q
 from django.urls import reverse
 
-from oppia import constants
 from oppia.models import Tracker
 from oppia.views.utils import filter_trackers
+
 
 def filter_redirect(request_content):
     redirection = request_content.get('next')

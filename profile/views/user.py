@@ -87,7 +87,7 @@ class RegisterView(TemplateView):
             raise Http404
 
         form = RegisterForm(initial={'next': filter_redirect(request.GET), })
-    
+
         return render(request, STR_COMMON_FORM,
                       {'form': form,
                        'title': _(u'Register')})

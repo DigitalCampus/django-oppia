@@ -210,7 +210,7 @@ class Command(BaseCommand):
 
         if fromstart:
             # wipe the cache table first
-            DailyActiveUsers.objects.all().delete()        
+            DailyActiveUsers.objects.all().delete()
 
         # Process based on the submitted_date
         trackers = Tracker.objects.filter(pk__gt=last_tracker_pk,
@@ -224,12 +224,12 @@ class Command(BaseCommand):
                 day=TruncDay('submitted_date')) \
                 .filter(day=tracker['day']) \
                 .aggregate(number_of_users=Count('user', distinct=True))
-            
+
             dau_obj, created = DailyActiveUsers.objects.update_or_create(
                 day=tracker['day'],
                 defaults={"total_submitted_date":
                           total_users['number_of_users']})
-            
+
             user_submitted = Tracker.objects.annotate(
                 day=TruncDay('submitted_date')) \
                 .filter(day=tracker['day']).values_list('user',

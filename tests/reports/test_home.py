@@ -15,7 +15,7 @@ class HomeViewTest(OppiaTestCase):
 
     url = reverse('reports:index')
     template = 'reports/home.html'
-  
+
     def setUp(self):
         super(HomeViewTest, self).setUp()
         self.allowed_users = [self.admin_user, self.staff_user]

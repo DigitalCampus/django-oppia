@@ -71,7 +71,6 @@ def setting_oppia_badges_enabled_desc(props):
     prop.save()
 
 
-
 def setting_oppia_points_enabled_desc(props):
     prop = props.objects.get(key=constants.OPPIA_POINTS_ENABLED)
     prop.description = _(u"Whether or not points are enabled for this \

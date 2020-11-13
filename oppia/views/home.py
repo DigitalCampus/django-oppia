@@ -117,9 +117,13 @@ class HomeView(TemplateView):
             form = DateRangeIntervalForm(initial=data)
 
         if interval == 'days':
-            activity = process_home_activity_days(activity, start_date, end_date)
+            activity = process_home_activity_days(activity,
+                                                  start_date,
+                                                  end_date)
         else:
-            activity = process_home_activity_months(activity, start_date, end_date)
+            activity = process_home_activity_months(activity,
+                                                    start_date,
+                                                    end_date)
 
         return form, activity
 
@@ -239,7 +243,8 @@ def get_trackers(start_date, end_date, courses, students=None):
         temp_date = temp.date().strftime(constants.STR_DATE_FORMAT)
         count = next((dct['count']
                      for dct in trackers
-                     if dct['day'].strftime(constants.STR_DATE_FORMAT) == temp_date), 0)
+                     if dct['day'].strftime(constants.STR_DATE_FORMAT)
+                     == temp_date), 0)
         activity.append([temp.strftime(constants.STR_DATE_FORMAT), count])
     return activity
 
@@ -249,14 +254,10 @@ class LeaderboardView(TemplateView):
     def get(self, request):
         lb = Points.get_leaderboard()
         paginator = Paginator(lb, constants.LEADERBOARD_TABLE_RESULTS_PER_PAGE)
-
-        # Make sure page request is an int. If not, deliver first page.
         try:
             page = int(request.GET.get('page', '1'))
         except ValueError:
             page = 1
-
-        # If page request (9999) is out of range, deliver last page of results.
         try:
             leaderboard = paginator.page(page)
         except (EmptyPage, InvalidPage):
