@@ -29,7 +29,7 @@ class ProfileForm(forms.Form):
                                help_text=_(u'You cannot edit your username.'))
     email = forms.CharField(validators=[validate_email],
                             error_messages={'invalid':
-                        _                   (u'Please enter a valid e-mail \
+                        _                  (u'Please enter a valid e-mail \
                         address.')},
                             required=False)
     password = forms.CharField(widget=forms.PasswordInput,
