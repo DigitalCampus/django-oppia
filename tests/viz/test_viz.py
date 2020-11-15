@@ -66,38 +66,6 @@ class VisualisationsTest(OppiaTestCase):
         self.assertTemplateUsed(response, self.viz_summary_template)
         self.assertEqual(200, response.status_code)
 
-    # map
-    def test_view_map_disabled(self):
-        SettingProperties.set_bool(
-            constants.OPPIA_MAP_VISUALISATION_ENABLED,
-            False)
-
-        allowed_users = [self.admin_user,
-                         self.teacher_user,
-                         self.staff_user,
-                         self.normal_user]
-
-        for allowed_user in allowed_users:
-            self.client.force_login(allowed_user)
-            response = self.client.get(reverse('viz:map'))
-            self.assertEqual(404, response.status_code)
-
-    def test_view_map_enabled(self):
-        SettingProperties.set_bool(
-            constants.OPPIA_MAP_VISUALISATION_ENABLED,
-            True)
-
-        allowed_users = [self.admin_user,
-                         self.teacher_user,
-                         self.staff_user,
-                         self.normal_user]
-
-        for allowed_user in allowed_users:
-            self.client.force_login(allowed_user)
-            response = self.client.get(reverse('viz:map'))
-            self.assertTemplateUsed(response, 'viz/map.html')
-            self.assertEqual(response.status_code, 200)
-
     # test summary helper methods
 
     def test_summary_helper_countries(self):

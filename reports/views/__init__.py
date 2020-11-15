@@ -8,3 +8,4 @@ from reports.views.course_completion_rates import CourseCompletionRatesView
 from reports.views.time_spent import AverageTimeSpentView, TotalTimeSpentView
 from reports.views.user_registrations import UserRegistrationsView
 from reports.views.course_downloads import CourseDownloadsView
+from reports.views.map import MapView
