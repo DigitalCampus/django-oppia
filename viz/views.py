@@ -48,10 +48,6 @@ class Summary(TemplateView):
         # Language
         languages = self.get_languages(start_date)
 
-        # Course Downloads
-        course_downloads, previous_course_downloads \
-            = self.get_downloads(start_date)
-
         # Course Activity
         course_activity, previous_course_activity, hot_courses \
             = self.get_course_activity(start_date)
@@ -64,8 +60,6 @@ class Summary(TemplateView):
                        'total_countries': total_countries,
                        'country_activity': country_activity,
                        'languages': languages,
-                       'course_downloads': course_downloads,
-                       'previous_course_downloads': previous_course_downloads,
                        'course_activity': course_activity,
                        'previous_course_activity': previous_course_activity,
                        'hot_courses': hot_courses,
@@ -139,24 +133,6 @@ class Summary(TemplateView):
                               'hits_percent': hits_percent})
 
         return languages
-
-    def get_downloads(self, start_date):
-        course_downloads = CourseDailyStats.objects \
-            .filter(day__gte=start_date, type='download') \
-            .annotate(month=TruncMonth('day'),
-                      year=TruncYear('day')) \
-            .values('month', 'year') \
-            .annotate(count=Sum('total')) \
-            .order_by('year', 'month')
-
-        previous_course_downloads = CourseDailyStats.objects \
-            .filter(day__lt=start_date, type='download') \
-            .aggregate(total=Sum('total')) \
-            .get('total', 0)
-        if previous_course_downloads is None:
-            previous_course_downloads = 0
-
-        return course_downloads, previous_course_downloads
 
     def get_course_activity(self, start_date):
         course_activity = CourseDailyStats.objects \

@@ -74,26 +74,6 @@
 			var chartLang = new google.visualization.PieChart(document.getElementById('activity_by_language_chart_div'));
 			chartLang.draw(dsets['languages'], optionsLang);
 
-			dsets['downloads'] = getMonthlyDatatable( {{ course_downloads|length }} );
-            dsets['downloads_aggr'] = getMonthlyDatatable( {{ course_downloads|length }} );
-
-            count =  {{ previous_course_downloads }}
-			{% for cd in course_downloads %}
-				dsets['downloads'].setValue({{ forloop.counter0 }}, 0, "{{ cd.month|date:"F Y" }}");
-				dsets['downloads'].setValue({{ forloop.counter0 }}, 1, {{ cd.count }});
-                count += {{ cd.count }};
-				dsets['downloads_aggr'].setValue({{ forloop.counter0 }}, 0, "{{ cd.month|date:"F Y" }}");
-				dsets['downloads_aggr'].setValue({{ forloop.counter0 }}, 1, count);
-			{% endfor %}
-
-	        new google.visualization
-                .AreaChart(document.getElementById('course_downloads_chart_div'))
-                .draw(dsets['downloads'], getDefaultAreaChartConfig('{% trans 'Course Downloads (by month)' %}'));
-
-	        new google.visualization
-                .AreaChart(document.getElementById('course_downloads_cumulative_chart_div'))
-                .draw(dsets['downloads_aggr'], getDefaultAreaChartConfig('{% trans 'Course Downloads (cumulative)' %}'));
-
 	        dsets['activity'] = getMonthlyDatatable( {{ course_activity|length }} );
             dsets['activity_aggr'] = getMonthlyDatatable( {{ course_activity|length }} );
 
@@ -211,17 +191,6 @@
 <div id="activity_by_country_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
 <button class="btn btn-default btn-primary btn-sm download-csv" data-csv="country_activity">{% trans 'Download as CSV' %}</button>
 <div id="activity_by_language_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
-
-<h3>{% trans 'Course Downloads' %}</h3>
-<div id="course_downloads_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
-{% if course_downloads %}
-    <button class="btn btn-default btn-primary btn-sm download-csv" data-csv="downloads">{% trans 'Download as CSV' %}</button>
-{% endif %}
-
-<div id="course_downloads_cumulative_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
-{% if course_downloads %}
-    <button class="btn btn-default btn-primary btn-sm download-csv" data-csv="downloads_aggr">{% trans 'Download as CSV' %}</button>
-{% endif %}
 
 <h3>{% trans 'Course Activity' %}</h3>
 <div id="course_activity_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>

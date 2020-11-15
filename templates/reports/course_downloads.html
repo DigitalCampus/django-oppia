@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+{% load static %}
+
+{% block extra_head_title %}
+	{% trans 'Course Downloads' %}
+{% endblock extra_head_title %}
+
+
+{% if user.is_authenticated %}
+	{% block extra_scripts %}
+    <script src="{% static "oppia/js/oppia.chart-utils.js" %}"></script>
+	<script type='text/javascript' src='https://www.google.com/jsapi'></script>
+	<script type="text/javascript">
+
+        function getMonthlyDatatable(rowCount){
+            var datatable = new google.visualization.DataTable();
+            datatable.addColumn('string', "{% trans 'Month/Year' %}");
+            datatable.addColumn('number', "{% trans 'Total' %}");
+            datatable.addRows( rowCount );
+            return datatable;
+        }
+        // Initialize the datasets dictionary
+        var dsets = {};
+
+        // Load the Visualization API and the piechart package.
+		google.load('visualization', '1.0', {'packages':['corechart']});
+		// Set a callback to run when the Google Visualization API is loaded.
+		google.setOnLoadCallback(drawChart);
+		function drawChart() {
+
+			dsets['course_dls'] = getMonthlyDatatable({{ course_downloads|length }});
+	        dsets['course_dls_aggr'] = getMonthlyDatatable({{ course_downloads|length }});
+
+			count = {{ previous_course_downloads }};
+			{% for u in course_downloads %}
+                dsets['course_dls'].setValue({{ forloop.counter0 }}, 0, "{{ u.month|date:"F Y" }}");
+				dsets['course_dls'].setValue({{ forloop.counter0 }}, 1, {{ u.count }});
+				count += {{ u.count }};
+				dsets['course_dls_aggr'].setValue({{ forloop.counter0 }}, 0, "{{ u.month|date:"F Y" }}");
+				dsets['course_dls_aggr'].setValue({{ forloop.counter0 }}, 1, count);
+			{% endfor %}
+
+            new google.visualization
+                    .AreaChart(document.getElementById('chart_div'))
+	                .draw(dsets['course_dls'], getDefaultAreaChartConfig('{% trans 'Course Downloads (by month)' %}'));
+
+	        new google.visualization
+                    .AreaChart(document.getElementById('cumulative_chart_div'))
+	                .draw(dsets['course_dls_aggr'], getDefaultAreaChartConfig('{% trans 'Course Downloads (cumulative)' %}'));
+		};
+		
+		{% include 'reports/includes/csv_export_button.html' %}
+
+	</script>
+	{% endblock extra_scripts %}
+
+{% endif %}
+
+
+{% block header %}
+<div class="jumbotron mb-5 py-2">
+    <div class="row">
+        <div class="col"><h3 class="mt-3"><a href="{% url 'reports:index' %}">{% trans 'Analytics/Reports' %}</a> 
+        	&gt; <em class="material-icons mr-2">timeline</em> {% trans 'Course Downloads' %}</h3></div>
+        
+         {% include 'reports/includes/header_date_form.html' with field=form.start_date %}
+    </div>
+
+</div>
+{% endblock header %}
+
+{% block content %}
+
+<div id="chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
+{% if course_downloads %}
+    <button class="btn btn-default btn-primary btn-sm download-csv-button" data-csv="course_dls">{% trans 'Download as CSV' %}</button>
+{% endif %}
+
+<div id="cumulative_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
+{% if course_downloads %}
+    <button class="btn btn-default btn-primary btn-sm download-csv-button" data-csv="course_dls_aggr">{% trans 'Download as CSV' %}</button>
+{% endif %}
+
+
+{% endblock %}
