@@ -1,0 +1,12 @@
+{% load i18n %}
+<div class="col">
+     <form method="POST">
+      {% csrf_token %}
+     <div class="input-group">
+       {% include 'common/form/input.html' with field=form.start_date %}
+       <div class="input-group-append">
+         <button type="submit" class="btn btn-light">{% trans 'Go' %}</button>
+       </div>
+     </div>
+     </form>
+ </div>

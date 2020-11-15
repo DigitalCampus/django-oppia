@@ -99,13 +99,6 @@ class VisualisationsTest(OppiaTestCase):
             self.assertEqual(response.status_code, 200)
 
     # test summary helper methods
-    def test_summary_helper_reg(self):
-        start_date = timezone.now() - datetime.timedelta(days=365)
-        summary = Summary()
-        user_registrations, previous_user_registrations = \
-            summary.get_registrations(start_date)
-        self.assertEqual(user_registrations.count(), 1)
-        self.assertEqual(previous_user_registrations, 4)
 
     def test_summary_helper_countries(self):
         start_date = timezone.now() - datetime.timedelta(days=365)

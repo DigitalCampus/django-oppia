@@ -7,6 +7,11 @@
     &.btn-em{ font-weight: 600; }
 }
 
+.download-csv-button{
+    position: relative;
+    margin: 20px 0 20px 50px;
+}
+
 [data-toggle="collapse"]{
     &:not(.collapsed) .expand-btn{
         transform:rotate(180deg);

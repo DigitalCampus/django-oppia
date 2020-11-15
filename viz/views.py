@@ -2,7 +2,6 @@
 import datetime
 
 from django.contrib.admin.views.decorators import staff_member_required
-from django.contrib.auth.models import User
 from django.db.models import Count, Sum
 from django.db.models.functions import TruncMonth, TruncYear
 from django.http import Http404
@@ -42,9 +41,6 @@ class Summary(TemplateView):
         return self.process_response(request, form, start_date)
 
     def process_response(self, request, form, start_date):
-        # User registrations
-        user_registrations, previous_user_registrations \
-            = self.get_registrations(start_date)
 
         # Countries
         total_countries, country_activity = self.get_countries(start_date)
@@ -65,9 +61,6 @@ class Summary(TemplateView):
 
         return render(request, 'viz/summary.html',
                       {'form': form,
-                       'user_registrations': user_registrations,
-                       'previous_user_registrations':
-                       previous_user_registrations,
                        'total_countries': total_countries,
                        'country_activity': country_activity,
                        'languages': languages,
@@ -78,19 +71,6 @@ class Summary(TemplateView):
                        'hot_courses': hot_courses,
                        'searches': searches,
                        'previous_searches': previous_searches})
-
-    # helper functions
-    def get_registrations(self, start_date):
-        user_registrations = User.objects.filter(date_joined__gte=start_date) \
-            .annotate(month=TruncMonth('date_joined'),
-                      year=TruncYear('date_joined')) \
-            .values('month', 'year') \
-            .annotate(count=Count('id')) \
-            .order_by('year', 'month')
-        previous_user_registrations = User.objects \
-            .filter(date_joined__lt=start_date).count()
-
-        return user_registrations, previous_user_registrations
 
     def get_countries(self, start_date):
         hits_by_country = UserLocationVisualization.objects.all() \
