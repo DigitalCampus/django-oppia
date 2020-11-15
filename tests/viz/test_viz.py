@@ -116,15 +116,6 @@ class VisualisationsTest(OppiaTestCase):
         languages = summary.get_languages(start_date)
         self.assertEqual(len(languages), 3)
 
-    def test_summary_helper_downloads(self):
-        start_date = timezone.now() - datetime.timedelta(days=365)
-        # Course Downloads
-        summary = Summary()
-        course_downloads, previous_course_downloads = \
-            summary.get_downloads(start_date)
-        self.assertEqual(course_downloads.count(), 0)
-        self.assertEqual(previous_course_downloads, 0)
-
     def test_summary_helper_activity(self):
         start_date = timezone.now() - datetime.timedelta(days=365)
         # Course Activity

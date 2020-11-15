@@ -8,55 +8,38 @@
 {% endblock extra_head_title %}
 
 
-{% if user.is_authenticated %}
-	{% block extra_scripts %}
-    <script src="{% static "oppia/js/oppia.chart-utils.js" %}"></script>
-	<script type='text/javascript' src='https://www.google.com/jsapi'></script>
-	<script type="text/javascript">
+{% block extra_scripts %}
+   {% include 'reports/includes/google_chart_setup.html' %}
+   <script type="text/javascript">
+   google.setOnLoadCallback(drawChart);
+	function drawChart() {
 
-        function getMonthlyDatatable(rowCount){
-            var datatable = new google.visualization.DataTable();
-            datatable.addColumn('string', "{% trans 'Month/Year' %}");
-            datatable.addColumn('number', "{% trans 'Total' %}");
-            datatable.addRows( rowCount );
-            return datatable;
-        }
-        // Initialize the datasets dictionary
-        var dsets = {};
+		dsets['course_dls'] = getMonthlyDatatable({{ course_downloads|length }});
+        dsets['course_dls_aggr'] = getMonthlyDatatable({{ course_downloads|length }});
 
-        // Load the Visualization API and the piechart package.
-		google.load('visualization', '1.0', {'packages':['corechart']});
-		// Set a callback to run when the Google Visualization API is loaded.
-		google.setOnLoadCallback(drawChart);
-		function drawChart() {
+		count = {{ previous_course_downloads }};
+		{% for u in course_downloads %}
+               dsets['course_dls'].setValue({{ forloop.counter0 }}, 0, "{{ u.month|date:"F Y" }}");
+			dsets['course_dls'].setValue({{ forloop.counter0 }}, 1, {{ u.count }});
+			count += {{ u.count }};
+			dsets['course_dls_aggr'].setValue({{ forloop.counter0 }}, 0, "{{ u.month|date:"F Y" }}");
+			dsets['course_dls_aggr'].setValue({{ forloop.counter0 }}, 1, count);
+		{% endfor %}
 
-			dsets['course_dls'] = getMonthlyDatatable({{ course_downloads|length }});
-	        dsets['course_dls_aggr'] = getMonthlyDatatable({{ course_downloads|length }});
+           new google.visualization
+                   .AreaChart(document.getElementById('chart_div'))
+                .draw(dsets['course_dls'], getDefaultAreaChartConfig('{% trans 'Course Downloads (by month)' %}'));
 
-			count = {{ previous_course_downloads }};
-			{% for u in course_downloads %}
-                dsets['course_dls'].setValue({{ forloop.counter0 }}, 0, "{{ u.month|date:"F Y" }}");
-				dsets['course_dls'].setValue({{ forloop.counter0 }}, 1, {{ u.count }});
-				count += {{ u.count }};
-				dsets['course_dls_aggr'].setValue({{ forloop.counter0 }}, 0, "{{ u.month|date:"F Y" }}");
-				dsets['course_dls_aggr'].setValue({{ forloop.counter0 }}, 1, count);
-			{% endfor %}
-
-            new google.visualization
-                    .AreaChart(document.getElementById('chart_div'))
-	                .draw(dsets['course_dls'], getDefaultAreaChartConfig('{% trans 'Course Downloads (by month)' %}'));
-
-	        new google.visualization
-                    .AreaChart(document.getElementById('cumulative_chart_div'))
-	                .draw(dsets['course_dls_aggr'], getDefaultAreaChartConfig('{% trans 'Course Downloads (cumulative)' %}'));
-		};
-		
-		{% include 'reports/includes/csv_export_button.html' %}
-
+        new google.visualization
+                   .AreaChart(document.getElementById('cumulative_chart_div'))
+                .draw(dsets['course_dls_aggr'], getDefaultAreaChartConfig('{% trans 'Course Downloads (cumulative)' %}'));
+	};
+	
+	{% include 'reports/includes/csv_export_button.html' %}
 	</script>
-	{% endblock extra_scripts %}
 
-{% endif %}
+{% endblock extra_scripts %}
+
 
 
 {% block header %}
