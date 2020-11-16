@@ -52,27 +52,7 @@
 			var chart3 = new google.visualization.PieChart(document.getElementById('activity_by_country_chart_div'));
 			chart3.draw(dsets['country_activity'], options3);
 
-			dsets['languages'] = new google.visualization.DataTable();
-			dsets['languages'].addColumn('string', "{% trans 'Language' %}");
-			dsets['languages'].addColumn('number', "{% trans 'Total' %}");
-			dsets['languages'].addRows( {{ languages|length }} );
-
-			count = 0;
-			{% for l in languages %}
-				dsets['languages'].setValue({{ forloop.counter0 }}, 0, '{{ l.lang }}');
-				dsets['languages'].setValue({{ forloop.counter0 }}, 1, {{ l.hits_percent|floatformat:1 }});
-			{% endfor %}
-
-			var optionsLang = {
-			          title: '{% trans 'Activity by Language (top 10 + others)' %}',
-			          width: '50%',
-			          height: 400,
-			          chartArea: {left:45,top:40,width:"90%",height:"75%"},
-			          backgroundColor: 'transparent',
-			        };
-
-			var chartLang = new google.visualization.PieChart(document.getElementById('activity_by_language_chart_div'));
-			chartLang.draw(dsets['languages'], optionsLang);
+	
 	      }
 
     $(function(){
@@ -128,6 +108,5 @@
 <p>{% trans 'Total countries:' %} {{ total_countries }}</p>
 <div id="activity_by_country_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
 <button class="btn btn-default btn-primary btn-sm download-csv" data-csv="country_activity">{% trans 'Download as CSV' %}</button>
-<div id="activity_by_language_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
 
 {% endblock %}

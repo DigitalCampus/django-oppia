@@ -40,5 +40,8 @@ urlpatterns = [
     path('searches',
          views.SearchesView.as_view(),
          name="searches"),
+    path('lang-activity',
+         views.LanguageActivityView.as_view(),
+         name="lang_activity"),
     path('map/', views.MapView.as_view(), name="map"),
 ]

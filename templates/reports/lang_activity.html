@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+{% load static %}
+
+{% block extra_head_title %}
+    {% trans 'Activity by Language' %}
+{% endblock extra_head_title %}
+
+{% block extra_scripts %}
+    {% include 'reports/includes/google_chart_setup.html' %}
+    <script type="text/javascript">
+        google.setOnLoadCallback(drawChart);
+        function drawChart() {
+            dsets['languages'] = new google.visualization.DataTable();
+            dsets['languages'].addColumn('string', "{% trans 'Language' %}");
+            dsets['languages'].addColumn('number', "{% trans 'Total' %}");
+            dsets['languages'].addRows( {{ languages|length }} );
+
+            count = 0;
+            {% for l in languages %}
+                dsets['languages'].setValue({{ forloop.counter0 }}, 0, '{{ l.lang }}');
+                dsets['languages'].setValue({{ forloop.counter0 }}, 1, {{ l.hits_percent|floatformat:1 }});
+            {% endfor %}
+
+            var optionsLang = {
+                      title: '{% trans 'Activity by Language (top 10 + others)' %}',
+                      width: '50%',
+                      height: 400,
+                      chartArea: {left:45,top:40,width:"90%",height:"75%"},
+                      backgroundColor: 'transparent',
+                    };
+
+            var chartLang = new google.visualization.PieChart(document.getElementById('activity_by_language_chart_div'));
+            chartLang.draw(dsets['languages'], optionsLang);
+        };
+        
+        {% include 'reports/includes/csv_export_button.html' %}
+
+    </script>
+{% endblock extra_scripts %}
+
+
+
+{% block header %}
+<div class="jumbotron mb-5 py-2">
+    <div class="row">
+        <div class="col"><h3 class="mt-3"><a href="{% url 'reports:index' %}">{% trans 'Analytics/Reports' %}</a> 
+            &gt; <em class="material-icons mr-2">timeline</em> {% trans 'Activity by Language' %}</h3></div>
+        
+         {% include 'reports/includes/header_date_form.html' with field=form.start_date %}
+    </div>
+
+</div>
+{% endblock header %}
+
+{% block content %}
+<div id="activity_by_language_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
+{% if languages %}
+    <button class="btn btn-default btn-primary btn-sm download-csv-button" data-csv="languages">{% trans 'Download as CSV' %}</button>
+{% endif %}
+{% endblock %}

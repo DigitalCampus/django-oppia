@@ -11,3 +11,4 @@ from reports.views.course_downloads import CourseDownloadsView
 from reports.views.map import MapView
 from reports.views.searches import SearchesView
 from reports.views.course_activity import CourseActivityView
+from reports.views.lang_activity import LanguageActivityView

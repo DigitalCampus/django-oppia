@@ -49,4 +49,8 @@ def menu_reports(request):
             {'name': _(u'Searches'),
              'description': _(u'In-app searches'),
              'url': reverse('reports:searches'),
-             'icon': 'timeline'}]
+             'icon': 'timeline'},
+            {'name': _(u'Activity by Language'),
+             'description': _(u'Activity by Language'),
+             'url': reverse('reports:lang_activity'),
+             'icon': 'pie_chart'}]

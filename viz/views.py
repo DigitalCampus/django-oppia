@@ -45,15 +45,11 @@ class Summary(TemplateView):
         # Countries
         total_countries, country_activity = self.get_countries(start_date)
 
-        # Language
-        languages = self.get_languages(start_date)
-
 
         return render(request, 'viz/summary.html',
                       {'form': form,
                        'total_countries': total_countries,
-                       'country_activity': country_activity,
-                       'languages': languages})
+                       'country_activity': country_activity})
 
     def get_countries(self, start_date):
         hits_by_country = UserLocationVisualization.objects.all() \
@@ -88,37 +84,3 @@ class Summary(TemplateView):
                                      'hits_percent': hits_percent})
 
         return total_countries, country_activity
-
-    def get_languages(self, start_date):
-        hit_by_language = Tracker.objects \
-            .filter(user__is_staff=False) \
-            .exclude(lang=None) \
-            .values('lang') \
-            .annotate(total_hits=Count('id')) \
-            .order_by('-total_hits')
-        total_hits = Tracker.objects \
-            .filter(user__is_staff=False) \
-            .exclude(lang=None) \
-            .aggregate(total_hits=Count('id'))
-
-        i = 0
-        languages = []
-        other_languages = 0
-        for hbl in hit_by_language:
-            if i < 10:
-                hits_percent = float(hbl['total_hits']
-                                     * 100.0
-                                     / total_hits['total_hits'])
-                languages.append({'lang': hbl['lang'],
-                                  'hits_percent': hits_percent})
-            else:
-                other_languages += hbl['total_hits']
-            i += 1
-        if i > 10:
-            hits_percent = float(other_languages
-                                 * 100.0
-                                 / total_hits['total_hits'])
-            languages.append({'lang': _('Other'),
-                              'hits_percent': hits_percent})
-
-        return languages
