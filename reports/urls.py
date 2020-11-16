@@ -34,5 +34,8 @@ urlpatterns = [
     path('average-time-spent',
          views.AverageTimeSpentView.as_view(),
          name="averagetimespent"),
+    path('searches',
+         views.SearchesView.as_view(),
+         name="searches"),
     path('map/', views.MapView.as_view(), name="map"),
 ]

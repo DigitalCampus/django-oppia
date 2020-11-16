@@ -41,4 +41,8 @@ def menu_reports(request):
             {'name': _(u'Average time spent'),
              'description': _(u'Average time spent by each user'),
              'url': reverse('reports:averagetimespent'),
+             'icon': 'timeline'},
+            {'name': _(u'Searches'),
+             'description': _(u'In-app searches'),
+             'url': reverse('reports:searches'),
              'icon': 'timeline'}]
