@@ -73,68 +73,6 @@
 
 			var chartLang = new google.visualization.PieChart(document.getElementById('activity_by_language_chart_div'));
 			chartLang.draw(dsets['languages'], optionsLang);
-
-	        dsets['activity'] = getMonthlyDatatable( {{ course_activity|length }} );
-            dsets['activity_aggr'] = getMonthlyDatatable( {{ course_activity|length }} );
-
-            count = {{ previous_course_activity }};
-            {% for ca in course_activity %}
-				dsets['activity'].setValue({{ forloop.counter0 }}, 0, "{{ ca.month|date:"F Y" }}");
-				dsets['activity'].setValue({{ forloop.counter0 }}, 1, {{ ca.count }});
-                count += {{ ca.count }};
-				dsets['activity_aggr'].setValue({{ forloop.counter0 }}, 0, "{{ ca.month|date:"F Y" }}");
-				dsets['activity_aggr'].setValue({{ forloop.counter0 }}, 1, count);
-			{% endfor %}
-
-	        new google.visualization
-                .AreaChart(document.getElementById('course_activity_chart_div'))
-                .draw(dsets['activity'], getDefaultAreaChartConfig('{% trans 'Course Activity (by month)' %}'));
-
-	        new google.visualization
-                    .AreaChart(document.getElementById('course_activity_cumulative_chart_div'))
-	                .draw(dsets['activity_aggr'], getDefaultAreaChartConfig('{% trans 'Course Activity (cumulative)' %}'));
-	
-	        var data8 = new google.visualization.DataTable();
-			data8.addColumn('string', "{% trans 'Course' %}");
-			data8.addColumn('number', "{% trans 'Total' %}");
-			data8.addRows( {{ hot_courses|length }} );
-			
-			count = 0;
-			{% for hc in hot_courses %}
-				data8.setValue({{ forloop.counter0 }},0,'{{ hc.course }}');
-				data8.setValue({{ forloop.counter0 }},1,{{ hc.hits_percent|floatformat:1 }});
-			{% endfor %}
-	
-			var options8 = {
-			          title: '{% trans 'Most Active Courses (in last month)' %}',
-			          width: '50%',
-			          height: 400,
-			          chartArea: {left:45,top:40,width:"90%",height:"75%"},
-			          backgroundColor: 'transparent',
-			        };
-
-			var chart8 = new google.visualization.PieChart(document.getElementById('activity_by_course_chart_div'));
-			chart8.draw(data8, options8);
-
-            dsets['searches'] = getMonthlyDatatable( {{ searches | length }} );
-            dsets['searches_aggr'] = getMonthlyDatatable( {{ searches | length }} );
-
-			count = {{ previous_searches }};
-			{% for ss in searches %}
-                dsets['searches'].setValue({{ forloop.counter0 }}, 0, "{{ ss.month|date:"F Y" }}");
-				dsets['searches'].setValue({{ forloop.counter0 }}, 1, {{ ss.count }});
-                count += {{ ss.count }};
-				dsets['searches_aggr'].setValue({{ forloop.counter0 }}, 0, "{{ ss.month|date:"F Y" }}");
-				dsets['searches_aggr'].setValue({{ forloop.counter0 }}, 1, count);
-			{% endfor %}
-
-            new google.visualization
-                    .AreaChart(document.getElementById('searches_chart_div'))
-	                .draw(dsets['searches'], getDefaultAreaChartConfig('{% trans 'In app-searches (by month)' %}'));
-
-	        new google.visualization
-                    .AreaChart(document.getElementById('searches_cumulative_chart_div'))
-	                .draw(dsets['searches_aggr'], getDefaultAreaChartConfig('{% trans 'In app-searches (cumulative)' %}'));
 	      }
 
     $(function(){
@@ -191,29 +129,5 @@
 <div id="activity_by_country_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
 <button class="btn btn-default btn-primary btn-sm download-csv" data-csv="country_activity">{% trans 'Download as CSV' %}</button>
 <div id="activity_by_language_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
-
-<h3>{% trans 'Course Activity' %}</h3>
-<div id="course_activity_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
-{% if course_activity %}
-    <button class="btn btn-default btn-primary btn-sm download-csv" data-csv="activity">{% trans 'Download as CSV' %}</button>
-{% endif %}
-
-<div id="course_activity_cumulative_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
-{% if course_activity %}
-    <button class="btn btn-default btn-primary btn-sm download-csv" data-csv="activity_aggr">{% trans 'Download as CSV' %}</button>
-{% endif %}
-
-<div id="activity_by_course_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
-
-<h3>{% trans 'In app-searches' %}</h3>
-<div id="searches_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
-{% if searches %}
-    <button class="btn btn-default btn-primary btn-sm download-csv" data-csv="searches">{% trans 'Download as CSV' %}</button>
-{% endif %}
-
-<div id="searches_cumulative_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
-{% if searches %}
-    <button class="btn btn-default btn-primary btn-sm download-csv" data-csv="searches_aggr">{% trans 'Download as CSV' %}</button>
-{% endif %}
 
 {% endblock %}

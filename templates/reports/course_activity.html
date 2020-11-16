@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+{% load static %}
+
+{% block extra_head_title %}
+	{% trans 'Course Activity' %}
+{% endblock extra_head_title %}
+
+{% block extra_scripts %}
+	{% include 'reports/includes/google_chart_setup.html' %}
+   <script type="text/javascript">
+   		google.setOnLoadCallback(drawChart);
+		function drawChart() {
+
+			dsets['course_activity'] = getMonthlyDatatable({{ course_activity|length }});
+	        dsets['course_activity_aggr'] = getMonthlyDatatable({{ course_activity|length }});
+
+			count = {{ previous_course_activity }};
+			{% for u in course_activity %}
+                dsets['course_activity'].setValue({{ forloop.counter0 }}, 0, "{{ u.month|date:"F Y" }}");
+				dsets['course_activity'].setValue({{ forloop.counter0 }}, 1, {{ u.count }});
+				count += {{ u.count }};
+				dsets['course_activity_aggr'].setValue({{ forloop.counter0 }}, 0, "{{ u.month|date:"F Y" }}");
+				dsets['course_activity_aggr'].setValue({{ forloop.counter0 }}, 1, count);
+			{% endfor %}
+
+            new google.visualization
+                    .AreaChart(document.getElementById('chart_div'))
+	                .draw(dsets['course_activity'], getDefaultAreaChartConfig('{% trans 'Course Activity (by month)' %}'));
+
+	        new google.visualization
+                    .AreaChart(document.getElementById('cumulative_chart_div'))
+	                .draw(dsets['course_activity_aggr'], getDefaultAreaChartConfig('{% trans 'Course Activity (cumulative)' %}'));
+		
+	        var data8 = new google.visualization.DataTable();
+			data8.addColumn('string', "{% trans 'Course' %}");
+			data8.addColumn('number', "{% trans 'Total' %}");
+			data8.addRows( {{ hot_courses|length }} );
+			
+			count = 0;
+			{% for hc in hot_courses %}
+				data8.setValue({{ forloop.counter0 }},0,'{{ hc.course }}');
+				data8.setValue({{ forloop.counter0 }},1,{{ hc.hits_percent|floatformat:1 }});
+			{% endfor %}
+
+			var options8 = {
+			          title: '{% trans 'Most Active Courses (in last month)' %}',
+			          width: '50%',
+			          height: 400,
+			          chartArea: {left:45,top:40,width:"90%",height:"75%"},
+			          backgroundColor: 'transparent',
+			        };
+
+			var chart8 = new google.visualization.PieChart(document.getElementById('activity_by_course_chart_div'));
+			chart8.draw(data8, options8);
+		
+		};
+		
+		
+		{% include 'reports/includes/csv_export_button.html' %}
+
+	</script>
+{% endblock extra_scripts %}
+
+
+
+{% block header %}
+<div class="jumbotron mb-5 py-2">
+    <div class="row">
+        <div class="col"><h3 class="mt-3"><a href="{% url 'reports:index' %}">{% trans 'Analytics/Reports' %}</a> 
+        	&gt; <em class="material-icons mr-2">timeline</em> {% trans 'Course Activity' %}</h3></div>
+        
+         {% include 'reports/includes/header_date_form.html' with field=form.start_date %}
+    </div>
+
+</div>
+{% endblock header %}
+
+{% block content %}
+
+<div id="chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
+{% if course_activity %}
+    <button class="btn btn-default btn-primary btn-sm download-csv-button" data-csv="course_activity">{% trans 'Download as CSV' %}</button>
+{% endif %}
+
+<div id="cumulative_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
+{% if course_activity %}
+    <button class="btn btn-default btn-primary btn-sm download-csv-button" data-csv="course_activity_aggr">{% trans 'Download as CSV' %}</button>
+{% endif %}
+
+<div id="activity_by_course_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
+
+{% endblock %}

@@ -48,23 +48,12 @@ class Summary(TemplateView):
         # Language
         languages = self.get_languages(start_date)
 
-        # Course Activity
-        course_activity, previous_course_activity, hot_courses \
-            = self.get_course_activity(start_date)
-
-        # Searches
-        searches, previous_searches = self.get_searches(start_date)
 
         return render(request, 'viz/summary.html',
                       {'form': form,
                        'total_countries': total_countries,
                        'country_activity': country_activity,
-                       'languages': languages,
-                       'course_activity': course_activity,
-                       'previous_course_activity': previous_course_activity,
-                       'hot_courses': hot_courses,
-                       'searches': searches,
-                       'previous_searches': previous_searches})
+                       'languages': languages})
 
     def get_countries(self, start_date):
         hits_by_country = UserLocationVisualization.objects.all() \
@@ -133,76 +122,3 @@ class Summary(TemplateView):
                               'hits_percent': hits_percent})
 
         return languages
-
-    def get_course_activity(self, start_date):
-        course_activity = CourseDailyStats.objects \
-            .filter(day__gte=start_date) \
-            .annotate(month=TruncMonth('day'),
-                      year=TruncYear('day')) \
-            .values('month', 'year') \
-            .annotate(count=Sum('total')) \
-            .order_by('year', 'month')
-
-        previous_course_activity = CourseDailyStats.objects \
-            .filter(day__lt=start_date) \
-            .aggregate(total=Sum('total')) \
-            .get('total', 0)
-        if previous_course_activity is None:
-            previous_course_activity = 0
-
-        last_month = timezone.now() - datetime.timedelta(days=131)
-
-        hit_by_course = CourseDailyStats.objects \
-            .filter(day__gte=last_month, course__isnull=False) \
-            .values('course_id') \
-            .annotate(total_hits=Sum('total')) \
-            .order_by('-total_hits')
-        total_hits = sum(cstats['total_hits'] for cstats in hit_by_course)
-
-        i = 0
-        hot_courses = []
-        other_course_activity = 0
-        for hbc in hit_by_course:
-            if i < 10:
-                hits_percent = float(hbc['total_hits'] * 100.0 / total_hits)
-                course = Course.objects.get(id=hbc['course_id'])
-                hot_courses.append({'course': course,
-                                    'hits_percent': hits_percent})
-            else:
-                other_course_activity += hbc['total_hits']
-            i += 1
-        if i > 10:
-            hits_percent = float(other_course_activity * 100.0 / total_hits)
-            hot_courses.append({'course': _('Other'),
-                                'hits_percent': hits_percent})
-
-        return course_activity, previous_course_activity, hot_courses
-
-    def get_searches(self, start_date):
-        searches = CourseDailyStats.objects \
-            .filter(day__gte=start_date, type='search') \
-            .annotate(month=TruncMonth('day'),
-                      year=TruncYear('day')) \
-            .values('month', 'year') \
-            .annotate(count=Sum('total')) \
-            .order_by('year', 'month')
-
-        previous_searches = CourseDailyStats.objects \
-            .filter(day__lt=start_date,
-                    type='search') \
-            .aggregate(total=Sum('total')) \
-            .get('total', 0)
-        if previous_searches is None:
-            previous_searches = 0
-
-        return searches, previous_searches
-
-
-class Map(TemplateView):
-
-    def get(self, request):
-        if SettingProperties.get_bool(
-                constants.OPPIA_MAP_VISUALISATION_ENABLED, False):
-            return render(request, 'viz/map.html')
-        else:
-            raise Http404()
