@@ -7,8 +7,6 @@ from django.utils import timezone
 from settings import constants
 from settings.models import SettingProperties
 
-from viz.views import Summary
-
 
 class MapViewTest(OppiaTestCase):
 

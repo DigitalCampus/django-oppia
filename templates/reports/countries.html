@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+{% load static %}
+
+{% block extra_head_title %}
+    {% trans 'Countries' %}
+{% endblock extra_head_title %}
+
+{% block extra_scripts %}
+    {% include 'reports/includes/google_chart_setup.html' %}
+    <script type="text/javascript">
+    google.setOnLoadCallback(drawChart);
+	function drawChart() {
+
+        dsets['country_activity'] = new google.visualization.DataTable();
+		dsets['country_activity'].addColumn('string', "{% trans 'Country' %}");
+		dsets['country_activity'].addColumn('number', "{% trans 'Total' %}");
+		dsets['country_activity'].addRows( {{ country_activity|length }} );
+
+		count = 0;
+		{% for ca in country_activity %}
+			dsets['country_activity'].setValue({{ forloop.counter0 }}, 0, '{{ ca.country_name }}');
+			dsets['country_activity'].setValue({{ forloop.counter0 }}, 1, {{ ca.hits_percent|floatformat:1 }});
+		{% endfor %}
+
+		var options3 = {
+		          title: '{% trans 'Activity by Country (top 20 + others)' %}',
+		          width: '50%',
+		          height: 400,
+		          chartArea: {left:45,top:40,width:"90%",height:"75%"},
+		          backgroundColor: 'transparent',
+		        };
+
+		var chart3 = new google.visualization.PieChart(document.getElementById('activity_by_country_chart_div'));
+		chart3.draw(dsets['country_activity'], options3);
+
+
+      };
+        
+        {% include 'reports/includes/csv_export_button.html' %}
+
+    </script>
+{% endblock extra_scripts %}
+
+
+
+{% block header %}
+<div class="jumbotron mb-5 py-2">
+    <div class="row">
+        <div class="col"><h3 class="mt-3"><a href="{% url 'reports:index' %}">{% trans 'Analytics/Reports' %}</a> 
+            &gt; <em class="material-icons mr-2">timeline</em> {% trans 'Countries' %}</h3></div>
+        
+         {% include 'reports/includes/header_date_form.html' with field=form.start_date %}
+    </div>
+
+</div>
+{% endblock header %}
+
+{% block content %}
+<div id="activity_by_country_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
+{% if country_activity %}
+    <button class="btn btn-default btn-primary btn-sm download-csv-button" data-csv="country_activity">{% trans 'Download as CSV' %}</button>
+{% endif %}
+{% endblock %}

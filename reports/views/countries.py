@@ -1,57 +1,22 @@
-# viz/views.py
-import datetime
 
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.models import User
 from django.db.models import Count, Sum
 from django.db.models.functions import TruncMonth, TruncYear
-from django.http import Http404
 from django.shortcuts import render
-from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import TemplateView
 
-from helpers.forms.dates import DateDiffForm
 from oppia.models import Tracker, Course
-from summary.models import CourseDailyStats
+
+from reports.views.base_report_template import BaseReportTemplateView
+
 from viz.models import UserLocationVisualization
 
-from settings import constants
-from settings.models import SettingProperties
-
-
 @method_decorator(staff_member_required, name='dispatch')
-class Summary(TemplateView):
+class CountriesView(BaseReportTemplateView):
 
-    STR_YEAR_DAY = "year(day)"
-    STR_MONTH_DAY = "month(day)"
-
-    def get(self, request):
-        start_date = timezone.now() - datetime.timedelta(days=365)
-        data = {}
-        data['start_date'] = start_date.strftime("%Y-%m-%d")
-        form = DateDiffForm(initial=data)
-        return self.process_response(request, form, start_date)
-
-    def post(self, request):
-        start_date = timezone.now() - datetime.timedelta(days=365)
-        form = DateDiffForm(request.POST)
-        if form.is_valid():
-            start_date = form.cleaned_data.get("start_date")
-        return self.process_response(request, form, start_date)
-
-    def process_response(self, request, form, start_date):
-
-        # Countries
-        total_countries, country_activity = self.get_countries(start_date)
-
-
-        return render(request, 'viz/summary.html',
-                      {'form': form,
-                       'total_countries': total_countries,
-                       'country_activity': country_activity})
-
-    def get_countries(self, start_date):
+    def process(self, request, form, start_date):
         hits_by_country = UserLocationVisualization.objects.all() \
             .values('country_code',
                     'country_name') \
@@ -82,5 +47,7 @@ class Summary(TemplateView):
             country_activity.append({'country_code': None,
                                      'country_name': _('Other'),
                                      'hits_percent': hits_percent})
-
-        return total_countries, country_activity
+        return render(request, 'reports/countries.html',
+                      {'form': form,
+                       'total_countries': total_countries,
+                       'country_activity': country_activity})

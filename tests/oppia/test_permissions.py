@@ -274,23 +274,7 @@ class PermissionsViewTest(OppiaTestCase):
         self.assert_can_view('profile:user_course_activity',
                              self.normal_user,
                              view_kwargs={'course_id': 1, 'user_id': 2})
-    # TODO: Teacher view user activity of a user in a cohort he is assigned
 
-    # analytics summary overview
-
-    def test_anon_cantview_summary_overview(self):
-        self.assert_must_login('viz:summary')
-
-    def test_admin_canview_summary_overview(self):
-        self.assert_can_view('viz:summary', self.admin_user)
-
-    def test_staff_canview_summary_overview(self):
-        self.assert_can_view('viz:summary', self.staff_user)
-
-    def test_student_cantview_summary_overview(self):
-        self.client.force_login(self.normal_user)
-        response = self.client.get(reverse('viz:summary'))
-        self.assertEqual(response.status_code, 302)
 
     # Test is_manager permissions
 

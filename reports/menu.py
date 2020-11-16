@@ -2,14 +2,14 @@
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
+from settings import constants
+from settings.models import SettingProperties
+
 
 def menu_reports(request):
-    # add in here any reports that need to appear in the menu
-    # return [{'name': 'test',
-    #            'url':'/reports/1/'},
-    #         {'name': 'test2',
-    #            'url':'/reports/2/'}]
-    return [{'name': _(u'User Registrations'),
+    # add in here any reports that need to appear
+    
+    reports = [{'name': _(u'User Registrations'),
              'description': _(u'Number of user registrations'),
              'url': reverse('reports:user_registrations'),
              'icon': 'timeline'},
@@ -51,6 +51,22 @@ def menu_reports(request):
              'url': reverse('reports:searches'),
              'icon': 'timeline'},
             {'name': _(u'Activity by Language'),
-             'description': _(u'Activity by Language'),
+             'description': _(u'Activity by language'),
              'url': reverse('reports:lang_activity'),
              'icon': 'pie_chart'}]
+    
+    map_viz_enabled = SettingProperties.get_bool(
+        constants.OPPIA_MAP_VISUALISATION_ENABLED,
+        False)
+    
+    if map_viz_enabled:
+        reports.append({'name': _(u'Activity Map'),
+             'description': _(u'Map of users locations'),
+             'url': reverse('reports:lang_activity'),
+             'icon': 'map'})
+        reports.append({'name': _(u'Countries'),
+             'description': _(u'Countries users are accessing from'),
+             'url': reverse('reports:countries'),
+             'icon': 'pie_chart'})
+    
+    return reports
