@@ -19,6 +19,8 @@ class MapViewTest(OppiaTestCase):
                 'tests/test_tracker.json',
                 'tests/test_course_permissions.json']
 
+    url = reverse('reports:map')
+
     # map
     def test_view_map_disabled(self):
         SettingProperties.set_bool(
@@ -26,14 +28,20 @@ class MapViewTest(OppiaTestCase):
             False)
 
         allowed_users = [self.admin_user,
-                         self.teacher_user,
-                         self.staff_user,
-                         self.normal_user]
+                         self.staff_user]
+
+        disallowed_users = [self.teacher_user,
+                            self.normal_user]
 
         for allowed_user in allowed_users:
             self.client.force_login(allowed_user)
-            response = self.client.get(reverse('reports:map'))
+            response = self.client.get(self.url)
             self.assertEqual(404, response.status_code)
+
+        for disallowed_user in disallowed_users:
+            self.client.force_login(disallowed_user)
+            response = self.client.get(self.url)
+            self.assertEqual(302, response.status_code)
 
     def test_view_map_enabled(self):
         SettingProperties.set_bool(
@@ -41,12 +49,18 @@ class MapViewTest(OppiaTestCase):
             True)
 
         allowed_users = [self.admin_user,
-                         self.teacher_user,
-                         self.staff_user,
-                         self.normal_user]
+                         self.staff_user]
+
+        disallowed_users = [self.teacher_user,
+                            self.normal_user]
 
         for allowed_user in allowed_users:
             self.client.force_login(allowed_user)
-            response = self.client.get(reverse('reports:map'))
-            self.assertTemplateUsed(response, 'report/map.html')
-            self.assertEqual(response.status_code, 200)
+            response = self.client.get(self.url)
+            self.assertTemplateUsed(response, 'reports/map.html')
+            self.assertEqual(200, response.status_code)
+
+        for disallowed_user in disallowed_users:
+            self.client.force_login(disallowed_user)
+            response = self.client.get(self.url)
+            self.assertEqual(302, response.status_code)
