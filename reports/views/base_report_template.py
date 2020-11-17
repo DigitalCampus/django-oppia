@@ -8,11 +8,13 @@ from django.views.generic import TemplateView
 from helpers.forms import dates
 
 from reports import constants
+from reports.signals import dashboard_accessed
 
 
 class BaseReportTemplateView(TemplateView):
 
     def get(self, request):
+        dashboard_accessed.send(sender=None, request=request, data=None)
         start_date = timezone.now() - datetime.timedelta(
             days=constants.ANNUAL_NO_DAYS)
         data = {}
@@ -22,6 +24,7 @@ class BaseReportTemplateView(TemplateView):
         return self.process(request, form, start_date)
 
     def post(self, request):
+        dashboard_accessed.send(sender=None, request=request, data=None)
         start_date = timezone.now() - datetime.timedelta(
             days=constants.ANNUAL_NO_DAYS)
         form = dates.DateDiffForm(request.POST)
