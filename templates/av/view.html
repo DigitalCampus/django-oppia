@@ -17,7 +17,7 @@
 {% block content %}
 <div class="container">
     {% blocktrans with media.file.url as download_media %}
-     <p>The media available for download at: <a href="{{ download_media }}" target="_blank">{{ download_media }}</a> </p>
+     <p>The media available for download at: <a href="{{ download_media }}" target="_blank" rel="noopener">{{ download_media }}</a> </p>
     {% endblocktrans %}
 
     <h3>{% trans 'Embed code for Moodle' %}</h3>

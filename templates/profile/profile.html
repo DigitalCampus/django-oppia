@@ -24,10 +24,10 @@
 	<div id="export-data" class="collapse mt-4   {% if advanced_search %}show{% endif %}">
             <h5>{% trans 'Export data' %}</h5>
 
-			<a href="{% url 'profile:export_mydata' 'activity' %}" class="btn btn-light mr-2" target="_blank">{% trans 'Export Course Activity' %} <em class="fas fa-external-link-alt ml-2"></em></a>
-			<a href="{% url 'profile:export_mydata' 'quiz' %}" class="btn btn-light mr-2" target="_blank">{% trans 'Export Quiz Attempts' %} <em class="fas fa-external-link-alt ml-2"></em></a>
-			<a href="{% url 'profile:export_mydata' 'points' %}" class="btn btn-light mr-2" target="_blank">{% trans 'Export Points' %} <em class="fas fa-external-link-alt ml-2"></em></a>
-			<a href="{% url 'profile:export_mydata' 'badges' %}" class="btn btn-light mr-2" target="_blank">{% trans 'Export Badges' %} <em class="fas fa-external-link-alt ml-2"></em></a>
+			<a href="{% url 'profile:export_mydata' 'activity' %}" class="btn btn-light mr-2" target="_blank" rel="noopener">{% trans 'Export Course Activity' %} <em class="fas fa-external-link-alt ml-2"></em></a>
+			<a href="{% url 'profile:export_mydata' 'quiz' %}" class="btn btn-light mr-2" target="_blank" rel="noopener">{% trans 'Export Quiz Attempts' %} <em class="fas fa-external-link-alt ml-2"></em></a>
+			<a href="{% url 'profile:export_mydata' 'points' %}" class="btn btn-light mr-2" target="_blank" rel="noopener">{% trans 'Export Points' %} <em class="fas fa-external-link-alt ml-2"></em></a>
+			<a href="{% url 'profile:export_mydata' 'badges' %}" class="btn btn-light mr-2" target="_blank" rel="noopener">{% trans 'Export Badges' %} <em class="fas fa-external-link-alt ml-2"></em></a>
     </div>
 
 </div>
