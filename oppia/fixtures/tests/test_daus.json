@@ -1,0 +1,3840 @@
+[
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 1,
+    "fields": {
+        "dau": 1,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 1821
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 2,
+    "fields": {
+        "dau": 2,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 71
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 3,
+    "fields": {
+        "dau": 3,
+        "user": 1,
+        "type": "submitted",
+        "time_spent": 9
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 4,
+    "fields": {
+        "dau": 4,
+        "user": 1,
+        "type": "submitted",
+        "time_spent": 46
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 5,
+    "fields": {
+        "dau": 5,
+        "user": 1,
+        "type": "submitted",
+        "time_spent": 180
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 6,
+    "fields": {
+        "dau": 6,
+        "user": 1,
+        "type": "submitted",
+        "time_spent": 33
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 7,
+    "fields": {
+        "dau": 6,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 3
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 8,
+    "fields": {
+        "dau": 7,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 409461
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 9,
+    "fields": {
+        "dau": 8,
+        "user": 1,
+        "type": "submitted",
+        "time_spent": 358
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 10,
+    "fields": {
+        "dau": 9,
+        "user": 1,
+        "type": "submitted",
+        "time_spent": 46
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 11,
+    "fields": {
+        "dau": 10,
+        "user": 1,
+        "type": "submitted",
+        "time_spent": 554
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 12,
+    "fields": {
+        "dau": 11,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 377
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 13,
+    "fields": {
+        "dau": 11,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 4
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 14,
+    "fields": {
+        "dau": 12,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 25
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 15,
+    "fields": {
+        "dau": 13,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 92
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 16,
+    "fields": {
+        "dau": 13,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 23
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 17,
+    "fields": {
+        "dau": 14,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 24
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 18,
+    "fields": {
+        "dau": 15,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 10
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 19,
+    "fields": {
+        "dau": 16,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 3
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 20,
+    "fields": {
+        "dau": 17,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 164
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 21,
+    "fields": {
+        "dau": 18,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 55
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 22,
+    "fields": {
+        "dau": 19,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 9
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 23,
+    "fields": {
+        "dau": 20,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 12
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 24,
+    "fields": {
+        "dau": 21,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 49
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 25,
+    "fields": {
+        "dau": 22,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 29
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 26,
+    "fields": {
+        "dau": 23,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 12
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 27,
+    "fields": {
+        "dau": 24,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 215
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 28,
+    "fields": {
+        "dau": 25,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 5
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 29,
+    "fields": {
+        "dau": 26,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 34428
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 30,
+    "fields": {
+        "dau": 27,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 13
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 31,
+    "fields": {
+        "dau": 28,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 3
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 32,
+    "fields": {
+        "dau": 29,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 9
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 33,
+    "fields": {
+        "dau": 30,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 11
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 34,
+    "fields": {
+        "dau": 31,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 11
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 35,
+    "fields": {
+        "dau": 32,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 231
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 36,
+    "fields": {
+        "dau": 33,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 4
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 37,
+    "fields": {
+        "dau": 34,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 142
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 38,
+    "fields": {
+        "dau": 35,
+        "user": 1,
+        "type": "submitted",
+        "time_spent": 33
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 39,
+    "fields": {
+        "dau": 36,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 9
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 40,
+    "fields": {
+        "dau": 37,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 44
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 41,
+    "fields": {
+        "dau": 38,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 13
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 42,
+    "fields": {
+        "dau": 39,
+        "user": 1,
+        "type": "submitted",
+        "time_spent": 20
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 43,
+    "fields": {
+        "dau": 39,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 38
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 44,
+    "fields": {
+        "dau": 40,
+        "user": 1,
+        "type": "submitted",
+        "time_spent": 80
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 45,
+    "fields": {
+        "dau": 40,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 18
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 46,
+    "fields": {
+        "dau": 41,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 103
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 47,
+    "fields": {
+        "dau": 42,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 265
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 48,
+    "fields": {
+        "dau": 43,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 323
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 49,
+    "fields": {
+        "dau": 44,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 33
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 50,
+    "fields": {
+        "dau": 45,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 5
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 51,
+    "fields": {
+        "dau": 46,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 14
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 52,
+    "fields": {
+        "dau": 47,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 1420
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 53,
+    "fields": {
+        "dau": 48,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 3
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 54,
+    "fields": {
+        "dau": 49,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 181
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 55,
+    "fields": {
+        "dau": 49,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 58
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 56,
+    "fields": {
+        "dau": 50,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 3906
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 57,
+    "fields": {
+        "dau": 51,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 228
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 58,
+    "fields": {
+        "dau": 52,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 77
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 59,
+    "fields": {
+        "dau": 53,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 9
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 60,
+    "fields": {
+        "dau": 54,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 6
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 61,
+    "fields": {
+        "dau": 55,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 139
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 62,
+    "fields": {
+        "dau": 56,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 3
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 63,
+    "fields": {
+        "dau": 57,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 7
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 64,
+    "fields": {
+        "dau": 58,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 116
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 65,
+    "fields": {
+        "dau": 59,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 12
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 66,
+    "fields": {
+        "dau": 60,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 362
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 67,
+    "fields": {
+        "dau": 61,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 25
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 68,
+    "fields": {
+        "dau": 62,
+        "user": 1,
+        "type": "submitted",
+        "time_spent": 11
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 69,
+    "fields": {
+        "dau": 63,
+        "user": 1,
+        "type": "submitted",
+        "time_spent": 43
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 70,
+    "fields": {
+        "dau": 64,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 3
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 71,
+    "fields": {
+        "dau": 64,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 367
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 72,
+    "fields": {
+        "dau": 65,
+        "user": 1,
+        "type": "submitted",
+        "time_spent": 62
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 73,
+    "fields": {
+        "dau": 66,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 8
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 74,
+    "fields": {
+        "dau": 67,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 19
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 75,
+    "fields": {
+        "dau": 68,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 10
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 76,
+    "fields": {
+        "dau": 69,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 7
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 77,
+    "fields": {
+        "dau": 70,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 49
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 78,
+    "fields": {
+        "dau": 71,
+        "user": 1,
+        "type": "submitted",
+        "time_spent": 973
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 79,
+    "fields": {
+        "dau": 72,
+        "user": 1,
+        "type": "submitted",
+        "time_spent": 408
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 80,
+    "fields": {
+        "dau": 73,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 5
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 81,
+    "fields": {
+        "dau": 74,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 82,
+    "fields": {
+        "dau": 75,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 6
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 83,
+    "fields": {
+        "dau": 76,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 7
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 84,
+    "fields": {
+        "dau": 77,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 85,
+    "fields": {
+        "dau": 78,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 9
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 86,
+    "fields": {
+        "dau": 79,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 24
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 87,
+    "fields": {
+        "dau": 80,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 88,
+    "fields": {
+        "dau": 81,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 8
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 89,
+    "fields": {
+        "dau": 82,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 20
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 90,
+    "fields": {
+        "dau": 83,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 91,
+    "fields": {
+        "dau": 84,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 1669
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 92,
+    "fields": {
+        "dau": 85,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 5040
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 93,
+    "fields": {
+        "dau": 85,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 23
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 94,
+    "fields": {
+        "dau": 86,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 1173
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 95,
+    "fields": {
+        "dau": 87,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 1645
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 96,
+    "fields": {
+        "dau": 88,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 515
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 97,
+    "fields": {
+        "dau": 89,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 214
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 98,
+    "fields": {
+        "dau": 90,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 545
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 99,
+    "fields": {
+        "dau": 91,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 18
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 100,
+    "fields": {
+        "dau": 92,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 162
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 101,
+    "fields": {
+        "dau": 93,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 102,
+    "fields": {
+        "dau": 94,
+        "user": 1,
+        "type": "submitted",
+        "time_spent": 6
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 103,
+    "fields": {
+        "dau": 95,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 838
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 104,
+    "fields": {
+        "dau": 96,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 4
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 105,
+    "fields": {
+        "dau": 97,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 73
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 106,
+    "fields": {
+        "dau": 98,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 154
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 107,
+    "fields": {
+        "dau": 99,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 4
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 108,
+    "fields": {
+        "dau": 100,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 109,
+    "fields": {
+        "dau": 101,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 6
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 110,
+    "fields": {
+        "dau": 102,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 31
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 111,
+    "fields": {
+        "dau": 102,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 112,
+    "fields": {
+        "dau": 103,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 825
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 113,
+    "fields": {
+        "dau": 104,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 850
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 114,
+    "fields": {
+        "dau": 105,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 115,
+    "fields": {
+        "dau": 106,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 116,
+    "fields": {
+        "dau": 106,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 117,
+    "fields": {
+        "dau": 107,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 10
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 118,
+    "fields": {
+        "dau": 108,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 119,
+    "fields": {
+        "dau": 109,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 120,
+    "fields": {
+        "dau": 110,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 121,
+    "fields": {
+        "dau": 111,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 62
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 122,
+    "fields": {
+        "dau": 112,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 6
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 123,
+    "fields": {
+        "dau": 113,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 124,
+    "fields": {
+        "dau": 114,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 3
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 125,
+    "fields": {
+        "dau": 115,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 126,
+    "fields": {
+        "dau": 116,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 73
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 127,
+    "fields": {
+        "dau": 117,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 23
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 128,
+    "fields": {
+        "dau": 118,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 129,
+    "fields": {
+        "dau": 118,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 5
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 130,
+    "fields": {
+        "dau": 119,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 131,
+    "fields": {
+        "dau": 120,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 132,
+    "fields": {
+        "dau": 120,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 133,
+    "fields": {
+        "dau": 121,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 224
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 134,
+    "fields": {
+        "dau": 122,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 7
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 135,
+    "fields": {
+        "dau": 123,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 1780
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 136,
+    "fields": {
+        "dau": 124,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 4
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 137,
+    "fields": {
+        "dau": 124,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 3
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 138,
+    "fields": {
+        "dau": 125,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 3
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 139,
+    "fields": {
+        "dau": 126,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 61
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 140,
+    "fields": {
+        "dau": 127,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 15
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 141,
+    "fields": {
+        "dau": 128,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 142,
+    "fields": {
+        "dau": 129,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 143,
+    "fields": {
+        "dau": 130,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 144,
+    "fields": {
+        "dau": 131,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 145,
+    "fields": {
+        "dau": 131,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 6
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 146,
+    "fields": {
+        "dau": 132,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 101
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 147,
+    "fields": {
+        "dau": 133,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 158
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 148,
+    "fields": {
+        "dau": 134,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 149,
+    "fields": {
+        "dau": 135,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 91
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 150,
+    "fields": {
+        "dau": 136,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 116
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 151,
+    "fields": {
+        "dau": 137,
+        "user": 1,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 152,
+    "fields": {
+        "dau": 138,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 42
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 153,
+    "fields": {
+        "dau": 139,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 27
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 154,
+    "fields": {
+        "dau": 140,
+        "user": 1,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 155,
+    "fields": {
+        "dau": 141,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 156,
+    "fields": {
+        "dau": 142,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 157,
+    "fields": {
+        "dau": 142,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 66
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 158,
+    "fields": {
+        "dau": 143,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 76
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 159,
+    "fields": {
+        "dau": 144,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 160,
+    "fields": {
+        "dau": 145,
+        "user": 1,
+        "type": "submitted",
+        "time_spent": 70
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 161,
+    "fields": {
+        "dau": 145,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 14
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 162,
+    "fields": {
+        "dau": 146,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 4
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 163,
+    "fields": {
+        "dau": 147,
+        "user": 1,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 164,
+    "fields": {
+        "dau": 148,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 2564
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 165,
+    "fields": {
+        "dau": 149,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 2504
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 166,
+    "fields": {
+        "dau": 150,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 4
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 167,
+    "fields": {
+        "dau": 151,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 168,
+    "fields": {
+        "dau": 152,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 169,
+    "fields": {
+        "dau": 153,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 297
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 170,
+    "fields": {
+        "dau": 154,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 15
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 171,
+    "fields": {
+        "dau": 155,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 3
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 172,
+    "fields": {
+        "dau": 156,
+        "user": 1,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 173,
+    "fields": {
+        "dau": 157,
+        "user": 1,
+        "type": "submitted",
+        "time_spent": 14
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 174,
+    "fields": {
+        "dau": 158,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 175,
+    "fields": {
+        "dau": 158,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 8
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 176,
+    "fields": {
+        "dau": 159,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 3
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 177,
+    "fields": {
+        "dau": 160,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 12
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 178,
+    "fields": {
+        "dau": 160,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 22
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 179,
+    "fields": {
+        "dau": 161,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 60
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 180,
+    "fields": {
+        "dau": 162,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 69
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 181,
+    "fields": {
+        "dau": 163,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 12
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 182,
+    "fields": {
+        "dau": 164,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 48
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 183,
+    "fields": {
+        "dau": 165,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 16
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 184,
+    "fields": {
+        "dau": 166,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 3
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 185,
+    "fields": {
+        "dau": 167,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 504
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 186,
+    "fields": {
+        "dau": 168,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 122
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 187,
+    "fields": {
+        "dau": 169,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 16
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 188,
+    "fields": {
+        "dau": 170,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 53
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 189,
+    "fields": {
+        "dau": 171,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 4
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 190,
+    "fields": {
+        "dau": 172,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 5
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 191,
+    "fields": {
+        "dau": 173,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 1209
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 192,
+    "fields": {
+        "dau": 174,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 16
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 193,
+    "fields": {
+        "dau": 175,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 1643
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 194,
+    "fields": {
+        "dau": 176,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 195,
+    "fields": {
+        "dau": 177,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 4
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 196,
+    "fields": {
+        "dau": 178,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 57
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 197,
+    "fields": {
+        "dau": 179,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 133
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 198,
+    "fields": {
+        "dau": 180,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 46
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 199,
+    "fields": {
+        "dau": 181,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 72
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 200,
+    "fields": {
+        "dau": 181,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 282
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 201,
+    "fields": {
+        "dau": 182,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 56
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 202,
+    "fields": {
+        "dau": 183,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 31
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 203,
+    "fields": {
+        "dau": 184,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 4414
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 204,
+    "fields": {
+        "dau": 185,
+        "user": 1,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 205,
+    "fields": {
+        "dau": 186,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 206,
+    "fields": {
+        "dau": 187,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 207,
+    "fields": {
+        "dau": 188,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 229
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 208,
+    "fields": {
+        "dau": 189,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 33
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 209,
+    "fields": {
+        "dau": 190,
+        "user": 4,
+        "type": "submitted",
+        "time_spent": 20
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 210,
+    "fields": {
+        "dau": 191,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 211,
+    "fields": {
+        "dau": 192,
+        "user": 3,
+        "type": "submitted",
+        "time_spent": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 1,
+    "fields": {
+        "day": "2015-01-16",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 2,
+    "fields": {
+        "day": "2015-01-21",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 3,
+    "fields": {
+        "day": "2015-01-22",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 4,
+    "fields": {
+        "day": "2015-01-26",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 5,
+    "fields": {
+        "day": "2015-01-29",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 6,
+    "fields": {
+        "day": "2015-02-04",
+        "total_submitted_date": 2,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 7,
+    "fields": {
+        "day": "2015-02-21",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 8,
+    "fields": {
+        "day": "2015-02-23",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 9,
+    "fields": {
+        "day": "2015-02-24",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 10,
+    "fields": {
+        "day": "2015-02-25",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 11,
+    "fields": {
+        "day": "2015-02-27",
+        "total_submitted_date": 2,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 12,
+    "fields": {
+        "day": "2015-03-01",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 13,
+    "fields": {
+        "day": "2015-03-03",
+        "total_submitted_date": 2,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 14,
+    "fields": {
+        "day": "2015-03-06",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 15,
+    "fields": {
+        "day": "2015-03-10",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 16,
+    "fields": {
+        "day": "2015-03-17",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 17,
+    "fields": {
+        "day": "2015-03-20",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 18,
+    "fields": {
+        "day": "2015-03-25",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 19,
+    "fields": {
+        "day": "2015-04-03",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 20,
+    "fields": {
+        "day": "2015-04-08",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 21,
+    "fields": {
+        "day": "2015-04-09",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 22,
+    "fields": {
+        "day": "2015-04-10",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 23,
+    "fields": {
+        "day": "2015-04-13",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 24,
+    "fields": {
+        "day": "2015-04-14",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 25,
+    "fields": {
+        "day": "2015-04-16",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 26,
+    "fields": {
+        "day": "2015-04-17",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 27,
+    "fields": {
+        "day": "2015-04-19",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 28,
+    "fields": {
+        "day": "2015-04-20",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 29,
+    "fields": {
+        "day": "2015-05-24",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 30,
+    "fields": {
+        "day": "2015-05-25",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 31,
+    "fields": {
+        "day": "2015-06-02",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 32,
+    "fields": {
+        "day": "2015-06-03",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 33,
+    "fields": {
+        "day": "2015-06-05",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 34,
+    "fields": {
+        "day": "2015-06-10",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 35,
+    "fields": {
+        "day": "2015-06-23",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 36,
+    "fields": {
+        "day": "2015-06-29",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 37,
+    "fields": {
+        "day": "2015-07-17",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 38,
+    "fields": {
+        "day": "2015-07-18",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 39,
+    "fields": {
+        "day": "2015-07-24",
+        "total_submitted_date": 2,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 40,
+    "fields": {
+        "day": "2015-07-27",
+        "total_submitted_date": 2,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 41,
+    "fields": {
+        "day": "2015-08-05",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 42,
+    "fields": {
+        "day": "2015-08-17",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 43,
+    "fields": {
+        "day": "2015-08-24",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 44,
+    "fields": {
+        "day": "2015-08-25",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 45,
+    "fields": {
+        "day": "2015-08-26",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 46,
+    "fields": {
+        "day": "2015-08-31",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 47,
+    "fields": {
+        "day": "2015-09-11",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 48,
+    "fields": {
+        "day": "2015-09-15",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 49,
+    "fields": {
+        "day": "2015-09-16",
+        "total_submitted_date": 2,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 50,
+    "fields": {
+        "day": "2015-09-17",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 51,
+    "fields": {
+        "day": "2015-09-27",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 52,
+    "fields": {
+        "day": "2015-09-28",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 53,
+    "fields": {
+        "day": "2015-09-29",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 54,
+    "fields": {
+        "day": "2015-10-02",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 55,
+    "fields": {
+        "day": "2015-10-03",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 56,
+    "fields": {
+        "day": "2015-10-05",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 57,
+    "fields": {
+        "day": "2015-10-08",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 58,
+    "fields": {
+        "day": "2015-10-23",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 59,
+    "fields": {
+        "day": "2015-11-02",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 60,
+    "fields": {
+        "day": "2015-11-04",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 61,
+    "fields": {
+        "day": "2015-11-12",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 62,
+    "fields": {
+        "day": "2015-11-26",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 63,
+    "fields": {
+        "day": "2015-11-28",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 64,
+    "fields": {
+        "day": "2015-12-01",
+        "total_submitted_date": 2,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 65,
+    "fields": {
+        "day": "2015-12-03",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 66,
+    "fields": {
+        "day": "2015-12-07",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 67,
+    "fields": {
+        "day": "2015-12-10",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 68,
+    "fields": {
+        "day": "2015-12-11",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 69,
+    "fields": {
+        "day": "2015-12-13",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 70,
+    "fields": {
+        "day": "2015-12-24",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 71,
+    "fields": {
+        "day": "2016-01-07",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 72,
+    "fields": {
+        "day": "2016-01-10",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 73,
+    "fields": {
+        "day": "2016-01-16",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 74,
+    "fields": {
+        "day": "2016-02-10",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 75,
+    "fields": {
+        "day": "2016-02-13",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 76,
+    "fields": {
+        "day": "2016-02-29",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 77,
+    "fields": {
+        "day": "2016-03-02",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 78,
+    "fields": {
+        "day": "2016-03-07",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 79,
+    "fields": {
+        "day": "2016-03-17",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 80,
+    "fields": {
+        "day": "2016-03-21",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 81,
+    "fields": {
+        "day": "2016-03-31",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 82,
+    "fields": {
+        "day": "2016-05-06",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 83,
+    "fields": {
+        "day": "2016-05-18",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 84,
+    "fields": {
+        "day": "2016-06-02",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 85,
+    "fields": {
+        "day": "2016-06-06",
+        "total_submitted_date": 2,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 86,
+    "fields": {
+        "day": "2016-06-09",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 87,
+    "fields": {
+        "day": "2016-06-11",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 88,
+    "fields": {
+        "day": "2016-06-12",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 89,
+    "fields": {
+        "day": "2016-06-16",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 90,
+    "fields": {
+        "day": "2016-06-22",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 91,
+    "fields": {
+        "day": "2016-06-25",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 92,
+    "fields": {
+        "day": "2016-06-30",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 93,
+    "fields": {
+        "day": "2016-07-05",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 94,
+    "fields": {
+        "day": "2016-07-08",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 95,
+    "fields": {
+        "day": "2016-07-13",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 96,
+    "fields": {
+        "day": "2016-07-18",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 97,
+    "fields": {
+        "day": "2016-07-28",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 98,
+    "fields": {
+        "day": "2016-08-08",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 99,
+    "fields": {
+        "day": "2016-08-10",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 100,
+    "fields": {
+        "day": "2016-08-13",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 101,
+    "fields": {
+        "day": "2016-08-17",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 102,
+    "fields": {
+        "day": "2016-08-19",
+        "total_submitted_date": 2,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 103,
+    "fields": {
+        "day": "2016-08-20",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 104,
+    "fields": {
+        "day": "2016-08-29",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 105,
+    "fields": {
+        "day": "2016-08-31",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 106,
+    "fields": {
+        "day": "2016-09-01",
+        "total_submitted_date": 2,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 107,
+    "fields": {
+        "day": "2016-09-06",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 108,
+    "fields": {
+        "day": "2016-09-12",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 109,
+    "fields": {
+        "day": "2016-09-14",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 110,
+    "fields": {
+        "day": "2016-09-15",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 111,
+    "fields": {
+        "day": "2016-09-20",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 112,
+    "fields": {
+        "day": "2016-09-22",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 113,
+    "fields": {
+        "day": "2016-09-23",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 114,
+    "fields": {
+        "day": "2016-09-25",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 115,
+    "fields": {
+        "day": "2016-09-29",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 116,
+    "fields": {
+        "day": "2016-09-30",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 117,
+    "fields": {
+        "day": "2016-10-02",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 118,
+    "fields": {
+        "day": "2016-10-03",
+        "total_submitted_date": 2,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 119,
+    "fields": {
+        "day": "2016-10-04",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 120,
+    "fields": {
+        "day": "2016-10-05",
+        "total_submitted_date": 2,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 121,
+    "fields": {
+        "day": "2016-10-13",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 122,
+    "fields": {
+        "day": "2016-10-18",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 123,
+    "fields": {
+        "day": "2016-11-04",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 124,
+    "fields": {
+        "day": "2016-11-09",
+        "total_submitted_date": 2,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 125,
+    "fields": {
+        "day": "2016-11-11",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 126,
+    "fields": {
+        "day": "2016-12-07",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 127,
+    "fields": {
+        "day": "2017-01-06",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 128,
+    "fields": {
+        "day": "2017-01-18",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 129,
+    "fields": {
+        "day": "2017-01-26",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 130,
+    "fields": {
+        "day": "2017-02-08",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 131,
+    "fields": {
+        "day": "2017-02-14",
+        "total_submitted_date": 2,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 132,
+    "fields": {
+        "day": "2017-04-08",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 133,
+    "fields": {
+        "day": "2017-04-10",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 134,
+    "fields": {
+        "day": "2017-04-18",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 135,
+    "fields": {
+        "day": "2017-04-21",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 136,
+    "fields": {
+        "day": "2017-04-23",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 137,
+    "fields": {
+        "day": "2017-05-02",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 138,
+    "fields": {
+        "day": "2017-05-14",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 139,
+    "fields": {
+        "day": "2017-05-16",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 140,
+    "fields": {
+        "day": "2017-05-18",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 141,
+    "fields": {
+        "day": "2017-05-31",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 142,
+    "fields": {
+        "day": "2017-06-11",
+        "total_submitted_date": 2,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 143,
+    "fields": {
+        "day": "2017-06-12",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 144,
+    "fields": {
+        "day": "2017-06-13",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 145,
+    "fields": {
+        "day": "2017-06-14",
+        "total_submitted_date": 2,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 146,
+    "fields": {
+        "day": "2017-06-15",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 147,
+    "fields": {
+        "day": "2017-06-17",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 148,
+    "fields": {
+        "day": "2017-06-19",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 149,
+    "fields": {
+        "day": "2017-06-21",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 150,
+    "fields": {
+        "day": "2017-06-26",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 151,
+    "fields": {
+        "day": "2017-07-05",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 152,
+    "fields": {
+        "day": "2017-07-13",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 153,
+    "fields": {
+        "day": "2017-07-20",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 154,
+    "fields": {
+        "day": "2017-07-25",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 155,
+    "fields": {
+        "day": "2017-08-15",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 156,
+    "fields": {
+        "day": "2017-08-27",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 157,
+    "fields": {
+        "day": "2017-08-29",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 158,
+    "fields": {
+        "day": "2017-09-01",
+        "total_submitted_date": 2,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 159,
+    "fields": {
+        "day": "2017-09-23",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 160,
+    "fields": {
+        "day": "2017-09-26",
+        "total_submitted_date": 2,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 161,
+    "fields": {
+        "day": "2017-10-28",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 162,
+    "fields": {
+        "day": "2017-11-12",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 163,
+    "fields": {
+        "day": "2017-12-02",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 164,
+    "fields": {
+        "day": "2017-12-06",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 165,
+    "fields": {
+        "day": "2018-01-08",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 166,
+    "fields": {
+        "day": "2018-01-24",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 167,
+    "fields": {
+        "day": "2018-01-27",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 168,
+    "fields": {
+        "day": "2018-01-30",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 169,
+    "fields": {
+        "day": "2018-01-31",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 170,
+    "fields": {
+        "day": "2018-02-22",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 171,
+    "fields": {
+        "day": "2018-02-26",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 172,
+    "fields": {
+        "day": "2018-03-19",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 173,
+    "fields": {
+        "day": "2018-04-06",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 174,
+    "fields": {
+        "day": "2018-04-14",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 175,
+    "fields": {
+        "day": "2018-04-16",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 176,
+    "fields": {
+        "day": "2018-04-23",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 177,
+    "fields": {
+        "day": "2018-04-24",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 178,
+    "fields": {
+        "day": "2018-05-03",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 179,
+    "fields": {
+        "day": "2018-05-04",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 180,
+    "fields": {
+        "day": "2018-05-06",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 181,
+    "fields": {
+        "day": "2018-05-07",
+        "total_submitted_date": 2,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 182,
+    "fields": {
+        "day": "2018-05-09",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 183,
+    "fields": {
+        "day": "2018-05-18",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 184,
+    "fields": {
+        "day": "2018-06-06",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 185,
+    "fields": {
+        "day": "2018-06-09",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 186,
+    "fields": {
+        "day": "2018-06-12",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 187,
+    "fields": {
+        "day": "2018-07-04",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 188,
+    "fields": {
+        "day": "2018-09-26",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 189,
+    "fields": {
+        "day": "2018-11-25",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 190,
+    "fields": {
+        "day": "2018-11-29",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 191,
+    "fields": {
+        "day": "2018-12-19",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 192,
+    "fields": {
+        "day": "2019-01-05",
+        "total_submitted_date": 1,
+        "total_tracker_date": 0
+    }
+}
+]

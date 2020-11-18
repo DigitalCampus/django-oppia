@@ -13,8 +13,8 @@ class DailyActiveUsersViewTest(OppiaTestCase):
                 'tests/test_usercoursesummary.json',
                 'tests/test_customfields.json']
 
-    url = reverse('reports:daus')
-    template = 'reports/daus.html'
+    url = reverse('reports:unique_users')
+    template = 'reports/unique_users.html'
 
     def setUp(self):
         super(DailyActiveUsersViewTest, self).setUp()
@@ -36,3 +36,10 @@ class DailyActiveUsersViewTest(OppiaTestCase):
                                  '/admin/login/?next=' + self.url,
                                  302,
                                  200)
+
+    def test_post(self):
+        self.client.force_login(user=self.admin_user)
+        response = self.client.post(self.url, data={'group_by': 'country'})
+        self.assertTemplateUsed(response, self.template)
+        self.assertEqual(response.status_code, 200)
+

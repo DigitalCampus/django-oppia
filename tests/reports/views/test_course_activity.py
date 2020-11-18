@@ -15,7 +15,9 @@ class LangActivityViewTest(OppiaTestCase):
                 'tests/test_permissions.json',
                 'tests/test_cohort.json',
                 'tests/test_course_permissions.json',
-                'tests/test_usercoursesummary.json']
+                'tests/test_usercoursesummary.json',
+                'default_gamification_events.json',
+                'tests/test_tracker.json']
 
     template = 'reports/lang_activity.html'
     url = reverse('reports:lang_activity')
