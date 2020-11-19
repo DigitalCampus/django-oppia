@@ -11,7 +11,8 @@ class MonthlyActiveUsersViewTest(OppiaTestCase):
                 'tests/test_cohort.json',
                 'tests/test_course_permissions.json',
                 'tests/test_usercoursesummary.json',
-                'tests/test_customfields.json']
+                'tests/test_customfields.json',
+                'tests/test_daus.json']
 
     url = reverse('reports:maus')
     template = 'reports/maus.html'

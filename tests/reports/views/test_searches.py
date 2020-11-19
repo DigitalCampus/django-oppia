@@ -9,7 +9,7 @@ from reports.signals import dashboard_accessed
 from tests.reports import utils
 
 
-class CourseActivityViewTest(OppiaTransactionTestCase):
+class SearchesViewTest(OppiaTransactionTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
@@ -21,15 +21,15 @@ class CourseActivityViewTest(OppiaTransactionTestCase):
                 'tests/test_tracker.json',
                 'tests/test_coursedailystats.json',]
 
-    template = 'reports/course_activity.html'
-    url = reverse('reports:course_activity')
+    template = 'reports/searches.html'
+    url = reverse('reports:searches')
         
     def setUp(self):
-        super(CourseActivityViewTest, self).setUp()
+        super(SearchesViewTest, self).setUp()
         self.allowed_users = [self.admin_user, self.staff_user]
         self.disallowed_users = [self.teacher_user, self.normal_user]
 
-    def test_course_activity_get(self):
+    def test_searches_get(self):
         
         # fix coursedailystats date to be in the last month
         utils.update_course_daily_stats_dates()
@@ -48,7 +48,7 @@ class CourseActivityViewTest(OppiaTransactionTestCase):
                                  302,
                                  200)
 
-    def test_course_activity_previous_date(self):
+    def test_searches_previous_date(self):
         self.client.force_login(self.admin_user)
         start_date = timezone.now() - datetime.timedelta(days=31)
         response = self.client.post(self.url,
@@ -56,7 +56,7 @@ class CourseActivityViewTest(OppiaTransactionTestCase):
         self.assertTemplateUsed(response, self.template)
         self.assertEqual(response.status_code, 200)
 
-    def test_course_activity_future_date(self):
+    def test_searches_future_date(self):
         self.client.force_login(self.admin_user)
         start_date = timezone.now() + datetime.timedelta(days=31)
         response = self.client.post(self.url,
@@ -64,7 +64,7 @@ class CourseActivityViewTest(OppiaTransactionTestCase):
         self.assertTemplateUsed(response, self.template)
         self.assertEqual(response.status_code, 200)
 
-    def test_course_activity_invalid_date(self):
+    def test_searches_invalid_date(self):
         self.client.force_login(self.admin_user)
         start_date = "not a valid date"
         response = self.client.post(self.url,

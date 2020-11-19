@@ -32,7 +32,7 @@ class OppiaViewUtilsTest(OppiaTestCase):
             .values('stat_date', 'type') \
             .annotate(total=Sum('total'))
         result = generate_graph_data(daily_stats)
-        self.assertEqual(34, len(result))
+        self.assertEqual(43, len(result))
 
     def test_graph_data_monthly(self):
         course = Course.objects.get(pk=1)

@@ -1,1212 +1,2602 @@
 [
 {
     "model": "summary.coursedailystats",
-    "pk": 94792,
+    "pk": 519,
     "fields": {
         "course": 1,
-        "day": "2017-07-01",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 94821,
-    "fields": {
-        "course": 1,
-        "day": "2017-05-01",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 94838,
-    "fields": {
-        "course": 2,
-        "day": "2017-06-01",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 95115,
-    "fields": {
-        "course": 2,
-        "day": "2017-07-01",
+        "day": "2014-01-01",
         "type": "page",
+        "total": 10
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 520,
+    "fields": {
+        "course": 2,
+        "day": "2014-01-09",
+        "type": "quiz",
         "total": 1
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 95147,
+    "pk": 521,
     "fields": {
         "course": 2,
-        "day": "2017-05-01",
-        "type": "download",
-        "total": 2
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 95479,
-    "fields": {
-        "course": 1,
-        "day": "2017-05-01",
+        "day": "2014-01-09",
         "type": "page",
         "total": 4
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 95623,
-    "fields": {
-        "course": 2,
-        "day": "2017-07-01",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 95673,
+    "pk": 522,
     "fields": {
         "course": 1,
-        "day": "2017-06-01",
-        "type": "download",
+        "day": "2014-11-25",
+        "type": "page",
         "total": 1
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 95770,
-    "fields": {
-        "course": 2,
-        "day": "2017-08-02",
-        "type": "page",
-        "total": 9
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 95828,
+    "pk": 523,
     "fields": {
         "course": 1,
-        "day": "2017-02-02",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 95871,
-    "fields": {
-        "course": 2,
-        "day": "2017-02-02",
-        "type": "page",
-        "total": 4
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 95906,
-    "fields": {
-        "course": 2,
-        "day": "2017-02-02",
-        "type": "download",
-        "total": 2
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 97238,
-    "fields": {
-        "course": 1,
-        "day": "2019-11-03",
-        "type": "page",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 97405,
-    "fields": {
-        "course": 2,
-        "day": "2017-04-03",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 97430,
-    "fields": {
-        "course": 1,
-        "day": "2019-11-03",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 97535,
-    "fields": {
-        "course": 2,
-        "day": "2017-02-03",
-        "type": "page",
-        "total": 13
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 97537,
-    "fields": {
-        "course": 1,
-        "day": "2017-04-03",
-        "type": "page",
-        "total": 4
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 97560,
-    "fields": {
-        "course": 2,
-        "day": "2019-11-03",
-        "type": "page",
-        "total": 2
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 97728,
-    "fields": {
-        "course": 1,
-        "day": "2017-04-03",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 97759,
-    "fields": {
-        "course": 2,
-        "day": "2019-11-03",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 98079,
-    "fields": {
-        "course": 2,
-        "day": "2017-04-03",
-        "type": "page",
-        "total": 2
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 99025,
-    "fields": {
-        "course": 2,
-        "day": "2017-01-04",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 99036,
-    "fields": {
-        "course": 1,
-        "day": "2017-09-04",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 99137,
-    "fields": {
-        "course": 2,
-        "day": "2017-05-04",
-        "type": "page",
-        "total": 2
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 99262,
-    "fields": {
-        "course": 1,
-        "day": "2017-04-04",
-        "type": "page",
-        "total": 9
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 99391,
-    "fields": {
-        "course": 2,
-        "day": "2017-09-04",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 99531,
-    "fields": {
-        "course": 2,
-        "day": "2017-04-05",
-        "type": "page",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 99955,
-    "fields": {
-        "course": 1,
-        "day": "2017-06-05",
-        "type": "page",
-        "total": 5
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 100147,
-    "fields": {
-        "course": 1,
-        "day": "2017-04-05",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 100841,
-    "fields": {
-        "course": 2,
-        "day": "2017-05-06",
+        "day": "2015-01-16",
         "type": "page",
         "total": 3
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 101292,
+    "pk": 524,
     "fields": {
-        "course": 2,
-        "day": "2017-01-06",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 101384,
-    "fields": {
-        "course": 2,
-        "day": "2017-05-06",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 101641,
-    "fields": {
-        "course": 2,
-        "day": "2017-01-06",
+        "course": 1,
+        "day": "2015-01-21",
         "type": "page",
         "total": 3
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 101728,
+    "pk": 525,
     "fields": {
         "course": 1,
-        "day": "2017-05-06",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 102356,
-    "fields": {
-        "course": 2,
-        "day": "2017-05-07",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 102670,
-    "fields": {
-        "course": 2,
-        "day": "2017-05-07",
-        "type": "page",
-        "total": 8
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 103997,
-    "fields": {
-        "course": 1,
-        "day": "2017-05-08",
-        "type": "page",
-        "total": 8
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 104331,
-    "fields": {
-        "course": 2,
-        "day": "2019-09-09",
-        "type": "page",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 104562,
-    "fields": {
-        "course": 1,
-        "day": "2017-10-09",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 104877,
-    "fields": {
-        "course": 2,
-        "day": "2017-10-09",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 104917,
-    "fields": {
-        "course": 1,
-        "day": "2017-04-09",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 105197,
-    "fields": {
-        "course": 2,
-        "day": "2017-10-09",
-        "type": "page",
-        "total": 9
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 105419,
-    "fields": {
-        "course": 2,
-        "day": "2017-09-10",
-        "type": "page",
-        "total": 11
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 107507,
-    "fields": {
-        "course": 1,
-        "day": "2019-07-12",
-        "type": "page",
-        "total": 4
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 107542,
-    "fields": {
-        "course": 2,
-        "day": "2017-05-12",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 107777,
-    "fields": {
-        "course": 2,
-        "day": "2019-08-12",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 108008,
-    "fields": {
-        "course": 2,
-        "day": "2019-08-12",
-        "type": "page",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 108318,
-    "fields": {
-        "course": 2,
-        "day": "2017-07-12",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 108356,
-    "fields": {
-        "course": 1,
-        "day": "2019-08-12",
-        "type": "page",
-        "total": 4
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 108396,
-    "fields": {
-        "course": 1,
-        "day": "2019-07-12",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 108678,
-    "fields": {
-        "course": 1,
-        "day": "2019-08-12",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 108974,
-    "fields": {
-        "course": 1,
-        "day": "2017-03-13",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 109878,
-    "fields": {
-        "course": 1,
-        "day": "2017-04-14",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 110026,
-    "fields": {
-        "course": 1,
-        "day": "2017-04-14",
+        "day": "2015-01-22",
         "type": "page",
         "total": 2
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 110099,
+    "pk": 526,
     "fields": {
-        "course": 2,
-        "day": "2017-12-14",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 110188,
-    "fields": {
-        "course": 2,
-        "day": "2017-04-14",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 110409,
-    "fields": {
-        "course": 2,
-        "day": "2017-12-14",
+        "course": 1,
+        "day": "2015-01-26",
         "type": "page",
-        "total": 5
+        "total": 2
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 110810,
+    "pk": 527,
     "fields": {
-        "course": 2,
-        "day": "2017-04-14",
+        "course": 1,
+        "day": "2015-01-26",
+        "type": "quiz",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 528,
+    "fields": {
+        "course": 1,
+        "day": "2015-02-04",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 529,
+    "fields": {
+        "course": 1,
+        "day": "2015-02-23",
+        "type": "page",
+        "total": 12
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 530,
+    "fields": {
+        "course": 1,
+        "day": "2015-02-24",
+        "type": "page",
+        "total": 8
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 531,
+    "fields": {
+        "course": 1,
+        "day": "2015-02-25",
+        "type": "page",
+        "total": 17
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 532,
+    "fields": {
+        "course": 1,
+        "day": "2015-02-27",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 533,
+    "fields": {
+        "course": 1,
+        "day": "2015-03-01",
+        "type": "page",
+        "total": 3
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 534,
+    "fields": {
+        "course": 1,
+        "day": "2015-03-03",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 535,
+    "fields": {
+        "course": 1,
+        "day": "2015-03-03",
+        "type": "quiz",
+        "total": 3
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 536,
+    "fields": {
+        "course": 1,
+        "day": "2015-03-06",
         "type": "page",
         "total": 4
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 110894,
+    "pk": 537,
     "fields": {
         "course": 1,
-        "day": "2017-12-14",
-        "type": "download",
+        "day": "2015-03-10",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 538,
+    "fields": {
+        "course": 1,
+        "day": "2015-03-17",
+        "type": "page",
         "total": 1
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 111418,
+    "pk": 539,
     "fields": {
-        "course": 2,
-        "day": "2017-01-15",
-        "type": "download",
-        "total": 1
+        "course": 1,
+        "day": "2015-03-20",
+        "type": "page",
+        "total": 3
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 111475,
+    "pk": 540,
     "fields": {
         "course": 1,
-        "day": "2018-01-15",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 111603,
-    "fields": {
-        "course": 1,
-        "day": "2018-01-15",
+        "day": "2015-03-25",
         "type": "page",
         "total": 6
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 111711,
+    "pk": 541,
     "fields": {
         "course": 1,
-        "day": "2017-01-15",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 111769,
-    "fields": {
-        "course": 2,
-        "day": "2018-01-15",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 112169,
-    "fields": {
-        "course": 1,
-        "day": "2018-01-16",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 112262,
-    "fields": {
-        "course": 1,
-        "day": "2017-04-16",
+        "day": "2015-04-03",
         "type": "page",
         "total": 1
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 112482,
+    "pk": 542,
     "fields": {
         "course": 1,
-        "day": "2019-08-16",
-        "type": "download",
+        "day": "2015-04-08",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 543,
+    "fields": {
+        "course": 1,
+        "day": "2015-04-09",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 544,
+    "fields": {
+        "course": 1,
+        "day": "2015-04-10",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 545,
+    "fields": {
+        "course": 1,
+        "day": "2015-04-13",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 546,
+    "fields": {
+        "course": 1,
+        "day": "2015-04-14",
+        "type": "page",
         "total": 1
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 112783,
+    "pk": 547,
     "fields": {
-        "course": 2,
-        "day": "2019-10-16",
-        "type": "download",
+        "course": 1,
+        "day": "2015-04-14",
+        "type": "quiz",
         "total": 1
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 112801,
+    "pk": 548,
     "fields": {
-        "course": 2,
-        "day": "2019-08-16",
-        "type": "download",
+        "course": 1,
+        "day": "2015-04-16",
+        "type": "page",
+        "total": 3
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 549,
+    "fields": {
+        "course": 1,
+        "day": "2015-04-17",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 550,
+    "fields": {
+        "course": 1,
+        "day": "2015-04-19",
+        "type": "page",
         "total": 1
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 113098,
+    "pk": 551,
+    "fields": {
+        "course": 1,
+        "day": "2015-04-20",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 552,
+    "fields": {
+        "course": 1,
+        "day": "2015-05-24",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 553,
+    "fields": {
+        "course": 1,
+        "day": "2015-05-25",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 554,
+    "fields": {
+        "course": 1,
+        "day": "2015-06-02",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 555,
+    "fields": {
+        "course": 1,
+        "day": "2015-06-03",
+        "type": "page",
+        "total": 4
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 556,
+    "fields": {
+        "course": 1,
+        "day": "2015-06-05",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 557,
+    "fields": {
+        "course": 1,
+        "day": "2015-06-10",
+        "type": "page",
+        "total": 6
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 558,
+    "fields": {
+        "course": 1,
+        "day": "2015-06-23",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 559,
+    "fields": {
+        "course": 1,
+        "day": "2015-06-29",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 560,
+    "fields": {
+        "course": 1,
+        "day": "2015-07-17",
+        "type": "page",
+        "total": 8
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 561,
+    "fields": {
+        "course": 1,
+        "day": "2015-07-24",
+        "type": "page",
+        "total": 4
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 562,
     "fields": {
         "course": 2,
-        "day": "2019-10-16",
+        "day": "2015-07-24",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 563,
+    "fields": {
+        "course": 1,
+        "day": "2015-07-27",
+        "type": "page",
+        "total": 6
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 564,
+    "fields": {
+        "course": 1,
+        "day": "2015-08-05",
+        "type": "quiz",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 565,
+    "fields": {
+        "course": 1,
+        "day": "2015-08-16",
+        "type": "page",
+        "total": 4
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 566,
+    "fields": {
+        "course": 2,
+        "day": "2015-08-23",
+        "type": "page",
+        "total": 10
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 567,
+    "fields": {
+        "course": 1,
+        "day": "2015-08-25",
+        "type": "quiz",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 568,
+    "fields": {
+        "course": 2,
+        "day": "2015-08-26",
+        "type": "page",
+        "total": 6
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 569,
+    "fields": {
+        "course": 1,
+        "day": "2015-08-26",
+        "type": "quiz",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 570,
+    "fields": {
+        "course": 1,
+        "day": "2015-08-31",
+        "type": "quiz",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 571,
+    "fields": {
+        "course": 1,
+        "day": "2015-09-11",
+        "type": "page",
+        "total": 26
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 572,
+    "fields": {
+        "course": 1,
+        "day": "2015-09-11",
+        "type": "quiz",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 573,
+    "fields": {
+        "course": 1,
+        "day": "2015-09-15",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 574,
+    "fields": {
+        "course": 1,
+        "day": "2015-09-16",
+        "type": "page",
+        "total": 8
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 575,
+    "fields": {
+        "course": 1,
+        "day": "2015-09-16",
+        "type": "quiz",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 576,
+    "fields": {
+        "course": 1,
+        "day": "2015-09-17",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 577,
+    "fields": {
+        "course": 1,
+        "day": "2015-09-23",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 578,
+    "fields": {
+        "course": 1,
+        "day": "2015-09-23",
+        "type": "quiz",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 579,
+    "fields": {
+        "course": 1,
+        "day": "2015-09-27",
+        "type": "page",
+        "total": 5
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 580,
+    "fields": {
+        "course": 1,
+        "day": "2015-09-28",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 581,
+    "fields": {
+        "course": 1,
+        "day": "2015-09-30",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 582,
+    "fields": {
+        "course": 1,
+        "day": "2015-10-01",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 583,
+    "fields": {
+        "course": 1,
+        "day": "2015-10-01",
+        "type": "quiz",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 584,
+    "fields": {
+        "course": 1,
+        "day": "2015-10-02",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 585,
+    "fields": {
+        "course": 1,
+        "day": "2015-10-02",
+        "type": "quiz",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 586,
+    "fields": {
+        "course": 1,
+        "day": "2015-10-05",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 587,
+    "fields": {
+        "course": 1,
+        "day": "2015-10-08",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 588,
+    "fields": {
+        "course": 1,
+        "day": "2015-10-23",
         "type": "page",
         "total": 7
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 113201,
+    "pk": 589,
+    "fields": {
+        "course": 1,
+        "day": "2015-11-01",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 590,
+    "fields": {
+        "course": 1,
+        "day": "2015-11-03",
+        "type": "page",
+        "total": 4
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 591,
+    "fields": {
+        "course": 1,
+        "day": "2015-11-11",
+        "type": "page",
+        "total": 4
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 592,
     "fields": {
         "course": 2,
-        "day": "2017-04-17",
+        "day": "2015-11-26",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 593,
+    "fields": {
+        "course": 2,
+        "day": "2015-11-28",
         "type": "page",
         "total": 3
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 113337,
-    "fields": {
-        "course": 2,
-        "day": "2017-04-17",
-        "type": "download",
-        "total": 2
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 114164,
+    "pk": 594,
     "fields": {
         "course": 1,
-        "day": "2017-04-17",
-        "type": "download",
-        "total": 2
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 114873,
-    "fields": {
-        "course": 2,
-        "day": "2017-01-18",
-        "type": "page",
-        "total": 2
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 115047,
-    "fields": {
-        "course": 2,
-        "day": "2017-02-18",
-        "type": "page",
-        "total": 2
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 115245,
-    "fields": {
-        "course": 2,
-        "day": "2017-03-18",
-        "type": "page",
-        "total": 2
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 116476,
-    "fields": {
-        "course": 2,
-        "day": "2017-05-20",
+        "day": "2015-12-01",
         "type": "page",
         "total": 1
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 116518,
+    "pk": 595,
     "fields": {
         "course": 2,
-        "day": "2017-01-20",
-        "type": "download",
+        "day": "2015-12-01",
+        "type": "quiz",
         "total": 1
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 117115,
+    "pk": 596,
+    "fields": {
+        "course": 2,
+        "day": "2015-12-01",
+        "type": "page",
+        "total": 5
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 597,
     "fields": {
         "course": 1,
-        "day": "2019-08-20",
+        "day": "2015-12-07",
         "type": "page",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 117305,
-    "fields": {
-        "course": 1,
-        "day": "2017-01-20",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 118716,
-    "fields": {
-        "course": 2,
-        "day": "2017-03-22",
-        "type": "download",
         "total": 2
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 119168,
+    "pk": 598,
     "fields": {
         "course": 1,
-        "day": "2017-03-22",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 119454,
-    "fields": {
-        "course": 2,
-        "day": "2017-03-22",
+        "day": "2015-12-10",
         "type": "page",
         "total": 4
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 119706,
+    "pk": 599,
     "fields": {
         "course": 1,
-        "day": "2017-03-23",
+        "day": "2015-12-11",
         "type": "page",
         "total": 2
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 120078,
-    "fields": {
-        "course": 2,
-        "day": "2017-05-23",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 120169,
+    "pk": 600,
     "fields": {
         "course": 1,
-        "day": "2017-03-23",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 120294,
-    "fields": {
-        "course": 2,
-        "day": "2017-03-23",
-        "type": "page",
-        "total": 4
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 120452,
-    "fields": {
-        "course": 2,
-        "day": "2017-03-23",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 120644,
-    "fields": {
-        "course": 2,
-        "day": "2017-03-24",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 120715,
-    "fields": {
-        "course": 2,
-        "day": "2017-10-24",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 121242,
-    "fields": {
-        "course": 2,
-        "day": "2017-04-24",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 122490,
-    "fields": {
-        "course": 1,
-        "day": "2017-05-25",
-        "type": "page",
-        "total": 4
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 122981,
-    "fields": {
-        "course": 1,
-        "day": "2017-05-26",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 123287,
-    "fields": {
-        "course": 2,
-        "day": "2017-05-26",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 123329,
-    "fields": {
-        "course": 2,
-        "day": "2019-08-26",
-        "type": "page",
-        "total": 8
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 123833,
-    "fields": {
-        "course": 2,
-        "day": "2018-07-27",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 124069,
-    "fields": {
-        "course": 2,
-        "day": "2017-05-27",
-        "type": "page",
-        "total": 9
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 124510,
-    "fields": {
-        "course": 2,
-        "day": "2017-05-27",
-        "type": "download",
-        "total": 2
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 124654,
-    "fields": {
-        "course": 2,
-        "day": "2019-08-27",
-        "type": "page",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 124806,
-    "fields": {
-        "course": 1,
-        "day": "2017-05-27",
-        "type": "download",
-        "total": 2
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 125047,
-    "fields": {
-        "course": 2,
-        "day": "2017-05-28",
-        "type": "page",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 125058,
-    "fields": {
-        "course": 2,
-        "day": "2017-02-28",
+        "day": "2015-12-13",
         "type": "page",
         "total": 2
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 125797,
-    "fields": {
-        "course": 2,
-        "day": "2017-05-28",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 126232,
+    "pk": 601,
     "fields": {
         "course": 1,
-        "day": "2017-05-29",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 126527,
-    "fields": {
-        "course": 2,
-        "day": "2017-05-29",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 126778,
-    "fields": {
-        "course": 1,
-        "day": "2017-03-29",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 127046,
-    "fields": {
-        "course": 2,
-        "day": "2018-01-30",
+        "day": "2015-12-22",
         "type": "page",
-        "total": 4
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 127084,
-    "fields": {
-        "course": 2,
-        "day": "2017-03-30",
-        "type": "download",
         "total": 1
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 127168,
+    "pk": 602,
+    "fields": {
+        "course": 2,
+        "day": "2015-12-23",
+        "type": "quiz",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 603,
+    "fields": {
+        "course": 2,
+        "day": "2015-12-24",
+        "type": "page",
+        "total": 6
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 604,
+    "fields": {
+        "course": 2,
+        "day": "2015-12-26",
+        "type": "page",
+        "total": 10
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 605,
     "fields": {
         "course": 1,
-        "day": "2017-04-30",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 127422,
-    "fields": {
-        "course": 2,
-        "day": "2019-08-30",
+        "day": "2015-12-31",
         "type": "page",
-        "total": 8
+        "total": 16
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 127716,
+    "pk": 606,
     "fields": {
-        "course": 2,
-        "day": "2018-01-30",
+        "course": 1,
+        "day": "2016-01-16",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 607,
+    "fields": {
+        "course": 1,
+        "day": "2016-02-10",
         "type": "download",
         "total": 1
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 127729,
+    "pk": 608,
     "fields": {
-        "course": 2,
-        "day": "2017-03-30",
+        "course": 1,
+        "day": "2016-02-13",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 609,
+    "fields": {
+        "course": 1,
+        "day": "2016-02-29",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 610,
+    "fields": {
+        "course": 1,
+        "day": "2016-03-02",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 611,
+    "fields": {
+        "course": 1,
+        "day": "2016-03-07",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 612,
+    "fields": {
+        "course": 1,
+        "day": "2016-03-17",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 613,
+    "fields": {
+        "course": 1,
+        "day": "2016-03-21",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 614,
+    "fields": {
+        "course": 1,
+        "day": "2016-03-31",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 615,
+    "fields": {
+        "course": 1,
+        "day": "2016-05-04",
+        "type": "page",
+        "total": 33
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 616,
+    "fields": {
+        "course": 1,
+        "day": "2016-05-04",
+        "type": "quiz",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 617,
+    "fields": {
+        "course": 1,
+        "day": "2016-05-06",
+        "type": "page",
+        "total": 24
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 618,
+    "fields": {
+        "course": 1,
+        "day": "2016-05-07",
+        "type": "page",
+        "total": 12
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 619,
+    "fields": {
+        "course": 1,
+        "day": "2016-05-07",
+        "type": "quiz",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 620,
+    "fields": {
+        "course": 1,
+        "day": "2016-05-08",
         "type": "page",
         "total": 19
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 127815,
+    "pk": 621,
     "fields": {
         "course": 1,
-        "day": "2017-04-30",
-        "type": "page",
+        "day": "2016-05-08",
+        "type": "quiz",
+        "total": 5
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 622,
+    "fields": {
+        "course": 1,
+        "day": "2016-05-09",
+        "type": "quiz",
         "total": 2
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 127935,
-    "fields": {
-        "course": 2,
-        "day": "2017-03-31",
-        "type": "download",
-        "total": 1
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 128120,
+    "pk": 623,
     "fields": {
         "course": 1,
-        "day": "2017-03-31",
-        "type": "download",
-        "total": 1
+        "day": "2016-05-10",
+        "type": "quiz",
+        "total": 2
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 128482,
-    "fields": {
-        "course": 2,
-        "day": "2017-03-31",
-        "type": "page",
-        "total": 11
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 128899,
-    "fields": {
-        "course": 2,
-        "day": "2020-02-02",
-        "type": "page",
-        "total": 8
-    }
-},
-{
-    "model": "summary.coursedailystats",
-    "pk": 128904,
+    "pk": 624,
     "fields": {
         "course": 1,
-        "day": "2020-02-07",
+        "day": "2016-05-12",
+        "type": "quiz",
+        "total": 5
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 625,
+    "fields": {
+        "course": 1,
+        "day": "2016-05-12",
         "type": "page",
         "total": 3
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 128998,
+    "pk": 626,
     "fields": {
         "course": 1,
-        "day": "2019-08-16",
+        "day": "2016-05-13",
         "type": "page",
-        "total": 20
+        "total": 10
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 129366,
+    "pk": 627,
+    "fields": {
+        "course": 1,
+        "day": "2016-05-13",
+        "type": "quiz",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 628,
+    "fields": {
+        "course": 1,
+        "day": "2016-05-17",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 629,
+    "fields": {
+        "course": 1,
+        "day": "2016-05-18",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 630,
+    "fields": {
+        "course": 1,
+        "day": "2016-06-02",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 631,
+    "fields": {
+        "course": 1,
+        "day": "2016-06-06",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 632,
+    "fields": {
+        "course": 1,
+        "day": "2016-06-06",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 633,
+    "fields": {
+        "course": 1,
+        "day": "2016-06-14",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 634,
+    "fields": {
+        "course": 1,
+        "day": "2016-06-18",
+        "type": "page",
+        "total": 3
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 635,
+    "fields": {
+        "course": 1,
+        "day": "2016-06-22",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 636,
     "fields": {
         "course": 2,
-        "day": "2020-04-09",
+        "day": "2016-06-29",
         "type": "page",
-        "total": 11
+        "total": 2
     }
 },
 {
     "model": "summary.coursedailystats",
-    "pk": 129368,
+    "pk": 637,
     "fields": {
         "course": 1,
-        "day": "2020-04-21",
+        "day": "2016-07-05",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 638,
+    "fields": {
+        "course": 2,
+        "day": "2016-07-08",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 639,
+    "fields": {
+        "course": 1,
+        "day": "2016-07-08",
+        "type": "quiz",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 640,
+    "fields": {
+        "course": 1,
+        "day": "2016-07-13",
+        "type": "quiz",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 641,
+    "fields": {
+        "course": 1,
+        "day": "2016-07-16",
+        "type": "quiz",
+        "total": 3
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 642,
+    "fields": {
+        "course": 1,
+        "day": "2016-07-16",
+        "type": "page",
+        "total": 17
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 643,
+    "fields": {
+        "course": 1,
+        "day": "2016-08-10",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 644,
+    "fields": {
+        "course": 1,
+        "day": "2016-08-13",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 645,
+    "fields": {
+        "course": 1,
+        "day": "2016-08-17",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 646,
+    "fields": {
+        "course": 1,
+        "day": "2016-08-18",
+        "type": "quiz",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 647,
+    "fields": {
+        "course": 1,
+        "day": "2016-08-19",
         "type": "page",
         "total": 4
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 648,
+    "fields": {
+        "course": 1,
+        "day": "2016-08-19",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 649,
+    "fields": {
+        "course": 1,
+        "day": "2016-08-19",
+        "type": "quiz",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 650,
+    "fields": {
+        "course": 1,
+        "day": "2016-08-20",
+        "type": "page",
+        "total": 12
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 651,
+    "fields": {
+        "course": 1,
+        "day": "2016-08-31",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 652,
+    "fields": {
+        "course": 1,
+        "day": "2016-09-01",
+        "type": "download",
+        "total": 3
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 653,
+    "fields": {
+        "course": 1,
+        "day": "2016-09-06",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 654,
+    "fields": {
+        "course": 1,
+        "day": "2016-09-12",
+        "type": "download",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 655,
+    "fields": {
+        "course": 1,
+        "day": "2016-09-14",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 656,
+    "fields": {
+        "course": 1,
+        "day": "2016-09-15",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 657,
+    "fields": {
+        "course": 2,
+        "day": "2016-09-20",
+        "type": "quiz",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 658,
+    "fields": {
+        "course": 2,
+        "day": "2016-09-20",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 659,
+    "fields": {
+        "course": 2,
+        "day": "2016-09-22",
+        "type": "quiz",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 660,
+    "fields": {
+        "course": 1,
+        "day": "2016-09-23",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 661,
+    "fields": {
+        "course": 1,
+        "day": "2016-09-25",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 662,
+    "fields": {
+        "course": 1,
+        "day": "2016-09-29",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 663,
+    "fields": {
+        "course": 1,
+        "day": "2016-09-30",
+        "type": "page",
+        "total": 3
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 664,
+    "fields": {
+        "course": 1,
+        "day": "2016-09-30",
+        "type": "quiz",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 665,
+    "fields": {
+        "course": 1,
+        "day": "2016-10-01",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 666,
+    "fields": {
+        "course": 1,
+        "day": "2016-10-03",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 667,
+    "fields": {
+        "course": 1,
+        "day": "2016-10-03",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 668,
+    "fields": {
+        "course": 1,
+        "day": "2016-10-04",
+        "type": "download",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 669,
+    "fields": {
+        "course": 1,
+        "day": "2016-10-05",
+        "type": "download",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 670,
+    "fields": {
+        "course": 2,
+        "day": "2016-10-13",
+        "type": "quiz",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 671,
+    "fields": {
+        "course": 1,
+        "day": "2016-10-13",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 672,
+    "fields": {
+        "course": 2,
+        "day": "2016-10-13",
+        "type": "page",
+        "total": 5
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 673,
+    "fields": {
+        "course": 1,
+        "day": "2016-10-13",
+        "type": "page",
+        "total": 4
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 674,
+    "fields": {
+        "course": 2,
+        "day": "2016-10-13",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 675,
+    "fields": {
+        "course": 1,
+        "day": "2016-10-18",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 676,
+    "fields": {
+        "course": 1,
+        "day": "2016-10-19",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 677,
+    "fields": {
+        "course": 1,
+        "day": "2016-11-04",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 678,
+    "fields": {
+        "course": 1,
+        "day": "2016-11-09",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 679,
+    "fields": {
+        "course": 1,
+        "day": "2016-12-06",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 680,
+    "fields": {
+        "course": 1,
+        "day": "2016-12-09",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 681,
+    "fields": {
+        "course": 1,
+        "day": "2017-01-06",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 682,
+    "fields": {
+        "course": 1,
+        "day": "2017-01-18",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 683,
+    "fields": {
+        "course": 1,
+        "day": "2017-01-26",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 684,
+    "fields": {
+        "course": 2,
+        "day": "2017-02-08",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 685,
+    "fields": {
+        "course": 1,
+        "day": "2017-02-14",
+        "type": "download",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 686,
+    "fields": {
+        "course": 1,
+        "day": "2017-02-14",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 687,
+    "fields": {
+        "course": 1,
+        "day": "2017-04-08",
+        "type": "quiz",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 688,
+    "fields": {
+        "course": 1,
+        "day": "2017-04-10",
+        "type": "quiz",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 689,
+    "fields": {
+        "course": 1,
+        "day": "2017-04-10",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 690,
+    "fields": {
+        "course": 1,
+        "day": "2017-04-18",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 691,
+    "fields": {
+        "course": 1,
+        "day": "2017-04-21",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 692,
+    "fields": {
+        "course": 1,
+        "day": "2017-04-21",
+        "type": "quiz",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 693,
+    "fields": {
+        "course": 1,
+        "day": "2017-04-23",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 694,
+    "fields": {
+        "course": 1,
+        "day": "2017-05-02",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 695,
+    "fields": {
+        "course": 2,
+        "day": "2017-05-14",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 696,
+    "fields": {
+        "course": 2,
+        "day": "2017-05-14",
+        "type": "page",
+        "total": 3
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 697,
+    "fields": {
+        "course": 1,
+        "day": "2017-05-15",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 698,
+    "fields": {
+        "course": 1,
+        "day": "2017-05-16",
+        "type": "quiz",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 699,
+    "fields": {
+        "course": 1,
+        "day": "2017-05-18",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 700,
+    "fields": {
+        "course": 2,
+        "day": "2017-05-18",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 701,
+    "fields": {
+        "course": 2,
+        "day": "2017-05-31",
+        "type": "quiz",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 702,
+    "fields": {
+        "course": 1,
+        "day": "2017-05-31",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 703,
+    "fields": {
+        "course": 2,
+        "day": "2017-05-31",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 704,
+    "fields": {
+        "course": 1,
+        "day": "2017-06-07",
+        "type": "quiz",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 705,
+    "fields": {
+        "course": 1,
+        "day": "2017-06-11",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 706,
+    "fields": {
+        "course": 2,
+        "day": "2017-06-11",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 707,
+    "fields": {
+        "course": 1,
+        "day": "2017-06-12",
+        "type": "download",
+        "total": 4
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 708,
+    "fields": {
+        "course": 2,
+        "day": "2017-06-12",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 709,
+    "fields": {
+        "course": 1,
+        "day": "2017-06-12",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 710,
+    "fields": {
+        "course": 1,
+        "day": "2017-06-13",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 711,
+    "fields": {
+        "course": 1,
+        "day": "2017-06-13",
+        "type": "page",
+        "total": 9
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 712,
+    "fields": {
+        "course": 1,
+        "day": "2017-06-14",
+        "type": "page",
+        "total": 3
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 713,
+    "fields": {
+        "course": 2,
+        "day": "2017-06-17",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 714,
+    "fields": {
+        "course": 1,
+        "day": "2017-06-18",
+        "type": "page",
+        "total": 14
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 715,
+    "fields": {
+        "course": 1,
+        "day": "2017-06-18",
+        "type": "quiz",
+        "total": 4
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 716,
+    "fields": {
+        "course": 1,
+        "day": "2017-06-19",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 717,
+    "fields": {
+        "course": 1,
+        "day": "2017-06-19",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 718,
+    "fields": {
+        "course": 1,
+        "day": "2017-06-21",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 719,
+    "fields": {
+        "course": 2,
+        "day": "2017-07-05",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 720,
+    "fields": {
+        "course": 1,
+        "day": "2017-07-13",
+        "type": "download",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 721,
+    "fields": {
+        "course": 2,
+        "day": "2017-07-13",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 722,
+    "fields": {
+        "course": 1,
+        "day": "2017-07-16",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 723,
+    "fields": {
+        "course": 1,
+        "day": "2017-07-20",
+        "type": "quiz",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 724,
+    "fields": {
+        "course": 2,
+        "day": "2017-08-15",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 725,
+    "fields": {
+        "course": 1,
+        "day": "2017-08-27",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 726,
+    "fields": {
+        "course": 1,
+        "day": "2017-08-29",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 727,
+    "fields": {
+        "course": 1,
+        "day": "2017-09-01",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 728,
+    "fields": {
+        "course": 1,
+        "day": "2017-09-01",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 729,
+    "fields": {
+        "course": 1,
+        "day": "2017-09-26",
+        "type": "page",
+        "total": 5
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 730,
+    "fields": {
+        "course": 1,
+        "day": "2017-10-23",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 731,
+    "fields": {
+        "course": 1,
+        "day": "2017-10-26",
+        "type": "page",
+        "total": 8
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 732,
+    "fields": {
+        "course": 1,
+        "day": "2017-10-26",
+        "type": "quiz",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 733,
+    "fields": {
+        "course": 1,
+        "day": "2017-10-28",
+        "type": "quiz",
+        "total": 3
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 734,
+    "fields": {
+        "course": 2,
+        "day": "2017-12-02",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 735,
+    "fields": {
+        "course": 2,
+        "day": "2017-12-06",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 736,
+    "fields": {
+        "course": 1,
+        "day": "2017-12-06",
+        "type": "page",
+        "total": 6
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 737,
+    "fields": {
+        "course": 1,
+        "day": "2017-12-06",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 738,
+    "fields": {
+        "course": 2,
+        "day": "2018-01-08",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 739,
+    "fields": {
+        "course": 1,
+        "day": "2018-01-24",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 740,
+    "fields": {
+        "course": 1,
+        "day": "2018-01-27",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 741,
+    "fields": {
+        "course": 1,
+        "day": "2018-01-27",
+        "type": "quiz",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 742,
+    "fields": {
+        "course": 1,
+        "day": "2018-01-27",
+        "type": "page",
+        "total": 7
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 743,
+    "fields": {
+        "course": 1,
+        "day": "2018-01-30",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 744,
+    "fields": {
+        "course": 1,
+        "day": "2018-01-30",
+        "type": "quiz",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 745,
+    "fields": {
+        "course": 1,
+        "day": "2018-01-31",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 746,
+    "fields": {
+        "course": 1,
+        "day": "2018-02-22",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 747,
+    "fields": {
+        "course": 1,
+        "day": "2018-02-25",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 748,
+    "fields": {
+        "course": 1,
+        "day": "2018-03-12",
+        "type": "page",
+        "total": 3
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 749,
+    "fields": {
+        "course": 1,
+        "day": "2018-03-19",
+        "type": "page",
+        "total": 12
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 750,
+    "fields": {
+        "course": 1,
+        "day": "2018-03-19",
+        "type": "quiz",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 751,
+    "fields": {
+        "course": 1,
+        "day": "2018-04-14",
+        "type": "page",
+        "total": 4
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 752,
+    "fields": {
+        "course": 1,
+        "day": "2018-04-23",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 753,
+    "fields": {
+        "course": 1,
+        "day": "2018-04-23",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 754,
+    "fields": {
+        "course": 1,
+        "day": "2018-04-24",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 755,
+    "fields": {
+        "course": 1,
+        "day": "2018-05-03",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 756,
+    "fields": {
+        "course": 1,
+        "day": "2018-05-03",
+        "type": "quiz",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 757,
+    "fields": {
+        "course": 1,
+        "day": "2018-05-04",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 758,
+    "fields": {
+        "course": 1,
+        "day": "2018-05-06",
+        "type": "page",
+        "total": 6
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 759,
+    "fields": {
+        "course": 1,
+        "day": "2018-05-07",
+        "type": "page",
+        "total": 13
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 760,
+    "fields": {
+        "course": 2,
+        "day": "2018-05-07",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 761,
+    "fields": {
+        "course": 1,
+        "day": "2018-05-09",
+        "type": "page",
+        "total": 3
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 762,
+    "fields": {
+        "course": 1,
+        "day": "2018-05-18",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 763,
+    "fields": {
+        "course": 1,
+        "day": "2018-05-18",
+        "type": "media",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 764,
+    "fields": {
+        "course": 1,
+        "day": "2018-05-30",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 765,
+    "fields": {
+        "course": 1,
+        "day": "2018-06-06",
+        "type": "media",
+        "total": 3
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 766,
+    "fields": {
+        "course": 1,
+        "day": "2018-06-06",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 767,
+    "fields": {
+        "course": 1,
+        "day": "2018-06-06",
+        "type": "download",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 768,
+    "fields": {
+        "course": 2,
+        "day": "2018-06-09",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 769,
+    "fields": {
+        "course": 1,
+        "day": "2018-06-12",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 770,
+    "fields": {
+        "course": 1,
+        "day": "2018-07-04",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 771,
+    "fields": {
+        "course": 1,
+        "day": "2018-09-26",
+        "type": "media",
+        "total": 3
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 772,
+    "fields": {
+        "course": 1,
+        "day": "2018-09-26",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 773,
+    "fields": {
+        "course": 1,
+        "day": "2018-11-25",
+        "type": "page",
+        "total": 4
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 774,
+    "fields": {
+        "course": 1,
+        "day": "2018-11-29",
+        "type": "quiz",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 775,
+    "fields": {
+        "course": 1,
+        "day": "2018-11-29",
+        "type": "page",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 776,
+    "fields": {
+        "course": 1,
+        "day": "2018-12-19",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 777,
+    "fields": {
+        "course": 1,
+        "day": "2019-01-05",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 778,
+    "fields": {
+        "course": null,
+        "day": "2019-09-24",
+        "type": "search",
+        "total": 1
     }
 }
 ]
