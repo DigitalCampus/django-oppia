@@ -13,3 +13,4 @@ pytest
 pytest-django
 openpyxl==3.0.3
 tablib==2.0.0
+httpretty==1.0.2
