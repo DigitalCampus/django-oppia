@@ -56,7 +56,7 @@ urlpatterns = [
          profile_views.delete_account_view,
          name="delete"),
     path('delete/complete/',
-         profile_views.delete_account_complete_view,
+         profile_views.DeleteAccountComplete.as_view(),
          name="delete_complete"),
     path('export/mydata/<data_type>',
          profile_views.ExportDataView.as_view(),
