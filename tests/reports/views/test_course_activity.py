@@ -19,7 +19,7 @@ class CourseActivityViewTest(OppiaTransactionTestCase):
                 'tests/test_usercoursesummary.json',
                 'default_gamification_events.json',
                 'tests/test_tracker.json',
-                'tests/test_coursedailystats.json',]
+                'tests/test_coursedailystats.json']
 
     template = 'reports/course_activity.html'
     url = reverse('reports:course_activity')
