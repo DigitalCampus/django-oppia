@@ -16,7 +16,8 @@ class CartoDBUpdateTest(OppiaTestCase):
                 'tests/test_quiz.json',
                 'tests/test_permissions.json',
                 'default_badges.json',
-                'tests/test_course_permissions.json']
+                'tests/test_course_permissions.json',
+                'tests/test_viz.json']
 
     cartodb_valid_response = './oppia/fixtures/tests/cartodb/200_valid.json'
     cartodb_uri_regex = re.compile("https://[A-Za-z0-9-]+.cartodb.com/api/v2/sql??(?:&?[^=&]*=[^=&]*)*")
@@ -33,5 +34,15 @@ class CartoDBUpdateTest(OppiaTestCase):
 
         out = StringIO()
         call_command('cartodb_update', stdout=out)
-        # API KEY won't be valid
-        #self.assertEqual(u'Please check', out.getvalue()[0:12])
+        
+    @httpretty.activate
+    def test_cartodb_no_key_account(self):
+        cartodb_response = get_file_contents(self.cartodb_valid_response)
+        httpretty.register_uri(httpretty.GET, self.cartodb_uri_regex, body=cartodb_response)
+
+        SettingProperties.set_string(constants.OPPIA_CARTODB_ACCOUNT, None)
+        SettingProperties.set_string(constants.OPPIA_CARTODB_KEY, None)
+        SettingProperties.set_string(constants.OPPIA_HOSTNAME, None)
+
+        out = StringIO()
+        call_command('cartodb_update', stdout=out)
