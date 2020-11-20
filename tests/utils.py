@@ -9,7 +9,6 @@ def get_api_key(user):
     Returns the ApiKey for a user object.
     If it does not exist yet, is generated
     """
-
     try:
         api_key = ApiKey.objects.get(user=user)
     except ApiKey.DoesNotExist:
@@ -38,3 +37,7 @@ def update_course_owner(id, owner_id):
     course = Course.objects.get(pk=id)
     course.user_id = owner_id
     course.save()
+
+def get_file_contents(filename):
+    with open(filename, 'r') as f:
+        return f.read()
