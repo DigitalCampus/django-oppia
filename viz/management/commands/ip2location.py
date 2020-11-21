@@ -42,7 +42,7 @@ class Command(BaseCommand):
     def update_via_ipstack(self, t):
         key = SettingProperties.get_string(constants.OPPIA_IPSTACK_APIKEY, '')
 
-        if t['ip'] == '' or key == '':
+        if t['ip'] == '' or t['ip'] == None or key == '':
             return
 
         url = 'http://api.ipstack.com/%s?access_key=%s' % (t['ip'], key)
@@ -51,9 +51,7 @@ class Command(BaseCommand):
         req = urllib.request.Request(url)
         with urllib.request.urlopen(req) as response:
             data = response.read()
-
             data_json = json.loads(data)
-            print(data_json)
 
         if data_json['latitude'] != 0 and data_json['longitude'] != 0:
             viz = UserLocationVisualization()
@@ -61,11 +59,11 @@ class Command(BaseCommand):
             viz.lat = data_json['latitude']
             viz.lng = data_json['longitude']
             viz.hits = t['count_hits']
-            if data_json['city'] and data_json['region_name']:
+            if 'city' in data_json and 'region_name' in data_json:
                 viz.region = data_json['city'] + " " + data_json['region_name']
-            elif data_json['city']:
+            elif 'city' in data_json:
                 viz.region = data_json['city']
-            elif data_json['region_name']:
+            elif 'region_name' in data_json:
                 viz.region = data_json['region_name']
             viz.country_code = data_json['country_code']
             viz.country_name = data_json['country_name']
