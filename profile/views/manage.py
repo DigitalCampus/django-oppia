@@ -1,27 +1,27 @@
 import csv
 
 from django.contrib.admin.views.decorators import staff_member_required
-from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.db import IntegrityError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import ugettext as _
-from django.views.generic import FormView, TemplateView
+from django.views import View
 from tastypie.models import ApiKey
 
 import profile
-from helpers.mixins.AdminRequiredMixin import AdminRequiredMixin
 from oppia.models import Points, Award, Tracker
 from profile.forms import UploadProfileForm, \
     UserSearchForm, \
     DeleteAccountForm
 from profile.models import UserProfile
 from profile.views.utils import get_paginated_users, \
-    get_filters_from_row, \
-    get_query
+                                get_filters_from_row, \
+                                get_query
 from quiz.models import QuizAttempt, QuizAttemptResponse
 
 
@@ -153,15 +153,20 @@ def delete_account_view(request, user_id):
                   {'form': form})
 
 
-class DeleteAccountComplete(TemplateView):
-    template_name = 'profile/delete_account_complete.html'
+def delete_account_complete_view(request):
 
-class UploadUsers(AdminRequiredMixin, FormView):
+    return render(request, 'profile/delete_account_complete.html')
+
+
+class UploadUsers(View):
 
     form_class = UploadProfileForm
     template_name = 'profile/upload.html'
 
     def get(self, request):
+        if not request.user.is_superuser:
+            raise PermissionDenied
+
         results = []
         form = self.form_class()
 
@@ -169,16 +174,21 @@ class UploadUsers(AdminRequiredMixin, FormView):
                       {'form': form,
                        'results': results})
 
-    def form_valid(self, form):
-        csv_file = csv.DictReader(
-            chunk.decode() for chunk in self.request.FILES['upload_file'])
-        required_fields = ['username', 'firstname', 'lastname', 'email']
+    def post(self, request):
+        if not request.user.is_superuser:
+            raise PermissionDenied
 
-        context = self.get_context_data(form=form)
-        context['results'] = self.process_upload_user_file(csv_file, required_fields)
+        results = []
+        form = self.form_class(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = csv.DictReader(
+                chunk.decode() for chunk in request.FILES['upload_file'])
+            required_fields = ['username', 'firstname', 'lastname', 'email']
+            results = self.process_upload_user_file(csv_file, required_fields)
 
-        return self.render_to_response(context)
-
+        return render(request, self.template_name,
+                      {'form': form,
+                       'results': results})
 
     def process_upload_user_file(self, csv_file, required_fields):
         results = []
@@ -188,28 +198,61 @@ class UploadUsers(AdminRequiredMixin, FormView):
                 all_defined = True
                 for rf in required_fields:
                     if rf not in row or row[rf].strip() == '':
-                        result = {
-                            'username': row.get('username', None),
-                            'created': False,
-                            'message': _(u'No %s set' % rf)
-                        }
+                        result = {}
+                        result['username'] = row['username']
+                        result['created'] = False
+                        result['message'] = _(u'No %s set' % rf)
                         results.append(result)
                         all_defined = False
 
                 if not all_defined:
                     continue
 
-                results.append( UserProfile.create_user_from_dict(row))
+                results.append(self.process_upload_file_save_user(row))
 
         except Exception:
-            result = {
-                'username': None,
-                'created': False,
-                'message':_(u'Could not parse file')
-            }
-
+            result = {}
+            result['username'] = None
+            result['created'] = False
+            result['message'] = _(u'Could not parse file')
             results.append(result)
 
         return results
 
+    def process_upload_file_save_user(self, row):
+        user = User()
+        user.username = row['username']
+        user.first_name = row['firstname']
+        user.last_name = row['lastname']
+        user.email = row['email']
+        auto_password = False
+        if 'password' in row:
+            user.set_password(row['password'])
+        else:
+            password = User.objects.make_random_password()
+            user.set_password(password)
+            auto_password = True
+        try:
+            user.save()
+        except IntegrityError:
+            result = {}
+            result['username'] = row['username']
+            result['created'] = False
+            result['message'] = _(u'User already exists')
+            return result
 
+        up = UserProfile()
+        up.user = user
+        for col_name in row:
+            setattr(up, col_name, row[col_name])
+        up.save()
+        result = {}
+        result['username'] = row['username']
+        result['created'] = True
+        if auto_password:
+            result['message'] = \
+                _(u'User created with password: %s' % password)
+        else:
+            result['message'] = _(u'User created')
+
+        return result
