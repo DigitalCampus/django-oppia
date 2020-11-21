@@ -135,7 +135,7 @@ class Ip2LocationTest(OppiaTransactionTestCase):
 
         new_count = UserLocationVisualization.objects.all().count()
 
-        self.assertEqual(old_count+2, new_count)
+        self.assertEqual(old_count, new_count)
         
     @httpretty.activate
     def test_ip2location_no_key(self):
