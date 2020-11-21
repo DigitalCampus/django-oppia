@@ -1,7 +1,7 @@
 # oppia/profile/models.py
 
 from django.contrib.auth.models import User
-from django.db import models
+from django.db import models, IntegrityError
 
 from oppia.models import Participant, CoursePermissions
 
@@ -13,6 +13,49 @@ class UserProfile (models.Model):
     job_title = models.TextField(blank=True, null=True, default=None)
     organisation = models.TextField(blank=True, null=True, default=None)
     phone_number = models.TextField(blank=True, null=True, default=None)
+
+
+    @staticmethod
+    def create_user_from_dict(user_dict):
+        user = User()
+        user.username = user_dict['username']
+        user.first_name = user_dict['firstname']
+        user.last_name = user_dict['lastname']
+        user.email = user_dict['email']
+
+        auto_password = False
+        if 'password' in user_dict:
+            password = user_dict['password']
+        else:
+            password = User.objects.make_random_password()
+            auto_password = True
+        user.set_password(password)
+
+        try:
+            user.save()
+        except IntegrityError:
+            return {
+                'username': user_dict['username'],
+                'created': False,
+                'message': _(u'User already exists')
+            }
+
+        up = UserProfile(user=user)
+        for col_name in user_dict:
+            setattr(up, col_name, user_dict[col_name])
+        up.save()
+
+        result = {
+            'created': True,
+            'username': user_dict['username'],
+        }
+        if auto_password:
+            result['message'] = _(u'User created with password: %s' % password)
+        else:
+            result['message'] = _(u'User created')
+
+        return result
+
 
     def get_can_upload(self):
         if self.user.is_staff:
@@ -60,21 +103,17 @@ class UserProfile (models.Model):
         custom_fields = CustomField.objects.all()
         for custom_field in custom_fields:
             if (custom_field.id in fields_dict
-                and fields_dict[custom_field.id] != '') \
-                    or custom_field.required is True:
+                and fields_dict[custom_field.id] != '') or custom_field.required is True:
 
                 profile_field, created = UserProfileCustomField.objects \
                     .get_or_create(key_name=custom_field, user=self.user)
 
                 if custom_field.type == 'int':
-                    profile_field.value_int = fields_dict.get(custom_field.id,
-                                                              None)
+                    profile_field.value_int = fields_dict.get(custom_field.id, None)
                 elif custom_field.type == 'bool':
-                    profile_field.value_bool = fields_dict.get(custom_field.id,
-                                                               None)
+                    profile_field.value_bool = fields_dict.get(custom_field.id, None)
                 else:
-                    profile_field.value_str = fields_dict.get(custom_field.id,
-                                                              None)
+                    profile_field.value_str = fields_dict.get(custom_field.id, None)
 
                 profile_field.save()
 

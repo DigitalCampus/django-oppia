@@ -1,19 +1,18 @@
+from urllib.parse import urlparse
+
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
-from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import ugettext as _
-from django.views.generic import TemplateView
-
+from django.views.generic import TemplateView, UpdateView, ListView, FormView
 from tastypie.models import ApiKey
 
-from urllib.parse import urlparse
-
+from helpers.mixins.TitleViewMixin import TitleViewMixin
 from oppia import emailer
 from oppia.models import Points, Award, Tracker
 from oppia.permissions import can_edit_user
@@ -21,12 +20,9 @@ from profile.forms import LoginForm, \
     RegisterForm, \
     ResetForm, \
     ProfileForm
-
 from profile.models import UserProfile, CustomField, UserProfileCustomField
 from profile.views.utils import filter_redirect
-
 from quiz.models import QuizAttempt, QuizAttemptResponse
-
 from settings import constants
 from settings.models import SettingProperties
 
@@ -34,85 +30,65 @@ STR_COMMON_FORM = 'common/form/form.html'
 STR_OPPIA_HOME = 'oppia:index'
 
 
-class LoginView(TemplateView):
+class LoginView(FormView, TitleViewMixin):
+    template_name = STR_COMMON_FORM
+    form_class = LoginForm
+    title = _(u'Login')
 
-    def get(self, request):
-        # if already logged in
-        if request.user.is_authenticated:
+    def get_initial(self):
+        return {'next': filter_redirect(self.request.GET) }
+
+    def dispatch(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
             return HttpResponseRedirect(reverse(STR_OPPIA_HOME))
+        return super().dispatch(*args, **kwargs)
 
-        form = LoginForm(initial={'next': filter_redirect(request.GET), })
-
-        return render(request, STR_COMMON_FORM,
-                      {'form': form,
-                       'title': _(u'Login')})
-
-    def post(self, request):
-        username = password = ''
-
-        # if already logged in
-        if request.user.is_authenticated:
-            return HttpResponseRedirect(reverse(STR_OPPIA_HOME))
-
-        form = LoginForm(request.POST)
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        next_page = filter_redirect(request.POST)
+    def form_valid(self, form):
+        username = form.cleaned_data.get("username")
+        password = form.cleaned_data.get("password")
+        next_page = filter_redirect(self.request.POST)
 
         user = authenticate(username=username, password=password)
         if user is not None and user.is_active:
-            login(request, user)
+            login(self.request, user)
             if next_page is not None:
                 parsed_uri = urlparse(next_page)
                 if parsed_uri.netloc == '':
                     return HttpResponseRedirect(next_page)
-                else:
-                    return HttpResponseRedirect(reverse(STR_OPPIA_HOME))
-            else:
-                return HttpResponseRedirect(reverse(STR_OPPIA_HOME))
 
-        return render(request, STR_COMMON_FORM,
-                      {'username': username,
-                       'form': form,
-                       'title': _(u'Login')})
+        return HttpResponseRedirect(reverse(STR_OPPIA_HOME))
 
 
-class RegisterView(TemplateView):
+class RegisterView(FormView, TitleViewMixin):
 
-    def get(self, request):
-        self_register = SettingProperties \
-            .get_bool(constants.OPPIA_ALLOW_SELF_REGISTRATION,
-                      settings.OPPIA_ALLOW_SELF_REGISTRATION)
+    template_name = STR_COMMON_FORM
+    form_class = RegisterForm
+    success_url = 'thanks/'
+    title = _(u'Register')
+
+    def dispatch(self, *args, **kwargs):
+        self_register = SettingProperties.get_bool(constants.OPPIA_ALLOW_SELF_REGISTRATION, settings.OPPIA_ALLOW_SELF_REGISTRATION)
         if not self_register:
             raise Http404
+        else:
+            return super().dispatch(*args, **kwargs)
 
-        form = RegisterForm(initial={'next': filter_redirect(request.GET), })
+    def get_initial(self):
+        return {'next': filter_redirect(self.request.GET) }
 
-        return render(request, STR_COMMON_FORM,
-                      {'form': form,
-                       'title': _(u'Register')})
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        # Create new user
+        username = form.cleaned_data.get("username")
+        password = form.cleaned_data.get("password")
+        self.register_form_process(form)
 
-    def post(self, request):
-        self_register = SettingProperties \
-            .get_bool(constants.OPPIA_ALLOW_SELF_REGISTRATION,
-                      settings.OPPIA_ALLOW_SELF_REGISTRATION)
-        if not self_register:
-            raise Http404
-        form = RegisterForm(request.POST)
-        if form.is_valid():  # All validation rules pass
-            # Create new user
-            username = form.cleaned_data.get("username")
-            password = form.cleaned_data.get("password")
-            self.register_form_process(form)
+        u = authenticate(username=username, password=password)
+        if u is not None and u.is_active:
+            login(self.request, u)
 
-            u = authenticate(username=username, password=password)
-            if u is not None and u.is_active:
-                login(request, u)
-                return HttpResponseRedirect('thanks/')
+        return response
 
-        return render(request, STR_COMMON_FORM,
-                      {'form': form,
-                       'title': _(u'Register')})
 
     def register_form_process(self, form):
         # Create new user
@@ -127,11 +103,11 @@ class RegisterView(TemplateView):
         user.save()
 
         # create UserProfile record
-        user_profile = UserProfile()
-        user_profile.user = user
-        user_profile.job_title = form.cleaned_data.get("job_title")
-        user_profile.organisation = form.cleaned_data.get("organisation")
-        user_profile.save()
+        UserProfile.objects.create(
+            user  = user,
+            job_title =form.cleaned_data.get("job_title"),
+            organisation =form.cleaned_data.get("organisation")
+        )
 
         # save any custom fields
         custom_fields = CustomField.objects.all()
@@ -151,115 +127,114 @@ class RegisterView(TemplateView):
                     key_name=custom_field,
                     user=user,
                     value_str=form.cleaned_data.get(custom_field.id))
+
             if (form.cleaned_data.get(custom_field.id) is not None
                 and form.cleaned_data.get(custom_field.id) != '') \
                     or custom_field.required is True:
                 profile_field.save()
 
 
-class ResetView(TemplateView):
+class ResetView(FormView, TitleViewMixin):
 
-    def get(self, request):
-        return render(request, STR_COMMON_FORM,
-                      {'form': ResetForm(),
-                       'title': _(u'Reset password')})
+    template_name = STR_COMMON_FORM
+    form_class = ResetForm
+    success_url = 'sent/'
+    title = _(u'Reset password')
 
-    def post(self, request):
-        form = ResetForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get("username")
-            try:
-                user = User.objects.get(username__exact=username)
-            except User.DoesNotExist:
-                user = User.objects.get(email__exact=username)
-            newpass = User.objects.make_random_password(length=8)
-            user.set_password(newpass)
-            user.save()
-            if request.is_secure():
-                prefix = 'https://'
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        username = form.cleaned_data.get("username")
+        try:
+            user = User.objects.get(username__exact=username)
+        except User.DoesNotExist:
+            user = User.objects.get(email__exact=username)
+
+        newpass = User.objects.make_random_password(length=8)
+        user.set_password(newpass)
+        user.save()
+        if self.request.is_secure():
+            prefix = 'https://'
+        else:
+            prefix = 'http://'
+
+        emailer.send_oppia_email(
+            template_html='profile/email/password_reset.html',
+            template_text='profile/email/password_reset.txt',
+            subject="Password reset",
+            fail_silently=False,
+            recipients=[user.email],
+            new_password=newpass,
+            site=prefix + self.request.META['SERVER_NAME']
+        )
+
+        return response
+
+
+
+class EditView(UpdateView):
+
+    model = User
+    form_class = ProfileForm
+    context_object_name = 'user'
+    template_name = 'profile/profile.html'
+
+    def get_object(self, queryset=None):
+        user_id = self.kwargs.get('user_id', )
+        if user_id:
+            if can_edit_user(self.request, user_id):
+                return User.objects.get(pk=user_id)
             else:
-                prefix = 'http://'
-
-            emailer.send_oppia_email(
-                template_html='profile/email/password_reset.html',
-                template_text='profile/email/password_reset.txt',
-                subject="Password reset",
-                fail_silently=False,
-                recipients=[user.email],
-                new_password=newpass,
-                site=prefix + request.META['SERVER_NAME']
-                )
-
-            return HttpResponseRedirect('sent/')
-
-        return render(request, STR_COMMON_FORM,
-                      {'form': form,
-                       'title': _(u'Reset password')})
-
-
-class EditView(TemplateView):
-
-    def get(self, request, user_id=0):
-        if user_id != 0 and can_edit_user(request, user_id):
-            view_user = User.objects.get(pk=user_id)
-        elif user_id == 0:
-            view_user = request.user
+                raise PermissionDenied
         else:
-            raise PermissionDenied
+            return self.request.user
 
-        key = ApiKey.objects.get(user=view_user)
-        initial = self.edit_form_initial(view_user, key)
-        form = ProfileForm(initial=initial)
+    def get_success_url(self):
+        # We return after success to the same view
+        return self.request.path
 
-        return render(request,
-                      'profile/profile.html',
-                      {'form': form,
-                       'user': view_user})
+    def get_form_kwargs(self):
+        """As it is not a ModelForm, we remove the instance argument"""
+        kwargs = super().get_form_kwargs()
+        kwargs.pop('instance')
+        return kwargs
 
-    def post(self, request, user_id=0):
-        if user_id != 0 and can_edit_user(request, user_id):
-            view_user = User.objects.get(pk=user_id)
-        elif user_id == 0:
-            view_user = request.user
-        else:
-            raise PermissionDenied
 
-        form = ProfileForm(request.POST)
-        if form.is_valid():
-            # update basic data
-            self.edit_form_process(form, view_user)
-            messages.success(request, _(u"Profile updated"))
-            # if password should be changed
-            password = form.cleaned_data.get("password")
-            if password:
-                view_user.set_password(password)
-                view_user.save()
-                messages.success(request, _(u"Password updated"))
-
-        return render(request,
-                      'profile/profile.html',
-                      {'form': form,
-                       'user': view_user})
-
-    def edit_form_initial(self, view_user, key):
+    def get_initial(self):
+        key = ApiKey.objects.get(user=self.object)
         user_profile, created = UserProfile.objects \
-            .get_or_create(user=view_user)
+            .get_or_create(user=self.object)
 
-        initial = {'username': view_user.username,
-                   'email': view_user.email,
-                   'first_name': view_user.first_name,
-                   'last_name': view_user.last_name,
+        initial = {'username': self.object.username,
+                   'email': self.object.email,
+                   'first_name': self.object.first_name,
+                   'last_name': self.object.last_name,
                    'api_key': key.key,
                    'job_title': user_profile.job_title,
                    'organisation': user_profile.organisation}
+
         custom_fields = CustomField.objects.all()
         for custom_field in custom_fields:
             upcf_row = UserProfileCustomField.objects \
-                .filter(key_name=custom_field, user=view_user)
+                .filter(key_name=custom_field, user=self.object)
             if upcf_row.exists():
                 initial[custom_field.id] = upcf_row.first().get_value()
 
         return initial
+
+
+    def form_valid(self, form):
+        self.edit_form_process(form, self.object)
+        messages.success(self.request, _(u"Profile updated"))
+
+        # if password should be changed
+        password = form.cleaned_data.get("password", )
+        if password:
+            self.object.set_password(password)
+            self.object.save()
+            messages.success(self.request, _(u"Password updated"))
+
+        return  HttpResponseRedirect(self.get_success_url())
 
     def edit_form_process(self, form, view_user):
         email = form.cleaned_data.get("email")
@@ -279,8 +254,8 @@ class EditView(TemplateView):
         # save any custom fields
         custom_fields = CustomField.objects.all()
         for custom_field in custom_fields:
-            if (form.cleaned_data.get(custom_field.id) is not None
-                and form.cleaned_data.get(custom_field.id) != '') \
+            if (form.cleaned_data.get(custom_field.id, ) is not None
+                and form.cleaned_data.get(custom_field.id, ) != '') \
                     or custom_field.required is True:
 
                 profile_field, created = UserProfileCustomField.objects \
@@ -288,13 +263,13 @@ class EditView(TemplateView):
 
                 if custom_field.type == 'int':
                     profile_field.value_int = \
-                        form.cleaned_data.get(custom_field.id)
+                        form.cleaned_data.get(custom_field.id, )
                 elif custom_field.type == 'bool':
                     profile_field.value_bool = \
-                        form.cleaned_data.get(custom_field.id)
+                        form.cleaned_data.get(custom_field.id, )
                 else:
                     profile_field.value_str = \
-                        form.cleaned_data.get(custom_field.id)
+                        form.cleaned_data.get(custom_field.id, )
 
                 profile_field.save()
 
@@ -330,29 +305,17 @@ class ExportDataView(TemplateView):
             raise Http404
 
 
-class PointsView(TemplateView):
+class PointsView(ListView):
+    template_name = 'profile/points.html'
+    paginate_by = 25
 
-    def get(self, request):
-        points = Points.objects.filter(user=request.user).order_by('-date')
-        paginator = Paginator(points, 25)  # Show 25 contacts per page
-
-        try:
-            page = int(request.GET.get('page', '1'))
-        except ValueError:
-            page = 1
-
-        try:
-            mypoints = paginator.page(page)
-        except (EmptyPage, InvalidPage):
-            mypoints = paginator.page(paginator.num_pages)
-        return render(request, 'profile/points.html',
-                      {'page': mypoints, })
+    def get_queryset(self):
+        return Points.objects.filter(user=self.request.user).order_by('-date')
 
 
-class BadgesView(TemplateView):
+class BadgesView(ListView):
+    context_object_name = 'awards'
+    template_name = 'profile/badges.html'
 
-    def get(self, request):
-        awards = Award.objects.filter(
-            user=request.user).order_by('-award_date')
-        return render(request, 'profile/badges.html',
-                      {'awards': awards, })
+    def get_queryset(self):
+        return Award.objects.filter(user=self.request.user).order_by('-award_date')

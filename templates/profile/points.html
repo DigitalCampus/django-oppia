@@ -10,7 +10,7 @@
 
 {% block content %}
 
-{% if page.object_list %}
+{% if object_list %}
 
     <div class="table-responsive">
          <table class="table table-striped">
@@ -23,7 +23,7 @@
                 </tr>
               </thead>
               <tbody>
-	{% for p in page.object_list %}
+	{% for p in object_list %}
 		 <tr>
            <td>{{ p.date|date:"d M Y H:i" }}</td>
            <td>{{ p.points }}</td>
@@ -33,7 +33,7 @@
 		</tbody>
  		</table>
 	</div>
-	{% include "common/pagination.html" %}
+	{% include 'common/pagination.html' with page=page_obj %}
 	
 {% else %}
 	<p>You don't have any points yet</p>
