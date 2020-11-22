@@ -1,8 +1,6 @@
-import datetime
 
 from oppia.test import OppiaTestCase
 from django.urls import reverse
-from django.utils import timezone
 
 from settings import constants
 from settings.models import SettingProperties

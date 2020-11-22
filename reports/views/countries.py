@@ -1,17 +1,14 @@
 
 from django.contrib.admin.views.decorators import staff_member_required
-from django.contrib.auth.models import User
-from django.db.models import Count, Sum
-from django.db.models.functions import TruncMonth, TruncYear
+from django.db.models import Sum
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
 
-from oppia.models import Tracker, Course
-
 from reports.views.base_report_template import BaseReportTemplateView
 
 from viz.models import UserLocationVisualization
+
 
 @method_decorator(staff_member_required, name='dispatch')
 class CountriesView(BaseReportTemplateView):

@@ -1,5 +1,4 @@
 import httpretty
-import pytest
 import re
 
 from django.core.management import call_command
@@ -52,7 +51,7 @@ class Ip2LocationTest(OppiaTransactionTestCase):
         new_count = UserLocationVisualization.objects.all().count()
 
         self.assertEqual(old_count+2, new_count)
-        
+
     @httpretty.activate
     def test_ip2location_no_city(self):
 
@@ -73,7 +72,7 @@ class Ip2LocationTest(OppiaTransactionTestCase):
         new_count = UserLocationVisualization.objects.all().count()
 
         self.assertEqual(old_count+2, new_count)
-        
+
     @httpretty.activate
     def test_ip2location_no_region(self):
 
@@ -94,7 +93,7 @@ class Ip2LocationTest(OppiaTransactionTestCase):
         new_count = UserLocationVisualization.objects.all().count()
 
         self.assertEqual(old_count+2, new_count)
-     
+
     @httpretty.activate
     def test_ip2location_no_city_region(self):
 
@@ -115,7 +114,7 @@ class Ip2LocationTest(OppiaTransactionTestCase):
         new_count = UserLocationVisualization.objects.all().count()
 
         self.assertEqual(old_count+2, new_count)
-           
+
     @httpretty.activate
     def test_ip2location_lat_lng_0(self):
 
@@ -136,7 +135,7 @@ class Ip2LocationTest(OppiaTransactionTestCase):
         new_count = UserLocationVisualization.objects.all().count()
 
         self.assertEqual(old_count, new_count)
-        
+
     @httpretty.activate
     def test_ip2location_no_key(self):
 

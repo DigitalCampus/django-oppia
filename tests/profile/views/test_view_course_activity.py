@@ -127,7 +127,7 @@ class CourseActivityViewTest(OppiaTestCase):
         response = self.client.get(url)
         self.assertTemplateUsed(response, self.unauthorized_template)
         self.assertEqual(response.status_code, 403)
-        
+
     def test_user_course_activity_ordering_valid(self):
         url = reverse(self.reverse_url, args=[self.normal_user.id,
                                               self.course_id])
@@ -136,7 +136,7 @@ class CourseActivityViewTest(OppiaTestCase):
         response = self.client.get(url+"?order_by=quiz_order")
         self.assertTemplateUsed(response, self.template)
         self.assertEqual(response.status_code, 200)
-        
+
     def test_user_course_activity_ordering_valid_reverse(self):
         url = reverse(self.reverse_url, args=[self.normal_user.id,
                                               self.course_id])

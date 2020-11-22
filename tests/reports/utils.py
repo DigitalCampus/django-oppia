@@ -3,8 +3,6 @@ import datetime
 from django.db.utils import IntegrityError
 from django.utils import timezone
 
-from helpers.forms import dates
-
 from oppia.models import Tracker
 
 from summary.models import CourseDailyStats
@@ -12,7 +10,6 @@ from summary.models import CourseDailyStats
 
 def update_course_daily_stats_dates():
     start_date = timezone.now()
-    
     cdss = CourseDailyStats.objects.all()
     for cds in cdss:
         try:
@@ -26,7 +23,6 @@ def update_course_daily_stats_dates():
 
 def update_tracker_dates():
     start_date = timezone.now()
-    
     trackers = Tracker.objects.all()
     for tracker in trackers:
         try:
@@ -36,5 +32,3 @@ def update_tracker_dates():
             tracker.save()
         except IntegrityError:
             pass
-        
-    

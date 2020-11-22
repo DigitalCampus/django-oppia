@@ -5,7 +5,6 @@ from django.utils import timezone
 
 from oppia.test import OppiaTransactionTestCase
 
-from reports.signals import dashboard_accessed
 from tests.reports import utils
 
 
@@ -23,17 +22,17 @@ class CourseActivityViewTest(OppiaTransactionTestCase):
 
     template = 'reports/course_activity.html'
     url = reverse('reports:course_activity')
-        
+
     def setUp(self):
         super(CourseActivityViewTest, self).setUp()
         self.allowed_users = [self.admin_user, self.staff_user]
         self.disallowed_users = [self.teacher_user, self.normal_user]
 
     def test_course_activity_get(self):
-        
+
         # fix coursedailystats date to be in the last month
         utils.update_course_daily_stats_dates()
-        
+
         for allowed_user in self.allowed_users:
             self.client.force_login(user=allowed_user)
             response = self.client.get(self.url)
