@@ -14,7 +14,7 @@ class AVModelsTest(OppiaTestCase):
     def test_uploadedmedia_str(self):
         um = UploadedMedia.objects.get(pk=1)
         self.assertEqual(
-            'uploaded/2018/02/ldrshp-mgmt-unit-2-risk-mgmt-D-v2.m4v',
+            'uploaded/2020/11/sample_video.m4v',
             str(um))
 
     def test_uploadedmediaimage_str(self):
@@ -25,7 +25,7 @@ class AVModelsTest(OppiaTestCase):
 
     def test_media_filename(self):
         um = UploadedMedia.objects.get(pk=1)
-        self.assertEqual('ldrshp-mgmt-unit-2-risk-mgmt-D-v2.m4v',
+        self.assertEqual('sample_video.m4v',
                          um.filename())
 
     def test_media_default_image_set(self):
