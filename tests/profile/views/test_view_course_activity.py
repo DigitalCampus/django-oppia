@@ -1,8 +1,6 @@
 from django.urls import reverse
 from oppia.test import OppiaTestCase
 
-from tests.defaults import UNAUTHORISED_TEMPLATE
-
 
 class CourseActivityViewTest(OppiaTestCase):
     fixtures = ['tests/test_user.json',
@@ -90,14 +88,14 @@ class CourseActivityViewTest(OppiaTestCase):
                                               self.course_id])
         self.client.force_login(user=self.teacher_user)
         response = self.client.get(url)
-        self.assertTemplateUsed(response, UNAUTHORISED_TEMPLATE)
+        self.assertTemplateUsed(response, self.unauthorized_template)
         self.assertEqual(response.status_code, 403)
 
         url = reverse(self.reverse_url, args=[self.staff_user.id,
                                               self.course_id])
         self.client.force_login(user=self.teacher_user)
         response = self.client.get(url)
-        self.assertTemplateUsed(response, UNAUTHORISED_TEMPLATE)
+        self.assertTemplateUsed(response, self.unauthorized_template)
         self.assertEqual(response.status_code, 403)
 
         url = reverse(self.reverse_url, args=[self.normal_user.id,
@@ -113,21 +111,21 @@ class CourseActivityViewTest(OppiaTestCase):
                                               self.course_id])
         self.client.force_login(user=self.normal_user)
         response = self.client.get(url)
-        self.assertTemplateUsed(response, UNAUTHORISED_TEMPLATE)
+        self.assertTemplateUsed(response, self.unauthorized_template)
         self.assertEqual(response.status_code, 403)
 
         url = reverse(self.reverse_url, args=[self.staff_user.id,
                                               self.course_id])
         self.client.force_login(user=self.normal_user)
         response = self.client.get(url)
-        self.assertTemplateUsed(response, UNAUTHORISED_TEMPLATE)
+        self.assertTemplateUsed(response, self.unauthorized_template)
         self.assertEqual(response.status_code, 403)
 
         url = reverse(self.reverse_url, args=[self.teacher_user.id,
                                               self.course_id])
         self.client.force_login(user=self.normal_user)
         response = self.client.get(url)
-        self.assertTemplateUsed(response, UNAUTHORISED_TEMPLATE)
+        self.assertTemplateUsed(response, self.unauthorized_template)
         self.assertEqual(response.status_code, 403)
         
     def test_user_course_activity_ordering_valid(self):

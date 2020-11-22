@@ -14,10 +14,7 @@ class UserActivityViewTest(OppiaTestCase):
                 'tests/test_tracker.json',
                 'tests/test_coursedailystats.json']
 
-    def setUp(self):
-        super(UserActivityViewTest, self).setUp()
-        self.template = 'profile/user-scorecard.html'
-        self.unauthorised_template = '403.html'
+    template = 'profile/user-scorecard.html'
 
     def test_view_own_activity(self):
 
@@ -75,13 +72,13 @@ class UserActivityViewTest(OppiaTestCase):
         url = reverse('profile:user_activity', args=[self.admin_user.id])
         self.client.force_login(self.teacher_user)
         response = self.client.get(url)
-        self.assertTemplateUsed(response, '403.html')
+        self.assertTemplateUsed(response, self.unauthorized_template)
         self.assertEqual(response.status_code, 403)
 
         url = reverse('profile:user_activity', args=[self.staff_user.id])
         self.client.force_login(self.teacher_user)
         response = self.client.get(url)
-        self.assertTemplateUsed(response, self.unauthorised_template)
+        self.assertTemplateUsed(response, self.unauthorized_template)
         self.assertEqual(response.status_code, 403)
 
         url = reverse('profile:user_activity', args=[self.normal_user.id])
@@ -94,19 +91,19 @@ class UserActivityViewTest(OppiaTestCase):
         url = reverse('profile:user_activity', args=[self.admin_user.id])
         self.client.force_login(self.normal_user)
         response = self.client.get(url)
-        self.assertTemplateUsed(response, self.unauthorised_template)
+        self.assertTemplateUsed(response, self.unauthorized_template)
         self.assertEqual(response.status_code, 403)
 
         url = reverse('profile:user_activity', args=[self.staff_user.id])
         self.client.force_login(self.normal_user)
         response = self.client.get(url)
-        self.assertTemplateUsed(response, self.unauthorised_template)
+        self.assertTemplateUsed(response, self.unauthorized_template)
         self.assertEqual(response.status_code, 403)
 
         url = reverse('profile:user_activity', args=[self.teacher_user.id])
         self.client.force_login(self.normal_user)
         response = self.client.get(url)
-        self.assertTemplateUsed(response, self.unauthorised_template)
+        self.assertTemplateUsed(response, self.unauthorized_template)
         self.assertEqual(response.status_code, 403)
 
     def test_user_activity_ordering_valid(self):

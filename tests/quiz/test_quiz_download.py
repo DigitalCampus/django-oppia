@@ -5,7 +5,6 @@ from django.urls import reverse
 from oppia.test import OppiaTestCase
 
 from reports.models import DashboardAccessLog
-from tests.defaults import UNAUTHORISED_TEMPLATE
 
 
 class QuizDownloadTest(OppiaTestCase):
@@ -53,7 +52,7 @@ class QuizDownloadTest(OppiaTestCase):
         count_start = DashboardAccessLog.objects.all().count()
         self.client.force_login(self.teacher_user)
         response = self.client.get(self.valid_course_valid_quiz_url)
-        self.assertTemplateUsed(response, UNAUTHORISED_TEMPLATE)
+        self.assertTemplateUsed(response, self.unauthorized_template)
         self.assertEqual(403, response.status_code)
         count_end = DashboardAccessLog.objects.all().count()
         self.assertEqual(count_start, count_end)
@@ -62,7 +61,7 @@ class QuizDownloadTest(OppiaTestCase):
         count_start = DashboardAccessLog.objects.all().count()
         self.client.force_login(self.normal_user)
         response = self.client.get(self.valid_course_valid_quiz_url)
-        self.assertTemplateUsed(response, UNAUTHORISED_TEMPLATE)
+        self.assertTemplateUsed(response, self.unauthorized_template)
         self.assertEqual(403, response.status_code)
         count_end = DashboardAccessLog.objects.all().count()
         self.assertEqual(count_start, count_end)
