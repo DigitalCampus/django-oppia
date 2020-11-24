@@ -20,6 +20,8 @@ class OppiaTestCase(TestCase):
         self.normal_user = User.objects.get(pk=2)
         self.manager_user = User.objects.get(pk=5)
         self.viewer_user = User.objects.get(pk=6)
+        self.unauthorized_template = "403.html"
+        self.not_found_template = "404.html"
 
     def get_view(self, route, user=None):
         if user is not None:

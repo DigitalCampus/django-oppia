@@ -5,8 +5,6 @@ from django.utils import timezone
 
 from oppia.test import OppiaTestCase
 
-from reports.signals import dashboard_accessed
-
 
 class CourseDownloadsViewTest(OppiaTestCase):
     fixtures = ['tests/test_user.json',
@@ -21,14 +19,13 @@ class CourseDownloadsViewTest(OppiaTestCase):
 
     template = 'reports/course_downloads.html'
     url = reverse('reports:course_downloads')
-        
+
     def setUp(self):
         super(CourseDownloadsViewTest, self).setUp()
         self.allowed_users = [self.admin_user, self.staff_user]
         self.disallowed_users = [self.teacher_user, self.normal_user]
 
     def test_course_downloads_get(self):
-        
         for allowed_user in self.allowed_users:
             self.client.force_login(user=allowed_user)
             response = self.client.get(self.url)

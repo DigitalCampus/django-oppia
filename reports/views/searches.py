@@ -1,6 +1,5 @@
 
 from django.contrib.admin.views.decorators import staff_member_required
-from django.contrib.auth.models import User
 from django.db.models import Sum
 from django.db.models.functions import TruncMonth, TruncYear
 from django.shortcuts import render

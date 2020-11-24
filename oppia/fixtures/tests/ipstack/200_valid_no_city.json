@@ -1,0 +1,14 @@
+{
+  "ip": "192.168.1.1",
+  "type": "ipv4",
+  "continent_code": "EU",
+  "continent_name": "Europe",
+  "country_code": "ES",
+  "country_name": "Spain",
+  "region_code": "MD",
+  "region_name": "Madrid",
+  "zip": "28001",
+  "latitude": 40.42618179321289,
+  "longitude": -3.6851398944854736,
+  "location": {}
+}

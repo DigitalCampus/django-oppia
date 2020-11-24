@@ -1,15 +1,15 @@
-from urllib.parse import urlparse
-
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import ugettext as _
-from django.views.generic import TemplateView, UpdateView, ListView, FormView
+from django.views.generic import TemplateView
+
 from tastypie.models import ApiKey
 
 from helpers.mixins.TitleViewMixin import TitleViewMixin
@@ -21,9 +21,12 @@ from profile.forms import LoginForm, \
     RegisterForm, \
     ResetForm, \
     ProfileForm
+
 from profile.models import UserProfile, CustomField, UserProfileCustomField
 from profile.views.utils import filter_redirect
+
 from quiz.models import QuizAttempt, QuizAttemptResponse
+
 from settings import constants
 from settings.models import SettingProperties
 
@@ -259,8 +262,8 @@ class EditView(UpdateView):
         # save any custom fields
         custom_fields = CustomField.objects.all()
         for custom_field in custom_fields:
-            if (form.cleaned_data.get(custom_field.id, ) is not None
-                and form.cleaned_data.get(custom_field.id, ) != '') \
+            if (form.cleaned_data.get(custom_field.id) is not None
+                and form.cleaned_data.get(custom_field.id) != '') \
                     or custom_field.required is True:
 
                 profile_field, created = UserProfileCustomField.objects \
@@ -268,13 +271,13 @@ class EditView(UpdateView):
 
                 if custom_field.type == 'int':
                     profile_field.value_int = \
-                        form.cleaned_data.get(custom_field.id, )
+                        form.cleaned_data.get(custom_field.id)
                 elif custom_field.type == 'bool':
                     profile_field.value_bool = \
-                        form.cleaned_data.get(custom_field.id, )
+                        form.cleaned_data.get(custom_field.id)
                 else:
                     profile_field.value_str = \
-                        form.cleaned_data.get(custom_field.id, )
+                        form.cleaned_data.get(custom_field.id)
 
                 profile_field.save()
 
