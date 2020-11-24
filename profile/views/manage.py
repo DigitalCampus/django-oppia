@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.db import IntegrityError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -168,9 +169,7 @@ class UploadUsers(AdminRequiredMixin, FormView):
 
         context = self.get_context_data(form=form)
         context['results'] = self.process_upload_user_file(csv_file, required_fields)
-
         return self.render_to_response(context)
-
 
     def process_upload_user_file(self, csv_file, required_fields):
         results = []
@@ -191,17 +190,55 @@ class UploadUsers(AdminRequiredMixin, FormView):
                 if not all_defined:
                     continue
 
-                results.append( UserProfile.create_user_from_dict(row))
+                results.append(self.process_upload_file_save_user(row))
 
         except Exception:
             result = {
                 'username': None,
                 'created': False,
-                'message':_(u'Could not parse file')
+                'message': _(u'Could not parse file')
             }
-
             results.append(result)
 
         return results
 
+    def process_upload_file_save_user(self, row):
+        user = User()
+        user.username = row['username']
+        user.first_name = row['firstname']
+        user.last_name = row['lastname']
+        user.email = row['email']
 
+        auto_password = False
+        if 'password' in row:
+            password = row['password']
+        else:
+            password = User.objects.make_random_password()
+            auto_password = True
+        user.set_password(password)
+
+        try:
+            user.save()
+        except IntegrityError:
+            return {
+                'username': row['username'],
+                'created': False,
+                'message': _(u'User already exists')
+            }
+
+        up = UserProfile()
+        up.user = user
+        for col_name in row:
+            setattr(up, col_name, row[col_name])
+        up.save()
+
+        result = {
+            'created': True,
+            'username': row['username'],
+        }
+        if auto_password:
+            result['message'] = _(u'User created with password: %s' % password)
+        else:
+            result['message'] = _(u'User created')
+
+        return result

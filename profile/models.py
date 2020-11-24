@@ -1,7 +1,7 @@
 # oppia/profile/models.py
 
 from django.contrib.auth.models import User
-from django.db import models, IntegrityError
+from django.db import models
 
 from oppia.models import Participant, CoursePermissions
 
@@ -13,48 +13,6 @@ class UserProfile (models.Model):
     job_title = models.TextField(blank=True, null=True, default=None)
     organisation = models.TextField(blank=True, null=True, default=None)
     phone_number = models.TextField(blank=True, null=True, default=None)
-
-
-    @staticmethod
-    def create_user_from_dict(user_dict):
-        user = User()
-        user.username = user_dict['username']
-        user.first_name = user_dict['firstname']
-        user.last_name = user_dict['lastname']
-        user.email = user_dict['email']
-
-        auto_password = False
-        if 'password' in user_dict:
-            password = user_dict['password']
-        else:
-            password = User.objects.make_random_password()
-            auto_password = True
-        user.set_password(password)
-
-        try:
-            user.save()
-        except IntegrityError:
-            return {
-                'username': user_dict['username'],
-                'created': False,
-                'message': _(u'User already exists')
-            }
-
-        up = UserProfile(user=user)
-        for col_name in user_dict:
-            setattr(up, col_name, user_dict[col_name])
-        up.save()
-
-        result = {
-            'created': True,
-            'username': user_dict['username'],
-        }
-        if auto_password:
-            result['message'] = _(u'User created with password: %s' % password)
-        else:
-            result['message'] = _(u'User created')
-
-        return result
 
 
     def get_can_upload(self):
