@@ -13,6 +13,7 @@ from django.views.generic import TemplateView, UpdateView, ListView, FormView
 from tastypie.models import ApiKey
 
 from helpers.mixins.TitleViewMixin import TitleViewMixin
+from helpers.mixins.SafePaginatorMixin import SafePaginatorMixin
 from oppia import emailer
 from oppia.models import Points, Award, Tracker
 from oppia.permissions import can_edit_user
@@ -42,6 +43,10 @@ class LoginView(FormView, TitleViewMixin):
         if self.request.user.is_authenticated:
             return HttpResponseRedirect(reverse(STR_OPPIA_HOME))
         return super().dispatch(*args, **kwargs)
+
+    def form_invalid(self, form):
+        print(form.errors)
+        return super().form_invalid(form)
 
     def form_valid(self, form):
         username = form.cleaned_data.get("username")
@@ -234,7 +239,7 @@ class EditView(UpdateView):
             self.object.save()
             messages.success(self.request, _(u"Password updated"))
 
-        return  HttpResponseRedirect(self.get_success_url())
+        return self.render_to_response(self.get_context_data(form=form))
 
     def edit_form_process(self, form, view_user):
         email = form.cleaned_data.get("email")
@@ -305,7 +310,7 @@ class ExportDataView(TemplateView):
             raise Http404
 
 
-class PointsView(ListView):
+class PointsView(SafePaginatorMixin, ListView):
     template_name = 'profile/points.html'
     paginate_by = 25
 

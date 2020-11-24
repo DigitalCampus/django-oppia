@@ -161,14 +161,6 @@ class UploadUsers(AdminRequiredMixin, FormView):
     form_class = UploadProfileForm
     template_name = 'profile/upload.html'
 
-    def get(self, request):
-        results = []
-        form = self.form_class()
-
-        return render(request, self.template_name,
-                      {'form': form,
-                       'results': results})
-
     def form_valid(self, form):
         csv_file = csv.DictReader(
             chunk.decode() for chunk in self.request.FILES['upload_file'])
