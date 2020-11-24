@@ -42,4 +42,3 @@ class DailyActiveUsersViewTest(OppiaTestCase):
         response = self.client.post(self.url, data={'group_by': 'country'})
         self.assertTemplateUsed(response, self.template)
         self.assertEqual(response.status_code, 200)
-

@@ -15,10 +15,10 @@ class LoginForm(forms.Form):
         widget=forms.PasswordInput,
         error_messages={'required': _(u'Please enter a password.')},
         required=True)
-    next = forms.CharField(widget=forms.HiddenInput())
+    next = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     def __init__(self, *args, **kwargs):
-        super(LoginForm, self).__init__(* args, ** kwargs)
+        super(LoginForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_action = reverse('profile:login')
         self.helper.form_class = 'form-horizontal'

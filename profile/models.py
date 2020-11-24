@@ -14,6 +14,7 @@ class UserProfile (models.Model):
     organisation = models.TextField(blank=True, null=True, default=None)
     phone_number = models.TextField(blank=True, null=True, default=None)
 
+
     def get_can_upload(self):
         if self.user.is_staff:
             return True

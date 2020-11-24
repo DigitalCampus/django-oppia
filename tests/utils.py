@@ -38,6 +38,7 @@ def update_course_owner(id, owner_id):
     course.user_id = owner_id
     course.save()
 
+
 def get_file_contents(filename):
     with open(filename, 'r') as f:
         return f.read()

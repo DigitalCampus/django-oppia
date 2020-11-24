@@ -275,7 +275,6 @@ class PermissionsViewTest(OppiaTestCase):
                              self.normal_user,
                              view_kwargs={'course_id': 1, 'user_id': 2})
 
-
     # Test is_manager permissions
 
     def test_is_manager_admin(self):

@@ -88,18 +88,18 @@ class CourseViewsTest(OppiaTestCase):
         url = reverse(self.STR_URL_COURSE_EXPORTS, args=[1])
         response = self.client.get(url)
         self.assertEqual(403, response.status_code)
-        self.assertTemplateUsed('403.html')
+        self.assertTemplateUsed(self.unauthorized_template)
 
     def test_export_permissions_normal(self):
         self.client.force_login(user=self.normal_user)
         url = reverse(self.STR_URL_COURSE_EXPORTS, args=[1])
         response = self.client.get(url)
         self.assertEqual(403, response.status_code)
-        self.assertTemplateUsed('403.html')
+        self.assertTemplateUsed(self.unauthorized_template)
 
     def test_export_invalid_course(self):
         self.client.force_login(user=self.admin_user)
         url = reverse(self.STR_URL_COURSE_EXPORTS, args=[0])
         response = self.client.get(url)
         self.assertEqual(404, response.status_code)
-        self.assertTemplateUsed('404.html')
+        self.assertTemplateUsed(self.not_found_template)

@@ -1,5 +1,4 @@
 import httpretty
-import pytest
 import re
 
 from django.core.management import call_command
@@ -22,15 +21,27 @@ class Ip2LocationTest(OppiaTransactionTestCase):
                 'tests/test_course_permissions.json']
 
     ipstack_valid_response = './oppia/fixtures/tests/ipstack/200_valid.json'
-    ipstack_uri_regex = re.compile("https?://api.ipstack.com/??(?:&?[^=&]*=[^=&]*)*")
+    ipstack_valid_response_no_city = \
+        './oppia/fixtures/tests/ipstack/200_valid_no_city.json'
+    ipstack_valid_response_no_region = \
+        './oppia/fixtures/tests/ipstack/200_valid_no_region.json'
+    ipstack_valid_response_no_city_region = \
+        './oppia/fixtures/tests/ipstack/200_valid_no_city_region.json'
+    ipstack_valid_response_lat_lng_0 = \
+        './oppia/fixtures/tests/ipstack/200_valid_lat_lng_0.json'
+    ipstack_uri_regex = \
+        re.compile("https?://api.ipstack.com/??(?:&?[^=&]*=[^=&]*)*")
 
     @httpretty.activate
     def test_ip2location_output(self):
 
         ipstack_response = get_file_contents(self.ipstack_valid_response)
-        httpretty.register_uri( httpretty.GET, self.ipstack_uri_regex, body=ipstack_response)
+        httpretty.register_uri(httpretty.GET,
+                               self.ipstack_uri_regex,
+                               body=ipstack_response)
 
-        SettingProperties.set_string(constants.OPPIA_IPSTACK_APIKEY, "FAKE_APIKEY")
+        SettingProperties.set_string(constants.OPPIA_IPSTACK_APIKEY,
+                                     "FAKE_APIKEY")
 
         old_count = UserLocationVisualization.objects.all().count()
         call_command('ip2location', stdout=StringIO())
@@ -40,3 +51,107 @@ class Ip2LocationTest(OppiaTransactionTestCase):
         new_count = UserLocationVisualization.objects.all().count()
 
         self.assertEqual(old_count+2, new_count)
+
+    @httpretty.activate
+    def test_ip2location_no_city(self):
+
+        ipstack_response = get_file_contents(
+            self.ipstack_valid_response_no_city)
+        httpretty.register_uri(httpretty.GET,
+                               self.ipstack_uri_regex,
+                               body=ipstack_response)
+
+        SettingProperties.set_string(constants.OPPIA_IPSTACK_APIKEY,
+                                     "FAKE_APIKEY")
+
+        old_count = UserLocationVisualization.objects.all().count()
+        call_command('ip2location', stdout=StringIO())
+
+        self.assertRaises(UserLocationVisualization.DoesNotExist)
+
+        new_count = UserLocationVisualization.objects.all().count()
+
+        self.assertEqual(old_count+2, new_count)
+
+    @httpretty.activate
+    def test_ip2location_no_region(self):
+
+        ipstack_response = get_file_contents(
+            self.ipstack_valid_response_no_region)
+        httpretty.register_uri(httpretty.GET,
+                               self.ipstack_uri_regex,
+                               body=ipstack_response)
+
+        SettingProperties.set_string(constants.OPPIA_IPSTACK_APIKEY,
+                                     "FAKE_APIKEY")
+
+        old_count = UserLocationVisualization.objects.all().count()
+        call_command('ip2location', stdout=StringIO())
+
+        self.assertRaises(UserLocationVisualization.DoesNotExist)
+
+        new_count = UserLocationVisualization.objects.all().count()
+
+        self.assertEqual(old_count+2, new_count)
+
+    @httpretty.activate
+    def test_ip2location_no_city_region(self):
+
+        ipstack_response = get_file_contents(
+            self.ipstack_valid_response_no_city_region)
+        httpretty.register_uri(httpretty.GET,
+                               self.ipstack_uri_regex,
+                               body=ipstack_response)
+
+        SettingProperties.set_string(constants.OPPIA_IPSTACK_APIKEY,
+                                     "FAKE_APIKEY")
+
+        old_count = UserLocationVisualization.objects.all().count()
+        call_command('ip2location', stdout=StringIO())
+
+        self.assertRaises(UserLocationVisualization.DoesNotExist)
+
+        new_count = UserLocationVisualization.objects.all().count()
+
+        self.assertEqual(old_count+2, new_count)
+
+    @httpretty.activate
+    def test_ip2location_lat_lng_0(self):
+
+        ipstack_response = get_file_contents(
+            self.ipstack_valid_response_lat_lng_0)
+        httpretty.register_uri(httpretty.GET,
+                               self.ipstack_uri_regex,
+                               body=ipstack_response)
+
+        SettingProperties.set_string(constants.OPPIA_IPSTACK_APIKEY,
+                                     "FAKE_APIKEY")
+
+        old_count = UserLocationVisualization.objects.all().count()
+        call_command('ip2location', stdout=StringIO())
+
+        self.assertRaises(UserLocationVisualization.DoesNotExist)
+
+        new_count = UserLocationVisualization.objects.all().count()
+
+        self.assertEqual(old_count, new_count)
+
+    @httpretty.activate
+    def test_ip2location_no_key(self):
+
+        ipstack_response = get_file_contents(
+            self.ipstack_valid_response_lat_lng_0)
+        httpretty.register_uri(httpretty.GET,
+                               self.ipstack_uri_regex,
+                               body=ipstack_response)
+
+        SettingProperties.set_string(constants.OPPIA_IPSTACK_APIKEY, "")
+
+        old_count = UserLocationVisualization.objects.all().count()
+        call_command('ip2location', stdout=StringIO())
+
+        self.assertRaises(UserLocationVisualization.DoesNotExist)
+
+        new_count = UserLocationVisualization.objects.all().count()
+
+        self.assertEqual(old_count, new_count)

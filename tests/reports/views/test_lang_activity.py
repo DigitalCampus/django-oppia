@@ -7,6 +7,7 @@ from oppia.test import OppiaTransactionTestCase
 
 from tests.reports import utils
 
+
 class LangActivityViewTest(OppiaTransactionTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
@@ -20,14 +21,13 @@ class LangActivityViewTest(OppiaTransactionTestCase):
 
     template = 'reports/lang_activity.html'
     url = reverse('reports:lang_activity')
-        
+
     def setUp(self):
         super(LangActivityViewTest, self).setUp()
         self.allowed_users = [self.admin_user, self.staff_user]
         self.disallowed_users = [self.teacher_user, self.normal_user]
 
     def test_lang_activity_get(self):
-        
         # fix tracker dates to be in the last month
         utils.update_tracker_dates()
 

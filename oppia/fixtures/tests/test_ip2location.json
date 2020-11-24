@@ -92,10 +92,47 @@
     }
 },
 {
+    "model": "oppia.tracker",
+    "pk": 14344563,
+    "fields": {
+        "user": 2,
+        "submitted_date": "2019-09-24T14:49:44Z",
+        "tracker_date": "2019-09-24T14:49:15Z",
+        "ip": "",
+        "agent": "noip",
+        "digest": "",
+        "data": "",
+        "course": null,
+        "type": "search",
+        "completed": true,
+        "time_taken": 0,
+        "activity_title": null,
+        "section_title": null,
+        "uuid": "6acbaefa-588a-4eaa-b4a3-cce57f88e7d7",
+        "lang": null,
+        "points": null,
+        "event": null
+    }
+},
+{
     "model": "viz.userlocationvisualization",
     "pk": 6299,
     "fields": {
         "ip": "127.0.0.1",
+        "hits": 1,
+        "lat": 9.0,
+        "lng": 39.5,
+        "region": "Ethiopia",
+        "country_code": "ET",
+        "country_name": "Ethiopia",
+        "geonames_data": null
+    }
+},
+{
+    "model": "viz.userlocationvisualization",
+    "pk": 6300,
+    "fields": {
+        "ip": "129.1.2.3",
         "hits": 1,
         "lat": 9.0,
         "lng": 39.5,
