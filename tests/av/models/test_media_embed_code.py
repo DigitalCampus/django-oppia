@@ -14,10 +14,10 @@ class MediaEmbedCodeTest(OppiaTestCase):
                 'tests/test_course_permissions.json']
 
     expected_embed_output = "[[media \
-        object='{\"filename\":\"ldrshp-mgmt-unit-2-risk-mgmt-D-v2.m4v\", \
+        object='{\"filename\":\"sample_video.m4v\", \
         \"download_url\":\"https://download.digital-campus.org/\", \
-        \"digest\":\"33e2c3cfc3e91d06b8a826f626fe39c3\", \
-        \"filesize\":0, \
+        \"digest\":\"45ad219ead30b9a1818176598f8bbbf9\", \
+        \"filesize\":496995, \
         \"length\":82}']]IMAGE/TEXT HERE[[/media]]"
 
     @pytest.mark.xfail(reason="works on local, but not on Github workflow")

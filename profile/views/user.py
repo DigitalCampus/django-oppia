@@ -8,9 +8,11 @@ from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import ugettext as _
-from django.views.generic import TemplateView
+from django.views.generic import ListView, UpdateView, FormView, TemplateView
 
 from tastypie.models import ApiKey
+
+from urllib.parse import urlparse
 
 from helpers.mixins.TitleViewMixin import TitleViewMixin
 from helpers.mixins.SafePaginatorMixin import SafePaginatorMixin
