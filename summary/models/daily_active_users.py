@@ -25,12 +25,16 @@ class DailyActiveUsers(models.Model):
         time_total = DailyActiveUser.objects.filter(
             dau=self, user__is_staff=False) \
             .aggregate(total_time=Sum('time_spent'))
+        if time_total['total_time'] is None:
+            return 0
         return time_total['total_time']
 
     def get_avg_time_spent(self):
         avg_time = DailyActiveUser.objects.filter(
             dau=self, user__is_staff=False).values('user', 'time_spent') \
             .aggregate(avg_time=Avg('time_spent'))
+        if avg_time['avg_time'] is None:
+            return 0
         return avg_time['avg_time']
 
 
