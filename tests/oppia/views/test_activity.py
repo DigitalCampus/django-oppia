@@ -1,8 +1,11 @@
+import datetime
 
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import InvalidPage
 from django.forms import ValidationError
 from django.urls import reverse
+from django.utils import timezone
+
 from oppia.test import OppiaTestCase
 
 
@@ -24,7 +27,10 @@ class OppiaActivityViewsTest(OppiaTestCase):
                                                args=[1])
 
     activity_detail_template = 'course/activity-detail.html'
-    start_date = '2018-11-28 00:00:00'
+    start_date = timezone.make_aware(
+        datetime.datetime.strptime(
+            '2018-11-28', "%Y-%m-%d"),
+        timezone.get_current_timezone())
     end_date = '2019-12-28 00:00:00'
     interval_days = 'days'
     interval_months = 'months'

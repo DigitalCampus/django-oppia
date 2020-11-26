@@ -1,6 +1,8 @@
+import datetime
 
 from django.contrib.auth.models import User
 from django.core.management import call_command
+from django.utils import timezone
 
 from io import StringIO
 
@@ -32,7 +34,9 @@ class DataRetentionTest(OppiaTestCase):
         out = StringIO()
         user = User()
         user.username = "olduser"
-        user.last_login = "2000-01-01"
+        user.last_login = timezone.make_aware(
+            datetime.datetime.strptime('2000-01-01', "%Y-%m-%d"),
+            timezone.get_current_timezone())
         user.save()
 
         start_user_count = User.objects.all().count()
@@ -44,7 +48,9 @@ class DataRetentionTest(OppiaTestCase):
         out = StringIO()
         user = User()
         user.username = "olduser"
-        user.last_login = "2000-01-01"
+        user.last_login = timezone.make_aware(
+            datetime.datetime.strptime('2000-01-01', "%Y-%m-%d"),
+            timezone.get_current_timezone())
         user.save()
 
         tracker = Tracker()

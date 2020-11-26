@@ -95,10 +95,12 @@ class Course(models.Model):
             .count()
 
     def get_activity_week(self):
-        now = datetime.datetime.now()
-        last_week = datetime.datetime(now.year,
-                                      now.month,
-                                      now.day) - datetime.timedelta(days=7)
+        now = timezone.now()
+        last_week = timezone.make_aware(
+            datetime.datetime(now.year,
+                              now.month,
+                              now.day) - datetime.timedelta(days=7),
+            timezone.get_current_timezone())
         return Tracker.objects.filter(course=self,
                                       tracker_date__gte=last_week).count()
 

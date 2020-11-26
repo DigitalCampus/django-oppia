@@ -7,6 +7,7 @@ from django.db.models import Sum
 from django.db.models.functions import TruncDay, TruncMonth, TruncYear
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.utils import timezone
 from django.views.generic import TemplateView
 
 from helpers.forms.dates import DateRangeIntervalForm, DateRangeForm
@@ -27,9 +28,9 @@ class CourseActivityDetail(TemplateView):
 
         dashboard_accessed.send(sender=None, request=request, data=course)
 
-        start_date = datetime.datetime.now() - datetime.timedelta(
+        start_date = timezone.now() - datetime.timedelta(
             days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
-        end_date = datetime.datetime.now()
+        end_date = timezone.now()
         interval = 'days'
 
         return self.process(request, course, start_date, end_date, interval)
@@ -42,17 +43,19 @@ class CourseActivityDetail(TemplateView):
 
         form = DateRangeIntervalForm(request.POST)
         if form.is_valid():
-            start_date = form.cleaned_data.get("start_date")
-            start_date = datetime.datetime.strptime(start_date + " 00:00:00",
-                                                    "%Y-%m-%d %H:%M:%S")
-            end_date = form.cleaned_data.get("end_date")
-            end_date = datetime.datetime.strptime(end_date + " 23:59:59",
-                                                  "%Y-%m-%d %H:%M:%S")
+            start_date = timezone.make_aware(
+                datetime.datetime.strptime(
+                    form.cleaned_data.get("start_date"), "%Y-%m-%d 00:00:00"),
+                timezone.get_current_timezone())
+            end_date = timezone.make_aware(
+                datetime.datetime.strptime(
+                    form.cleaned_data.get("end_date"), "%Y-%m-%d 23:59:59"),
+                timezone.get_current_timezone())
             interval = form.cleaned_data.get("interval")
         else:
-            start_date = datetime.datetime.now() - datetime.timedelta(
+            start_date = timezone.now() - datetime.timedelta(
                 days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
-            end_date = datetime.datetime.now()
+            end_date = timezone.now()
             interval = 'days'
 
         return self.process(request, course, start_date, end_date, interval)
@@ -110,9 +113,9 @@ class CourseRecentActivityDetail(TemplateView):
     def get(self, request, course_id):
         course = can_view_course_detail(request, course_id)
 
-        start_date = datetime.datetime.now() - datetime.timedelta(
+        start_date = timezone.now() - datetime.timedelta(
             days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
-        end_date = datetime.datetime.now()
+        end_date = timezone.now()
 
         data = {}
         data['start_date'] = start_date
@@ -130,14 +133,18 @@ class CourseRecentActivityDetail(TemplateView):
 
         form = DateRangeForm(request.POST)
         if form.is_valid():
-            start_date = form.cleaned_data.get("start_date")
-            start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d")
-            end_date = form.cleaned_data.get("end_date")
-            end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d")
+            start_date = timezone.make_aware(
+                datetime.datetime.strptime(
+                    form.cleaned_data.get("start_date"), "%Y-%m-%d 00:00:00"),
+                timezone.get_current_timezone())
+            end_date = timezone.make_aware(
+                datetime.datetime.strptime(
+                    form.cleaned_data.get("end_date"), "%Y-%m-%d 23:59:59"),
+                timezone.get_current_timezone())
         else:
-            start_date = datetime.datetime.now() - datetime.timedelta(
+            start_date = timezone.now() - datetime.timedelta(
                 days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
-            end_date = datetime.datetime.now()
+            end_date = timezone.now()
 
         return self.process(request,
                             course,

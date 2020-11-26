@@ -1,6 +1,7 @@
 import datetime
 
 from django.urls import reverse
+from django.utils import timezone
 
 from oppia.models import Tracker
 from oppia.test import OppiaTestCase
@@ -75,7 +76,7 @@ class XAPIIntegrationViewsTest(OppiaTestCase):
 
     # test download file
     def test_admin_canview_download_file(self):
-        four_days_ago = datetime.datetime.now() - datetime.timedelta(days=4)
+        four_days_ago = timezone.now() - datetime.timedelta(days=4)
         for tracker in Tracker.objects.all():
             tracker.tracker_date = four_days_ago
             tracker.submitted_date = four_days_ago

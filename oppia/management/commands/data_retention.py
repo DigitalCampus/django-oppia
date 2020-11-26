@@ -5,6 +5,7 @@ from dateutil.relativedelta import relativedelta
 from django.contrib.auth.models import User
 from django.core.management import call_command
 from django.core.management.base import BaseCommand
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from oppia.management import commands
@@ -52,7 +53,7 @@ class Command(BaseCommand):
             self.run_summaries(options)
 
     def get_users_to_delete(self, years):
-        last_login_date = datetime.datetime.now() - relativedelta(years=years)
+        last_login_date = timezone.now() - relativedelta(years=years)
 
         users_to_delete = []
         users = User.objects.filter(last_login__lte=last_login_date)

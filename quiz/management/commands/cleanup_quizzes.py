@@ -1,9 +1,9 @@
-import datetime
 
 from dateutil.relativedelta import relativedelta
 
 from django.core.management.base import BaseCommand
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 
 from oppia.models import Activity
 from quiz.models import Quiz, \
@@ -61,7 +61,7 @@ class Command(BaseCommand):
     def check_old_quizzes(self):
         years = SettingProperties.get_property(
             constants.OPPIA_DATA_RETENTION_YEARS, 999)
-        archive_date = datetime.datetime.now() - relativedelta(years=years)
+        archive_date = timezone.now() - relativedelta(years=years)
         quizzes = Quiz.objects.filter(created_date__lte=archive_date)
         for quiz in quizzes:
             qas = QuizAttempt.objects.filter(quiz=quiz, user__is_staff=False)
