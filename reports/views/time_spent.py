@@ -11,18 +11,16 @@ from oppia import constants as oppia_constants
 from reports import constants as reports_constants
 from reports.forms import ReportGroupByForm
 from reports.signals import dashboard_accessed
+from reports.views.base_report_template import BaseReportTemplateView
 
 from summary.models import DailyActiveUsers
 
 
 @method_decorator(staff_member_required, name='dispatch')
-class AverageTimeSpentView(TemplateView):
+class AverageTimeSpentView(BaseReportTemplateView):
 
-    def get(self, request):
-        dashboard_accessed.send(sender=None, request=request, data=None)
-        start_date = timezone.now() - datetime.timedelta(
-                days=reports_constants.DAUS_DEFAULT_NO_DAYS)
-        end_date = timezone.now()
+    def process(self, request, form, start_date):
+        end_date = datetime.date.today()
         data = []
         no_days = (end_date - start_date).days + 1
         for i in range(0, no_days, +1):
@@ -38,20 +36,16 @@ class AverageTimeSpentView(TemplateView):
                 data.append(
                     [temp.strftime(oppia_constants.STR_DATE_FORMAT), 0])
 
-        group_by_form = ReportGroupByForm()
         return render(request, 'reports/average_time_spent.html',
                       {'activity_graph_data': data,
-                       'form': group_by_form})
+                       'form': form})
 
 
 @method_decorator(staff_member_required, name='dispatch')
-class TotalTimeSpentView(TemplateView):
+class TotalTimeSpentView(BaseReportTemplateView):
 
-    def get(self, request):
-        dashboard_accessed.send(sender=None, request=request, data=None)
-        start_date = timezone.now() - datetime.timedelta(
-                days=reports_constants.DAUS_DEFAULT_NO_DAYS)
-        end_date = timezone.now()
+    def process(self, request, form, start_date):
+        end_date = datetime.date.today()
         data = []
         no_days = (end_date - start_date).days + 1
         for i in range(0, no_days, +1):
@@ -65,8 +59,6 @@ class TotalTimeSpentView(TemplateView):
             except DailyActiveUsers.DoesNotExist:
                 data.append(
                     [temp.strftime(oppia_constants.STR_DATE_FORMAT), 0])
-
-        group_by_form = ReportGroupByForm()
         return render(request, 'reports/total_time_spent.html',
                       {'activity_graph_data': data,
-                       'form': group_by_form})
+                       'form': form})

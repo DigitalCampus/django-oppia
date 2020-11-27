@@ -15,7 +15,7 @@ class BaseReportTemplateView(TemplateView):
 
     def get(self, request):
         dashboard_accessed.send(sender=None, request=request, data=None)
-        start_date = timezone.now() - datetime.timedelta(
+        start_date = datetime.date.today() - datetime.timedelta(
             days=constants.ANNUAL_NO_DAYS)
         data = {}
         data['start_date'] = start_date.strftime(dates.DATE_FORMAT)
@@ -25,7 +25,7 @@ class BaseReportTemplateView(TemplateView):
 
     def post(self, request):
         dashboard_accessed.send(sender=None, request=request, data=None)
-        start_date = timezone.now() - datetime.timedelta(
+        start_date = datetime.date.today() - datetime.timedelta(
             days=constants.ANNUAL_NO_DAYS)
         form = dates.DateDiffForm(request.POST)
         if form.is_valid():
