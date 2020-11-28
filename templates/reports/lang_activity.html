@@ -24,7 +24,6 @@
             {% endfor %}
 
             var optionsLang = {
-                      title: '{% trans 'Activity by Language (top 10 + others)' %}',
                       width: '50%',
                       height: 400,
                       chartArea: {left:45,top:40,width:"90%",height:"75%"},
@@ -48,13 +47,15 @@
         <div class="col"><h3 class="mt-3"><a href="{% url 'reports:index' %}">{% trans 'Analytics/Reports' %}</a> 
             &gt; <em class="material-icons mr-2">timeline</em> {% trans 'Activity by Language' %}</h3></div>
         
-         {% include 'reports/includes/header_date_form.html' with field=form.start_date %}
+         {% include "common/form/date-range.html" with dateform=form drop='down' %}
     </div>
 
 </div>
 {% endblock header %}
 
 {% block content %}
+
+<h3>{% trans 'Activity by Language (top 10 + others)' %} {{ start_date|date:"Y M d" }} - {{ end_date|date:"Y M d" }}</h3>
 <div id="activity_by_language_chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
 {% if languages %}
     <button class="btn btn-default btn-primary btn-sm download-csv-button" data-csv="languages">{% trans 'Download as CSV' %}</button>

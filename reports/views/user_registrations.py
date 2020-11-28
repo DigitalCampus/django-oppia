@@ -1,3 +1,4 @@
+import datetime
 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.models import User
@@ -5,6 +6,7 @@ from django.db.models import Count
 from django.db.models.functions import TruncMonth, TruncYear
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
+from django.utils import timezone
 
 from reports.views.base_report_template import BaseReportTemplateView
 
@@ -12,9 +14,10 @@ from reports.views.base_report_template import BaseReportTemplateView
 @method_decorator(staff_member_required, name='dispatch')
 class UserRegistrationsView(BaseReportTemplateView):
 
-    def process(self, request, form, start_date):
+    def process(self, request, form, start_date, end_date):
         user_registrations = User.objects.filter(
             date_joined__gte=start_date,
+            date_joined__lte=end_date,
             is_staff=False) \
             .annotate(month=TruncMonth('date_joined'),
                       year=TruncYear('date_joined')) \

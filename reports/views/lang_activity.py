@@ -15,15 +15,19 @@ from reports.views.base_report_template import BaseReportTemplateView
 @method_decorator(staff_member_required, name='dispatch')
 class LanguageActivityView(BaseReportTemplateView):
 
-    def process(self, request, form, start_date):
+    def process(self, request, form, start_date, end_date):
         hit_by_language = Tracker.objects \
-            .filter(user__is_staff=False) \
+            .filter(user__is_staff=False,
+                    submitted_date__gte=start_date,
+                    submitted_date__lte=end_date) \
             .exclude(lang=None) \
             .values('lang') \
             .annotate(total_hits=Count('id')) \
             .order_by('-total_hits')
         total_hits = Tracker.objects \
-            .filter(user__is_staff=False) \
+            .filter(user__is_staff=False,
+                    submitted_date__gte=start_date,
+                    submitted_date__lte=end_date) \
             .exclude(lang=None) \
             .aggregate(total_hits=Count('id'))
 
@@ -48,4 +52,6 @@ class LanguageActivityView(BaseReportTemplateView):
                               'hits_percent': hits_percent})
         return render(request, 'reports/lang_activity.html',
                       {'form': form,
-                       'languages': languages})
+                       'languages': languages,
+                       'start_date': start_date,
+                       'end_date': end_date})

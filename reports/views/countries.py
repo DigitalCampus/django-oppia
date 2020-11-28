@@ -13,7 +13,7 @@ from viz.models import UserLocationVisualization
 @method_decorator(staff_member_required, name='dispatch')
 class CountriesView(BaseReportTemplateView):
 
-    def process(self, request, form, start_date):
+    def process(self, request, form, start_date, end_date):
         hits_by_country = UserLocationVisualization.objects.all() \
             .values('country_code',
                     'country_name') \

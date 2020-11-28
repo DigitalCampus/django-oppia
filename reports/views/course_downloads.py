@@ -13,9 +13,11 @@ from summary.models import CourseDailyStats
 @method_decorator(staff_member_required, name='dispatch')
 class CourseDownloadsView(BaseReportTemplateView):
 
-    def process(self, request, form, start_date):
+    def process(self, request, form, start_date, end_date):
         course_downloads = CourseDailyStats.objects \
-            .filter(day__gte=start_date, type='download') \
+            .filter(day__gte=start_date,
+                    day__lte=end_date,
+                    type='download') \
             .annotate(month=TruncMonth('day'),
                       year=TruncYear('day')) \
             .values('month', 'year') \
@@ -23,7 +25,8 @@ class CourseDownloadsView(BaseReportTemplateView):
             .order_by('year', 'month')
 
         previous_course_downloads = CourseDailyStats.objects \
-            .filter(day__lt=start_date, type='download') \
+            .filter(day__lt=start_date,
+                    type='download') \
             .aggregate(total=Sum('total')) \
             .get('total', 0)
         if previous_course_downloads is None:

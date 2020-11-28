@@ -45,11 +45,11 @@ class CourseActivityDetail(TemplateView):
         if form.is_valid():
             start_date = timezone.make_aware(
                 datetime.datetime.strptime(
-                    form.cleaned_data.get("start_date"), "%Y-%m-%d 00:00:00"),
+                    form.cleaned_data.get("start_date"), "%Y-%m-%d"),
                 timezone.get_current_timezone())
             end_date = timezone.make_aware(
                 datetime.datetime.strptime(
-                    form.cleaned_data.get("end_date"), "%Y-%m-%d 23:59:59"),
+                    form.cleaned_data.get("end_date"), "%Y-%m-%d"),
                 timezone.get_current_timezone())
             interval = form.cleaned_data.get("interval")
         else:
@@ -135,11 +135,11 @@ class CourseRecentActivityDetail(TemplateView):
         if form.is_valid():
             start_date = timezone.make_aware(
                 datetime.datetime.strptime(
-                    form.cleaned_data.get("start_date"), "%Y-%m-%d 00:00:00"),
+                    form.cleaned_data.get("start_date"), "%Y-%m-%d"),
                 timezone.get_current_timezone())
             end_date = timezone.make_aware(
                 datetime.datetime.strptime(
-                    form.cleaned_data.get("end_date"), "%Y-%m-%d 23:59:59"),
+                    form.cleaned_data.get("end_date"), "%Y-%m-%d"),
                 timezone.get_current_timezone())
         else:
             start_date = timezone.now() - datetime.timedelta(

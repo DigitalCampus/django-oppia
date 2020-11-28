@@ -19,8 +19,7 @@ from summary.models import DailyActiveUsers
 @method_decorator(staff_member_required, name='dispatch')
 class AverageTimeSpentView(BaseReportTemplateView):
 
-    def process(self, request, form, start_date):
-        end_date = datetime.date.today()
+    def process(self, request, form, start_date, end_date):
         data = []
         no_days = (end_date - start_date).days + 1
         for i in range(0, no_days, +1):
@@ -44,8 +43,7 @@ class AverageTimeSpentView(BaseReportTemplateView):
 @method_decorator(staff_member_required, name='dispatch')
 class TotalTimeSpentView(BaseReportTemplateView):
 
-    def process(self, request, form, start_date):
-        end_date = datetime.date.today()
+    def process(self, request, form, start_date, end_date):
         data = []
         no_days = (end_date - start_date).days + 1
         for i in range(0, no_days, +1):

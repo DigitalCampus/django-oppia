@@ -23,8 +23,7 @@ from summary.models import DailyActiveUser
 @method_decorator(staff_member_required, name='dispatch')
 class DailyActiveUsersView(BaseReportTemplateView):
 
-    def process(self, request, form, start_date):
-        end_date = datetime.date.today()
+    def process(self, request, form, start_date, end_date):
         data = []
         no_days = (end_date - start_date).days + 1
         for i in range(0, no_days, +1):
@@ -48,9 +47,7 @@ class DailyActiveUsersView(BaseReportTemplateView):
 @method_decorator(staff_member_required, name='dispatch')
 class MonthlyActiveUsersView(BaseReportTemplateView):
 
-    def process(self, request, form, start_date):
-        end_date = datetime.date.today()
-
+    def process(self, request, form, start_date, end_date):
         delta = relativedelta(months=+1)
 
         no_months = 0

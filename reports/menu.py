@@ -62,7 +62,7 @@ def menu_reports(request):
     if map_viz_enabled:
         reports.append({'name': _(u'Activity Map'),
                         'description': _(u'Map of users locations'),
-                        'url': reverse('reports:lang_activity'),
+                        'url': reverse('reports:map'),
                         'icon': 'map'})
         reports.append({'name': _(u'Countries'),
                         'description': _(

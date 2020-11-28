@@ -18,9 +18,10 @@ from summary.models import CourseDailyStats
 @method_decorator(staff_member_required, name='dispatch')
 class CourseActivityView(BaseReportTemplateView):
 
-    def process(self, request, form, start_date):
+    def process(self, request, form, start_date, end_date):
         course_activity = CourseDailyStats.objects \
-            .filter(day__gte=start_date) \
+            .filter(day__gte=start_date,
+                    day__lte=end_date) \
             .annotate(month=TruncMonth('day'),
                       year=TruncYear('day')) \
             .values('month', 'year') \
