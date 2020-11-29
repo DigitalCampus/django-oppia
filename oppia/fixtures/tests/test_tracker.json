@@ -270,7 +270,7 @@
         "activity_title": "{\"en\": \"Summary\"}",
         "section_title": "{\"en\": \"Anatomy and Physiology\\u00a0\"}",
         "uuid": "a720575c-3800-42c4-9bfc-cc9b61c7a550",
-        "lang": "en",
+        "lang": "fi",
         "points": null,
         "event": null
     }
@@ -293,7 +293,7 @@
         "activity_title": "{\"en\": \"Heartburn\"}",
         "section_title": "{\"en\": \"Minor Disorders of Pregnancy\"}",
         "uuid": "cad11cd4-b43f-49b7-9992-cab7384a3dd1",
-        "lang": "en",
+        "lang": "am",
         "points": null,
         "event": null
     }
@@ -316,7 +316,7 @@
         "activity_title": "{\"en\": \"Video: Understanding your body: How babies are made\"}",
         "section_title": "{\"en\": \"Fertilisation, Implantation\\u00a0\"}",
         "uuid": "eb3d0046-1722-4dd7-ae2a-72b79846c9c6",
-        "lang": "en",
+        "lang": "ti",
         "points": null,
         "event": null
     }
@@ -385,7 +385,7 @@
         "activity_title": "{\"en\": \"How can maternal and neonatal mortalities be reduced?\"}",
         "section_title": "{\"en\": \"Planning Antenatal Care\"}",
         "uuid": "1e1cbd7a-6a79-453d-b3ec-eb4e9002d8d3",
-        "lang": "en",
+        "lang": "pt",
         "points": null,
         "event": null
     }
@@ -408,7 +408,7 @@
         "activity_title": "{\"en\": \"Calculating the neonatal mortality rate\"}",
         "section_title": "{\"en\": \"Planning Antenatal Care\"}",
         "uuid": "f8d58fbe-9f66-4731-b6ef-6d6333d211f2",
-        "lang": "en",
+        "lang": "de",
         "points": null,
         "event": null
     }
@@ -431,7 +431,7 @@
         "activity_title": "{\"en\": \"Summary \"}",
         "section_title": "{\"en\": \"Planning Antenatal Care\"}",
         "uuid": "6bf0b6c3-ef6d-483d-b140-ea066e47d5f4",
-        "lang": "en",
+        "lang": "ar",
         "points": null,
         "event": null
     }
@@ -500,7 +500,7 @@
         "activity_title": "{\"en\": \"Calculating the maternal mortality ratio\"}",
         "section_title": "{\"en\": \"Planning Antenatal Care\"}",
         "uuid": "20f5e36d-3770-4e8f-9d35-488131d4c19f",
-        "lang": "en",
+        "lang": "ru",
         "points": null,
         "event": null
     }
@@ -523,7 +523,7 @@
         "activity_title": "{\"en\": \"Calculating the neonatal mortality rate\"}",
         "section_title": "{\"en\": \"Planning Antenatal Care\"}",
         "uuid": "3ddc3903-71d6-4829-9886-d1ee1a7e3d8f",
-        "lang": "en",
+        "lang": "it",
         "points": null,
         "event": null
     }
@@ -16968,7 +16968,7 @@
         "activity_title": "{\"en\": \"Group discussions\"}",
         "section_title": "{\"en\": \"Promoting Antenatal Care\"}",
         "uuid": "2b2f0306-f2a9-4e44-9a4e-b0a4537798c6",
-        "lang": "en",
+        "lang": "de",
         "points": null,
         "event": null
     }
@@ -16991,7 +16991,7 @@
         "activity_title": "",
         "section_title": "",
         "uuid": "11692997-ab57-43ac-9a2d-69ed44d34eb0",
-        "lang": "en",
+        "lang": "no",
         "points": null,
         "event": null
     }
@@ -17014,7 +17014,7 @@
         "activity_title": "{\"en\": \"Video: Why did Mrs X die?\"}",
         "section_title": "{\"en\": \"Planning Antenatal Care\"}",
         "uuid": "7fce73d2-e4bd-4a92-8fe2-041db85921d9",
-        "lang": "en",
+        "lang": "pl",
         "points": null,
         "event": null
     }
@@ -17060,7 +17060,7 @@
         "activity_title": "",
         "section_title": "",
         "uuid": "1cee37c9-7ac5-4015-8b0a-76de37c5017d",
-        "lang": "en",
+        "lang": "it",
         "points": null,
         "event": null
     }
@@ -17083,7 +17083,7 @@
         "activity_title": "{\"en\": \"Video: Why did Mrs X die?\"}",
         "section_title": "{\"en\": \"Planning Antenatal Care\"}",
         "uuid": "c2327626-d0f3-4990-be61-09653f352f0b",
-        "lang": "en",
+        "lang": "de",
         "points": null,
         "event": null
     }
@@ -17106,7 +17106,7 @@
         "activity_title": "{\"en\": \"Introduction\"}",
         "section_title": "{\"en\": \"Planning Antenatal Care\"}",
         "uuid": "b3a730c0-47ad-47d8-88af-4000db86b348",
-        "lang": "en",
+        "lang": "de",
         "points": null,
         "event": null
     }
@@ -17129,7 +17129,7 @@
         "activity_title": "{\"en\": \"Maternal deaths and complications\"}",
         "section_title": "{\"en\": \"Planning Antenatal Care\"}",
         "uuid": "bb74a62e-c379-4a12-9fad-80a76cdbf935",
-        "lang": "en",
+        "lang": "pt",
         "points": null,
         "event": null
     }
@@ -17152,7 +17152,7 @@
         "activity_title": "{\"en\": \"Calculating the number of women who need antenatal care services\"}",
         "section_title": "{\"en\": \"Planning Antenatal Care\"}",
         "uuid": "f2846da7-d619-4dc4-a5f3-83c8c3c61c35",
-        "lang": "en",
+        "lang": "ru",
         "points": null,
         "event": null
     }
@@ -17175,7 +17175,7 @@
         "activity_title": "{\"en\": \"Calculating the uptake of antenatal care services\"}",
         "section_title": "{\"en\": \"Planning Antenatal Care\"}",
         "uuid": "6df44429-7d41-4a08-a257-888e3e565108",
-        "lang": "en",
+        "lang": "am",
         "points": null,
         "event": null
     }
@@ -17198,7 +17198,7 @@
         "activity_title": "{\"en\": \"Pre-Test\"}",
         "section_title": "{\"en\": \"Baseline\"}",
         "uuid": "1538bc72-76c2-4a90-aedc-5436602d2747",
-        "lang": "en",
+        "lang": "ar",
         "points": null,
         "event": null
     }
@@ -17221,7 +17221,7 @@
         "activity_title": "{\"en\": \"The due date you got by counting from the LNMP is wrong\"}",
         "section_title": "{\"en\": \"Estimating Gestational Age from Fundal Height Measurement\"}",
         "uuid": "1a7528b7-fb37-4176-bfc5-2842ab94f4ec",
-        "lang": "en",
+        "lang": "fi",
         "points": null,
         "event": null
     }

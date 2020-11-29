@@ -28,7 +28,8 @@ def update_tracker_dates():
         try:
             minus_days = tracker.id % 31
             new_date = start_date - datetime.timedelta(minus_days)
-            tracker.day = new_date
+            tracker.submitted_date = new_date
+            tracker.tracker_date = new_date
             tracker.save()
         except IntegrityError:
             pass

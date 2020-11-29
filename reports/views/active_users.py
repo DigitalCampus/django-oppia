@@ -28,16 +28,14 @@ class DailyActiveUsersView(BaseReportTemplateView):
         no_days = (end_date - start_date).days + 1
         for i in range(0, no_days, +1):
             temp = start_date + datetime.timedelta(days=i)
-            try:
-                summary_counts_no_admin = DailyActiveUser.objects.filter(
-                    dau__day=temp.strftime(oppia_constants.STR_DATE_FORMAT),
-                    user__is_staff=False) \
-                    .aggregate(total_submitted_date=Count('user'))
-                data.append([temp.strftime(oppia_constants.STR_DATE_DISPLAY_FORMAT),
-                             summary_counts_no_admin['total_submitted_date']])
-            except DailyActiveUser.DoesNotExist:
-                data.append(
-                    [temp.strftime(oppia_constants.STR_DATE_DISPLAY_FORMAT), 0])
+            summary_counts_no_admin = DailyActiveUser.objects.filter(
+                dau__day=temp.strftime(oppia_constants.STR_DATE_FORMAT),
+                user__is_staff=False) \
+                .aggregate(total_submitted_date=Count('user'))
+
+            data.append([temp.strftime(
+                oppia_constants.STR_DATE_DISPLAY_FORMAT),
+                         summary_counts_no_admin['total_submitted_date']])
 
         return render(request, 'reports/daus.html',
                       {'activity_graph_data': data,
@@ -61,18 +59,14 @@ class MonthlyActiveUsersView(BaseReportTemplateView):
             temp = start_date + relativedelta(months=+i)
             month = temp.strftime("%m")
             year = temp.strftime("%Y")
-            try:
-                summary_count_no_admin = DailyActiveUser.objects \
-                    .filter(dau__day__month=month,
-                            dau__day__year=year,
-                            user__is_staff=False) \
-                    .aggregate(total_submitted_date=Count('user'))
-                data.append(
-                    [temp.strftime(oppia_constants.STR_DATE_DISPLAY_FORMAT_MONTH),
-                     summary_count_no_admin['total_submitted_date']])
-            except DailyActiveUser.DoesNotExist:
-                data.append(
-                    [temp.strftime(oppia_constants.STR_DATE_DISPLAY_FORMAT_MONTH), 0])
+            summary_count_no_admin = DailyActiveUser.objects \
+                .filter(dau__day__month=month,
+                        dau__day__year=year,
+                        user__is_staff=False) \
+                .aggregate(total_submitted_date=Count('user'))
+            data.append(
+                [temp.strftime(oppia_constants.STR_DATE_DISPLAY_FORMAT_MONTH),
+                 summary_count_no_admin['total_submitted_date']])
 
         return render(request, 'reports/maus.html',
                       {'activity_graph_data': data,
