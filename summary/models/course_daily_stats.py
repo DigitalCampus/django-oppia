@@ -4,6 +4,7 @@ from django.db import models
 from django.db.models import Count
 from django.utils.translation import ugettext_lazy as _
 
+from oppia import constants
 from oppia.models import Course, Tracker
 
 
@@ -38,10 +39,10 @@ class CourseDailyStats (models.Model):
 
         day_start = datetime.datetime \
             .strptime(day.strftime(oppia_constants.STR_DATE_FORMAT) + " 00:00:00",
-                      oppia_constants.STR_DATETIME_FORMAT)
+                      constants.STR_DATETIME_FORMAT)
         day_end = datetime.datetime \
             .strptime(day.strftime(oppia_constants.STR_DATE_FORMAT) + " 23:59:59",
-                      oppia_constants.STR_DATETIME_FORMAT)
+                      constants.STR_DATETIME_FORMAT)
 
         course = Course.objects.get(pk=course)
         trackers = Tracker.objects.filter(course=course,
