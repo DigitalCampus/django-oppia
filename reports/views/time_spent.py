@@ -26,14 +26,14 @@ class AverageTimeSpentView(BaseReportTemplateView):
             temp = start_date + datetime.timedelta(days=i)
             try:
                 avg_time = DailyActiveUsers.objects.get(
-                    day=temp.strftime("%Y-%m-%d"))
+                    day=temp.strftime(oppia_constants.STR_DATE_FORMAT))
                 time_spent = avg_time.get_avg_time_spent()
                 data.append([temp.strftime(
-                    oppia_constants.STR_DATE_FORMAT),
+                    oppia_constants.STR_DATE_DISPLAY_FORMAT),
                     time_spent])
             except DailyActiveUsers.DoesNotExist:
                 data.append(
-                    [temp.strftime(oppia_constants.STR_DATE_FORMAT), 0])
+                    [temp.strftime(oppia_constants.STR_DATE_DISPLAY_FORMAT), 0])
 
         return render(request, 'reports/average_time_spent.html',
                       {'activity_graph_data': data,
@@ -50,13 +50,13 @@ class TotalTimeSpentView(BaseReportTemplateView):
             temp = start_date + datetime.timedelta(days=i)
             try:
                 summary_count_time_total = DailyActiveUsers.objects.get(
-                    day=temp.strftime("%Y-%m-%d"))
+                    day=temp.strftime(oppia_constants.STR_DATE_FORMAT))
                 time_spent = summary_count_time_total.get_total_time_spent()
-                data.append([temp.strftime(oppia_constants.STR_DATE_FORMAT),
+                data.append([temp.strftime(oppia_constants.STR_DATE_DISPLAY_FORMAT),
                              time_spent])
             except DailyActiveUsers.DoesNotExist:
                 data.append(
-                    [temp.strftime(oppia_constants.STR_DATE_FORMAT), 0])
+                    [temp.strftime(oppia_constants.STR_DATE_DISPLAY_FORMAT), 0])
         return render(request, 'reports/total_time_spent.html',
                       {'activity_graph_data': data,
                        'form': form})

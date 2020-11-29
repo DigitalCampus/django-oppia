@@ -5,6 +5,8 @@ from crispy_forms.layout import Layout, Div
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
+from oppia.constants import STR_DATE_FORMAT
+
 
 class CohortHelperDiv(Div):
     template = "cohort/helper.html"
@@ -13,7 +15,6 @@ class CohortHelperDiv(Div):
 class CohortForm(forms.Form):
 
     STR_VALID_DATE = _(u'Please enter a valid date')
-    DATE_FORMAT = "%Y-%m-%d"
 
     description = forms.CharField(required=True)
     teachers = forms.CharField(
@@ -60,13 +61,13 @@ class CohortForm(forms.Form):
         cleaned_data = super(CohortForm, self).clean()
         start_date = cleaned_data.get("start_date")
         end_date = cleaned_data.get("end_date")
-        DATE_FORMAT = "%Y-%m-%d"
         try:
-            start_date = datetime.datetime.strptime(start_date, DATE_FORMAT)
+            start_date = datetime.datetime.strptime(start_date,
+                                                    STR_DATE_FORMAT)
         except (TypeError, ValueError):
             raise forms.ValidationError(_("Please enter a valid start date"))
         try:
-            end_date = datetime.datetime.strptime(end_date, DATE_FORMAT)
+            end_date = datetime.datetime.strptime(end_date, STR_DATE_FORMAT)
         except (TypeError, ValueError):
             raise forms.ValidationError(_("Please enter a valid end date"))
 

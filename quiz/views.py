@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
 
+from oppia import constants
 from oppia.models import Activity
 from oppia.permissions import can_view_course_detail
 from quiz.models import QuizProps, \
@@ -44,7 +45,8 @@ class FeedbackDownload(TemplateView):
             .order_by('attempt_date')
 
         for quiz_attempt in quiz_attempts:
-            row = [quiz_attempt.attempt_date.strftime('%Y-%m-%d %H:%M:%S'),
+            row = [quiz_attempt.attempt_date.strftime(
+                constants.STR_DATETIME_FORMAT),
                    quiz_attempt.user_id]
 
             for question in feedback_questions:
@@ -96,7 +98,8 @@ class QuizDownload(TemplateView):
             .order_by('attempt_date')
 
         for quiz_attempt in quiz_attempts:
-            row = [quiz_attempt.attempt_date.strftime('%Y-%m-%d %H:%M:%S'),
+            row = [quiz_attempt.attempt_date.strftime(
+                constants.STR_DATETIME_FORMAT),
                    quiz_attempt.user_id,
                    quiz_attempt.maxscore,
                    quiz_attempt.score]

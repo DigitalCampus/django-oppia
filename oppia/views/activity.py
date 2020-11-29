@@ -45,11 +45,13 @@ class CourseActivityDetail(TemplateView):
         if form.is_valid():
             start_date = timezone.make_aware(
                 datetime.datetime.strptime(
-                    form.cleaned_data.get("start_date"), "%Y-%m-%d"),
+                    form.cleaned_data.get("start_date"),
+                    constants.STR_DATE_FORMAT),
                 timezone.get_current_timezone())
             end_date = timezone.make_aware(
                 datetime.datetime.strptime(
-                    form.cleaned_data.get("end_date"), "%Y-%m-%d"),
+                    form.cleaned_data.get("end_date"),
+                    constants.STR_DATE_FORMAT),
                 timezone.get_current_timezone())
             interval = form.cleaned_data.get("interval")
         else:
@@ -135,11 +137,13 @@ class CourseRecentActivityDetail(TemplateView):
         if form.is_valid():
             start_date = timezone.make_aware(
                 datetime.datetime.strptime(
-                    form.cleaned_data.get("start_date"), "%Y-%m-%d"),
+                    form.cleaned_data.get("start_date"),
+                    constants.STR_DATE_FORMAT),
                 timezone.get_current_timezone())
             end_date = timezone.make_aware(
                 datetime.datetime.strptime(
-                    form.cleaned_data.get("end_date"), "%Y-%m-%d"),
+                    form.cleaned_data.get("end_date"),
+                    constants.STR_DATE_FORMAT),
                 timezone.get_current_timezone())
         else:
             start_date = timezone.now() - datetime.timedelta(
@@ -216,7 +220,8 @@ class ExportCourseTrackers(TemplateView):
                     lang = data_dict['lang']
                 else:
                     lang = ""
-                data.append((t.tracker_date.strftime('%Y-%m-%d %H:%M:%S'),
+                data.append((t.tracker_date.strftime(
+                    constants.STR_DATETIME_FORMAT),
                              t.user.id,
                              t.type,
                              t.get_activity_title(),
@@ -226,7 +231,8 @@ class ExportCourseTrackers(TemplateView):
                              t.agent,
                              lang))
             except ValueError:
-                data.append((t.tracker_date.strftime('%Y-%m-%d %H:%M:%S'),
+                data.append((t.tracker_date.strftime(
+                    constants.STR_DATETIME_FORMAT),
                              t.user.id,
                              t.type,
                              "",

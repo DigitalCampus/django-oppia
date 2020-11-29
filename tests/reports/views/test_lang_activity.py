@@ -46,6 +46,10 @@ class LangActivityViewTest(OppiaTransactionTestCase):
                                  200)
 
     def test_lang_activity_previous_date(self):
+        
+        # fix tracker dates to be in the last month
+        utils.update_tracker_dates()
+        
         self.client.force_login(self.admin_user)
         start_date = timezone.now() - datetime.timedelta(days=31)
         response = self.client.post(self.url,

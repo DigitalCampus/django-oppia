@@ -30,14 +30,14 @@ class DailyActiveUsersView(BaseReportTemplateView):
             temp = start_date + datetime.timedelta(days=i)
             try:
                 summary_counts_no_admin = DailyActiveUser.objects.filter(
-                    dau__day=temp.strftime("%Y-%m-%d"),
+                    dau__day=temp.strftime(oppia_constants.STR_DATE_FORMAT),
                     user__is_staff=False) \
                     .aggregate(total_submitted_date=Count('user'))
-                data.append([temp.strftime(oppia_constants.STR_DATE_FORMAT),
+                data.append([temp.strftime(oppia_constants.STR_DATE_DISPLAY_FORMAT),
                              summary_counts_no_admin['total_submitted_date']])
             except DailyActiveUser.DoesNotExist:
                 data.append(
-                    [temp.strftime(oppia_constants.STR_DATE_FORMAT), 0])
+                    [temp.strftime(oppia_constants.STR_DATE_DISPLAY_FORMAT), 0])
 
         return render(request, 'reports/daus.html',
                       {'activity_graph_data': data,
@@ -68,11 +68,11 @@ class MonthlyActiveUsersView(BaseReportTemplateView):
                             user__is_staff=False) \
                     .aggregate(total_submitted_date=Count('user'))
                 data.append(
-                    [temp.strftime(oppia_constants.STR_DATE_FORMAT_MONTH),
+                    [temp.strftime(oppia_constants.STR_DATE_DISPLAY_FORMAT_MONTH),
                      summary_count_no_admin['total_submitted_date']])
             except DailyActiveUser.DoesNotExist:
                 data.append(
-                    [temp.strftime(oppia_constants.STR_DATE_FORMAT_MONTH), 0])
+                    [temp.strftime(oppia_constants.STR_DATE_DISPLAY_FORMAT_MONTH), 0])
 
         return render(request, 'reports/maus.html',
                       {'activity_graph_data': data,

@@ -104,10 +104,13 @@ class HomeView(TemplateView):
             form = DateRangeIntervalForm(request.POST)
             if form.is_valid():
                 start_date = form.cleaned_data.get("start_date")
-                start_date = datetime.datetime.strptime(start_date,
-                                                        "%Y-%m-%d")
+                start_date = datetime.datetime.strptime(
+                    start_date,
+                    constants.STR_DATE_FORMAT)
                 end_date = form.cleaned_data.get("end_date")
-                end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d")
+                end_date = datetime.datetime.strptime(
+                    end_date,
+                    constants.STR_DATE_FORMAT)
                 interval = form.cleaned_data.get("interval")
         else:
             data = {}
@@ -141,7 +144,7 @@ def process_home_activity_days(activity, start_date, end_date):
         count = next((dct['count']
                       for dct in tracker_stats
                       if dct['day'] == temp.date()), 0)
-        activity.append([temp.strftime(constants.STR_DATE_FORMAT), count])
+        activity.append([temp.strftime(constants.STR_DATE_DISPLAY_FORMAT), count])
     return activity
 
 
@@ -240,12 +243,12 @@ def get_trackers(start_date, end_date, courses, students=None):
         .annotate(count=Count('id'))
     for i in range(0, no_days, +1):
         temp = start_date + datetime.timedelta(days=i)
-        temp_date = temp.date().strftime(constants.STR_DATE_FORMAT)
+        temp_date = temp.date().strftime(constants.STR_DATE_DISPLAY_FORMAT)
         count = next((dct['count']
                      for dct in trackers
-                     if dct['day'].strftime(constants.STR_DATE_FORMAT)
+                     if dct['day'].strftime(constants.STR_DATE_DISPLAY_FORMAT)
                      == temp_date), 0)
-        activity.append([temp.strftime(constants.STR_DATE_FORMAT), count])
+        activity.append([temp.strftime(constants.STR_DATE_DISPLAY_FORMAT), count])
     return activity
 
 

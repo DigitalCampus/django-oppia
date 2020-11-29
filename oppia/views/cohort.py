@@ -65,11 +65,13 @@ def cohort_add(request):
             cohort = Cohort()
             cohort.start_date = timezone.make_aware(
                 datetime.datetime.strptime(
-                    form.cleaned_data.get("start_date"), "%Y-%m-%d"),
+                    form.cleaned_data.get("start_date"),
+                    constants.STR_DATE_FORMAT),
                 timezone.get_current_timezone())
             cohort.end_date = timezone.make_aware(
                 datetime.datetime.strptime(
-                    form.cleaned_data.get("end_date"), "%Y-%m-%d"),
+                    form.cleaned_data.get("end_date"),
+                    constants.STR_DATE_FORMAT),
                 timezone.get_current_timezone())
             cohort.description = form.cleaned_data.get("description").strip()
             cohort.save()
@@ -171,11 +173,13 @@ def cohort_edit(request, cohort_id):
             cohort.description = form.cleaned_data.get("description").strip()
             cohort.start_date = timezone.make_aware(
                 datetime.datetime.strptime(
-                    form.cleaned_data.get("start_date"), "%Y-%m-%d"),
+                    form.cleaned_data.get("start_date"),
+                    constants.STR_DATE_FORMAT),
                 timezone.get_current_timezone())
             cohort.end_date = timezone.make_aware(
                 datetime.datetime.strptime(
-                    form.cleaned_data.get("end_date"), "%Y-%m-%d"),
+                    form.cleaned_data.get("end_date"),
+                    constants.STR_DATE_FORMAT),
                 timezone.get_current_timezone())
             cohort.save()
 
