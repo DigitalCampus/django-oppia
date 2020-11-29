@@ -38,10 +38,10 @@ class CourseDailyStats (models.Model):
         # range of tracker ids to process
 
         day_start = datetime.datetime \
-            .strptime(day.strftime(oppia_constants.STR_DATE_FORMAT) + " 00:00:00",
+            .strptime(day.strftime(constants.STR_DATE_FORMAT) + " 00:00:00",
                       constants.STR_DATETIME_FORMAT)
         day_end = datetime.datetime \
-            .strptime(day.strftime(oppia_constants.STR_DATE_FORMAT) + " 23:59:59",
+            .strptime(day.strftime(constants.STR_DATE_FORMAT) + " 23:59:59",
                       constants.STR_DATETIME_FORMAT)
 
         course = Course.objects.get(pk=course)
