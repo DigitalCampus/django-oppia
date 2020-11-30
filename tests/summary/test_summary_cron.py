@@ -31,7 +31,7 @@ class SummaryCronTest(OppiaTestCase):
 
         # check new details on pks
         tracker_id = SettingProperties.get_int('last_tracker_pk', 0)
-        self.assertEqual(tracker_id, 1484221)
+        self.assertEqual(tracker_id, 1484256)
         # this id is from the test_tracker data
 
         # check unlocked again
@@ -113,7 +113,7 @@ class SummaryCronTest(OppiaTestCase):
 
         # check new details on pks
         tracker_id = SettingProperties.get_int('last_tracker_pk', 0)
-        self.assertEqual(tracker_id, 1484221)
+        self.assertEqual(tracker_id, 1484256)
         # this id is from the test_tracker data
 
     def test_summary_invalid_latest_tracker(self):
@@ -145,4 +145,4 @@ class SummaryCronTest(OppiaTestCase):
         call_command('update_summaries', stdout=StringIO())
         new_search_count = CourseDailyStats.objects.filter(
             type='search').count()
-        self.assertEqual(old_search_count+1, new_search_count)
+        self.assertEqual(old_search_count+4, new_search_count)
