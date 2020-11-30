@@ -11,7 +11,8 @@ class TotalTimeSpentViewTest(OppiaTestCase):
                 'tests/test_cohort.json',
                 'tests/test_course_permissions.json',
                 'tests/test_usercoursesummary.json',
-                'tests/test_customfields.json']
+                'tests/test_customfields.json',
+                'tests/test_daus.json']
 
     url = reverse('reports:totaltimespent')
     template = 'reports/total_time_spent.html'
@@ -35,3 +36,13 @@ class TotalTimeSpentViewTest(OppiaTestCase):
                                  '/admin/login/?next=' + self.url,
                                  302,
                                  200)
+            
+    def test_total_time_custom_dates(self):
+        self.client.force_login(self.admin_user)
+        start_date = "2015-01-01"
+        end_date = "2019-12-31"
+        response = self.client.post(self.url,
+                                    data={'start_date': start_date,
+                                          'end_date': end_date})
+        self.assertTemplateUsed(response, self.template)
+        self.assertEqual(response.status_code, 200)
