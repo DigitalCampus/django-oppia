@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{% trans 'Search Terms' %}
+{% endblock extra_head_title %}
+
+{% block header %}
+<div class="jumbotron mb-4">
+	<div class="row">
+        <div class="col"><h3 class="mt-3"><a href="{% url 'reports:index' %}">{% trans 'Analytics/Reports' %}</a>
+		&gt; {% trans 'Search Terms' %}</h3></div>
+        
+         {% include "common/form/date-range.html" with dateform=form drop='down' %}
+    </div>
+</div>
+{% endblock header %}
+
+{% block content %}
+
+{% if search_terms %}
+
+	 <div class="table-responsive">
+         <table class="table table-striped-expandable">
+             <caption class="d-none">{% trans "Search terms" %}</caption>
+         	 <thead>
+                <tr>
+                  <th scope="col">{% trans 'Search term' %}</th>
+                  <th scope="col">{% trans 'count' %}</th>
+                </tr>
+              </thead>
+              <tbody>
+	{% for st in search_terms %}
+		<tr>
+			<td> {{ st.term }}</td>
+			<td> {{ st.count }} </td>
+			</tr>
+	{% endfor %}
+			</tbody>
+ 		</table>
+	</div>
+{% else %}
+	{% blocktrans %}
+		<p>No searches were done during this date range</p>
+	{% endblocktrans %}
+{% endif %}
+
+{% endblock content %}
