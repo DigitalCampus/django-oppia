@@ -20,13 +20,5 @@
 {% endblock header %}
 
 {% block content %}
-
-{% include "oppia/includes/activity-graph.html" %}
-
-{% if activity_graph_data %}
-    <button class="btn btn-default btn-primary btn-sm download-csv-button" data-csv="graph_data">{% trans 'Download as CSV' %}</button>
-{% endif %}
-
-{% include "reports/includes/notes.html" %}
-
+{% include "reports/includes/graph_display.html" %}
 {% endblock content %}
