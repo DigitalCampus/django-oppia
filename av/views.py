@@ -17,6 +17,8 @@ from helpers.mixins.ListItemUrlMixin import ListItemUrlMixin
 from oppia.models import Media, Course
 from oppia.permissions import user_can_upload, can_view_course
 
+from reports.signals import dashboard_accessed
+
 STR_UPLOAD_MEDIA = _(u'Upload Media')
 
 
@@ -42,7 +44,9 @@ class AVHome(TemplateView):
             media = paginator.page(page)
         except (EmptyPage, InvalidPage):
             media = paginator.page(paginator.num_pages)
-
+        
+        dashboard_accessed.send(sender=None, request=request, data=None)
+        
         return render(request, 'av/home.html',
                       {'title': STR_UPLOAD_MEDIA,
                        'page': media})
@@ -53,6 +57,8 @@ class Upload(TemplateView):
     def get(self, request):
         form = UploadMediaForm()
 
+        dashboard_accessed.send(sender=None, request=request, data=None)
+        
         return render(request, 'common/upload.html',
                       {'form': form,
                        'title': STR_UPLOAD_MEDIA})
@@ -92,6 +98,8 @@ def media_view(request, id):
     embed_code = media.get_embed_code(
         request.build_absolute_uri(media.file.url))
 
+    dashboard_accessed.send(sender=None, request=request, data=None)
+    
     return render(request, 'av/view.html',
                   {'title': _(u'Media'),
                    'media': media,
@@ -149,6 +157,8 @@ def download_course_media(request, course_id):
     filename = course.shortname + "_media.zip"
     path = handler.zip_course_media(filename, media)
 
+    dashboard_accessed.send(sender=None, request=request, data=None)
+    
     if path:
         with open(path, 'rb') as package:
             response = HttpResponse(package.read(),

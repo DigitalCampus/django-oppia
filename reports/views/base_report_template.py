@@ -30,7 +30,6 @@ class BaseReportTemplateView(TemplateView):
         return self.process(request, form, start_date, end_date)
 
     def post(self, request):
-        dashboard_accessed.send(sender=None, request=request, data=None)
         start_date = datetime.date.today() - datetime.timedelta(
             days=constants.ANNUAL_NO_DAYS)
         end_date = datetime.date.today()
@@ -47,6 +46,10 @@ class BaseReportTemplateView(TemplateView):
             end_date = datetime.datetime.strptime(
                 end_date,
                 oppia_constants.STR_DATE_FORMAT)
+        data = {}
+        data['start_date'] = start_date
+        data['end_date'] = end_date
+        dashboard_accessed.send(sender=None, request=request, data=data)
         return self.process(request, form, start_date, end_date)
 
     @abstractmethod

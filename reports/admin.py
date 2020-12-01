@@ -6,7 +6,7 @@ from reports.models import DashboardAccessLog
 
 
 class DashboardAccessLogAdmin(admin.ModelAdmin):
-    list_display = ('user', 'access_date', 'url', 'ip')
+    list_display = ('user', 'access_date', 'url', 'ip', 'data')
 
 
 admin.site.register(DashboardAccessLog, DashboardAccessLogAdmin)
