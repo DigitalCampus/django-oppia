@@ -62,4 +62,5 @@ class FinalQuizAwardsTest(AwardsTestCase):
             'final_quiz/tracker_final_quiz_passed.json', 1)
 
         self.assert_points_and_awards(1, 1)
-        self.assert_points_and_awards(0, 0)
+        self.assert_points_and_awards(0, 0, 24)
+        self.assert_points_and_awards(0, 0, 0)

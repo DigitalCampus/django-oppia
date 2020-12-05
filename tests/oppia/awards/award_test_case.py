@@ -4,6 +4,7 @@ from oppia.awards import courses_completed
 from oppia.test import OppiaTestCase
 from oppia.models import Tracker, Award, Points
 
+
 class AwardsTestCase(OppiaTestCase):
 
     fixtures = ['tests/test_user.json',
@@ -29,11 +30,11 @@ class AwardsTestCase(OppiaTestCase):
         self.assertEqual(tracker_count_start+plus_trackers, tracker_count_end)
         return tracker_count_start
     
-    def assert_points_and_awards(self, plus_awards=0, plus_points=0):
+    def assert_points_and_awards(self, plus_awards=0, plus_points=0, hours=0):
         
         points_count_start = Points.objects.all().count()
         award_count_start = Award.objects.all().count()
-        courses_completed(0)
+        courses_completed(hours)
         award_count_end = Award.objects.all().count()
         points_count_end = Points.objects.all().count()
         self.assertEqual(award_count_start+plus_awards, award_count_end)

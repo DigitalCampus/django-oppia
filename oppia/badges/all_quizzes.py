@@ -1,14 +1,14 @@
 import datetime
 
 from django.contrib.auth.models import User
-from django.db import models
 from django.utils import timezone
 
 from oppia.badges.base_badge import BaseBadge
-from oppia.models import Award, Tracker, Course, Activity
+from oppia.models import Tracker, Course, Activity
+
 
 class BadgeAllQuizzes(BaseBadge):
-    
+
     def process(self, badge, hours):
         courses = Course.objects.filter(is_draft=False, is_archived=False)
         for course in courses:
@@ -16,7 +16,7 @@ class BadgeAllQuizzes(BaseBadge):
                                               type=Activity.QUIZ) \
                 .values('digest') \
                 .distinct()
-    
+
             # get all the users who've added tracker for this course in last
             # 'hours'
             if hours == 0:
@@ -25,10 +25,10 @@ class BadgeAllQuizzes(BaseBadge):
                 since = timezone.now() - datetime.timedelta(hours=int(hours))
                 users = User.objects.filter(tracker__course=course,
                                             tracker__submitted_date__gte=since)
-    
+
             # exclude the users that already own this course award
             users = users.exclude(award__awardcourse__course=course).distinct()
-    
+
             for user in users:
                 user_completed = Tracker.objects.filter(user=user,
                                                         course=course,

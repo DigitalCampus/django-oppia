@@ -76,6 +76,7 @@ class AllQuizzesAwardsTest(AwardsTestCase):
         self.load_trackers(
             'all_quizzes/tracker_all_quizzes_complete.json', 2)
 
-        self.assert_points_and_awards(1 ,1)
-        self.assert_points_and_awards(0, 0)
+        self.assert_points_and_awards(1, 1)
+        self.assert_points_and_awards(0, 0, 24)
+        self.assert_points_and_awards(0, 0, 0)
         

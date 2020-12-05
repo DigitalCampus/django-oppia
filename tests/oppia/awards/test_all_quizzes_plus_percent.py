@@ -120,4 +120,5 @@ class AllQuizzesPlusPercentAwardsTest(AwardsTestCase):
             'all_quizzes_plus_percent/tracker_all_quiz_80pc_acts.json', 8)
 
         self.assert_points_and_awards(1, 1)
-        self.assert_points_and_awards(0, 0)
+        self.assert_points_and_awards(0, 0, 24)
+        self.assert_points_and_awards(0, 0, 0)

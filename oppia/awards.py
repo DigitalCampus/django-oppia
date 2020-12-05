@@ -17,19 +17,20 @@ def courses_completed(hours):
 
     if settings.BADGE_AWARDING_METHOD \
        == settings.BADGE_AWARD_METHOD_ALL_ACTIVITIES:
-        badge_awarding = badges.BadgeAllActivities()
+            badge_awarding = badges.BadgeAllActivities()
     elif settings.BADGE_AWARDING_METHOD \
-       == settings.BADGE_AWARD_METHOD_FINAL_QUIZ:
-        badge_awarding = badges.BadgeFinalQuiz()
+        == settings.BADGE_AWARD_METHOD_FINAL_QUIZ:
+            badge_awarding = badges.BadgeFinalQuiz()
     elif settings.BADGE_AWARDING_METHOD \
        == settings.BADGE_AWARD_METHOD_ALL_QUIZZES:
-        badge_awarding = badges.BadgeAllQuizzes()
+            badge_awarding = badges.BadgeAllQuizzes()
     elif settings.BADGE_AWARDING_METHOD \
        == settings.BADGE_AWARD_METHOD_QUIZZES_PLUS_PERCENT:
-        badge_awarding = badges.BadgeAllQuizzesPlusPercent()
-
+            badge_awarding = badges.BadgeAllQuizzesPlusPercent()
+    else:
+        return False # invalid badge method selected
+    
     badge_awarding.process(badge, hours)
         
     return True
-
-            
+      
