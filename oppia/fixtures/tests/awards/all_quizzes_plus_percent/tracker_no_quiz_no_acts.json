@@ -18,7 +18,7 @@
                 {
                    "data":"{\"lang\":\"en\"}",
                    "tracker_date":"2017-03-22 04:17:45",
-                   "completed":1,
+                   "completed":0,
                    "digest":"b789636875418fff16845784fc0dd0d0504",
                    "event":"activity_completed",
                    "points":0,
@@ -28,7 +28,7 @@
 		{
                    "data":"{\"lang\":\"en\"}",
                    "tracker_date":"2017-03-22 04:17:45",
-                   "completed":1,
+                   "completed":0,
                    "digest":"a68146dd7f3b93efaeeca333dc0c4ae9505",
                    "event":"activity_completed",
                    "points":0,
@@ -38,7 +38,7 @@
 		{
                    "data":"{\"lang\":\"en\"}",
                    "tracker_date":"2017-03-22 04:17:45",
-                   "completed":1,
+                   "completed":0,
                    "digest":"ba61c987ef3ae0b5c66d0e6c6f0079c2506",
                    "event":"activity_completed",
                    "points":0,
@@ -48,7 +48,7 @@
 		{
                    "data":"{\"lang\":\"en\"}",
                    "tracker_date":"2017-03-22 04:17:45",
-                   "completed":1,
+                   "completed":0,
                    "digest":"cb81b8fe962962426245472af2078f67509cr0s2a1p80a0m0",
                    "event":"quiz_attempt",
                    "points":0,
@@ -58,7 +58,7 @@
 		{
                    "data":"{\"lang\":\"en\"}",
                    "tracker_date":"2017-03-22 04:17:45",
-                   "completed":1,
+                   "completed":0,
                    "digest":"534dbc6927ae88c2d8d21e454fac3d90508",
                    "event":"activity_completed",
                    "points":0,
@@ -68,7 +68,7 @@
 		{
                    "data":"{\"lang\":\"en\"}",
                    "tracker_date":"2017-03-22 04:17:45",
-                   "completed":1,
+                   "completed":0,
                    "digest":"c4ba27a3e57eacf8469e23bd6ae7f3a3510cr0s2a1p80a0m0",
                    "event":"quiz_attempt",
                    "points":0,
