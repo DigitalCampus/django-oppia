@@ -13,7 +13,7 @@ class BaseBadge():
     STR_COURSE_COMPLETED = "Course completed: "
 
     @abstractmethod
-    def process(self, badge, hours):
+    def process(self, course, badge, hours):
         pass
 
     def award_badge(self, course, user, badge):
