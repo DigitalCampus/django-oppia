@@ -3,18 +3,6 @@
     "pk": 1,
     "model": "oppia.badge",
     "fields": {
-        "name": "Created 10 quizzes",
-        "points": 100,
-        "ref": "create10quiz",
-        "default_icon": "badges/trophy.png",
-        "allow_multiple_awards": true,
-        "description": "Created 10 quizzes"
-    }
-},
-{
-    "pk": 2,
-    "model": "oppia.badge",
-    "fields": {
         "name": "Course completed",
         "points": 500,
         "ref": "coursecompleted",

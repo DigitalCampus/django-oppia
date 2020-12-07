@@ -5,13 +5,6 @@ from oppia.test import OppiaTestCase
 
 from tests.oppia.awards.award_test_case import AwardsTestCase
 
-
-class AwardsNoBadgesTest(OppiaTestCase):
-
-    def test_badges_not_loaded(self):
-        result = courses_completed(0)
-        self.assertFalse(result)
-
       
 class InvalidBadgeMethod(AwardsTestCase):
 

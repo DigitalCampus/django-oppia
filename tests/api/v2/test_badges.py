@@ -45,4 +45,4 @@ class BadgesResourceTest(ResourceTestCaseMixin, TestCase):
         # check that the response contains 2 badges
         response_data = self.deserialize(resp)
         self.assertTrue('objects' in response_data)
-        self.assertEqual(len(response_data['objects']), 2)
+        self.assertEqual(len(response_data['objects']), 1)

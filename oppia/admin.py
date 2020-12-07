@@ -8,7 +8,7 @@ from oppia.models import Course, \
                          Cohort, \
                          CoursePermissions
 from oppia.models import Participant, Tag, CourseTag
-from oppia.models import Badge, Award, Points, AwardCourse
+from oppia.models import Badge, Award, Points, AwardCourse, BadgeMethod
 from oppia.models import CourseCohort, CoursePublishingLog
 
 
@@ -57,8 +57,12 @@ class CourseCohortAdmin(admin.ModelAdmin):
     list_display = ('course', 'cohort')
 
 
+class BadgeMethodAdmin(admin.ModelAdmin):
+    list_display = ('key', 'description')
+
+
 class BadgeAdmin(admin.ModelAdmin):
-    list_display = ('description', 'points')
+    list_display = ('description', 'points', 'default_method')
 
 
 class PointsAdmin(admin.ModelAdmin):
@@ -121,6 +125,7 @@ class TagAdmin(admin.ModelAdmin):
 admin.site.register(Activity, ActivityAdmin)
 admin.site.register(Award, AwardAdmin)
 admin.site.register(Badge, BadgeAdmin)
+admin.site.register(BadgeMethod, BadgeMethodAdmin)
 admin.site.register(AwardCourse, AwardCourseAdmin)
 admin.site.register(Cohort, CohortAdmin)
 admin.site.register(Course, CourseAdmin)

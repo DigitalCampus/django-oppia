@@ -2,7 +2,7 @@
 from django.conf import settings
 
 from oppia import badges
-from oppia.models import Badge, Course
+from oppia.models import Badge, BadgeMethod, Course
 
 
 def courses_completed(hours):
@@ -16,20 +16,20 @@ def courses_completed(hours):
     
     for course in courses:
         print(course.get_title())
-        print(settings.BADGE_AWARDING_METHOD)
+        print(badge.default_method)
         print(hours)
     
-        if settings.BADGE_AWARDING_METHOD \
-           == settings.BADGE_AWARD_METHOD_ALL_ACTIVITIES:
+        if badge.default_method \
+           == BadgeMethod.objects.get(key='all_activities'):
                 badge_awarding = badges.BadgeAllActivities()
-        elif settings.BADGE_AWARDING_METHOD \
-            == settings.BADGE_AWARD_METHOD_FINAL_QUIZ:
+        elif badge.default_method \
+           == BadgeMethod.objects.get(key='final_quiz'):
                 badge_awarding = badges.BadgeFinalQuiz()
-        elif settings.BADGE_AWARDING_METHOD \
-           == settings.BADGE_AWARD_METHOD_ALL_QUIZZES:
+        elif badge.default_method \
+           == BadgeMethod.objects.get(key='all_quizzes'):
                 badge_awarding = badges.BadgeAllQuizzes()
-        elif settings.BADGE_AWARDING_METHOD \
-           == settings.BADGE_AWARD_METHOD_QUIZZES_PLUS_PERCENT:
+        elif badge.default_method \
+           == BadgeMethod.objects.get(key='all_quizzes_plus_percent'):
                 badge_awarding = badges.BadgeAllQuizzesPlusPercent()
         else:
             return False # invalid badge method selected
