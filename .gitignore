@@ -20,3 +20,4 @@ oppiamobile/settings_secret.py
 /static/css/oppia.css
 /pytestdebug.log
 /db.sqlite3
+/*.sock
