@@ -11,7 +11,7 @@
 {% block extra_scripts %}
    {% include 'reports/includes/google_chart_setup.html' %}
    <script type="text/javascript">
-   google.setOnLoadCallback(drawChart);
+   google.charts.setOnLoadCallback(drawChart);
 	function drawChart() {
 
 		dsets['course_dls'] = getMonthlyDatatable({{ course_downloads|length }});

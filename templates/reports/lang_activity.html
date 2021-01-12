@@ -10,7 +10,7 @@
 {% block extra_scripts %}
     {% include 'reports/includes/google_chart_setup.html' %}
     <script type="text/javascript">
-        google.setOnLoadCallback(drawChart);
+        google.charts.setOnLoadCallback(drawChart);
         function drawChart() {
             dsets['languages'] = new google.visualization.DataTable();
             dsets['languages'].addColumn('string', "{% trans 'Language' %}");
