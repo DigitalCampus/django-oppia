@@ -252,21 +252,15 @@ def get_trackers(start_date, end_date, courses, students=None):
     return activity
 
 
-class LeaderboardView(TemplateView):
+class LeaderboardView(SafePaginatorMixin, ListView, AjaxTemplateResponseMixin):
 
-    def get(self, request):
-        lb = Points.get_leaderboard()
-        paginator = Paginator(lb, constants.LEADERBOARD_TABLE_RESULTS_PER_PAGE)
-        try:
-            page = int(request.GET.get('page', '1'))
-        except ValueError:
-            page = 1
-        try:
-            leaderboard = paginator.page(page)
-        except (EmptyPage, InvalidPage):
-            leaderboard = paginator.page(paginator.num_pages)
+    paginate_by = constants.LEADERBOARD_TABLE_RESULTS_PER_PAGE
+    template_name = 'leaderboard/list.html'
+    ajax_template_name = 'leaderboard/query.html'
 
-        return render(request, 'oppia/leaderboard.html', {'page': leaderboard})
+    def get_queryset(self):
+        return Points.get_leaderboard()
+
 
 
 class AppLauncherDetailView(TemplateView):

@@ -1,38 +1,8 @@
-{% extends "base.html" %}
+{% extends "leaderboard/list.html" %}
 {% load i18n %}
-{% load display_functions %}
-{% load static %}
-
-{% block extra_head_title %}
-	{% trans 'Leaderboard' %}
-{% endblock extra_head_title %}
 
 {% block header %}
 <div class="jumbotron mb-3 ">
 	<h3><em class="fas fa-trophy mr-2"></em> <a href="{% url 'oppia:cohort_view' cohort.id %}">{{ cohort.description }}</a> &gt; {% trans 'Leaderboard' %}</h3>
 </div>
 {% endblock header %}
-
-{% block content %}
-
-{% if page.object_list %}
-    <div class="table-responsive">
-         <table class="table table-striped">
-             <caption class="d-none">{% trans 'Leaderboard' %}</caption>
-         	 <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">{% trans 'User' %}</th>
-                  <th scope="col">{% trans 'Points' %}</th>
-                  <th scope="col">{% trans 'Badges' %}</th>
-                </tr>
-              </thead>
-              <tbody>
-					{% include "common/leaderboard-rows.html" %}
-	    	  </tbody>
- 		</table>
-	</div>
-	{% include "common/pagination.html" %}
-{% endif %}
-
-{% endblock %}

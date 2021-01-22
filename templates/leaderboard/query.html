@@ -1,0 +1,37 @@
+{% extends 'common/list/base.html' %}
+{% load i18n %}
+{% load display_functions %}
+{% load static %}
+
+ {% block table_head %}
+    <th scope="col">#</th>
+    <th scope="col">{% trans 'User' %}</th>
+    <th scope="col">{% trans 'Points' %}</th>
+    <th scope="col">{% trans 'Badges' %}</th>
+{% endblock %}
+
+{% block item_row %}
+
+<td>{{ forloop.counter0|get_index:page_obj.start_index }}</td>
+<td>{% if OPPIA_SHOW_GRAVATARS %} {{ user|gravatar:24 }} {% endif %}
+{% if request.user.is_staff %}
+    <a href="{% url 'profile:user_activity' user.id %}">{{ item.first_name }} {{ item.last_name }}</a>
+{% else %}
+    {{ item.first_name }} {{ item.last_name }}
+{% endif %}
+</td>
+<td><span title="{{ item.total  }} {% trans 'points' %}">
+    {{ item.total }}</span></td>
+<td>{% if item.badges > 0 %} <span class="badges"
+    title="{{ item.badges }} {% trans 'badges' %}"><img
+        src="{% static "oppia/images/badge.png" %}"
+        alt="{{ item.badges }} {% trans 'badges' %}" /> x {{ item.badges }}</span> {% endif %}
+</td>
+
+{% endblock %}
+
+{% block empty_list %}
+    <div class="my-2">
+
+    </div>
+{% endblock %}

@@ -62,8 +62,8 @@ urlpatterns = [
     path('cohort/<int:cohort_id>/<int:course_id>/view/',
          views.cohort_course_view,
          name="cohort_course_view"),
-    path('cohort/<int:cohort_id>/leaderboard',
-         views.cohort_leaderboard_view,
+    path('cohort/<int:pk>/leaderboard',
+         views.CohortLeaderboardView.as_view(),
          name="cohort_leaderboard"),
 
     path('view/',

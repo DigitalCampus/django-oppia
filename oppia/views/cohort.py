@@ -190,6 +190,27 @@ def cohort_edit(request, cohort_id):
 
             teachers = form.cleaned_data.get("teachers")
             cohort_add_roles(cohort, Participant.TEACHER, teachers)
+class CohortLeaderboardView(UserPassesTestMixin, SafePaginatorMixin, ListView, AjaxTemplateResponseMixin):
+
+    paginate_by = constants.LEADERBOARD_TABLE_RESULTS_PER_PAGE
+    template_name = 'cohort/leaderboard.html'
+    ajax_template_name = 'leaderboard/query.html'
+
+    # Permissions check
+    def test_func(self):
+        return can_view_cohort(self.request, self.kwargs['pk'])
+
+    def get(self, request, *args, **kwargs):
+        self.object = Cohort.objects.get(pk=kwargs['pk'])
+        return super().get(request, *args, **kwargs)
+
+    def get_queryset(self):
+        return self.object.get_leaderboard()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data( **kwargs)
+        context['cohort'] = self.object
+        return context
 
             CourseCohort.objects.filter(cohort=cohort).delete()
             courses = form.cleaned_data.get("courses")
