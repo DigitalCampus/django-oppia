@@ -104,27 +104,27 @@ class PermissionsViewTest(OppiaTestCase):
 
     def test_anon_cantview_cohort(self):
         self.assert_must_login('oppia:cohort_view',
-                               view_kwargs={'cohort_id': 1})
+                               view_kwargs={'pk': 1})
 
     def test_view_nonexisting_cohort(self):
         self.assert_not_found('oppia:cohort_view',
                               self.admin_user,
-                              view_kwargs={'cohort_id': 1000})
+                              view_kwargs={'pk': 1000})
 
     def test_admin_canview_cohort(self):
         self.assert_can_view('oppia:cohort_view',
                              self.admin_user,
-                             view_kwargs={'cohort_id': 1})
+                             view_kwargs={'pk': 1})
 
     def test_staff_canview_cohort(self):
         self.assert_can_view('oppia:cohort_view',
                              self.staff_user,
-                             view_kwargs={'cohort_id': 1})
+                             view_kwargs={'pk': 1})
 
     def test_student_cantview_cohort(self):
         self.assert_unauthorized('oppia:cohort_view',
                                  self.normal_user,
-                                 view_kwargs={'cohort_id': 1})
+                                 view_kwargs={'pk': 1})
     # TODO: Teacher view cohort s/he is assigned into
 
     # View a cohort course activity

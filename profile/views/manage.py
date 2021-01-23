@@ -14,7 +14,7 @@ from django.views.generic import FormView, TemplateView
 from tastypie.models import ApiKey
 
 import profile
-from helpers.mixins.AdminRequiredMixin import AdminRequiredMixin
+from helpers.mixins.PermissionMixins import AdminRequiredMixin
 from oppia.models import Points, Award, Tracker
 from profile.forms import UploadProfileForm, \
     UserSearchForm, \
