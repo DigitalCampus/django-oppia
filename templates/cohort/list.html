@@ -9,49 +9,23 @@
 
 {% block header %}
 <div class="jumbotron mb-3">
-	<h3>{% trans 'Cohorts' %}</h3>
+	<div class="row">
+		<div class="col-sm-6">
+			<h3>{% trans 'Cohorts' %}</h3>
+		</div>
+		<div class="col-sm-6 text-right">
+			<a href="{% url 'oppia:cohort_add' %}" class="btn btn-sm btn-secondary">
+				<span class="material-icons mr-2">add</span>
+				{% trans 'Add a cohort' %}
+			</a>
+		</div>
+	</div>
+
 </div>
 {% endblock header %}
 
 {% block content %}
 
-{% if cohorts %}
-	<div class="table-responsive">
-         <table class="table table-striped-expandable">
-            <caption class="d-none">{% trans 'Cohorts' %}</caption>
-         	<thead>
-                <tr>
-                  <th scope="col">{% trans 'Cohort' %}</th>
-                  <th scope="col">{% trans 'No Teachers' %}</th>
-                  <th scope="col">{% trans 'No Students' %}</th>
-                  <th scope="col">{% trans 'Courses' %}</th>
-                  <th scope="col">{% trans 'Options' %}</th>
-                </tr>
-              </thead>
-              <tbody>
-	{% for cohort in cohorts %}
-		<tr>
-			<td><a href="{% url 'oppia:cohort_view' cohort.id %}">{{ cohort.description }}</a></td>
-			<td>{{ cohort.no_teacher_members }}</td>
-			<td>{{ cohort.no_student_members }}</td>
-			<td>
-			{% for course in cohort.get_courses %}
-				<a href="{% url 'oppia:cohort_course_view' cohort.id course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a><br/>
-			{% endfor %}
-			</td>
-			<td class="py-1">
-				<a href="{% url 'oppia:cohort_edit' cohort.id %}" data-toggle="tooltip" title="{% trans 'Edit' %}" class="btn btn-inline btn-outline-primary"><em class="fas fa-2x fa-edit"></em> </a>
-			</td>	
-		</tr>
-	{% endfor %}
-	</tbody>
- 		</table>
-	</div>
-{% else %}
-	<p>{% trans 'No cohorts' %}</p>
-	
-{% endif %}
-
-<p><a href="{% url 'oppia:cohort_add' %}" class="btn btn-default btn-primary">{% trans 'Add a cohort' %}</a></p>
+{% include 'common/ajax_wrapper.html' with query_template='cohort/query.html' %}
 
 {% endblock %}

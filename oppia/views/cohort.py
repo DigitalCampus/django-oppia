@@ -2,13 +2,17 @@
 import datetime
 import operator
 
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
-from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.utils import timezone
+from django.views.generic import ListView, UpdateView, DetailView
 
+from helpers.mixins.AjaxTemplateResponseMixin import AjaxTemplateResponseMixin
+from helpers.mixins.PermissionMixins import StaffRequiredMixin
+from helpers.mixins.SafePaginatorMixin import SafePaginatorMixin
 from oppia import constants
 from oppia.forms.cohort import CohortForm
 from oppia.models import Tracker, \
@@ -24,12 +28,10 @@ from profile.views.utils import get_paginated_users
 from summary.models import UserCourseSummary
 
 
-def cohort_list_view(request):
-    if not request.user.is_staff:
-        raise PermissionDenied
-
-    cohorts = Cohort.objects.all()
-    return render(request, 'cohort/list.html', {'cohorts': cohorts, })
+class CohortListView(StaffRequiredMixin, ListView):
+    template_name = 'cohort/list.html'
+    queryset = Cohort.objects.all()
+    paginate_by = 20
 
 
 def cohort_add_roles(cohort, role, users):
@@ -107,122 +109,128 @@ def cohort_add(request):
                    'users_list_template': 'select'})
 
 
-def cohort_view(request, cohort_id):
-    cohort = can_view_cohort(request, cohort_id)
+class CohortDetailView(UserPassesTestMixin, DetailView):
+    template_name = 'cohort/activity.html'
+    model = Cohort
+    context_object_name = 'cohort'
 
-    start_date = timezone.now() - datetime.timedelta(
-        days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
-    end_date = timezone.now()
+    # Permissions check
+    def test_func(self):
+        return can_view_cohort(self.request, self.kwargs['pk'])
 
-    # get student activity
-    students = User.objects.filter(participant__role=Participant.STUDENT,
-                                   participant__cohort=cohort)
-    trackers = Tracker.objects \
-        .filter(course__coursecohort__cohort=cohort,
-                user__is_staff=False,
-                user__in=students)
-    student_activity = filter_trackers(trackers, start_date, end_date)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        start_date = timezone.now() - datetime.timedelta(days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
+        end_date = timezone.now()
 
-    # get leaderboard
-    leaderboard = cohort.get_leaderboard(
-        constants.LEADERBOARD_HOMEPAGE_RESULTS_PER_PAGE)
+        # get student activity
+        students = User.objects.filter(participant__role=Participant.STUDENT,
+                                       participant__cohort=self.object)
+        trackers = Tracker.objects.filter(course__coursecohort__cohort=self.object,
+                                        user__is_staff=False, user__in=students)
+        context['activity_graph_data'] = filter_trackers(trackers, start_date, end_date)
+        context['leaderboard'] = self.object.get_leaderboard(constants.LEADERBOARD_HOMEPAGE_RESULTS_PER_PAGE)
 
-    return render(request, 'cohort/activity.html',
-                  {'cohort': cohort,
-                   'activity_graph_data': student_activity,
-                   'leaderboard': leaderboard, })
-
-
-def cohort_leaderboard_view(request, cohort_id):
-
-    cohort = can_view_cohort(request, cohort_id)
-
-    # get leaderboard
-    lb = cohort.get_leaderboard(0)
-
-    paginator = Paginator(lb, constants.LEADERBOARD_TABLE_RESULTS_PER_PAGE)
-
-    # Make sure page request is an int. If not, deliver first page.
-    try:
-        page = int(request.GET.get('page', '1'))
-    except ValueError:
-        page = 1
-
-    # If page request (9999) is out of range, deliver last page of results.
-    try:
-        leaderboard = paginator.page(page)
-    except (EmptyPage, InvalidPage):
-        leaderboard = paginator.page(paginator.num_pages)
-
-    return render(request, 'cohort/leaderboard.html',
-                  {'cohort': cohort,
-                   'page': leaderboard})
+        return context
 
 
-def cohort_edit(request, cohort_id):
-    if not can_edit_cohort(request, cohort_id):
-        raise PermissionDenied
-    cohort = Cohort.objects.get(pk=cohort_id)
-    teachers_selected = []
-    students_selected = []
-    courses_selected = []
+class CohortLeaderboardView(UserPassesTestMixin, SafePaginatorMixin, ListView, AjaxTemplateResponseMixin):
 
-    if request.method == 'POST':
-        form = CohortForm(request.POST)
-        if form.is_valid():
-            cohort.description = form.cleaned_data.get("description").strip()
-            cohort.start_date = timezone.make_aware(
-                datetime.datetime.strptime(
-                    form.cleaned_data.get("start_date"),
-                    constants.STR_DATE_FORMAT),
-                timezone.get_current_timezone())
-            cohort.end_date = timezone.make_aware(
-                datetime.datetime.strptime(
-                    form.cleaned_data.get("end_date"),
-                    constants.STR_DATE_FORMAT),
-                timezone.get_current_timezone())
-            cohort.save()
+    paginate_by = constants.LEADERBOARD_TABLE_RESULTS_PER_PAGE
+    template_name = 'cohort/leaderboard.html'
+    ajax_template_name = 'leaderboard/query.html'
 
-            Participant.objects.filter(cohort=cohort).delete()
+    # Permissions check
+    def test_func(self):
+        return can_view_cohort(self.request, self.kwargs['pk'])
 
-            students = form.cleaned_data.get("students")
-            cohort_add_roles(cohort, Participant.STUDENT, students)
+    def get(self, request, *args, **kwargs):
+        self.object = Cohort.objects.get(pk=kwargs['pk'])
+        return super().get(request, *args, **kwargs)
 
-            teachers = form.cleaned_data.get("teachers")
-            cohort_add_roles(cohort, Participant.TEACHER, teachers)
+    def get_queryset(self):
+        return self.object.get_leaderboard()
 
-            CourseCohort.objects.filter(cohort=cohort).delete()
-            courses = form.cleaned_data.get("courses")
-            cohort_add_courses(cohort, courses)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data( **kwargs)
+        context['cohort'] = self.object
+        return context
 
-            return HttpResponseRedirect('../../')
 
-    else:
-        form = CohortForm(initial={'description': cohort.description,
-                                   'start_date': cohort.start_date,
-                                   'end_date': cohort.end_date})
+class CohortEditView(UserPassesTestMixin, UpdateView):
+    template_name = 'cohort/form.html'
+    model = Cohort
+    form_class = CohortForm
 
-    teachers_selected = User.objects.filter(
-                          participant__role=Participant.TEACHER,
-                          participant__cohort=cohort)
-    students_selected = User.objects.filter(
-                          participant__role=Participant.STUDENT,
-                          participant__cohort=cohort)
-    courses_selected = Course.objects.filter(coursecohort__cohort=cohort)
+    # Permissions check
+    def test_func(self):
+        return can_edit_cohort(self.request, self.kwargs['pk'])
 
-    ordering, users = get_paginated_users(request)
-    c_ordering, courses = get_paginated_courses(request)
+    def get_form_kwargs(self):
+        """Return the keyword arguments for instantiating the form."""
+        kwargs = { 'initial': self.get_initial() }
+        if self.request.method in ('POST', 'PUT'):
+            kwargs.update({
+                'data': self.request.POST,
+                'files': self.request.FILES,
+            })
+        return kwargs
 
-    return render(request, 'cohort/form.html',
-                  {'form': form,
-                   'page': users,
-                   'selected_teachers': teachers_selected,
-                   'selected_students': students_selected,
-                   'selected_courses': courses_selected,
-                   'courses_page': courses,
-                   'courses_ordering': c_ordering,
-                   'page_ordering': ordering,
-                   'users_list_template': 'select'})
+    def get_initial(self):
+        return {'description': self.object.description,
+               'start_date': self.object.start_date,
+               'end_date': self.object.end_date}
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['selected_teachers'] = User.objects.filter(
+            participant__role=Participant.TEACHER,
+            participant__cohort=self.object)
+        context['selected_students'] = User.objects.filter(
+            participant__role=Participant.STUDENT,
+            participant__cohort=self.object)
+        context['selected_courses'] = Course.objects.filter(coursecohort__cohort=self.object)
+
+        ordering, users = get_paginated_users(self.request)
+        c_ordering, courses = get_paginated_courses(self.request)
+
+        context.update({
+            'page': users,
+            'courses_page': courses,
+            'courses_ordering': c_ordering,
+            'page_ordering': ordering,
+            'users_list_template': 'select'
+        })
+        return context
+
+    def form_valid(self, form):
+        cohort = self.object
+        cohort.description = form.cleaned_data.get("description").strip()
+        cohort.start_date = timezone.make_aware(
+            datetime.datetime.strptime(
+                form.cleaned_data.get("start_date"),
+                constants.STR_DATE_FORMAT),
+            timezone.get_current_timezone())
+        cohort.end_date = timezone.make_aware(
+            datetime.datetime.strptime(
+                form.cleaned_data.get("end_date"),
+                constants.STR_DATE_FORMAT),
+            timezone.get_current_timezone())
+        cohort.save()
+
+        Participant.objects.filter(cohort=cohort).delete()
+        students = form.cleaned_data.get("students")
+        cohort_add_roles(cohort, Participant.STUDENT, students)
+        teachers = form.cleaned_data.get("teachers")
+        cohort_add_roles(cohort, Participant.TEACHER, teachers)
+
+        CourseCohort.objects.filter(cohort=cohort).delete()
+        courses = form.cleaned_data.get("courses")
+        cohort_add_courses(cohort, courses)
+
+        return HttpResponseRedirect('../../')
+
 
 
 def cohort_course_view(request, cohort_id, course_id):

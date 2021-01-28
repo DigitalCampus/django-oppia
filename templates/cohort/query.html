@@ -1,0 +1,31 @@
+{% extends 'common/list/base.html' %}
+{% load i18n %}
+{% load display_functions %}
+{% load sort_link %}
+
+ {% block table_head %}
+    <th scope="col">{% trans 'Cohort' %}</th>
+    <th scope="col">{% trans 'No Teachers' %}</th>
+    <th scope="col">{% trans 'No Students' %}</th>
+    <th scope="col">{% trans 'Courses' %}</th>
+    <th scope="col">{% trans 'Options' %}</th>
+{% endblock %}
+
+{% block item_row %}
+
+<td><a href="{% url 'oppia:cohort_view' item.id %}">{{ item.description }}</a></td>
+<td>{{ item.no_teacher_members }}</td>
+<td>{{ item.no_student_members }}</td>
+<td>
+{% for course in item.get_courses %}
+    <a href="{% url 'oppia:cohort_course_view' item.id course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a><br/>
+{% endfor %}
+</td>
+<td class="py-1">
+    <a href="{% url 'oppia:cohort_edit' item.id %}" data-toggle="tooltip" title="{% trans 'Edit' %}" class="btn btn-inline btn-outline-primary"><em class="fas fa-2x fa-edit"></em> </a>
+</td>
+{% endblock %}
+
+{% block empty_list %}
+    <p>{% trans 'No cohorts' %}</p>
+{% endblock %}

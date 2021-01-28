@@ -5,42 +5,37 @@ from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
-from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db.models import Count, Sum
 from django.db.models.functions import TruncDay, TruncMonth, TruncYear
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils import timezone
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 
 from helpers.forms.dates import DateRangeIntervalForm
+from helpers.mixins.AjaxTemplateResponseMixin import AjaxTemplateResponseMixin
+from helpers.mixins.SafePaginatorMixin import SafePaginatorMixin
+from oppia import constants
+from oppia import permissions
 from oppia.models import Activity, Points
 from oppia.models import Tracker, \
     Participant, \
     Course, \
     CoursePermissions
-from oppia import permissions
-from oppia import constants
+from profile.models import UserProfile
 from reports.signals import dashboard_accessed
 from summary.models import CourseDailyStats, UserCourseSummary
 
-from profile.models import UserProfile
-
 
 class ServerView(TemplateView):
-
-    def get(self, request):
-        return render(request, 'oppia/server.html',
-                      {'settings': settings},
-                      content_type="application/json")
-
+    content_type = 'application/json'
+    template_name = 'oppia/server.html'
+    extra_context = {'settings': settings}
 
 class AboutView(TemplateView):
-
-    def get(self, request):
-        return render(request, 'oppia/about.html',
-                      {'settings': settings})
+    template_name = 'oppia/about.html'
+    extra_context = {'settings': settings}
 
 
 class HomeView(TemplateView):
@@ -200,15 +195,13 @@ class ManagerView(TemplateView):
 
 
 class TeacherView(TemplateView):
+    template_name = 'oppia/home-teacher.html'
 
-    def get(self, request):
-        return self.process(request)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        cohorts = permissions.get_cohorts(self.request)
 
-    def process(self, request):
-        cohorts = permissions.get_cohorts(request)
-
-        start_date = timezone.now() - datetime.timedelta(
-            days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
+        start_date = timezone.now() - datetime.timedelta(days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
         end_date = timezone.now()
 
         # get student activity
@@ -219,11 +212,11 @@ class TeacherView(TemplateView):
             .filter(coursecohort__cohort__in=cohorts).distinct()
         activity = get_trackers(start_date, end_date, courses, students)
 
-        dashboard_accessed.send(sender=None, request=request, data=None)
+        dashboard_accessed.send(sender=None, request=self.request, data=None)
 
-        return render(request, 'oppia/home-teacher.html',
-                      {'cohorts': cohorts,
-                       'activity_graph_data': activity, })
+        context['cohorts'] = cohorts
+        context['activity_graph_data'] = activity
+        return context
 
 
 def get_trackers(start_date, end_date, courses, students=None):
@@ -252,21 +245,15 @@ def get_trackers(start_date, end_date, courses, students=None):
     return activity
 
 
-class LeaderboardView(TemplateView):
+class LeaderboardView(SafePaginatorMixin, ListView, AjaxTemplateResponseMixin):
 
-    def get(self, request):
-        lb = Points.get_leaderboard()
-        paginator = Paginator(lb, constants.LEADERBOARD_TABLE_RESULTS_PER_PAGE)
-        try:
-            page = int(request.GET.get('page', '1'))
-        except ValueError:
-            page = 1
-        try:
-            leaderboard = paginator.page(page)
-        except (EmptyPage, InvalidPage):
-            leaderboard = paginator.page(paginator.num_pages)
+    paginate_by = constants.LEADERBOARD_TABLE_RESULTS_PER_PAGE
+    template_name = 'leaderboard/list.html'
+    ajax_template_name = 'leaderboard/query.html'
 
-        return render(request, 'oppia/leaderboard.html', {'page': leaderboard})
+    def get_queryset(self):
+        return Points.get_leaderboard()
+
 
 
 class AppLauncherDetailView(TemplateView):
