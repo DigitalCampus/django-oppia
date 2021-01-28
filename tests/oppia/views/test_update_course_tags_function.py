@@ -2,7 +2,7 @@ from oppia.test import OppiaTestCase
 
 from oppia.forms.upload import UploadCourseStep2Form
 from oppia.models import Course, CourseTag, Tag
-from oppia.views import update_course_tags
+from oppia.views import CourseFormView
 
 
 class UpdateCourseTagsFunctionTest(OppiaTestCase):
@@ -45,7 +45,8 @@ class UpdateCourseTagsFunctionTest(OppiaTestCase):
         form = UploadCourseStep2Form(request_post)
         self.assertEqual(form.is_valid(), True)
 
-        update_course_tags(form, course, self.admin_user)
+        cfv = CourseFormView()
+        cfv.update_course_tags(form, course, self.admin_user)
 
         coursetag_count_end = CourseTag.objects.filter(course=course).count()
         self.assertEqual(coursetag_count_start+1, coursetag_count_end)
@@ -65,7 +66,8 @@ class UpdateCourseTagsFunctionTest(OppiaTestCase):
         form = UploadCourseStep2Form(request_post)
         self.assertEqual(form.is_valid(), True)
 
-        update_course_tags(form, course, self.admin_user)
+        cfv = CourseFormView()
+        cfv.update_course_tags(form, course, self.admin_user)
 
         coursetag_count_end = CourseTag.objects.filter(course=course).count()
         self.assertEqual(coursetag_count_start+2, coursetag_count_end)
@@ -85,7 +87,8 @@ class UpdateCourseTagsFunctionTest(OppiaTestCase):
         form = UploadCourseStep2Form(request_post)
         self.assertEqual(form.is_valid(), True)
 
-        update_course_tags(form, course, self.admin_user)
+        cfv = CourseFormView()
+        cfv.update_course_tags(form, course, self.admin_user)
 
         coursetag_count_end = CourseTag.objects.filter(course=course).count()
         self.assertEqual(coursetag_count_start-1, coursetag_count_end)
@@ -105,7 +108,8 @@ class UpdateCourseTagsFunctionTest(OppiaTestCase):
         form = UploadCourseStep2Form(request_post)
         self.assertEqual(form.is_valid(), True)
 
-        update_course_tags(form, course, self.admin_user)
+        cfv = CourseFormView()
+        cfv.update_course_tags(form, course, self.admin_user)
 
         coursetag_count_end = CourseTag.objects.filter(course=course).count()
         self.assertEqual(coursetag_count_start-2, coursetag_count_end)
