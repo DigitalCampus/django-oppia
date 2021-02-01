@@ -11,8 +11,8 @@ from django.db.models import Q
 from django.http import HttpResponse, Http404
 from django.utils.translation import ugettext_lazy as _
 from tastypie import fields
-from tastypie.authentication import ApiKeyAuthentication
-from tastypie.authorization import ReadOnlyAuthorization
+from tastypie.authentication import ApiKeyAuthentication, Authentication
+from tastypie.authorization import ReadOnlyAuthorization, Authorization
 from tastypie.resources import ModelResource
 from tastypie.utils import trailing_slash
 
@@ -20,10 +20,11 @@ from api.serializers import CourseJSONSerializer
 from oppia.models import Tracker, Course, CourseTag
 from oppia.signals import course_downloaded
 
+STR_COURSE_NOT_FOUND = _(u"Course not found")
+
 
 class CourseResource(ModelResource):
 
-    STR_COURSE_NOT_FOUND = _(u"Course not found")
 
     class Meta:
         queryset = Course.objects.all()
@@ -58,7 +59,7 @@ class CourseResource(ModelResource):
                                              {'shortname': lookup})
             if len(object_list) <= 0:
                 raise self._meta.object_class.DoesNotExist(
-                    "Couldn't find an course whith shortname '%s'." % (lookup))
+                    "Couldn't find an course with shortname '%s'." % (lookup))
             elif len(object_list) > 1:
                 raise MultipleObjectsReturned(
                     "More than one course with shortname '%s'." % (lookup))
@@ -108,7 +109,7 @@ class CourseResource(ModelResource):
                              & Q(coursepermissions__user=request.user))) \
                     .distinct().get(pk=pk, is_archived=False)
         except Course.DoesNotExist:
-            raise Http404(self.STR_COURSE_NOT_FOUND)
+            raise Http404(STR_COURSE_NOT_FOUND)
         except ValueError:
             try:
                 if request.user.is_staff:
@@ -123,7 +124,7 @@ class CourseResource(ModelResource):
                                  & Q(coursepermissions__user=request.user))) \
                         .distinct().get(shortname=pk, is_archived=False)
             except Course.DoesNotExist:
-                raise Http404(self.STR_COURSE_NOT_FOUND)
+                raise Http404(STR_COURSE_NOT_FOUND)
 
         return course
 
@@ -156,7 +157,7 @@ class CourseResource(ModelResource):
             response['Content-Disposition'] = \
                 'attachment; filename="%s"' % (course.filename)
         except IOError:
-            raise Http404(self.STR_COURSE_NOT_FOUND)
+            raise Http404(STR_COURSE_NOT_FOUND)
 
         course_downloaded.send(sender=self, course=course, request=request)
 
@@ -208,3 +209,50 @@ class CourseTagResource(ModelResource):
         authentication = ApiKeyAuthentication()
         authorization = ReadOnlyAuthorization()
         always_return_data = True
+
+
+class CourseStructureResource(ModelResource):
+
+    class Meta:
+        queryset = Course.objects.filter(is_draft=False, is_archived=False)
+        resource_name = 'coursestructure'
+        allowed_methods = ['get']
+        fields = ['id',
+                  'title',
+                  'version',
+                  'shortname',
+                  'priority',
+                  'is_draft',
+                  'description',
+                  'author',
+                  'username',
+                  'organisation']
+        authentication = Authentication()
+        authorization = Authorization()
+        serializer = CourseJSONSerializer()
+        always_return_data = True
+        include_resource_uri = True
+
+    def obj_get(self, bundle, **kwargs):
+        """
+            Overriden get method to perform a direct lookup if we are searching
+            by shortname instead of pk
+        """
+        lookup = kwargs[self._meta.detail_uri_name]
+        if re.search('[a-zA-Z]', lookup):
+            # If the lookup parameter includes characters, we try to use it as
+            # a shortname
+            object_list = self.apply_filters(bundle.request,
+                                             {'shortname': lookup})
+            if len(object_list) <= 0:
+                raise self._meta.object_class.DoesNotExist(
+                    "Couldn't find an course with shortname '%s'." % (lookup))
+            elif len(object_list) > 1:
+                raise MultipleObjectsReturned(
+                    "More than one course with shortname '%s'." % (lookup))
+
+            bundle.obj = object_list[0]
+            self.authorized_read_detail(object_list, bundle)
+            return bundle.obj
+        else:
+            return super().obj_get(bundle, **kwargs)
