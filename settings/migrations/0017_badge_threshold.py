@@ -17,7 +17,7 @@ def add_badge_threshold_setting(apps, schema_editor):
         settings_prop.key = constants.OPPIA_BADGES_PERCENT_COMPLETED
         settings_prop.int_value = 80
         settings_prop.description = _(u"If the badging is set to all quizzes \
-            plus a percetntage of all other activities, what will that \
+            plus a percentage of all other activities, what will that \
             percentage be")
         settings_prop.save()
 
