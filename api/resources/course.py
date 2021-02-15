@@ -1,9 +1,10 @@
 import json
 import os
+import re
 import shutil
+import xmltodict
 import zipfile
 
-import re
 from django.conf import settings
 from django.conf.urls import url
 from django.core.exceptions import MultipleObjectsReturned
@@ -217,16 +218,9 @@ class CourseStructureResource(ModelResource):
         queryset = Course.objects.filter(is_draft=False, is_archived=False)
         resource_name = 'coursestructure'
         allowed_methods = ['get']
-        fields = ['id',
-                  'title',
-                  'version',
-                  'shortname',
-                  'priority',
-                  'is_draft',
-                  'description',
-                  'author',
-                  'username',
-                  'organisation']
+        fields = ['shortname',
+                  'id',
+                  'structure']
         authentication = Authentication()
         authorization = Authorization()
         serializer = CourseJSONSerializer()
@@ -251,8 +245,26 @@ class CourseStructureResource(ModelResource):
                 raise MultipleObjectsReturned(
                     "More than one course with shortname '%s'." % (lookup))
 
-            bundle.obj = object_list[0]
-            self.authorized_read_detail(object_list, bundle)
-            return bundle.obj
+            return_obj = object_list[0]
         else:
-            return super().obj_get(bundle, **kwargs)
+            return_obj = super().obj_get(bundle, **kwargs)
+        
+        # check the module.xml is on disk
+        path = os.path.join(settings.MEDIA_ROOT,
+                            'courses',
+                            return_obj.shortname,
+                            'module.xml')
+        if not os.path.isfile(path):
+            raise self._meta.object_class.DoesNotExist()
+            
+        return return_obj
+        
+    def dehydrate(self, bundle):
+        path = os.path.join(settings.MEDIA_ROOT,
+                            'courses',
+                            bundle.obj.shortname,
+                            'module.xml')
+        with open(path) as fd:
+            doc = xmltodict.parse(fd.read())
+        bundle.data['structure'] = json.dumps(doc)
+        return bundle
