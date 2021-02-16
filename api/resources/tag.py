@@ -9,7 +9,7 @@ from tastypie.authorization import ReadOnlyAuthorization
 from tastypie.resources import ModelResource
 from tastypie.utils import trailing_slash
 
-from oppia.models import Course, Tag
+from oppia.models import Course, Category
 
 from api.resources.course import CourseResource
 
@@ -18,7 +18,7 @@ class TagResource(ModelResource):
     count = fields.IntegerField(readonly=True)
 
     class Meta:
-        queryset = Tag.objects.all()
+        queryset = Category.objects.all()
         resource_name = 'tag'
         allowed_methods = ['get']
         fields = ['id',

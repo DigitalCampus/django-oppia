@@ -7,7 +7,7 @@ from oppia.models import Course, \
                          Media, \
                          Cohort, \
                          CoursePermissions
-from oppia.models import Participant, Tag, CourseCategory
+from oppia.models import Participant, Category, CourseCategory
 from oppia.models import Badge, Award, Points, AwardCourse, BadgeMethod
 from oppia.models import CourseCohort, CoursePublishingLog
 
@@ -86,7 +86,7 @@ class AwardAdmin(admin.ModelAdmin):
 
 
 class CourseCategoryAdmin(admin.ModelAdmin):
-    list_display = ('course', 'tag')
+    list_display = ('course', 'category')
 
 
 class CoursePublishingLogAdmin(admin.ModelAdmin):
@@ -111,7 +111,7 @@ class SectionAdmin(admin.ModelAdmin):
     search_fields = ['title']
 
 
-class TagAdmin(admin.ModelAdmin):
+class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name',
                     'created_date',
                     'created_by',
@@ -135,7 +135,7 @@ admin.site.register(Media, MediaAdmin)
 admin.site.register(Participant, ParticipantAdmin)
 admin.site.register(Points, PointsAdmin)
 admin.site.register(Section, SectionAdmin)
-admin.site.register(Tag, TagAdmin)
+admin.site.register(Category, CategoryAdmin)
 admin.site.register(Tracker, TrackerAdmin)
 admin.site.register(CoursePermissions, CoursePermissionsAdmin)
 admin.site.register(CoursePublishingLog, CoursePublishingLogAdmin)

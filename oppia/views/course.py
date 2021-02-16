@@ -11,7 +11,7 @@ from django.views.generic import TemplateView, ListView, DetailView, FormView
 
 from helpers.mixins.AjaxTemplateResponseMixin import AjaxTemplateResponseMixin
 from oppia.forms.upload import UploadCourseStep1Form, UploadCourseStep2Form
-from oppia.models import Tag, \
+from oppia.models import Category, \
     CourseCategory, \
     CoursePublishingLog, \
     Course
