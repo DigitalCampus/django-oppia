@@ -23,6 +23,16 @@ from oppia.signals import course_downloaded
 
 STR_COURSE_NOT_FOUND = _(u"Course not found")
 
+def get_course_from_shortname(resource, bundle, lookup):
+    object_list = resource.apply_filters(bundle.request,
+                                    {'shortname': lookup})
+    if len(object_list) <= 0:
+        raise resource._meta.object_class.DoesNotExist(
+            "Couldn't find an course with shortname '%s'." % (lookup))
+    elif len(object_list) > 1:
+        raise MultipleObjectsReturned(
+            "More than one course with shortname '%s'." % (lookup))
+    return object_list
 
 class CourseResource(ModelResource):
 
@@ -54,17 +64,7 @@ class CourseResource(ModelResource):
         """
         lookup = kwargs[self._meta.detail_uri_name]
         if re.search('[a-zA-Z]', lookup):
-            # If the lookup parameter includes characters, we try to use it as
-            # a shortname
-            object_list = self.apply_filters(bundle.request,
-                                             {'shortname': lookup})
-            if len(object_list) <= 0:
-                raise self._meta.object_class.DoesNotExist(
-                    "Couldn't find an course with shortname '%s'." % (lookup))
-            elif len(object_list) > 1:
-                raise MultipleObjectsReturned(
-                    "More than one course with shortname '%s'." % (lookup))
-
+            object_list = get_course_from_shortname(self, bundle, lookup)
             bundle.obj = object_list[0]
             self.authorized_read_detail(object_list, bundle)
             return bundle.obj
@@ -234,17 +234,7 @@ class CourseStructureResource(ModelResource):
         """
         lookup = kwargs[self._meta.detail_uri_name]
         if re.search('[a-zA-Z]', lookup):
-            # If the lookup parameter includes characters, we try to use it as
-            # a shortname
-            object_list = self.apply_filters(bundle.request,
-                                             {'shortname': lookup})
-            if len(object_list) <= 0:
-                raise self._meta.object_class.DoesNotExist(
-                    "Couldn't find an course with shortname '%s'." % (lookup))
-            elif len(object_list) > 1:
-                raise MultipleObjectsReturned(
-                    "More than one course with shortname '%s'." % (lookup))
-
+            object_list = get_course_from_shortname(self, bundle, lookup)
             return_obj = object_list[0]
         else:
             return_obj = super().obj_get(bundle, **kwargs)
