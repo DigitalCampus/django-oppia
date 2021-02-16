@@ -11,7 +11,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 
-from oppia.models import Tag, CourseTag, CoursePublishingLog, CoursePermissions
+from oppia.models import Tag, CourseCategory, CoursePublishingLog, CoursePermissions
 from settings import constants
 from settings.models import SettingProperties
 from oppia.uploader import handle_uploaded_file, get_course_shortname
@@ -28,8 +28,8 @@ def add_course_tags(user, course, tags):
             tag.save()
         # add tag to course
         try:
-            ct = CourseTag.objects.get(course=course, tag=tag)
-        except CourseTag.DoesNotExist:
+            ct = CourseCategory.objects.get(course=course, tag=tag)
+        except CourseCategory.DoesNotExist:
             ct = CourseTag()
             ct.course = course
             ct.tag = tag
@@ -165,7 +165,7 @@ def publish_view(request):
         course.save()
 
         # remove any existing tags
-        CourseTag.objects.filter(course=course).delete()
+        CourseCategory.objects.filter(course=course).delete()
 
         # add tags
         tags = request.POST['tags'].strip().split(",")

@@ -11,7 +11,7 @@ class Tag(models.Model):
     name = models.TextField(blank=False)
     created_date = models.DateTimeField('date created', default=timezone.now)
     created_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    courses = models.ManyToManyField(Course, through='CourseTag')
+    courses = models.ManyToManyField(Course, through='CourseCategory')
     description = models.TextField(blank=True, null=True, default=None)
     order_priority = models.IntegerField(default=0)
     highlight = models.BooleanField(default=False)
@@ -28,10 +28,10 @@ class Tag(models.Model):
         return self.name
 
 
-class CourseTag(models.Model):
+class CourseCategory(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name = _('Course Tag')
-        verbose_name_plural = _('Course Tags')
+        verbose_name = _('Course Category')
+        verbose_name_plural = _('Course Categories')

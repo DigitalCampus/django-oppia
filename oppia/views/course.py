@@ -12,7 +12,7 @@ from django.views.generic import TemplateView, ListView, DetailView, FormView
 from helpers.mixins.AjaxTemplateResponseMixin import AjaxTemplateResponseMixin
 from oppia.forms.upload import UploadCourseStep1Form, UploadCourseStep2Form
 from oppia.models import Tag, \
-    CourseTag, \
+    CourseCategory, \
     CoursePublishingLog, \
     Course
 from oppia.permissions import can_edit_course, \

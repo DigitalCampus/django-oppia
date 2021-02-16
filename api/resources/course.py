@@ -18,7 +18,7 @@ from tastypie.resources import ModelResource
 from tastypie.utils import trailing_slash
 
 from api.serializers import CourseJSONSerializer
-from oppia.models import Tracker, Course, CourseTag
+from oppia.models import Tracker, Course, CourseCategory
 from oppia.signals import course_downloaded
 
 STR_COURSE_NOT_FOUND = _(u"Course not found")
@@ -202,7 +202,7 @@ class CourseTagResource(ModelResource):
                                full=True)
 
     class Meta:
-        queryset = CourseTag.objects.all()
+        queryset = CourseCategory.objects.all()
         allowed_methods = ['get']
         resource_name = 'coursetag'
         fields = ['id', 'course', 'tag']
