@@ -17,6 +17,7 @@ from api.resources.v2.register import RegisterResource as RegisterResourceV2
 from api.resources.reset_password import ResetPasswordResource
 from api.resources.tag import TagResource
 from api.resources.tracker import TrackerResource
+from api.resources.progress import UserCourseSummaryResource
 from quiz.api.resources import QuizAttemptResource
 
 
@@ -50,6 +51,7 @@ def get_api_v2():
     api.register(ProfileUpdateResource())
     api.register(QuizAttemptResource())
     api.register(CourseStructureResource())
+    api.register(UserCourseSummaryResource())
     return api
 
 

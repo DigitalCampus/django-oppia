@@ -1,0 +1,146 @@
+[
+{
+    "model": "summary.usercoursesummary",
+    "pk": 57,
+    "fields": {
+        "user": 3,
+        "course": 1,
+        "points": 0,
+        "total_downloads": 13,
+        "total_activity": 108,
+        "quizzes_passed": 0,
+        "badges_achieved": 0,
+        "pretest_score": null,
+        "media_viewed": 2,
+        "completed_activities": 0
+    }
+},
+{
+    "model": "summary.usercoursesummary",
+    "pk": 58,
+    "fields": {
+        "user": 4,
+        "course": 1,
+        "points": 30,
+        "total_downloads": 27,
+        "total_activity": 228,
+        "quizzes_passed": 0,
+        "badges_achieved": 0,
+        "pretest_score": null,
+        "media_viewed": 2,
+        "completed_activities": 0
+    }
+},
+{
+    "model": "summary.usercoursesummary",
+    "pk": 59,
+    "fields": {
+        "user": 1,
+        "course": 1,
+        "points": 0,
+        "total_downloads": 3,
+        "total_activity": 51,
+        "quizzes_passed": 0,
+        "badges_achieved": 0,
+        "pretest_score": null,
+        "media_viewed": 2,
+        "completed_activities": 0
+    }
+},
+{
+    "model": "summary.usercoursesummary",
+    "pk": 60,
+    "fields": {
+        "user": 2,
+        "course": 1,
+        "points": 0,
+        "total_downloads": 12,
+        "total_activity": 278,
+        "quizzes_passed": 0,
+        "badges_achieved": 0,
+        "pretest_score": null,
+        "media_viewed": 2,
+        "completed_activities": 0
+    }
+},
+{
+    "model": "summary.usercoursesummary",
+    "pk": 61,
+    "fields": {
+        "user": 1,
+        "course": 2,
+        "points": 0,
+        "total_downloads": 3,
+        "total_activity": 34,
+        "quizzes_passed": 0,
+        "badges_achieved": 0,
+        "pretest_score": null,
+        "media_viewed": 0,
+        "completed_activities": 0
+    }
+},
+{
+    "model": "summary.usercoursesummary",
+    "pk": 62,
+    "fields": {
+        "user": 2,
+        "course": 2,
+        "points": 0,
+        "total_downloads": 2,
+        "total_activity": 15,
+        "quizzes_passed": 0,
+        "badges_achieved": 0,
+        "pretest_score": null,
+        "media_viewed": 0,
+        "completed_activities": 0
+    }
+},
+{
+    "model": "summary.usercoursesummary",
+    "pk": 63,
+    "fields": {
+        "user": 4,
+        "course": 2,
+        "points": 0,
+        "total_downloads": 3,
+        "total_activity": 26,
+        "quizzes_passed": 0,
+        "badges_achieved": 0,
+        "pretest_score": null,
+        "media_viewed": 0,
+        "completed_activities": 0
+    }
+},
+{
+    "model": "summary.usercoursesummary",
+    "pk": 64,
+    "fields": {
+        "user": 3,
+        "course": 2,
+        "points": 0,
+        "total_downloads": 4,
+        "total_activity": 11,
+        "quizzes_passed": 0,
+        "badges_achieved": 0,
+        "pretest_score": null,
+        "media_viewed": 0,
+        "completed_activities": 0
+    }
+},
+{
+    "model": "summary.usercoursesummary",
+    "pk": 65,
+    "fields": {
+        "user": 2,
+        "course": 5,
+        "points": 0,
+        "total_downloads": 0,
+        "total_activity": 7,
+        "quizzes_passed": 2,
+        "badges_achieved": 0,
+        "pretest_score": null,
+        "media_viewed": 0,
+        "completed_activities": 7
+    }
+}
+]

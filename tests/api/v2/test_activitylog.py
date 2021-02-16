@@ -41,18 +41,16 @@ class UploadAPIActivityLogTest(ResourceTestCaseMixin, TestCase):
         self.assertEqual(405, response.status_code)
 
     def test_no_post(self):
-        data = {}
         response = self.api_client.post(self.url,
                                         format='json',
-                                        data=data)
+                                        data={})
         self.assertEqual(405, response.status_code)
 
     def test_no_data(self):
         # no file
-        data = {}
         response = self.api_client.patch(self.url,
                                          format='json',
-                                         data=data,
+                                         data={},
                                          authentication=self.get_credentials())
         self.assertEqual(400, response.status_code)
 
