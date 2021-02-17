@@ -35,7 +35,7 @@
 						{% if course.is_archived %}
 						    <span class="badge badge-dark ml-2">{% trans 'archived' %}</span>
 						{% endif %}<br/>
-						<small>{% trans 'Tags:' %} {{ course.get_tags }}</small>
+						<small>{% trans 'Categories:' %} {{ course.get_categories}}</small>
 						</td>
 						<td>{{ course.lastupdated_date }} </td>
 						<td>{{ course.total_downloads|default:0 }} downloads by {{ course.distinct_downloads|default:0 }} users<br/>

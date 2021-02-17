@@ -16,6 +16,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterModelOptions(
             name='coursecategory',
-            options={'verbose_name': 'Course Category', 'verbose_name_plural': 'Course Categories'},
+            options={'verbose_name': 'Course Category',
+                     'verbose_name_plural': 'Course Categories'},
         ),
     ]

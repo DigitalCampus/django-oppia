@@ -15,7 +15,7 @@ from api.resources.profile_update import ProfileUpdateResource
 from api.resources.v1.register import RegisterResource as RegisterResourceV1
 from api.resources.v2.register import RegisterResource as RegisterResourceV2
 from api.resources.reset_password import ResetPasswordResource
-from api.resources.tag import TagResource
+from api.resources.category import CategoryResource
 from api.resources.tracker import TrackerResource
 from api.resources.progress import UserCourseSummaryResource
 from quiz.api.resources import QuizAttemptResource
@@ -25,7 +25,7 @@ def get_api_v1():
     api = Api(api_name='v1')
     api.register(TrackerResource())
     api.register(CourseResource())
-    api.register(TagResource())
+    api.register(CategoryResource())
     api.register(PointsResource())
     api.register(AwardsResource())
     api.register(BadgesResource())
@@ -41,7 +41,7 @@ def get_api_v2():
     api = Api(api_name='v2')
     api.register(TrackerResource())
     api.register(CourseResource())
-    api.register(TagResource())
+    api.register(CategoryResource())
     api.register(PointsResource())
     api.register(AwardsResource())
     api.register(BadgesResource())

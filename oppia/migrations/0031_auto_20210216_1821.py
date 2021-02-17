@@ -6,6 +6,8 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
+    atomic = False
+    
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('oppia', '0030_auto_20210216_1816'),
@@ -18,6 +20,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterModelOptions(
             name='category',
-            options={'verbose_name': 'Category', 'verbose_name_plural': 'Categories'},
+            options={'verbose_name': 'Category',
+                     'verbose_name_plural': 'Categories'},
         ),
     ]

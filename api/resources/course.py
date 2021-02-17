@@ -196,7 +196,7 @@ class CourseResource(ModelResource):
         return bundle
 
 
-class CourseTagResource(ModelResource):
+class CourseCategoryResource(ModelResource):
     course = fields.ToOneField('api.resource.course.CourseResource',
                                'course',
                                full=True)
@@ -205,7 +205,7 @@ class CourseTagResource(ModelResource):
         queryset = CourseCategory.objects.all()
         allowed_methods = ['get']
         resource_name = 'coursetag'
-        fields = ['id', 'course', 'tag']
+        fields = ['id', 'course', 'category']
         include_resource_uri = False
         authentication = ApiKeyAuthentication()
         authorization = ReadOnlyAuthorization()

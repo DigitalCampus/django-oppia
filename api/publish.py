@@ -17,23 +17,23 @@ from settings.models import SettingProperties
 from oppia.uploader import handle_uploaded_file, get_course_shortname
 
 
-def add_course_tags(user, course, tags):
-    for t in tags:
+def add_course_categories(user, course, categories):
+    for c in categories:
         try:
-            tag = Category.objects.get(name__iexact=t.strip())
+            category = Category.objects.get(name__iexact=c.strip())
         except Category.DoesNotExist:
-            tag = Category()
-            tag.name = t.strip()
-            tag.created_by = user
-            tag.save()
+            category = Category()
+            category.name = c.strip()
+            category.created_by = user
+            category.save()
         # add tag to course
         try:
-            ct = CourseCategory.objects.get(course=course, tag=tag)
+            cc = CourseCategory.objects.get(course=course, category=category)
         except CourseCategory.DoesNotExist:
-            ct = CourseTag()
-            ct.course = course
-            ct.tag = tag
-            ct.save()
+            cc = CourseCategory()
+            cc.course = course
+            cc.category = category
+            cc.save()
 
 
 def check_required_fields(request, validation_errors):
@@ -168,8 +168,8 @@ def publish_view(request):
         CourseCategory.objects.filter(course=course).delete()
 
         # add tags
-        tags = request.POST['tags'].strip().split(",")
-        add_course_tags(user, course, tags)
+        categories = request.POST['tags'].strip().split(",")
+        add_course_categories(user, course, categories)
 
         msgs = get_messages_array(request)
         CoursePublishingLog(course=course,

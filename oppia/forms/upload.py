@@ -65,12 +65,12 @@ class UploadCourseStep1Form(forms.Form):
 
 
 class UploadCourseStep2Form(forms.Form):
-    tags = forms.CharField(
-                help_text=_("A comma separated list of tags to help classify \
+    categories = forms.CharField(
+                help_text=_("A comma separated list of categories to help classify \
                             your course"),
                 required=True,
                 error_messages={'required':
-                                _('Please enter at least one tag')})
+                                _('Please enter at least one category')})
     is_draft = forms.BooleanField(
                 help_text=_("Whether this course is only a draft"),
                 required=False, )
@@ -82,7 +82,7 @@ class UploadCourseStep2Form(forms.Form):
         self.helper.label_class = 'col-lg-2'
         self.helper.field_class = 'col-lg-4'
         self.helper.layout = Layout(
-                'tags',
+                'categories',
                 'is_draft',
                 Div(
                    Submit('submit', _(u'Save'), css_class='btn btn-default'),

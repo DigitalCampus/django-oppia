@@ -16,15 +16,15 @@
 {% block content %}
 
 <div class="form-row align-items-center">
-{% if tag_list %}
+{% if category_list %}
 	<div class="col-auto mr-3 py-2">
 	<form method="post" class="inline-form">
-    <em class="fas fa-tags mr-1 text-primary"></em> {% trans 'Filter by tag: ' %}
+    <em class="fas fa-tags mr-1 text-primary"></em> {% trans 'Filter by category: ' %}
 	<select class="form-control" name="tag" id="course-tag-filter">
 		<option value="{% url 'oppia:course' %}">{% trans 'All courses' %}</option>
-		{% for tag in tag_list %}
-		 		<option value="{% url 'oppia:tag_courses' tag.id %}" {% if current_tag|slugify == tag.id|slugify %}selected="selected"{% endif %}>
-		 			{{ tag.name }}
+		{% for category in category_list %}
+		 		<option value="{% url 'oppia:category_courses' category.id %}" {% if current_category|slugify == category.id|slugify %}selected="selected"{% endif %}>
+		 			{{ category.name }}
 		 		</option>
 		{% endfor %}
 	</select>

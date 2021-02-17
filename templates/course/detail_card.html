@@ -10,7 +10,7 @@
         <span class="badge badge-dark badge-sm ml-2"><small>{% trans 'archived' %}</small></span>
     {% endif %}
     </h6>
-    <h6 class="card-subtitle mb-2 text-muted"><em>{% trans 'Tags:' %} {{ course.get_tags}}</em></h6>
+    <h6 class="card-subtitle mb-2 text-muted"><em>{% trans 'Categories:' %} {{ course.get_categories}}</em></h6>
 </div>
 {% if course.description or extended %}
 <div class="card-body">

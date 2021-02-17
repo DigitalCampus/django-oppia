@@ -68,7 +68,7 @@
     }
 },
 {
-    "model": "oppia.tag",
+    "model": "oppia.category",
     "pk": 1,
     "fields": {
         "name": "HEAT",
@@ -81,7 +81,7 @@
     }
 },
 {
-    "model": "oppia.tag",
+    "model": "oppia.category",
     "pk": 2,
     "fields": {
         "name": "ANC",
@@ -94,7 +94,7 @@
     }
 },
 {
-    "model": "oppia.tag",
+    "model": "oppia.category",
     "pk": 3,
     "fields": {
         "name": "Antenatal Care",
@@ -107,7 +107,7 @@
     }
 },
 {
-    "model": "oppia.tag",
+    "model": "oppia.category",
     "pk": 4,
     "fields": {
         "name": "NCD",
@@ -120,7 +120,7 @@
     }
 },
 {
-    "model": "oppia.tag",
+    "model": "oppia.category",
     "pk": 5,
     "fields": {
         "name": "reference",
@@ -133,51 +133,51 @@
     }
 },
 {
-    "model": "oppia.coursetag",
+    "model": "oppia.coursecategory",
     "pk": 1,
     "fields": {
         "course": 1,
-        "tag": 1
+        "category": 1
     }
 },
 {
-    "model": "oppia.coursetag",
+    "model": "oppia.coursecategory",
     "pk": 2,
     "fields": {
         "course": 1,
-        "tag": 2
+        "category": 2
     }
 },
 {
-    "model": "oppia.coursetag",
+    "model": "oppia.coursecategory",
     "pk": 3,
     "fields": {
         "course": 1,
-        "tag": 3
+        "category": 3
     }
 },
 {
-    "model": "oppia.coursetag",
+    "model": "oppia.coursecategory",
     "pk": 4,
     "fields": {
         "course": 2,
-        "tag": 1
+        "category": 1
     }
 },
 {
-    "model": "oppia.coursetag",
+    "model": "oppia.coursecategory",
     "pk": 5,
     "fields": {
         "course": 2,
-        "tag": 4
+        "category": 4
     }
 },
 {
-    "model": "oppia.coursetag",
+    "model": "oppia.coursecategory",
     "pk": 6,
     "fields": {
         "course": 4,
-        "tag": 5
+        "category": 5
     }
 },
 {
