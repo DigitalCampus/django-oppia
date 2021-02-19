@@ -134,7 +134,7 @@ def publish_view(request):
             and user.userprofile.can_upload is False \
             and course_manager == 0:
         msg_text = \
-                _(u"Sorry, only the original owner may update this course")
+                _(u"Sorry, you do not have permissions to update this course.")
         messages.info(request, msg_text)
         CoursePublishingLog(user=user if user else None,
                             action="permissions_error",

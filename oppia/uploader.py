@@ -163,7 +163,7 @@ def process_course(extract_path, f, mod_name, request, user):
         # check that the current user is allowed to wipe out the other course
         if course.user != user and course_manager == 0:
             msg_text = \
-                _(u"Sorry, only the original owner may update this course")
+                _(u"Sorry, you do not have permissions to update this course.")
             messages.info(request, msg_text)
             CoursePublishingLog(course=course,
                                 new_version=meta_info['versionid'],
