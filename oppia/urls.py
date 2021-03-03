@@ -25,9 +25,9 @@ urlpatterns = [
          name="upload_success"),
 
     path('course/', views.CourseListView.as_view(), name="course"),
-    path('course/tag/<int:tag_id>',
+    path('course/category/<int:category_id>',
          views.CourseListView.as_view(),
-         name="tag_courses"),
+         name="category_courses"),
     path('course/<int:course_id>/',
          views.CourseActivityDetail.as_view(),
          name="recent_activity"),

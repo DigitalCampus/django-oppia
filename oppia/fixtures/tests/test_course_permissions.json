@@ -114,7 +114,7 @@
     }
 },
 {
-    "model": "oppia.tag",
+    "model": "oppia.category",
     "pk": 8,
     "fields": {
         "name": "draft",
@@ -127,20 +127,20 @@
     }
 },
 {
-    "model": "oppia.coursetag",
+    "model": "oppia.coursecategory",
     "pk": 13,
     "fields": {
         "course": 3,
-        "tag": 8
+        "category": 8
     }
 }
 ,
 {
-    "model": "oppia.coursetag",
+    "model": "oppia.coursecategory",
     "pk": 14,
     "fields": {
         "course": 3,
-        "tag": 1
+        "category": 1
     }
 }
 

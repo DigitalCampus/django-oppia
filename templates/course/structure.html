@@ -19,7 +19,7 @@
 			{% if course.is_archived %}
 				<span class="badge badge-dark ml-2"><small>{% trans 'archived' %}</small></span>
 			{% endif %}
-				<em>{% trans 'Tags:' %} {{ course.get_tags}}</em></p>
+				<em>{% trans 'Categories:' %} {{ course.get_categories}}</em></p>
 		</div>
 		<div class="col-lg-3 text-right">
 			<a href="#" class="btn btn-secondary mr-2 mb-3" id="collapse-all"><span class="material-icons mr-2">unfold_less</span> {% trans 'Collapse all' %}</a>

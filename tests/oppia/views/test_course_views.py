@@ -15,7 +15,7 @@ class CourseViewsTest(OppiaTestCase):
     course_list_template = 'course/list.html'
     course_export_template = 'course/export.html'
 
-    STR_URL_TAG_COURSES = 'oppia:tag_courses'
+    STR_URL_TAG_COURSES = 'oppia:category_courses'
     STR_URL_COURSE_EXPORTS = 'oppia:course_data_exports'
 
     def test_tag_view(self):

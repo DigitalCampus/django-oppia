@@ -24,7 +24,7 @@
 {% if item.is_archived %}
     <span class="badge badge-dark ml-2">{% trans 'archived' %}</span>
 {% endif %}<br/>
-<small>{% trans 'Tags:' %} {{ item.get_tags }}</small>
+<small>{% trans 'Categories:' %} {{ item.get_categories }}</small>
 </td>
 <td>{{ item.lastupdated_date }} </td>
 <td>{{ item.total_downloads|default:0 }} downloads by {{ item.distinct_downloads|default:0 }} users<br/>

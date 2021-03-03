@@ -11,8 +11,8 @@ from django.views.generic import TemplateView, ListView, DetailView, FormView
 
 from helpers.mixins.AjaxTemplateResponseMixin import AjaxTemplateResponseMixin
 from oppia.forms.upload import UploadCourseStep1Form, UploadCourseStep2Form
-from oppia.models import Tag, \
-    CourseTag, \
+from oppia.models import Category, \
+    CourseCategory, \
     CoursePublishingLog, \
     Course
 from oppia.permissions import can_edit_course, \
@@ -44,14 +44,14 @@ class CourseListView(ListView, AjaxTemplateResponseMixin):
         elif course_filter == 'live':
             courses = courses.filter(is_archived=False, is_draft=False)
 
-        tag = self.get_current_tag()
-        if tag is not None:
-            courses = courses.filter(coursetag__tag__pk=tag)
+        category = self.get_current_category()
+        if category is not None:
+            courses = courses.filter(coursecategory__category__pk=category)
 
         return courses
 
-    def get_current_tag(self):
-        return self.kwargs['tag_id'] if 'tag_id' in self.kwargs else None
+    def get_current_category(self):
+        return self.kwargs['category_id'] if 'category_id' in self.kwargs else None
 
     def get_ordering(self):
         return self.request.GET.get('order_by', self.default_order)
@@ -80,10 +80,10 @@ class CourseListView(ListView, AjaxTemplateResponseMixin):
                     course_stats.remove(stats)
 
         context['page_ordering'] = self.get_ordering()
-        context['tag_list'] = Tag.objects.all() \
-            .exclude(coursetag=None) \
+        context['category_list'] = Category.objects.all() \
+            .exclude(coursecategory=None) \
             .order_by('name')
-        context['current_tag'] = self.get_current_tag()
+        context['current_category'] = self.get_current_category()
         context['course_filter'] = self.get_filter()
 
         return context
@@ -148,7 +148,7 @@ class CourseFormView(CanEditCoursePermission, FormView):
         return super().dispatch(request, *args, **kwargs)
 
     def get_initial(self):
-        return {'tags': self.course.get_tags(),
+        return {'categories': self.course.get_categories(),
                 'is_draft': self.course.is_draft, }
 
     def form_valid(self, form):
@@ -161,24 +161,24 @@ class CourseFormView(CanEditCoursePermission, FormView):
         return context
 
     def update_course_tags(self, form, course, user):
-        tags = form.cleaned_data.get("tags", "").strip().split(",")
+        categories = form.cleaned_data.get("categories", "").strip().split(",")
         is_draft = form.cleaned_data.get("is_draft")
         course.is_draft = is_draft
         course.save()
         # remove any existing tags
-        CourseTag.objects.filter(course=course).delete()
+        CourseCategory.objects.filter(course=course).delete()
         # now add the new ones
-        for t in tags:
-            tag, created = Tag.objects.get_or_create(name=t.strip())
+        for c in categories:
+            category, created = Category.objects.get_or_create(name=c.strip())
             if created:
-                tag.created_by = user
-                tag.save()
+                category.created_by = user
+                category.save()
             # add tag to course
-            if not CourseTag.objects.filter(course=course, tag=tag).exists():
-                ct = CourseTag()
-                ct.course = course
-                ct.tag = tag
-                ct.save()
+            if not CourseCategory.objects.filter(course=course, category=category).exists():
+                cc = CourseCategory()
+                cc.course = course
+                cc.category = category
+                cc.save()
 
 
 class EditCourse(CourseFormView):

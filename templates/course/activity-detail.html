@@ -31,7 +31,7 @@
 			{% endif %}
 				<em class="material-icons md-18 ">arrow_forward_ios</em>  {% trans 'Detail activity' %}
 			</h3>
-			<p><em>{% trans 'Tags:' %} {{ course.get_tags}}</em></p>
+			<p><em>{% trans 'Categories:' %} {{ course.get_categories}}</em></p>
 		</div>
 		<div class="col-md-6">
 			{% include "common/form/date-range.html" with dateform=form %}

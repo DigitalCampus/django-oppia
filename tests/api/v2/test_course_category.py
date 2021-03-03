@@ -3,10 +3,9 @@ from django.test import TestCase
 from tastypie.test import ResourceTestCaseMixin
 
 
-# CourseTagResource
-class CourseTagResourceTest(ResourceTestCaseMixin, TestCase):
+class CourseCategoryResourceTest(ResourceTestCaseMixin, TestCase):
     def setUp(self):
-        super(CourseTagResourceTest, self).setUp()
+        super(CourseCategoryResourceTest, self).setUp()
         self.url = '/api/v1/coursetag/'
 
     # check get not allowed

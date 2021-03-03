@@ -130,13 +130,13 @@ class Course(models.Model):
                                        type=Activity.QUIZ)
         return quiz
 
-    def get_tags(self):
-        from oppia.models import Tag
-        tags = Tag.objects.filter(coursetag__course=self)
-        tag_str = ""
-        for t in tags:
-            tag_str = tag_str + t.name + ", "
-        return tag_str[:-2]
+    def get_categories(self):
+        from oppia.models import Category
+        categories = Category.objects.filter(coursecategory__course=self)
+        category_str = ""
+        for c in categories:
+            category_str = category_str + c.name + ", "
+        return category_str[:-2]
 
     def sections(self):
         sections = Section.objects.filter(course=self).order_by('order')

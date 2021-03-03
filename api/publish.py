@@ -11,29 +11,29 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 
-from oppia.models import Tag, CourseTag, CoursePublishingLog, CoursePermissions
+from oppia.models import Category, CourseCategory, CoursePublishingLog, CoursePermissions
 from settings import constants
 from settings.models import SettingProperties
 from oppia.uploader import handle_uploaded_file, get_course_shortname
 
 
-def add_course_tags(user, course, tags):
-    for t in tags:
+def add_course_categories(user, course, categories):
+    for c in categories:
         try:
-            tag = Tag.objects.get(name__iexact=t.strip())
-        except Tag.DoesNotExist:
-            tag = Tag()
-            tag.name = t.strip()
-            tag.created_by = user
-            tag.save()
+            category = Category.objects.get(name__iexact=c.strip())
+        except Category.DoesNotExist:
+            category = Category()
+            category.name = c.strip()
+            category.created_by = user
+            category.save()
         # add tag to course
         try:
-            ct = CourseTag.objects.get(course=course, tag=tag)
-        except CourseTag.DoesNotExist:
-            ct = CourseTag()
-            ct.course = course
-            ct.tag = tag
-            ct.save()
+            cc = CourseCategory.objects.get(course=course, category=category)
+        except CourseCategory.DoesNotExist:
+            cc = CourseCategory()
+            cc.course = course
+            cc.category = category
+            cc.save()
 
 
 def check_required_fields(request, validation_errors):
@@ -165,11 +165,11 @@ def publish_view(request):
         course.save()
 
         # remove any existing tags
-        CourseTag.objects.filter(course=course).delete()
+        CourseCategory.objects.filter(course=course).delete()
 
         # add tags
-        tags = request.POST['tags'].strip().split(",")
-        add_course_tags(user, course, tags)
+        categories = request.POST['tags'].strip().split(",")
+        add_course_categories(user, course, categories)
 
         msgs = get_messages_array(request)
         CoursePublishingLog(course=course,

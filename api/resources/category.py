@@ -9,16 +9,16 @@ from tastypie.authorization import ReadOnlyAuthorization
 from tastypie.resources import ModelResource
 from tastypie.utils import trailing_slash
 
-from oppia.models import Course, Tag
+from oppia.models import Course, Category
 
 from api.resources.course import CourseResource
 
 
-class TagResource(ModelResource):
+class CategoryResource(ModelResource):
     count = fields.IntegerField(readonly=True)
 
     class Meta:
-        queryset = Tag.objects.all()
+        queryset = Category.objects.all()
         resource_name = 'tag'
         allowed_methods = ['get']
         fields = ['id',
@@ -34,20 +34,20 @@ class TagResource(ModelResource):
 
     def get_object_list(self, request):
         if request.user.is_staff:
-            return Tag.objects.filter(
+            return Category.objects.filter(
                 courses__isnull=False,
-                coursetag__course__is_archived=False).distinct().order_by(
+                coursecategory__course__is_archived=False).distinct().order_by(
                     '-order_priority', 'name')
         else:
-            return Tag.objects.filter(
+            return Category.objects.filter(
                                       courses__isnull=False,
-                                      coursetag__course__is_archived=False) \
+                                      coursecategory__course__is_archived=False) \
                 .filter(
-                        Q(coursetag__course__is_draft=False) |
-                        (Q(coursetag__course__is_draft=True)
-                         & Q(coursetag__course__user=request.user)) |
-                        (Q(coursetag__course__is_draft=True)
-                         & Q(coursetag__course__coursepermissions__user=
+                        Q(coursecategory__course__is_draft=False) |
+                        (Q(coursecategory__course__is_draft=True)
+                         & Q(coursecategory__course__user=request.user)) |
+                        (Q(coursecategory__course__is_draft=True)
+                         & Q(coursecategory__course__coursepermissions__user=
                              request.user))
                         ) \
                 .distinct().order_by('-order_priority', 'name')
@@ -66,16 +66,16 @@ class TagResource(ModelResource):
 
         pk = kwargs.pop('pk', None)
         try:
-            tag = self._meta.queryset.get(pk=pk)
-        except Tag.DoesNotExist:
+            category = self._meta.queryset.get(pk=pk)
+        except Category.DoesNotExist:
             raise Http404()
 
         if request.user.is_staff:
             courses = Course.objects.filter(
-                tag=tag,
+                category=category,
                 is_archived=False).order_by('-priority', 'title')
         else:
-            courses = Course.objects.filter(tag=tag,
+            courses = Course.objects.filter(category=category,
                                             is_archived=False) \
                         .filter(
                                 Q(is_draft=False) |
@@ -96,12 +96,12 @@ class TagResource(ModelResource):
             content=json.dumps({'id': pk,
                                 'count': courses.count(),
                                 'courses': course_data,
-                                'name': tag.name}),
+                                'name': category.name}),
             content_type="application/json; charset=utf-8")
         return response
 
     def dehydrate_count(self, bundle):
-        tmp = Course.objects.filter(tag__id=bundle.obj.id, is_archived=False)
+        tmp = Course.objects.filter(category__id=bundle.obj.id, is_archived=False)
         if bundle.request.user.is_staff:
             count = tmp.count()
         else:

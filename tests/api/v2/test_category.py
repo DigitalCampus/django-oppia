@@ -7,19 +7,19 @@ from tastypie.test import ResourceTestCaseMixin
 from tests.utils import get_api_key, get_api_url
 
 
-class TagResourceTest(ResourceTestCaseMixin, TestCase):
+class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json']
 
     def setUp(self):
-        super(TagResourceTest, self).setUp()
+        super(CategoryResourceTest, self).setUp()
         user = User.objects.get(username='demo')
         api_key = get_api_key(user=user)
         self.auth_data = {
             'username': 'demo',
             'api_key': api_key.key,
         }
-        self.url = get_api_url('v1', 'tag')
+        self.url = get_api_url('v2', 'tag')
 
     # Post invalid
     def test_post_invalid(self):
@@ -42,7 +42,7 @@ class TagResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertHttpOK(resp)
 
     # test valid json response and with 5 tags
-    def test_has_tags(self):
+    def test_has_categories(self):
         resp = self.api_client.get(
             self.url, format='json', data=self.auth_data)
         self.assertHttpOK(resp)
@@ -62,8 +62,8 @@ class TagResourceTest(ResourceTestCaseMixin, TestCase):
             self.assertTrue(len(tag['name']) > 0)
 
     # test getting a listing of courses for one of the tags
-    def test_tag_list(self):
-        resource_url = get_api_url('v1', 'tag', 2)
+    def test_category_list(self):
+        resource_url = get_api_url('v2', 'tag', 2)
         resp = self.api_client.get(resource_url,
                                    format='json',
                                    data=self.auth_data)
@@ -82,12 +82,9 @@ class TagResourceTest(ResourceTestCaseMixin, TestCase):
             self.assertTrue('version' in course)
 
     # test getting listing of courses for an invalid tag
-    def test_tag_not_found(self):
-        resource_url = get_api_url('v1', 'tag', 999)
+    def test_category_not_found(self):
+        resource_url = get_api_url('v2', 'tag', 999)
         resp = self.api_client.get(resource_url,
                                    format='json',
                                    data=self.auth_data)
         self.assertHttpNotFound(resp)
-
-    # TODO check tags and permissions - so only tags that have course the user
-    # is allowed to view will appear
