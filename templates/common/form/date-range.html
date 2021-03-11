@@ -5,7 +5,6 @@
     {% endif %}
 {% endif %}
 
-<input type="hidden" name="daterange_action" value="process_form" />
 <div class="date-picker-selector" data-drop="{{ drop|default:'down' }}">
     <div class="d-{% if dateform.interval %}inline-{% endif %}flex flex-row" data-type="range">
         <div class="hidden">
@@ -16,7 +15,7 @@
         <div class="form-group w-100">
             <label>Date range</label>
             <div class="input-group ">
-          <input class="form-control daterange" type="text" name="date_range" placeholder="From -- To...">
+          <input class="form-control daterange" type="text" placeholder="From -- To...">
             {% if dateform.interval %}
               <span class="input-group-btn">
                 <button class="btn btn-flat narrow" type="button"><em class="material-icons">event</em></button>

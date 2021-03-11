@@ -37,23 +37,22 @@ class CourseActivityDetail(DetailView):
             days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
         end_date = timezone.now()
         interval = 'days'
+        initial = {'start_date': start_date, 'end_date': end_date, 'interval': interval}
 
-        if 'daterange_action' in self.request.GET:
-            form = DateRangeIntervalForm(self.request.GET)
-            if form.is_valid():
-                start_date = timezone.make_aware(
-                    datetime.datetime.strptime(
-                        form.cleaned_data.get("start_date"),
-                        constants.STR_DATE_FORMAT),
-                    timezone.get_current_timezone())
-                end_date = timezone.make_aware(
-                    datetime.datetime.strptime(
-                        form.cleaned_data.get("end_date"),
-                        constants.STR_DATE_FORMAT),
-                    timezone.get_current_timezone())
-                interval = form.cleaned_data.get("interval")
-        else:
-            form = DateRangeIntervalForm(initial={'start_date':start_date, 'end_date':end_date, 'interval':interval})
+        initial.update(self.request.GET.dict())
+        if isinstance(initial['interval'], list):
+            initial['interval'] = initial['interval'][0]
+
+        form = DateRangeIntervalForm(initial)
+        if form.is_valid():
+            start_date = timezone.make_aware(
+                datetime.datetime.strptime( form.cleaned_data.get("start_date"), constants.STR_DATE_FORMAT),
+                timezone.get_current_timezone())
+            end_date = timezone.make_aware(
+                datetime.datetime.strptime(form.cleaned_data.get("end_date"), constants.STR_DATE_FORMAT),
+                timezone.get_current_timezone())
+            interval = form.cleaned_data.get("interval")
+
 
         form.form_method = 'get'
         context['form'] = form
@@ -93,66 +92,52 @@ class CourseActivityDetail(DetailView):
 
 
 
-class CourseRecentActivityDetail(TemplateView):
+class CourseRecentActivityDetail(DetailView):
 
-    def get(self, request, course_id):
-        course = can_view_course_detail(request, course_id)
+    template_name = 'course/activity-detail.html'
+    pk_url_kwarg = 'course_id'
+    context_object_name = 'course'
+    model = Course
 
-        start_date = timezone.now() - datetime.timedelta(
-            days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        can_view_course_detail(self.request, self.object.id)
+
+        start_date = timezone.now() - datetime.timedelta(days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
         end_date = timezone.now()
+        initial = { 'start_date': start_date, 'end_date': end_date }
+        initial.update(self.request.GET.dict())
 
-        data = {}
-        data['start_date'] = start_date
-        data['end_date'] = end_date
-        form = DateRangeForm(initial=data)
-
-        return self.process(request,
-                            course,
-                            form,
-                            start_date,
-                            end_date)
-
-    def post(self, request, course_id):
-        course = can_view_course_detail(request, course_id)
-
-        form = DateRangeForm(request.POST)
+        form = DateRangeForm(initial)
         if form.is_valid():
             start_date = timezone.make_aware(
-                datetime.datetime.strptime(
-                    form.cleaned_data.get("start_date"),
-                    constants.STR_DATE_FORMAT),
+                datetime.datetime.strptime( form.cleaned_data.get("start_date"), constants.STR_DATE_FORMAT),
                 timezone.get_current_timezone())
             end_date = timezone.make_aware(
-                datetime.datetime.strptime(
-                    form.cleaned_data.get("end_date"),
-                    constants.STR_DATE_FORMAT),
+                datetime.datetime.strptime(form.cleaned_data.get("end_date"), constants.STR_DATE_FORMAT),
                 timezone.get_current_timezone())
         else:
-            start_date = timezone.now() - datetime.timedelta(
-                days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
-            end_date = timezone.now()
+            print(form.errors)
 
-        return self.process(request,
-                            course,
-                            form,
-                            start_date,
-                            end_date)
+        form.form_method = 'get'
+        context['form'] = form
+        context['page'] = self.get_activitylogs_page(start_date, end_date)
+        return context
 
-    def process(self, request, course, form, start_date, end_date):
-        data = {}
-        data['start_date'] = start_date
-        data['end_date'] = end_date
-        trackers = Tracker.objects.filter(course=course,
+
+    def get_activitylogs_page(self, start_date, end_date):
+
+        print(start_date)
+        trackers = Tracker.objects.filter(course=self.object,
                                           tracker_date__gte=start_date,
                                           tracker_date__lte=end_date) \
                           .order_by('-tracker_date')
 
-        paginator = Paginator(trackers,
-                              constants.LEADERBOARD_TABLE_RESULTS_PER_PAGE)
+        paginator = Paginator(trackers, constants.LEADERBOARD_TABLE_RESULTS_PER_PAGE)
         # Make sure page request is an int. If not, deliver first page.
         try:
-            page = int(request.GET.get('page', '1'))
+            page = int(self.request.GET.get('page', '1'))
         except ValueError:
             page = 1
 
@@ -160,6 +145,7 @@ class CourseRecentActivityDetail(TemplateView):
         try:
             tracks = paginator.page(page)
             for t in tracks:
+
                 t.data_obj = []
                 try:
                     data_dict = json.loads(t.data)
@@ -172,10 +158,9 @@ class CourseRecentActivityDetail(TemplateView):
         except (EmptyPage, InvalidPage):
             tracks = paginator.page(paginator.num_pages)
 
-        return render(request, 'course/activity-detail.html',
-                      {'course': course,
-                       'form': form,
-                       'page': tracks, })
+
+
+        return tracks
 
 
 class ExportCourseTrackers(TemplateView):
