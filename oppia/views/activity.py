@@ -8,11 +8,11 @@ from django.db.models.functions import TruncDay, TruncMonth, TruncYear
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils import timezone
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DetailView
 
 from helpers.forms.dates import DateRangeIntervalForm, DateRangeForm
 from oppia import constants
-from oppia.models import Points
+from oppia.models import Points, Course
 from oppia.models import Tracker
 from oppia.permissions import can_view_course_detail
 from oppia.views.utils import generate_graph_data
@@ -20,94 +20,77 @@ from reports.signals import dashboard_accessed
 from summary.models import CourseDailyStats, UserCourseSummary
 
 
-class CourseActivityDetail(TemplateView):
+class CourseActivityDetail(DetailView):
 
-    def get(self, request, course_id):
+    template_name = 'course/detail.html'
+    pk_url_kwarg = 'course_id'
+    context_object_name = 'course'
+    model = Course
 
-        course = can_view_course_detail(request, course_id)
+    def get_context_data(self, **kwargs):
 
-        dashboard_accessed.send(sender=None, request=request, data=course)
+        context = super().get_context_data(**kwargs)
+        can_view_course_detail(self.request, self.object.id)
+        dashboard_accessed.send(sender=None, request=self.request, data=self.object)
 
         start_date = timezone.now() - datetime.timedelta(
             days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
         end_date = timezone.now()
         interval = 'days'
 
-        return self.process(request, course, start_date, end_date, interval)
-
-    def post(self, request, course_id):
-
-        course = can_view_course_detail(request, course_id)
-
-        dashboard_accessed.send(sender=None, request=request, data=course)
-
-        form = DateRangeIntervalForm(request.POST)
-        if form.is_valid():
-            start_date = timezone.make_aware(
-                datetime.datetime.strptime(
-                    form.cleaned_data.get("start_date"),
-                    constants.STR_DATE_FORMAT),
-                timezone.get_current_timezone())
-            end_date = timezone.make_aware(
-                datetime.datetime.strptime(
-                    form.cleaned_data.get("end_date"),
-                    constants.STR_DATE_FORMAT),
-                timezone.get_current_timezone())
-            interval = form.cleaned_data.get("interval")
+        if 'daterange_action' in self.request.GET:
+            form = DateRangeIntervalForm(self.request.GET)
+            if form.is_valid():
+                start_date = timezone.make_aware(
+                    datetime.datetime.strptime(
+                        form.cleaned_data.get("start_date"),
+                        constants.STR_DATE_FORMAT),
+                    timezone.get_current_timezone())
+                end_date = timezone.make_aware(
+                    datetime.datetime.strptime(
+                        form.cleaned_data.get("end_date"),
+                        constants.STR_DATE_FORMAT),
+                    timezone.get_current_timezone())
+                interval = form.cleaned_data.get("interval")
         else:
-            start_date = timezone.now() - datetime.timedelta(
-                days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
-            end_date = timezone.now()
-            interval = 'days'
+            form = DateRangeIntervalForm(initial={'start_date':start_date, 'end_date':end_date, 'interval':interval})
 
-        return self.process(request, course, start_date, end_date, interval)
+        form.form_method = 'get'
+        context['form'] = form
+        context['monthly'] = interval == 'months'
 
-    def process(self, request, course, start_date, end_date, interval):
-
-        download_stats = UserCourseSummary.objects \
-            .filter(course=course.id) \
+        context['download_stats'] = UserCourseSummary.objects \
+            .filter(course=self.object.id) \
             .aggregated_stats('total_downloads', single=True)
 
-        data = {}
-        data['start_date'] = start_date
-        data['end_date'] = end_date
-        data['interval'] = interval
-        form = DateRangeIntervalForm(initial=data)
+        context['leaderboard'] = Points.get_leaderboard(
+            constants.LEADERBOARD_HOMEPAGE_RESULTS_PER_PAGE, self.object)
 
-        dates = []
+        context['data'] = self.get_activity(start_date, end_date, interval)
+
+        return context
+
+
+    def get_activity(self, start_date, end_date, interval):
         if interval == 'days':
-            daily_stats = CourseDailyStats.objects.filter(course=course,
-                                                          day__gte=start_date,
-                                                          day__lte=end_date) \
-                            .annotate(stat_date=TruncDay('day')) \
-                            .values('stat_date', 'type') \
-                            .annotate(total=Sum('total'))
+            daily_stats = CourseDailyStats.objects\
+                .filter(course=self.object, day__gte=start_date, day__lte=end_date) \
+                .annotate(stat_date=TruncDay('day')) \
+                .values('stat_date', 'type') \
+                .annotate(total=Sum('total'))
 
-            dates = generate_graph_data(daily_stats, False)
+            return generate_graph_data(daily_stats, False)
 
         else:
             monthly_stats = CourseDailyStats.objects \
-                .filter(course=course,
-                        day__gte=start_date,
-                        day__lte=end_date) \
-                .annotate(month=TruncMonth('day'),
-                          year=TruncYear('day')) \
+                .filter(course=self.object, day__gte=start_date, day__lte=end_date) \
+                .annotate(month=TruncMonth('day'), year=TruncYear('day')) \
                 .values('month', 'year', 'type') \
                 .annotate(total=Sum('total')) \
                 .order_by('year', 'month')
 
-            dates = generate_graph_data(monthly_stats, True)
+            return generate_graph_data(monthly_stats, True)
 
-        leaderboard = Points.get_leaderboard(
-            constants.LEADERBOARD_HOMEPAGE_RESULTS_PER_PAGE, course)
-
-        return render(request, 'course/detail.html',
-                      {'course': course,
-                       'monthly': interval == 'months',
-                       'form': form,
-                       'data': dates,
-                       'download_stats': download_stats,
-                       'leaderboard': leaderboard})
 
 
 class CourseRecentActivityDetail(TemplateView):
