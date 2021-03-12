@@ -8,7 +8,7 @@ from oppia.permissions import get_user
 from quiz.models import QuizAttempt, Quiz
 
 
-class QuizAttemptsList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
+class FeedbackAttemptsList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
 
     model = QuizAttempt
 
@@ -38,12 +38,12 @@ class QuizAttemptsList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
         return context
 
 
-class UserAttemptsList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
+class UserFeedbackResponsesList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
 
     model = QuizAttempt
-    objects_url_name = 'quiz_attempt_detail'
-    template_name = 'profile/quiz/global_attempts.html'
-    ajax_template_name = 'quiz/attempts_query.html'
+    objects_url_name = 'feedback_response_detail'
+    template_name = 'profile/feedback/global_responses.html'
+    ajax_template_name = 'feedback/query.html'
     paginate_by = 15
 
     def get_queryset(self):
@@ -52,7 +52,7 @@ class UserAttemptsList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
         # check permissions, get_user raises PermissionDenied
         get_user(self.request, user)
 
-        quizzes = Quiz.get_by_activity_type(Activity.QUIZ)
+        quizzes = Quiz.get_by_activity_type(Activity.FEEDBACK)
         return QuizAttempt.objects \
             .filter(user__pk=user, quiz__in=quizzes) \
             .order_by('-submitted_date', '-attempt_date')
@@ -64,10 +64,10 @@ class UserAttemptsList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
         return context
 
 
-class QuizAttemptDetail(DetailView):
+class FeedbackResponseDetail(DetailView):
 
     model = QuizAttempt
-    template_name = 'quiz/attempt.html'
+    template_name = 'feedback/response.html'
 
     def get_queryset(self):
         user = self.kwargs['user_id']
