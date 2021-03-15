@@ -12,7 +12,7 @@ from django.views.generic import TemplateView, DetailView
 
 from helpers.forms.dates import DateRangeIntervalForm, DateRangeForm
 from oppia import constants
-from oppia.models import Points, Course
+from oppia.models import Points, Course, Activity
 from oppia.models import Tracker
 from oppia.permissions import can_view_course_detail
 from oppia.views.utils import generate_graph_data
@@ -66,6 +66,7 @@ class CourseActivityDetail(DetailView):
             constants.LEADERBOARD_HOMEPAGE_RESULTS_PER_PAGE, self.object)
 
         context['data'] = self.get_activity(start_date, end_date, interval)
+        context['has_feedback'] =  Activity.objects.filter(section__course=self.object, type=Activity.FEEDBACK).exists()
 
         return context
 
