@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{{ course.title|title_lang:LANGUAGE_CODE }}
+{% endblock extra_head_title %}
+
+{% block header %}
+<div class="jumbotron pb-2 mb-3">
+        <h3><a href="{% url 'oppia:recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a>
+            <em class="material-icons md-18">arrow_forward_ios</em>  {% trans 'Feedback activities' %}
+        </h3>
+        <p>{% trans 'Select one feedback activity to explore user responses' %}</p>
+
+</div>
+
+{% endblock header %}
+
+{% block content %}
+{% include 'common/ajax_wrapper.html' with query_template='feedback/activities.html' %}
+
+{% endblock %}
+

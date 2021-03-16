@@ -7,7 +7,7 @@
     {% url object_url_name profile.pk item.quiz.get_course.pk item.quiz.pk item.pk %}
 {% else %}#{% endif %}
 {% else %}
-    {% url object_url_name profile.pk course.pk quiz.pk item.pk %}
+    {% url 'profile:feedback_response_detail' item.user.pk course.pk item.quiz.pk item.pk %}
 {% endif %}
 {% endblock %}
 

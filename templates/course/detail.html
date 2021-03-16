@@ -96,8 +96,8 @@
 					<em class="fas fa-fw text-primary mr-3 fa-chart-bar"></em> {% trans 'Detailed activity' %}</a>
 				<a href="{% url 'reports:course_completion_rates' course.pk %}" class="list-group-item list-group-item-action">
 					<em class="fas fa-fw text-primary mr-3 fa-chart-pie"></em> {% trans 'Completion rates' %}</a>
-				{% if has_feedback %}
-				<a href="" class="list-group-item list-group-item-action">
+				{% if course.has_feedback %}
+				<a href="{% url 'oppia:course_feedback' course.pk %}" class="list-group-item list-group-item-action">
 					<em class="far fa-fw text-primary mr-3 fa-comment-dots"></em> {% trans 'Feedback answers' %}</a>
 				{% endif %}
 				<a href="{% url 'oppia:course_data_exports' course.pk %}" class="list-group-item list-group-item-action">

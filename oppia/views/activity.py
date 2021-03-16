@@ -66,7 +66,6 @@ class CourseActivityDetail(DetailView):
             constants.LEADERBOARD_HOMEPAGE_RESULTS_PER_PAGE, self.object)
 
         context['data'] = self.get_activity(start_date, end_date, interval)
-        context['has_feedback'] =  Activity.objects.filter(section__course=self.object, type=Activity.FEEDBACK).exists()
 
         return context
 
