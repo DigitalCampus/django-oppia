@@ -1,4 +1,7 @@
 from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
+from django.urls import reverse
 from django.views.generic import ListView, DetailView
 
 from helpers.mixins.AjaxTemplateResponseMixin import AjaxTemplateResponseMixin
@@ -26,6 +29,16 @@ class CourseFeedbackActivitiesList(ListView, ListItemUrlMixin, AjaxTemplateRespo
         context['course'] = Course.objects.get(pk=self.kwargs['course_id'])
         return context
 
+    def get(self, request, *args, **kwargs):
+        feedbacks = self.get_queryset()
+        if feedbacks.count() == 1:
+            # If there is only one feedback activity, we can
+            feedback = feedbacks[0]
+            return HttpResponseRedirect(reverse('oppia:course_feedback_responses', kwargs={
+                'course_id': self.kwargs['course_id'], 'feedback_id': feedback.id}))
+
+        return super().get(request, *args, **kwargs)
+
 
 
 class CourseFeedbackResponsesList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
@@ -48,6 +61,7 @@ class CourseFeedbackResponsesList(ListView, ListItemUrlMixin, AjaxTemplateRespon
         return QuizAttempt.objects.filter(quiz=quiz) \
             .order_by('-submitted_date', '-attempt_date')
 
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['course'] = Course.objects.get(pk=self.kwargs['course_id'])
@@ -56,28 +70,3 @@ class CourseFeedbackResponsesList(ListView, ListItemUrlMixin, AjaxTemplateRespon
         return context
 
 
-class FeedbackResponseDetail(DetailView):
-
-    model = QuizAttempt
-    template_name = 'feedback/response.html'
-
-    def get_queryset(self):
-        user = self.kwargs['user_id']
-        quiz = self.kwargs['quiz_id']
-
-        # check permissions, get_user raises PermissionDenied
-        get_user(self.request, user)
-
-        return QuizAttempt.objects \
-            .filter(user__pk=user, quiz__pk=quiz) \
-            .order_by('-submitted_date', '-attempt_date') \
-            .prefetch_related('responses')
-
-    def get_context_data(self, **kwargs):
-
-        context = super().get_context_data(**kwargs)
-        context['quiz'] = Quiz.objects.get(pk=self.kwargs['quiz_id'])
-        context['profile'] = User.objects.get(pk=self.kwargs['user_id'])
-        context['course'] = Course.objects.get(pk=self.kwargs['course_id'])
-
-        return context
