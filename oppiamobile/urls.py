@@ -8,10 +8,10 @@ from django.contrib import admin
 admin.site.index_title = _(u'Welcome to the OppiaMobile admin pages')
 
 urlpatterns = [
-    url(r'^', include('oppia.urls')),
+    url(r'^', include('oppia.urls', namespace='oppia')),
     url(r'^api/', include('api.urls')),
-    url(r'^content/', include('content.urls')),
-    url(r'^profile/', include('profile.urls')),
+    url(r'^content/', include('content.urls', namespace='content')),
+    url(r'^profile/', include('profile.urls', namespace='profile')),
     url(r'^reports/', include('reports.urls')),
     url(r'^activitylog/', include('activitylog.urls')),
     path(r'av/', include('av.urls', namespace="oppia_av")),

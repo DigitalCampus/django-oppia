@@ -70,7 +70,7 @@ class OppiaActivityViewsTest(OppiaTestCase):
         self.client.force_login(user=self.admin_user)
         post_data = {'start_date': self.start_date,
                      'end_date': self.end_date}
-        response = self.client.post(self.url_recent_activity, data=post_data)
+        response = self.client.get(self.url_recent_activity, data=post_data)
         self.assertEqual(200, response.status_code)
         self.assertTemplateUsed(self.activity_detail_template)
 
@@ -79,7 +79,7 @@ class OppiaActivityViewsTest(OppiaTestCase):
         post_data = {'start_date': self.start_date,
                      'end_date': self.end_date,
                      'interval': self.interval_days}
-        response = self.client.post(self.url_recent_activity, data=post_data)
+        response = self.client.get(self.url_recent_activity, data=post_data)
         self.assertEqual(200, response.status_code)
         self.assertTemplateUsed(self.activity_detail_template)
 
@@ -88,7 +88,7 @@ class OppiaActivityViewsTest(OppiaTestCase):
         post_data = {'start_date': self.start_date,
                      'end_date': self.end_date,
                      'interval': self.interval_months}
-        response = self.client.post(self.url_recent_activity, data=post_data)
+        response = self.client.get(self.url_recent_activity, data=post_data)
         self.assertEqual(200, response.status_code)
         self.assertTemplateUsed(self.activity_detail_template)
 
@@ -97,7 +97,7 @@ class OppiaActivityViewsTest(OppiaTestCase):
         post_data = {'start_date': self.start_date,
                      'end_date': self.end_date,
                      'interval': self.interval_invalid}
-        response = self.client.post(self.url_recent_activity, data=post_data)
+        response = self.client.get(self.url_recent_activity, data=post_data)
         self.assertEqual(200, response.status_code)
         self.assertTemplateUsed(self.activity_detail_template)
 
@@ -106,7 +106,7 @@ class OppiaActivityViewsTest(OppiaTestCase):
         post_data = {'start_date': '2020-12-28 00:00:00',
                      'end_date': '20-14-14 00:00:00',
                      'interval': self.interval_invalid}
-        response = self.client.post(self.url_recent_activity, data=post_data)
+        response = self.client.get(self.url_recent_activity, data=post_data)
         self.assertRaises(ValidationError)
         self.assertEqual(200, response.status_code)
         self.assertTemplateUsed(self.activity_detail_template)
@@ -137,7 +137,7 @@ class OppiaActivityViewsTest(OppiaTestCase):
         self.client.force_login(user=self.admin_user)
         post_data = {'start_date': self.start_date,
                      'end_date': self.end_date}
-        response = self.client.post(self.url_recent_activity_detail,
+        response = self.client.get(self.url_recent_activity_detail,
                                     data=post_data)
         self.assertEqual(200, response.status_code)
         self.assertTemplateUsed(self.activity_detail_template)
@@ -147,7 +147,7 @@ class OppiaActivityViewsTest(OppiaTestCase):
         post_data = {'start_date': '2020-12-28 00:00:00',
                      'end_date': '20-14-14 00:00:00',
                      'interval': 'days'}
-        response = self.client.post(self.url_recent_activity_detail,
+        response = self.client.get(self.url_recent_activity_detail,
                                     data=post_data)
         self.assertRaises(ValidationError)
         self.assertEqual(200, response.status_code)

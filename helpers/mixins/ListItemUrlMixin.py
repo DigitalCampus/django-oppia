@@ -13,10 +13,11 @@ class ListItemUrlMixin(object):
         context = super(ListItemUrlMixin, self).get_context_data(**kwargs)
 
         if self.objects_url_name is not None:
-            namespace = resolve(self.request.path).namespace
-            if namespace:
-                context['object_url_name'] = \
-                    '{}:{}'.format(namespace, self.objects_url_name)
-            else:
-                context['object_url_name'] = self.objects_url_name
+            context['object_url_name'] = self.objects_url_name
+            if ':' not in self.objects_url_name:
+                namespace = resolve(self.request.path).namespace
+                if namespace:
+                    context['object_url_name'] = \
+                        '{}:{}'.format(namespace, self.objects_url_name)
+
         return context

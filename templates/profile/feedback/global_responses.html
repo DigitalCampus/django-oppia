@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+{% load sort_link %}
+{% load static %}
+
+{% block extra_head_title %}
+	{{ profile.first_name }} {{ profile.last_name }} &gt; {{ course.title|title_lang:LANGUAGE_CODE }}
+{% endblock extra_head_title %}
+
+{% block header %}
+<div class="jumbotron mb-4 ">
+<h4>
+    <a href="{% url 'profile:user_activity' profile.id %}">{{ profile.first_name }} {{ profile.last_name }}</a>
+    <em class="material-icons md-18 ">arrow_forward_ios</em>
+    {% trans 'Feedback responses' %}
+</h4>
+
+</div>
+{% endblock header %}
+
+
+{% block content %}
+<div class="container">
+        {% include 'common/ajax_wrapper.html' with query_template='feedback/query.html' %}
+</div>
+
+
+{% endblock content %}

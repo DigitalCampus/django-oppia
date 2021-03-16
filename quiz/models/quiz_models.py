@@ -63,6 +63,12 @@ class Quiz(models.Model):
                 digest=digest)).first()
 
     @staticmethod
+    def get_by_activity_type(activity_type):
+        from oppia.models import Activity
+        quiz_activities = Activity.objects.filter(type=activity_type).values_list('digest', flat=True)
+        return Quiz.objects.filter(quizprops__name='digest', quizprops__value__in=quiz_activities)
+
+    @staticmethod
     def get_no_attempts_by_user(quiz, user):
         no_attempts = QuizAttempt.objects.filter(quiz=quiz, user=user).count()
         return no_attempts

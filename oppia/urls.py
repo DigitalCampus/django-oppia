@@ -50,6 +50,18 @@ urlpatterns = [
          views.CourseStructure.as_view(),
          name="course_structure"),
 
+    path('course/<int:course_id>/feedback/',
+         views.CourseFeedbackActivitiesList.as_view(),
+         name="course_feedback"),
+
+    path('course/<int:course_id>/feedback/<int:feedback_id>/responses/',
+         views.CourseFeedbackResponsesList.as_view(),
+         name="course_feedback_responses"),
+
+    path('course/<int:course_id>/feedback/<int:quiz_id>/responses/<int:pk>',
+         views.FeedbackResponseDetail.as_view(),
+         name="feedback_response_detail"),
+
     path('cohort/', views.CohortListView.as_view(), name="cohorts"),
     path('cohort/add/', views.cohort_add, name="cohort_add"),
     path('cohort/<int:pk>/edit/',

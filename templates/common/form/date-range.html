@@ -1,6 +1,8 @@
 {% if not omit_form_tag %}
     <form method="{{ dateform.form_method|default:'post' }}">
-    {% csrf_token %}
+    {% if dateform.form_method != 'get' %}
+        {% csrf_token %}
+    {% endif %}
 {% endif %}
 
 <div class="date-picker-selector" data-drop="{{ drop|default:'down' }}">
@@ -13,7 +15,7 @@
         <div class="form-group w-100">
             <label>Date range</label>
             <div class="input-group ">
-          <input class="form-control daterange" type="text" name="date_range" placeholder="From -- To...">
+          <input class="form-control daterange" type="text" placeholder="From -- To...">
             {% if dateform.interval %}
               <span class="input-group-btn">
                 <button class="btn btn-flat narrow" type="button"><em class="material-icons">event</em></button>
@@ -28,7 +30,7 @@
         {% endif %}
 
         {% if not omit_form_tag %}
-            <input type="submit" name="submit" value="Go" class="btn btn-primary align-self-center ml-3" id="submit-id-submit">
+            <input type="submit" class="btn btn-primary align-self-center ml-3" id="submit-id-submit">
         {% endif %}
 
     </div>
