@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+{% load sort_link %}
+{% load static %}
+
+{% block extra_head_title %}
+	{{ profile.first_name }} {{ profile.last_name }} &gt; {{ course.title|title_lang:LANGUAGE_CODE }}
+{% endblock extra_head_title %}
+
+{% block header %}
+<div class="jumbotron mb-4">
+    <h3 class="mb-0">{% trans 'Feedback response' %}</h3>
+<h4>
+    <a href="{% url 'oppia:recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a>
+    <em class="material-icons md-18 ">arrow_forward_ios</em>
+    {{ quiz.title|title_lang:LANGUAGE_CODE }}
+</h4>
+    <div class="d-flex align-items-center">
+        <div>
+            <em class="fas fa-user text-secondary mr-2"></em><a href="{% url 'profile:user_activity' profile.id %}" class="lead text-black">{{ profile.first_name }} {{ profile.last_name }}</a><br>
+            <em class="far fa-calendar-alt text-secondary mr-2"></em>{{object.attempt_date|date:'d/m/Y H:i'}}<br>
+            <em class="fas fa-stamp text-secondary mr-2"></em>{{object.score}}/{{object.maxscore}}
+        </div>
+
+    </div>
+
+
+</div>
+{% endblock header %}
+
+
+{% block content %}
+<div class="container">
+    {% for response in object.responses.all %}
+    <div class="row">
+        <div class="col-sm-10 col-md-11">
+            <p class="text-black-50 lead mb-2">{{response.question|title_lang:LANGUAGE_CODE}}</p>
+            <p class="mb-0"> {{response.text|safe|default:"--" }}</p>
+        </div>
+    </div>
+    <hr class="ml-3 my-4">
+
+    {% endfor %}
+
+</div>
+
+
+{% endblock content %}

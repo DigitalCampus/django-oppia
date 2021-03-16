@@ -1,0 +1,26 @@
+{% extends 'common/list/base.html' %}
+{% load display_functions %}
+
+{% block item_link %}
+{% url object_url_name course.pk item.pk %}
+{% endblock %}
+
+{% block table_head %}
+<th scope="col">Section</th>
+<th scope="col">Title</th>
+<th scope="col">Responses</th>
+{% endblock %}
+
+
+{% block item_row %}
+{% if not profile %}
+<td>{{item.section.title|title_lang:LANGUAGE_CODE}}</td>
+{% endif %}
+
+<td>
+    {{ item.title|title_lang:LANGUAGE_CODE }}<br>
+    <strong class="mt-0 text-secondary">{{ item.quiz.get_course }}</strong>
+</td>
+
+<td>{{item.get_no_quiz_responses}}</td>
+{% endblock %}

@@ -9,13 +9,13 @@
 {% endblock extra_head_title %}
 
 {% block header %}
-<div class="jumbotron mb-4 ">
-	<div class="row">
-			<div class="col-md-6">
-				<h3 class="mb-0">{{ view_user.first_name }} {{ view_user.last_name }}</h3>
-				{{view_user.username}}
+<div class="jumbotron mb-3 pb-2">
+	<div class="row mb-2">
+			<div class="col-md-6 d-lg-none">
+					<h3 class="mb-0"> {{ view_user.first_name }} {{ view_user.last_name }}</h3>
+					{{view_user.username}}
 			</div>
-			<div class="col-md-6 text-right mt-2">
+			<div class="col-md-6 d-lg-none text-right">
 				<a href="{% url 'profile:user_all_attempts' view_user.id %}" class="btn btn-secondary mb-2">{% trans 'Quiz attempts' %}</a>
 				<a href="{% url 'profile:edit_user' view_user.id %}" class="btn btn-light ml-2 mb-2">{% trans 'Edit' %}</a>
 			</div>
@@ -26,8 +26,43 @@
 {% block content %}
 
 
-<h3>{% trans 'Recent activity' %}</h3>
-{% include "oppia/includes/activity-graph.html" %}	
+<div class="row">
+	<div class="col-lg-4 d-none d-lg-block">
+		<div class="card" style="margin-top:-2.5rem;">
+			<div class="card-header">
+				<em class="fas fa-user-circle fa-3x mr-3 text-muted float-left mt-2"></em>
+			<h3 class="mb-0">{{ view_user.first_name }} {{ view_user.last_name }}</h3>
+				{{view_user.username}}
+			</div>
+		<div class="card-body">
+			<div class="card-text">
+				<strong class="text-black-50">{% trans 'Date joined:' %}</strong> {{view_user.date_joined}}<br>
+				<strong class="text-black-50">{% trans 'Email:' %}</strong> {{ view_user.email|default_if_none:"Not set" }}<br>
+				<strong class="text-black-50">{% trans 'Phone no.:' %}</strong> {{ view_user.userprofile.phone_number|default_if_none:"Not set" }}<br>
+			</div>
+		</div>
+			<div class="list-group list-group-flush">
+				<a href="{% url 'profile:edit_user' view_user.id %}" class="list-group-item list-group-item-action">
+					<em class="fas fa-fw text-primary mr-3 fa-user-edit"></em> {% trans 'Edit profile' %}</a>
+				<a href="" class="list-group-item list-group-item-action">
+					<em class="fas fa-fw text-primary mr-3 fa-chart-bar"></em> {% trans 'Detailed activity' %}</a>
+				<a href="{% url 'profile:user_all_attempts' view_user.id %}" class="list-group-item list-group-item-action">
+					<em class="far fa-fw text-primary mr-3 fa-check-circle"></em>{% trans 'Quiz attempts' %}</a>
+				<a href="{% url 'profile:user_all_feedback_responses' view_user.id %}" class="list-group-item list-group-item-action">
+					<em class="far fa-fw text-primary mr-3 fa-comment-dots"></em> {% trans 'Feedback answers' %}</a>
+				<a href="#" class="list-group-item list-group-item-action disabled">
+					<em class="fas fa-fw mr-3 fa-star"></em> {% trans 'Points and badges' %}</a>
+		  	</div>
+
+		</div>
+	</div>
+
+	<div class="col-lg-8">
+
+	<h3>{% trans 'Recent activity' %}</h3>
+	{% include "oppia/includes/activity-graph.html" %}
+	</div>
+</div>
 
 <h3>{% trans 'Courses' %}</h3>
 {% if courses %}

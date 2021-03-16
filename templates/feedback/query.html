@@ -1,0 +1,37 @@
+{% extends 'common/list/base.html' %}
+{% load display_functions %}
+
+{% block item_link %}
+{% if not course %}
+{% if item.quiz.get_course %}
+    {% url object_url_name item.quiz.get_course.pk item.quiz.pk item.pk %}
+{% else %}#{% endif %}
+{% else %}
+    {% url object_url_name course.pk item.quiz.pk item.pk %}
+{% endif %}
+{% endblock %}
+
+{% block table_head %}
+{% if not profile %}
+    <th scope="col">User</th>
+{% endif %}
+{% if show_course_info %}
+    <th scope="col">Course</th>
+{% endif %}
+    <th scope="col">Attempt date</th>
+{% endblock %}
+
+
+{% block item_row %}
+{% if not profile %}
+<td>{{item.user}}</td>
+{% endif %}
+
+{% if show_course_info %}
+<td>
+    {{ item.quiz|title_lang:LANGUAGE_CODE }}<br>
+    <strong class="mt-0 text-secondary">{{ item.quiz.get_course }}</strong>
+</td>
+{% endif %}
+<td>{{item.attempt_date|date:'d/m/Y'}}</td>
+{% endblock %}
