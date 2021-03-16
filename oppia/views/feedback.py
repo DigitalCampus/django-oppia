@@ -44,7 +44,7 @@ class CourseFeedbackActivitiesList(ListView, ListItemUrlMixin, AjaxTemplateRespo
 class CourseFeedbackResponsesList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
 
     model = QuizAttempt
-    objects_url_name = 'profile:feedback_response_detail'
+    objects_url_name = 'feedback_response_detail'
     template_name = 'feedback/responses_list.html'
     ajax_template_name = 'feedback/query.html'
     paginate_by = 15
@@ -70,3 +70,16 @@ class CourseFeedbackResponsesList(ListView, ListItemUrlMixin, AjaxTemplateRespon
         return context
 
 
+class FeedbackResponseDetail(DetailView):
+
+    model = QuizAttempt
+    template_name = 'feedback/response.html'
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        context['quiz'] = Quiz.objects.get(pk=self.kwargs['quiz_id'])
+        context['profile'] = self.object.user
+        context['course'] = Course.objects.get(pk=self.kwargs['course_id'])
+
+        return context

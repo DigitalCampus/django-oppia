@@ -4,10 +4,10 @@
 {% block item_link %}
 {% if not course %}
 {% if item.quiz.get_course %}
-    {% url object_url_name profile.pk item.quiz.get_course.pk item.quiz.pk item.pk %}
+    {% url object_url_name item.quiz.get_course.pk item.quiz.pk item.pk %}
 {% else %}#{% endif %}
 {% else %}
-    {% url 'profile:feedback_response_detail' item.user.pk course.pk item.quiz.pk item.pk %}
+    {% url object_url_name course.pk item.quiz.pk item.pk %}
 {% endif %}
 {% endblock %}
 

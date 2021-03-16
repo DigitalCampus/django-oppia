@@ -51,10 +51,6 @@ urlpatterns = [
          profile_views.UserFeedbackResponsesList.as_view(),
          name="user_all_feedback_responses"),
 
-    path('<int:user_id>/<int:course_id>/feedback/<int:quiz_id>/responses/<int:pk>',
-         profile_views.FeedbackResponseDetail.as_view(),
-         name="feedback_response_detail"),
-
     path('upload/', profile_views.UploadUsers.as_view(), name="upload"),
     path('search/', profile_views.search_users, name="search"),
     path('export/', profile_views.export_users, name="export"),

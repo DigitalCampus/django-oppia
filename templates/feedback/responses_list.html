@@ -11,7 +11,7 @@
 {% block header %}
 <div class="jumbotron mb-4 ">
 
-    <h3>{% trans 'Feedback responses' %}</h3>
+    <h3 class="mb-0">{% trans 'Feedback responses' %}</h3>
 <h4>
     <a href="{% url 'oppia:recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a>
     <em class="material-icons md-18 ">arrow_forward_ios</em> {{feedback}}
