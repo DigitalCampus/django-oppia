@@ -31,21 +31,17 @@ class UsernameResource(ModelResource):
 
         email = bundle.data['email']
         
-        try:
-            user = User.objects.get(email=email)
-        except User.DoesNotExist:
-            return bundle
-        except User.MultipleObjectsReturned:
-            user = User.objects.filter(email=email).first()
+        user = User.objects.filter(email=email).first()
 
-        emailer.send_oppia_email(
-                template_html='profile/email/username_reminder.html',
-                template_text='profile/email/username_reminder.txt',
-                subject="Username reminder",
-                fail_silently=False,
-                recipients=[user.email],
-                username=user.username,
-                )
+        if user is not None:
+            emailer.send_oppia_email(
+                    template_html='profile/email/username_reminder.html',
+                    template_text='profile/email/username_reminder.txt',
+                    subject="Username reminder",
+                    fail_silently=False,
+                    recipients=[user.email],
+                    username=user.username,
+                    )
         
         return bundle
     
