@@ -1,0 +1,2 @@
+{% load i18n %}
+Your username for {% trans 'app_name' %} is {{ username }}
