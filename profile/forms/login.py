@@ -30,7 +30,7 @@ class LoginForm(forms.Form):
             'next',
             Div(
                 Submit('submit', _(u'Login'), css_class='btn btn-default'),
-                HTML("""<a class="btn btn-default" href="{% url 'profile:reset' %}">""" + _(
+                HTML("""<a class="btn btn-default" href="{% url 'password_reset' %}">""" + _(
                     u'Forgotten password?') + """</a>"""),
                 css_class='col-lg-offset-2 col-lg-4',
             ),

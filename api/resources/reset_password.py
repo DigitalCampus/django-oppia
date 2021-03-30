@@ -1,5 +1,8 @@
 
+from django.conf import settings
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import PasswordResetForm
+from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 
 from tastypie import fields
@@ -22,7 +25,7 @@ class ResetPasswordResource(ModelResource):
         queryset = User.objects.all()
         resource_name = 'reset'
         allowed_methods = ['post']
-        fields = ['username', 'message']
+        fields = ['message']
         authorization = Authorization()
         always_return_data = True
         include_resource_uri = False
@@ -31,36 +34,19 @@ class ResetPasswordResource(ModelResource):
         required = ['username', ]
         check_required_params(bundle, required)
 
-        bundle.obj.username = bundle.data['username']
-        try:
-            user = User.objects.get(username__exact=bundle.obj.username)
-        except User.DoesNotExist:
-            try:
-                user = User.objects.get(email__exact=bundle.obj.username)
-            except User.DoesNotExist:
-                raise BadRequest(_(u'Username/email not found'))
-
-        newpass = User.objects.make_random_password(length=8)
-        user.set_password(newpass)
-        user.save()
-        if bundle.request.is_secure():
-            prefix = 'https://'
-        else:
-            prefix = 'http://'
-
-        emailer.send_oppia_email(
-                template_html='profile/email/password_reset.html',
-                template_text='profile/email/password_reset.txt',
-                subject="Password reset",
-                fail_silently=False,
-                recipients=[user.email],
-                new_password=newpass,
-                site=prefix + bundle.request.META['SERVER_NAME']
-                )
+        username = bundle.data['username']
+        # find if username or email address
+        user = User.objects.filter(Q(username=username) | Q(email__iexact=username)).first()
+        
+        if user is not None:
+            prf = PasswordResetForm({'email': user.email})
+            if prf.is_valid():
+                prf.get_users(user.email)
+                prf.save(request=bundle.request,
+                         from_email=settings.SERVER_EMAIL)
 
         return bundle
 
     def dehydrate_message(self, bundle):
-        message = _(u'An email has been sent to your registered email address \
-                    with your new password')
+        message = _(u'An email has been sent to your email address, please follow the instructions to reset your password.')
         return message

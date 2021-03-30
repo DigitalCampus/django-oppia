@@ -21,7 +21,6 @@ from oppia.models import Points, Award, Tracker
 from oppia.permissions import can_edit_user
 from profile.forms import LoginForm, \
     RegisterForm, \
-    ResetForm, \
     ProfileForm
 
 from profile.models import UserProfile, CustomField, UserProfileCustomField
@@ -142,44 +141,6 @@ class RegisterView(FormView, TitleViewMixin):
                 and form.cleaned_data.get(custom_field.id) != '') \
                     or custom_field.required is True:
                 profile_field.save()
-
-
-class ResetView(FormView, TitleViewMixin):
-
-    template_name = STR_COMMON_FORM
-    form_class = ResetForm
-    success_url = 'sent/'
-    title = _(u'Reset password')
-
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        username = form.cleaned_data.get("username")
-        try:
-            user = User.objects.get(username__exact=username)
-        except User.DoesNotExist:
-            user = User.objects.get(email__exact=username)
-
-        newpass = User.objects.make_random_password(length=8)
-        user.set_password(newpass)
-        user.save()
-        if self.request.is_secure():
-            prefix = 'https://'
-        else:
-            prefix = 'http://'
-
-        emailer.send_oppia_email(
-            template_html='profile/email/password_reset.html',
-            template_text='profile/email/password_reset.txt',
-            subject="Password reset",
-            fail_silently=False,
-            recipients=[user.email],
-            new_password=newpass,
-            site=prefix + self.request.META['SERVER_NAME']
-        )
-
-        return response
-
 
 
 class EditView(UpdateView):

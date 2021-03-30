@@ -22,18 +22,21 @@ class ResetPasswordResourceTest(ResourceTestCaseMixin, TestCase):
         resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpBadRequest(resp)
         self.assertValidJSON(resp.content)
+        self.assertEqual(len(mail.outbox), 0)
 
     def test_empty_username(self):
         data = {'username': ''}
         resp = self.api_client.post(self.url, format='json', data=data)
-        self.assertHttpBadRequest(resp)
+        self.assertHttpCreated(resp)
         self.assertValidJSON(resp.content)
+        self.assertEqual(len(mail.outbox), 0)
 
     def test_invalid_username(self):
         data = {'username': 'invalidusername'}
         resp = self.api_client.post(self.url, format='json', data=data)
-        self.assertHttpBadRequest(resp)
+        self.assertHttpCreated(resp)
         self.assertValidJSON(resp.content)
+        self.assertEqual(len(mail.outbox), 0)
 
     def test_valid_username(self):
         data = {'username': 'demo'}
