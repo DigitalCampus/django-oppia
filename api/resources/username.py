@@ -46,4 +46,4 @@ class UsernameResource(ModelResource):
         return bundle
     
     def dehydrate_message(self, bundle):
-        return _(u'An email has been sent')
+        return _(u'An email has been sent with a reminder of your username')
