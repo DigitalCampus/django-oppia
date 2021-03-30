@@ -7,11 +7,11 @@ from oppia.test import OppiaTestCase
 class ResetPasswordTest(OppiaTestCase):
 
     demo_email_address = 'demo@me.com'
-    url = reverse('profile:reset')
+    url = reverse('password_reset')
 
     def test_get(self):
         response = self.client.get(self.url)
-        self.assertTemplateUsed(response, 'common/form/form.html')
+        self.assertTemplateUsed(response, 'registration/password_reset_form.html')
         self.assertEqual(200, response.status_code)
 
     def test_no_username(self):
@@ -30,21 +30,17 @@ class ResetPasswordTest(OppiaTestCase):
         self.assertRaises(forms.ValidationError)
 
     def test_valid_username(self):
-        data = {'username': 'demo'}
-        response = self.client.post(self.url, data=data)
-        self.assertRedirects(response,
-                             reverse('profile:reset_sent'),
-                             302,
-                             200)
-        self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].to[0], self.demo_email_address)
+        data = {'email': 'demo'}
+        self.client.post(self.url, data=data)
+        self.assertRaises(forms.ValidationError)
+        self.assertEqual(len(mail.outbox), 0)
         mail.outbox = []
 
     def test_valid_email(self):
-        data = {'username': self.demo_email_address}
+        data = {'email': self.demo_email_address}
         response = self.client.post(self.url, data=data)
         self.assertRedirects(response,
-                             reverse('profile:reset_sent'),
+                             reverse('password_reset_done'),
                              302,
                              200)
         self.assertEqual(len(mail.outbox), 1)
