@@ -43,7 +43,8 @@ class ResetPasswordResource(ModelResource):
             if prf.is_valid():
                 prf.get_users(user.email)
                 prf.save(request=bundle.request,
-                         from_email=settings.SERVER_EMAIL)
+                         from_email=settings.SERVER_EMAIL,
+                         use_https=bundle.request.is_secure())
 
         return bundle
 
