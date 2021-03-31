@@ -13,7 +13,7 @@ class BadgeMethod(models.Model):
     def __str__(self):
         return self.key
 
-    
+
 class Badge(models.Model):
     ref = models.CharField(max_length=20)
     name = models.TextField(blank=False)

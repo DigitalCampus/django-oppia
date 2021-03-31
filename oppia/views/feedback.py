@@ -1,17 +1,17 @@
-from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
-from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import ListView, DetailView
 
 from helpers.mixins.AjaxTemplateResponseMixin import AjaxTemplateResponseMixin
 from helpers.mixins.ListItemUrlMixin import ListItemUrlMixin
 from oppia.models import Course, Activity
-from oppia.permissions import get_user, can_view_course_detail
+from oppia.permissions import can_view_course_detail
 from quiz.models import QuizAttempt, Quiz
 
 
-class CourseFeedbackActivitiesList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
+class CourseFeedbackActivitiesList(ListView,
+                                   ListItemUrlMixin,
+                                   AjaxTemplateResponseMixin):
 
     model = Activity
     objects_url_name = 'course_feedback_responses'
@@ -22,7 +22,8 @@ class CourseFeedbackActivitiesList(ListView, ListItemUrlMixin, AjaxTemplateRespo
         course = self.kwargs['course_id']
         # check permissions, get_user raises PermissionDenied
         can_view_course_detail(self.request, course)
-        return Activity.objects.filter(section__course=course, type=Activity.FEEDBACK)
+        return Activity.objects.filter(section__course=course,
+                                       type=Activity.FEEDBACK)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -34,14 +35,17 @@ class CourseFeedbackActivitiesList(ListView, ListItemUrlMixin, AjaxTemplateRespo
         if feedbacks.count() == 1:
             # If there is only one feedback activity, we can
             feedback = feedbacks[0]
-            return HttpResponseRedirect(reverse('oppia:course_feedback_responses', kwargs={
-                'course_id': self.kwargs['course_id'], 'feedback_id': feedback.id}))
+            return HttpResponseRedirect(
+                reverse('oppia:course_feedback_responses',
+                        kwargs={'course_id': self.kwargs['course_id'],
+                                'feedback_id': feedback.id}))
 
         return super().get(request, *args, **kwargs)
 
 
-
-class CourseFeedbackResponsesList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
+class CourseFeedbackResponsesList(ListView,
+                                  ListItemUrlMixin,
+                                  AjaxTemplateResponseMixin):
 
     model = QuizAttempt
     objects_url_name = 'feedback_response_detail'
@@ -65,7 +69,8 @@ class CourseFeedbackResponsesList(ListView, ListItemUrlMixin, AjaxTemplateRespon
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['course'] = Course.objects.get(pk=self.kwargs['course_id'])
-        context['feedback'] = Activity.objects.get(pk=self.kwargs['feedback_id'])
+        context['feedback'] = Activity.objects.get(
+            pk=self.kwargs['feedback_id'])
         context['show_course_info'] = False
         return context
 

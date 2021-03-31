@@ -23,9 +23,10 @@ from oppia.signals import course_downloaded
 
 STR_COURSE_NOT_FOUND = _(u"Course not found")
 
+
 def get_course_from_shortname(resource, bundle, lookup):
     object_list = resource.apply_filters(bundle.request,
-                                    {'shortname': lookup})
+                                         {'shortname': lookup})
     if len(object_list) <= 0:
         raise resource._meta.object_class.DoesNotExist(
             "Couldn't find an course with shortname '%s'." % (lookup))
@@ -34,8 +35,8 @@ def get_course_from_shortname(resource, bundle, lookup):
             "More than one course with shortname '%s'." % (lookup))
     return object_list
 
-class CourseResource(ModelResource):
 
+class CourseResource(ModelResource):
 
     class Meta:
         queryset = Course.objects.all()
@@ -238,7 +239,7 @@ class CourseStructureResource(ModelResource):
             return_obj = object_list[0]
         else:
             return_obj = super().obj_get(bundle, **kwargs)
-        
+
         # check the module.xml is on disk
         path = os.path.join(settings.MEDIA_ROOT,
                             'courses',
@@ -246,9 +247,9 @@ class CourseStructureResource(ModelResource):
                             'module.xml')
         if not os.path.isfile(path):
             raise self._meta.object_class.DoesNotExist()
-            
+
         return return_obj
-        
+
     def dehydrate(self, bundle):
         path = os.path.join(settings.MEDIA_ROOT,
                             'courses',

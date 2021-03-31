@@ -3,7 +3,7 @@ import datetime
 import oppia
 
 from django.conf import settings
-from oppia.models import Points, Award, Badge, BadgeMethod
+from oppia.models import Points, Award, BadgeMethod
 from reports.menu import menu_reports
 from settings import constants
 from settings.models import SettingProperties
@@ -54,13 +54,14 @@ def get_settings(request):
                                 settings.OPPIA_GOOGLE_ANALYTICS_DOMAIN)
 
     try:
-        badge_award_method = BadgeMethod.objects.get(badge__ref="coursecompleted")
+        badge_award_method = BadgeMethod.objects.get(
+            badge__ref="coursecompleted")
         badge_award_method_percent = SettingProperties.get_int(
             constants.OPPIA_BADGES_PERCENT_COMPLETED, 100)
     except BadgeMethod.DoesNotExist:
         badge_award_method = "undefined"
         badge_award_method_percent = 100
-    
+
     cron_warning = False
     last_cron = SettingProperties.get_string(
         constants.OPPIA_CRON_LAST_RUN, None)

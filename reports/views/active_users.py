@@ -5,16 +5,11 @@ from dateutil.relativedelta import relativedelta
 from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Count
 from django.shortcuts import render
-from django.utils import timezone
 from django.utils.decorators import method_decorator
-from django.views.generic import TemplateView
 
 from oppia import constants as oppia_constants
 
 from reports import constants as reports_constants
-
-from reports.forms import ReportGroupByForm
-from reports.signals import dashboard_accessed
 from reports.views.base_report_template import BaseReportTemplateView
 
 from summary.models import DailyActiveUser

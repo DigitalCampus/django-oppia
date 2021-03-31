@@ -7,10 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from tastypie import fields
 from tastypie.authorization import Authorization
-from tastypie.exceptions import BadRequest
 from tastypie.resources import ModelResource
-
-from oppia import emailer
 
 from api.utils import check_required_params
 
@@ -36,8 +33,9 @@ class ResetPasswordResource(ModelResource):
 
         username = bundle.data['username']
         # find if username or email address
-        user = User.objects.filter(Q(username=username) | Q(email__iexact=username)).first()
-        
+        user = User.objects.filter(Q(username=username) | 
+                                   Q(email__iexact=username)).first()
+
         if user is not None:
             prf = PasswordResetForm({'email': user.email})
             if prf.is_valid():

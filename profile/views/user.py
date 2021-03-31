@@ -3,7 +3,6 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
-from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.urls import reverse
@@ -16,7 +15,6 @@ from urllib.parse import urlparse
 
 from helpers.mixins.TitleViewMixin import TitleViewMixin
 from helpers.mixins.SafePaginatorMixin import SafePaginatorMixin
-from oppia import emailer
 from oppia.models import Points, Award, Tracker
 from oppia.permissions import can_edit_user
 from profile.forms import LoginForm, \
@@ -41,7 +39,7 @@ class LoginView(FormView, TitleViewMixin):
     title = _(u'Login')
 
     def get_initial(self):
-        return {'next': filter_redirect(self.request.GET) }
+        return {'next': filter_redirect(self.request.GET)}
 
     def dispatch(self, *args, **kwargs):
         if self.request.user.is_authenticated:
@@ -76,7 +74,9 @@ class RegisterView(FormView, TitleViewMixin):
     title = _(u'Register')
 
     def dispatch(self, *args, **kwargs):
-        self_register = SettingProperties.get_bool(constants.OPPIA_ALLOW_SELF_REGISTRATION, settings.OPPIA_ALLOW_SELF_REGISTRATION)
+        self_register = SettingProperties.get_bool(
+            constants.OPPIA_ALLOW_SELF_REGISTRATION,
+            settings.OPPIA_ALLOW_SELF_REGISTRATION)
         if not self_register:
             raise Http404
         else:
@@ -98,7 +98,6 @@ class RegisterView(FormView, TitleViewMixin):
 
         return response
 
-
     def register_form_process(self, form):
         # Create new user
         username = form.cleaned_data.get("username")
@@ -113,9 +112,9 @@ class RegisterView(FormView, TitleViewMixin):
 
         # create UserProfile record
         UserProfile.objects.create(
-            user  = user,
-            job_title =form.cleaned_data.get("job_title"),
-            organisation =form.cleaned_data.get("organisation")
+            user=user,
+            job_title=form.cleaned_data.get("job_title"),
+            organisation=form.cleaned_data.get("organisation")
         )
 
         # save any custom fields
@@ -170,7 +169,6 @@ class EditView(UpdateView):
         kwargs.pop('instance')
         return kwargs
 
-
     def get_initial(self):
         key = ApiKey.objects.get(user=self.object)
         user_profile, created = UserProfile.objects \
@@ -192,7 +190,6 @@ class EditView(UpdateView):
                 initial[custom_field.id] = upcf_row.first().get_value()
 
         return initial
-
 
     def form_valid(self, form):
         self.edit_form_process(form, self.object)
@@ -289,4 +286,5 @@ class BadgesView(ListView):
     template_name = 'profile/badges.html'
 
     def get_queryset(self):
-        return Award.objects.filter(user=self.request.user).order_by('-award_date')
+        return Award.objects.filter(
+            user=self.request.user).order_by('-award_date')

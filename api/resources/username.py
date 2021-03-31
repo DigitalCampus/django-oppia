@@ -11,9 +11,9 @@ from oppia import emailer
 
 
 class UsernameResource(ModelResource):
-    
+
     message = fields.CharField(readonly=True)
-    
+
     class Meta:
         queryset = User.objects.all()
         resource_name = 'username'
@@ -23,14 +23,14 @@ class UsernameResource(ModelResource):
         authorization = Authorization()
         always_return_data = True
         include_resource_uri = False
-        
+
     def obj_create(self, bundle, **kwargs):
-        
+
         if 'email' not in bundle.data or len(bundle.data['email']) == 0:
             raise BadRequest(_(u'Email missing'))
 
         email = bundle.data['email']
-        
+
         user = User.objects.filter(email=email).first()
 
         if user is not None:
@@ -42,8 +42,8 @@ class UsernameResource(ModelResource):
                     recipients=[user.email],
                     username=user.username,
                     )
-        
+
         return bundle
-    
+
     def dehydrate_message(self, bundle):
         return _(u'An email has been sent with a reminder of your username')

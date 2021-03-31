@@ -42,7 +42,7 @@ class Command(BaseCommand):
     def update_via_ipstack(self, t):
         key = SettingProperties.get_string(constants.OPPIA_IPSTACK_APIKEY, '')
 
-        if t['ip'] == '' or t['ip'] == None or key == '':
+        if t['ip'] == '' or t['ip'] is None or key == '':
             return
 
         url = 'http://api.ipstack.com/%s?access_key=%s' % (t['ip'], key)
@@ -65,11 +65,12 @@ class Command(BaseCommand):
                     and 'region_name' in data_json \
                     and data_json['city'] is not None \
                     and data_json['region_name'] is not None:
-                        viz.region = data_json['city'] + " " + data_json['region_name']
+                        viz.region = data_json['city'] + " " \
+                        + data_json['region_name']
                 elif 'city' in data_json\
                     and data_json['city'] is not None:
                         viz.region = data_json['city']
-                elif 'region_name' in data_json\
+                elif 'region_name' in data_json \
                     and data_json['region_name'] is not None:
                         viz.region = data_json['region_name']
                 viz.country_code = data_json['country_code']

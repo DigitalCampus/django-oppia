@@ -1,20 +1,19 @@
 from django.conf.urls import url
 from django.contrib.auth.models import User
-from django.core import serializers
-from django.http import HttpResponse, JsonResponse, Http404
+from django.http import JsonResponse, Http404
 from django.utils.translation import ugettext_lazy as _
 
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie.authorization import ReadOnlyAuthorization
-from tastypie.exceptions import BadRequest, Unauthorized
+from tastypie.exceptions import BadRequest
 from tastypie.resources import ModelResource
-from tastypie.utils import timezone
 
 from oppia import permissions
 from oppia.models import Course, Participant
 from summary.models import UserCourseSummary
 
 STR_USER_NOT_FOUND = _(u"User not found or unauthorised")
+
 
 class UserCourseSummaryResource(ModelResource):
 
@@ -35,7 +34,7 @@ class UserCourseSummaryResource(ModelResource):
                 self.wrap_view('user_course_progress'),
                 name="user_course_progress")
             ]
-     
+
     def get_user(self, request, **kwargs):
         self.is_authenticated(request)
         self.throttle_check(request)
@@ -52,10 +51,12 @@ class UserCourseSummaryResource(ModelResource):
                 view_user = User.objects.get(username=username)
                 courses = Course.objects.filter(
                     coursecohort__cohort__participant__user=view_user,
-                    coursecohort__cohort__participant__role=Participant.STUDENT) \
+                    coursecohort__cohort__participant__role=
+                    Participant.STUDENT) \
                     .filter(
                         coursecohort__cohort__participant__user=request.user,
-                        coursecohort__cohort__participant__role=Participant.TEACHER) \
+                        coursecohort__cohort__participant__role=
+                        Participant.TEACHER) \
                     .count()
                 if courses > 0:
                     return view_user
@@ -63,23 +64,25 @@ class UserCourseSummaryResource(ModelResource):
                     raise Http404(STR_USER_NOT_FOUND)
             except User.DoesNotExist:
                 raise Http404(STR_USER_NOT_FOUND)
-    
+
     def get_object_list(self, request):
         raise BadRequest(_("Please specify a user"))
-    
+
     def user_course_progress(self, request, **kwargs): 
         user = self.get_user(request, **kwargs)
-        
+
         cc, oc, ac = permissions.get_user_courses(request, user)
-        
+
         if request.user.is_staff or (request.user == user):
-            ucs_qs = UserCourseSummary.objects.filter(user=user).order_by('course__shortname')
+            ucs_qs = UserCourseSummary.objects.filter(
+                user=user).order_by('course__shortname')
         else:
-            ucs_qs = UserCourseSummary.objects.filter(user=user, course__in=ac).order_by('course__shortname')
-        
+            ucs_qs = UserCourseSummary.objects.filter(
+                user=user, course__in=ac).order_by('course__shortname')
+
         courses = []
         for ucs in ucs_qs:
-            percent_complete = (ucs.completed_activities / 
+            percent_complete = (ucs.completed_activities /
                                 ucs.course.get_no_activities()) * 100
             c = {}
             c['shortname'] = ucs.course.shortname
@@ -94,4 +97,3 @@ class UserCourseSummaryResource(ModelResource):
             courses.append(c)
 
         return JsonResponse(courses, safe=False)
-          
