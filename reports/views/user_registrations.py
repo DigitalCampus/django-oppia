@@ -1,4 +1,3 @@
-import datetime
 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.models import User
@@ -6,7 +5,6 @@ from django.db.models import Count
 from django.db.models.functions import TruncMonth, TruncYear
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
-from django.utils import timezone
 
 from reports.views.base_report_template import BaseReportTemplateView
 

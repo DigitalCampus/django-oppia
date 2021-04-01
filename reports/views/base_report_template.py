@@ -2,7 +2,6 @@ import datetime
 
 from abc import abstractmethod
 
-from django.utils import timezone
 from django.views.generic import TemplateView
 
 from helpers.forms import dates
@@ -15,7 +14,7 @@ from reports.signals import dashboard_accessed
 class BaseReportTemplateView(TemplateView):
 
     def get(self, request):
-        
+
         start_date = datetime.date.today() - datetime.timedelta(
             days=constants.ANNUAL_NO_DAYS)
         end_date = datetime.date.today()
@@ -37,7 +36,7 @@ class BaseReportTemplateView(TemplateView):
         if form.is_valid():
             start_date = form.cleaned_data.get("start_date")
             end_date = form.cleaned_data.get("end_date")
-        
+
         if isinstance(start_date, str):
             start_date = datetime.datetime.strptime(
                 start_date,

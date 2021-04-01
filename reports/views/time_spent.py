@@ -2,15 +2,11 @@ import datetime
 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render
-from django.utils import timezone
 from django.utils.decorators import method_decorator
-from django.views.generic import TemplateView
 
 from oppia import constants as oppia_constants
 
-from reports import constants as reports_constants
 from reports.forms import ReportGroupByForm
-from reports.signals import dashboard_accessed
 from reports.views.base_report_template import BaseReportTemplateView
 
 from summary.models import DailyActiveUsers
@@ -33,7 +29,8 @@ class AverageTimeSpentView(BaseReportTemplateView):
                     time_spent])
             except DailyActiveUsers.DoesNotExist:
                 data.append(
-                    [temp.strftime(oppia_constants.STR_DATE_DISPLAY_FORMAT), 0])
+                    [temp.strftime(oppia_constants.STR_DATE_DISPLAY_FORMAT),
+                     0])
 
         return render(request, 'reports/average_time_spent.html',
                       {'activity_graph_data': data,
@@ -52,11 +49,12 @@ class TotalTimeSpentView(BaseReportTemplateView):
                 summary_count_time_total = DailyActiveUsers.objects.get(
                     day=temp.strftime(oppia_constants.STR_DATE_FORMAT))
                 time_spent = summary_count_time_total.get_total_time_spent()
-                data.append([temp.strftime(oppia_constants.STR_DATE_DISPLAY_FORMAT),
-                             time_spent])
+                data.append([temp.strftime(
+                    oppia_constants.STR_DATE_DISPLAY_FORMAT), time_spent])
             except DailyActiveUsers.DoesNotExist:
                 data.append(
-                    [temp.strftime(oppia_constants.STR_DATE_DISPLAY_FORMAT), 0])
+                    [temp.strftime(oppia_constants.STR_DATE_DISPLAY_FORMAT),
+                     0])
         return render(request, 'reports/total_time_spent.html',
                       {'activity_graph_data': data,
                        'form': form})

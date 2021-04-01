@@ -41,18 +41,19 @@ class SearchesView(BaseReportTemplateView):
                        'searches': searches,
                        'previous_searches':
                        previous_searches})
-        
+
+    
 @method_decorator(staff_member_required, name='dispatch')
 class SearchTermView(BaseReportTemplateView):
 
     def process(self, request, form, start_date, end_date):
-        searches = Tracker.objects.filter(type='search', 
+        searches = Tracker.objects.filter(type='search',
                                           user__is_staff=False,
                                           submitted_date__gte=start_date,
                                           submitted_date__lte=end_date)
-        
+
         search_terms = []
-        
+
         for search in searches:
             query = self.get_query_term(search.data)
             if query is None:
@@ -60,8 +61,8 @@ class SearchTermView(BaseReportTemplateView):
             obj = {'term': query, 'count': 0}
             if obj not in search_terms:
                 search_terms.append(obj)
-        
-        for search in searches: 
+
+        for search in searches:
             query = self.get_query_term(search.data)
             if query is None:
                 continue
@@ -71,7 +72,7 @@ class SearchTermView(BaseReportTemplateView):
          
         search_terms = sorted(search_terms,
                               key=itemgetter('count'),
-                              reverse=True)  
+                              reverse=True)
         return render(request, 'reports/search_terms.html',
                       {'form': form,
                        'search_terms': search_terms})
@@ -84,4 +85,3 @@ class SearchTermView(BaseReportTemplateView):
         if 'query' not in json_data:
             return None
         return json_data['query']
-        

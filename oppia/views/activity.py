@@ -6,13 +6,12 @@ from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db.models import Sum
 from django.db.models.functions import TruncDay, TruncMonth, TruncYear
 from django.http import HttpResponse
-from django.shortcuts import render
 from django.utils import timezone
 from django.views.generic import TemplateView, DetailView
 
 from helpers.forms.dates import DateRangeIntervalForm, DateRangeForm
 from oppia import constants
-from oppia.models import Points, Course, Activity
+from oppia.models import Points, Course
 from oppia.models import Tracker
 from oppia.permissions import can_view_course_detail
 from oppia.views.utils import generate_graph_data
@@ -31,13 +30,17 @@ class CourseActivityDetail(DetailView):
 
         context = super().get_context_data(**kwargs)
         can_view_course_detail(self.request, self.object.id)
-        dashboard_accessed.send(sender=None, request=self.request, data=self.object)
+        dashboard_accessed.send(sender=None,
+                                request=self.request,
+                                data=self.object)
 
         start_date = timezone.now() - datetime.timedelta(
             days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
         end_date = timezone.now()
         interval = 'days'
-        initial = {'start_date': start_date, 'end_date': end_date, 'interval': interval}
+        initial = {'start_date': start_date,
+                   'end_date': end_date,
+                   'interval': interval}
 
         initial.update(self.request.GET.dict())
         if isinstance(initial['interval'], list):
@@ -46,13 +49,14 @@ class CourseActivityDetail(DetailView):
         form = DateRangeIntervalForm(initial)
         if form.is_valid():
             start_date = timezone.make_aware(
-                datetime.datetime.strptime( form.cleaned_data.get("start_date"), constants.STR_DATE_FORMAT),
+                datetime.datetime.strptime(form.cleaned_data.get("start_date"),
+                                           constants.STR_DATE_FORMAT),
                 timezone.get_current_timezone())
             end_date = timezone.make_aware(
-                datetime.datetime.strptime(form.cleaned_data.get("end_date"), constants.STR_DATE_FORMAT),
+                datetime.datetime.strptime(form.cleaned_data.get("end_date"),
+                                           constants.STR_DATE_FORMAT),
                 timezone.get_current_timezone())
             interval = form.cleaned_data.get("interval")
-
 
         form.form_method = 'get'
         context['form'] = form
@@ -69,11 +73,12 @@ class CourseActivityDetail(DetailView):
 
         return context
 
-
     def get_activity(self, start_date, end_date, interval):
         if interval == 'days':
             daily_stats = CourseDailyStats.objects\
-                .filter(course=self.object, day__gte=start_date, day__lte=end_date) \
+                .filter(course=self.object,
+                        day__gte=start_date,
+                        day__lte=end_date) \
                 .annotate(stat_date=TruncDay('day')) \
                 .values('stat_date', 'type') \
                 .annotate(total=Sum('total'))
@@ -82,14 +87,15 @@ class CourseActivityDetail(DetailView):
 
         else:
             monthly_stats = CourseDailyStats.objects \
-                .filter(course=self.object, day__gte=start_date, day__lte=end_date) \
+                .filter(course=self.object,
+                        day__gte=start_date,
+                        day__lte=end_date) \
                 .annotate(month=TruncMonth('day'), year=TruncYear('day')) \
                 .values('month', 'year', 'type') \
                 .annotate(total=Sum('total')) \
                 .order_by('year', 'month')
 
             return generate_graph_data(monthly_stats, True)
-
 
 
 class CourseRecentActivityDetail(DetailView):
@@ -104,18 +110,21 @@ class CourseRecentActivityDetail(DetailView):
         context = super().get_context_data(**kwargs)
         can_view_course_detail(self.request, self.object.id)
 
-        start_date = timezone.now() - datetime.timedelta(days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
+        start_date = timezone.now() - datetime.timedelta(
+            days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
         end_date = timezone.now()
-        initial = { 'start_date': start_date, 'end_date': end_date }
+        initial = {'start_date': start_date, 'end_date': end_date}
         initial.update(self.request.GET.dict())
 
         form = DateRangeForm(initial)
         if form.is_valid():
             start_date = timezone.make_aware(
-                datetime.datetime.strptime( form.cleaned_data.get("start_date"), constants.STR_DATE_FORMAT),
+                datetime.datetime.strptime(form.cleaned_data.get("start_date"),
+                                           constants.STR_DATE_FORMAT),
                 timezone.get_current_timezone())
             end_date = timezone.make_aware(
-                datetime.datetime.strptime(form.cleaned_data.get("end_date"), constants.STR_DATE_FORMAT),
+                datetime.datetime.strptime(form.cleaned_data.get("end_date"),
+                                           constants.STR_DATE_FORMAT),
                 timezone.get_current_timezone())
         else:
             print(form.errors)
@@ -125,7 +134,6 @@ class CourseRecentActivityDetail(DetailView):
         context['page'] = self.get_activitylogs_page(start_date, end_date)
         return context
 
-
     def get_activitylogs_page(self, start_date, end_date):
 
         print(start_date)
@@ -134,7 +142,8 @@ class CourseRecentActivityDetail(DetailView):
                                           tracker_date__lte=end_date) \
                           .order_by('-tracker_date')
 
-        paginator = Paginator(trackers, constants.LEADERBOARD_TABLE_RESULTS_PER_PAGE)
+        paginator = Paginator(trackers,
+                              constants.LEADERBOARD_TABLE_RESULTS_PER_PAGE)
         # Make sure page request is an int. If not, deliver first page.
         try:
             page = int(self.request.GET.get('page', '1'))
@@ -157,8 +166,6 @@ class CourseRecentActivityDetail(DetailView):
                 t.data_obj.append(['ip', t.ip])
         except (EmptyPage, InvalidPage):
             tracks = paginator.page(paginator.num_pages)
-
-
 
         return tracks
 

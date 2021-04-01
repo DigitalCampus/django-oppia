@@ -33,6 +33,7 @@ class ServerView(TemplateView):
     template_name = 'oppia/server.html'
     extra_context = {'settings': settings}
 
+
 class AboutView(TemplateView):
     template_name = 'oppia/about.html'
     extra_context = {'settings': settings}
@@ -139,7 +140,8 @@ def process_home_activity_days(activity, start_date, end_date):
         count = next((dct['count']
                       for dct in tracker_stats
                       if dct['day'] == temp.date()), 0)
-        activity.append([temp.strftime(constants.STR_DATE_DISPLAY_FORMAT), count])
+        activity.append([temp.strftime(constants.STR_DATE_DISPLAY_FORMAT),
+                         count])
     return activity
 
 
@@ -201,7 +203,8 @@ class TeacherView(TemplateView):
         context = super().get_context_data(**kwargs)
         cohorts = permissions.get_cohorts(self.request)
 
-        start_date = timezone.now() - datetime.timedelta(days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
+        start_date = timezone.now() - datetime.timedelta(
+            days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
         end_date = timezone.now()
 
         # get student activity
@@ -241,7 +244,8 @@ def get_trackers(start_date, end_date, courses, students=None):
                      for dct in trackers
                      if dct['day'].strftime(constants.STR_DATE_DISPLAY_FORMAT)
                      == temp_date), 0)
-        activity.append([temp.strftime(constants.STR_DATE_DISPLAY_FORMAT), count])
+        activity.append([temp.strftime(constants.STR_DATE_DISPLAY_FORMAT),
+                         count])
     return activity
 
 
@@ -253,7 +257,6 @@ class LeaderboardView(SafePaginatorMixin, ListView, AjaxTemplateResponseMixin):
 
     def get_queryset(self):
         return Points.get_leaderboard()
-
 
 
 class AppLauncherDetailView(TemplateView):
