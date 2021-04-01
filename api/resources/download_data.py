@@ -57,7 +57,7 @@ class DownloadDataResource(ModelResource):
         raise BadRequest()
     
     # prevent getting individual userid
-    def get_object(self, queryset=None):
+    def get_object(self, request):
         raise BadRequest()
                    
     def download_activity_data(self, request, **kwargs):

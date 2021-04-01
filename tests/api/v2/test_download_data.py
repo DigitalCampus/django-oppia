@@ -12,7 +12,9 @@ class DownloadDataResourceTest(ResourceTestCaseMixin, TransactionTestCase):
                 'tests/test_oppia.json',
                 'tests/test_permissions.json',
                 'default_gamification_events.json',
-                'tests/test_tracker.json']
+                'tests/test_tracker.json',
+                'tests/test_quiz.json',
+                'tests/test_quizattempt.json']
 
     STR_ACTIVITY = 'activity/'
     STR_QUIZ = 'quiz/'
