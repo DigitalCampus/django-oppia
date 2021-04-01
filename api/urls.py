@@ -20,6 +20,7 @@ from api.resources.tracker import TrackerResource
 from api.resources.username import UsernameResource
 from api.resources.progress import UserCourseSummaryResource
 from api.resources.delete_account import DeleteAccountResource
+from api.resources.download_data import DownloadDataResource
 from quiz.api.resources import QuizAttemptResource
 
 
@@ -56,6 +57,7 @@ def get_api_v2():
     api.register(UserCourseSummaryResource())
     api.register(UsernameResource())
     api.register(DeleteAccountResource())
+    api.register(DownloadDataResource())
     return api
 
 

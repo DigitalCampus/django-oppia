@@ -159,6 +159,7 @@ def delete_account_view(request, user_id):
 class DeleteAccountComplete(TemplateView):
     template_name = 'profile/delete_account_complete.html'
 
+
 class UploadUsers(AdminRequiredMixin, FormView):
 
     form_class = UploadProfileForm
