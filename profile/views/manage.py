@@ -106,6 +106,29 @@ def list_users(request):
                    'users_list_template': 'select',
                    'ajax_url': request.path})
 
+def delete_user_data(delete_user):
+    # delete points
+    Points.objects.filter(user=delete_user).delete()
+
+    # delete badges
+    Award.objects.filter(user=delete_user).delete()
+
+    # delete trackers
+    Tracker.objects.filter(user=delete_user).delete()
+
+    # delete quiz attempts
+    QuizAttemptResponse.objects \
+        .filter(quizattempt__user=delete_user).delete()
+    QuizAttempt.objects.filter(user=delete_user).delete()
+
+    # delete profile
+    UserProfile.objects.filter(user=delete_user).delete()
+
+    # delete api key
+    ApiKey.objects.filter(user=delete_user).delete()
+
+    # logout and delete user
+    User.objects.get(pk=delete_user.id).delete()
 
 def delete_account_view(request, user_id):
     if request.method == 'POST':  # if form submitted...
@@ -121,28 +144,7 @@ def delete_account_view(request, user_id):
             else:
                 raise PermissionDenied
 
-            # delete points
-            Points.objects.filter(user=delete_user).delete()
-
-            # delete badges
-            Award.objects.filter(user=delete_user).delete()
-
-            # delete trackers
-            Tracker.objects.filter(user=delete_user).delete()
-
-            # delete quiz attempts
-            QuizAttemptResponse.objects \
-                .filter(quizattempt__user=delete_user).delete()
-            QuizAttempt.objects.filter(user=delete_user).delete()
-
-            # delete profile
-            UserProfile.objects.filter(user=delete_user).delete()
-
-            # delete api key
-            ApiKey.objects.filter(user=delete_user).delete()
-
-            # logout and delete user
-            User.objects.get(pk=delete_user.id).delete()
+            delete_user_data(delete_user)
 
             # redirect
             return HttpResponseRedirect(
