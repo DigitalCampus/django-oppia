@@ -1,5 +1,8 @@
-on:
-  push:
+name: Sonarclud analysis
+
+on: [push]
+
+jobs:
     branches:
       - main       # The default branch
       - release-*  # release branches
