@@ -5,4 +5,4 @@ on: [push]
 jobs:
     branches:
       - main       # The default branch
-      - release-*  # release branches
+      - release*  # release branches
