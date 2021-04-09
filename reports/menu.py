@@ -57,7 +57,11 @@ def menu_reports(request):
                {'name': _(u'Activity by Language'),
                 'description': _(u'Activity by language'),
                 'url': reverse('reports:lang_activity'),
-                'icon': 'pie_chart'}]
+                'icon': 'pie_chart'},
+               {'name': _(u'Inactive Users'),
+                'description': _(u'Users who have not been active'),
+                'url': reverse('reports:inactive_users'),
+                'icon': 'vertical_split'}]
 
     map_viz_enabled = SettingProperties.get_bool(
         constants.OPPIA_MAP_VISUALISATION_ENABLED,

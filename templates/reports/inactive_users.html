@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{% trans 'Inactive Users' %}
+{% endblock extra_head_title %}
+
+{% block header %}
+<div class="jumbotron mb-4">
+	<div class="row">
+        <div class="col"><h3 class="mt-3"><a href="{% url 'reports:index' %}">{% trans 'Analytics/Reports' %}</a>
+		&gt; {% trans 'Inactive Users' %}</h3></div>
+    </div>
+</div>
+{% endblock header %}
+
+{% block content %}
+
+{% if inactive_user_data %}
+
+	{% trans "Total users who have been active (at any point)" %}: {{ inactive_user_data.total_users }}
+	 <div class="table-responsive">
+         <table class="table table-striped-expandable">
+             <caption class="d-none">{% trans "Inactive users" %}</caption>
+         	 <thead>
+                <tr>
+                  <th scope="col">{% trans 'Date range' %}</th>
+                  <th scope="col">{% trans 'Count' %}</th>
+                  <th scope="col">{% trans 'as percentage' %}</th>
+                </tr>
+              </thead>
+              <tbody>
+				<tr>
+					<td>{% trans 'Inactive during last 1 month' %}</td>
+					<td>{{ inactive_user_data.inactive_one_month_no }}</td>
+					<td>{{ inactive_user_data.inactive_one_month_percent }}%</td>
+				</tr>
+				<tr>
+					<td>{% trans 'Inactive during last 3 months' %}</td>
+					<td>{{ inactive_user_data.inactive_three_month_no }}</td>
+					<td>{{ inactive_user_data.inactive_three_month_percent }}%</td>
+				</tr>
+				<tr>
+					<td>{% trans 'Inactive during last 6 months' %}</td>
+					<td>{{ inactive_user_data.inactive_six_month_no }}</td>
+					<td>{{ inactive_user_data.inactive_six_month_percent }}%</td>
+				</tr>
+				
+			{% for year in inactive_user_data.years %}
+				<tr>
+					<td>
+						{% blocktrans with year=year.year %}
+							Inactive during last {{ year }} year/s
+						{% endblocktrans %}
+					</td>
+					<td>{{ year.inactive_no }}</td>
+					<td>{{ year.inactive_percent }}%</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+ 		</table>
+	</div>
+{% else %}
+	{% blocktrans %}
+		<p>No data available</p>
+	{% endblocktrans %}
+{% endif %}
+
+{% endblock content %}

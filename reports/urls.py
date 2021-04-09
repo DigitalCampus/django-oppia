@@ -50,4 +50,7 @@ urlpatterns = [
          views.CountriesView.as_view(),
          name="countries"),
     path('map/', views.MapView.as_view(), name="map"),
+    path('inactive-users',
+         views.InactiveUsersView.as_view(),
+         name="inactive_users"),
 ]
