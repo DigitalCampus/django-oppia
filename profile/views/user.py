@@ -269,10 +269,29 @@ class ExportDataView(TemplateView):
             badges = Award.objects.filter(user=request.user)
             return render(request, 'profile/export/badges.html',
                           {'badges': badges})
+        elif data_type == 'profile':
+            profile, additional_profile, custom_profile = self.get_profile_data(request.user)
+            return render(request, 'profile/export/profile.html',
+                          {'profile': profile,
+                           'additional_profile': additional_profile,
+                           'custom_profile': custom_profile})
         else:
             raise Http404
 
-
+    @staticmethod
+    def get_profile_data(user):
+        profile = User.objects.get(pk=user.id)
+        additional_profile = UserProfile.objects.get(user=user)
+        custom_profile_fields = CustomField.objects.filter(
+            userprofilecustomfield__user=user).order_by('order')
+        custom_profile = []
+        for cpf in custom_profile_fields:
+            cp = {}
+            cp['label'] = cpf.label
+            cp['value'] = UserProfileCustomField.objects.get(key_name=cpf.id, user=user).get_value()
+            custom_profile.append(cp)
+        return profile, additional_profile, custom_profile
+                
 class PointsView(SafePaginatorMixin, ListView):
     template_name = 'profile/points.html'
     paginate_by = 25

@@ -4,7 +4,7 @@ from django.http import HttpResponse, Http404
 from django.template.loader import render_to_string
 
 from oppia.models import Points, Award, Tracker
-
+from profile.views.user import ExportDataView
 from quiz.models import QuizAttempt, QuizAttemptResponse
 
 from tastypie.authentication import ApiKeyAuthentication, Authentication
@@ -30,6 +30,11 @@ class DownloadDataResource(ModelResource):
        
     def prepend_urls(self):
         return [
+            # for profile
+            url(r"^(?P<resource_name>%s)/profile%s$"
+                % (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('download_profile_data'),
+                name="api_download_profile_data"),
             # for trackers
             url(r"^(?P<resource_name>%s)/activity%s$"
                 % (self._meta.resource_name, trailing_slash()),
@@ -51,15 +56,31 @@ class DownloadDataResource(ModelResource):
                 self.wrap_view('download_points_data'),
                 name="api_download_points_data"),
         ]
-    
+
     # prevent just getting list of users
     def get_object_list(self, request):
         raise BadRequest()
-    
+
     # prevent getting individual userid
     def get_object(self, request):
         raise BadRequest()
-                   
+
+    def download_profile_data(self, request, **kwargs):
+        self.is_authenticated(request)
+        self.throttle_check(request)
+        profile, additional_profile, custom_profile = \
+            ExportDataView.get_profile_data(request.user)
+        response_data = render_to_string('profile/export/profile.html',
+                          {'profile': profile,
+                           'additional_profile': additional_profile,
+                           'custom_profile': custom_profile })
+        response = HttpResponse(response_data,
+                                content_type=self.STR_CONTENT_TYPE)
+        response['Content-Disposition'] = \
+                'attachment; filename="%s-profile.html"' % \
+                (request.user.username)
+        return response
+  
     def download_activity_data(self, request, **kwargs):
         self.is_authenticated(request)
         self.throttle_check(request)
@@ -72,7 +93,7 @@ class DownloadDataResource(ModelResource):
                 'attachment; filename="%s-activity.html"' % \
                 (request.user.username)
         return response
-    
+
     def download_quiz_data(self, request, **kwargs):
         self.is_authenticated(request)
         self.throttle_check(request)
@@ -117,5 +138,5 @@ class DownloadDataResource(ModelResource):
         response['Content-Disposition'] = \
                 'attachment; filename="%s-points.html"' % \
                 (request.user.username)
-        
+
         return response

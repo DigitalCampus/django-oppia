@@ -20,6 +20,7 @@ class DownloadDataResourceTest(ResourceTestCaseMixin, TransactionTestCase):
     STR_QUIZ = 'quiz/'
     STR_BADGES = 'badges/'
     STR_POINTS = 'points/'
+    STR_PROFILE = 'profile/'
     STR_EXPECTED_CONTENT_TYPE = 'text/html'
     
     def setUp(self):
@@ -202,5 +203,41 @@ class DownloadDataResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(resp['content-type'],
                          self.STR_EXPECTED_CONTENT_TYPE)
         self.assertEqual('attachment; filename="teacher-points.html"',
+                         resp['Content-Disposition'])
+
+    def test_get_profile_user(self):
+        resp = self.api_client.get(
+            self.url + self.STR_PROFILE, format='json', data=self.user_auth)
+        self.assertHttpOK(resp)
+        self.assertEqual(resp['content-type'],
+                         self.STR_EXPECTED_CONTENT_TYPE)
+        self.assertEqual('attachment; filename="demo-profile.html"',
+                         resp['Content-Disposition'])
+
+    def test_get_profile_admin(self):
+        resp = self.api_client.get(
+            self.url + self.STR_PROFILE, format='json', data=self.admin_auth)
+        self.assertHttpOK(resp)
+        self.assertEqual(resp['content-type'],
+                         self.STR_EXPECTED_CONTENT_TYPE)
+        self.assertEqual('attachment; filename="admin-profile.html"',
+                         resp['Content-Disposition'])
+
+    def test_get_profile_staff(self):
+        resp = self.api_client.get(
+            self.url + self.STR_PROFILE, format='json', data=self.staff_auth)
+        self.assertHttpOK(resp)
+        self.assertEqual(resp['content-type'],
+                         self.STR_EXPECTED_CONTENT_TYPE)
+        self.assertEqual('attachment; filename="staff-profile.html"',
+                         resp['Content-Disposition'])
+
+    def test_get_profile_teacher(self):
+        resp = self.api_client.get(
+            self.url + self.STR_PROFILE, format='json', data=self.teacher_auth)
+        self.assertHttpOK(resp)
+        self.assertEqual(resp['content-type'],
+                         self.STR_EXPECTED_CONTENT_TYPE)
+        self.assertEqual('attachment; filename="teacher-profile.html"',
                          resp['Content-Disposition'])
         

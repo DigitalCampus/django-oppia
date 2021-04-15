@@ -1,0 +1,74 @@
+{% load i18n %}
+{% load display_functions %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>{% trans 'Profile Export' %} - {% trans 'app_name' %}</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<table>
+	<caption class="d-none">{% trans "Profile" %}</caption>
+	<tr>
+		<th scope="col">{% trans 'Field' %}</th>
+		<th scope="col">{% trans 'Value' %}</th>
+	</tr>
+	<tr>
+		<td>{% trans "Username" %}</td>
+		<td>{{ profile.username }}</td>
+	</tr>
+	<tr>
+		<td>{% trans "First name" %}</td>
+		<td>{{ profile.first_name }}</td>
+	</tr>
+	<tr>
+		<td>{% trans "Last name" %}</td>
+		<td>{{ profile.last_name }}</td>
+	</tr>
+	<tr>
+		<td>{% trans "Email" %}</td>
+		<td>{{ profile.email }}</td>
+	</tr>
+	<tr>
+		<td>{% trans "Date joined" %}</td>
+		<td>{{ profile.date_joined }}</td>
+	</tr>
+	{% if additional_profile.about %}
+		<tr>
+			<td>{% trans "About" %}</td>
+			<td>{{ additional_profile.about }}</td>
+		</tr>
+	{% endif %}
+	{% if additional_profile.phone_no %}
+		<tr>
+			<td>{% trans "Phone no" %}</td>
+			<td>{{ additional_profile.phone_no }}</td>
+		</tr>
+	{% endif %}
+	{% if additional_profile.job_title %}
+		<tr>
+			<td>{% trans "Job title" %}</td>
+			<td>{{ additional_profile.job_title }}</td>
+		</tr>
+	{% endif %}
+	{% if additional_profile.organisation %}
+		<tr>
+			<td>{% trans "Organisation" %}</td>
+			<td>{{ additional_profile.organisation }}</td>
+		</tr>
+	{% endif %}
+	{%  for p in custom_profile %}
+		<tr>
+			<td>{{ p.label }}</td>
+			<td>{{ p.value }}</td>
+		</tr>
+	{% endfor %}
+</table>
+
+
+</body>
+</html>
