@@ -4,6 +4,15 @@
 <script src="{% static "oppia/js/oppia.chart-utils.js" %}"></script>
 <script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
 <script type="text/javascript">
+
+	function getDailyDatatable(rowCount){
+	    var datatable = new google.visualization.DataTable();
+	    datatable.addColumn('string', "{% trans 'Date' %}");
+	    datatable.addColumn('number', "{% trans 'Total' %}");
+	    datatable.addRows( rowCount );
+	    return datatable;
+	}
+
 		function getMonthlyDatatable(rowCount){
 		    var datatable = new google.visualization.DataTable();
 		    datatable.addColumn('string', "{% trans 'Month/Year' %}");
