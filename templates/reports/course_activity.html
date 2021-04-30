@@ -13,9 +13,15 @@
    		google.charts.setOnLoadCallback(drawChart);
 		function drawChart() {
 
+			dsets['daily_activity'] = getDailyDatatable({{ daily_activity|length }});
 			dsets['course_activity'] = getMonthlyDatatable({{ course_activity|length }});
 	        dsets['course_activity_aggr'] = getMonthlyDatatable({{ course_activity|length }});
 
+	        {% for u in daily_activity %}
+	        	dsets['daily_activity'].setValue({{ forloop.counter0 }}, 0, "{{ u.day|date:"d F Y" }}");
+				dsets['daily_activity'].setValue({{ forloop.counter0 }}, 1, {{ u.count }});
+			{% endfor %}
+		
 			count = {{ previous_course_activity }};
 			{% for u in course_activity %}
                 dsets['course_activity'].setValue({{ forloop.counter0 }}, 0, "{{ u.month|date:"F Y" }}");
@@ -25,6 +31,10 @@
 				dsets['course_activity_aggr'].setValue({{ forloop.counter0 }}, 1, count);
 			{% endfor %}
 
+			new google.visualization
+	        	.AreaChart(document.getElementById('daily_div'))
+	     		.draw(dsets['daily_activity'], getDefaultAreaChartConfig('{% trans 'Course Activity (daily)' %}'));
+			
             new google.visualization
                     .AreaChart(document.getElementById('chart_div'))
 	                .draw(dsets['course_activity'], getDefaultAreaChartConfig('{% trans 'Course Activity (by month)' %}'));
@@ -78,6 +88,11 @@
 {% endblock header %}
 
 {% block content %}
+
+<div id="daily_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
+{% if daily_activity %}
+    <button class="btn btn-default btn-primary btn-sm download-csv-button" data-csv="daily_activity">{% trans 'Download as CSV' %}</button>
+{% endif %}
 
 <div id="chart_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating'%}"/></div>
 {% if course_activity %}
