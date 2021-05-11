@@ -54,6 +54,7 @@ setup(
         "pytest",
         "pytest-django",
         "django-ses",
-        "openpyxl==3.0.3"
+        "openpyxl==3.0.3",
+        "reportlab==3.5.67"
     ],
 )

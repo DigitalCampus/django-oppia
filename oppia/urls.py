@@ -77,6 +77,10 @@ urlpatterns = [
          views.CohortLeaderboardView.as_view(),
          name="cohort_leaderboard"),
 
+    path('certificate/preview/<int:certificate_template_id>/',
+         views.PreviewCertificateView.as_view(),
+         name="certificate_preview"),
+
     path('view/',
          views.AppLauncherDetailView.as_view(),
          name="app_launch_activity_redirect"),

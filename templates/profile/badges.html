@@ -16,13 +16,17 @@
                 <tr>
                   <th scope="col">{% trans 'Award Date' %}</th>
                   <th scope="col">{% trans 'Description' %}</th>
+                  <th scope="col">{% trans 'Certificate' %}</th>
                 </tr>
               </thead>
               <tbody>
 	{% for b in awards %}
 		 <tr>
            <td>{{ b.award_date }}</td>
-           <td><img src="{{ MEDIA_URL }}{{ b.badge_icon }}" height="50px" alt="{% trans 'Badge icon'%}"/> {{ b.description }} </td>
+           <td>{{ b.description }}</td>
+           <td>{% if b.certificate_pdf %}
+           		<a href="{{MEDIA_URL}}{{ b.certificate_pdf}}">{% trans 'Download certificate'%}</a>
+           		{% endif %}</td>
          </tr>
 	{% endfor %}
 			</tbody>

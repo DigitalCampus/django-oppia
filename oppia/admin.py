@@ -1,5 +1,8 @@
 
 from django.contrib import admin
+from django.urls import reverse
+from django.utils.html import format_html
+
 from oppia.models import Course, \
                          Section, \
                          Activity, \
@@ -10,6 +13,7 @@ from oppia.models import Course, \
 from oppia.models import Participant, Category, CourseCategory
 from oppia.models import Badge, Award, Points, AwardCourse, BadgeMethod
 from oppia.models import CourseCohort, CoursePublishingLog
+from oppia.models import CertificateTemplate
 
 
 class TrackerAdmin(admin.ModelAdmin):
@@ -121,6 +125,19 @@ class CategoryAdmin(admin.ModelAdmin):
     ordering = ['-order_priority', 'name']
     search_fields = ['name', 'description']
 
+class CertificateTemplateAdmin(admin.ModelAdmin):
+    list_display = ('course',
+                    'badge',
+                    'enabled',
+                    'include_name',
+                    'include_date',
+                    'include_course_title',
+                    'preview')
+    
+    def preview(self, obj):
+        return format_html("<a target='_blank' href="+reverse('oppia:certificate_preview', args={obj.id}) + ">Sample</a>")
+    
+    preview.short_description = "Preview/Test"
 
 admin.site.register(Activity, ActivityAdmin)
 admin.site.register(Award, AwardAdmin)
@@ -139,3 +156,4 @@ admin.site.register(Category, CategoryAdmin)
 admin.site.register(Tracker, TrackerAdmin)
 admin.site.register(CoursePermissions, CoursePermissionsAdmin)
 admin.site.register(CoursePublishingLog, CoursePublishingLogAdmin)
+admin.site.register(CertificateTemplate, CertificateTemplateAdmin)
