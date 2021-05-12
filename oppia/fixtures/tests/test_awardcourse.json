@@ -1,0 +1,22 @@
+[
+{
+    "model": "oppia.award",
+    "pk": 1,
+    "fields": {
+        "badge": 1,
+        "user": 2,
+        "description": "Course completed: Award Test Course",
+        "award_date": "2021-05-12T08:24:57.957Z",
+        "certificate_pdf": ""
+    }
+},
+{
+    "model": "oppia.awardcourse",
+    "pk": 1,
+    "fields": {
+        "award": 1,
+        "course": 5,
+        "course_version": 20200123143622
+    }
+}
+]
