@@ -19,8 +19,7 @@ class MediaUploadResourceTest(OppiaTestCase):
     corrupt_media_file_path = \
         './oppia/fixtures/reference_files/corrupt_video.m4v'
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow \
-        see issue: https://github.com/DigitalCampus/django-oppia/issues/689")
+    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_upload_template(self):
         with open(self.media_file_path, 'rb') as media_file_content:
             media_file = SimpleUploadedFile(media_file_content.name,
