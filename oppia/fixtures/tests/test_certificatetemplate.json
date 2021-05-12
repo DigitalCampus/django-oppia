@@ -1,0 +1,79 @@
+[
+{
+    "model": "oppia.award",
+    "pk": 4,
+    "fields": {
+        "badge": 1,
+        "user": 2,
+        "description": "Course completed: Award Test Course",
+        "award_date": "2021-05-12T11:06:53.353Z",
+        "certificate_pdf": ""
+    }
+},
+{
+    "model": "oppia.awardcourse",
+    "pk": 4,
+    "fields": {
+        "award": 4,
+        "course": 5,
+        "course_version": 20200123143622
+    }
+},
+{
+    "model": "oppia.certificatetemplate",
+    "pk": 1,
+    "fields": {
+        "badge": 1,
+        "enabled": true,
+        "course": 1,
+        "image_file": "certificate/templates/certificate_test2_aIeE1m6.png",
+        "include_name": true,
+        "include_date": true,
+        "include_course_title": true,
+        "name_x": 0,
+        "name_y": 0,
+        "date_x": 0,
+        "date_y": 0,
+        "course_title_x": 0,
+        "course_title_y": 0
+    }
+},
+{
+    "model": "oppia.certificatetemplate",
+    "pk": 2,
+    "fields": {
+        "badge": 1,
+        "enabled": false,
+        "course": 2,
+        "image_file": "certificate/templates/certificate_test2_dA7tsVc.png",
+        "include_name": true,
+        "include_date": true,
+        "include_course_title": true,
+        "name_x": 0,
+        "name_y": 0,
+        "date_x": 0,
+        "date_y": 0,
+        "course_title_x": 0,
+        "course_title_y": 0
+    }
+},
+{
+    "model": "oppia.certificatetemplate",
+    "pk": 3,
+    "fields": {
+        "badge": 1,
+        "enabled": true,
+        "course": 5,
+        "image_file": "certificate/templates/certificate_test2_Aq5hcOr.png",
+        "include_name": true,
+        "include_date": true,
+        "include_course_title": true,
+        "name_x": 0,
+        "name_y": 0,
+        "date_x": 0,
+        "date_y": 0,
+        "course_title_x": 0,
+        "course_title_y": 0
+    }
+}
+]

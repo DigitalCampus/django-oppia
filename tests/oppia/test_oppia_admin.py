@@ -8,7 +8,9 @@ class OppiaAdminTest(OppiaTestCase):
                 'tests/test_quiz.json',
                 'tests/test_permissions.json',
                 'tests/test_course_permissions.json',
-                'tests/test_question_indices.json']
+                'tests/test_question_indices.json',
+                'tests/awards/award-course.json',
+                'tests/test_certificatetemplate.json']
 
     def test_course_admin(self):
         self.client.force_login(user=self.admin_user)
@@ -19,3 +21,10 @@ class OppiaAdminTest(OppiaTestCase):
         self.client.force_login(user=self.admin_user)
         response = self.client.get(reverse('admin:oppia_activity_changelist'))
         self.assertEqual(200, response.status_code)
+        
+    def test_certificate_preview(self):
+        self.client.force_login(user=self.admin_user)
+        response = self.client.get(reverse('oppia:certificate_preview', args={1}))
+        self.assertEqual(200, response.status_code)
+        self.assertEqual(response['Content-Type'], "application/pdf")
+        

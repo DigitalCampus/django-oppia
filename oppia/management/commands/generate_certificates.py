@@ -5,6 +5,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
+from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 
 from oppia.management import commands
@@ -34,7 +35,8 @@ class Command(BaseCommand):
             awards = Award.objects.filter(awardcourse__course=ct.course)
             
             if not options['allcerts']:
-                 awards = awards.filter(certificate_pdf__isnull=True)
+                 awards = awards.filter(
+                     Q(certificate_pdf__isnull=True)|Q(certificate_pdf=""))
                  
             for award in awards:
                 print(award)
