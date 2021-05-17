@@ -2,7 +2,7 @@
 from django.conf import settings
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
-
+from django.utils.translation import ugettext as _
 
 def send_oppia_email(
         from_email=settings.SERVER_EMAIL,
@@ -28,7 +28,7 @@ def send_oppia_email(
         0 or 1, return value of send_mail
 
     """
-    email_subject = settings.EMAIL_SUBJECT_PREFIX + subject
+    email_subject = "[" + _('app_name')+ "] " + subject
     text_content = render_to_string(template_text, context)
     html_content = render_to_string(template_html, context)
     return send_mail(

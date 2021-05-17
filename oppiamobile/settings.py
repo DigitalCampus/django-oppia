@@ -112,7 +112,6 @@ STATIC_URL = '/static/'
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = '/tmp/'
 SERVER_EMAIL = 'adming@email.org'
-EMAIL_SUBJECT_PREFIX = '[SUBJECT_PREFIX]: '
 
 
 # Internationalization
