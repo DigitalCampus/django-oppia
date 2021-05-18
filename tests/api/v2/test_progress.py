@@ -204,12 +204,12 @@ class ProgressResourceTest(ResourceTestCaseMixin, TestCase):
         response = self.api_client.get(
             url, format='json', data=self.user_auth)
         self.assertHttpNotFound(response)
-        
+
         url = self.url + "staff/"
         response = self.api_client.get(
             url, format='json', data=self.user_auth)
         self.assertHttpNotFound(response)
-        
+
         url = self.url + "teacher/"
         response = self.api_client.get(
             url, format='json', data=self.user_auth)

@@ -1,13 +1,11 @@
 
 from django.contrib.admin.views.decorators import staff_member_required
-from django.contrib.auth.models import User
 from django.db.models import Count
-from django.db.models.functions import TruncMonth, TruncYear
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
 
-from oppia.models import Tracker, Course
+from oppia.models import Tracker
 
 from reports.views.base_report_template import BaseReportTemplateView
 

@@ -20,7 +20,7 @@ class OppiaViewsTest(OppiaTestCase):
     URL_SERVER = reverse('oppia:server')
     URL_MANAGER_INDEX = reverse('oppia:manager_index')
     URL_LEADERBOARD = reverse('oppia:leaderboard')
-    
+
     def test_home(self):
         response = self.client.get(self.URL_INDEX)
         self.assertEqual(response.status_code, 200)
@@ -71,7 +71,7 @@ class OppiaViewsTest(OppiaTestCase):
         response = self.client.get(self.URL_SERVER)
         self.assertEqual("all_quizzes_plus_percent",
                          response.json()['course_complete_badge_criteria'])
-        
+
         badge_method = BadgeMethod.objects.get(key="all_activities")
         badge = Badge.objects.get(ref='coursecompleted')
         badge.default_method = badge_method
@@ -79,17 +79,20 @@ class OppiaViewsTest(OppiaTestCase):
         response = self.client.get(self.URL_SERVER)
         self.assertEqual("all_activities",
                          response.json()['course_complete_badge_criteria'])
-    
+
     def test_server_update_badge_criteria_percent(self):
         SettingProperties.set_int(constants.OPPIA_BADGES_PERCENT_COMPLETED, 37)
         response = self.client.get(self.URL_SERVER)
-        self.assertEqual(37,
+        self.assertEqual(
+            37,
             response.json()['course_complete_badge_criteria_percent'])
-        
+
         SettingProperties.set_int(constants.OPPIA_BADGES_PERCENT_COMPLETED, 80)
         response = self.client.get(self.URL_SERVER)
-        self.assertEqual(80,
+        self.assertEqual(
+            80,
             response.json()['course_complete_badge_criteria_percent'])
+
     '''
     homepage - post
     '''

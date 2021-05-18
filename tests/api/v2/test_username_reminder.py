@@ -5,15 +5,15 @@ from django.test import TestCase
 from tastypie.test import ResourceTestCaseMixin
 from tests.utils import get_api_url
 
+
 class UsernameReminderResourceTest(ResourceTestCaseMixin, TestCase):
     fixtures = ['tests/test_user.json']
     demo_email_address = 'demo@me.com'
 
-
     def setUp(self):
         super(UsernameReminderResourceTest, self).setUp()
         self.url = get_api_url('v2', 'username')
-        
+
     # get not allowed
     def test_get_invalid(self):
         self.assertHttpMethodNotAllowed(self.api_client.get(self.url,
@@ -42,10 +42,12 @@ class UsernameReminderResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertHttpCreated(resp)
         self.assertValidJSON(resp.content)
         self.assertEqual(len(mail.outbox), 0)
-        
+
     # multiple users with same email
     def test_email_multiple(self):
-        user = User(email='admin@me.com', username='anotheradmin', password='dummypassword')
+        user = User(email='admin@me.com',
+                    username='anotheradmin',
+                    password='dummypassword')
         user.save()
         data = {'email': 'admin@me.com'}
         resp = self.api_client.post(self.url, format='json', data=data)

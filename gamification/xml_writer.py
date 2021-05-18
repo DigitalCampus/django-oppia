@@ -39,7 +39,8 @@ class GamificationXMLWriter:
                                        self.course.filename)
 
         course_zip = zipfile.ZipFile(course_zip_file, mode)
-        self.xml_contents = course_zip.read(self.course.shortname + "/module.xml")
+        self.xml_contents = course_zip.read(
+            self.course.shortname + "/module.xml")
         course_zip.close()
 
         self.xml = xml.dom.minidom.parseString(self.xml_contents)

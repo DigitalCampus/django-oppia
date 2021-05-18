@@ -54,27 +54,26 @@ class Command(BaseCommand):
             data_json = json.loads(data)
 
         if (data_json['latitude'] != 0 or data_json['longitude'] != 0) \
-            and data_json['latitude'] is not None \
-            and data_json['longitude'] is not None:
-                viz = UserLocationVisualization()
-                viz.ip = t['ip']
-                viz.lat = data_json['latitude']
-                viz.lng = data_json['longitude']
-                viz.hits = t['count_hits']
-                if 'city' in data_json \
+                and data_json['latitude'] is not None \
+                and data_json['longitude'] is not None:
+            viz = UserLocationVisualization()
+            viz.ip = t['ip']
+            viz.lat = data_json['latitude']
+            viz.lng = data_json['longitude']
+            viz.hits = t['count_hits']
+            if 'city' in data_json \
                     and 'region_name' in data_json \
                     and data_json['city'] is not None \
                     and data_json['region_name'] is not None:
-                        viz.region = data_json['city'] + " " \
-                        + data_json['region_name']
-                elif 'city' in data_json\
+                viz.region = data_json['city'] + " " + data_json['region_name']
+            elif 'city' in data_json\
                     and data_json['city'] is not None:
-                        viz.region = data_json['city']
-                elif 'region_name' in data_json \
+                viz.region = data_json['city']
+            elif 'region_name' in data_json \
                     and data_json['region_name'] is not None:
-                        viz.region = data_json['region_name']
-                viz.country_code = data_json['country_code']
-                viz.country_name = data_json['country_name']
-                viz.save()
+                viz.region = data_json['region_name']
+            viz.country_code = data_json['country_code']
+            viz.country_name = data_json['country_name']
+            viz.save()
 
         time.sleep(5)

@@ -9,7 +9,6 @@ from django.utils.decorators import method_decorator
 
 from oppia import constants as oppia_constants
 
-from reports import constants as reports_constants
 from reports.views.base_report_template import BaseReportTemplateView
 
 from summary.models import DailyActiveUser

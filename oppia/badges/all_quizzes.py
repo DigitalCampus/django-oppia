@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 from oppia.badges.base_badge import BaseBadge
-from oppia.models import Tracker, Course, Activity
+from oppia.models import Tracker, Activity
 
 
 class BadgeAllQuizzes(BaseBadge):

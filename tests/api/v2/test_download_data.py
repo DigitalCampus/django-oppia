@@ -4,7 +4,6 @@ from django.test import TransactionTestCase
 from tastypie.test import ResourceTestCaseMixin
 
 from tests.utils import get_api_key, get_api_url
-from oppia.models import Tracker, Course
 
 
 class DownloadDataResourceTest(ResourceTestCaseMixin, TransactionTestCase):
@@ -22,7 +21,7 @@ class DownloadDataResourceTest(ResourceTestCaseMixin, TransactionTestCase):
     STR_POINTS = 'points/'
     STR_PROFILE = 'profile/'
     STR_EXPECTED_CONTENT_TYPE = 'text/html'
-    
+
     def setUp(self):
         super(DownloadDataResourceTest, self).setUp()
         self.user = User.objects.get(username='demo')
@@ -46,21 +45,21 @@ class DownloadDataResourceTest(ResourceTestCaseMixin, TransactionTestCase):
             'api_key': get_api_key(user=self.teacher).key
         }
         self.url = get_api_url('v2', 'downloaddata')
-        
+
     def test_post_not_allowed(self):
         self.assertHttpMethodNotAllowed(
             self.api_client.post(self.url, format='json', data={}))
- 
+
     def test_list_not_allowed(self):
         resp = self.api_client.get(
             self.url, format='json', data=self.user_auth)
         self.assertHttpBadRequest(resp)
-        
+
     def test_individual_not_allowed(self):
         resp = self.api_client.get(
             self.url + "2", format='json', data=self.user_auth)
         self.assertEqual(301, resp.status_code)
-        
+
     def test_get_activity_user(self):
         resp = self.api_client.get(
             self.url + self.STR_ACTIVITY, format='json', data=self.user_auth)
@@ -69,7 +68,7 @@ class DownloadDataResourceTest(ResourceTestCaseMixin, TransactionTestCase):
                          self.STR_EXPECTED_CONTENT_TYPE)
         self.assertEqual('attachment; filename="demo-activity.html"',
                          resp['Content-Disposition'])
-     
+
     def test_get_activity_admin(self):
         resp = self.api_client.get(
             self.url + self.STR_ACTIVITY, format='json', data=self.admin_auth)
@@ -78,7 +77,7 @@ class DownloadDataResourceTest(ResourceTestCaseMixin, TransactionTestCase):
                          self.STR_EXPECTED_CONTENT_TYPE)
         self.assertEqual('attachment; filename="admin-activity.html"',
                          resp['Content-Disposition'])
-        
+
     def test_get_activity_staff(self):
         resp = self.api_client.get(
             self.url + self.STR_ACTIVITY, format='json', data=self.staff_auth)
@@ -87,16 +86,18 @@ class DownloadDataResourceTest(ResourceTestCaseMixin, TransactionTestCase):
                          self.STR_EXPECTED_CONTENT_TYPE)
         self.assertEqual('attachment; filename="staff-activity.html"',
                          resp['Content-Disposition'])
-    
+
     def test_get_activity_teacher(self):
         resp = self.api_client.get(
-            self.url + self.STR_ACTIVITY, format='json', data=self.teacher_auth)
+            self.url + self.STR_ACTIVITY,
+            format='json',
+            data=self.teacher_auth)
         self.assertHttpOK(resp)
         self.assertEqual(resp['content-type'],
                          self.STR_EXPECTED_CONTENT_TYPE)
         self.assertEqual('attachment; filename="teacher-activity.html"',
                          resp['Content-Disposition'])
-               
+
     def test_get_quiz_user(self):
         resp = self.api_client.get(
             self.url + self.STR_QUIZ, format='json', data=self.user_auth)
@@ -132,7 +133,7 @@ class DownloadDataResourceTest(ResourceTestCaseMixin, TransactionTestCase):
                          self.STR_EXPECTED_CONTENT_TYPE)
         self.assertEqual('attachment; filename="teacher-quizzes.html"',
                          resp['Content-Disposition'])
-        
+
     def test_get_badges_user(self):
         resp = self.api_client.get(
             self.url + self.STR_BADGES, format='json', data=self.user_auth)
@@ -199,6 +200,7 @@ class DownloadDataResourceTest(ResourceTestCaseMixin, TransactionTestCase):
     def test_get_points_teacher(self):
         resp = self.api_client.get(
             self.url + self.STR_POINTS, format='json', data=self.teacher_auth)
+
         self.assertHttpOK(resp)
         self.assertEqual(resp['content-type'],
                          self.STR_EXPECTED_CONTENT_TYPE)
@@ -240,4 +242,3 @@ class DownloadDataResourceTest(ResourceTestCaseMixin, TransactionTestCase):
                          self.STR_EXPECTED_CONTENT_TYPE)
         self.assertEqual('attachment; filename="teacher-profile.html"',
                          resp['Content-Disposition'])
-        

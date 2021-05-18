@@ -5,8 +5,6 @@ from django.conf import settings
 from django.db import migrations
 from django.utils.translation import ugettext_lazy as _
 
-from settings import constants
-
 
 def add_badge_methods(apps, schema_editor):
 
@@ -17,18 +15,18 @@ def add_badge_methods(apps, schema_editor):
     method.description = _(u"All activities must be completed, including all \
         quizzes passed and all media viewed")
     method.save()
-    
+
     method = badge_method()
     method.key = "final_quiz"
     method.description = _(u"Only the final quiz needs to be completed and \
         passed")
     method.save()
-    
+
     method = badge_method()
     method.key = "all_quizzes"
     method.description = _(u"All quizzes need to be completed and passed")
     method.save()
-    
+
     method = badge_method()
     method.key = "all_quizzes_plus_percent"
     method.description = _(u"All quizzes need to be completed and passed, and \
@@ -50,6 +48,7 @@ def add_badge_methods(apps, schema_editor):
         complete_badge.default_method = badge_method.objects.get(
             key=settings.BADGE_AWARDING_METHOD)
         complete_badge.save()
+
 
 class Migration(migrations.Migration):
 

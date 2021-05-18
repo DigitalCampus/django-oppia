@@ -11,7 +11,10 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 
-from oppia.models import Category, CourseCategory, CoursePublishingLog, CoursePermissions
+from oppia.models import Category, \
+                         CourseCategory, \
+                         CoursePublishingLog, \
+                         CoursePermissions
 from settings import constants
 from settings.models import SettingProperties
 from oppia.uploader import handle_uploaded_file, get_course_shortname

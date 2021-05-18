@@ -40,8 +40,8 @@ class CategoryResource(ModelResource):
                     '-order_priority', 'name')
         else:
             return Category.objects.filter(
-                                      courses__isnull=False,
-                                      coursecategory__course__is_archived=False) \
+                courses__isnull=False,
+                coursecategory__course__is_archived=False) \
                 .filter(
                         Q(coursecategory__course__is_draft=False) |
                         (Q(coursecategory__course__is_draft=True)
@@ -101,7 +101,8 @@ class CategoryResource(ModelResource):
         return response
 
     def dehydrate_count(self, bundle):
-        tmp = Course.objects.filter(category__id=bundle.obj.id, is_archived=False)
+        tmp = Course.objects.filter(category__id=bundle.obj.id,
+                                    is_archived=False)
         if bundle.request.user.is_staff:
             count = tmp.count()
         else:

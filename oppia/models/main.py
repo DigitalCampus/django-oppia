@@ -105,10 +105,12 @@ class Course(models.Model):
                                       tracker_date__gte=last_week).count()
 
     def has_quizzes(self):
-        return Activity.objects.filter(section__course=self, type=Activity.QUIZ).exists()
+        return Activity.objects.filter(section__course=self,
+                                       type=Activity.QUIZ).exists()
 
     def has_feedback(self):
-        return Activity.objects.filter(section__course=self, type=Activity.FEEDBACK).exists()
+        return Activity.objects.filter(section__course=self,
+                                       type=Activity.FEEDBACK).exists()
 
     def get_feedback_activities(self):
         feedback = Activity.objects.filter(section__course=self,

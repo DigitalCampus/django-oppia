@@ -37,7 +37,7 @@ class AverageTimeSpentViewTest(OppiaTestCase):
                                  '/admin/login/?next=' + self.url,
                                  302,
                                  200)
-    
+
     def test_avg_time_custom_dates(self):
         self.client.force_login(self.admin_user)
         start_date = "2015-01-01"

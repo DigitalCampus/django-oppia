@@ -19,7 +19,9 @@ urlpatterns = [
     path('leaderboard', views.LeaderboardView.as_view(), name="leaderboard"),
 
     path('upload', views.UploadStep1.as_view(), name="upload"),
-    path('upload2/<int:course_id>', views.UploadStep2.as_view(), name="upload_step2"),
+    path('upload2/<int:course_id>',
+         views.UploadStep2.as_view(),
+         name="upload_step2"),
     path('upload2/success',
          TemplateView.as_view(template_name="course/upload-success.html"),
          name="upload_success"),

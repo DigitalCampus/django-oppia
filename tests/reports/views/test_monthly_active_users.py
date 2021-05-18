@@ -37,7 +37,7 @@ class MonthlyActiveUsersViewTest(OppiaTestCase):
                                  '/admin/login/?next=' + self.url,
                                  302,
                                  200)
-    
+
     def test_old_dates(self):
         self.client.force_login(user=self.admin_user)
         data = {'start_date': "2000-01-01",

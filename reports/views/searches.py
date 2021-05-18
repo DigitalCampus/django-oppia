@@ -42,7 +42,7 @@ class SearchesView(BaseReportTemplateView):
                        'previous_searches':
                        previous_searches})
 
-    
+
 @method_decorator(staff_member_required, name='dispatch')
 class SearchTermView(BaseReportTemplateView):
 
@@ -69,7 +69,7 @@ class SearchTermView(BaseReportTemplateView):
             for obj in search_terms:
                 if obj['term'] == query:
                     obj['count'] += 1
-         
+
         search_terms = sorted(search_terms,
                               key=itemgetter('count'),
                               reverse=True)

@@ -15,29 +15,34 @@ class UpdateCourseTagsFunctionTest(OppiaTestCase):
 
     def test_no_categories(self):
         course = Course.objects.get(pk=1)
-        coursetag_count_start = CourseCategory.objects.filter(course=course).count()
+        coursetag_count_start = CourseCategory.objects.filter(
+            course=course).count()
         request_post = {'tags': '',
                         'is_draft': course.is_draft, }
         form = UploadCourseStep2Form(request_post)
         self.assertEqual(form.is_valid(), False)
-        coursetag_count_end = CourseCategory.objects.filter(course=course).count()
+        coursetag_count_end = CourseCategory.objects.filter(
+            course=course).count()
         self.assertEqual(coursetag_count_start, coursetag_count_end)
 
     def test_empty_category(self):
         course = Course.objects.get(pk=1)
-        coursetag_count_start = CourseCategory.objects.filter(course=course).count()
+        coursetag_count_start = CourseCategory.objects.filter(
+            course=course).count()
         request_post = {'tags': '    ',
                         'is_draft': course.is_draft, }
         form = UploadCourseStep2Form(request_post)
         self.assertEqual(form.is_valid(), False)
-        coursetag_count_end = CourseCategory.objects.filter(course=course).count()
+        coursetag_count_end = CourseCategory.objects.filter(
+            course=course).count()
         self.assertEqual(coursetag_count_start, coursetag_count_end)
 
     def test_add_one_category(self):
         course = Course.objects.get(pk=1)
         new_categories = course.get_categories() + ', my new category'
 
-        coursetag_count_start = CourseCategory.objects.filter(course=course).count()
+        coursetag_count_start = CourseCategory.objects.filter(
+            course=course).count()
         tag_count_start = Category.objects.all().count()
 
         request_post = {'categories': new_categories,
@@ -48,7 +53,8 @@ class UpdateCourseTagsFunctionTest(OppiaTestCase):
         cfv = CourseFormView()
         cfv.update_course_tags(form, course, self.admin_user)
 
-        coursetag_count_end = CourseCategory.objects.filter(course=course).count()
+        coursetag_count_end = CourseCategory.objects.filter(
+            course=course).count()
         self.assertEqual(coursetag_count_start+1, coursetag_count_end)
 
         tag_count_end = Category.objects.all().count()
@@ -56,9 +62,11 @@ class UpdateCourseTagsFunctionTest(OppiaTestCase):
 
     def test_add_categories(self):
         course = Course.objects.get(pk=1)
-        new_categories = course.get_categories() + ', my new categories, another new category'
+        new_categories = course.get_categories() \
+            + ', my new categories, another new category'
 
-        coursetag_count_start = CourseCategory.objects.filter(course=course).count()
+        coursetag_count_start = CourseCategory.objects.filter(
+            course=course).count()
         tag_count_start = Category.objects.all().count()
 
         request_post = {'categories': new_categories,
@@ -69,7 +77,8 @@ class UpdateCourseTagsFunctionTest(OppiaTestCase):
         cfv = CourseFormView()
         cfv.update_course_tags(form, course, self.admin_user)
 
-        coursetag_count_end = CourseCategory.objects.filter(course=course).count()
+        coursetag_count_end = CourseCategory.objects.filter(
+            course=course).count()
         self.assertEqual(coursetag_count_start+2, coursetag_count_end)
 
         tag_count_end = Category.objects.all().count()
@@ -79,7 +88,8 @@ class UpdateCourseTagsFunctionTest(OppiaTestCase):
         course = Course.objects.get(pk=1)
         new_categories = 'HEAT, ANC'
 
-        coursetag_count_start = CourseCategory.objects.filter(course=course).count()
+        coursetag_count_start = CourseCategory.objects.filter(
+            course=course).count()
         tag_count_start = Category.objects.all().count()
 
         request_post = {'categories': new_categories,
@@ -90,7 +100,8 @@ class UpdateCourseTagsFunctionTest(OppiaTestCase):
         cfv = CourseFormView()
         cfv.update_course_tags(form, course, self.admin_user)
 
-        coursetag_count_end = CourseCategory.objects.filter(course=course).count()
+        coursetag_count_end = CourseCategory.objects.filter(
+            course=course).count()
         self.assertEqual(coursetag_count_start-1, coursetag_count_end)
 
         tag_count_end = Category.objects.all().count()
@@ -100,7 +111,8 @@ class UpdateCourseTagsFunctionTest(OppiaTestCase):
         course = Course.objects.get(pk=1)
         new_tags = 'HEAT'
 
-        coursetag_count_start = CourseCategory.objects.filter(course=course).count()
+        coursetag_count_start = CourseCategory.objects.filter(
+            course=course).count()
         tag_count_start = Category.objects.all().count()
 
         request_post = {'categories': new_tags,
@@ -111,7 +123,8 @@ class UpdateCourseTagsFunctionTest(OppiaTestCase):
         cfv = CourseFormView()
         cfv.update_course_tags(form, course, self.admin_user)
 
-        coursetag_count_end = CourseCategory.objects.filter(course=course).count()
+        coursetag_count_end = CourseCategory.objects.filter(
+            course=course).count()
         self.assertEqual(coursetag_count_start-2, coursetag_count_end)
 
         tag_count_end = Category.objects.all().count()

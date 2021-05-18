@@ -33,7 +33,7 @@ class ResetPasswordResource(ModelResource):
 
         username = bundle.data['username']
         # find if username or email address
-        user = User.objects.filter(Q(username=username) | 
+        user = User.objects.filter(Q(username=username) |
                                    Q(email__iexact=username)).first()
 
         if user is not None:
@@ -47,5 +47,6 @@ class ResetPasswordResource(ModelResource):
         return bundle
 
     def dehydrate_message(self, bundle):
-        message = _(u'An email has been sent to your email address, please follow the instructions to reset your password.')
+        message = _(u'An email has been sent to your email address, \
+            please follow the instructions to reset your password.')
         return message

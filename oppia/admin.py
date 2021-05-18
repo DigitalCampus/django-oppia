@@ -125,6 +125,7 @@ class CategoryAdmin(admin.ModelAdmin):
     ordering = ['-order_priority', 'name']
     search_fields = ['name', 'description']
 
+
 class CertificateTemplateAdmin(admin.ModelAdmin):
     list_display = ('course',
                     'badge',
@@ -133,11 +134,15 @@ class CertificateTemplateAdmin(admin.ModelAdmin):
                     'include_date',
                     'include_course_title',
                     'preview')
-    
+
     def preview(self, obj):
-        return format_html("<a target='_blank' href="+reverse('oppia:certificate_preview', args={obj.id}) + ">Sample</a>")
-    
+        return format_html("<a target='_blank' href="
+                           + reverse('oppia:certificate_preview',
+                                     args={obj.id})
+                           + ">Sample</a>")
+
     preview.short_description = "Preview/Test"
+
 
 admin.site.register(Activity, ActivityAdmin)
 admin.site.register(Award, AwardAdmin)

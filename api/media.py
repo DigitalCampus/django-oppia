@@ -86,7 +86,8 @@ def upload_view(request):
                              'digest': media.md5,
                              'length': media.length,
                              'filesize': media.get_filesize(),
-                             'download_url': request.build_absolute_uri(media.file.url)
+                             'download_url':
+                             request.build_absolute_uri(media.file.url)
                              }, status=201)
     else:
         response = {'messages': result['errors']}

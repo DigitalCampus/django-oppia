@@ -13,7 +13,9 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='award',
             name='certificate_pdf',
-            field=models.FileField(default=None, null=True, upload_to='certificates'),
+            field=models.FileField(default=None,
+                                   null=True,
+                                   upload_to='certificates'),
         ),
         migrations.AddField(
             model_name='certificatetemplate',
@@ -23,7 +25,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='certificatetemplate',
             name='image_file',
-            field=models.FileField(help_text='We recommend a .png image of 842px by 595px', upload_to='certificate/templates'),
+            field=models.FileField(
+                help_text='We recommend a .png image of 842px by 595px',
+                upload_to='certificate/templates'),
         ),
         migrations.DeleteModel(
             name='Certificate',

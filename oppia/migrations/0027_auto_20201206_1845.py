@@ -14,13 +14,18 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='BadgeMethod',
             fields=[
-                ('key', models.CharField(max_length=50, primary_key=True, serialize=False)),
+                ('key', models.CharField(max_length=50,
+                                         primary_key=True,
+                                         serialize=False)),
                 ('description', models.TextField(blank=True, null=True)),
             ],
         ),
         migrations.AddField(
             model_name='badge',
             name='default_method',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='oppia.BadgeMethod'),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to='oppia.BadgeMethod'),
         ),
     ]

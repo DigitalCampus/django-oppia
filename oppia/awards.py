@@ -18,17 +18,17 @@ def courses_completed(hours):
         print(hours)
 
         if badge.default_method \
-            == BadgeMethod.objects.get(key='all_activities'):
-                badge_awarding = badges.BadgeAllActivities()
+                == BadgeMethod.objects.get(key='all_activities'):
+            badge_awarding = badges.BadgeAllActivities()
         elif badge.default_method \
-            == BadgeMethod.objects.get(key='final_quiz'):
-                badge_awarding = badges.BadgeFinalQuiz()
+                == BadgeMethod.objects.get(key='final_quiz'):
+            badge_awarding = badges.BadgeFinalQuiz()
         elif badge.default_method \
-            == BadgeMethod.objects.get(key='all_quizzes'):
-                badge_awarding = badges.BadgeAllQuizzes()
+                == BadgeMethod.objects.get(key='all_quizzes'):
+            badge_awarding = badges.BadgeAllQuizzes()
         elif badge.default_method \
-            == BadgeMethod.objects.get(key='all_quizzes_plus_percent'):
-                badge_awarding = badges.BadgeAllQuizzesPlusPercent()
+                == BadgeMethod.objects.get(key='all_quizzes_plus_percent'):
+            badge_awarding = badges.BadgeAllQuizzesPlusPercent()
         else:
             return False  # invalid badge method selected
 

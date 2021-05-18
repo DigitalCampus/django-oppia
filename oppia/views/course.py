@@ -2,9 +2,7 @@ import os
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import TemplateView, ListView, DetailView, FormView
@@ -18,7 +16,6 @@ from oppia.models import Category, \
 from oppia.permissions import can_edit_course, \
     can_view_course, \
     can_view_course_detail, \
-    user_can_upload, \
     can_view_courses_list, can_upload
 from oppia.signals import course_downloaded
 from oppia.uploader import handle_uploaded_file
@@ -51,7 +48,8 @@ class CourseListView(ListView, AjaxTemplateResponseMixin):
         return courses
 
     def get_current_category(self):
-        return self.kwargs['category_id'] if 'category_id' in self.kwargs else None
+        return self.kwargs['category_id'] \
+            if 'category_id' in self.kwargs else None
 
     def get_ordering(self):
         return self.request.GET.get('order_by', self.default_order)
@@ -115,17 +113,23 @@ class CanUploadCoursePermission(LoginRequiredMixin, UserPassesTestMixin):
 class UploadStep1(CanUploadCoursePermission, FormView):
     form_class = UploadCourseStep1Form
     template_name = 'course/form.html'
-    extra_context = { 'title': _(u'Upload Course - step 1')}
+    extra_context = {'title': _(u'Upload Course - step 1')}
 
     def form_valid(self, form):
         user = self.request.user
-        extract_path = os.path.join(settings.COURSE_UPLOAD_DIR, 'temp', str(user.id))
+        extract_path = os.path.join(settings.COURSE_UPLOAD_DIR,
+                                    'temp',
+                                    str(user.id))
         course, resp = handle_uploaded_file(self.request.FILES['course_file'],
                                             extract_path, self.request, user)
         if course:
-            CoursePublishingLog(course=course, user=user, action="file_uploaded",
-                                data=self.request.FILES['course_file'].name).save()
-            return HttpResponseRedirect(reverse('oppia:upload_step2', args=[course.id]))
+            CoursePublishingLog(course=course,
+                                user=user,
+                                action="file_uploaded",
+                                data=self.request.FILES['course_file'].name) \
+                                .save()
+            return HttpResponseRedirect(reverse('oppia:upload_step2',
+                                                args=[course.id]))
         else:
             return super().form_invalid(form)
 
@@ -174,7 +178,8 @@ class CourseFormView(CanEditCoursePermission, FormView):
                 category.created_by = user
                 category.save()
             # add tag to course
-            if not CourseCategory.objects.filter(course=course, category=category).exists():
+            if not CourseCategory.objects.filter(course=course,
+                                                 category=category).exists():
                 cc = CourseCategory()
                 cc.course = course
                 cc.category = category

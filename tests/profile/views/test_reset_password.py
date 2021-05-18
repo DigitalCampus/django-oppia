@@ -11,7 +11,8 @@ class ResetPasswordTest(OppiaTestCase):
 
     def test_get(self):
         response = self.client.get(self.url)
-        self.assertTemplateUsed(response, 'registration/password_reset_form.html')
+        self.assertTemplateUsed(response,
+                                'registration/password_reset_form.html')
         self.assertEqual(200, response.status_code)
 
     def test_no_username(self):

@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView
 
 from helpers.mixins.AjaxTemplateResponseMixin import AjaxTemplateResponseMixin
 from helpers.mixins.ListItemUrlMixin import ListItemUrlMixin
@@ -8,7 +8,9 @@ from oppia.permissions import get_user
 from quiz.models import QuizAttempt, Quiz
 
 
-class FeedbackAttemptsList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
+class FeedbackAttemptsList(ListView,
+                           ListItemUrlMixin,
+                           AjaxTemplateResponseMixin):
 
     model = QuizAttempt
 
@@ -38,7 +40,9 @@ class FeedbackAttemptsList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin
         return context
 
 
-class UserFeedbackResponsesList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
+class UserFeedbackResponsesList(ListView,
+                                ListItemUrlMixin,
+                                AjaxTemplateResponseMixin):
 
     model = QuizAttempt
     objects_url_name = 'oppia:feedback_response_detail'

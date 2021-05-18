@@ -1,6 +1,3 @@
-from django.conf import settings
-
-from oppia.models import Tracker
 
 from tests.oppia.awards.award_test_case import AwardsTestCase
 
@@ -10,11 +7,10 @@ class AllQuizzesAwardsTest(AwardsTestCase):
     '''
     BADGE_AWARD_METHOD_ALL_QUIZZES
     '''
-    
     def setUp(self):
         super(AllQuizzesAwardsTest, self).setUp()
         self.set_badge_method('all_quizzes')
-        
+
     # both quizzes passed
     def test_all_quiz_passed(self):
         self.load_trackers(
@@ -52,4 +48,3 @@ class AllQuizzesAwardsTest(AwardsTestCase):
         self.assert_points_and_awards(1, 1)
         self.assert_points_and_awards(0, 0, 24)
         self.assert_points_and_awards(0, 0, 0)
-        

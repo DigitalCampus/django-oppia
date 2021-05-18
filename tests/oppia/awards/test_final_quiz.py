@@ -1,6 +1,3 @@
-from django.conf import settings
-
-from oppia.models import Tracker
 
 from tests.oppia.awards.award_test_case import AwardsTestCase
 
@@ -10,11 +7,10 @@ class FinalQuizAwardsTest(AwardsTestCase):
     '''
     BADGE_AWARD_METHOD_FINAL_QUIZ
     '''
-    
     def setUp(self):
         super(FinalQuizAwardsTest, self).setUp()
         self.set_badge_method('final_quiz')
-        
+
     # final quiz attempted and passed
     def test_final_quiz_passed(self):
         self.load_trackers(

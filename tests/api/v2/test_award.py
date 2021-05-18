@@ -6,6 +6,7 @@ from tastypie.test import ResourceTestCaseMixin
 
 from tests.utils import get_api_key, get_api_url
 
+
 class AwardsResourceTest(ResourceTestCaseMixin, OppiaTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
@@ -56,7 +57,7 @@ class AwardsResourceTest(ResourceTestCaseMixin, OppiaTestCase):
         self.assertTrue('award_date' in award)
         self.assertTrue('badge_icon' in award)
         self.assertTrue('description' in award)
-        
+
     # check returning a set of objects - expecting zero
     def test_no_objects(self):
         user = User.objects.get(username='admin')

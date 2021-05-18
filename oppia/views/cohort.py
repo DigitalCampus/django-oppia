@@ -120,21 +120,30 @@ class CohortDetailView(UserPassesTestMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        start_date = timezone.now() - datetime.timedelta(days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
+        start_date = timezone.now() - datetime.timedelta(
+            days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
         end_date = timezone.now()
 
         # get student activity
         students = User.objects.filter(participant__role=Participant.STUDENT,
                                        participant__cohort=self.object)
-        trackers = Tracker.objects.filter(course__coursecohort__cohort=self.object,
-                                        user__is_staff=False, user__in=students)
-        context['activity_graph_data'] = filter_trackers(trackers, start_date, end_date)
-        context['leaderboard'] = self.object.get_leaderboard(constants.LEADERBOARD_HOMEPAGE_RESULTS_PER_PAGE)
+        trackers = Tracker.objects.filter(
+            course__coursecohort__cohort=self.object,
+            user__is_staff=False,
+            user__in=students)
+        context['activity_graph_data'] = filter_trackers(trackers,
+                                                         start_date,
+                                                         end_date)
+        context['leaderboard'] = self.object.get_leaderboard(
+            constants.LEADERBOARD_HOMEPAGE_RESULTS_PER_PAGE)
 
         return context
 
 
-class CohortLeaderboardView(UserPassesTestMixin, SafePaginatorMixin, ListView, AjaxTemplateResponseMixin):
+class CohortLeaderboardView(UserPassesTestMixin,
+                            SafePaginatorMixin,
+                            ListView,
+                            AjaxTemplateResponseMixin):
 
     paginate_by = constants.LEADERBOARD_TABLE_RESULTS_PER_PAGE
     template_name = 'cohort/leaderboard.html'
@@ -152,7 +161,7 @@ class CohortLeaderboardView(UserPassesTestMixin, SafePaginatorMixin, ListView, A
         return self.object.get_leaderboard()
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data( **kwargs)
+        context = super().get_context_data(**kwargs)
         context['cohort'] = self.object
         return context
 
@@ -168,7 +177,7 @@ class CohortEditView(UserPassesTestMixin, UpdateView):
 
     def get_form_kwargs(self):
         """Return the keyword arguments for instantiating the form."""
-        kwargs = { 'initial': self.get_initial() }
+        kwargs = {'initial': self.get_initial()}
         if self.request.method in ('POST', 'PUT'):
             kwargs.update({
                 'data': self.request.POST,
@@ -178,8 +187,8 @@ class CohortEditView(UserPassesTestMixin, UpdateView):
 
     def get_initial(self):
         return {'description': self.object.description,
-               'start_date': self.object.start_date,
-               'end_date': self.object.end_date}
+                'start_date': self.object.start_date,
+                'end_date': self.object.end_date}
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -190,7 +199,8 @@ class CohortEditView(UserPassesTestMixin, UpdateView):
         context['selected_students'] = User.objects.filter(
             participant__role=Participant.STUDENT,
             participant__cohort=self.object)
-        context['selected_courses'] = Course.objects.filter(coursecohort__cohort=self.object)
+        context['selected_courses'] = Course.objects.filter(
+            coursecohort__cohort=self.object)
 
         ordering, users = get_paginated_users(self.request)
         c_ordering, courses = get_paginated_courses(self.request)
@@ -230,7 +240,6 @@ class CohortEditView(UserPassesTestMixin, UpdateView):
         cohort_add_courses(cohort, courses)
 
         return HttpResponseRedirect('../../')
-
 
 
 def cohort_course_view(request, cohort_id, course_id):

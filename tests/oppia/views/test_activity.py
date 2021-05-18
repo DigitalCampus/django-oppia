@@ -138,7 +138,7 @@ class OppiaActivityViewsTest(OppiaTestCase):
         post_data = {'start_date': self.start_date,
                      'end_date': self.end_date}
         response = self.client.get(self.url_recent_activity_detail,
-                                    data=post_data)
+                                   data=post_data)
         self.assertEqual(200, response.status_code)
         self.assertTemplateUsed(self.activity_detail_template)
 
@@ -148,7 +148,7 @@ class OppiaActivityViewsTest(OppiaTestCase):
                      'end_date': '20-14-14 00:00:00',
                      'interval': 'days'}
         response = self.client.get(self.url_recent_activity_detail,
-                                    data=post_data)
+                                   data=post_data)
         self.assertRaises(ValidationError)
         self.assertEqual(200, response.status_code)
         self.assertTemplateUsed(self.activity_detail_template)

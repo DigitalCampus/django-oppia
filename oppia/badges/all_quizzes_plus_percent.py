@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 from oppia.badges.base_badge import BaseBadge
-from oppia.models import Tracker, Course, Activity
+from oppia.models import Tracker, Activity
 
 from settings import constants
 from settings.models import SettingProperties
@@ -14,7 +14,7 @@ class BadgeAllQuizzesPlusPercent(BaseBadge):
 
     def process(self, course, badge, hours):
         quiz_digests = Activity.objects.filter(section__course=course,
-                                          type=Activity.QUIZ) \
+                                               type=Activity.QUIZ) \
             .values('digest') \
             .distinct()
 
@@ -58,7 +58,7 @@ class BadgeAllQuizzesPlusPercent(BaseBadge):
                 .distinct() \
                 .count()
 
-            percent_complete = (user_completed_other/
+            percent_complete = (user_completed_other /
                                 len(other_digests))*100
 
             if quiz_digests.count() == user_completed_quizzes and \

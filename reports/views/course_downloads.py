@@ -1,7 +1,7 @@
 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Sum
-from django.db.models.functions import TruncDay, TruncMonth, TruncYear
+from django.db.models.functions import TruncMonth, TruncYear
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
 
@@ -14,7 +14,7 @@ from summary.models import CourseDailyStats
 class CourseDownloadsView(BaseReportTemplateView):
 
     def process(self, request, form, start_date, end_date):
-        
+
         daily_downloads = CourseDailyStats.objects \
             .filter(day__gte=start_date,
                     day__lte=end_date,
@@ -22,7 +22,7 @@ class CourseDownloadsView(BaseReportTemplateView):
             .values('day') \
             .annotate(count=Sum('total')) \
             .order_by('day')
-        
+
         course_downloads = CourseDailyStats.objects \
             .filter(day__gte=start_date,
                     day__lte=end_date,

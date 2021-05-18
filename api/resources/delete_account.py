@@ -10,6 +10,7 @@ from tastypie.resources import ModelResource
 
 from profile.views import manage
 
+
 class DeleteAccountResource(ModelResource):
 
     message = fields.CharField(readonly=True)
@@ -28,19 +29,19 @@ class DeleteAccountResource(ModelResource):
 
         if 'password' not in bundle.data:
             raise BadRequest(_(u'Password missing'))
-        
+
         username = bundle.request.user.username
         password = bundle.data['password']
-        
+
         u = authenticate(username=username, password=password)
         if u is not None:
             # continue with deletion
             manage.delete_user_data(u)
         else:
             raise BadRequest(_(u'Authentication failure'))
-        
+
         del bundle.data['password']  # don't send password back
-        
+
         return bundle
 
     def dehydrate_message(self, bundle):

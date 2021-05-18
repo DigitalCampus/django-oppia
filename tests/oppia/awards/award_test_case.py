@@ -17,27 +17,27 @@ class AwardsTestCase(OppiaTestCase):
                 'tests/test_course_permissions.json']
     file_root = './oppia/fixtures/tests/awards/'
     url = reverse('activitylog:upload')
-    
+
     def set_badge_method(self, method, course=None):
         badge_method = BadgeMethod.objects.get(key=method)
         badge = Badge.objects.get(ref='coursecompleted')
         badge.default_method = badge_method
         badge.save()
-        
+
     def load_trackers(self, file, plus_trackers=0):
         tracker_file = self.file_root + file
         self.client.force_login(self.admin_user)
-    
+
         tracker_count_start = Tracker.objects.all().count()
         with open(tracker_file, 'rb') as file:
             self.client.post(self.url, {'activity_log_file': file})
-        
+
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start+plus_trackers, tracker_count_end)
         return tracker_count_start
-    
+
     def assert_points_and_awards(self, plus_awards=0, plus_points=0, hours=0):
-        
+
         points_count_start = Points.objects.all().count()
         award_count_start = Award.objects.all().count()
         courses_completed(hours)

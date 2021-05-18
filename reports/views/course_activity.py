@@ -19,14 +19,14 @@ from summary.models import CourseDailyStats
 class CourseActivityView(BaseReportTemplateView):
 
     def process(self, request, form, start_date, end_date):
-        
+
         daily_activity = CourseDailyStats.objects \
             .filter(day__gte=start_date,
                     day__lte=end_date) \
             .values('day') \
             .annotate(count=Sum('total')) \
             .order_by('day')
-        
+
         course_activity = CourseDailyStats.objects \
             .filter(day__gte=start_date,
                     day__lte=end_date) \

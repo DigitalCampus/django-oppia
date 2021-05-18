@@ -1,17 +1,13 @@
-from django.conf import settings
-
-from oppia.models import Tracker
 
 from tests.oppia.awards.award_test_case import AwardsTestCase
 
 
 class AllActivitiesAwardsTest(AwardsTestCase):
 
-
     def setUp(self):
         super(AllActivitiesAwardsTest, self).setUp()
         self.set_badge_method('all_activities')
-        
+
     '''
     BADGE_AWARD_METHOD_ALL_ACTIVITIES
     '''

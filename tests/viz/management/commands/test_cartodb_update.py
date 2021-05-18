@@ -23,7 +23,6 @@ class CartoDBUpdateTest(OppiaTestCase):
     cartodb_uri_regex = re.compile(
         "https://[A-Za-z0-9-]+.cartodb.com/api/v2/sql??(?:&?[^=&]*=[^=&]*)*")
 
-
     @httpretty.activate
     def test_cartodb_output(self):
         cartodb_response = get_file_contents(self.cartodb_valid_response)

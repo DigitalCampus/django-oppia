@@ -73,7 +73,8 @@ class AwardCourse(models.Model):
     award = models.ForeignKey(Award, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     course_version = models.BigIntegerField(default=0)
-    
+
+
 class CertificateTemplate(models.Model):
     badge = models.ForeignKey(Badge, on_delete=models.CASCADE)
     enabled = models.BooleanField(default=False)
@@ -81,23 +82,23 @@ class CertificateTemplate(models.Model):
     image_file = models.FileField(
         upload_to="certificate/templates",
         help_text=_(u"We recommend a .png image of 842px by 595px"))
-    
+
     include_name = models.BooleanField(default=True)
     include_date = models.BooleanField(default=True)
     include_course_title = models.BooleanField(default=True)
-    
+
     name_x = models.IntegerField(default=0)
     name_y = models.IntegerField(default=0)
-    
+
     date_x = models.IntegerField(default=0)
     date_y = models.IntegerField(default=0)
-    
+
     course_title_x = models.IntegerField(default=0)
     course_title_y = models.IntegerField(default=0)
-    
+
     class Meta:
         verbose_name = _('Certificate Template')
         verbose_name_plural = _('Certificate Templates')
-    
+
     def __str__(self):
         return self.badge.name + ": " + self.course.get_title()

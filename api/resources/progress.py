@@ -52,7 +52,7 @@ class UserCourseSummaryResource(ModelResource):
                 courses = Course.objects.filter(
                     coursecohort__cohort__participant__user=view_user,
                     coursecohort__cohort__participant__role=
-                    Participant.STUDENT) \
+                        Participant.STUDENT) \
                     .filter(
                         coursecohort__cohort__participant__user=request.user,
                         coursecohort__cohort__participant__role=
@@ -68,7 +68,7 @@ class UserCourseSummaryResource(ModelResource):
     def get_object_list(self, request):
         raise BadRequest(_("Please specify a user"))
 
-    def user_course_progress(self, request, **kwargs): 
+    def user_course_progress(self, request, **kwargs):
         user = self.get_user(request, **kwargs)
 
         cc, oc, ac = permissions.get_user_courses(request, user)

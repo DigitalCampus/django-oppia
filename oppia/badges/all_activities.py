@@ -1,14 +1,14 @@
 import datetime
 
 from django.contrib.auth.models import User
-from django.db import models
 from django.utils import timezone
 
 from oppia.badges.base_badge import BaseBadge
-from oppia.models import Award, Tracker, Course, Activity
+from oppia.models import Tracker, Activity
+
 
 class BadgeAllActivities(BaseBadge):
-    
+
     def process(self, course, badge, hours):
         digests = Activity.objects.filter(section__course=course) \
                           .values_list('digest',

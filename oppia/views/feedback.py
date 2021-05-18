@@ -65,7 +65,6 @@ class CourseFeedbackResponsesList(ListView,
         return QuizAttempt.objects.filter(quiz=quiz) \
             .order_by('-submitted_date', '-attempt_date')
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['course'] = Course.objects.get(pk=self.kwargs['course_id'])

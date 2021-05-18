@@ -106,6 +106,7 @@ def list_users(request):
                    'users_list_template': 'select',
                    'ajax_url': request.path})
 
+
 def delete_user_data(delete_user):
     # delete points
     Points.objects.filter(user=delete_user).delete()
@@ -129,6 +130,7 @@ def delete_user_data(delete_user):
 
     # logout and delete user
     User.objects.get(pk=delete_user.id).delete()
+
 
 def delete_account_view(request, user_id):
     if request.method == 'POST':  # if form submitted...
@@ -171,7 +173,8 @@ class UploadUsers(AdminRequiredMixin, FormView):
         required_fields = ['username', 'firstname', 'lastname', 'email']
 
         context = self.get_context_data(form=form)
-        context['results'] = self.process_upload_user_file(csv_file, required_fields)
+        context['results'] = self.process_upload_user_file(csv_file,
+                                                           required_fields)
         return self.render_to_response(context)
 
     def process_upload_user_file(self, csv_file, required_fields):
