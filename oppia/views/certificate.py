@@ -29,11 +29,16 @@ def generate_certificate_pdf(user, certificate_template_id, date):
 
     # add course
     if cert_template.include_course_title:
+        cert.setFont('Helvetica-Bold', 24)
         cert.drawCentredString(cert_template.course_title_x,
                                cert_template.course_title_y,
                                cert_template.course.get_title())
     # add date
-    # TODO
+    if cert_template.include_date:
+        cert.setFont('Helvetica-Bold', 16)
+        cert.drawCentredString(cert_template.date_x,
+                               cert_template.date_y,
+                               date)
 
     cert.showPage()
     cert.save()

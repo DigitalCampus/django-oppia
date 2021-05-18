@@ -38,7 +38,7 @@ class Award(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.TextField(blank=False)
     award_date = models.DateTimeField('date awarded', default=timezone.now)
-    certificate_pdf = models.FileField(upload_to="certificates",
+    certificate_pdf = models.FileField(upload_to="certificates/%Y/%m/",
                                        null=True,
                                        default=None)
 

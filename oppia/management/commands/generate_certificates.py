@@ -1,4 +1,4 @@
-
+import datetime
 
 from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
@@ -35,9 +35,10 @@ class Command(BaseCommand):
 
             for award in awards:
                 print(award)
+                date_str = award.award_date.strftime("%d %b %Y") 
                 buffer = generate_certificate_pdf(award.user,
                                                   ct.id,
-                                                  award.award_date)
+                                                  date_str)
                 buffer.seek(0)
                 filename = "certificate-%s-%s.pdf" % (award.user.username,
                                                       ct.course.shortname)
