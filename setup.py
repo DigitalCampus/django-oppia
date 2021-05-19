@@ -20,7 +20,8 @@ setup(
         'reports',
         'activitylog',
         'viz',
-        'gamification'
+        'gamification',
+        'helpers'
     ],
     include_package_data=True,
     license='GNU GPL v3 License',  # example license
