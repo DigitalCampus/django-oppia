@@ -30,11 +30,18 @@
 	{% if course.has_quizzes %}
 		<h4>{% trans 'Course Quiz Responses' %}</h4>
 		{% for q in course.get_quiz_activities %}
-			<a href="{% url 'quiz:quiz_results_download' course.pk q.id%}" class="list-group-item list-group-item-action">
+			<a href="{% url 'quiz:quiz_results_download' course.pk q.id %}" class="list-group-item list-group-item-action">
 				<em class="far text-primary mr-2 fa-list-alt"></em>{{ q.title|title_lang:LANGUAGE_CODE }} ({{ q.section.title|title_lang:LANGUAGE_CODE }})
 				 - {{ q.get_no_quiz_responses }} {% blocktrans count counter=q.get_no_quiz_responses %} response{% plural %}responses{% endblocktrans %}
 			</a>
 		{% endfor %}
+		{% for q in course.get_removed_quizzes %}
+			<a href="{% url 'quiz:old_quiz_results_download' course.pk q.id %}" class="list-group-item list-group-item-action">
+				<em class="far text-muted mr-2 fa-list-alt"></em>{{ q.title|title_lang:LANGUAGE_CODE }} ({% trans 'Old quiz instance' %})
+				 - {{ q.no_attempts }} {% blocktrans count counter=q.no_attempts %} response{% plural %}responses{% endblocktrans %}
+			</a>
+		{% endfor %}
+
 	{% endif %}
 
 	<p></p>
@@ -42,9 +49,16 @@
 	{% if course.has_feedback %}
 		<h4>{% trans 'Course Feedback Responses' %}</h4>
 		{% for fb in course.get_feedback_activities %}
-			<a href="{% url 'quiz:feedback_results_download' course.pk fb.id%}" class="list-group-item list-group-item-action">
+			<a href="{% url 'quiz:feedback_results_download' course.pk fb.id %}" class="list-group-item list-group-item-action">
 				<em class="far text-primary mr-2 fa-list-alt"></em>{{ fb.title|title_lang:LANGUAGE_CODE }}
 				- {{ fb.get_no_quiz_responses }} {% blocktrans count counter=fb.get_no_quiz_responses %} response{% plural %}responses{% endblocktrans %}
+			</a>
+		{% endfor %}
+
+		{% for q in course.get_removed_feedbacks %}
+			<a href="{% url 'quiz:old_feedback_results_download' course.pk q.id %}" class="list-group-item list-group-item-action">
+				<em class="far text-muted mr-2 fa-list-alt"></em>{{ q.title|title_lang:LANGUAGE_CODE }} ({% trans 'Old feedback instance' %})
+				 - {{ q.no_attempts }} {% blocktrans count counter=q.no_attempts %} response{% plural %}responses{% endblocktrans %}
 			</a>
 		{% endfor %}
 	{% endif %}

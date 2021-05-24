@@ -122,6 +122,19 @@ class Course(models.Model):
                                        type=Activity.QUIZ)
         return quiz
 
+
+    def get_removed_quizzes(self):
+        current_quizzes = Activity.objects.filter(section__course=self, type=Activity.QUIZ).values_list('digest', flat=True)
+        old_quizzes_digests = Tracker.objects.filter(course=self, type=Activity.QUIZ).exclude(digest__in=current_quizzes).values_list('digest', flat=True)
+        quizzes = Quiz.objects.filter(quizprops__name='digest', quizprops__value__in=old_quizzes_digests)
+        return quizzes
+
+    def get_removed_feedbacks(self):
+        current_quizzes = Activity.objects.filter(section__course=self, type=Activity.FEEDBACK).values_list('digest', flat=True)
+        old_quizzes_digests = Tracker.objects.filter(course=self, type=Activity.FEEDBACK).exclude(digest__in=current_quizzes).values_list('digest', flat=True)
+        quizzes = Quiz.objects.filter(quizprops__name='digest', quizprops__value__in=old_quizzes_digests)
+        return quizzes
+
     def get_categories(self):
         from oppia.models import Category
         categories = Category.objects.filter(coursecategory__course=self)
