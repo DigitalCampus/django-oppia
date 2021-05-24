@@ -9,27 +9,36 @@ from oppia.uploader import clean_lang_dict
 def clean_quiz_dicts(apps, schema_editor):
     quiz_model = apps.get_model("quiz", "Quiz")
     for quiz in quiz_model.objects.all():
-        if '{' in quiz.title:
-            title = ast.literal_eval(quiz.title)
-            quiz.title = clean_lang_dict(title)
-        if '{' in quiz.description:
-            description = ast.literal_eval(quiz.description)
-            quiz.description = clean_lang_dict(description)
-        quiz.save()
+        try:
+            if '{' in quiz.title:
+                title = ast.literal_eval(quiz.title)
+                quiz.title = clean_lang_dict(title)
+            if '{' in quiz.description:
+                description = ast.literal_eval(quiz.description)
+                quiz.description = clean_lang_dict(description)
+            quiz.save()
+        except SyntaxError as e:
+            print(e)
 
     question_model = apps.get_model("quiz", "Question")
     for q in question_model.objects.all():
-        if '{' in q.title:
-            title = ast.literal_eval(q.title)
-            q.title = clean_lang_dict(title)
-            q.save()
+        try:
+            if '{' in q.title:
+                title = ast.literal_eval(q.title)
+                q.title = clean_lang_dict(title)
+                q.save()
+        except SyntaxError as e:
+            print(e)
 
     response_model = apps.get_model("quiz", "Response")
     for r in response_model.objects.all():
-        if '{' in r.title:
-            title = ast.literal_eval(r.title)
-            r.title = clean_lang_dict(title)
-            r.save()
+        try:
+            if '{' in r.title:
+                title = ast.literal_eval(r.title)
+                r.title = clean_lang_dict(title)
+                r.save()
+        except SyntaxError as e:
+            print(e)
 
 
 def noop(app, schema_editor):
