@@ -4,6 +4,7 @@
 Management command to clean up any old files in the oppia uploads directory
 """
 import os
+import shutil
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -12,7 +13,7 @@ from oppia.models import Course
 
 
 class Command(BaseCommand):
-    help = "Cleans up any old files in the oppia uploads directory"
+    help = "Cleans up any old files in the oppia uploads and courses directory"
 
     def handle(self, *args, **options):
         """
@@ -39,3 +40,17 @@ class Command(BaseCommand):
                 self.stdout \
                     .write("FILE MISSING: %s for %s " % (course.filename,
                                                          course.title))
+        """
+        Remove old expanded folders from media/courses
+        """
+        files = os.listdir(os.path.join(settings.MEDIA_ROOT, 'courses'))
+        for filename in files:
+            if os.path.isdir(
+                    os.path.join(settings.MEDIA_ROOT, 'courses', filename)):
+                courses = Course.objects.filter(shortname=filename)
+                if courses.count() == 0:
+                    shutil.rmtree(os.path.join(settings.MEDIA_ROOT,
+                                               'courses',
+                                               filename))
+                    self.stdout.write("Removed: " + filename)
+        
