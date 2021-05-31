@@ -1,10 +1,13 @@
+import datetime
 import io
 
 from django.http import FileResponse
 from django.views.generic import TemplateView
 
+from PIL import Image
+
 from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import A4, landscape
+from reportlab.lib.pagesizes import A4, landscape, portrait
 
 from oppia.models import CertificateTemplate
 
@@ -13,8 +16,14 @@ def generate_certificate_pdf(user, certificate_template_id, date):
     cert_template = CertificateTemplate.objects.get(pk=certificate_template_id)
     buffer = io.BytesIO()
 
+    img = Image.open(cert_template.image_file.path)
+    w,h = img.size
+    
     # Create the PDF object
-    cert = canvas.Canvas(buffer, pagesize=landscape(A4))
+    if w > h:
+        cert = canvas.Canvas(buffer, pagesize=landscape(A4))
+    else: 
+        cert = canvas.Canvas(buffer, pagesize=portrait(A4))
     cert.setTitle(cert_template.course.get_title())
 
     # add background
@@ -49,11 +58,11 @@ class PreviewCertificateView(TemplateView):
 
     def get(self, request, certificate_template_id):
 
-        buffer = generate_certificate_pdf(request.user,
-                                          certificate_template_id,
-                                          "14 May 2021")
+        buffer = generate_certificate_pdf(
+            request.user,
+            certificate_template_id,
+            datetime.datetime.now().strftime("%d %b %Y"))
 
-        # FileResponse sets the Content-Disposition header so that browsers
-        # present the option to save the file.
+        # FileResponse sets the Content-Disposition header
         buffer.seek(0)
         return FileResponse(buffer, filename='certificate.pdf')
