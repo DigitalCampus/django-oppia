@@ -1,7 +1,6 @@
 import math
 
 from django.contrib.auth.models import User
-from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import models
 from django.forms import ValidationError 
 from django.utils import timezone
