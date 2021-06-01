@@ -16,6 +16,7 @@ class FeedbackDownloadTest(OppiaTestCase):
                 'tests/test_course_permissions.json']
     STR_EXPECTED_CONTENT_TYPE = 'application/vnd.ms-excel;charset=utf-8'
     STR_URL_TEMPLATE = 'quiz:feedback_results_download'
+    STR_URL_OLD_FEEDBACK_TEMPLATE = 'quiz:old_feedback_results_download'
 
     valid_course_valid_feedback_url = reverse(STR_URL_TEMPLATE,
                                               args=[183, 65323])
@@ -118,3 +119,14 @@ class FeedbackDownloadTest(OppiaTestCase):
             self.assertEqual(404, response.status_code)
             count_end = DashboardAccessLog.objects.all().count()
             self.assertEqual(count_start, count_end)
+
+    def test_old_feedback_download(self):
+        count_start = DashboardAccessLog.objects.all().count()
+        self.client.force_login(self.admin_user)
+        response = self.client.get(reverse(self.STR_URL_OLD_FEEDBACK_TEMPLATE,
+                                           args=[183, 24]))
+        self.assertEqual(200, response.status_code)
+        self.assertEqual(self.STR_EXPECTED_CONTENT_TYPE,
+                         response['content-type'])
+        count_end = DashboardAccessLog.objects.all().count()
+        self.assertEqual(count_start+1, count_end)
