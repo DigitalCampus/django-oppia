@@ -7,6 +7,8 @@ from django.db.models import Q
 from oppia.models import Award, CertificateTemplate
 from oppia.views.certificate import generate_certificate_pdf
 
+from settings import constants
+from settings.models import SettingProperties
 
 class Command(BaseCommand):
     help = 'Generate certificate files'
@@ -46,3 +48,13 @@ class Command(BaseCommand):
                                            ContentFile(buffer.getvalue()),
                                            save=True)
                 award.save()
+
+                # Email certificate if enabled
+                if SettingProperties.get_bool(
+                        constants.OPPIA_EMAIL_CERTIFICATES, False):
+                    self.email_certificate(award)
+    
+    def email_certificate(self, award):
+        # check user has email address
+        if award.user.email:
+            print(award.user.email)
