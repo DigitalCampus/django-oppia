@@ -1,7 +1,9 @@
 import datetime
 import io
 
+from django.forms import ValidationError
 from django.http import FileResponse
+from django.shortcuts import render
 from django.views.generic import TemplateView
 
 from PIL import Image
@@ -9,7 +11,7 @@ from PIL import Image
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4, landscape, portrait
 
-from oppia.models import CertificateTemplate
+from oppia.models import Award, CertificateTemplate
 
 
 def generate_certificate_pdf(user, certificate_template_id, date):
@@ -48,6 +50,17 @@ def generate_certificate_pdf(user, certificate_template_id, date):
         cert.drawCentredString(cert_template.date_x,
                                cert_template.date_y,
                                date)
+        
+    # add url
+    if cert_template.validation == 'URL':
+        cert.setFont('Helvetica-Bold', 12)
+        cert.drawCentredString(cert_template.validation_x,
+                               cert_template.validation_y,
+                               date)
+    
+    # add QR Code
+    if cert_template.validation == 'QRCODE':
+        pass
 
     cert.showPage()
     cert.save()
@@ -66,3 +79,12 @@ class PreviewCertificateView(TemplateView):
         # FileResponse sets the Content-Disposition header
         buffer.seek(0)
         return FileResponse(buffer, filename='certificate.pdf')
+
+class ValidateCertificateView(TemplateView):
+
+    def get(self, request, validation_guid):
+        try:
+            award = Award.objects.get(validation_guid=validation_guid)
+        except (Award.DoesNotExist, ValidationError):
+            return render(request, 'oppia/certificates/invalid.html',
+                  {'validation_guid': validation_guid})

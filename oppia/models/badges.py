@@ -47,6 +47,8 @@ class Award(models.Model):
                                        null=True,
                                        default=None)
 
+    validation_guid = models.UUIDField()
+
     class Meta:
         verbose_name = _('Award')
         verbose_name_plural = _('Awards')
@@ -82,6 +84,12 @@ class AwardCourse(models.Model):
 
 class CertificateTemplate(models.Model):
     
+    VALIDATION_OPTIONS = (
+        ('NONE', 'None'),
+        ('QRCODE', 'QR Code'),
+        ('URL', 'URL')
+    )
+    
     # verify template image dimensions
     def validate_image(image):
         img = Image.open(image.file)
@@ -115,7 +123,7 @@ class CertificateTemplate(models.Model):
     include_name = models.BooleanField(default=True)
     include_date = models.BooleanField(default=True)
     include_course_title = models.BooleanField(default=True)
-
+    
     name_x = models.IntegerField(default=0)
     name_y = models.IntegerField(default=0)
 
@@ -124,6 +132,13 @@ class CertificateTemplate(models.Model):
 
     course_title_x = models.IntegerField(default=0)
     course_title_y = models.IntegerField(default=0)
+
+    validation = models.CharField(max_length=10,
+                                  choices=VALIDATION_OPTIONS,
+                                  default='NONE')
+    
+    validation_x = models.IntegerField(default=0)
+    validation_y = models.IntegerField(default=0)
 
     class Meta:
         verbose_name = _('Certificate Template')

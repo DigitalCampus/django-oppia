@@ -82,6 +82,10 @@ urlpatterns = [
     path('certificate/preview/<int:certificate_template_id>/',
          views.PreviewCertificateView.as_view(),
          name="certificate_preview"),
+    
+    path('certificate/validate/<str:validation_guid>/',
+         views.ValidateCertificateView.as_view(),
+         name="certificate_validate"),
 
     path('view/',
          views.AppLauncherDetailView.as_view(),
