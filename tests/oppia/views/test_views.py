@@ -14,7 +14,7 @@ from settings import constants
 
 class OppiaViewsTest(OppiaTestCase):
 
-    leaderboard_template = 'oppia/leaderboard.html'
+    leaderboard_template = 'leaderboard/list.html'
 
     URL_INDEX = reverse('oppia:index')
     URL_SERVER = reverse('oppia:server')
@@ -158,14 +158,14 @@ class OppiaViewsTest(OppiaTestCase):
         self.client.force_login(user=self.admin_user)
         response = self.client.get(self.URL_LEADERBOARD)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(self.leaderboard_template)
+        self.assertTemplateUsed(response, self.leaderboard_template)
 
     def test_leaderboard_get_page_1(self):
         self.client.force_login(user=self.admin_user)
         url = '%s?page=1' % self.URL_LEADERBOARD
         response = self.client.get(url)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(self.leaderboard_template)
+        self.assertTemplateUsed(response, self.leaderboard_template)
 
     def test_leaderboard_get_page_9999(self):
         self.client.force_login(user=self.admin_user)
@@ -173,7 +173,7 @@ class OppiaViewsTest(OppiaTestCase):
         response = self.client.get(url)
         self.assertRaises(InvalidPage)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(self.leaderboard_template)
+        self.assertTemplateUsed(response, self.leaderboard_template)
 
     def test_leaderboard_get_page_abc(self):
         self.client.force_login(user=self.admin_user)
@@ -181,7 +181,7 @@ class OppiaViewsTest(OppiaTestCase):
         response = self.client.get(url)
         self.assertRaises(ValueError)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(self.leaderboard_template)
+        self.assertTemplateUsed(response, self.leaderboard_template)
 
     def test_userprofile_created(self):
         user = User()
