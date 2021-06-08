@@ -13,6 +13,7 @@ from oppia.views.certificate import generate_certificate_pdf
 from settings import constants
 from settings.models import SettingProperties
 
+
 class Command(BaseCommand):
     help = 'Generate certificate files'
 
@@ -60,7 +61,7 @@ class Command(BaseCommand):
     
     def email_certificate(self, award):
         # check user has email address
-        if award.user.email:
+        if award.user.email and not award.emailed:
             course = Course.objects.filter(awardcourse__award=award).first()
             
             emailer.send_oppia_email(
@@ -73,3 +74,5 @@ class Command(BaseCommand):
                     award=award,
                     course=course
                     )
+            award.emailed = True
+            award.save()

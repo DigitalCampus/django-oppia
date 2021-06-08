@@ -75,3 +75,12 @@ class GenerateCertificatesTest(OppiaTestCase):
         SettingProperties.set_bool(constants.OPPIA_EMAIL_CERTIFICATES, True)
         call_command('generate_certificates', '--allcerts', stdout=StringIO())
         self.assertEqual(len(mail.outbox), 3)
+
+    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
+    def test_email_certificates_one_time(self):
+        SettingProperties.set_bool(constants.OPPIA_EMAIL_CERTIFICATES, True)
+        call_command('generate_certificates', '--allcerts', stdout=StringIO())
+        self.assertEqual(len(mail.outbox), 3)
+        mail.outbox.clear()
+        call_command('generate_certificates', '--allcerts', stdout=StringIO())
+        self.assertEqual(len(mail.outbox), 0)

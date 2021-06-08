@@ -49,7 +49,7 @@ class Award(models.Model):
                                        default=None)
 
     validation_uuid = models.UUIDField(default=uuid.uuid4, editable=False)
-
+    emailed = models.BooleanField(default=False)
     class Meta:
         verbose_name = _('Award')
         verbose_name_plural = _('Awards')
