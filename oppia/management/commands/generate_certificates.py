@@ -1,10 +1,13 @@
 import datetime
+import os
 
 from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
 from django.db.models import Q
+from django.utils.translation import ugettext as _
 
-from oppia.models import Award, CertificateTemplate
+from oppia import emailer
+from oppia.models import Award, CertificateTemplate, Course
 from oppia.views.certificate import generate_certificate_pdf
 
 from settings import constants
@@ -59,3 +62,15 @@ class Command(BaseCommand):
         # check user has email address
         if award.user.email:
             print(award.user.email)
+            course = Course.objects.filter(awardcourse__award=award).first()
+            
+            emailer.send_oppia_email(
+                    template_html='emails/certificate_awarded.html',
+                    template_text='emails/certificate_awarded.txt',
+                    subject=_(u"Certificate Awarded"),
+                    fail_silently=False,
+                    recipients=[award.user.email],
+                    attachment_from_model=award.certificate_pdf.path,
+                    award=award,
+                    course=course
+                    )
