@@ -31,7 +31,10 @@ class BadgesModelTest(OppiaTestCase):
                 'course_title_x': 0,
                 'course_title_y': 0,
                 'date_x': 0,
-                'date_y': 0
+                'date_y': 0,
+                'validation': 'NONE',
+                'validation_x': 0,
+                'validation_y': 0
                 })
         count_end = CertificateTemplate.objects.all().count()
         self.assertEqual(count_start+1, count_end)
@@ -51,7 +54,10 @@ class BadgesModelTest(OppiaTestCase):
                 'course_title_x': 0,
                 'course_title_y': 0,
                 'date_x': 0,
-                'date_y': 0
+                'date_y': 0,
+                'validation': 'NONE',
+                'validation_x': 0,
+                'validation_y': 0
                 })
         self.assertRaises(ValidationError)
         count_end = CertificateTemplate.objects.all().count()
@@ -72,7 +78,10 @@ class BadgesModelTest(OppiaTestCase):
                 'course_title_x': 0,
                 'course_title_y': 0,
                 'date_x': 0,
-                'date_y': 0
+                'date_y': 0,
+                'validation': 'NONE',
+                'validation_x': 0,
+                'validation_y': 0
                 })
         count_end = CertificateTemplate.objects.all().count()
         self.assertEqual(count_start+1, count_end)
@@ -92,7 +101,10 @@ class BadgesModelTest(OppiaTestCase):
                 'course_title_x': 0,
                 'course_title_y': 0,
                 'date_x': 0,
-                'date_y': 0
+                'date_y': 0,
+                'validation': 'NONE',
+                'validation_x': 0,
+                'validation_y': 0
                 })
         self.assertRaises(ValidationError)
         count_end = CertificateTemplate.objects.all().count()

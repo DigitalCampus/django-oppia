@@ -20,19 +20,20 @@ class FeedbackViewsTest(OppiaTestCase):
     url_course_feedback_response_list = reverse(
         'oppia:course_feedback_responses', args=[1, 65323])
 
-    feedback_template = 'course/feedback.html'
+    STR_FEEDBACK_TEMPLATE = 'course/feedback.html'
+    STR_FEEDBACK_LIST_TEMPLATE = 'feedback/responses_list.html'
 
     def test_feedback_list_get_admin(self):
         self.client.force_login(user=self.admin_user)
         response = self.client.get(self.url_course_feedback)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(response, self.feedback_template)
+        self.assertTemplateUsed(response, self.STR_FEEDBACK_TEMPLATE)
 
     def test_feedback_list_get_staff(self):
         self.client.force_login(user=self.staff_user)
         response = self.client.get(self.url_course_feedback)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(response, self.feedback_template)
+        self.assertTemplateUsed(response, self.STR_FEEDBACK_TEMPLATE)
 
     def test_feedback_list_get_teacher(self):
         self.client.force_login(user=self.teacher_user)
@@ -50,13 +51,13 @@ class FeedbackViewsTest(OppiaTestCase):
         self.client.force_login(user=self.admin_user)
         response = self.client.get(self.url_course_feedback_response_list)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(response, self.feedback_template)
+        self.assertTemplateUsed(response, self.STR_FEEDBACK_LIST_TEMPLATE)
 
     def test_feedback_response_list_get_staff(self):
         self.client.force_login(user=self.staff_user)
         response = self.client.get(self.url_course_feedback_response_list)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(response, self.feedback_template)
+        self.assertTemplateUsed(response, self.STR_FEEDBACK_LIST_TEMPLATE)
 
     def test_feedback_response_list_get_teacher(self):
         self.client.force_login(user=self.teacher_user)
