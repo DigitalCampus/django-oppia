@@ -61,7 +61,6 @@ class Command(BaseCommand):
     def email_certificate(self, award):
         # check user has email address
         if award.user.email:
-            print(award.user.email)
             course = Course.objects.filter(awardcourse__award=award).first()
             
             emailer.send_oppia_email(

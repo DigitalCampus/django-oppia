@@ -21,6 +21,7 @@ class CertificateViewTest(OppiaTestCase):
     STR_VALID_TEMPLATE = "oppia/certificates/valid.html"
     STR_INVALID_TEMPLATE = "oppia/certificates/invalid.html"
 
+            
     def test_certificate_valid_logged_in(self):
         self.client.force_login(user=self.staff_user)
         response = self.client.get(
