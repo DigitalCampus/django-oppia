@@ -20,52 +20,52 @@ class FeedbackViewsTest(OppiaTestCase):
     user_all_feedback_admin = reverse('profile:user_all_feedback_responses',
                                       args=[1])
 
-    feedback_template = 'profile/quiz/attempts.html'
+    feedback_template = 'profile/feedback/global_responses.html'
 
     def test_feedback_list_admin_get_user(self):
         self.client.force_login(user=self.admin_user)
         response = self.client.get(self.user_all_feedback_user)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(self.feedback_template)
+        self.assertTemplateUsed(response, self.feedback_template)
 
     def test_feedback_list_staff_get_user(self):
         self.client.force_login(user=self.staff_user)
         response = self.client.get(self.user_all_feedback_user)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(self.feedback_template)
+        self.assertTemplateUsed(response, self.feedback_template)
 
     def test_feedback_list_teacher_get_user(self):
         self.client.force_login(user=self.teacher_user)
         response = self.client.get(self.user_all_feedback_user)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(self.feedback_template)
+        self.assertTemplateUsed(response, self.feedback_template)
 
     def test_feedback_list_user_get_user(self):
         self.client.force_login(user=self.normal_user)
         response = self.client.get(self.user_all_feedback_user)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(self.feedback_template)
+        self.assertTemplateUsed(response, self.feedback_template)
 
     def test_feedback_list_admin_get_admin(self):
         self.client.force_login(user=self.admin_user)
         response = self.client.get(self.user_all_feedback_admin)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(self.feedback_template)
+        self.assertTemplateUsed(response, self.feedback_template)
 
     def test_feedback_list_staff_get_admin(self):
         self.client.force_login(user=self.staff_user)
         response = self.client.get(self.user_all_feedback_admin)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(self.feedback_template)
+        self.assertTemplateUsed(response, self.feedback_template)
 
     def test_feedback_list_teacher_get_admin(self):
         self.client.force_login(user=self.teacher_user)
         response = self.client.get(self.user_all_feedback_admin)
         self.assertEqual(403, response.status_code)
-        self.assertTemplateUsed(self.feedback_template)
+        self.assertTemplateUsed(response, self.unauthorized_template)
 
     def test_feedback_list_user_get_admin(self):
         self.client.force_login(user=self.normal_user)
         response = self.client.get(self.user_all_feedback_admin)
         self.assertEqual(403, response.status_code)
-        self.assertTemplateUsed(self.feedback_template)
+        self.assertTemplateUsed(response, self.unauthorized_template)
