@@ -1,4 +1,5 @@
 import math
+import uuid
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -47,7 +48,7 @@ class Award(models.Model):
                                        null=True,
                                        default=None)
 
-    validation_guid = models.UUIDField()
+    validation_uuid = models.UUIDField(default=uuid.uuid4, editable=False)
 
     class Meta:
         verbose_name = _('Award')

@@ -59,6 +59,7 @@ setup(
         "reportlab==3.5.67",
         "django-compressor==2.4.1",
         "httpretty==1.1.1",
-        "django-sass-processor==1.0.1"
+        "django-sass-processor==1.0.1",
+        "qrcode==6.1"
     ],
 )

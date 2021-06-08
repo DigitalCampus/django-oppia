@@ -83,7 +83,7 @@ urlpatterns = [
          views.PreviewCertificateView.as_view(),
          name="certificate_preview"),
     
-    path('certificate/validate/<str:validation_guid>/',
+    path('certificate/validate/<str:validation_uuid>/',
          views.ValidateCertificateView.as_view(),
          name="certificate_validate"),
 
