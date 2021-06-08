@@ -35,8 +35,8 @@ class UsernameResource(ModelResource):
 
         if user is not None:
             emailer.send_oppia_email(
-                    template_html='profile/email/username_reminder.html',
-                    template_text='profile/email/username_reminder.txt',
+                    template_html='emails/username_reminder.html',
+                    template_text='emails/username_reminder.txt',
                     subject="Username reminder",
                     fail_silently=False,
                     recipients=[user.email],
