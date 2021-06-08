@@ -15,7 +15,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4, landscape, portrait
 from reportlab.lib.utils import ImageReader
 
-from oppia.models import Award, CertificateTemplate
+from oppia.models import Award, Course, CertificateTemplate
 
 from settings import constants
 from settings.models import SettingProperties
@@ -71,7 +71,7 @@ def generate_certificate_pdf(user,
         cert.setFont('Helvetica', 10)
         cert.drawCentredString(cert_template.validation_x,
                                cert_template.validation_y,
-                               validation_link)
+                               "Verify certificate: " + validation_link)
     
     # add QR Code
     if cert_template.validation == 'QRCODE': 
@@ -118,6 +118,7 @@ class ValidateCertificateView(TemplateView):
         except (Award.DoesNotExist, ValidationError):
             return render(request, 'oppia/certificates/invalid.html',
                   {'validation_uuid': validation_uuid})
-        
+        course = Course.objects.filter(awardcourse__award=award).first()
         return render(request, 'oppia/certificates/valid.html',
-                  {'award': award})   
+                  {'award': award,
+                   'course': course})   

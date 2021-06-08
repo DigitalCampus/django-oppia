@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load static %}
 {% load settings_value %}
+{% load display_functions %}
 {% block extra_head_title %}
 	{% trans 'Validate Certificate' %}
 {% endblock extra_head_title %}
@@ -21,7 +22,7 @@
 
 <ul>
 <li>{% trans "Name:" %} {{ award.user.first_name }} {{ award.user.last_name }}</li>
-<li>{% trans "Course:" %} {{ award.user.first_name }} {{ award.user.last_name }}</li>
-<li>{% trans "Awarded on:" %} {{ award.user.first_name }} {{ award.user.last_name }}</li>
+<li>{% trans "Course:" %} {{ course.title | title_lang:LANGUAGE_CODE }}</li>
+<li>{% trans "Awarded on:" %} {{ award.award_date }}</li>
 </ul>
 {% endblock %}

@@ -133,6 +133,7 @@ class CertificateTemplateAdmin(admin.ModelAdmin):
                     'include_name',
                     'include_date',
                     'include_course_title',
+                    'validation',
                     'preview')
 
     def preview(self, obj):
