@@ -1,0 +1,9 @@
+{% load i18n %}
+{% load display_functions %}
+{% load settings_value %}
+
+<p>{% trans 'Congratulations' %} {{ award.user.first_name }} {{ award.user.last_name }}!</p>
+
+<p>You have been awarded the certificate for the course {{ course.title | title_lang:"en" }}.</p>
+
+<p>Your certificate is attached to this email, you can also download it from the {% trans 'app_name' %} app.</p>

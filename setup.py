@@ -8,7 +8,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-oppia',
-    version='0.12.17',
+    version='0.12.18',
     packages=[
         'oppia',
         'quiz',
@@ -59,6 +59,7 @@ setup(
         "reportlab==3.5.67",
         "django-compressor==2.4.1",
         "httpretty==1.1.1",
-        "django-sass-processor==1.0.1"
+        "django-sass-processor==1.0.1",
+        "qrcode==6.1"
     ],
 )

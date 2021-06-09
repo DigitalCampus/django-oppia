@@ -26,6 +26,7 @@ class OppiaActivityViewsTest(OppiaTestCase):
     url_oppia_export_course_trackers = reverse('oppia:export_course_trackers',
                                                args=[1])
 
+    STR_COURSE_DETAIL_TEMPLATE = 'course/detail.html'
     activity_detail_template = 'course/activity-detail.html'
     start_date = timezone.make_aware(
         datetime.datetime.strptime(
@@ -40,25 +41,25 @@ class OppiaActivityViewsTest(OppiaTestCase):
         self.client.force_login(user=self.admin_user)
         response = self.client.get(self.url_recent_activity)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(self.activity_detail_template)
+        self.assertTemplateUsed(response, self.STR_COURSE_DETAIL_TEMPLATE)
 
     def test_recent_activity_get_staff(self):
         self.client.force_login(user=self.staff_user)
         response = self.client.get(self.url_recent_activity)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(self.activity_detail_template)
+        self.assertTemplateUsed(response, self.STR_COURSE_DETAIL_TEMPLATE)
 
     def test_recent_activity_get_teacher(self):
         self.client.force_login(user=self.teacher_user)
         response = self.client.get(self.url_recent_activity)
         self.assertEqual(403, response.status_code)
-        self.assertTemplateUsed(self.activity_detail_template)
+        self.assertTemplateUsed(response, '403.html')
 
     def test_recent_activity_get_user(self):
         self.client.force_login(user=self.normal_user)
         response = self.client.get(self.url_recent_activity)
         self.assertEqual(403, response.status_code)
-        self.assertTemplateUsed(self.activity_detail_template)
+        self.assertTemplateUsed(response, '403.html')
 
     def test_recent_activity_invalid_course(self):
         self.client.force_login(user=self.admin_user)
@@ -72,7 +73,7 @@ class OppiaActivityViewsTest(OppiaTestCase):
                      'end_date': self.end_date}
         response = self.client.get(self.url_recent_activity, data=post_data)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(self.activity_detail_template)
+        self.assertTemplateUsed(response, self.STR_COURSE_DETAIL_TEMPLATE)
 
     def test_recent_activity_post_interval_days(self):
         self.client.force_login(user=self.admin_user)
@@ -81,7 +82,7 @@ class OppiaActivityViewsTest(OppiaTestCase):
                      'interval': self.interval_days}
         response = self.client.get(self.url_recent_activity, data=post_data)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(self.activity_detail_template)
+        self.assertTemplateUsed(response, self.STR_COURSE_DETAIL_TEMPLATE)
 
     def test_recent_activity_post_interval_months(self):
         self.client.force_login(user=self.admin_user)
@@ -90,7 +91,7 @@ class OppiaActivityViewsTest(OppiaTestCase):
                      'interval': self.interval_months}
         response = self.client.get(self.url_recent_activity, data=post_data)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(self.activity_detail_template)
+        self.assertTemplateUsed(response, self.STR_COURSE_DETAIL_TEMPLATE)
 
     def test_recent_activity_post_interval_other(self):
         self.client.force_login(user=self.admin_user)
@@ -99,7 +100,7 @@ class OppiaActivityViewsTest(OppiaTestCase):
                      'interval': self.interval_invalid}
         response = self.client.get(self.url_recent_activity, data=post_data)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(self.activity_detail_template)
+        self.assertTemplateUsed(response, self.STR_COURSE_DETAIL_TEMPLATE)
 
     def test_recent_activity_post_invalid_dates(self):
         self.client.force_login(user=self.admin_user)
@@ -109,19 +110,19 @@ class OppiaActivityViewsTest(OppiaTestCase):
         response = self.client.get(self.url_recent_activity, data=post_data)
         self.assertRaises(ValidationError)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(self.activity_detail_template)
+        self.assertTemplateUsed(response, self.STR_COURSE_DETAIL_TEMPLATE)
 
     def test_recent_activity_detail_get_admin(self):
         self.client.force_login(user=self.admin_user)
         response = self.client.get(self.url_recent_activity_detail)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(self.activity_detail_template)
+        self.assertTemplateUsed(response, self.activity_detail_template)
 
     def test_recent_activity_detail_get_staff(self):
         self.client.force_login(user=self.staff_user)
         response = self.client.get(self.url_recent_activity_detail)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(self.activity_detail_template)
+        self.assertTemplateUsed(response, self.activity_detail_template)
 
     def test_recent_activity_detail_get_teacher(self):
         self.client.force_login(user=self.teacher_user)
@@ -140,7 +141,7 @@ class OppiaActivityViewsTest(OppiaTestCase):
         response = self.client.get(self.url_recent_activity_detail,
                                    data=post_data)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(self.activity_detail_template)
+        self.assertTemplateUsed(response, self.activity_detail_template)
 
     def test_recent_activity_detail_post_invalid_dates(self):
         self.client.force_login(user=self.admin_user)
@@ -151,14 +152,14 @@ class OppiaActivityViewsTest(OppiaTestCase):
                                    data=post_data)
         self.assertRaises(ValidationError)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(self.activity_detail_template)
+        self.assertTemplateUsed(response, self.activity_detail_template)
 
     def test_recent_activity_detail_get_page_1(self):
         self.client.force_login(user=self.admin_user)
         url = '%s?page=1' % self.url_recent_activity_detail
         response = self.client.get(url)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(self.activity_detail_template)
+        self.assertTemplateUsed(response, self.activity_detail_template)
 
     def test_recent_activity_detail_get_page_9999(self):
         self.client.force_login(user=self.admin_user)
@@ -166,7 +167,7 @@ class OppiaActivityViewsTest(OppiaTestCase):
         response = self.client.get(url)
         self.assertRaises(InvalidPage)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(self.activity_detail_template)
+        self.assertTemplateUsed(response, self.activity_detail_template)
 
     def test_recent_activity_detail_get_page_abc(self):
         self.client.force_login(user=self.admin_user)
@@ -174,7 +175,7 @@ class OppiaActivityViewsTest(OppiaTestCase):
         response = self.client.get(url)
         self.assertRaises(ValueError)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(self.activity_detail_template)
+        self.assertTemplateUsed(response, self.activity_detail_template)
 
     def test_export_course_trackers_admin(self):
         self.client.force_login(user=self.admin_user)
