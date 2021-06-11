@@ -62,6 +62,9 @@ class Command(BaseCommand):
 
         # clear any expired sessions
         call_command('clearsessions')
+        
+        # cleanup uploads
+        call_command('cleanup_uploads')
 
         SettingProperties.set_string('oppia_cron_last_run', timezone.now())
         SettingProperties.delete_key('oppia_cron_lock')

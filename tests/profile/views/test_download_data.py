@@ -31,7 +31,7 @@ class DownloadDataViewsTest(OppiaTestCase):
             response = self.client.get(reverse(self.STR_URL,
                                                args=['profile']))
             self.assertEqual(200, response.status_code)
-            self.assertTemplateUsed('profile/export/profile.html')
+            self.assertTemplateUsed(response, 'profile/export/profile.html')
             self.assertEqual(response['content-type'],
                              self.STR_EXPECTED_CONTENT_TYPE)
 
@@ -44,7 +44,7 @@ class DownloadDataViewsTest(OppiaTestCase):
             response = self.client.get(reverse(self.STR_URL,
                                                args=['points']))
             self.assertEqual(200, response.status_code)
-            self.assertTemplateUsed('profile/export/points.html')
+            self.assertTemplateUsed(response, 'profile/export/points.html')
             self.assertEqual(response['content-type'],
                              self.STR_EXPECTED_CONTENT_TYPE)
 
@@ -57,7 +57,7 @@ class DownloadDataViewsTest(OppiaTestCase):
             response = self.client.get(reverse(self.STR_URL,
                                                args=['badges']))
             self.assertEqual(200, response.status_code)
-            self.assertTemplateUsed('profile/export/badges.html')
+            self.assertTemplateUsed(response, 'profile/export/badges.html')
             self.assertEqual(response['content-type'],
                              self.STR_EXPECTED_CONTENT_TYPE)
 
@@ -70,7 +70,8 @@ class DownloadDataViewsTest(OppiaTestCase):
             response = self.client.get(reverse(self.STR_URL,
                                                args=['quiz']))
             self.assertEqual(200, response.status_code)
-            self.assertTemplateUsed('profile/export/quiz.html')
+            self.assertTemplateUsed(response,
+                                    'profile/export/quiz_attempts.html')
             self.assertEqual(response['content-type'],
                              self.STR_EXPECTED_CONTENT_TYPE)
 
@@ -83,6 +84,6 @@ class DownloadDataViewsTest(OppiaTestCase):
             response = self.client.get(reverse(self.STR_URL,
                                                args=['activity']))
             self.assertEqual(200, response.status_code)
-            self.assertTemplateUsed('profile/export/activity.html')
+            self.assertTemplateUsed(response, 'profile/export/activity.html')
             self.assertEqual(response['content-type'],
                              self.STR_EXPECTED_CONTENT_TYPE)

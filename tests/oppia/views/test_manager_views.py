@@ -32,32 +32,32 @@ class ManagerCourseViewsTest(OppiaTestCase):
         url = reverse('oppia:manager_index')
         response = self.client.get(url)
         self.assertEqual(403, response.status_code)
-        self.assertTemplateUsed(self.unauthorized_template)
+        self.assertTemplateUsed(response, self.unauthorized_template)
 
     def test_manager_view_staff(self):
         self.client.force_login(user=self.staff_user)
         url = reverse('oppia:manager_index')
         response = self.client.get(url)
         self.assertEqual(403, response.status_code)
-        self.assertTemplateUsed(self.unauthorized_template)
+        self.assertTemplateUsed(response, self.unauthorized_template)
 
     def test_manager_view_user(self):
         self.client.force_login(user=self.normal_user)
         url = reverse('oppia:manager_index')
         response = self.client.get(url)
         self.assertEqual(403, response.status_code)
-        self.assertTemplateUsed(self.unauthorized_template)
+        self.assertTemplateUsed(response, self.unauthorized_template)
 
     def test_manager_view_viewer(self):
         self.client.force_login(user=self.viewer_user)
         url = reverse('oppia:manager_index')
         response = self.client.get(url)
         self.assertEqual(403, response.status_code)
-        self.assertTemplateUsed(self.unauthorized_template)
+        self.assertTemplateUsed(response, self.unauthorized_template)
 
     def test_manager_view_teacher(self):
         self.client.force_login(user=self.teacher_user)
         url = reverse('oppia:manager_index')
         response = self.client.get(url)
         self.assertEqual(403, response.status_code)
-        self.assertTemplateUsed(self.unauthorized_template)
+        self.assertTemplateUsed(response, self.unauthorized_template)

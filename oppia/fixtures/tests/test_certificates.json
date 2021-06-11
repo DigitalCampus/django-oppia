@@ -1,0 +1,183 @@
+[
+{
+    "model": "oppia.award",
+    "pk": 5,
+    "fields": {
+        "badge": 1,
+        "user": 2,
+        "description": "Course completed - NCD",
+        "award_date": "2021-06-07T17:34:03Z",
+        "certificate_pdf": "certificates/2021/06/cert.pdf",
+        "validation_uuid": "7a6b813c-3c72-4a17-92ee-1f218168e132"
+    }
+},
+{
+    "model": "oppia.award",
+    "pk": 6,
+    "fields": {
+        "badge": 1,
+        "user": 2,
+        "description": "course completed - anc",
+        "award_date": "2021-06-07T17:36:06Z",
+        "certificate_pdf": "certificates/2021/06/cert_0sJEMhu.pdf",
+        "validation_uuid": "b58df7fa-7106-4eb9-aa4f-013b28376dbf"
+    }
+},
+{
+    "model": "oppia.award",
+    "pk": 7,
+    "fields": {
+        "badge": 1,
+        "user": 2,
+        "description": "portrait cert",
+        "award_date": "2021-06-08T11:21:56Z",
+        "certificate_pdf": "certificates/2021/06/certificate-demo-award-test_5ImtoSA_TWHcpaT.pdf",
+        "validation_uuid": "f5b5df7e-01a7-4ace-afa8-0ef5f985cb71"
+    }
+},
+{
+    "model": "oppia.award",
+    "pk": 8,
+    "fields": {
+        "badge": 1,
+        "user": 2,
+        "description": "another course",
+        "award_date": "2021-06-08T11:22:37Z",
+        "certificate_pdf": "certificates/2021/06/certificate-demo-award-test_ytMJ14j_bQ06H2z.pdf",
+        "validation_uuid": "1eaa3383-f49e-4126-b001-e85d52e02587"
+    }
+},
+{
+    "model": "oppia.awardcourse",
+    "pk": 4,
+    "fields": {
+        "award": 4,
+        "course": 5,
+        "course_version": 20200123143622
+    }
+},
+{
+    "model": "oppia.awardcourse",
+    "pk": 5,
+    "fields": {
+        "award": 5,
+        "course": 2,
+        "course_version": 0
+    }
+},
+{
+    "model": "oppia.awardcourse",
+    "pk": 6,
+    "fields": {
+        "award": 6,
+        "course": 1,
+        "course_version": 0
+    }
+},
+{
+    "model": "oppia.awardcourse",
+    "pk": 7,
+    "fields": {
+        "award": 7,
+        "course": 4,
+        "course_version": 0
+    }
+},
+{
+    "model": "oppia.awardcourse",
+    "pk": 8,
+    "fields": {
+        "award": 8,
+        "course": 3,
+        "course_version": 0
+    }
+},
+{
+    "model": "oppia.certificatetemplate",
+    "pk": 1,
+    "fields": {
+        "badge": 1,
+        "enabled": true,
+        "course": 1,
+        "image_file": "certificate/templates/certificate_test2_aIeE1m6.png",
+        "include_name": true,
+        "include_date": true,
+        "include_course_title": true,
+        "name_x": 0,
+        "name_y": 0,
+        "date_x": 0,
+        "date_y": 0,
+        "course_title_x": 0,
+        "course_title_y": 0,
+        "validation": "URL",
+        "validation_x": 300,
+        "validation_y": 50
+    }
+},
+{
+    "model": "oppia.certificatetemplate",
+    "pk": 2,
+    "fields": {
+        "badge": 1,
+        "enabled": false,
+        "course": 2,
+        "image_file": "certificate/templates/certificate_test2_dA7tsVc.png",
+        "include_name": true,
+        "include_date": true,
+        "include_course_title": true,
+        "name_x": 0,
+        "name_y": 0,
+        "date_x": 0,
+        "date_y": 0,
+        "course_title_x": 0,
+        "course_title_y": 0,
+        "validation": "QRCODE",
+        "validation_x": 0,
+        "validation_y": 0
+    }
+},
+{
+    "model": "oppia.certificatetemplate",
+    "pk": 3,
+    "fields": {
+        "badge": 1,
+        "enabled": true,
+        "course": 5,
+        "image_file": "certificate/templates/certificate_test2_Aq5hcOr.png",
+        "include_name": true,
+        "include_date": true,
+        "include_course_title": true,
+        "name_x": 0,
+        "name_y": 0,
+        "date_x": 0,
+        "date_y": 0,
+        "course_title_x": 0,
+        "course_title_y": 0,
+        "validation": "NONE",
+        "validation_x": 0,
+        "validation_y": 0
+    }
+},
+{
+    "model": "oppia.certificatetemplate",
+    "pk": 4,
+    "fields": {
+        "badge": 1,
+        "enabled": true,
+        "course": 3,
+        "image_file": "certificate/templates/certificate_portrait_valid_f1uzKEr.png",
+        "include_name": true,
+        "include_date": true,
+        "include_course_title": true,
+        "name_x": 0,
+        "name_y": 0,
+        "date_x": 0,
+        "date_y": 0,
+        "course_title_x": 0,
+        "course_title_y": 0,
+        "validation": "NONE",
+        "validation_x": 0,
+        "validation_y": 0
+    }
+}
+]

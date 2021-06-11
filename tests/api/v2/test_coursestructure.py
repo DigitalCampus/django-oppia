@@ -76,6 +76,6 @@ class CourseStructureResourceTest(ResourceTestCaseMixin, TestCase):
 
     # no module.xml found
     def test_no_module_xml(self):
-        url = get_api_url('v2', 'coursestructure') + "1/"
+        url = get_api_url('v2', 'coursestructure') + "999/"
         response = self.client.get(url)
         self.assertHttpNotFound(response)

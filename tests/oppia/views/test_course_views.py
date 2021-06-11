@@ -51,7 +51,7 @@ class CourseViewsTest(OppiaTestCase):
         url = '%s?page=1' % reverse(self.STR_URL_TAG_COURSES, args=[2])
         response = self.client.get(url)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(self.course_list_template)
+        self.assertTemplateUsed(response, self.course_list_template)
 
     def test_tag_view_get_page_9999(self):
         self.client.force_login(user=self.admin_user)
@@ -59,7 +59,7 @@ class CourseViewsTest(OppiaTestCase):
         response = self.client.get(url)
         self.assertRaises(InvalidPage)
         self.assertEqual(404, response.status_code)
-        self.assertTemplateUsed(self.course_list_template)
+        self.assertTemplateUsed(response, self.not_found_template)
 
     def test_tag_view_get_page_abc(self):
         self.client.force_login(user=self.admin_user)
@@ -67,39 +67,39 @@ class CourseViewsTest(OppiaTestCase):
         response = self.client.get(url)
         self.assertRaises(ValueError)
         self.assertEqual(404, response.status_code)
-        self.assertTemplateUsed(self.course_list_template)
+        self.assertTemplateUsed(response, self.not_found_template)
 
     def test_export_permissions_admin(self):
         self.client.force_login(user=self.admin_user)
         url = reverse(self.STR_URL_COURSE_EXPORTS, args=[1])
         response = self.client.get(url)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(self.course_export_template)
+        self.assertTemplateUsed(response, self.course_export_template)
 
     def test_export_permissions_staff(self):
         self.client.force_login(user=self.staff_user)
         url = reverse(self.STR_URL_COURSE_EXPORTS, args=[1])
         response = self.client.get(url)
         self.assertEqual(200, response.status_code)
-        self.assertTemplateUsed(self.course_export_template)
+        self.assertTemplateUsed(response, self.course_export_template)
 
     def test_export_permissions_teacher(self):
         self.client.force_login(user=self.teacher_user)
         url = reverse(self.STR_URL_COURSE_EXPORTS, args=[1])
         response = self.client.get(url)
         self.assertEqual(403, response.status_code)
-        self.assertTemplateUsed(self.unauthorized_template)
+        self.assertTemplateUsed(response, self.unauthorized_template)
 
     def test_export_permissions_normal(self):
         self.client.force_login(user=self.normal_user)
         url = reverse(self.STR_URL_COURSE_EXPORTS, args=[1])
         response = self.client.get(url)
         self.assertEqual(403, response.status_code)
-        self.assertTemplateUsed(self.unauthorized_template)
+        self.assertTemplateUsed(response, self.unauthorized_template)
 
     def test_export_invalid_course(self):
         self.client.force_login(user=self.admin_user)
         url = reverse(self.STR_URL_COURSE_EXPORTS, args=[0])
         response = self.client.get(url)
         self.assertEqual(404, response.status_code)
-        self.assertTemplateUsed(self.not_found_template)
+        self.assertTemplateUsed(response, self.not_found_template)

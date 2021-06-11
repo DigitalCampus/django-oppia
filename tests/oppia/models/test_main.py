@@ -1,3 +1,9 @@
+import datetime
+import pytz
+
+from django.contrib.auth.models import User
+from django.utils.timezone import make_aware
+
 from oppia.models import Course, Activity, Tracker, Media
 from oppia.test import OppiaTestCase
 
@@ -10,7 +16,11 @@ class MainModelsCoreTest(OppiaTestCase):
                 'default_gamification_events.json',
                 'tests/test_tracker.json',
                 'tests/test_gamification.json',
-                'tests/test_course_permissions.json']
+                'tests/test_course_permissions.json',
+                'tests/test_feedback.json',
+                'tests/test_quizattempt.json']
+
+    STR_TIMEZONE = "Europe/Helsinki"
 
     def setUp(self):
         super(MainModelsCoreTest, self).setUp()
@@ -103,6 +113,13 @@ class MainModelsCoreTest(OppiaTestCase):
         self.assertRaises(Activity.DoesNotExist)
         self.assertEqual(None, score)
 
+    def test_get_removed_feedbacks(self):
+        feedbacks = self.course.get_removed_feedbacks()
+        self.assertEqual(0, len(feedbacks))
+
+    def test_feedback_activities(self):
+        feedbacks = Course.objects.get(pk=183).get_feedback_activities()
+        self.assertEqual(1, len(feedbacks))
     '''
     ACTIVITY model
     '''
@@ -170,3 +187,62 @@ class MainModelsCoreTest(OppiaTestCase):
         self.assertEqual(4, len(media.get_event_points()['events']))
         media_started_event = media.get_event_points()['events'][0]
         self.assertEqual(100, media_started_event.points)
+        
+    '''
+    TRACKER Model
+    '''
+    def test_tracker_get_media_title(self):
+        tracker = Tracker.objects.get(pk=1462220)
+        self.assertEqual('who-why-did-mrs-x-die-20140220.m4v',
+                         tracker.get_media_title())
+
+    def test_tracker_activity_views_all(self):
+        user = User.objects.get(pk=2)
+        no_views = Tracker.activity_views(user, Activity.PAGE)
+        self.assertEqual(247, no_views)
+    
+    def test_tracker_activity_views_start_date(self):
+        user = User.objects.get(pk=2)
+        naive = datetime.datetime(2017, 1, 1, 0, 0)
+        start_date = make_aware(naive,
+                                timezone=pytz.timezone(self.STR_TIMEZONE))
+        no_views = Tracker.activity_views(user,
+                                          Activity.PAGE,
+                                          start_date=start_date)
+        self.assertEqual(46, no_views)
+    
+    def test_tracker_activity_views_end_date(self):
+        user = User.objects.get(pk=2)
+        naive = datetime.datetime(2017, 1, 1, 0, 0)
+        end_date = make_aware(naive,
+                                timezone=pytz.timezone(self.STR_TIMEZONE))
+        no_views = Tracker.activity_views(user,
+                                          Activity.PAGE,
+                                          end_date=end_date)
+        self.assertEqual(201, no_views)
+    
+    def test_tracker_activity_views_start_end_date(self):
+        user = User.objects.get(pk=2)
+        naive = datetime.datetime(2000, 1, 1, 0, 0)
+        start_date = make_aware(naive,
+                                timezone=pytz.timezone(self.STR_TIMEZONE))
+        naive = datetime.datetime(2016, 1, 1, 0, 0)
+        end_date = make_aware(naive,
+                                timezone=pytz.timezone(self.STR_TIMEZONE))
+        no_views = Tracker.activity_views(user,
+                                          Activity.PAGE,
+                                          start_date=start_date,
+                                          end_date=end_date)
+        self.assertEqual(79, no_views)
+    
+    def test_tracker_activity_views_course(self):
+        user = User.objects.get(pk=2)
+        course = Course.objects.get(pk=1)
+        no_views = Tracker.activity_views(user, Activity.PAGE, course=course)
+        self.assertEqual(234, no_views)
+
+    def test_tracker_to_xml_string(self):
+        course = Course.objects.get(pk=1)
+        user = User.objects.get(pk=2)
+        xml = Tracker.to_xml_string(course, user)
+        self.assertEqual(40383, len(xml))

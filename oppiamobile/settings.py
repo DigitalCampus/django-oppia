@@ -154,7 +154,8 @@ LOGIN_EXEMPT_URLS = (
     r'^api/activitylog/',
     r'^view/$',
     r'^accounts/password_reset/',
-    r'^accounts/reset/'
+    r'^accounts/reset/',
+    r'^certificate/validate/'
 )
 
 # OppiaMobile Settings
