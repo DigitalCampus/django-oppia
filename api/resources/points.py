@@ -5,6 +5,8 @@ from tastypie.authorization import ReadOnlyAuthorization
 from tastypie.resources import ModelResource
 from tastypie.utils import timezone
 
+from api.serializers import PrettyJSONSerializer
+
 from oppia.models import Points
 
 
@@ -17,6 +19,7 @@ class PointsResource(ModelResource):
         include_resource_uri = False
         authentication = ApiKeyAuthentication()
         authorization = ReadOnlyAuthorization()
+        serializer = PrettyJSONSerializer()
         always_return_data = True
 
     def get_object_list(self, request):
@@ -30,12 +33,15 @@ class PointsResource(ModelResource):
 
     def prepend_urls(self):
         return [
+            url(r"^leaderboard-all/$",
+                self.wrap_view('leaderboard_all'),
+                name="api_leaderboard_all"),
             url(r"^leaderboard/$",
                 self.wrap_view('leaderboard'),
                 name="api_leaderboard"),
         ]
 
-    def leaderboard(self, request, **kwargs):
+    def leaderboard_all(self, request, **kwargs):
 
         self.method_check(request, allowed=['get'])
         self.is_authenticated(request)
@@ -61,5 +67,27 @@ class PointsResource(ModelResource):
             leader_data['points'] = leader.total
             leader_data['badges'] = leader.badges
             response_data['leaderboard'].append(leader_data)
+
+        return JsonResponse(response_data)
+    
+    def leaderboard(self, request, **kwargs):
+
+        self.method_check(request, allowed=['get'])
+        self.is_authenticated(request)
+        self.throttle_check(request)
+
+        if request.is_secure():
+            prefix = 'https://'
+        else:
+            prefix = 'http://'
+
+        response_data = {}
+        response_data['generated_date'] = timezone.now()
+        response_data['server'] = prefix + request.META['SERVER_NAME']
+        leaderboard = Points.get_leaderboard_filtered(request.user,
+                                                      count_top=20,
+                                                      above=20,
+                                                      below=20)
+        response_data['leaderboard'] = leaderboard
 
         return JsonResponse(response_data)

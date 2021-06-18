@@ -69,6 +69,105 @@ class Points(models.Model):
         return leaderboard
 
     @staticmethod
+    def get_leaderboard_filtered(request_user,
+                                 count_top=20,
+                                 above=20,
+                                 below=20):
+
+        from summary.models import UserPointsSummary
+
+        users_points = UserPointsSummary.objects.all() \
+            .values('user', 'points', 'badges') \
+            .order_by('-points')
+
+        # check if there's going to be overlap or not
+        if users_points.count() <= (count_top + above + below + 1):
+            return Points.get_leaderboard()
+
+        leaderboard_data = Points.get_leaderboard_top(users_points, count_top)
+        leaderboard_data = \
+            Points.get_leaderboard_around_user(leaderboard_data,
+                                               users_points,
+                                               request_user,
+                                               count_top,
+                                               above,
+                                               below)
+
+        return leaderboard_data
+    
+    @staticmethod
+    def get_leaderboard_top(users_points, count_top):
+
+        leaderboard_data = []
+        top_users_points = users_points[:count_top]
+
+        for idx, u in enumerate(top_users_points):
+            user = User.objects.get(pk=u['user'])
+            user.badges = 0 if u['badges'] is None else u['badges']
+            user.total = 0 if u['points'] is None else u['points']
+
+            leader_data = {}
+            leader_data['position'] = idx + 1
+            leader_data['username'] = user.username
+            leader_data['first_name'] = user.first_name
+            leader_data['last_name'] = user.last_name
+            leader_data['points'] = user.total
+            leader_data['badges'] = user.badges
+
+            leaderboard_data.append(leader_data)
+
+        return leaderboard_data
+
+    @staticmethod
+    def get_leaderboard_around_user(leaderboard_data,
+                                    users_points,
+                                    request_user,
+                                    count_top,
+                                    above,
+                                    below):
+
+        # find position of current user
+        request_user_position = 0
+        for idx, up in enumerate(users_points):
+            if up['user'] == request_user.pk:
+                request_user_position = idx + 1
+                break
+
+        if request_user_position == 0:
+            return leaderboard_data
+
+        start_pos = request_user_position - above
+        end_pos = request_user_position + below + 1
+        # negative start_pos not supported
+        if start_pos < 0:
+            start_pos = 0
+            
+        # if user is already in the top count_top + below, calculate correct 
+        # start and end pos
+        if request_user_position <= count_top + below:
+            start_pos = count_top
+            end_pos = request_user_position + below
+
+        user_above_below_points = users_points[start_pos:end_pos] 
+
+        for idx, u in enumerate(user_above_below_points):
+            user = User.objects.get(pk=u['user'])
+            user.badges = 0 if u['badges'] is None else u['badges']
+            user.total = 0 if u['points'] is None else u['points']
+
+            leader_data = {}
+            leader_data['position'] = start_pos + idx + 1
+            leader_data['username'] = user.username
+            leader_data['first_name'] = user.first_name
+            leader_data['last_name'] = user.last_name
+            leader_data['points'] = user.total
+            leader_data['badges'] = user.badges
+
+            leaderboard_data.append(leader_data)
+
+        return leaderboard_data
+
+    @staticmethod
     def get_userscore(user):
         score = Points.objects.filter(user=user) \
             .aggregate(total=Sum('points'))
