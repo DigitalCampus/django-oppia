@@ -48,14 +48,12 @@ class AVPagesViewTest(OppiaTestCase):
         disallowed_users = [self.normal_user]
 
         for allowed_user in allowed_users:
-            print(allowed_user)
             self.client.force_login(allowed_user)
             response = self.client.get(self.media_url_valid)
             self.assertTemplateUsed(response, self.view_template)
             self.assertEqual(response.status_code, 200)
 
         for disallowed_user in disallowed_users:
-            print(disallowed_user)
             self.client.force_login(disallowed_user)
             response = self.client.get(self.media_url_valid)
             self.assertTemplateUsed(response, self.unauthorized_template)

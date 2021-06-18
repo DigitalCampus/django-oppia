@@ -47,7 +47,6 @@ class LoginView(FormView, TitleViewMixin):
         return super().dispatch(*args, **kwargs)
 
     def form_invalid(self, form):
-        print(form.errors)
         return super().form_invalid(form)
 
     def form_valid(self, form):
