@@ -77,21 +77,3 @@ class ContentViewsTest(OppiaTestCase):
         response = self.client.post(self.media_embed_helper_url, {})
         self.assertRaises(ValidationError)
         self.assertEqual(200, response.status_code)
-
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
-    def test_media_embed_helper_post_valid_url(self):
-        self.client.force_login(self.admin_user)
-        media_url = "https://downloads.digital-campus.org/media/anc/" \
-            "iheed-20140217-breastfeeding-technique-part1.m4v"
-        response = self.client.post(self.media_embed_helper_url,
-                                    {'media_url': media_url})
-        self.assertEqual(200, response.status_code)
-
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
-    def test_media_embed_helper_post_invalid_url(self):
-        self.client.force_login(self.admin_user)
-        media_url = "https://downloads.d/media/part1.m4v"
-        response = self.client.post(self.media_embed_helper_url,
-                                    {'media_url': media_url})
-        self.assertRaises(IOError)
-        self.assertEqual(200, response.status_code)
