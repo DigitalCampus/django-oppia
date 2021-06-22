@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block extra_head_title %}
+	{% trans 'Register Oppia Server' %}
+{% endblock extra_head_title %}
+
+{% block header %}
+<div class="jumbotron mb-4 ">
+	<h3>{% trans 'Register Oppia Server' %}</h3>
+</div>
+{% endblock header %}
+
+{% block content %}
+
+<h5>{% trans 'Registering your Oppia server helps keep Oppia maintained' %}</h5>
+
+<p>{% blocktrans %}
+If you choose to register your server, your server will be added to the 
+<a href="https://implementations.oppia-mobile.org">Oppia Implementations site
+</a>. Note that your Oppia implementation will not be displayed publically, 
+unless we contact you to ask for permission to do so. 
+{% endblocktrans %}</p>
+
+<p>{% blocktrans %}
+
+{% endblocktrans %}</p>
+
+<p>{% blocktrans %}
+ 
+{% endblocktrans %}</p>
+{% crispy form %}
+
+{% endblock %}
