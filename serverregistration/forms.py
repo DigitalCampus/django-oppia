@@ -11,13 +11,16 @@ class RegisterServerForm(forms.Form):
                                  max_length=100,
                                  min_length=10,
                                  error_messages={'required':
-                                   _(u'Please enter a server url.')})
+                                   _(u'Please enter a server url.')},
+                                 help_text=_(u'If this is incorrect, you should \
+                                 first update the OPPIA_HOSTNAME in the SettingProperies in Oppia Admin'))
     include_no_courses = forms.BooleanField(required=False)
     include_no_users = forms.BooleanField(required=False)
     email_notifications = forms.BooleanField(required=False)
     notif_email_address = forms.CharField(max_length=200,
                                           min_length=5,
-                                          required=False)
+                                          required=False,
+                                          label=_(u'Notification email address'))
     
     
     def __init__(self, *args, **kwargs):
@@ -32,10 +35,18 @@ class RegisterServerForm(forms.Form):
         
         self.helper.layout.append('server_url')
         
+        self.helper.layout.append(Div(
+                HTML("""<h5>"""
+                     + _(u'Provide additional course/user data') + """</h5>""")
+            ))
         self.helper.layout.extend(
             ['include_no_courses',
             'include_no_users'])
             
+        self.helper.layout.append(Div(
+                HTML("""<h5>"""
+                     + _(u'Get email notifications') + """</h5>""")
+            ))
         self.helper.layout.extend(    
             ['email_notifications',
             'notif_email_address']
@@ -48,5 +59,8 @@ class RegisterServerForm(forms.Form):
 
     def clean(self):
         cleaned_data = self.cleaned_data
-       
+        email_notifications = cleaned_data.get("email_notifications")
+        notif_email_address = cleaned_data.get("notif_email_address")
+        if email_notifications and notif_email_address is '':
+             raise forms.ValidationError(_(u"Please give an email address for the notifications"))
         return cleaned_data
