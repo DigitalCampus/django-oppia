@@ -12,8 +12,8 @@ class RegisterServerForm(forms.Form):
                                  min_length=10,
                                  error_messages={'required':
                                    _(u'Please enter a server url.')},
-                                 help_text=_(u'If this is incorrect, you should \
-                                 first update the OPPIA_HOSTNAME in the settings in Oppia Admin'))
+                                 help_text=_(u'If this is incorrect or blank, please \
+                                 first update the OPPIA_HOSTNAME in the settings in Oppia Admin, then return to this page'))
     include_no_courses = forms.BooleanField(required=False)
     include_no_users = forms.BooleanField(required=False)
     email_notifications = forms.BooleanField(required=False)

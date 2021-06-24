@@ -75,9 +75,14 @@ class Command(BaseCommand):
                     constants.OPPIA_SERVER_REGISTER_EMAIL_NOTIF,
                     False):
                 data_to_send['email_notifications'] = True
+                data_to_send['email_notif_email'] = SettingProperties.get_string(
+                    constants.OPPIA_SERVER_REGISTER_NOTIF_EMAIL_ADDRESS,
+                    None)
             else:
                 data_to_send['email_notifications'] = False
-                
+                data_to_send['email_notif_email'] = None
+               
+                 
             statistics = {}
             if SettingProperties.get_bool(
                     constants.OPPIA_SERVER_REGISTER_NO_COURSES,
@@ -100,7 +105,6 @@ class Command(BaseCommand):
             req.add_header('Content-Type', 'application/json')
             req.add_header('Authorization', 'Api-Key ' + api_key)
 
-            print("here")
             response = request.urlopen(req)
             print(response.read())
                
