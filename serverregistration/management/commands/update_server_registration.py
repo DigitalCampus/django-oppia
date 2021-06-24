@@ -29,7 +29,6 @@ class Command(BaseCommand):
         # if server not registered then return
         if not SettingProperties.get_bool(constants.OPPIA_SERVER_REGISTERED,
                                           False):
-            print("server not yet registered")
             return
         
         # check when last sent, ignore if less than a week ago
@@ -41,8 +40,6 @@ class Command(BaseCommand):
                 days=self.NO_DAYS)
             last_sent_date = datetime.datetime.strptime(
                 last_sent, constants.CRON_DATETIME_FORMAT)
-        else:
-            print("last sent is null")
 
         '''
         if last_sent is None or last_sent_date > start_date:        
@@ -79,10 +76,8 @@ class Command(BaseCommand):
                     constants.OPPIA_SERVER_REGISTER_NOTIF_EMAIL_ADDRESS,
                     None)
             else:
-                data_to_send['email_notifications'] = False
-                data_to_send['email_notif_email'] = None
-               
-                 
+                data_to_send['email_notifications'] = False              
+
             statistics = {}
             if SettingProperties.get_bool(
                     constants.OPPIA_SERVER_REGISTER_NO_COURSES,
@@ -106,7 +101,6 @@ class Command(BaseCommand):
             req.add_header('Authorization', 'Api-Key ' + api_key)
 
             response = request.urlopen(req)
-            print(response.read())
                
         
     def get_api_key(self):
@@ -121,8 +115,3 @@ class Command(BaseCommand):
             return api_key_data['key']
         except HTTPError:
             return None
-        
-        
-        
-        
-        
