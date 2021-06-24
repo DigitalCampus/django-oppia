@@ -13,7 +13,7 @@ class RegisterServerForm(forms.Form):
                                  error_messages={'required':
                                    _(u'Please enter a server url.')},
                                  help_text=_(u'If this is incorrect, you should \
-                                 first update the OPPIA_HOSTNAME in the SettingProperies in Oppia Admin'))
+                                 first update the OPPIA_HOSTNAME in the settings in Oppia Admin'))
     include_no_courses = forms.BooleanField(required=False)
     include_no_users = forms.BooleanField(required=False)
     email_notifications = forms.BooleanField(required=False)
@@ -61,6 +61,6 @@ class RegisterServerForm(forms.Form):
         cleaned_data = self.cleaned_data
         email_notifications = cleaned_data.get("email_notifications")
         notif_email_address = cleaned_data.get("notif_email_address")
-        if email_notifications and notif_email_address is '':
+        if email_notifications and notif_email_address == '':
              raise forms.ValidationError(_(u"Please give an email address for the notifications"))
         return cleaned_data

@@ -36,6 +36,9 @@ class RegisterServerView(FormView, TitleViewMixin):
     def form_valid(self, form):
         response = super().form_valid(form)
 
+        SettingProperties.set_bool(
+            constants.OPPIA_SERVER_REGISTERED, True)
+
         server_url = form.cleaned_data.get("server_url")
         SettingProperties.set_string(
             constants.OPPIA_HOSTNAME, server_url)
@@ -56,4 +59,6 @@ class RegisterServerView(FormView, TitleViewMixin):
         SettingProperties.set_string(
             constants.OPPIA_SERVER_REGISTER_NOTIF_EMAIL_ADDRESS,
             notif_email_address)
+        
+        
         return response
