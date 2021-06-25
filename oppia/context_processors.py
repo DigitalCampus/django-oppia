@@ -89,6 +89,9 @@ def get_settings(request):
             last_summary_cron, constants.CRON_DATETIME_FORMAT)
         if last_summary_cron_date < start_date:
             cron_warning = True
+            
+    server_registered = SettingProperties.get_bool(
+            constants.OPPIA_SERVER_REGISTERED, False)
 
     return {
         'OPPIA_ALLOW_SELF_REGISTRATION': self_register,
@@ -100,4 +103,5 @@ def get_settings(request):
         'DEBUG': settings.DEBUG,
         'CRON_WARNING': cron_warning,
         'COURSE_COMPLETE_BADGE_CRITERIA': badge_award_method,
-        'COURSE_COMPLETE_BADGE_CRITERIA_PERCENT': badge_award_method_percent}
+        'COURSE_COMPLETE_BADGE_CRITERIA_PERCENT': badge_award_method_percent,
+        'SERVER_REGISTERED': server_registered}

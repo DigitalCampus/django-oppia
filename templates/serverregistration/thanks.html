@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block extra_head_title %}
+	{% trans 'Register Oppia Server' %}
+{% endblock extra_head_title %}
+
+{% block header %}
+<div class="jumbotron mb-4 ">
+	<h3>{% trans 'Register Oppia Server' %}</h3>
+</div>
+{% endblock header %}
+
+{% block content %}
+
+<h5>{% trans 'Thank you for registering your Oppia server!' %}</h5>
+
+<p>{% blocktrans %}
+You can come back and change your preferences at any time.
+{% endblocktrans %}</p>
+{% endblock %}
