@@ -6,7 +6,7 @@ from django.db import models
 from oppia.models import Participant, CoursePermissions
 
 
-class UserProfile (models.Model):
+class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     about = models.TextField(blank=True, null=True, default=None)
     can_upload = models.BooleanField(default=False)
@@ -79,7 +79,7 @@ class UserProfile (models.Model):
                 profile_field.save()
 
 
-class CustomField (models.Model):
+class CustomField(models.Model):
 
     DATA_TYPES = (
         ('str', 'String'),

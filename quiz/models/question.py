@@ -37,16 +37,24 @@ class Question(models.Model):
         return float(props.value)
 
     def get_title(self, lang='en'):
+        question_title = ""
         try:
             titles = json.loads(self.title)
             if lang in titles:
-                return titles[lang]
+                question_title = titles[lang]
             else:
                 for temp_lang in titles:
-                    return titles[temp_lang]
+                    question_title = titles[temp_lang]
         except json.JSONDecodeError:
             pass
-        return self.title
+        
+        # prepend section
+        
+        
+        # prepend course
+        
+        
+        return question_title
 
     def get_no_responses(self):
         from quiz.models.quiz_models import QuizAttemptResponse

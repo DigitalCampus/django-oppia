@@ -10,7 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 from PIL import Image
 
 from oppia.models import Course
-
+from quiz.models import Question
 
 class BadgeMethod(models.Model):
     key = models.CharField(max_length=50, null=False, primary_key=True)
@@ -85,12 +85,6 @@ class AwardCourse(models.Model):
 
 class CertificateTemplate(models.Model):
     
-    VALIDATION_OPTIONS = (
-        ('NONE', 'None'),
-        ('QRCODE', 'QR Code'),
-        ('URL', 'URL')
-    )
-    
     # verify template image dimensions
     def validate_image(image):
         img = Image.open(image.file)
@@ -112,6 +106,29 @@ class CertificateTemplate(models.Model):
             
         if not valid_image:
             raise ValidationError(_(u"Please check the size and dimensions of your uploaded certificate template."))
+
+    def validate_display_name(display_name_method):
+        print(display_name_method)
+
+    VALIDATION_OPTION_NONE = "NONE"
+    VALIDATION_OPTION_QRCODE = "QRCODE"
+    VALIDATION_OPTION_URL = "URL"
+    
+    VALIDATION_OPTIONS = (
+        (VALIDATION_OPTION_NONE, 'None'),
+        (VALIDATION_OPTION_QRCODE, 'QR Code'),
+        (VALIDATION_OPTION_URL, 'URL')
+    )
+    
+    DISPLAY_NAME_METHOD_USER_FIRST_LAST = 'USER_FIRST_LAST'
+    DISPLAY_NAME_METHOD_REGISTRATION_FIELD = 'REGISTRATION_FIELD'
+    DISPLAY_NAME_METHOD_FEEDBACK_RESPONSE = 'FEEDBACK_RESPONSE'
+    
+    DISPLAY_NAME_METHOD_OPTIONS = (
+        (DISPLAY_NAME_METHOD_USER_FIRST_LAST, 'From user profile - firstname/lastname'),
+        (DISPLAY_NAME_METHOD_REGISTRATION_FIELD, 'From registration form field'),
+        (DISPLAY_NAME_METHOD_FEEDBACK_RESPONSE, 'From feedback response')
+    )
     
     badge = models.ForeignKey(Badge, on_delete=models.CASCADE)
     enabled = models.BooleanField(default=False)
@@ -136,11 +153,27 @@ class CertificateTemplate(models.Model):
 
     validation = models.CharField(max_length=10,
                                   choices=VALIDATION_OPTIONS,
-                                  default='NONE')
+                                  default=VALIDATION_OPTION_NONE)
     
     validation_x = models.IntegerField(default=0)
     validation_y = models.IntegerField(default=0)
+    
+    display_name_method = models.CharField(max_length=50,
+                                  choices=DISPLAY_NAME_METHOD_OPTIONS,
+                                  default=DISPLAY_NAME_METHOD_USER_FIRST_LAST,
+                                  validators=[validate_display_name])
 
+    registration_form_field = models.ForeignKey('profile.CustomField',
+                                                on_delete=models.SET_NULL,
+                                                blank=True,
+                                                default=None,
+                                                null=True)
+
+    feedback_field = models.ForeignKey(Question,
+                                        on_delete=models.SET_NULL,
+                                        blank=True,
+                                        default=None,
+                                        null=True)
     class Meta:
         verbose_name = _('Certificate Template')
         verbose_name_plural = _('Certificate Templates')

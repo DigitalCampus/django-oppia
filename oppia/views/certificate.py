@@ -67,14 +67,14 @@ def generate_certificate_pdf(user,
     validation_link = host + url_path
 
     # add url
-    if cert_template.validation == 'URL':
+    if cert_template.validation == CertificateTemplate.VALIDATION_OPTION_URL:
         cert.setFont('Helvetica', 10)
         cert.drawCentredString(cert_template.validation_x,
                                cert_template.validation_y,
                                "Verify certificate: " + validation_link)
     
     # add QR Code
-    if cert_template.validation == 'QRCODE': 
+    if cert_template.validation == CertificateTemplate.VALIDATION_OPTION_QRCODE: 
         qr_img = qrcode.make(validation_link)
         maxsize = (60, 60)
         qr_img.thumbnail(maxsize, Image.ANTIALIAS)
