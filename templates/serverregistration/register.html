@@ -14,6 +14,13 @@
 
 {% block content %}
 
+{% if SERVER_REGISTERED %}
+<p>{% blocktrans %}
+Your Oppia site is already registered, but you can update your 
+information/preferences below.
+{% endblocktrans %}</p>
+{% endif %} 
+
 <h5>{% trans 'Registering your Oppia server helps keep Oppia maintained' %}</h5>
 
 <p>{% blocktrans %}

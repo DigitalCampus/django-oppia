@@ -18,7 +18,6 @@ class Command(BaseCommand):
     help = 'Updates the Oppia server registration'
 
     OPPIA_IMPLEMENTATIONS_URL = "https://implementations.oppia-mobile.org/"
-    # OPPIA_IMPLEMENTATIONS_URL = "http://localhost:8001/"
     NO_DAYS = 7
     
     NO_COURSES_KEY = "NO_COURSES"
@@ -41,12 +40,8 @@ class Command(BaseCommand):
             last_sent_date = datetime.datetime.strptime(
                 last_sent, constants.CRON_DATETIME_FORMAT)
 
-        '''
         if last_sent is None or last_sent_date > start_date:        
             self.process_registration()
-        '''
-        # for testing only    
-        self.process_registration()
 
         # update last sent
         SettingProperties.set_string(constants.OPPIA_SERVER_REGISTER_LAST_SENT,
@@ -100,7 +95,7 @@ class Command(BaseCommand):
             req.add_header('Content-Type', 'application/json')
             req.add_header('Authorization', 'Api-Key ' + api_key)
 
-            response = request.urlopen(req)
+            request.urlopen(req)
                
         
     def get_api_key(self):
