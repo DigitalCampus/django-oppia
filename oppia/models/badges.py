@@ -107,9 +107,6 @@ class CertificateTemplate(models.Model):
         if not valid_image:
             raise ValidationError(_(u"Please check the size and dimensions of your uploaded certificate template."))
 
-    def validate_display_name(display_name_method):
-        print(display_name_method)
-
     VALIDATION_OPTION_NONE = "NONE"
     VALIDATION_OPTION_QRCODE = "QRCODE"
     VALIDATION_OPTION_URL = "URL"
@@ -160,8 +157,7 @@ class CertificateTemplate(models.Model):
     
     display_name_method = models.CharField(max_length=50,
                                   choices=DISPLAY_NAME_METHOD_OPTIONS,
-                                  default=DISPLAY_NAME_METHOD_USER_FIRST_LAST,
-                                  validators=[validate_display_name])
+                                  default=DISPLAY_NAME_METHOD_USER_FIRST_LAST)
 
     registration_form_field = models.ForeignKey('profile.CustomField',
                                                 on_delete=models.SET_NULL,
@@ -180,4 +176,18 @@ class CertificateTemplate(models.Model):
 
     def __str__(self):
         return self.badge.name + ": " + self.course.get_title()
+    
+    def clean(self, *args, **kwargs):
+        if self.display_name_method == \
+                self.DISPLAY_NAME_METHOD_REGISTRATION_FIELD \
+                and self.registration_form_field is None:
+            raise ValidationError(_(u"Please select a registration form field"))
+        if self.display_name_method == \
+                self.DISPLAY_NAME_METHOD_FEEDBACK_RESPONSE \
+                and self.feedback_field is None:
+            raise ValidationError(_(u"Please select a feedback question field"))
+        
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super(CertificateTemplate, self).save(*args, **kwargs)
         
