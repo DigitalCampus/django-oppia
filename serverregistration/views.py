@@ -1,6 +1,8 @@
 
 from django.conf import settings
+from django.contrib.admin.views.decorators import staff_member_required
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
 from django.views.generic import FormView
 
@@ -11,6 +13,7 @@ from settings.models import SettingProperties
 from serverregistration.forms import RegisterServerForm
 
 
+@method_decorator(staff_member_required, name='dispatch')
 class RegisterServerView(FormView, TitleViewMixin):
 
     template_name = 'serverregistration/register.html'
