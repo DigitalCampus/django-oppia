@@ -125,9 +125,9 @@ class CertificateTemplate(models.Model):
     DISPLAY_NAME_METHOD_FEEDBACK_RESPONSE = 'FEEDBACK_RESPONSE'
     
     DISPLAY_NAME_METHOD_OPTIONS = (
-        (DISPLAY_NAME_METHOD_USER_FIRST_LAST, 'From user profile - firstname/lastname'),
-        (DISPLAY_NAME_METHOD_REGISTRATION_FIELD, 'From registration form field'),
-        (DISPLAY_NAME_METHOD_FEEDBACK_RESPONSE, 'From feedback response')
+        (DISPLAY_NAME_METHOD_USER_FIRST_LAST, 'User profile - firstname/lastname'),
+        (DISPLAY_NAME_METHOD_REGISTRATION_FIELD, 'Registration form field'),
+        (DISPLAY_NAME_METHOD_FEEDBACK_RESPONSE, 'Feedback response')
     )
     
     badge = models.ForeignKey(Badge, on_delete=models.CASCADE)

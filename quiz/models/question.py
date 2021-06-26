@@ -30,7 +30,7 @@ class Question(models.Model):
         verbose_name_plural = _('Questions')
 
     def __str__(self):
-        return self.title
+        return self.get_course().get_title() + " > " + self.get_title()
 
     def get_maxscore(self):
         props = QuestionProps.objects.get(question=self, name='maxscore')
@@ -47,15 +47,21 @@ class Question(models.Model):
                     question_title = titles[temp_lang]
         except json.JSONDecodeError:
             pass
-        
-        # prepend section
-        
-        
-        # prepend course
-        
-        
+       
         return question_title
 
+    def get_course(self):
+        from oppia.models import Course
+        from quiz.models.quiz_models import QuizProps
+        quiz_digest = QuizProps.objects.get(quiz__quizquestion__question=self,
+                                            name='digest')
+        try:
+            course = Course.objects.get(section__activity__digest=quiz_digest.value)
+        except Course.DoesNotExist:
+            print("course not found")
+            return ""
+        return course
+    
     def get_no_responses(self):
         from quiz.models.quiz_models import QuizAttemptResponse
         return QuizAttemptResponse.objects.filter(
