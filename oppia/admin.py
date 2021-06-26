@@ -1,5 +1,6 @@
 
 from django.contrib import admin
+from django.db.models import Q
 from django.urls import reverse
 from django.utils.html import format_html
 
@@ -152,7 +153,7 @@ class CertificateTemplateAdmin(admin.ModelAdmin):
 
     # filter to only feedback questions
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
-        if db_field.name == 'feedback_field' and self.instance:
+        if db_field.name == 'feedback_field':
             feedback_activities = Activity.objects.filter(
                 type=Activity.FEEDBACK).values_list('digest', flat=True)
             quizzes = QuizProps.objects.filter(name='digest',
@@ -160,7 +161,8 @@ class CertificateTemplateAdmin(admin.ModelAdmin):
                                                .values_list('quiz_id',
                                                             flat=True)
             kwargs['queryset'] = Question.objects.filter(
-                quizquestion__quiz__pk__in=quizzes, type='essay')
+                quizquestion__quiz__pk__in=quizzes).filter( 
+                (Q(type='essay') | Q(type='shortanswer')))
         return super(CertificateTemplateAdmin, self).formfield_for_foreignkey(
             db_field, request=request, **kwargs)
     

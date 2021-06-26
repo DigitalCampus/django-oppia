@@ -8,6 +8,9 @@ from io import StringIO
 from oppia.test import OppiaTestCase
 from oppia.models import Award, CertificateTemplate
 
+from profile.models import CustomField, UserProfileCustomField
+
+from quiz.models import Quiz, Question, QuizAttempt, QuizAttemptResponse
 from settings import constants
 from settings.models import SettingProperties
 
@@ -23,7 +26,10 @@ class GenerateCertificatesTest(OppiaTestCase):
                 'tests/test_course_permissions.json',
                 'tests/awards/award-course.json',
                 'tests/test_certificatetemplate.json',
-                'tests/test_certificates.json']
+                'tests/test_certificates.json',
+                'tests/test_feedback.json',
+                'tests/test_customfields.json',
+                'tests/awards/test_feedback_display_name.json']
 
     @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_create_certificate_new(self):
@@ -74,13 +80,158 @@ class GenerateCertificatesTest(OppiaTestCase):
     def test_email_certificates(self):
         SettingProperties.set_bool(constants.OPPIA_EMAIL_CERTIFICATES, True)
         call_command('generate_certificates', '--allcerts', stdout=StringIO())
-        self.assertEqual(len(mail.outbox), 3)
+        self.assertEqual(len(mail.outbox), 4)
 
     @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_email_certificates_one_time(self):
         SettingProperties.set_bool(constants.OPPIA_EMAIL_CERTIFICATES, True)
         call_command('generate_certificates', '--allcerts', stdout=StringIO())
-        self.assertEqual(len(mail.outbox), 3)
+        self.assertEqual(len(mail.outbox), 4)
         mail.outbox.clear()
         call_command('generate_certificates', '--allcerts', stdout=StringIO())
         self.assertEqual(len(mail.outbox), 0)
+        
+    #######
+    # Display name tests
+    #######
+    
+    # first/last name from profile
+    def test_display_name_user_profile(self):
+        certificate_template = CertificateTemplate.objects.get(pk=1)
+        certificate_template.display_name_method = CertificateTemplate.DISPLAY_NAME_METHOD_USER_FIRST_LAST
+        certificate_template.save()
+       
+        valid, display_name = certificate_template.display_name(self.normal_user)
+        self.assertEqual("demo user", display_name)
+        self.assertTrue(valid)
+       
+        current_award = Award.objects.get(pk=4)
+        self.assertTrue(current_award.certificate_pdf == "")
+
+        call_command('generate_certificates', stdout=StringIO())
+
+        current_award = Award.objects.get(pk=4)
+        self.assertFalse(current_award.certificate_pdf == "")
+       
+        
+    # registration form
+    def test_display_name_reg_form_complete(self):
+        
+        cf = CustomField.objects.get(pk="country")
+        certificate_template = CertificateTemplate.objects.get(pk=1)
+        certificate_template.display_name_method = CertificateTemplate.DISPLAY_NAME_METHOD_REGISTRATION_FIELD
+        certificate_template.registration_form_field = cf
+        certificate_template.save()
+       
+        valid, display_name = certificate_template.display_name(self.normal_user)
+        self.assertEqual("FI", display_name)
+        self.assertTrue(valid)
+       
+        current_award = Award.objects.get(pk=4)
+        self.assertTrue(current_award.certificate_pdf == "")
+
+        call_command('generate_certificates', stdout=StringIO())
+
+        current_award = Award.objects.get(pk=4)
+        self.assertFalse(current_award.certificate_pdf == "")
+    
+    def test_display_name_reg_form_incomplete(self):
+        
+        cf = CustomField.objects.get(pk="country")
+        UserProfileCustomField.objects.all().delete()
+        certificate_template = CertificateTemplate.objects.get(pk=3)
+        certificate_template.display_name_method = CertificateTemplate.DISPLAY_NAME_METHOD_REGISTRATION_FIELD
+        certificate_template.registration_form_field = cf
+        certificate_template.save()
+       
+        valid, display_name = certificate_template.display_name(self.normal_user)
+        self.assertEqual(None, display_name)
+        self.assertFalse(valid)
+       
+        current_award = Award.objects.get(pk=4)
+        self.assertTrue(current_award.certificate_pdf == "")
+
+        call_command('generate_certificates', stdout=StringIO())
+
+        current_award = Award.objects.get(pk=4)
+        self.assertTrue(current_award.certificate_pdf == "")
+
+    def test_display_name_reg_form_changed(self):
+        
+        cf = CustomField.objects.get(pk="country")
+        certificate_template = CertificateTemplate.objects.get(pk=1)
+        certificate_template.display_name_method = CertificateTemplate.DISPLAY_NAME_METHOD_REGISTRATION_FIELD
+        certificate_template.registration_form_field = cf
+        certificate_template.save()
+       
+        valid, display_name = certificate_template.display_name(self.normal_user)
+        self.assertEqual("FI", display_name)
+        self.assertTrue(valid)
+       
+        upcf = UserProfileCustomField.objects.get(key_name=cf, user=self.normal_user)
+        upcf.value_str = "This is my real name"
+        upcf.save()
+        
+        valid, display_name = certificate_template.display_name(self.normal_user)
+        self.assertEqual("This is my real name", display_name)
+        self.assertTrue(valid)
+
+    
+    # feedback field
+    def test_display_name_feedback_once(self):
+        certificate_template = CertificateTemplate.objects.get(pk=5)
+        valid, display_name = certificate_template.display_name(self.normal_user)
+        self.assertEqual("my real name", display_name)
+        self.assertTrue(valid)
+        
+        current_award = Award.objects.get(pk=10)
+        self.assertTrue(current_award.certificate_pdf == "")
+
+        call_command('generate_certificates', stdout=StringIO())
+
+        current_award = Award.objects.get(pk=10)
+        self.assertFalse(current_award.certificate_pdf == "")
+    
+    def test_display_name_feedback_none(self):
+        QuizAttempt.objects.all().delete()
+        certificate_template = CertificateTemplate.objects.get(pk=5)
+        valid, display_name = certificate_template.display_name(self.normal_user)
+        self.assertFalse(valid)
+        
+        current_award = Award.objects.get(pk=10)
+        self.assertTrue(current_award.certificate_pdf == "")
+
+        call_command('generate_certificates', stdout=StringIO())
+
+        current_award = Award.objects.get(pk=10)
+        self.assertTrue(current_award.certificate_pdf == "")
+    
+    def test_display_name_feedback_many(self):
+        # add a new quiz attempt
+        quiz = Quiz.objects.get(pk=41)
+        question = Question.objects.get(pk=482)
+        quiz_attempt = QuizAttempt(user=self.normal_user, 
+                                   quiz=quiz,
+                                   score=0,
+                                   maxscore=0)
+        quiz_attempt.save()
+        
+        qa_response = QuizAttemptResponse(quizattempt=quiz_attempt,
+                                          question=question,
+                                          score=0,
+                                          text="my new name")
+        qa_response.save()
+        
+        certificate_template = CertificateTemplate.objects.get(pk=5)
+        valid, display_name = certificate_template.display_name(self.normal_user)
+        self.assertEqual("my new name", display_name)
+        self.assertTrue(valid)
+        
+        current_award = Award.objects.get(pk=10)
+        self.assertTrue(current_award.certificate_pdf == "")
+
+        call_command('generate_certificates', stdout=StringIO())
+
+        current_award = Award.objects.get(pk=10)
+        self.assertFalse(current_award.certificate_pdf == "")
+    

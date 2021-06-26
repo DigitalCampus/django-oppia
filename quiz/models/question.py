@@ -30,7 +30,11 @@ class Question(models.Model):
         verbose_name_plural = _('Questions')
 
     def __str__(self):
-        return self.get_course().get_title() + " > " + self.get_title()
+        course = self.get_course()
+        if course:
+            return course.get_title() + " > " + self.get_title()
+        else:
+            return self.get_title()
 
     def get_maxscore(self):
         props = QuestionProps.objects.get(question=self, name='maxscore')
@@ -53,13 +57,16 @@ class Question(models.Model):
     def get_course(self):
         from oppia.models import Course
         from quiz.models.quiz_models import QuizProps
-        quiz_digest = QuizProps.objects.get(quiz__quizquestion__question=self,
-                                            name='digest')
+        try:
+            quiz_digest = QuizProps.objects.get(quiz__quizquestion__question=self,
+                                                name='digest')
+        except QuizProps.DoesNotExist:
+            return None
         try:
             course = Course.objects.get(section__activity__digest=quiz_digest.value)
         except Course.DoesNotExist:
             print("course not found")
-            return ""
+            return None
         return course
     
     def get_no_responses(self):

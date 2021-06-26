@@ -1,0 +1,604 @@
+[
+{
+    "model": "oppia.award",
+    "pk": 10,
+    "fields": {
+        "badge": 1,
+        "user": 2,
+        "description": "Course completed: Course with Feedback",
+        "award_date": "2021-06-26T20:15:39.043Z",
+        "certificate_pdf": "",
+        "validation_uuid": "d59b9f37-dcbf-4ef2-9954-3ec8e2aa4fbf",
+        "emailed": false
+    }
+},
+{
+    "model": "oppia.awardcourse",
+    "pk": 10,
+    "fields": {
+        "award": 10,
+        "course": 185,
+        "course_version": 20210626201312
+    }
+},
+{
+    "model": "oppia.course",
+    "pk": 4,
+    "fields": {
+        "user": 1,
+        "created_date": "2019-12-30T14:05:15.082Z",
+        "lastupdated_date": "2019-12-30T14:06:46.273Z",
+        "version": 20191230140646,
+        "title": "{\"en\": \"Reference course 1\"}",
+        "description": "{\"en\": null}",
+        "shortname": "ref-1",
+        "priority": 0,
+        "filename": "ref-1-20191230160407.zip",
+        "badge_icon": "",
+        "is_draft": false,
+        "is_archived": false
+    }
+},
+{
+    "model": "oppia.course",
+    "pk": 185,
+    "fields": {
+        "user": 1,
+        "created_date": "2021-06-26T20:13:12.159Z",
+        "lastupdated_date": "2021-06-26T20:13:12.505Z",
+        "version": 20210626201312,
+        "title": "{\"en\": \"Course with Feedback\"}",
+        "description": "{\"en\": null}",
+        "shortname": "feedback",
+        "priority": 0,
+        "filename": "feedback-20210626211301.zip",
+        "badge_icon": "",
+        "is_draft": false,
+        "is_archived": false
+    }
+},
+{
+    "model": "oppia.activity",
+    "pk": 372,
+    "fields": {
+        "section": 23,
+        "order": 1,
+        "title": "{\"en\": \"Intro page\"}",
+        "type": "page",
+        "digest": "b789636875418fff16845784fc0dd0d0496",
+        "baseline": false,
+        "image": null,
+        "content": "{\"en\": \"01_496_en.html\"}",
+        "description": null
+    }
+},
+{
+    "model": "oppia.activity",
+    "pk": 373,
+    "fields": {
+        "section": 23,
+        "order": 2,
+        "title": "{\"en\": \"Second page - custom points\"}",
+        "type": "page",
+        "digest": "a68146dd7f3b93efaeeca333dc0c4ae9497",
+        "baseline": false,
+        "image": null,
+        "content": "{\"en\": \"01_497_en.html\"}",
+        "description": null
+    }
+},
+{
+    "model": "oppia.activity",
+    "pk": 374,
+    "fields": {
+        "section": 23,
+        "order": 3,
+        "title": "{\"en\": \"Media - inherited points\"}",
+        "type": "page",
+        "digest": "ba61c987ef3ae0b5c66d0e6c6f0079c2498",
+        "baseline": false,
+        "image": null,
+        "content": "{\"en\": \"01_498_en.html\"}",
+        "description": null
+    }
+},
+{
+    "model": "oppia.activity",
+    "pk": 375,
+    "fields": {
+        "section": 23,
+        "order": 4,
+        "title": "{\"en\": \"Media - custom points\"}",
+        "type": "page",
+        "digest": "399cabff0598c8f55a9ee712831ce05c499",
+        "baseline": false,
+        "image": null,
+        "content": "{\"en\": \"01_499_en.html\"}",
+        "description": null
+    }
+},
+{
+    "model": "oppia.activity",
+    "pk": 65326,
+    "fields": {
+        "section": 7099,
+        "order": 1,
+        "title": "{\"en\": \"Course Feedback\"}",
+        "type": "feedback",
+        "digest": "ea7a1825a6a29612d23903424ae933ea",
+        "baseline": false,
+        "image": null,
+        "content": "{\"id\": 41, \"title\": {\"en\": \"Course Feedback\"}, \"description\": {\"en\": \"\"}, \"props\": {\"courseversion\": \"20210626211301\", \"showfeedback\": false, \"passthreshold\": 0, \"maxattempts\": 0, \"maxscore\": 0, \"digest\": \"ea7a1825a6a29612d23903424ae933ea\"}, \"questions\": [{\"order\": 1, \"id\": 482, \"question\": {\"id\": 482, \"type\": \"shortanswer\", \"title\": {\"en\": \"certificate name\"}, \"props\": {\"maxscore\": 0, \"required\": false}, \"responses\": []}}, {\"order\": 2, \"id\": 483, \"question\": {\"id\": 483, \"type\": \"essay\", \"title\": {\"en\": \"alt_name\"}, \"props\": {\"maxscore\": 0, \"required\": false}, \"responses\": []}}]}",
+        "description": null
+    }
+},
+{
+    "model": "oppia.activity",
+    "pk": 65327,
+    "fields": {
+        "section": 7099,
+        "order": 2,
+        "title": "{\"en\": \"Course Introduction\"}",
+        "type": "page",
+        "digest": "876826c4fca2240149433ef638b4566b",
+        "baseline": false,
+        "image": null,
+        "content": "{\"en\": \"01_44494_en.html\"}",
+        "description": null
+    }
+},
+{
+    "model": "oppia.section",
+    "pk": 23,
+    "fields": {
+        "course": 4,
+        "order": 1,
+        "title": "{\"en\": \"Topic 1\"}"
+    }
+},
+{
+    "model": "oppia.section",
+    "pk": 7099,
+    "fields": {
+        "course": 185,
+        "order": 1,
+        "title": "{\"en\": \"Topic 1\"}"
+    }
+},
+{
+    "model": "oppia.tracker",
+    "pk": 1472217,
+    "fields": {
+        "user": 2,
+        "submitted_date": "2021-06-26T19:56:55.821Z",
+        "tracker_date": "2021-06-26T19:56:55.821Z",
+        "ip": "127.0.0.1",
+        "agent": "OppiaMobile Android: 7.3.0",
+        "digest": "",
+        "data": "",
+        "course": null,
+        "type": "login",
+        "completed": false,
+        "time_taken": 0,
+        "activity_title": null,
+        "section_title": null,
+        "uuid": null,
+        "lang": null,
+        "points": null,
+        "event": null
+    }
+},
+{
+    "model": "oppia.tracker",
+    "pk": 1472218,
+    "fields": {
+        "user": 2,
+        "submitted_date": "2021-06-26T19:57:06.491Z",
+        "tracker_date": "2021-06-26T19:57:06.491Z",
+        "ip": "127.0.0.1",
+        "agent": "OppiaMobile Android: 7.3.0",
+        "digest": "",
+        "data": "{\"version\": 20210626194113}",
+        "course": null,
+        "type": "download",
+        "completed": false,
+        "time_taken": 0,
+        "activity_title": null,
+        "section_title": null,
+        "uuid": null,
+        "lang": null,
+        "points": null,
+        "event": null
+    }
+},
+{
+    "model": "oppia.tracker",
+    "pk": 1472219,
+    "fields": {
+        "user": 2,
+        "submitted_date": "2021-06-26T19:57:15.378Z",
+        "tracker_date": "2021-06-26T19:57:06Z",
+        "ip": "127.0.0.1",
+        "agent": "OppiaMobile Android: 7.3.0",
+        "digest": "",
+        "data": "{\"appInstanceId\":\"03d23ec6-0805-49f4-93fd-6db89f4cb4de\",\"manufacturermodel\":\"Google Android SDK built for x86\",\"wifion\":false,\"netconnected\":true,\"lang\":\"en\",\"uuid\":\"4fc013f3-5cc2-40e5-aeaa-577817b8f10b\"}",
+        "course": null,
+        "type": "",
+        "completed": true,
+        "time_taken": 0,
+        "activity_title": "",
+        "section_title": "",
+        "uuid": "4fc013f3-5cc2-40e5-aeaa-577817b8f10b",
+        "lang": "en",
+        "points": 50,
+        "event": "course_downloaded"
+    }
+},
+{
+    "model": "oppia.tracker",
+    "pk": 1472220,
+    "fields": {
+        "user": 2,
+        "submitted_date": "2021-06-26T19:57:52.358Z",
+        "tracker_date": "2021-06-26T19:57:45Z",
+        "ip": "127.0.0.1",
+        "agent": "OppiaMobile Android: 7.3.0",
+        "digest": "ea7a1825a6a29612d23903424ae933ea",
+        "data": "{\"appInstanceId\":\"03d23ec6-0805-49f4-93fd-6db89f4cb4de\",\"manufacturermodel\":\"Google Android SDK built for x86\",\"wifion\":false,\"netconnected\":true,\"lang\":\"en\",\"timetaken\":30,\"quiz_id\":40,\"instance_id\":\"ae892db6-169d-4b8d-a51d-4021e3d956f0\",\"uuid\":\"3d890109-440d-49ec-a0f8-e7c797b82125\"}",
+        "course": null,
+        "type": "feedback",
+        "completed": true,
+        "time_taken": 30,
+        "activity_title": "{\"en\": \"Course Feedback\"}",
+        "section_title": "{\"en\": \"Topic 1\"}",
+        "uuid": "3d890109-440d-49ec-a0f8-e7c797b82125",
+        "lang": "en",
+        "points": 50,
+        "event": "feedback_completed"
+    }
+},
+{
+    "model": "oppia.tracker",
+    "pk": 1472221,
+    "fields": {
+        "user": 2,
+        "submitted_date": "2021-06-26T19:57:58.321Z",
+        "tracker_date": "2021-06-26T19:57:57Z",
+        "ip": "127.0.0.1",
+        "agent": "OppiaMobile Android: 7.3.0",
+        "digest": "876826c4fca2240149433ef638b4566b",
+        "data": "{\"appInstanceId\":\"03d23ec6-0805-49f4-93fd-6db89f4cb4de\",\"manufacturermodel\":\"Google Android SDK built for x86\",\"wifion\":false,\"netconnected\":true,\"lang\":\"en\",\"timetaken\":5,\"readaloud\":false,\"uuid\":\"0c014075-6841-4347-9f60-29779071661c\"}",
+        "course": null,
+        "type": "page",
+        "completed": true,
+        "time_taken": 5,
+        "activity_title": "{\"en\": \"Course Introduction\"}",
+        "section_title": "{\"en\": \"Topic 1\"}",
+        "uuid": "0c014075-6841-4347-9f60-29779071661c",
+        "lang": "en",
+        "points": 10,
+        "event": "activity_completed"
+    }
+},
+{
+    "model": "oppia.tracker",
+    "pk": 1472222,
+    "fields": {
+        "user": 2,
+        "submitted_date": "2021-06-26T20:14:38.080Z",
+        "tracker_date": "2021-06-26T20:14:38.080Z",
+        "ip": "127.0.0.1",
+        "agent": "OppiaMobile Android: 7.3.0",
+        "digest": "",
+        "data": "{\"version\": 20210626201312}",
+        "course": 185,
+        "type": "download",
+        "completed": false,
+        "time_taken": 0,
+        "activity_title": null,
+        "section_title": null,
+        "uuid": null,
+        "lang": null,
+        "points": null,
+        "event": null
+    }
+},
+{
+    "model": "oppia.tracker",
+    "pk": 1472223,
+    "fields": {
+        "user": 2,
+        "submitted_date": "2021-06-26T20:14:46.685Z",
+        "tracker_date": "2021-06-26T20:14:37Z",
+        "ip": "127.0.0.1",
+        "agent": "OppiaMobile Android: 7.3.0",
+        "digest": "",
+        "data": "{\"appInstanceId\":\"03d23ec6-0805-49f4-93fd-6db89f4cb4de\",\"manufacturermodel\":\"Google Android SDK built for x86\",\"wifion\":false,\"netconnected\":true,\"lang\":\"en\",\"uuid\":\"9935336e-2fdc-4d5d-8257-fb8f726e047a\"}",
+        "course": null,
+        "type": "",
+        "completed": true,
+        "time_taken": 0,
+        "activity_title": "",
+        "section_title": "",
+        "uuid": "9935336e-2fdc-4d5d-8257-fb8f726e047a",
+        "lang": "en",
+        "points": 50,
+        "event": "course_downloaded"
+    }
+},
+{
+    "model": "oppia.tracker",
+    "pk": 1472224,
+    "fields": {
+        "user": 2,
+        "submitted_date": "2021-06-26T20:14:52.440Z",
+        "tracker_date": "2021-06-26T20:14:51Z",
+        "ip": "127.0.0.1",
+        "agent": "OppiaMobile Android: 7.3.0",
+        "digest": "876826c4fca2240149433ef638b4566b",
+        "data": "{\"appInstanceId\":\"03d23ec6-0805-49f4-93fd-6db89f4cb4de\",\"manufacturermodel\":\"Google Android SDK built for x86\",\"wifion\":false,\"netconnected\":true,\"lang\":\"en\",\"timetaken\":4,\"readaloud\":false,\"uuid\":\"28c9ebce-a6b3-41eb-a63e-4516bbd50227\"}",
+        "course": 185,
+        "type": "page",
+        "completed": true,
+        "time_taken": 4,
+        "activity_title": "{\"en\": \"Course Introduction\"}",
+        "section_title": "{\"en\": \"Topic 1\"}",
+        "uuid": "28c9ebce-a6b3-41eb-a63e-4516bbd50227",
+        "lang": "en",
+        "points": 0,
+        "event": "activity_completed"
+    }
+},
+{
+    "model": "oppia.tracker",
+    "pk": 1472225,
+    "fields": {
+        "user": 2,
+        "submitted_date": "2021-06-26T20:14:59.283Z",
+        "tracker_date": "2021-06-26T20:14:58Z",
+        "ip": "127.0.0.1",
+        "agent": "OppiaMobile Android: 7.3.0",
+        "digest": "876826c4fca2240149433ef638b4566b",
+        "data": "{\"appInstanceId\":\"03d23ec6-0805-49f4-93fd-6db89f4cb4de\",\"manufacturermodel\":\"Google Android SDK built for x86\",\"wifion\":false,\"netconnected\":true,\"lang\":\"en\",\"timetaken\":5,\"readaloud\":false,\"uuid\":\"7adae3dc-692f-4709-b253-3a9caa42137e\"}",
+        "course": 185,
+        "type": "page",
+        "completed": true,
+        "time_taken": 5,
+        "activity_title": "{\"en\": \"Course Introduction\"}",
+        "section_title": "{\"en\": \"Topic 1\"}",
+        "uuid": "7adae3dc-692f-4709-b253-3a9caa42137e",
+        "lang": "en",
+        "points": 0,
+        "event": "activity_completed"
+    }
+},
+{
+    "model": "oppia.tracker",
+    "pk": 1472226,
+    "fields": {
+        "user": 2,
+        "submitted_date": "2021-06-26T20:15:16.638Z",
+        "tracker_date": "2021-06-26T20:15:14Z",
+        "ip": "127.0.0.1",
+        "agent": "OppiaMobile Android: 7.3.0",
+        "digest": "ea7a1825a6a29612d23903424ae933ea",
+        "data": "{\"appInstanceId\":\"03d23ec6-0805-49f4-93fd-6db89f4cb4de\",\"manufacturermodel\":\"Google Android SDK built for x86\",\"wifion\":false,\"netconnected\":true,\"lang\":\"en\",\"timetaken\":14,\"quiz_id\":41,\"instance_id\":\"b50bae2e-fb6b-4a8e-b7e7-af95663b3683\",\"uuid\":\"46def7b1-371e-4c28-b3e1-14a4475e5aab\"}",
+        "course": 185,
+        "type": "feedback",
+        "completed": true,
+        "time_taken": 14,
+        "activity_title": "{\"en\": \"Course Feedback\"}",
+        "section_title": "{\"en\": \"Topic 1\"}",
+        "uuid": "46def7b1-371e-4c28-b3e1-14a4475e5aab",
+        "lang": "en",
+        "points": 0,
+        "event": "feedback_completed"
+    }
+},
+{
+    "model": "oppia.certificatetemplate",
+    "pk": 5,
+    "fields": {
+        "badge": 1,
+        "enabled": true,
+        "course": 185,
+        "image_file": "certificate/templates/certificate_landscape_valid_XI8nTfU.png",
+        "include_name": true,
+        "include_date": true,
+        "include_course_title": true,
+        "name_x": 0,
+        "name_y": 0,
+        "date_x": 0,
+        "date_y": 0,
+        "course_title_x": 0,
+        "course_title_y": 0,
+        "validation": "NONE",
+        "validation_x": 0,
+        "validation_y": 0,
+        "display_name_method": "FEEDBACK_RESPONSE",
+        "registration_form_field": null,
+        "feedback_field": 482
+    }
+},
+{
+    "model": "quiz.question",
+    "pk": 482,
+    "fields": {
+        "owner": 1,
+        "created_date": "2021-06-26T20:13:12.256Z",
+        "lastupdated_date": "2021-06-26T20:13:12.256Z",
+        "title": "{\"en\": \"certificate name\"}",
+        "type": "shortanswer"
+    }
+},
+{
+    "model": "quiz.question",
+    "pk": 483,
+    "fields": {
+        "owner": 1,
+        "created_date": "2021-06-26T20:13:12.299Z",
+        "lastupdated_date": "2021-06-26T20:13:12.299Z",
+        "title": "{\"en\": \"alt_name\"}",
+        "type": "essay"
+    }
+},
+{
+    "model": "quiz.questionprops",
+    "pk": 319,
+    "fields": {
+        "question": 482,
+        "name": "maxscore",
+        "value": "0"
+    }
+},
+{
+    "model": "quiz.questionprops",
+    "pk": 320,
+    "fields": {
+        "question": 482,
+        "name": "required",
+        "value": "False"
+    }
+},
+{
+    "model": "quiz.questionprops",
+    "pk": 321,
+    "fields": {
+        "question": 483,
+        "name": "maxscore",
+        "value": "0"
+    }
+},
+{
+    "model": "quiz.questionprops",
+    "pk": 322,
+    "fields": {
+        "question": 483,
+        "name": "required",
+        "value": "False"
+    }
+},
+{
+    "model": "quiz.quiz",
+    "pk": 41,
+    "fields": {
+        "owner": 1,
+        "created_date": "2021-06-26T20:13:12.188Z",
+        "lastupdated_date": "2021-06-26T20:13:12.188Z",
+        "draft": false,
+        "deleted": false,
+        "title": "{\"en\": \"Course Feedback\"}",
+        "description": "{\"en\": \"\"}"
+    }
+},
+{
+    "model": "quiz.quizquestion",
+    "pk": 482,
+    "fields": {
+        "quiz": 41,
+        "question": 482,
+        "order": 1
+    }
+},
+{
+    "model": "quiz.quizquestion",
+    "pk": 483,
+    "fields": {
+        "quiz": 41,
+        "question": 483,
+        "order": 2
+    }
+},
+{
+    "model": "quiz.quizprops",
+    "pk": 294,
+    "fields": {
+        "quiz": 41,
+        "name": "courseversion",
+        "value": "20210626211301"
+    }
+},
+{
+    "model": "quiz.quizprops",
+    "pk": 295,
+    "fields": {
+        "quiz": 41,
+        "name": "showfeedback",
+        "value": "False"
+    }
+},
+{
+    "model": "quiz.quizprops",
+    "pk": 296,
+    "fields": {
+        "quiz": 41,
+        "name": "passthreshold",
+        "value": "0"
+    }
+},
+{
+    "model": "quiz.quizprops",
+    "pk": 297,
+    "fields": {
+        "quiz": 41,
+        "name": "maxattempts",
+        "value": "0"
+    }
+},
+{
+    "model": "quiz.quizprops",
+    "pk": 298,
+    "fields": {
+        "quiz": 41,
+        "name": "maxscore",
+        "value": "0"
+    }
+},
+{
+    "model": "quiz.quizprops",
+    "pk": 299,
+    "fields": {
+        "quiz": 41,
+        "name": "digest",
+        "value": "ea7a1825a6a29612d23903424ae933ea"
+    }
+},
+{
+    "model": "quiz.quizattempt",
+    "pk": 29166,
+    "fields": {
+        "user": 2,
+        "quiz": 41,
+        "attempt_date": "2021-06-26T23:15:14Z",
+        "submitted_date": "2021-06-26T20:15:16.738Z",
+        "score": "0.00",
+        "maxscore": "0.00",
+        "ip": "127.0.0.1",
+        "instance_id": "b50bae2e-fb6b-4a8e-b7e7-af95663b3683",
+        "agent": "OppiaMobile Android: 7.3.0",
+        "points": 0,
+        "event": "feedback_completed",
+        "time_taken": 14
+    }
+},
+{
+    "model": "quiz.quizattemptresponse",
+    "pk": 258683,
+    "fields": {
+        "quizattempt": 29166,
+        "question": 482,
+        "score": "0.00",
+        "text": "my real name"
+    }
+},
+{
+    "model": "quiz.quizattemptresponse",
+    "pk": 258684,
+    "fields": {
+        "quizattempt": 29166,
+        "question": 483,
+        "score": "0.00",
+        "text": "my alternate real name"
+    }
+}
+]

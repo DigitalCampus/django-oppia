@@ -17,10 +17,12 @@ from reportlab.lib.utils import ImageReader
 
 from oppia.models import Award, Course, CertificateTemplate
 
+from profile.models import CustomField, UserProfileCustomField
+
 from settings import constants
 from settings.models import SettingProperties
 
-def generate_certificate_pdf(user,
+def generate_certificate_pdf(display_name,
                              certificate_template_id,
                              date,
                              validation_uuid):
@@ -45,7 +47,7 @@ def generate_certificate_pdf(user,
         cert.setFont('Helvetica-Bold', 24)
         cert.drawCentredString(cert_template.name_x,
                                cert_template.name_y,
-                               user.first_name + " " + user.last_name)
+                               display_name)
 
     # add course
     if cert_template.include_course_title:
@@ -83,7 +85,9 @@ def generate_certificate_pdf(user,
         qr_img.save(bytes_in, format='png')
         bytes_in.seek(0)
         qr = ImageReader(bytes_in)
-        cert.drawImage(qr, cert_template.validation_x, cert_template.validation_y)
+        cert.drawImage(qr,
+                       cert_template.validation_x,
+                       cert_template.validation_y)
         cert.setFont('Helvetica', 10)
         cert.drawCentredString(cert_template.validation_x + 28,
                                cert_template.validation_y - 5,
@@ -93,14 +97,14 @@ def generate_certificate_pdf(user,
     cert.showPage()
     cert.save()
     return buffer
-
+    
 
 class PreviewCertificateView(TemplateView):
 
     def get(self, request, certificate_template_id):
 
         buffer = generate_certificate_pdf(
-            request.user,
+            "** Name displays here **",
             certificate_template_id,
             datetime.datetime.now().strftime("%d %b %Y"),
             uuid.uuid4())

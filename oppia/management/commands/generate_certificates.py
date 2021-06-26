@@ -40,9 +40,12 @@ class Command(BaseCommand):
                      Q(certificate_pdf__isnull=True) | Q(certificate_pdf=""))
 
             for award in awards:
-                print(award)
                 date_str = award.award_date.strftime("%d %b %Y") 
-                buffer = generate_certificate_pdf(award.user,
+                valid, display_name = ct.display_name(award.user)
+                if not valid:
+                    print("Display name not valid")
+                    continue
+                buffer = generate_certificate_pdf(display_name,
                                                   ct.id,
                                                   date_str,
                                                   award.validation_uuid)

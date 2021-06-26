@@ -177,6 +177,32 @@ class CertificateTemplate(models.Model):
     def __str__(self):
         return self.badge.name + ": " + self.course.get_title()
     
+    def display_name(self, user):
+        if self.display_name_method == \
+                self.DISPLAY_NAME_METHOD_USER_FIRST_LAST:
+            return True, user.first_name + " " + user.last_name
+    
+        if self.display_name_method == \
+                self.DISPLAY_NAME_METHOD_REGISTRATION_FIELD:
+            from profile.models import UserProfileCustomField
+            
+            try:
+                upcf = UserProfileCustomField.objects.get(
+                    key_name = self.registration_form_field, user = user)
+                return True, upcf.get_value()
+            except UserProfileCustomField.DoesNotExist:
+                return False, None
+            
+        if self.display_name_method == \
+                self.DISPLAY_NAME_METHOD_FEEDBACK_RESPONSE:
+            from quiz.models import QuizAttemptResponse
+            # get the most recent response to this question
+            response = QuizAttemptResponse.objects.filter(question=self.feedback_field, quizattempt__user=user).order_by('-quizattempt__submitted_date')
+            if response.count() == 0:
+                return False, None
+            else:
+                return True, response.first().text
+    
     def clean(self, *args, **kwargs):
         if self.display_name_method == \
                 self.DISPLAY_NAME_METHOD_REGISTRATION_FIELD \
