@@ -2,6 +2,7 @@ import pytest
 
 from django.core import mail
 from django.core.management import call_command
+from django.forms import ValidationError
 
 from io import StringIO
 
@@ -95,6 +96,26 @@ class GenerateCertificatesTest(OppiaTestCase):
     # Display name tests
     #######
     
+    def test_display_name_form_validation_registration_field(self):
+        certificate_template = CertificateTemplate.objects.get(pk=1)
+        certificate_template.display_name_method = CertificateTemplate.DISPLAY_NAME_METHOD_REGISTRATION_FIELD
+        certificate_template.feedback_field = None
+        with self.assertRaises(ValidationError):
+            certificate_template.save()
+            
+    def test_display_name_form_validation_feedback_field(self):
+        certificate_template = CertificateTemplate.objects.get(pk=1)
+        certificate_template.display_name_method = CertificateTemplate.DISPLAY_NAME_METHOD_FEEDBACK_RESPONSE
+        certificate_template.registration_form_field = None
+        with self.assertRaises(ValidationError):
+            certificate_template.save()
+            
+    def test_display_name_form_validation_invalid(self):
+        certificate_template = CertificateTemplate.objects.get(pk=1)
+        certificate_template.display_name_method = "RandomMethod"
+        with self.assertRaises(ValidationError):
+            certificate_template.save()
+        
     # first/last name from profile
     @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_display_name_user_profile(self):
@@ -113,7 +134,6 @@ class GenerateCertificatesTest(OppiaTestCase):
 
         current_award = Award.objects.get(pk=4)
         self.assertFalse(current_award.certificate_pdf == "")
-       
         
     # registration form
     @pytest.mark.xfail(reason="works on local, but not on Github workflow")

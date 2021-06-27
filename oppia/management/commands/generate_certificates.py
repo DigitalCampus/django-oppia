@@ -43,7 +43,6 @@ class Command(BaseCommand):
                 date_str = award.award_date.strftime("%d %b %Y") 
                 valid, display_name = ct.display_name(award.user)
                 if not valid:
-                    print("Display name not valid")
                     continue
                 buffer = generate_certificate_pdf(display_name,
                                                   ct.id,

@@ -1,3 +1,4 @@
+from oppia.models import Course
 from oppia.test import OppiaTestCase
 from quiz.models import Quiz, QuizAttempt, Question, QuestionProps
 
@@ -77,6 +78,26 @@ class QuizModelsTest(OppiaTestCase):
         question = Question.objects.get(pk=1)
         # will be 0 as not enough responses
         self.assertEqual(0, question.get_discrimination_index())
+
+    def test_question_title_valid(self):
+        question = Question.objects.get(pk=20)
+        expected = "Antenatal Care Part 1 > Focused antenatal care focuses on the pregnant woman alone."
+        self.assertEqual(expected, str(question))
+    
+    def test_question_title_no_quiz_props(self):
+        question = Question(title='{"fi": "kysymykseni"}')
+        question.save()
+
+        self.assertEqual("kysymykseni", question.get_title('fi'))
+        self.assertEqual("kysymykseni", str(question))
+
+    def test_question_title_no_course(self):
+        Course.objects.all().delete()
+        question = Question.objects.get(pk=20)
+        
+        expected = "Focused antenatal care focuses on the pregnant woman alone."
+        self.assertEqual(expected, question.get_title())
+        self.assertEqual(expected, str(question))
 
     '''
     QuestionProps Model

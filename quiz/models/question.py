@@ -65,7 +65,6 @@ class Question(models.Model):
         try:
             course = Course.objects.get(section__activity__digest=quiz_digest.value)
         except Course.DoesNotExist:
-            print("course not found")
             return None
         return course
     
