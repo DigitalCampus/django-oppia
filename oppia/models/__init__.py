@@ -4,4 +4,3 @@ from oppia.models.badges import *
 from oppia.models.points import *
 from oppia.models.cohorts import *
 from oppia.models.courselog import *
-from oppia.models.certificates import *

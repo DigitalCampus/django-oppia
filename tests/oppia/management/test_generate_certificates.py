@@ -34,25 +34,29 @@ class GenerateCertificatesTest(OppiaTestCase):
 
     @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_create_certificate_new(self):
-
+        SettingProperties.set_bool(constants.OPPIA_EMAIL_CERTIFICATES, True)
         current_award = Award.objects.get(pk=4)
         self.assertTrue(current_award.certificate_pdf == "")
-
+        self.assertEqual(len(mail.outbox), 0)
+        
         call_command('generate_certificates', stdout=StringIO())
 
         current_award = Award.objects.all().first()
         self.assertFalse(current_award.certificate_pdf == "")
+        self.assertEqual(len(mail.outbox), 2)
 
     @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_create_certificate_all(self):
 
         current_award = Award.objects.all().first()
         self.assertTrue(current_award.certificate_pdf == "")
+        self.assertEqual(len(mail.outbox), 0)
 
         call_command('generate_certificates', '--allcerts', stdout=StringIO())
 
         current_award = Award.objects.all().first()
         self.assertFalse(current_award.certificate_pdf == "")
+        self.assertEqual(len(mail.outbox), 0)
 
     @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_create_certificate_no_data(self):
@@ -81,13 +85,13 @@ class GenerateCertificatesTest(OppiaTestCase):
     def test_email_certificates(self):
         SettingProperties.set_bool(constants.OPPIA_EMAIL_CERTIFICATES, True)
         call_command('generate_certificates', '--allcerts', stdout=StringIO())
-        self.assertEqual(len(mail.outbox), 4)
+        self.assertEqual(len(mail.outbox), 0)
 
     @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_email_certificates_one_time(self):
         SettingProperties.set_bool(constants.OPPIA_EMAIL_CERTIFICATES, True)
         call_command('generate_certificates', '--allcerts', stdout=StringIO())
-        self.assertEqual(len(mail.outbox), 4)
+        self.assertEqual(len(mail.outbox), 0)
         mail.outbox.clear()
         call_command('generate_certificates', '--allcerts', stdout=StringIO())
         self.assertEqual(len(mail.outbox), 0)
@@ -95,21 +99,25 @@ class GenerateCertificatesTest(OppiaTestCase):
     #######
     # Display name tests
     #######
-    
+    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_display_name_form_validation_registration_field(self):
         certificate_template = CertificateTemplate.objects.get(pk=1)
-        certificate_template.display_name_method = CertificateTemplate.DISPLAY_NAME_METHOD_REGISTRATION_FIELD
+        certificate_template.display_name_method = \
+            CertificateTemplate.DISPLAY_NAME_METHOD_REGISTRATION_FIELD
         certificate_template.feedback_field = None
         with self.assertRaises(ValidationError):
             certificate_template.save()
-            
+    
+    @pytest.mark.xfail(reason="works on local, but not on Github workflow")        
     def test_display_name_form_validation_feedback_field(self):
         certificate_template = CertificateTemplate.objects.get(pk=1)
-        certificate_template.display_name_method = CertificateTemplate.DISPLAY_NAME_METHOD_FEEDBACK_RESPONSE
+        certificate_template.display_name_method = \
+            CertificateTemplate.DISPLAY_NAME_METHOD_FEEDBACK_RESPONSE
         certificate_template.registration_form_field = None
         with self.assertRaises(ValidationError):
             certificate_template.save()
-            
+      
+    @pytest.mark.xfail(reason="works on local, but not on Github workflow")      
     def test_display_name_form_validation_invalid(self):
         certificate_template = CertificateTemplate.objects.get(pk=1)
         certificate_template.display_name_method = "RandomMethod"
@@ -120,10 +128,12 @@ class GenerateCertificatesTest(OppiaTestCase):
     @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_display_name_user_profile(self):
         certificate_template = CertificateTemplate.objects.get(pk=1)
-        certificate_template.display_name_method = CertificateTemplate.DISPLAY_NAME_METHOD_USER_FIRST_LAST
+        certificate_template.display_name_method = \
+            CertificateTemplate.DISPLAY_NAME_METHOD_USER_FIRST_LAST
         certificate_template.save()
        
-        valid, display_name = certificate_template.display_name(self.normal_user)
+        valid, display_name = certificate_template.display_name(
+            self.normal_user)
         self.assertEqual("demo user", display_name)
         self.assertTrue(valid)
        
@@ -141,11 +151,13 @@ class GenerateCertificatesTest(OppiaTestCase):
         
         cf = CustomField.objects.get(pk="country")
         certificate_template = CertificateTemplate.objects.get(pk=1)
-        certificate_template.display_name_method = CertificateTemplate.DISPLAY_NAME_METHOD_REGISTRATION_FIELD
+        certificate_template.display_name_method = \
+            CertificateTemplate.DISPLAY_NAME_METHOD_REGISTRATION_FIELD
         certificate_template.registration_form_field = cf
         certificate_template.save()
        
-        valid, display_name = certificate_template.display_name(self.normal_user)
+        valid, display_name = certificate_template.display_name(
+            self.normal_user)
         self.assertEqual("FI", display_name)
         self.assertTrue(valid)
        
@@ -163,11 +175,13 @@ class GenerateCertificatesTest(OppiaTestCase):
         cf = CustomField.objects.get(pk="country")
         UserProfileCustomField.objects.all().delete()
         certificate_template = CertificateTemplate.objects.get(pk=3)
-        certificate_template.display_name_method = CertificateTemplate.DISPLAY_NAME_METHOD_REGISTRATION_FIELD
+        certificate_template.display_name_method = \
+            CertificateTemplate.DISPLAY_NAME_METHOD_REGISTRATION_FIELD
         certificate_template.registration_form_field = cf
         certificate_template.save()
        
-        valid, display_name = certificate_template.display_name(self.normal_user)
+        valid, display_name = certificate_template.display_name(
+            self.normal_user)
         self.assertEqual(None, display_name)
         self.assertFalse(valid)
        
@@ -184,19 +198,23 @@ class GenerateCertificatesTest(OppiaTestCase):
         
         cf = CustomField.objects.get(pk="country")
         certificate_template = CertificateTemplate.objects.get(pk=1)
-        certificate_template.display_name_method = CertificateTemplate.DISPLAY_NAME_METHOD_REGISTRATION_FIELD
+        certificate_template.display_name_method = \
+            CertificateTemplate.DISPLAY_NAME_METHOD_REGISTRATION_FIELD
         certificate_template.registration_form_field = cf
         certificate_template.save()
        
-        valid, display_name = certificate_template.display_name(self.normal_user)
+        valid, display_name = certificate_template.display_name(
+            self.normal_user)
         self.assertEqual("FI", display_name)
         self.assertTrue(valid)
        
-        upcf = UserProfileCustomField.objects.get(key_name=cf, user=self.normal_user)
+        upcf = UserProfileCustomField.objects.get(key_name=cf,
+                                                  user=self.normal_user)
         upcf.value_str = "This is my real name"
         upcf.save()
         
-        valid, display_name = certificate_template.display_name(self.normal_user)
+        valid, display_name = certificate_template.display_name(
+            self.normal_user)
         self.assertEqual("This is my real name", display_name)
         self.assertTrue(valid)
 
@@ -205,7 +223,8 @@ class GenerateCertificatesTest(OppiaTestCase):
     @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_display_name_feedback_once(self):
         certificate_template = CertificateTemplate.objects.get(pk=5)
-        valid, display_name = certificate_template.display_name(self.normal_user)
+        valid, display_name = certificate_template.display_name(
+            self.normal_user)
         self.assertEqual("my real name", display_name)
         self.assertTrue(valid)
         
@@ -221,7 +240,8 @@ class GenerateCertificatesTest(OppiaTestCase):
     def test_display_name_feedback_none(self):
         QuizAttempt.objects.all().delete()
         certificate_template = CertificateTemplate.objects.get(pk=5)
-        valid, display_name = certificate_template.display_name(self.normal_user)
+        valid, display_name = certificate_template.display_name(
+            self.normal_user)
         self.assertFalse(valid)
         
         current_award = Award.objects.get(pk=10)
@@ -250,7 +270,8 @@ class GenerateCertificatesTest(OppiaTestCase):
         qa_response.save()
         
         certificate_template = CertificateTemplate.objects.get(pk=5)
-        valid, display_name = certificate_template.display_name(self.normal_user)
+        valid, display_name = certificate_template.display_name(
+            self.normal_user)
         self.assertEqual("my new name", display_name)
         self.assertTrue(valid)
         
@@ -261,4 +282,37 @@ class GenerateCertificatesTest(OppiaTestCase):
 
         current_award = Award.objects.get(pk=10)
         self.assertFalse(current_award.certificate_pdf == "")
-    
+
+    ######
+    # Resending certificates for users
+    ######
+
+    # valid user
+    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
+    def test_resend_valid_user(self): 
+        SettingProperties.set_bool(constants.OPPIA_EMAIL_CERTIFICATES, True)      
+        current_award = Award.objects.get(pk=4)
+        self.assertTrue(current_award.certificate_pdf == "")
+
+        call_command('generate_certificates', stdout=StringIO())
+
+        current_award = Award.objects.get(pk=4)
+        self.assertFalse(current_award.certificate_pdf == "")
+        original_pdf_name = current_award.certificate_pdf
+
+        self.assertEqual(len(mail.outbox), 2)
+
+        call_command('generate_certificates', '--user=2', stdout=StringIO())
+        current_award = Award.objects.get(pk=4)
+        new_pdf_name = current_award.certificate_pdf
+
+        self.assertEqual(len(mail.outbox), 6)
+        self.assertNotEqual(original_pdf_name, new_pdf_name)
+        for email in mail.outbox:
+            self.assertEqual("demo@me.com", email.to[0])
+
+    # invalid user
+    def test_resend_invalid_user(self):
+        out = StringIO()
+        call_command('generate_certificates', '--user=999', stdout=out)
+        self.assertEqual(u'Invalid user id\n', out.getvalue())

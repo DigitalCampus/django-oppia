@@ -1,0 +1,7 @@
+{% load i18n %}
+{% load display_functions %}
+{% load settings_value %}
+
+Please find attached your updated certificate for the course {{ course.title | title_lang:"en" }}.
+
+You can also download it from the {% trans 'app_name' %} app.
