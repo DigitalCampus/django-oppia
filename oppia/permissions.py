@@ -31,7 +31,7 @@ def user_can_upload(function):
 
 
 def can_edit_user(request, view_user_id):
-    if request.user.is_staff:
+    if request.user.is_staff or request.user.id == view_user_id:
         return True
     else:
         return False

@@ -46,6 +46,13 @@ urlpatterns = [
     path('<int:user_id>/feedback/',
          profile_views.UserFeedbackResponsesList.as_view(),
          name="user_all_feedback_responses"),
+    
+    path('<int:user_id>/regeneratecertificates/',
+         profile_views.RegenerateCertificatesView.as_view(),
+         name="user_regenerate_certificates"),
+    path('<int:user_id>/regeneratecertificates/success/',
+         TemplateView.as_view(template_name="profile/certificates/success.html"),
+         name="user_regenerate_certificates_success"),
 
     path('upload/', profile_views.UploadUsers.as_view(), name="upload"),
     path('search/', profile_views.search_users, name="search"),

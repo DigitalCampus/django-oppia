@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{% trans 'Profile - Regenerate Certificates' %}
+{% endblock extra_head_title %}
+
+
+{% block header %}
+<div class="jumbotron mb-4 ">
+	<div class="row">
+		<div class="col-sm-5">
+			<h3>Profile - Regenerate Certificates</h3>
+		</div>
+	</div>
+</div>
+{% endblock header %}
+
+{% block content %}
+<h4>{% trans 'Regenerate certificates for: '%} {{ user.username }}
+	({{ user.first_name }} {{ user.last_name }})</h4>
+
+{% if certificates %}
+	<p>{% blocktrans %}
+	The following certificates will be regenerated, with the name as shown below:
+	{% endblocktrans %}</p>
+	<div class="table-responsive">
+         <table class="table table-striped">
+         	 <caption class="d-none">{% trans "Certificates" %}</caption>
+         	 <thead>
+                <tr>
+                  <th scope="col">{% trans 'Course' %}</th>
+                  <th scope="col">{% trans 'Badge' %}</th>
+                  <th scope="col">{% trans 'Name to appear on certificate' %}</th>
+                </tr>
+              </thead>
+              <tbody>
+				{% for certificate in certificates %}
+					<tr>
+	                  <td>{{ certificate.course }}</td>
+	                  <td>{{ certificate.badge.name }}</td>
+	                  <td>{{ certificate.display_name }}</td>
+	                </tr>
+				{% endfor %}
+	    	</tbody>
+ 		</table>
+	</div>
+	<p>{% blocktrans %}
+	If any of the information above is incorrect, then please correct it before proceeding.
+	{% endblocktrans %}</p>
+	
+	{% if not OPPIA_EMAIL_CERTIFICATES %}
+		<p>{% blocktrans %}
+		The emailing of certificates is currently disabled on this server
+		{% endblocktrans %}</p>
+	{% else %}
+		<p>{% blocktrans %}
+		The updated certificates will also be emailed to the following email address 
+		(taken from the user profile). Note that if this email address is updated 
+		it will also update the email address in the user profile:
+		{% endblocktrans %}</p>
+	{% endif %}	
+		
+	{% crispy form %}
+	
+{% else %}
+	<p>{% blocktrans with user.username as username %}
+	`{{ username }}` does not yet have any certificates to be regenerated.
+	{% endblocktrans %}</p>
+	
+{% endif %}
+
+
+{% endblock %}

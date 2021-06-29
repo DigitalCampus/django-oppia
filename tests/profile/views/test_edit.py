@@ -78,7 +78,7 @@ class EditProfileViewTest(OppiaTestCase):
         response = self.client.get(reverse('profile:edit_user', args=[1]))
         self.assertEqual(response.status_code, 403)
 
-        response = self.client.get(reverse('profile:edit_user', args=[2]))
+        response = self.client.get(reverse('profile:edit_user', args=[4]))
         self.assertEqual(response.status_code, 403)
 
         response = self.client.get(reverse('profile:edit_user', args=[3]))

@@ -10,4 +10,10 @@
     <td class="text-right">
         {{ user.last_login|date:"d/m/Y" }}
     </td>
+    <td class="text-right">
+         <a href="{% url 'profile:edit_user' user.id %}">{% trans 'Edit Profile' %}</a>
+         |
+         <a href="{% url 'profile:user_regenerate_certificates' user.id %}">{% trans 'Regenerate Certificiates' %}</a>
+    </td>
+    
 </tr>

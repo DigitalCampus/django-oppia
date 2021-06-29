@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block extra_head_title %}
+	{% trans 'Profile - Regenerate Certificates' %}
+{% endblock extra_head_title %}
+
+{% block header %}
+<div class="jumbotron mb-4 ">
+	<h3>{% trans 'Profile - Regenerate Certificates' %}</h3>
+</div>
+{% endblock header %}
+
+{% block content %}
+
+<h4>{% trans 'Success' %}</h4>
+
+<p>{% blocktrans %}
+The updated certificates have been generated, the user can now access then via 
+the app. If enabled and the user had a valid email address, the updated 
+certificates have also been emailed.
+{% endblocktrans %}</p>
+
+{% endblock %}

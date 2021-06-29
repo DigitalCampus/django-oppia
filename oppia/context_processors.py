@@ -92,6 +92,9 @@ def get_settings(request):
             
     server_registered = SettingProperties.get_bool(
             constants.OPPIA_SERVER_REGISTERED, False)
+    
+    email_certificates = SettingProperties.get_bool(
+            constants.OPPIA_EMAIL_CERTIFICATES, False)
 
     return {
         'OPPIA_ALLOW_SELF_REGISTRATION': self_register,
@@ -104,4 +107,5 @@ def get_settings(request):
         'CRON_WARNING': cron_warning,
         'COURSE_COMPLETE_BADGE_CRITERIA': badge_award_method,
         'COURSE_COMPLETE_BADGE_CRITERIA_PERCENT': badge_award_method_percent,
-        'SERVER_REGISTERED': server_registered}
+        'SERVER_REGISTERED': server_registered,
+        'OPPIA_EMAIL_CERTIFICATES': email_certificates}

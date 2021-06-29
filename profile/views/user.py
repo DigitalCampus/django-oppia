@@ -3,11 +3,14 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
+from django.core.management import call_command
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import ugettext as _
 from django.views.generic import ListView, UpdateView, FormView, TemplateView
+
+from io import StringIO
 
 from tastypie.models import ApiKey
 
@@ -15,13 +18,17 @@ from urllib.parse import urlparse
 
 from helpers.mixins.TitleViewMixin import TitleViewMixin
 from helpers.mixins.SafePaginatorMixin import SafePaginatorMixin
-from oppia.models import Points, Award, Tracker
+from oppia.models import Points, Award, Tracker, Course, CertificateTemplate
 from oppia.permissions import can_edit_user
 from profile.forms import LoginForm, \
-    RegisterForm, \
-    ProfileForm
+                          RegisterForm, \
+                          ProfileForm, \
+                          RegenerateCertificatesForm
 
-from profile.models import UserProfile, CustomField, UserProfileCustomField
+from profile.models import UserProfile, \
+                           CustomField, \
+                           UserProfileCustomField
+
 from profile.views.utils import filter_redirect
 
 from quiz.models import QuizAttempt, QuizAttemptResponse
@@ -309,3 +316,61 @@ class BadgesView(ListView):
     def get_queryset(self):
         return Award.objects.filter(
             user=self.request.user).order_by('-award_date')
+
+
+class RegenerateCertificatesView(TemplateView):
+
+    def get(self, request, user_id=None):
+        if user_id:
+            if can_edit_user(request, user_id):
+                user = User.objects.get(pk=user_id)
+            else:
+                raise PermissionDenied
+        else:
+            user = request.user
+  
+        initial = {'email': user.email,
+                   'old_email': user.email }
+        form = RegenerateCertificatesForm(initial=initial)
+        awards = Award.objects.filter(user=user)
+        certificates = []
+        for award in awards:
+            course = Course.objects.get(awardcourse__award=award)
+            badge = award.badge
+            certs = CertificateTemplate.objects.filter(course=course,
+                                                       badge=badge,
+                                                       enabled=True)
+            
+            for cert in certs:
+                certificate = {}
+                certificate['course'] = course
+                certificate['badge'] = badge
+                valid, display_name = cert.display_name(user)
+                certificate['display_name'] = display_name
+                certificates.append(certificate)
+                
+        return render(request, 'profile/certificates/regenerate.html',
+                          {'user': user,
+                           'form': form,
+                           'certificates': certificates})
+        
+    def post(self, request, user_id=None):
+        if user_id:
+            if can_edit_user(request, user_id):
+                user = User.objects.get(pk=user_id)
+            else:
+                raise PermissionDenied
+        else:
+            user = request.user
+            
+        # update email address if changed
+        old_email = request.POST.get("old_email")
+        new_email = request.POST.get("email")
+        if old_email != new_email:
+            user.email = new_email
+            user.save()
+            
+        user_command = "--user=" + str(user.id)
+        call_command('generate_certificates', user_command, stdout=StringIO())
+        
+        return HttpResponseRedirect('success/')

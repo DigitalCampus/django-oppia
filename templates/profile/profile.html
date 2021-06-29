@@ -17,7 +17,8 @@
 
 		<div class="col-sm-7 text-right">
 			<a href="{% url 'profile:delete' user.id %}" class="btn btn-light mr-2 mb-3">{% trans 'Delete Account' %}</a>
-			<a href="#" class="btn btn-secondary mb-3" data-toggle="collapse" data-target="#export-data" aria-expanded="false">Export</a>
+			<a href="{% url 'profile:user_regenerate_certificates' user.id %}"  class="btn btn-light mr-2 mb-3">{% trans 'Regenerate Certificates' %}</a>
+			<a href="#" class="btn btn-secondary mb-3" data-toggle="collapse" data-target="#export-data" aria-expanded="false">{% trans 'Export' %}</a>
 		</div>
 	</div>
 
