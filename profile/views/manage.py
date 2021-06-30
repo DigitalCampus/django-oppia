@@ -19,7 +19,7 @@ from oppia.models import Points, Award, Tracker
 from profile.forms import UploadProfileForm, \
     UserSearchForm, \
     DeleteAccountForm
-from profile.models import UserProfile
+from profile.models import UserProfile, CustomField, UserProfileCustomField
 from profile.views.utils import get_paginated_users, \
     get_filters_from_row, \
     get_query
@@ -170,13 +170,18 @@ class UploadUsers(AdminRequiredMixin, FormView):
     def form_valid(self, form):
         csv_file = csv.DictReader(
             chunk.decode() for chunk in self.request.FILES['upload_file'])
-        required_fields = ['username', 'firstname', 'lastname', 'email']
+        required_fields = ['username', 'firstname', 'lastname']
 
         context = self.get_context_data(form=form)
         context['results'] = self.process_upload_user_file(csv_file,
                                                            required_fields)
         return self.render_to_response(context)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["custom_fields"] = CustomField.objects.all().order_by('order')
+        return context
+    
     def process_upload_user_file(self, csv_file, required_fields):
         results = []
         try:
@@ -209,11 +214,12 @@ class UploadUsers(AdminRequiredMixin, FormView):
         return results
 
     def process_upload_file_save_user(self, row):
-        user = User()
-        user.username = row['username']
+        user, user_created = User.objects.get_or_create(username=row['username'])
         user.first_name = row['firstname']
         user.last_name = row['lastname']
-        user.email = row['email']
+
+        if 'email' in row:
+            user.email = row['email']
 
         auto_password = False
         if 'password' in row:
@@ -221,30 +227,45 @@ class UploadUsers(AdminRequiredMixin, FormView):
         else:
             password = User.objects.make_random_password()
             auto_password = True
+
         user.set_password(password)
+        user.save()
 
-        try:
-            user.save()
-        except IntegrityError:
-            return {
-                'username': row['username'],
-                'created': False,
-                'message': _(u'User already exists')
-            }
+        self.update_user_profile(user, row)
 
-        up = UserProfile()
-        up.user = user
+        # update CustomFields
+        self.update_custom_fields(user, row)
+        
+        result = {
+            'created': user_created,
+            'username': row['username'],
+        }
+        if auto_password and user_created:
+            result['message'] = _(u'User created with password: %s' % password)
+        elif not auto_password and user_created:
+            result['message'] = _(u'User created')
+        elif auto_password and not user_created:
+            result['message'] = _(u'User updated with password: %s' % password)
+        else:
+            result['message'] = _(u'User updated')
+            
+        return result
+    
+    def update_user_profile(self, user, row):
+        up, created = UserProfile.objects.get_or_create(user=user)
         for col_name in row:
             setattr(up, col_name, row[col_name])
         up.save()
-
-        result = {
-            'created': True,
-            'username': row['username'],
-        }
-        if auto_password:
-            result['message'] = _(u'User created with password: %s' % password)
-        else:
-            result['message'] = _(u'User created')
-
-        return result
+        
+    def update_custom_fields(self, user, row):
+        custom_fields = CustomField.objects.all()
+        for cf in custom_fields:
+            if cf.id in row:
+                upcf, created = UserProfileCustomField.objects.get_or_create(user=user, key_name=cf)
+                if cf.type == 'bool':
+                    upcf.value_bool = row[cf.id]
+                elif cf.type == 'int':
+                    upcf.value_int = row[cf.id]
+                else:
+                    upcf.value_str = row[cf.id]
+                upcf.save()

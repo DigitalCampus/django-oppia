@@ -46,11 +46,15 @@
 	</div>
 	<div class="col-md-7">
 		{% blocktrans %}
-		<p>You may only upload a 'CSV' file.</p>
+		<p>You may only upload a 'CSV' file and the column titles in this 
+		   must be exactly as shown below.</p>
+		
+		<p>If you re-upload an edited file then users accounts will be updated
+		   to match.</p>
+		
 		<p>The following columns/fields are required:</p>
 		<ul>
 			<li><code>username</code></li>
-			<li><code>email</code></li>
 			<li><code>firstname</code></li>
 			<li><code>lastname</code></li>
 		</ul>
@@ -58,11 +62,16 @@
 		<p>You may also optionally add the following columns/fields:</p>
 		<ul>
 			<li><code>password</code> (note: if you do not add a password, one will be randomly generated)</li>
-			<li><code>organisation</code></li>
-			<li><code>phone_no</code></li>
-			<li>other columns that match your user profile definition</li>
-		</ul>
+			<li><code>email</code></li>
+			<li><code>phone_number</code></li>
 		{% endblocktrans %}
+			{% if custom_fields %}
+				{% for cf in custom_fields %}
+				<li><code>{{ cf.id }}</code></li>
+				{% endfor %}
+			{% endif %}
+		</ul>
+		
 	</div>
 </div>
 

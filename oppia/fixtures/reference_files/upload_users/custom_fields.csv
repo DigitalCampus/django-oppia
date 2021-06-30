@@ -1,0 +1,3 @@
+username,firstname,lastname,phone_number,country,no_field,age,agree_to_terms
+user100,User,Hundred,+0123456789,Sweden,randomdata,24,True
+user101,User,hundredandone,+987654321,Iceland,otherdata,30,False

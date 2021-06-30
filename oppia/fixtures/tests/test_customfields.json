@@ -13,6 +13,32 @@
     }
 },
 {
+    "model": "profile.customfield",
+    "pk": "age",
+    "fields": {
+        "label": "Age",
+        "required": false,
+        "order": 0,
+        "helper_text": "Age",
+        "type": "int",
+        "created": "2020-11-03T12:31:27.271Z",
+        "modified": "2020-11-03T12:31:27.272Z"
+    }
+},
+{
+    "model": "profile.customfield",
+    "pk": "agree_to_terms",
+    "fields": {
+        "label": "Agree to terms",
+        "required": false,
+        "order": 0,
+        "helper_text": "Agree to terms",
+        "type": "bool",
+        "created": "2020-11-03T12:31:27.271Z",
+        "modified": "2020-11-03T12:31:27.272Z"
+    }
+},
+{
     "model": "profile.userprofilecustomfield",
     "pk": 1,
     "fields": {

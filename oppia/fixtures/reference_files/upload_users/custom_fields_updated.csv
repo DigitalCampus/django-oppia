@@ -1,0 +1,4 @@
+username,firstname,lastname,phone_number,country,no_field
+user100,User,Hundred,+0123456789,Kenya,randomdata
+user101,User,hundredandone,+3333333,Iceland,otherdata
+user102,User,hundredandtwo,+2222222,Russia,otherdata
