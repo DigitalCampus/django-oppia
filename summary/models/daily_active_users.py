@@ -4,6 +4,7 @@ from django.db import models
 from django.db.models import Sum, Avg
 from django.utils.translation import ugettext_lazy as _
 
+from oppia.models import Course
 
 class DailyActiveUsers(models.Model):
     day = models.DateField(blank=False,
@@ -51,8 +52,13 @@ class DailyActiveUser(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     type = models.CharField(max_length=20, choices=DATE_TYPES)
     time_spent = models.IntegerField(default=0)
+    course = models.ForeignKey(Course,
+                               on_delete=models.CASCADE,
+                               blank=True,
+                               null=True,
+                               default=None)
 
     class Meta:
         verbose_name = _(u'DailyActiveUser')
         verbose_name_plural = _(u'DailyActiveUsers')
-        unique_together = ("dau", "user", "type")
+        unique_together = ("dau", "user", "type", "course")

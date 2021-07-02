@@ -87,15 +87,19 @@ def create_csv(year, month):
                                                 user__id=user['user'],
                                                 completed=True,
                                                 type='quiz').count()
-        data.append(
-                (
-                    User.objects.get(pk=user['user']).username,
-                    month,
-                    year,
-                    activities_completed,
-                    points_earned,
-                    quizzes_passed
+        
+        try:
+            username = User.objects.get(pk=user['user']).username
+            data.append(
+                    (
+                        username,
+                        month,
+                        year,
+                        activities_completed,
+                        points_earned,
+                        quizzes_passed
+                    )
                 )
-            )
-
+        except User.DoesNotExist:
+            continue
     return data
