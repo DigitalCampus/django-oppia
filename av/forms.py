@@ -24,19 +24,16 @@ class UploadMediaForm(forms.Form):
                 error_messages={'required': _(u'Please select a media file \
                                              to upload')},
                 )
-    embed_code = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
         super(UploadMediaForm, self).__init__(* args, ** kwargs)
         self.helper = FormHelper()
-        self.helper.form_action = reverse('av:upload')
         self.helper.form_class = 'form-horizontal'
         self.helper.label_class = 'col-lg-2'
         self.helper.field_class = 'col-lg-8'
         self.helper.layout = Layout(
                 'media_file',
-                'embed_code',
                 Div(
                    Submit('submit',
                           _(u'Upload'),
@@ -75,15 +72,11 @@ class UploadMediaForm(forms.Form):
 
         media = UploadedMedia.objects.filter(md5=md5)
         if media.count() > 0:
-            url = reverse('av:view', args=[media.first().id])
             raise forms.ValidationError({
                 'media_file':
                     mark_safe(
                         _(u"This media file has already been uploaded. \
-                          <a href='%s'>View the original upload</a>." % url)),
-                'embed_code':
-                    media.first()
-                         .get_embed_code(self.request.build_absolute_uri(
-                             media.first().file.url))
+                          <a href='%s'>View the original upload</a>." 
+                          % media.first().file.url)),
                 })
         return cleaned_data

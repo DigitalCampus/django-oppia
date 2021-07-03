@@ -49,10 +49,7 @@ def get_view(request, digest):
 
     media = get_object_or_404(UploadedMedia, md5=digest)
 
-    embed_code = media.get_embed_code(
-        request.build_absolute_uri(media.file.url))
-    resp_obj = {'embed_code': embed_code,
-                'digest': media.md5,
+    resp_obj = {'digest': media.md5,
                 'filesize': media.get_filesize(),
                 'download_url': request.build_absolute_uri(media.file.url),
                 'length': media.length,
@@ -79,11 +76,8 @@ def upload_view(request):
 
     if result['result'] == constants.UPLOAD_MEDIA_STATUS_SUCCESS:
         media = result['media']
-        embed_code = media.get_embed_code(
-            request.build_absolute_uri(media.file.url))
 
-        return JsonResponse({'embed_code': embed_code,
-                             'digest': media.md5,
+        return JsonResponse({'digest': media.md5,
                              'length': media.length,
                              'filesize': media.get_filesize(),
                              'download_url':

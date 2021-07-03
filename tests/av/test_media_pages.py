@@ -13,9 +13,6 @@ class AVPagesViewTest(OppiaTestCase):
 
     index_url = reverse('av:index')
     index_template = 'av/home.html'
-    media_url_valid = reverse('av:view', args=[1])
-    media_url_invalid = reverse('av:view', args=[999])
-    view_template = 'av/view.html'
 
     def test_home_view(self):
         allowed_users = [self.admin_user,
@@ -41,57 +38,5 @@ class AVPagesViewTest(OppiaTestCase):
         self.assertTemplateUsed(response, self.index_template)
         self.assertEqual(response.status_code, 200)
 
-    def test_media_view_valid(self):
-        allowed_users = [self.admin_user,
-                         self.staff_user,
-                         self.teacher_user]
-        disallowed_users = [self.normal_user]
 
-        for allowed_user in allowed_users:
-            self.client.force_login(allowed_user)
-            response = self.client.get(self.media_url_valid)
-            self.assertTemplateUsed(response, self.view_template)
-            self.assertEqual(response.status_code, 200)
 
-        for disallowed_user in disallowed_users:
-            self.client.force_login(disallowed_user)
-            response = self.client.get(self.media_url_valid)
-            self.assertTemplateUsed(response, self.unauthorized_template)
-            self.assertEqual(response.status_code, 403)
-
-    def test_media_view_invalid(self):
-        allowed_users = [self.admin_user,
-                         self.staff_user,
-                         self.teacher_user]
-        disallowed_users = [self.normal_user]
-
-        for allowed_user in allowed_users:
-            self.client.force_login(allowed_user)
-            response = self.client.get(self.media_url_invalid)
-            self.assertTemplateUsed(response, self.not_found_template)
-            self.assertEqual(response.status_code, 404)
-
-        for disallowed_user in disallowed_users:
-            self.client.force_login(disallowed_user)
-            response = self.client.get(self.media_url_invalid)
-            self.assertTemplateUsed(response, self.unauthorized_template)
-            self.assertEqual(response.status_code, 403)
-
-    def test_media_view_set_default_image(self):
-        allowed_users = [self.admin_user,
-                         self.staff_user,
-                         self.teacher_user]
-        disallowed_users = [self.normal_user]
-
-        for allowed_user in allowed_users:
-            self.client.force_login(allowed_user)
-            response = self.client.get(reverse('av:set_default_image',
-                                               args=[2]))
-            self.assertEqual(response.status_code, 302)
-
-        for disallowed_user in disallowed_users:
-            self.client.force_login(disallowed_user)
-            response = self.client.get(reverse('av:set_default_image',
-                                               args=[2]))
-            self.assertTemplateUsed(response, self.unauthorized_template)
-            self.assertEqual(response.status_code, 403)

@@ -3,13 +3,6 @@
 {% load thumbnail %}
 
 <tr>
-	<td>
-		{% thumbnail media.uploaded_media.get_default_image.image "220x150" crop="center" as im %}
-			<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{% trans 'Media default image'%}">
-		{% empty %}
-	  			<p>No image</p>
-		{% endthumbnail %}
-	</td>
-	<td><a href="{% url 'av:view' media.uploaded_media.id %}">{{ media.uploaded_media.filename }}</a></td>
-	<td><code>{{ media.embed_code }}</code></td>
+	<td>{{ media.filename }}</td>
+	<td><a href="{{ media.file.url }}">{% trans 'download' %}</a></td>
 </tr>

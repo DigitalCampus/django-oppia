@@ -10,8 +10,7 @@ from django.views.generic import TemplateView, ListView
 
 from av import constants
 from av import handler
-from av.forms import UploadMediaForm
-from av.models import UploadedMedia, UploadedMediaImage
+from av.models import UploadedMedia
 from helpers.mixins.AjaxTemplateResponseMixin import AjaxTemplateResponseMixin
 from helpers.mixins.ListItemUrlMixin import ListItemUrlMixin
 from oppia.models import Media, Course
@@ -23,15 +22,10 @@ STR_UPLOAD_MEDIA = _(u'Upload Media')
 
 
 class AVHome(TemplateView):
-    def get(self, request):
-        uploaded_media = []
 
-        objs = UploadedMedia.objects.all().order_by('-created_date')
-        for o in objs:
-            embed_code = o.get_embed_code(
-                request.build_absolute_uri(o.file.url))
-            uploaded_media.append({'uploaded_media': o,
-                                   'embed_code': embed_code})
+    def get(self, request):
+
+        uploaded_media = UploadedMedia.objects.all().order_by('-created_date')
 
         paginator = Paginator(uploaded_media, 25)
 
@@ -51,77 +45,6 @@ class AVHome(TemplateView):
                       {'title': STR_UPLOAD_MEDIA,
                        'page': media})
 
-
-@method_decorator(user_can_upload, name='dispatch')
-class Upload(TemplateView):
-    def get(self, request):
-        form = UploadMediaForm()
-
-        dashboard_accessed.send(sender=None, request=request, data=None)
-
-        return render(request, 'common/upload.html',
-                      {'form': form,
-                       'title': STR_UPLOAD_MEDIA})
-
-    def post(self, request):
-        result = handler.upload(request, request.user)
-
-        if result['result'] == constants.UPLOAD_MEDIA_STATUS_SUCCESS:
-            return HttpResponseRedirect(reverse('av:upload_success',
-                                                args=[result['media'].id]))
-        else:
-            form = result['form']
-
-        return render(request, 'common/upload.html',
-                      {'form': form,
-                       'title': STR_UPLOAD_MEDIA})
-
-
-@method_decorator(user_can_upload, name='dispatch')
-class UploadSuccess(TemplateView):
-    def get(self, request, id):
-        media = get_object_or_404(UploadedMedia, pk=id)
-
-        embed_code = media.get_embed_code(
-            request.build_absolute_uri(media.file.url))
-
-        return render(request, 'av/upload_success.html',
-                      {'title': STR_UPLOAD_MEDIA,
-                       'media': media,
-                       'embed_code': embed_code})
-
-
-@user_can_upload
-def media_view(request, id):
-    media = get_object_or_404(UploadedMedia, pk=id)
-
-    embed_code = media.get_embed_code(
-        request.build_absolute_uri(media.file.url))
-
-    dashboard_accessed.send(sender=None, request=request, data=None)
-
-    return render(request, 'av/view.html',
-                  {'title': _(u'Media'),
-                   'media': media,
-                   'embed_code': embed_code})
-
-
-@user_can_upload
-def set_default_image_view(request, image_id):
-    media = UploadedMedia.objects.get(images__pk=image_id)
-
-    # reset all images to not be default
-    images = UploadedMediaImage.objects.filter(uploaded_media=media)
-    for i in images:
-        i.default_image = False
-        i.save()
-
-    # set the selected one
-    image = UploadedMediaImage.objects.get(pk=image_id)
-    image.default_image = True
-    image.save()
-
-    return HttpResponseRedirect(reverse('av:view', args=[media.id]))
 
 
 class CourseMediaList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):

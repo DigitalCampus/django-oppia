@@ -17,8 +17,6 @@
                     <a class="nav-link dropdown-toggle" href="#" id="upload-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans 'Upload' %}<strong class="caret"></strong></a>
                     <div class="dropdown-menu" aria-labelledby="upload-menu">
                         <a class="dropdown-item" href="{% url 'oppia:upload' %}">{% trans 'Course' %}</a>
-                        <a class="dropdown-item" href="{% url 'av:upload' %}">{% trans 'Media' %}</a>
-                        <a class="dropdown-item" href="{% url 'content:media_embed_helper' %}">{% trans 'Media Embed Helper' %}</a>
                         {% if user.is_staff %}
                             <a class="dropdown-item" href="{% url 'activitylog:upload' %}">{% trans 'Activity Log' %}</a>
                         {% endif %}

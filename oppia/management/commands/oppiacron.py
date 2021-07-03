@@ -57,9 +57,6 @@ class Command(BaseCommand):
         # generate pdf certificates
         call_command('generate_certificates')
 
-        # create and new media images
-        call_command('generate_media_images')
-
         # clear any expired sessions
         call_command('clearsessions')
 
