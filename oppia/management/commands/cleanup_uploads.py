@@ -43,14 +43,17 @@ class Command(BaseCommand):
         """
         Remove old expanded folders from media/courses
         """
-        files = os.listdir(os.path.join(settings.MEDIA_ROOT, 'courses'))
-        for filename in files:
-            if os.path.isdir(
-                    os.path.join(settings.MEDIA_ROOT, 'courses', filename)):
-                courses = Course.objects.filter(shortname=filename)
-                if courses.count() == 0:
-                    shutil.rmtree(os.path.join(settings.MEDIA_ROOT,
-                                               'courses',
-                                               filename))
-                    self.stdout.write("Removed: " + filename)
+        try:
+            files = os.listdir(os.path.join(settings.MEDIA_ROOT, 'courses'))
+            for filename in files:
+                if os.path.isdir(
+                        os.path.join(settings.MEDIA_ROOT, 'courses', filename)):
+                    courses = Course.objects.filter(shortname=filename)
+                    if courses.count() == 0:
+                        shutil.rmtree(os.path.join(settings.MEDIA_ROOT,
+                                                   'courses',
+                                                   filename))
+                        self.stdout.write("Removed: " + filename)
+        except FileNotFoundError: # dir doesn;t exsit
+            pass
         
