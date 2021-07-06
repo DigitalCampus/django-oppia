@@ -151,6 +151,19 @@
 	            </li>
 	        </ul>
         </div>
+		<div class="navdrawer-divider"></div>
+		<ul class="navdrawer-nav mb-0">
+         	<li class="nav-item">
+         	
+            <a class="nav-link" href="{% url 'serverregistration:register' %}">
+            	{% if SERVER_REGISTERED %}
+              		<em class="material-icons mr-3">app_registration</em> {% trans 'Update your server registration' %}
+              	{% else %}
+              	    <em class="material-icons mr-3">app_registration</em> {% trans 'Register your server' %}
+              	{% endif %}
+            </a>
+            </li>
+        </ul>
 		
     </div>
   </div>
