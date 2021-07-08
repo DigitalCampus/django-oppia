@@ -85,7 +85,15 @@
 					<tr>
 						<td>
                             <div class="list-pie" data-total="{{ c.course.get_no_activities }}" data-completed="{{ c.no_activities_completed }}" ></div>
-                            <a href="{% url 'profile:user_course_activity' view_user.id c.course.id%}">{{ c.course.title|title_lang:LANGUAGE_CODE }}</a></td>
+                            <a href="{% url 'profile:user_course_activity' view_user.id c.course.id%}">
+                            {{ c.course.title|title_lang:LANGUAGE_CODE }}</a>
+                            {% if c.course.is_draft %}
+							    <span class="badge badge-dark ml-2">{% trans 'draft' %}</span>
+							{% endif %}
+                            {% if c.course.is_archived %}
+							    <span class="badge badge-dark ml-2">{% trans 'archived' %}</span>
+							{% endif %}
+                        </td>
 						<td>
 							{% if c.pretest_score %}
 								{{ c.pretest_score|floatformat:1 }}%

@@ -28,7 +28,9 @@
 </td>
 <td>{{ item.lastupdated_date }} </td>
 <td>{{ item.total_downloads|default:0 }} downloads by {{ item.distinct_downloads|default:0 }} users<br/>
-    <a href="{% url 'oppia:course_download' item.id %}">{% trans 'download course' %}</a>
+    {% if not item.is_archived %}
+    	<a href="{% url 'oppia:course_download' item.id %}">{% trans 'download course' %}</a>
+    {% endif %}
 </td>
 <td class="py-1">
     {% if item.can_edit %}
