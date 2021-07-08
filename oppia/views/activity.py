@@ -126,8 +126,6 @@ class CourseRecentActivityDetail(DetailView):
                 datetime.datetime.strptime(form.cleaned_data.get("end_date"),
                                            constants.STR_DATE_FORMAT),
                 timezone.get_current_timezone())
-        else:
-            print(form.errors)
 
         form.form_method = 'get'
         context['form'] = form
@@ -136,7 +134,6 @@ class CourseRecentActivityDetail(DetailView):
 
     def get_activitylogs_page(self, start_date, end_date):
 
-        print(start_date)
         trackers = Tracker.objects.filter(course=self.object,
                                           tracker_date__gte=start_date,
                                           tracker_date__lte=end_date) \

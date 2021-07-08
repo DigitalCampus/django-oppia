@@ -135,16 +135,13 @@ class GamificationXMLWriter:
 
     def update_gamification(self, user):
 
-        print('parsing course XML')
         self.load_course_xml_content(mode='r')
 
-        print('Updating gamification XML nodes...')
         self.update_course_gamification()
         self.update_activity_gamification()
         self.update_media_gamification()
 
         version = self.update_course_version()
-        print('Writing new course XML contents...')
         course_file.rewrite_xml_contents(user, self.course, self.xml)
 
         return version

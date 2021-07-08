@@ -141,19 +141,16 @@ def process_uploaded_file(request, json_data):
                                    the correct server."
                                    % {'username': username}),
                                  'danger')
-                print(_(u"No user api key found for %s" % user['username']))
 
 
 def get_user_from_uploaded_log(request, user):
     username = user['username']
-    print(_(u"processing activity log for %s" % username))
 
     for field in user:
         if user[field] == "null":
             user[field] = None
 
     if not User.objects.filter(username=username).exists():
-        print(_(u"New user!"))
         # User was registered offline, we create a new one
         req_user = User(
             username=username,

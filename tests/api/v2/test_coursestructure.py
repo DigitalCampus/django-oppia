@@ -14,7 +14,6 @@ class CourseStructureResourceTest(ResourceTestCaseMixin, TestCase):
 
     # working id
     @pytest.mark.xfail(reason="works on local, but not on Github workflow")
-    @unittest.expectedFailure
     def test_working_id(self):
         url = get_api_url('v2', 'coursestructure') + "1/"
         response = self.client.get(url)
@@ -23,7 +22,6 @@ class CourseStructureResourceTest(ResourceTestCaseMixin, TestCase):
 
     # working shortname
     @pytest.mark.xfail(reason="works on local, but not on Github workflow")
-    @unittest.expectedFailure
     def test_working_shortname(self):
         url = get_api_url('v2', 'coursestructure') + "anc1-all/"
         response = self.client.get(url)

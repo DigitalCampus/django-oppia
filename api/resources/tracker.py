@@ -6,6 +6,8 @@ from django.conf import settings
 from django.db.models import Sum
 from django.http import HttpResponse
 from django.utils import dateparse
+
+from json.decoder import JSONDecodeError
 from tastypie import fields
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie.authorization import Authorization
@@ -98,7 +100,33 @@ class TrackerResource(ModelResource):
             bundle.obj.event = bundle.data['event']
 
         return bundle
-
+     
+    def obj_create(self, bundle, **kwargs):
+        """
+        A ORM-specific implementation of ``obj_create``.
+        """
+        bundle.obj = self._meta.object_class()
+    
+        for key, value in kwargs.items():
+            setattr(bundle.obj, key, value)
+    
+        self.authorized_create_detail(self.get_object_list(bundle.request),
+                                      bundle)
+        bundle = self.full_hydrate(bundle)
+        
+        if bundle.obj.type == 'search':
+            if not bundle.obj.data:
+                return bundle
+            try:
+                json_data = json.loads(bundle.obj.data)
+                if 'query' not in json_data \
+                        or json_data['query'] is None \
+                        or json_data['query'].strip() == "":
+                    return bundle
+            except JSONDecodeError:
+                return bundle
+        return self.save(bundle)
+   
     def hydrate(self, bundle, request=None):
 
         # remove any id if this is submitted - otherwise it may overwrite
@@ -112,9 +140,6 @@ class TrackerResource(ModelResource):
                                                    'unknown')
 
         if 'type' in bundle.data and bundle.data['type'] == 'search':
-            if 'data' not in bundle.data:
-                return None
-
             # if the tracker is a search, we just need to save it
             bundle.obj.course = None
             bundle.obj.type = "search"

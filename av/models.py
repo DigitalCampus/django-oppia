@@ -51,13 +51,10 @@ class UploadedMedia(models.Model):
 @receiver(post_delete, sender=UploadedMedia)
 def uploaded_media_delete_file(sender, instance, **kwargs):
     file_to_delete = os.path.join(settings.MEDIA_ROOT, instance.file.name)
-    print("deleting ...." + file_to_delete)
     try:
         os.remove(file_to_delete)
-        print("File removed")
     except OSError:
-        print("Error deleting media")
-
+        pass
 
 def image_file_name(instance, filename):
     return os.path.join('uploaded/images',

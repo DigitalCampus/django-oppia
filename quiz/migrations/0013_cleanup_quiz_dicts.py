@@ -7,6 +7,11 @@ from oppia.uploader import clean_lang_dict
 
 
 def clean_quiz_dicts(apps, schema_editor):
+    clean_quiz_model(apps)
+    clean_question_model(apps)
+    clean_response_model(apps)
+
+def clean_quiz_model(apps):
     quiz_model = apps.get_model("quiz", "Quiz")
     for quiz in quiz_model.objects.all():
         try:
@@ -17,9 +22,10 @@ def clean_quiz_dicts(apps, schema_editor):
                 description = ast.literal_eval(quiz.description)
                 quiz.description = clean_lang_dict(description)
             quiz.save()
-        except SyntaxError as e:
-            print(e)
+        except SyntaxError:
+            pass
 
+def clean_question_model(apps):
     question_model = apps.get_model("quiz", "Question")
     for q in question_model.objects.all():
         try:
@@ -27,9 +33,10 @@ def clean_quiz_dicts(apps, schema_editor):
                 title = ast.literal_eval(q.title)
                 q.title = clean_lang_dict(title)
                 q.save()
-        except SyntaxError as e:
-            print(e)
-
+        except SyntaxError:
+            pass
+        
+def clean_response_model(apps):
     response_model = apps.get_model("quiz", "Response")
     for r in response_model.objects.all():
         try:
@@ -37,10 +44,9 @@ def clean_quiz_dicts(apps, schema_editor):
                 title = ast.literal_eval(r.title)
                 r.title = clean_lang_dict(title)
                 r.save()
-        except SyntaxError as e:
-            print(e)
-
-
+        except SyntaxError:
+            pass
+        
 def noop(app, schema_editor):
     # this migration is not reversible
     pass

@@ -32,10 +32,6 @@ class Command(BaseCommand):
         source_site = SettingProperties \
             .get_string(constants.OPPIA_HOSTNAME, None)
 
-        print(cartodb_account)
-        print(cartodb_key)
-        print(source_site)
-
         if cartodb_account is None \
                 or cartodb_key is None \
                 or source_site is None:
@@ -75,7 +71,6 @@ class Command(BaseCommand):
                     data = response.read()
 
                     data_json = json.loads(data)
-                    print(data_json)
                 time.sleep(1)
 
         # add any new points
@@ -112,5 +107,4 @@ class Command(BaseCommand):
                      urlencode(payload, quote_via=quote_plus))
                 u = urllib.request.urlopen(url)
                 data = u.read()
-                print(data)
                 time.sleep(1)

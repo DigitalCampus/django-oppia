@@ -122,8 +122,6 @@ def process_edit_gamification_post(request, course, events_formset):
             messages.success(request,
                              'Course XML updated. New version: {}'
                              .format(new_version))
-    else:
-        print(formset.errors)
 
 
 def process_gamification_formset(request, formset, form):

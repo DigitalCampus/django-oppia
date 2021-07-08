@@ -326,9 +326,6 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertValidJSON(latest_tracker.data)
         self.assertEqual(latest_tracker.data, data['data'])
 
-    @pytest.mark.xfail(reason="will fail until this issue is fixed \
-        https://github.com/DigitalCampus/django-oppia/issues/702")
-    @unittest.expectedFailure
     def test_search_empty_query(self):
         data = {
             'type': 'search',
@@ -346,9 +343,6 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
 
-    @pytest.mark.xfail(reason="will fail until this issue is fixed \
-        https://github.com/DigitalCampus/django-oppia/issues/702")
-    @unittest.expectedFailure
     def test_search_space_only_query(self):
         data = {
             'type': 'search',
@@ -366,9 +360,6 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
 
-    @pytest.mark.xfail(reason="will fail until this issue is fixed \
-        https://github.com/DigitalCampus/django-oppia/issues/702")
-    @unittest.expectedFailure
     def test_search_none_query(self):
         data = {
             'type': 'search',
@@ -386,6 +377,79 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
 
+    def test_patch_activity_search_mix_null(self):
+        activity1 = {
+            'digest': '18ec12e5653a40431f453cce35811fa4',  # page
+            'data': '{\"uuid\": \"d5f305e9-dd03-4d97-96d5-5a3c45169e02\"}'
+        }
+        activity2 = {
+            'digest': '3ec4d8ab03c3c6bd66b3805f0b11225b',  # media
+            'data': '{\"uuid\": \"baa673cb-e5fc-4797-b7e9-58a06ed80915\"}'
+        }
+        activity3 = {
+            'type': 'search',
+            'data': '{"query":"", \
+                     "results_count":8, \
+                     "uuid":"d8423742-11e6-4e2d-a6c6-6cc821a74f66"}'
+        }
+
+        data = {'objects': [activity1, activity2, activity3]}
+        tracker_count_start = Tracker.objects.all().count()
+        resp = self.api_client.patch(self.url,
+                                     format='json',
+                                     data=data,
+                                     authentication=self.get_credentials())
+        self.assertHttpOK(resp)
+        self.assertValidJSON(resp.content)
+
+        tracker_count_end = Tracker.objects.all().count()
+        self.assertEqual(tracker_count_start + 2, tracker_count_end)
+
+        response_data = self.deserialize(resp)
+        self.assertTrue('points' in response_data)
+        self.assertTrue('badges' in response_data)
+
+    def test_patch_activity_search_mix_valid(self):
+        activity1 = {
+            'digest': '18ec12e5653a40431f453cce35811fa4',  # page
+            'data': '{\"uuid\": \"d5f305e9-dd03-4d97-96d5-5a3c45169e02\"}'
+        }
+        activity2 = {
+            'digest': '3ec4d8ab03c3c6bd66b3805f0b11225b',  # media
+            'data': '{\"uuid\": \"baa673cb-e5fc-4797-b7e9-58a06ed80915\"}'
+        }
+        activity3 = {
+            'type': 'search',
+            'data': '{"query":"my query", \
+                     "results_count":8, \
+                     "uuid":"d8423742-11e6-4e2d-a6c6-6cc821a74f66"}'
+        }
+        activity4 = {
+            'type': 'login'
+        }
+        activity5 = {
+            'type': 'download'
+        }
+        activity6 = {
+            'type': 'register'
+        }
+
+        data = {'objects': [activity1, activity2, activity3, activity4, activity5, activity6]}
+        tracker_count_start = Tracker.objects.all().count()
+        resp = self.api_client.patch(self.url,
+                                     format='json',
+                                     data=data,
+                                     authentication=self.get_credentials())
+        self.assertHttpOK(resp)
+        self.assertValidJSON(resp.content)
+
+        tracker_count_end = Tracker.objects.all().count()
+        self.assertEqual(tracker_count_start + 6, tracker_count_end)
+
+        response_data = self.deserialize(resp)
+        self.assertTrue('points' in response_data)
+        self.assertTrue('badges' in response_data)
+        
     # empty bundle.data...
     @pytest.mark.xfail(reason="will fail until this issue is fixed \
         https://github.com/DigitalCampus/django-oppia/issues/703")

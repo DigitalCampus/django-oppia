@@ -111,7 +111,6 @@ def zip_course_media(zipname, media_contents):
     with zipfile.ZipFile(path, "w") as zip:
         for file in files:
             upload, filename = os.path.split(file.name)
-            print(file.path)
             zip.write(file.path, filename)
 
     return path

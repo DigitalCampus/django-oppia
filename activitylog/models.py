@@ -30,6 +30,4 @@ class UploadedActivityLog(models.Model):
 @receiver(post_delete, sender=UploadedActivityLog)
 def activity_log_delete_file(sender, instance, **kwargs):
     file_to_delete = instance.file.path
-    print("deleting ...." + file_to_delete)
     os.remove(file_to_delete)
-    print("File removed")
