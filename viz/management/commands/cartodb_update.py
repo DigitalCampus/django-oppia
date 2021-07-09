@@ -102,5 +102,5 @@ class Command(BaseCommand):
                 url = self.CARTO_DB_QUERY % \
                     (cartodb_account,
                      urlencode(payload, quote_via=quote_plus))
-                u = urllib.request.urlopen(url)
+                urllib.request.urlopen(url)
                 time.sleep(1)
