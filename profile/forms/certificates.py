@@ -4,15 +4,16 @@ from django.contrib.auth import authenticate
 from django.utils.translation import ugettext as _
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Div, HTML
+from crispy_forms.layout import Layout, Submit, Div
 
 from settings import constants
 from settings.models import SettingProperties
 
+
 class RegenerateCertificatesForm(forms.Form):
     email = forms.CharField(widget=forms.TextInput(), required=False)
     old_email = forms.CharField(widget=forms.HiddenInput(), required=False)
-    
+
     def __init__(self, *args, **kwargs):
         super(RegenerateCertificatesForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
@@ -28,8 +29,7 @@ class RegenerateCertificatesForm(forms.Form):
                     Submit('submit',
                            _(u'Regenerate Certificates'),
                            css_class='btn btn-default'),
-                    css_class='col-lg-offset-2 col-lg-4',
-    
+                    css_class='col-lg-offset-2 col-lg-4'
                 ),
             )
         else:
@@ -39,6 +39,4 @@ class RegenerateCertificatesForm(forms.Form):
                            _(u'Regenerate Certificates'),
                            css_class='btn btn-default'),
                     css_class='col-lg-offset-2 col-lg-4',
-    
-                ),
-            )
+                ))

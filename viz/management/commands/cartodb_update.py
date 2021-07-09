@@ -67,10 +67,7 @@ class Command(BaseCommand):
                     % (cartodb_account,
                        urlencode(payload, quote_via=quote_plus))
                 req = urllib.request.Request(url)
-                with urllib.request.urlopen(req) as response:
-                    data = response.read()
-
-                    data_json = json.loads(data)
+                urllib.request.urlopen(req)
                 time.sleep(1)
 
         # add any new points
@@ -106,5 +103,4 @@ class Command(BaseCommand):
                     (cartodb_account,
                      urlencode(payload, quote_via=quote_plus))
                 u = urllib.request.urlopen(url)
-                data = u.read()
                 time.sleep(1)

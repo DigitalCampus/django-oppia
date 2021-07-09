@@ -19,21 +19,21 @@ class Command(BaseCommand):
 
     OPPIA_IMPLEMENTATIONS_URL = "https://implementations.oppia-mobile.org/"
     NO_DAYS = 7
-    
+
     NO_COURSES_KEY = "NO_COURSES"
     NO_USERS_KEY = "NO_USERS"
-    
+
     def handle(self, *args, **options):
-        
+
         # if server not registered then return
         if not SettingProperties.get_bool(constants.OPPIA_SERVER_REGISTERED,
                                           False):
             return
-        
+
         # check when last sent, ignore if less than a week ago
         last_sent = SettingProperties.get_string(
             constants.OPPIA_SERVER_REGISTER_LAST_SENT, None)
-        
+
         if last_sent is not None:
             start_date = datetime.datetime.now() - datetime.timedelta(
                 days=self.NO_DAYS)
@@ -48,21 +48,21 @@ class Command(BaseCommand):
                                      timezone.now())
 
     def process_registration(self):
-        
+
         # check if has api key or not
         api_key = SettingProperties.get_string(
                 constants.OPPIA_SERVER_REGISTER_APIKEY,
                 None)
         if api_key is None:
             api_key = self.get_api_key()
-        
+
         if api_key:
             url = SettingProperties.get_string(
                 constants.OPPIA_HOSTNAME,
                 None)
             data_to_send = {'title': _(u'app_name'),
                             'server_url': url}
-            
+
             if SettingProperties.get_bool(
                     constants.OPPIA_SERVER_REGISTER_EMAIL_NOTIF,
                     False):
@@ -71,7 +71,7 @@ class Command(BaseCommand):
                     constants.OPPIA_SERVER_REGISTER_NOTIF_EMAIL_ADDRESS,
                     None)
             else:
-                data_to_send['email_notifications'] = False              
+                data_to_send['email_notifications'] = False
 
             statistics = {}
             if SettingProperties.get_bool(
@@ -79,25 +79,24 @@ class Command(BaseCommand):
                     False):
                 no_courses = Course.objects.all().count()
                 statistics[self.NO_COURSES_KEY] = no_courses
-            
+
             if SettingProperties.get_bool(
                     constants.OPPIA_SERVER_REGISTER_NO_USERS,
                     False):
                 no_users = User.objects.all().count()
                 statistics[self.NO_USERS_KEY] = no_users
-                    
+  
             data_to_send['statistics'] = statistics
-            
+
             url = self.OPPIA_IMPLEMENTATIONS_URL + "api/oppia/"
-            
+
             data = bytes(json.dumps(data_to_send), encoding='utf-8')
             req =  request.Request(url, data=data) # this will make the method "POST"
             req.add_header('Content-Type', 'application/json')
             req.add_header('Authorization', 'Api-Key ' + api_key)
 
             request.urlopen(req)
-               
-        
+
     def get_api_key(self):
         try:
             url = self.OPPIA_IMPLEMENTATIONS_URL + "get-api-key/"

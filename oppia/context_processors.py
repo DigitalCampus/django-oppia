@@ -89,10 +89,10 @@ def get_settings(request):
             last_summary_cron, constants.CRON_DATETIME_FORMAT)
         if last_summary_cron_date < start_date:
             cron_warning = True
-            
+
     server_registered = SettingProperties.get_bool(
             constants.OPPIA_SERVER_REGISTERED, False)
-    
+
     email_certificates = SettingProperties.get_bool(
             constants.OPPIA_EMAIL_CERTIFICATES, False)
 

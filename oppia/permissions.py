@@ -163,6 +163,7 @@ def can_view_course(request, course_id):
         raise Http404
     return course
 
+
 def can_download_course(request, course_id):
     try:
         if request.user.is_staff:
@@ -182,6 +183,7 @@ def can_download_course(request, course_id):
     except Course.DoesNotExist:
         raise Http404
     return course
+
 
 def can_view_course_detail(request, course_id):
     if request.user.is_staff:

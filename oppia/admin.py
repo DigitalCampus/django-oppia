@@ -16,7 +16,7 @@ from oppia.models import Badge, Award, Points, AwardCourse, BadgeMethod
 from oppia.models import CourseCohort, CoursePublishingLog
 from oppia.models import CertificateTemplate
 
-from quiz.models import Question, QuizProps, QuizQuestion
+from quiz.models import Question, QuizProps
 
 
 class TrackerAdmin(admin.ModelAdmin):
@@ -145,7 +145,7 @@ class CertificateTemplateAdmin(admin.ModelAdmin):
                            + reverse('oppia:certificate_preview',
                                      args={obj.id})
                            + ">Sample</a>")
-        
+
     def get_form(self, request, obj=None, **kwargs):
         self.instance = obj
         return super(CertificateTemplateAdmin, self).get_form(
@@ -158,14 +158,14 @@ class CertificateTemplateAdmin(admin.ModelAdmin):
                 type=Activity.FEEDBACK).values_list('digest', flat=True)
             quizzes = QuizProps.objects.filter(name='digest',
                                                value__in=feedback_activities) \
-                                               .values_list('quiz_id',
-                                                            flat=True)
+                .values_list('quiz_id',
+                             flat=True)
             kwargs['queryset'] = Question.objects.filter(
-                quizquestion__quiz__pk__in=quizzes).filter( 
+                quizquestion__quiz__pk__in=quizzes).filter(
                 (Q(type='essay') | Q(type='shortanswer')))
         return super(CertificateTemplateAdmin, self).formfield_for_foreignkey(
             db_field, request=request, **kwargs)
-    
+
     preview.short_description = "Preview/Test"
 
 

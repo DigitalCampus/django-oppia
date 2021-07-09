@@ -42,13 +42,12 @@ class CategoryResource(ModelResource):
             return Category.objects.filter(
                 courses__isnull=False,
                 coursecategory__course__is_archived=False) \
-                .filter(
-                        Q(coursecategory__course__is_draft=False) |
+                .filter(Q(coursecategory__course__is_draft=False) |
                         (Q(coursecategory__course__is_draft=True)
                          & Q(coursecategory__course__user=request.user)) |
                         (Q(coursecategory__course__is_draft=True)
-                         & Q(coursecategory__course__coursepermissions__user=
-                             request.user))
+                         & Q(coursecategory__course__coursepermissions__user \
+                             =request.user))
                         ) \
                 .distinct().order_by('-order_priority', 'name')
 

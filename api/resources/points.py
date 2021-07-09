@@ -69,7 +69,7 @@ class PointsResource(ModelResource):
             response_data['leaderboard'].append(leader_data)
 
         return JsonResponse(response_data)
-    
+
     def leaderboard(self, request, **kwargs):
 
         self.method_check(request, allowed=['get'])

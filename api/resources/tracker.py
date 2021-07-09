@@ -100,7 +100,7 @@ class TrackerResource(ModelResource):
             bundle.obj.event = bundle.data['event']
 
         return bundle
-     
+
     def obj_create(self, bundle, **kwargs):
         """
         A ORM-specific implementation of ``obj_create``.
@@ -109,11 +109,11 @@ class TrackerResource(ModelResource):
     
         for key, value in kwargs.items():
             setattr(bundle.obj, key, value)
-    
+
         self.authorized_create_detail(self.get_object_list(bundle.request),
                                       bundle)
         bundle = self.full_hydrate(bundle)
-        
+
         if bundle.obj.type == 'search':
             if not bundle.obj.data:
                 return bundle
@@ -126,7 +126,7 @@ class TrackerResource(ModelResource):
             except JSONDecodeError:
                 return bundle
         return self.save(bundle)
-   
+
     def hydrate(self, bundle, request=None):
 
         # remove any id if this is submitted - otherwise it may overwrite
