@@ -4,6 +4,7 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
+	
 {% block extra_head_title %}
 	{% trans 'Average Time Spent per User' %}
 {% endblock extra_head_title %}
@@ -20,5 +21,11 @@
 {% endblock header %}
 
 {% block content %}
-{% include "reports/includes/graph_display.html" %}
+{% include "reports/includes/seconds_to_human_graph.html" %}
+
+{% if activity_graph_data %}
+    <button class="btn btn-default btn-primary btn-sm download-csv-button" data-csv="graph_data">{% trans 'Download as CSV' %}</button>
+{% endif %}
+
+{% include "reports/includes/notes.html" %}
 {% endblock content %}

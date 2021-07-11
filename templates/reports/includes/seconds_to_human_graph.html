@@ -1,0 +1,69 @@
+{% load i18n %}
+{% load static %}
+
+{% block extra_scripts %}
+	<script src="{% static "oppia/js/oppia.chart-utils.js" %}"></script>
+	<script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
+	<script type="text/javascript">
+		var dsets = {};
+		google.charts.load('current', {packages: ['corechart']});
+		google.charts.setOnLoadCallback(drawChart);
+	
+		// adds the correct y-axis labels
+		function getTicks(){
+			ticks = [];
+			{% if max_time %}
+				 max_time = {{ max_time }};
+				 tick = {v: 0, f: '0'};
+				 ticks.push(tick);
+				 
+				 if (max_time/86400 > 1){
+					 for(i=1; i < Math.round(max_time/86400) + 1; i++){
+						 tick = {v: i*86400, f: i + ' days'};
+						 ticks.push(tick);
+					 }
+				 } else {
+					 for(i=1; i < Math.round(max_time/3600) + 1; i++){
+						 tick = {v: i*3600, f: i + ' hours'};
+						 ticks.push(tick);
+					 } 
+				 }
+			{% endif %}
+			return ticks;
+		}
+		
+		function drawChart() {
+	
+			dsets['graph_data'] = new google.visualization.DataTable();
+			dsets['graph_data'].addColumn('string', "{% trans 'Date' %}");
+			dsets['graph_data'].addColumn('number', "{% trans 'Total' %}");
+			dsets['graph_data'].addColumn({type: 'string', role: 'tooltip'});
+			
+			dsets['graph_data'].addRows( {{ activity_graph_data|length }} );
+			
+			{% for date, count, human in activity_graph_data %}
+				dsets['graph_data'].setValue({{ forloop.counter0 }}, 0, '{{ date }}');
+				dsets['graph_data'].setValue({{ forloop.counter0 }}, 1, {{ count }});
+				dsets['graph_data'].setValue({{ forloop.counter0 }}, 2, '{{ human }}');
+			{% endfor %}
+	
+	        var chart = new google.visualization.AreaChart(document.getElementById('activity_graph_div'));
+	        chart.draw(dsets['graph_data'], {	width: "100%",
+	                			height: 400,
+	                			vAxis: {minValue:0,
+	                					viewWindow: {min:0 },
+	                				    ticks: getTicks()
+	                				},
+	                			pointSize:3,
+	                			chartArea: {left:80,top:10,width:"90%",height:"75%"},
+	                			backgroundColor: 'transparent',
+	                			legend: 'none',
+	                			series: [{areaOpacity:0.2}]
+	                			});
+	      };
+	      {% include 'reports/includes/csv_export_button.html' %}
+	</script>
+	{% endblock extra_scripts %}
+	
+	
+<div id="activity_graph_div" class="graph"><img src="{% static "oppia/images/ajax-loader.gif" %}" alt="{% trans 'graph_generating' %}"/></div>
