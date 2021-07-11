@@ -277,7 +277,7 @@ def cohort_course_view(request, cohort_id, course_id):
             data = {'user': user,
                     'user_display': str(user),
                     'no_quizzes_completed': course_stats.quizzes_passed,
-                    'pretest_score': pretest_score,
+                    'pretest_score': round(pretest_score, 1),
                     'no_activities_completed':
                         course_stats.completed_activities,
                     'no_points': course_stats.points,
