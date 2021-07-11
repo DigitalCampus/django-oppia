@@ -14,11 +14,7 @@
 
 <td>{{ forloop.counter0|get_index:page_obj.start_index }}</td>
 <td>{% if OPPIA_SHOW_GRAVATARS %} {{ user|gravatar:24 }} {% endif %}
-{% if request.user.is_staff %}
     <a href="{% url 'profile:user_activity' user.id %}">{{ item.first_name }} {{ item.last_name }}</a>
-{% else %}
-    {{ item.first_name }} {{ item.last_name }}
-{% endif %}
 </td>
 <td><span title="{{ item.total  }} {% trans 'points' %}">
     {{ item.total }}</span></td>
