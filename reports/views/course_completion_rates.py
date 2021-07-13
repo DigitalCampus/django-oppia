@@ -6,8 +6,6 @@ from django.views.generic import TemplateView
 
 from oppia.models import Course
 
-from reports.signals import dashboard_accessed
-
 from summary.models import UserCourseSummary
 
 
@@ -15,7 +13,7 @@ from summary.models import UserCourseSummary
 class CourseCompletionRatesView(TemplateView):
 
     def get(self, request, course_id):
-        dashboard_accessed.send(sender=None, request=request, data=None)
+
         try:
             course = Course.objects.get(pk=course_id)
         except Course.DoesNotExist:

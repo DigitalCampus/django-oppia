@@ -9,7 +9,6 @@ from quiz.models import QuizProps, \
     Question, \
     QuizAttempt, \
     QuizAttemptResponse, Quiz
-from reports.signals import dashboard_accessed
 
 STR_CONTENT_TYPE = 'application/vnd.ms-excel;charset=utf-8'
 STR_CONTENT_DISPOSITION = "attachment; filename=export.xlsx"
@@ -91,8 +90,6 @@ def feedback_download(request, course_id, feedback_id):
                                  section__course__pk=course_id)
     can_view_course_detail(request, course_id)
 
-    dashboard_accessed.send(sender=None, request=request, data=None)
-
     prop = QuizProps.objects.get(name='digest', value=activity.digest)
     data = get_feedback_data(prop.quiz_id)
 
@@ -108,7 +105,6 @@ def old_feedback_download(request, course_id, feedback_id):
     get_object_or_404(Quiz, pk=feedback_id)
     can_view_course_detail(request, course_id)
 
-    dashboard_accessed.send(sender=None, request=request, data=None)
     data = get_feedback_data(feedback_id)
 
     response = HttpResponse(
@@ -123,7 +119,6 @@ def old_quiz_download(request, course_id, quiz_id):
     can_view_course_detail(request, course_id)
     get_object_or_404(Quiz, pk=quiz_id)
 
-    dashboard_accessed.send(sender=None, request=request, data=None)
     quiz_data = get_quiz_data(quiz_id)
     response = HttpResponse(
         quiz_data.export('xlsx'),
@@ -142,8 +137,6 @@ def quiz_download(request, course_id, quiz_id):
 
     prop = QuizProps.objects.get(name='digest', value=activity.digest)
     quiz_data = get_quiz_data(prop.quiz_id)
-
-    dashboard_accessed.send(sender=None, request=request, data=None)
 
     response = HttpResponse(
         quiz_data.export('xlsx'),

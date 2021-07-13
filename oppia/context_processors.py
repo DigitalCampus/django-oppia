@@ -4,7 +4,10 @@ import oppia
 
 from django.conf import settings
 from oppia.models import Points, Award, BadgeMethod
+
+from reports.signals import dashboard_accessed
 from reports.menu import menu_reports
+
 from settings import constants
 from settings.models import SettingProperties
 
@@ -109,3 +112,13 @@ def get_settings(request):
         'COURSE_COMPLETE_BADGE_CRITERIA_PERCENT': badge_award_method_percent,
         'SERVER_REGISTERED': server_registered,
         'OPPIA_EMAIL_CERTIFICATES': email_certificates}
+
+
+def add_dashboard_access_log(request):
+    if request.POST:
+        dashboard_accessed.send(sender=None, request=request, data=request.POST)
+    else:
+        dashboard_accessed.send(sender=None, request=request)
+        
+    return {
+        'dashboard_access_added': True }

@@ -90,8 +90,6 @@ class HomeView(TemplateView):
     def admin_authenticated(self, request):
         activity = []
 
-        dashboard_accessed.send(sender=None, request=request, data=None)
-
         start_date = timezone.now() - datetime.timedelta(
             days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
         end_date = timezone.now()
@@ -189,8 +187,6 @@ class ManagerView(TemplateView):
         # get activity
         activity = get_trackers(start_date, end_date, courses)
 
-        dashboard_accessed.send(sender=None, request=request, data=None)
-
         return render(request, 'oppia/home-manager.html',
                       {'courses': courses,
                        'activity_graph_data': activity, })
@@ -214,8 +210,6 @@ class TeacherView(TemplateView):
         courses = Course.objects \
             .filter(coursecohort__cohort__in=cohorts).distinct()
         activity = get_trackers(start_date, end_date, courses, students)
-
-        dashboard_accessed.send(sender=None, request=self.request, data=None)
 
         context['cohorts'] = cohorts
         context['activity_graph_data'] = activity

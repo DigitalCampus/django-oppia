@@ -8,7 +8,6 @@ from helpers.forms import dates
 
 from oppia import constants as oppia_constants
 from reports import constants
-from reports.signals import dashboard_accessed
 
 
 class BaseReportTemplateView(TemplateView):
@@ -24,7 +23,6 @@ class BaseReportTemplateView(TemplateView):
         data['end_date'] = end_date.strftime(
             oppia_constants.STR_DATE_FORMAT)
         form = dates.DateRangeForm(initial=data)
-        dashboard_accessed.send(sender=None, request=request, data=data)
 
         return self.process(request, form, start_date, end_date)
 
@@ -48,7 +46,6 @@ class BaseReportTemplateView(TemplateView):
         data = {}
         data['start_date'] = start_date
         data['end_date'] = end_date
-        dashboard_accessed.send(sender=None, request=request, data=data)
         return self.process(request, form, start_date, end_date)
 
     @abstractmethod

@@ -13,10 +13,9 @@ from av import handler
 from av.models import UploadedMedia
 from helpers.mixins.AjaxTemplateResponseMixin import AjaxTemplateResponseMixin
 from helpers.mixins.ListItemUrlMixin import ListItemUrlMixin
+
 from oppia.models import Media, Course
 from oppia.permissions import user_can_upload, can_view_course
-
-from reports.signals import dashboard_accessed
 
 STR_UPLOAD_MEDIA = _(u'Upload Media')
 
@@ -38,8 +37,6 @@ class AVHome(TemplateView):
             media = paginator.page(page)
         except (EmptyPage, InvalidPage):
             media = paginator.page(paginator.num_pages)
-
-        dashboard_accessed.send(sender=None, request=request, data=None)
 
         return render(request, 'av/home.html',
                       {'title': STR_UPLOAD_MEDIA,
@@ -79,8 +76,6 @@ def download_course_media(request, course_id):
 
     filename = course.shortname + "_media.zip"
     path = handler.zip_course_media(filename, media)
-
-    dashboard_accessed.send(sender=None, request=request, data=None)
 
     if path:
         with open(path, 'rb') as package:

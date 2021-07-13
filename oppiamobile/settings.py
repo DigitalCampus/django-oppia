@@ -52,7 +52,8 @@ TEMPLATES = [
                 'django.template.context_processors.i18n',
                 'oppia.context_processors.get_points',
                 'oppia.context_processors.get_version',
-                'oppia.context_processors.get_settings'
+                'oppia.context_processors.get_settings',
+                'oppia.context_processors.add_dashboard_access_log'
             ],
             'debug': True,
         },
@@ -85,6 +86,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions'
 ]
 
 TIME_ZONE = 'UTC'

@@ -9,14 +9,12 @@ from django.views.generic import TemplateView
 from profile.models import UserProfileCustomField
 
 from reports.forms import ReportGroupByForm
-from reports.signals import dashboard_accessed
 
 
 @method_decorator(staff_member_required, name='dispatch')
 class UniqueUsersView(TemplateView):
 
     def get(self, request):
-        dashboard_accessed.send(sender=None, request=request, data=None)
         user_count = User.objects.all().count()
         group_by_form = ReportGroupByForm()
         return render(request, 'reports/unique_users.html',
@@ -24,7 +22,6 @@ class UniqueUsersView(TemplateView):
                        'form': group_by_form})
 
     def post(self, request):
-        dashboard_accessed.send(sender=None, request=request, data=None)
         user_list = []
         group_by_form = ReportGroupByForm(request.POST)
         if group_by_form.is_valid():

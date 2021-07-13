@@ -12,15 +12,12 @@ from oppia.permissions import get_user, \
     can_view_course
 from profile.views.utils import get_tracker_activities
 from quiz.models import Quiz, QuizAttempt
-from reports.signals import dashboard_accessed
 from summary.models import UserCourseSummary
 
 
 def user_activity(request, user_id):
 
     view_user = get_user(request, user_id)
-
-    dashboard_accessed.send(sender=None, request=request, data=None)
 
     cohort_courses, other_courses, all_courses = get_user_courses(request,
                                                                   view_user)
@@ -92,8 +89,6 @@ def user_activity(request, user_id):
 def user_course_activity_view(request, user_id, course_id):
 
     view_user = get_user(request, user_id)
-
-    dashboard_accessed.send(sender=None, request=request, data=None)
     course = can_view_course(request, course_id)
 
     act_quizzes = Activity.objects \

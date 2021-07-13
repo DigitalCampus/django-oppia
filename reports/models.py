@@ -16,3 +16,6 @@ class DashboardAccessLog (models.Model):
     agent = models.TextField(blank=True, null=True, default=None)
     url = models.TextField(blank=True, null=True, default=None)
     data = models.TextField(blank=True, null=True, default=None)
+    
+    class Meta:
+        get_latest_by = ['pk']
