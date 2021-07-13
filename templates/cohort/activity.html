@@ -10,7 +10,13 @@
 <div class="jumbotron mb-4">
     <div class="row">
 			<div class="col-md-10">
-				<h3><a href="{% url 'oppia:cohorts' %}">{% trans 'Cohorts' %}</a> <em class="material-icons md-18 ">arrow_forward_ios</em> {{ cohort.description }}</h3>
+				<h3>
+					{% if request.user.is_staff %}
+						<a href="{% url 'oppia:cohorts' %}">{% trans 'Cohorts' %}</a>
+					{% else %}
+						<a href="{% url 'oppia:index' %}">{% trans 'Home' %}</a>
+					{% endif %}
+					<em class="material-icons md-18 ">arrow_forward_ios</em> {{ cohort.description }}</h3>
 			</div>
 			<div class="col-md-2 text-right">
 				<a href="{% url 'oppia:cohort_edit' cohort.id %}" class="btn btn-light mr-2">{% trans 'Edit' %}</a>
