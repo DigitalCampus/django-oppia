@@ -30,42 +30,30 @@ class FeedbackDownloadTest(OppiaTestCase):
                                            args=[1, 65323])
 
     def test_admin_download(self):
-        count_start = DashboardAccessLog.objects.all().count()
         self.client.force_login(self.admin_user)
         response = self.client.get(self.valid_course_valid_feedback_url)
         self.assertEqual(200, response.status_code)
         self.assertEqual(self.STR_EXPECTED_CONTENT_TYPE,
                          response['content-type'])
-        count_end = DashboardAccessLog.objects.all().count()
-        self.assertEqual(count_start+1, count_end)
 
     def test_staff_download(self):
-        count_start = DashboardAccessLog.objects.all().count()
         self.client.force_login(self.staff_user)
         response = self.client.get(self.valid_course_valid_feedback_url)
         self.assertEqual(200, response.status_code)
         self.assertEqual(self.STR_EXPECTED_CONTENT_TYPE,
                          response['content-type'])
-        count_end = DashboardAccessLog.objects.all().count()
-        self.assertEqual(count_start+1, count_end)
 
     def test_teacher_download(self):
-        count_start = DashboardAccessLog.objects.all().count()
         self.client.force_login(self.teacher_user)
         response = self.client.get(self.valid_course_valid_feedback_url)
         self.assertTemplateUsed(response, UNAUTHORISED_TEMPLATE)
         self.assertEqual(403, response.status_code)
-        count_end = DashboardAccessLog.objects.all().count()
-        self.assertEqual(count_start, count_end)
 
     def test_user_download(self):
-        count_start = DashboardAccessLog.objects.all().count()
         self.client.force_login(self.normal_user)
         response = self.client.get(self.valid_course_valid_feedback_url)
         self.assertTemplateUsed(response, UNAUTHORISED_TEMPLATE)
         self.assertEqual(403, response.status_code)
-        count_end = DashboardAccessLog.objects.all().count()
-        self.assertEqual(count_start, count_end)
 
     def test_invalid_course_valid_feedback(self):
         users = [self.admin_user,
@@ -73,12 +61,9 @@ class FeedbackDownloadTest(OppiaTestCase):
                  self.teacher_user,
                  self.normal_user]
         for user in users:
-            count_start = DashboardAccessLog.objects.all().count()
             self.client.force_login(user)
             response = self.client.get(self.invalid_course_valid_feedback_url)
             self.assertEqual(404, response.status_code)
-            count_end = DashboardAccessLog.objects.all().count()
-            self.assertEqual(count_start, count_end)
 
     def test_valid_course_invalid_feedback(self):
         users = [self.admin_user,
@@ -86,12 +71,9 @@ class FeedbackDownloadTest(OppiaTestCase):
                  self.teacher_user,
                  self.normal_user]
         for user in users:
-            count_start = DashboardAccessLog.objects.all().count()
             self.client.force_login(user)
             response = self.client.get(self.valid_course_invalid_feedback_url)
             self.assertEqual(404, response.status_code)
-            count_end = DashboardAccessLog.objects.all().count()
-            self.assertEqual(count_start, count_end)
 
     def test_invalid_course_invalid_feedback(self):
         users = [self.admin_user,
@@ -99,13 +81,10 @@ class FeedbackDownloadTest(OppiaTestCase):
                  self.teacher_user,
                  self.normal_user]
         for user in users:
-            count_start = DashboardAccessLog.objects.all().count()
             self.client.force_login(user)
             response = self.client.get(
                 self.invalid_course_invalid_feedback_url)
             self.assertEqual(404, response.status_code)
-            count_end = DashboardAccessLog.objects.all().count()
-            self.assertEqual(count_start, count_end)
 
     def test_course_feedback_mismatch(self):
         users = [self.admin_user,
@@ -113,20 +92,14 @@ class FeedbackDownloadTest(OppiaTestCase):
                  self.teacher_user,
                  self.normal_user]
         for user in users:
-            count_start = DashboardAccessLog.objects.all().count()
             self.client.force_login(user)
             response = self.client.get(self.course_feedback_mismatch_url)
             self.assertEqual(404, response.status_code)
-            count_end = DashboardAccessLog.objects.all().count()
-            self.assertEqual(count_start, count_end)
 
     def test_old_feedback_download(self):
-        count_start = DashboardAccessLog.objects.all().count()
         self.client.force_login(self.admin_user)
         response = self.client.get(reverse(self.STR_URL_OLD_FEEDBACK_TEMPLATE,
                                            args=[183, 24]))
         self.assertEqual(200, response.status_code)
         self.assertEqual(self.STR_EXPECTED_CONTENT_TYPE,
                          response['content-type'])
-        count_end = DashboardAccessLog.objects.all().count()
-        self.assertEqual(count_start+1, count_end)
