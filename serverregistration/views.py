@@ -40,28 +40,39 @@ class RegisterServerView(FormView, TitleViewMixin):
         response = super().form_valid(form)
 
         SettingProperties.set_bool(
-            constants.OPPIA_SERVER_REGISTERED, True)
+            constants.OPPIA_SERVER_REGISTERED,
+            True,
+            constants.SETTING_CATEGORY_SERVER_REGISTRATION)
 
         server_url = form.cleaned_data.get("server_url")
         SettingProperties.set_string(
-            constants.OPPIA_HOSTNAME, server_url)
+            constants.OPPIA_HOSTNAME,
+            server_url,
+            constants.SETTING_CATEGORY_SYSTEM_CONFIG)
 
         include_no_courses = form.cleaned_data.get("include_no_courses")
         SettingProperties.set_bool(
-            constants.OPPIA_SERVER_REGISTER_NO_COURSES, include_no_courses)
+            constants.OPPIA_SERVER_REGISTER_NO_COURSES,
+            include_no_courses,
+            constants.SETTING_CATEGORY_SERVER_REGISTRATION)
 
         include_no_users = form.cleaned_data.get("include_no_users")
         SettingProperties.set_bool(
-            constants.OPPIA_SERVER_REGISTER_NO_USERS, include_no_users)
+            constants.OPPIA_SERVER_REGISTER_NO_USERS,
+            include_no_users,
+            constants.SETTING_CATEGORY_SERVER_REGISTRATION)
 
         email_notifications = form.cleaned_data.get("email_notifications")
         SettingProperties.set_bool(
-            constants.OPPIA_SERVER_REGISTER_EMAIL_NOTIF, email_notifications)
+            constants.OPPIA_SERVER_REGISTER_EMAIL_NOTIF,
+            email_notifications,
+            constants.SETTING_CATEGORY_SERVER_REGISTRATION)
 
         notif_email_address = form.cleaned_data.get("notif_email_address")
         SettingProperties.set_string(
             constants.OPPIA_SERVER_REGISTER_NOTIF_EMAIL_ADDRESS,
-            notif_email_address)
+            notif_email_address,
+            constants.SETTING_CATEGORY_SERVER_REGISTRATION)
         
         
         return response

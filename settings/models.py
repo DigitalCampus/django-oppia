@@ -1,9 +1,27 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from settings import constants
 
 class SettingProperties(models.Model):
+    
+    CATEGORIES = (
+        (constants.SETTING_CATEGORY_SYSTEM, 'System'),
+        (constants.SETTING_CATEGORY_GAMIFICATION, 'Gamification'),
+        (constants.SETTING_CATEGORY_SYSTEM_CONFIG, 'System configuration'),
+        (constants.SETTING_CATEGORY_CERTIFICATION, 'Certification'),
+        (constants.SETTING_CATEGORY_ANALYTICS, 'Analytics'),
+        (constants.SETTING_CATEGORY_VISUALISATIONS, "Visualisations"),
+        (constants.SETTING_CATEGORY_APP, "App"),
+        (constants.SETTING_CATEGORY_SERVER_REGISTRATION, "Server Registration")
+    )
+    
     key = models.CharField(max_length=50, null=False, primary_key=True)
+    category = models.CharField(max_length=50,
+                                choices=CATEGORIES,
+                                blank=True,
+                                null=True,
+                                default=constants.SETTING_CATEGORY_SYSTEM)
     description = models.TextField(blank=True, null=True)
     str_value = models.CharField(max_length=200, blank=True, null=True)
     int_value = models.IntegerField(blank=True, null=True)
@@ -63,24 +81,36 @@ class SettingProperties(models.Model):
         return default_value
 
     @staticmethod
-    def set_int(property_key, value):
+    def set_int(property_key,
+                value,
+                category=constants.SETTING_CATEGORY_SYSTEM):
         prop, created = SettingProperties.objects \
             .get_or_create(key=property_key)
         prop.int_value = value
+        if prop.category == constants.SETTING_CATEGORY_SYSTEM:
+            prop.category = category
         prop.save()
 
     @staticmethod
-    def set_string(property_key, value):
+    def set_string(property_key,
+                   value,
+                   category=constants.SETTING_CATEGORY_SYSTEM):
         prop, created = SettingProperties.objects \
             .get_or_create(key=property_key)
         prop.str_value = value
+        if prop.category == constants.SETTING_CATEGORY_SYSTEM:
+            prop.category = category
         prop.save()
 
     @staticmethod
-    def set_bool(property_key, value):
+    def set_bool(property_key,
+                 value,
+                 category=constants.SETTING_CATEGORY_SYSTEM):
         prop, created = SettingProperties.objects \
             .get_or_create(key=property_key)
         prop.bool_value = value
+        if prop.category == constants.SETTING_CATEGORY_SYSTEM:
+            prop.category = category
         prop.save()
 
     @staticmethod
