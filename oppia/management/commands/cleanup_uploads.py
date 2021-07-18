@@ -34,7 +34,7 @@ class Command(BaseCommand):
                     os.remove(os.path.join(settings.COURSE_UPLOAD_DIR,
                                            filename))
                     self.stdout.write("Removed: " + filename)
-                    
+
     def remove_courses_no_file(self):
         """
         Flag up courses that don't have files
@@ -55,12 +55,14 @@ class Command(BaseCommand):
             files = os.listdir(os.path.join(settings.MEDIA_ROOT, 'courses'))
             for filename in files:
                 if os.path.isdir(
-                        os.path.join(settings.MEDIA_ROOT, 'courses', filename)):
+                        os.path.join(settings.MEDIA_ROOT,
+                                     'courses',
+                                     filename)):
                     courses = Course.objects.filter(shortname=filename)
                     if courses.count() == 0:
                         shutil.rmtree(os.path.join(settings.MEDIA_ROOT,
                                                    'courses',
                                                    filename))
                         self.stdout.write("Removed: " + filename)
-        except FileNotFoundError: # dir doesn;t exsit
+        except FileNotFoundError:  # dir doesn;t exsit
             pass

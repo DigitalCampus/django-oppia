@@ -116,9 +116,10 @@ def get_settings(request):
 
 def add_dashboard_access_log(request):
     if request.POST:
-        dashboard_accessed.send(sender=None, request=request, data=request.POST)
+        dashboard_accessed.send(sender=None,
+                                request=request,
+                                data=request.POST)
     else:
         dashboard_accessed.send(sender=None, request=request)
-        
-    return {
-        'dashboard_access_added': True }
+
+    return {'dashboard_access_added': True}

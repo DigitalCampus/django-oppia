@@ -3,8 +3,9 @@ from django.utils.translation import ugettext_lazy as _
 
 from settings import constants
 
+
 class SettingProperties(models.Model):
-    
+
     CATEGORIES = (
         (constants.SETTING_CATEGORY_SYSTEM, 'System'),
         (constants.SETTING_CATEGORY_GAMIFICATION, 'Gamification'),
@@ -15,7 +16,7 @@ class SettingProperties(models.Model):
         (constants.SETTING_CATEGORY_APP, "App"),
         (constants.SETTING_CATEGORY_SERVER_REGISTRATION, "Server Registration")
     )
-    
+
     key = models.CharField(max_length=50, null=False, primary_key=True)
     category = models.CharField(max_length=50,
                                 choices=CATEGORIES,

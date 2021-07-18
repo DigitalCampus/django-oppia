@@ -46,7 +46,7 @@ class CategoryResource(ModelResource):
                         (Q(coursecategory__course__is_draft=True)
                          & Q(coursecategory__course__user=request.user)) |
                         (Q(coursecategory__course__is_draft=True)
-                         & Q(coursecategory__course__coursepermissions__user \
+                         & Q(coursecategory__course__coursepermissions__user
                              =request.user))
                         ) \
                 .distinct().order_by('-order_priority', 'name')

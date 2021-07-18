@@ -2,15 +2,15 @@
 from __future__ import unicode_literals
 
 from django.db import migrations
-from django.utils.translation import ugettext_lazy as _
 
 from settings import constants
+
 
 # Updates the settingproperties to give default category
 def add_categories(apps, schema_editor):
 
     props = apps.get_model("settings", "SettingProperties")
-    
+
     # System config
     add_setting_category(props,
                          constants.MAX_UPLOAD_SIZE,
@@ -27,7 +27,7 @@ def add_categories(apps, schema_editor):
     add_setting_category(props,
                          constants.OPPIA_DATA_RETENTION_YEARS,
                          constants.SETTING_CATEGORY_SYSTEM_CONFIG)
-    
+
     # gamification
     add_setting_category(props,
                          constants.OPPIA_POINTS_ENABLED,
@@ -38,13 +38,13 @@ def add_categories(apps, schema_editor):
     add_setting_category(props,
                          constants.OPPIA_BADGES_PERCENT_COMPLETED,
                          constants.SETTING_CATEGORY_GAMIFICATION)
-    
+
     # certification
     add_setting_category(props,
                          constants.OPPIA_EMAIL_CERTIFICATES,
                          constants.SETTING_CATEGORY_CERTIFICATION)
-    
-    #analytics
+
+    # analytics
     add_setting_category(props,
                          constants.OPPIA_GOOGLE_ANALYTICS_ENABLED,
                          constants.SETTING_CATEGORY_ANALYTICS)
@@ -66,7 +66,7 @@ def add_categories(apps, schema_editor):
     # visualisations
     add_setting_category(props,
                          constants.OPPIA_MAP_VISUALISATION_ENABLED,
-                         constants.SETTING_CATEGORY_VISUALISATIONS)    
+                         constants.SETTING_CATEGORY_VISUALISATIONS)
     add_setting_category(props,
                          constants.OPPIA_CARTODB_ACCOUNT,
                          constants.SETTING_CATEGORY_VISUALISATIONS)
@@ -99,7 +99,7 @@ def add_categories(apps, schema_editor):
     add_setting_category(props,
                          constants.OPPIA_SERVER_REGISTER_LAST_SENT,
                          constants.SETTING_CATEGORY_SERVER_REGISTRATION)
-    
+
 
 def add_setting_category(props, key, category):
     try:
@@ -108,7 +108,7 @@ def add_setting_category(props, key, category):
         prop.save()
     except props.DoesNotExist:
         pass
-    
+
 
 class Migration(migrations.Migration):
 

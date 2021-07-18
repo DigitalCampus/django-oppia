@@ -94,7 +94,7 @@ class Points(models.Model):
                                                below)
 
         return leaderboard_data
-    
+
     @staticmethod
     def get_leaderboard_top(users_points, count_top):
 
@@ -141,14 +141,14 @@ class Points(models.Model):
         # negative start_pos not supported
         if start_pos < 0:
             start_pos = 0
-            
-        # if user is already in the top count_top + below, calculate correct 
+
+        # if user is already in the top count_top + below, calculate correct
         # start and end pos
         if request_user_position <= count_top + below:
             start_pos = count_top
             end_pos = request_user_position + below
 
-        user_above_below_points = users_points[start_pos:end_pos] 
+        user_above_below_points = users_points[start_pos:end_pos]
 
         for idx, u in enumerate(user_above_below_points):
             user = User.objects.get(pk=u['user'])

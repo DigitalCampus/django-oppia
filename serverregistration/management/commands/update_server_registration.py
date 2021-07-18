@@ -40,7 +40,7 @@ class Command(BaseCommand):
             last_sent_date = datetime.datetime.strptime(
                 last_sent, constants.CRON_DATETIME_FORMAT)
 
-        if last_sent is None or last_sent_date < start_date:        
+        if last_sent is None or last_sent_date < start_date:  
             self.process_registration()
 
         # update last sent
@@ -67,9 +67,10 @@ class Command(BaseCommand):
                     constants.OPPIA_SERVER_REGISTER_EMAIL_NOTIF,
                     False):
                 data_to_send['email_notifications'] = True
-                data_to_send['email_notif_email'] = SettingProperties.get_string(
-                    constants.OPPIA_SERVER_REGISTER_NOTIF_EMAIL_ADDRESS,
-                    None)
+                data_to_send['email_notif_email'] = \
+                    SettingProperties.get_string(
+                        constants.OPPIA_SERVER_REGISTER_NOTIF_EMAIL_ADDRESS,
+                        None)
             else:
                 data_to_send['email_notifications'] = False
 
@@ -85,13 +86,14 @@ class Command(BaseCommand):
                     False):
                 no_users = User.objects.all().count()
                 statistics[self.NO_USERS_KEY] = no_users
-  
+
             data_to_send['statistics'] = statistics
 
             url = self.OPPIA_IMPLEMENTATIONS_URL + "api/oppia/"
 
             data = bytes(json.dumps(data_to_send), encoding='utf-8')
-            req =  request.Request(url, data=data) # this will make the method "POST"
+            # this will make the method "POST"
+            req = request.Request(url, data=data)
             req.add_header('Content-Type', 'application/json')
             req.add_header('Authorization', 'Api-Key ' + api_key)
 

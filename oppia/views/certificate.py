@@ -22,7 +22,7 @@ from profile.models import CustomField, UserProfileCustomField
 
 from settings import constants
 from settings.models import SettingProperties
-    
+
 
 class PreviewCertificateView(TemplateView):
 
@@ -45,9 +45,11 @@ class ValidateCertificateView(TemplateView):
         try:
             award = Award.objects.get(validation_uuid=validation_uuid)
         except (Award.DoesNotExist, ValidationError):
-            return render(request, 'oppia/certificates/invalid.html',
-                  {'validation_uuid': validation_uuid})
+            return render(request,
+                          'oppia/certificates/invalid.html',
+                          {'validation_uuid': validation_uuid})
         course = Course.objects.filter(awardcourse__award=award).first()
-        return render(request, 'oppia/certificates/valid.html',
-                  {'award': award,
-                   'course': course})   
+        return render(request,
+                      'oppia/certificates/valid.html',
+                      {'award': award,
+                       'course': course})

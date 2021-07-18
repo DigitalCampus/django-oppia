@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
             model_name='certificatetemplate',
             name='display_name_method',
             field=models.CharField(choices=[
-                ('USER_FIRST_LAST', 
+                ('USER_FIRST_LAST',
                  'From user profile - firstname/lastname'),
                 ('REGISTRATION_FIELD', 'From registration form field'),
                 ('FEEDBACK_RESPONSE', 'From feedback response')
@@ -27,19 +27,21 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='certificatetemplate',
             name='feedback_field',
-            field=models.ForeignKey(blank=True,
-                                    default=None,
-                                    null=True,
-                                    on_delete=django.db.models.deletion.SET_NULL,
-                                    to='quiz.QuizQuestion'),
+            field=models.ForeignKey(
+                blank=True,
+                default=None,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to='quiz.QuizQuestion'),
         ),
         migrations.AddField(
             model_name='certificatetemplate',
             name='registration_form_field',
-            field=models.ForeignKey(blank=True,
-                                    default=None,
-                                    null=True,
-                                    on_delete=django.db.models.deletion.SET_NULL,
-                                    to='profile.CustomField'),
+            field=models.ForeignKey(
+                blank=True,
+                default=None,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to='profile.CustomField'),
         ),
     ]

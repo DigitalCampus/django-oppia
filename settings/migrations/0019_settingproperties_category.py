@@ -13,6 +13,15 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='settingproperties',
             name='category',
-            field=models.CharField(blank=True, choices=[('system', 'System'), ('gamification', 'Gamification'), ('system_config', 'System configuration'), ('certification', 'Certification'), ('analytics', 'Analytics'), ('visualisations', 'Visualisations'), ('app', 'App'), ('server_registration', 'Server Registration')], default='system', max_length=50, null=True),
+            field=models.CharField(blank=True, choices=[
+                ('system', 'System'),
+                ('gamification', 'Gamification'),
+                ('system_config', 'System configuration'),
+                ('certification', 'Certification'),
+                ('analytics', 'Analytics'),
+                ('visualisations', 'Visualisations'),
+                ('app', 'App'),
+                ('server_registration', 'Server Registration')],
+                default='system', max_length=50, null=True),
         ),
     ]

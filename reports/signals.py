@@ -13,7 +13,7 @@ def dashboard_accessed_callback(sender, **kwargs):
 
     if request.path.startswith("/admin") or request.path.startswith("/api"):
         return
-    
+
     data_to_store = {}
     if data:
         for d in data:

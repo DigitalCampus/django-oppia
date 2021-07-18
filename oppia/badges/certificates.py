@@ -22,6 +22,7 @@ from profile.models import CustomField, UserProfileCustomField
 from settings import constants
 from settings.models import SettingProperties
 
+
 def generate_certificate_pdf(display_name,
                              certificate_template_id,
                              date,
@@ -30,12 +31,12 @@ def generate_certificate_pdf(display_name,
     buffer = io.BytesIO()
 
     img = Image.open(cert_template.image_file.path)
-    w,h = img.size
-    
+    w, h = img.size
+
     # Create the PDF object
     if w > h:
         cert = canvas.Canvas(buffer, pagesize=landscape(A4))
-    else: 
+    else:
         cert = canvas.Canvas(buffer, pagesize=portrait(A4))
     cert.setTitle(cert_template.course.get_title())
 
@@ -62,11 +63,11 @@ def generate_certificate_pdf(display_name,
         cert.drawCentredString(cert_template.date_x,
                                cert_template.date_y,
                                date)
-        
+
     host = SettingProperties.get_string(constants.OPPIA_HOSTNAME, '')
     url_path = reverse('oppia:certificate_validate',
-                       args=[validation_uuid]) 
-     
+                       args=[validation_uuid])
+
     validation_link = host + url_path
 
     # add url
@@ -75,13 +76,14 @@ def generate_certificate_pdf(display_name,
         cert.drawCentredString(cert_template.validation_x,
                                cert_template.validation_y,
                                "Verify certificate: " + validation_link)
-    
+
     # add QR Code
-    if cert_template.validation == CertificateTemplate.VALIDATION_OPTION_QRCODE: 
+    if cert_template.validation == \
+            CertificateTemplate.VALIDATION_OPTION_QRCODE:
         qr_img = qrcode.make(validation_link)
         maxsize = (60, 60)
         qr_img.thumbnail(maxsize, Image.ANTIALIAS)
-        
+
         bytes_in = io.BytesIO()
         qr_img.save(bytes_in, format='png')
         bytes_in.seek(0)
@@ -93,7 +95,6 @@ def generate_certificate_pdf(display_name,
         cert.drawCentredString(cert_template.validation_x + 28,
                                cert_template.validation_y - 5,
                                (u"Verify Certificate"))
-        
 
     cert.showPage()
     cert.save()

@@ -73,6 +73,5 @@ class RegisterServerView(FormView, TitleViewMixin):
             constants.OPPIA_SERVER_REGISTER_NOTIF_EMAIL_ADDRESS,
             notif_email_address,
             constants.SETTING_CATEGORY_SERVER_REGISTRATION)
-        
-        
+
         return response

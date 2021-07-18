@@ -106,7 +106,7 @@ class TrackerResource(ModelResource):
         A ORM-specific implementation of ``obj_create``.
         """
         bundle.obj = self._meta.object_class()
-    
+
         for key, value in kwargs.items():
             setattr(bundle.obj, key, value)
 

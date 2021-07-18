@@ -17,8 +17,8 @@ class Migration(migrations.Migration):
             field=models.CharField(choices=[('NONE', 'None'),
                                             ('QRCODE', 'QR Code'),
                                             ('URL', 'URL')],
-                                            default='NONE',
-                                            max_length=10),
+                                   default='NONE',
+                                   max_length=10),
         ),
         migrations.AddField(
             model_name='certificatetemplate',
@@ -33,9 +33,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='certificatetemplate',
             name='image_file',
-            field=models.ImageField(help_text='Use a .png image of 842px by \
-            595px (at 72dpi), or use equivalent dimension ratio for higher dpi',
-            upload_to='certificate/templates',
-            validators=[oppia.models.badges.CertificateTemplate.validate_image]),
+            field=models.ImageField(
+                help_text='Use a .png image of 842px by 595px (at 72dpi), or \
+                use equivalent dimension ratio for higher dpi',
+                upload_to='certificate/templates',
+                validators=[
+                    oppia.models.badges.CertificateTemplate.validate_image]),
         ),
     ]

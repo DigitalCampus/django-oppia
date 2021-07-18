@@ -27,7 +27,7 @@ class Command(BaseCommand):
             action='store_true',
             help='regenerate all certificates for all users',
         )
-        
+
         # Optional argument to regenerate for individual user
         parser.add_argument(
             '--user',
@@ -57,15 +57,15 @@ class Command(BaseCommand):
 
             for award in awards:
                 result = self.create_certificate(ct, award)
-                
+
                 # Email certificate if enabled
                 if result and SettingProperties.get_bool(
                         constants.OPPIA_EMAIL_CERTIFICATES, False) \
                         and not options['allcerts']:
                     self.email_certificate(award)
-            
+
     def create_certificate(self, ct, award):
-        date_str = award.award_date.strftime("%d %b %Y") 
+        date_str = award.award_date.strftime("%d %b %Y")
         valid, display_name = ct.display_name(award.user)
         if not valid:
             return False
@@ -73,7 +73,7 @@ class Command(BaseCommand):
                                           ct.id,
                                           date_str,
                                           award.validation_uuid)
-        
+
         buffer.seek(0)
         filename = "certificate-%s-%s.pdf" % (award.user.username,
                                               ct.course.shortname)
@@ -83,11 +83,11 @@ class Command(BaseCommand):
         award.save()
         buffer.close()
         return True
-        
+
     def email_certificate(self, award):
         # check user has email address
         course = Course.objects.filter(awardcourse__award=award).first()
-        
+
         if award.user.email and not award.emailed:
             emailer.send_oppia_email(
                     template_html='emails/certificate_awarded.html',
