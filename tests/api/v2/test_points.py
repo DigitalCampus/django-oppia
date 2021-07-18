@@ -83,7 +83,7 @@ class PointsResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertValidJSON(response.content)
         json_data = json.loads(response.content)
         self.assertEqual(21, len(json_data['leaderboard']))
-        
+
     # Check bottom of top users
     def test_get_leaderboard_filtered_position20_user(self):
         auth_header = self.create_apikey(username="user3263",
@@ -106,7 +106,7 @@ class PointsResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertValidJSON(response.content)
         json_data = json.loads(response.content)
         self.assertEqual(41, len(json_data['leaderboard']))
-        
+
     def test_get_leaderboard_filtered_position40_user(self):
         auth_header = self.create_apikey(username="user4351",
                                          api_key="1234")
@@ -128,7 +128,7 @@ class PointsResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertValidJSON(response.content)
         json_data = json.loads(response.content)
         self.assertEqual(61, len(json_data['leaderboard']))
-    
+
     def test_get_leaderboard_filtered_position2000_user(self):
         auth_header = self.create_apikey(username="user4398",
                                          api_key="1234")
@@ -138,8 +138,8 @@ class PointsResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertHttpOK(response)
         self.assertValidJSON(response.content)
         json_data = json.loads(response.content)
-        self.assertEqual(61, len(json_data['leaderboard'])) 
-          
+        self.assertEqual(61, len(json_data['leaderboard']))
+
     def test_get_leaderboard_filtered_position2017_user(self):
         auth_header = self.create_apikey(username="user4234",
                                          api_key="1234")
@@ -148,9 +148,9 @@ class PointsResourceTest(ResourceTestCaseMixin, TestCase):
                                        authentication=auth_header)
         self.assertHttpOK(response)
         self.assertValidJSON(response.content)
-        json_data = json.loads(response.content)    
-        self.assertEqual(60, len(json_data['leaderboard']))  
-        
+        json_data = json.loads(response.content)
+        self.assertEqual(60, len(json_data['leaderboard']))
+
     # position 2037 is last
     def test_get_leaderboard_filtered_position2037_user(self):
         auth_header = self.create_apikey(username="user3169",

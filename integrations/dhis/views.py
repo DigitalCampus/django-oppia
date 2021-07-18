@@ -87,7 +87,7 @@ def create_csv(year, month):
                                                 user__id=user['user'],
                                                 completed=True,
                                                 type='quiz').count()
-        
+
         try:
             username = User.objects.get(pk=user['user']).username
             data.append(

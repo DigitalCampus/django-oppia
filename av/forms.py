@@ -76,7 +76,7 @@ class UploadMediaForm(forms.Form):
                 'media_file':
                     mark_safe(
                         _(u"This media file has already been uploaded. \
-                          <a href='%s'>View the original upload</a>." 
+                          <a href='%s'>View the original upload</a>."
                           % media.first().file.url)),
                 })
         return cleaned_data

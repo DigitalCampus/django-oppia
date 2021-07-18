@@ -92,7 +92,7 @@ class QuizDownloadTest(OppiaTestCase):
             self.client.force_login(user)
             response = self.client.get(self.course_quiz_mismatch_url)
             self.assertEqual(404, response.status_code)
-    
+
     def test_old_quiz_download(self):
         self.client.force_login(self.admin_user)
         response = self.client.get(reverse(self.STR_URL_OLD_QUIZ_TEMPLATE,

@@ -22,16 +22,18 @@ class ServerRegistrationUpdateTest(OppiaTestCase):
                 'tests/test_course_permissions.json',
                 'tests/test_viz.json']
 
-    update_valid_response = './oppia/fixtures/tests/implementations/201_created.json'
-    get_api_key_valid_response = './oppia/fixtures/tests/implementations/api_key_created.json'
+    imp_site_url = "https://implementations.oppia-mobile.org"
+    update_valid_response = \
+        './oppia/fixtures/tests/implementations/201_created.json'
+    get_api_key_valid_response = \
+        './oppia/fixtures/tests/implementations/api_key_created.json'
     update_uri_regex = re.compile(
-        "https://implementations.oppia-mobile.org/api/oppia/?(?:&?[^=&]*=[^=&]*)*")
+        imp_site_url + "/api/oppia/?(?:&?[^=&]*=[^=&]*)*")
     get_api_key_uri_regex = re.compile(
-        "https://implementations.oppia-mobile.org/get-api-key/?(?:&?[^=&]*=[^=&]*)*")
-    
+        imp_site_url + "/get-api-key/?(?:&?[^=&]*=[^=&]*)*")
+
     STR_COMMAND = 'update_server_registration'
-        
-        
+
     @httpretty.activate
     def test_update_server_registered(self):
         api_key_response = get_file_contents(self.get_api_key_valid_response)
@@ -42,7 +44,7 @@ class ServerRegistrationUpdateTest(OppiaTestCase):
         httpretty.register_uri(httpretty.POST,
                                self.update_uri_regex,
                                body=update_response)
-        
+
         SettingProperties.set_bool(constants.OPPIA_SERVER_REGISTERED, True)
         SettingProperties.set_bool(constants.OPPIA_SERVER_REGISTER_EMAIL_NOTIF,
                                    True)
@@ -52,12 +54,12 @@ class ServerRegistrationUpdateTest(OppiaTestCase):
                                    True)
         out = StringIO()
         call_command(self.STR_COMMAND, stdout=out)
-        
+
         # check api key matches the one returned
         api_key = SettingProperties.get_property(
             constants.OPPIA_SERVER_REGISTER_APIKEY, '')
         self.assertEqual('AwZfRgB.rxpVnadfn8K6sgY8qYOp8', api_key)
-    
+
     @httpretty.activate
     def test_update_server_unregistered(self):
         api_key_response = get_file_contents(self.get_api_key_valid_response)
@@ -70,12 +72,12 @@ class ServerRegistrationUpdateTest(OppiaTestCase):
                                body=update_response)
         out = StringIO()
         call_command(self.STR_COMMAND, stdout=out)
-        
+
         # check api key matches the one returned
         api_key = SettingProperties.get_property(
             constants.OPPIA_SERVER_REGISTER_APIKEY, '')
         self.assertEqual('', api_key)
-            
+
     @httpretty.activate
     def test_update_server_last_updated(self):
         api_key_response = get_file_contents(self.get_api_key_valid_response)
@@ -91,7 +93,7 @@ class ServerRegistrationUpdateTest(OppiaTestCase):
                                      timezone.now())
         out = StringIO()
         call_command(self.STR_COMMAND, stdout=out)
-        
+
     @httpretty.activate
     def test_update_server_last_over_week_ago(self):
         api_key_response = get_file_contents(self.get_api_key_valid_response)
@@ -103,12 +105,10 @@ class ServerRegistrationUpdateTest(OppiaTestCase):
                                self.update_uri_regex,
                                body=update_response)
         SettingProperties.set_bool(constants.OPPIA_SERVER_REGISTERED, True)
-        
+
         last_sent = timezone.now() - datetime.timedelta(days=10)
 
         SettingProperties.set_string(constants.OPPIA_SERVER_REGISTER_LAST_SENT,
                                      last_sent)
         out = StringIO()
         call_command(self.STR_COMMAND, stdout=out)
-        
-    

@@ -6,7 +6,7 @@ from oppia.test import OppiaTestCase
 
 
 class CertificateViewTest(OppiaTestCase):
-    
+
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
@@ -21,7 +21,6 @@ class CertificateViewTest(OppiaTestCase):
     STR_VALID_TEMPLATE = "oppia/certificates/valid.html"
     STR_INVALID_TEMPLATE = "oppia/certificates/invalid.html"
 
-            
     def test_certificate_valid_logged_in(self):
         self.client.force_login(user=self.staff_user)
         response = self.client.get(

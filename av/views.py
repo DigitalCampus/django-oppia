@@ -43,7 +43,6 @@ class AVHome(TemplateView):
                        'page': media})
 
 
-
 class CourseMediaList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
 
     template_name = 'course/media/list.html'

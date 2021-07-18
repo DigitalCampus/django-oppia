@@ -15,9 +15,9 @@ from summary.models import DailyActiveUser
 
 @method_decorator(staff_member_required, name='dispatch')
 class DownloadTimeSpentView(BaseReportTemplateView):
-    
+
     def process(self, request, form, start_date, end_date):
-        
+
         headers = ('date',
                    'user_id',
                    'username',
@@ -26,11 +26,11 @@ class DownloadTimeSpentView(BaseReportTemplateView):
                    'time_spent')
         data = []
         data = tablib.Dataset(*data, headers=headers)
-        
+
         # get all the users who have some time spent in a day
         active_users_days = DailyActiveUser.objects.filter(
             type=DailyActiveUser.TRACKER)
-        
+
         for aud in active_users_days:
             data.append(
                         (
@@ -42,12 +42,10 @@ class DownloadTimeSpentView(BaseReportTemplateView):
                            aud.time_spent
                         )
                     )
-            
+
         response = HttpResponse(data.csv,
                                 content_type='application/text;charset=utf-8')
         response['Content-Disposition'] = \
             "attachment; filename=time_tracking.csv"
 
         return response
-        
-        

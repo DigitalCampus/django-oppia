@@ -376,7 +376,7 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertValidJSON(resp.content)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
-        
+
     def test_search_no_data(self):
         data = {
             'type': 'search',
@@ -390,7 +390,7 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertValidJSON(resp.content)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
-        
+
     def test_search_invalid_json(self):
         data = {
             'type': 'search',
@@ -465,7 +465,8 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
             'type': 'register'
         }
 
-        data = {'objects': [activity1, activity2, activity3, activity4, activity5, activity6]}
+        data = {'objects': [activity1, activity2, activity3,
+                            activity4, activity5, activity6]}
         tracker_count_start = Tracker.objects.all().count()
         resp = self.api_client.patch(self.url,
                                      format='json',
@@ -480,7 +481,7 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         response_data = self.deserialize(resp)
         self.assertTrue('points' in response_data)
         self.assertTrue('badges' in response_data)
-        
+
     # empty bundle.data...
     @pytest.mark.xfail(reason="will fail until this issue is fixed \
         https://github.com/DigitalCampus/django-oppia/issues/703")

@@ -15,10 +15,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='dailyactiveuser',
             name='course',
-            field=models.ForeignKey(blank=True,
-                                    default=None,
-                                    null=True,
-                                    on_delete=django.db.models.deletion.CASCADE,
-                                    to='oppia.Course'),
+            field=models.ForeignKey(
+                blank=True,
+                default=None,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to='oppia.Course'),
         ),
     ]

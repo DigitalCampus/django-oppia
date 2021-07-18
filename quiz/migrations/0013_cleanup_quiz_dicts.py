@@ -11,6 +11,7 @@ def clean_quiz_dicts(apps, schema_editor):
     clean_question_model(apps)
     clean_response_model(apps)
 
+
 def clean_quiz_model(apps):
     quiz_model = apps.get_model("quiz", "Quiz")
     for quiz in quiz_model.objects.all():
@@ -25,6 +26,7 @@ def clean_quiz_model(apps):
         except SyntaxError:
             pass
 
+
 def clean_question_model(apps):
     question_model = apps.get_model("quiz", "Question")
     for q in question_model.objects.all():
@@ -35,7 +37,8 @@ def clean_question_model(apps):
                 q.save()
         except SyntaxError:
             pass
-        
+
+
 def clean_response_model(apps):
     response_model = apps.get_model("quiz", "Response")
     for r in response_model.objects.all():
@@ -46,7 +49,8 @@ def clean_response_model(apps):
                 r.save()
         except SyntaxError:
             pass
-        
+
+
 def noop(app, schema_editor):
     # this migration is not reversible
     pass

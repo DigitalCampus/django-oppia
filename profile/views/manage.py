@@ -181,7 +181,7 @@ class UploadUsers(AdminRequiredMixin, FormView):
         context = super().get_context_data(**kwargs)
         context["custom_fields"] = CustomField.objects.all().order_by('order')
         return context
-    
+
     def process_upload_user_file(self, csv_file, required_fields):
         results = []
         try:
@@ -214,7 +214,8 @@ class UploadUsers(AdminRequiredMixin, FormView):
         return results
 
     def process_upload_file_save_user(self, row):
-        user, user_created = User.objects.get_or_create(username=row['username'])
+        user, user_created = User.objects.get_or_create(
+            username=row['username'])
         user.first_name = row['firstname']
         user.last_name = row['lastname']
 
@@ -235,7 +236,7 @@ class UploadUsers(AdminRequiredMixin, FormView):
 
         # update CustomFields
         self.update_custom_fields(user, row)
-        
+
         result = {
             'created': user_created,
             'username': row['username'],
@@ -248,20 +249,21 @@ class UploadUsers(AdminRequiredMixin, FormView):
             result['message'] = _(u'User updated with password: %s' % password)
         else:
             result['message'] = _(u'User updated')
-            
+
         return result
-    
+
     def update_user_profile(self, user, row):
         up, created = UserProfile.objects.get_or_create(user=user)
         for col_name in row:
             setattr(up, col_name, row[col_name])
         up.save()
-        
+
     def update_custom_fields(self, user, row):
         custom_fields = CustomField.objects.all()
         for cf in custom_fields:
             if cf.id in row:
-                upcf, created = UserProfileCustomField.objects.get_or_create(user=user, key_name=cf)
+                upcf, created = UserProfileCustomField.objects.get_or_create(
+                    user=user, key_name=cf)
                 if cf.type == 'bool':
                     upcf.value_bool = row[cf.id]
                 elif cf.type == 'int':

@@ -46,10 +46,10 @@ class ContextProcessorTest(OppiaTestCase):
             dal_start_count = DashboardAccessLog.objects.all().count()
             self.client.post(reverse('oppia:index'),
                              follow=True,
-                             data={'test':'mytest'})
+                             data={'test': 'mytest'})
             dal_end_count = DashboardAccessLog.objects.all().count()
             self.assertEqual(dal_start_count+1, dal_end_count)
-            
+
     # admin pages get
     def test_get_admin(self):
         dal_start_count = DashboardAccessLog.objects.all().count()
@@ -58,9 +58,9 @@ class ContextProcessorTest(OppiaTestCase):
         dal_end_count = DashboardAccessLog.objects.all().count()
         # shouldn't add a log for admin
         self.assertEqual(dal_start_count, dal_end_count)
-    
+
     # admin pages post
-    
+
     # api pages
-    
+
     # sensitive info

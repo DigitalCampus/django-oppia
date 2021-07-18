@@ -7,7 +7,7 @@ from oppia.test import OppiaTestCase
 
 
 class BadgesModelTest(OppiaTestCase):
-    
+
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
@@ -15,11 +15,12 @@ class BadgesModelTest(OppiaTestCase):
                 'tests/test_course_permissions.json',
                 'default_badges.json']
     url = reverse("admin:oppia_certificatetemplate_add")
-    
+
     def test_certificate_portrait_valid(self):
         count_start = CertificateTemplate.objects.all().count()
         self.client.force_login(self.admin_user)
-        with open('./oppia/fixtures/reference_files/certificate_templates/certificate_portrait_valid.png', 'rb') \
+        with open('./oppia/fixtures/reference_files/certificate_templates/' +
+                  'certificate_portrait_valid.png', 'rb') \
                 as cert_file:
             self.client.post(self.url, {
                 'course': 1,
@@ -35,7 +36,8 @@ class BadgesModelTest(OppiaTestCase):
                 'validation': 'NONE',
                 'validation_x': 0,
                 'validation_y': 0,
-                'display_name_method': CertificateTemplate.DISPLAY_NAME_METHOD_USER_FIRST_LAST
+                'display_name_method':
+                    CertificateTemplate.DISPLAY_NAME_METHOD_USER_FIRST_LAST
                 })
         count_end = CertificateTemplate.objects.all().count()
         self.assertEqual(count_start+1, count_end)
@@ -43,7 +45,8 @@ class BadgesModelTest(OppiaTestCase):
     def test_certificate_portrait_invalid(self):
         count_start = CertificateTemplate.objects.all().count()
         self.client.force_login(self.admin_user)
-        with open('./oppia/fixtures/reference_files/certificate_templates/certificate_portrait_invalid.png', 'rb') \
+        with open('./oppia/fixtures/reference_files/certificate_templates/' +
+                  'certificate_portrait_invalid.png', 'rb') \
                 as cert_file:
             self.client.post(self.url, {
                 'course': 1,
@@ -63,11 +66,12 @@ class BadgesModelTest(OppiaTestCase):
         self.assertRaises(ValidationError)
         count_end = CertificateTemplate.objects.all().count()
         self.assertEqual(count_start, count_end)
-        
+
     def test_certificate_landscape_valid(self):
         count_start = CertificateTemplate.objects.all().count()
         self.client.force_login(self.admin_user)
-        with open('./oppia/fixtures/reference_files/certificate_templates/certificate_landscape_valid.png', 'rb') \
+        with open('./oppia/fixtures/reference_files/certificate_templates/' +
+                  'certificate_landscape_valid.png', 'rb') \
                 as cert_file:
             self.client.post(self.url, {
                 'course': 1,
@@ -83,7 +87,8 @@ class BadgesModelTest(OppiaTestCase):
                 'validation': 'NONE',
                 'validation_x': 0,
                 'validation_y': 0,
-                'display_name_method': CertificateTemplate.DISPLAY_NAME_METHOD_USER_FIRST_LAST
+                'display_name_method':
+                    CertificateTemplate.DISPLAY_NAME_METHOD_USER_FIRST_LAST
                 })
         count_end = CertificateTemplate.objects.all().count()
         self.assertEqual(count_start+1, count_end)
@@ -91,7 +96,8 @@ class BadgesModelTest(OppiaTestCase):
     def test_certificate_landscape_invalid(self):
         count_start = CertificateTemplate.objects.all().count()
         self.client.force_login(self.admin_user)
-        with open('./oppia/fixtures/reference_files/certificate_templates/certificate_landscape_invalid.png', 'rb') \
+        with open('./oppia/fixtures/reference_files/certificate_templates/' +
+                  'certificate_landscape_invalid.png', 'rb') \
                 as cert_file:
             self.client.post(self.url, {
                 'course': 1,
@@ -111,4 +117,3 @@ class BadgesModelTest(OppiaTestCase):
         self.assertRaises(ValidationError)
         count_end = CertificateTemplate.objects.all().count()
         self.assertEqual(count_start, count_end)
-

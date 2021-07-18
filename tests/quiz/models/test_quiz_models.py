@@ -81,9 +81,10 @@ class QuizModelsTest(OppiaTestCase):
 
     def test_question_title_valid(self):
         question = Question.objects.get(pk=20)
-        expected = "Antenatal Care Part 1 > Focused antenatal care focuses on the pregnant woman alone."
+        expected = "Antenatal Care Part 1 > Focused antenatal care " + \
+            "focuses on the pregnant woman alone."
         self.assertEqual(expected, str(question))
-    
+
     def test_question_title_no_quiz_props(self):
         question = Question(title='{"fi": "kysymykseni"}')
         question.save()
@@ -94,8 +95,8 @@ class QuizModelsTest(OppiaTestCase):
     def test_question_title_no_course(self):
         Course.objects.all().delete()
         question = Question.objects.get(pk=20)
-        
-        expected = "Focused antenatal care focuses on the pregnant woman alone."
+        expected = "Focused antenatal care focuses on the pregnant woman " + \
+            "alone."
         self.assertEqual(expected, question.get_title())
         self.assertEqual(expected, str(question))
 

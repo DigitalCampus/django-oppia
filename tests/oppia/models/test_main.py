@@ -187,7 +187,7 @@ class MainModelsCoreTest(OppiaTestCase):
         self.assertEqual(4, len(media.get_event_points()['events']))
         media_started_event = media.get_event_points()['events'][0]
         self.assertEqual(100, media_started_event.points)
-        
+
     '''
     TRACKER Model
     '''
@@ -200,7 +200,7 @@ class MainModelsCoreTest(OppiaTestCase):
         user = User.objects.get(pk=2)
         no_views = Tracker.activity_views(user, Activity.PAGE)
         self.assertEqual(247, no_views)
-    
+
     def test_tracker_activity_views_start_date(self):
         user = User.objects.get(pk=2)
         naive = datetime.datetime(2017, 1, 1, 0, 0)
@@ -210,17 +210,17 @@ class MainModelsCoreTest(OppiaTestCase):
                                           Activity.PAGE,
                                           start_date=start_date)
         self.assertEqual(46, no_views)
-    
+
     def test_tracker_activity_views_end_date(self):
         user = User.objects.get(pk=2)
         naive = datetime.datetime(2017, 1, 1, 0, 0)
         end_date = make_aware(naive,
-                                timezone=pytz.timezone(self.STR_TIMEZONE))
+                              timezone=pytz.timezone(self.STR_TIMEZONE))
         no_views = Tracker.activity_views(user,
                                           Activity.PAGE,
                                           end_date=end_date)
         self.assertEqual(201, no_views)
-    
+
     def test_tracker_activity_views_start_end_date(self):
         user = User.objects.get(pk=2)
         naive = datetime.datetime(2000, 1, 1, 0, 0)
@@ -228,13 +228,13 @@ class MainModelsCoreTest(OppiaTestCase):
                                 timezone=pytz.timezone(self.STR_TIMEZONE))
         naive = datetime.datetime(2016, 1, 1, 0, 0)
         end_date = make_aware(naive,
-                                timezone=pytz.timezone(self.STR_TIMEZONE))
+                              timezone=pytz.timezone(self.STR_TIMEZONE))
         no_views = Tracker.activity_views(user,
                                           Activity.PAGE,
                                           start_date=start_date,
                                           end_date=end_date)
         self.assertEqual(79, no_views)
-    
+
     def test_tracker_activity_views_course(self):
         user = User.objects.get(pk=2)
         course = Course.objects.get(pk=1)

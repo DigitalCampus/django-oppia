@@ -6,6 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from oppia.models import Course
 
+
 class DailyActiveUsers(models.Model):
     day = models.DateField(blank=False,
                            null=False)

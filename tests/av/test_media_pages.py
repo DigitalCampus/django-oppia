@@ -37,6 +37,3 @@ class AVPagesViewTest(OppiaTestCase):
         response = self.client.get(self.index_url + "?page=999")
         self.assertTemplateUsed(response, self.index_template)
         self.assertEqual(response.status_code, 200)
-
-
-

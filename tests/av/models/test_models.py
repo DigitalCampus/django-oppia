@@ -22,8 +22,6 @@ class AVModelsTest(OppiaTestCase):
         self.assertEqual('sample_video.m4v',
                          um.filename())
 
-
-
     def test_uploadedmedia_file_missing_new_delete(self):
         um = UploadedMedia.objects.create(create_user=self.admin_user,
                                           update_user=self.admin_user,

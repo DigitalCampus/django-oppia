@@ -22,7 +22,7 @@ class SafePaginatorMixin(object):
         page = self.kwargs.get(page_kwarg) \
             or self.request.GET.get(page_kwarg) or 1
         try:
-            page_number = int(page)
+            int(page)
         except ValueError:
             self.kwargs[page_kwarg] = "last"
 

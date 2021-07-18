@@ -51,23 +51,25 @@ class Question(models.Model):
                     question_title = titles[temp_lang]
         except json.JSONDecodeError:
             pass
-       
+
         return question_title
 
     def get_course(self):
         from oppia.models import Course
         from quiz.models.quiz_models import QuizProps
         try:
-            quiz_digest = QuizProps.objects.get(quiz__quizquestion__question=self,
-                                                name='digest')
+            quiz_digest = QuizProps.objects.get(
+                quiz__quizquestion__question=self,
+                name='digest')
         except QuizProps.DoesNotExist:
             return None
         try:
-            course = Course.objects.get(section__activity__digest=quiz_digest.value)
+            course = Course.objects.get(
+                section__activity__digest=quiz_digest.value)
         except Course.DoesNotExist:
             return None
         return course
-    
+
     def get_no_responses(self):
         from quiz.models.quiz_models import QuizAttemptResponse
         return QuizAttemptResponse.objects.filter(

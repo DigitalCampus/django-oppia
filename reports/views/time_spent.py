@@ -24,8 +24,10 @@ def seconds_to_hours(seconds):
     for unit, div in TIME_DURATION_UNITS:
         amount, seconds = divmod(int(seconds), div)
         if amount > 0:
-            parts.append('{} {}{}'.format(amount, unit, "" if amount == 1 else "s"))
+            parts.append('{} {}{}'
+                         .format(amount, unit, "" if amount == 1 else "s"))
     return ', '.join(parts)
+
 
 @method_decorator(staff_member_required, name='dispatch')
 class AverageTimeSpentView(BaseReportTemplateView):
@@ -54,8 +56,7 @@ class AverageTimeSpentView(BaseReportTemplateView):
         return render(request, 'reports/average_time_spent.html',
                       {'activity_graph_data': data,
                        'form': form,
-                       'max_time': max_time })
-
+                       'max_time': max_time})
 
 
 @method_decorator(staff_member_required, name='dispatch')
@@ -74,7 +75,7 @@ class TotalTimeSpentView(BaseReportTemplateView):
                 if time_spent > max_time:
                     max_time = time_spent
                 data.append([temp.strftime(
-                    oppia_constants.STR_DATE_DISPLAY_FORMAT), 
+                    oppia_constants.STR_DATE_DISPLAY_FORMAT),
                     int(round(time_spent)),
                     seconds_to_hours(int(round(time_spent)))])
             except DailyActiveUsers.DoesNotExist:
@@ -84,4 +85,4 @@ class TotalTimeSpentView(BaseReportTemplateView):
         return render(request, 'reports/total_time_spent.html',
                       {'activity_graph_data': data,
                        'form': form,
-                       'max_time': max_time })
+                       'max_time': max_time})

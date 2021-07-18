@@ -119,19 +119,20 @@ class Command(BaseCommand):
 
         if last_tracker_pk == 0:
             UserCourseSummary.objects.all().delete()
-            
+
         user_courses = Tracker.objects \
             .filter(pk__gt=last_tracker_pk, pk__lte=newest_tracker_pk) \
             .exclude(course__isnull=True) \
             .values('course', 'user').distinct()
 
         total_users = user_courses.count()
-        self.stdout.write('%d different user/courses to process.' % total_users)
+        self.stdout.write('%d different user/courses to process.'
+                          % total_users)
 
         count = 1
         for uc_tracker in user_courses:
-            self.stdout.write('processing user/course trackers... (%d/%d)' % (count,
-                                                                  total_users))
+            self.stdout.write('processing user/course trackers... (%d/%d)'
+                              % (count, total_users))
             try:
                 user = User.objects.get(pk=uc_tracker['user'])
             except User.DoesNotExist:
@@ -146,7 +147,7 @@ class Command(BaseCommand):
                 newest_points_pk=newest_points_pk)
             count += 1
 
-    # Updates the CourseDailyStats model 
+    # Updates the CourseDailyStats model
     def update_course_daily_stats(self,
                                   last_tracker_pk=0,
                                   newest_tracker_pk=0):
@@ -166,7 +167,8 @@ class Command(BaseCommand):
             .order_by('day')
 
         total_logs = course_daily_type_logs.count()
-        self.stdout.write('%d different courses/dates/types to process.' % total_logs)
+        self.stdout.write('%d different courses/dates/types to process.'
+                          % total_logs)
         count = 0
         for type_log in course_daily_type_logs:
             course = Course.objects.get(pk=type_log['course'])
@@ -179,8 +181,8 @@ class Command(BaseCommand):
             stats.save()
 
             count += 1
-            self.stdout.write(str(count)) 
-            
+            self.stdout.write(str(count))
+
         # get different (distinct) search logs involved
         search_daily_logs = Tracker.objects \
             .filter(pk__gt=last_tracker_pk,
@@ -195,7 +197,7 @@ class Command(BaseCommand):
             .order_by('day')
 
         self.stdout.write('%d different search/dates to process.'
-              % search_daily_logs.count())
+                          % search_daily_logs.count())
         for search_log in search_daily_logs:
             stats, created = CourseDailyStats.objects \
                 .get_or_create(course=None,
@@ -204,16 +206,15 @@ class Command(BaseCommand):
             stats.total = (0 if last_tracker_pk == 0 else stats.total) \
                 + search_log['total']
             stats.save()
-    
-    
-    # Updates the UserPointsSummary model  
+
+    # Updates the UserPointsSummary model
     def update_user_points_summary(self,
                                    last_points_pk=0,
                                    newest_points_pk=0):
-        
+
         if last_points_pk == 0:
             UserPointsSummary.objects.all().delete()
-            
+
         # get different (distinct) user/points involved
         users_points = Points.objects \
             .filter(pk__gt=last_points_pk, pk__lte=newest_points_pk) \
@@ -229,9 +230,9 @@ class Command(BaseCommand):
             points, created = UserPointsSummary.objects \
                 .get_or_create(user=user)
             points.update_points(last_points_pk=last_points_pk,
-                                 newest_points_pk=newest_points_pk)  
-       
-    # Updates the DailyActiveUsers and DailyActiveUser models 
+                                 newest_points_pk=newest_points_pk)
+
+    # Updates the DailyActiveUsers and DailyActiveUser models
     def update_daily_active_users(self,
                                   last_tracker_pk=0,
                                   newest_tracker_pk=0):
@@ -241,28 +242,29 @@ class Command(BaseCommand):
             DailyActiveUsers.objects.all().delete()
 
         courses = Course.objects.all()
-        
+
         for course in courses:
             self.stdout.write(course.get_title())
             # process for tracker date
-            self.update_daily_active_users_dates(course,
-                 last_tracker_pk,
-                 newest_tracker_pk,
-                 'tracker_date',
-                 'total_tracker_date',
-                 DailyActiveUser.TRACKER)
-            
+            self.update_daily_active_users_dates(
+                course,
+                last_tracker_pk,
+                newest_tracker_pk,
+                'tracker_date',
+                'total_tracker_date',
+                DailyActiveUser.TRACKER)
+
             # process for submitted date
-            self.update_daily_active_users_dates(course,
-                 last_tracker_pk,
-                 newest_tracker_pk,
-                 'submitted_date',
-                 'total_submitted_date',
-                 DailyActiveUser.SUBMITTED)
-        
-        
-        
-    def update_daily_active_users_dates(self,
+            self.update_daily_active_users_dates(
+                course,
+                last_tracker_pk,
+                newest_tracker_pk,
+                'submitted_date',
+                'total_submitted_date',
+                DailyActiveUser.SUBMITTED)
+
+    def update_daily_active_users_dates(
+            self,
             course,
             last_tracker_pk,
             newest_tracker_pk,
@@ -273,11 +275,12 @@ class Command(BaseCommand):
         trackers = Tracker.objects.filter(pk__gt=last_tracker_pk,
                                           pk__lte=newest_tracker_pk,
                                           course=course) \
-            .annotate(day=TruncDay(tracker_date_field)).values('day').distinct()
+            .annotate(day=TruncDay(tracker_date_field)) \
+            .values('day').distinct()
 
         # for each tracker update the DAU model
         for tracker in trackers:
-            self.stdout.write('Updating DAUs for %s - %s' % 
+            self.stdout.write('Updating DAUs for %s - %s' %
                               (tracker['day'], course.get_title()))
             total_users = Tracker.objects.annotate(
                 day=TruncDay(tracker_date_field)) \

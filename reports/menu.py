@@ -47,7 +47,8 @@ def menu_reports(request):
                 'url': reverse('reports:averagetimespent'),
                 'icon': 'timeline'},
                {'name': _(u'Time spent by user and course'),
-                'description': _(u'Download daily time spent by user and course'),
+                'description': _(u'Download daily time spent by user and \
+                                   course'),
                 'url': reverse('reports:user-course-time-spent'),
                 'icon': 'save_alt'},
                {'name': _(u'Searches'),

@@ -17,7 +17,7 @@ class DownloadTimeTrackingViewTest(OppiaTestCase):
     url = reverse('reports:user-course-time-spent')
 
     STR_EXPECTED_CONTENT_TYPE = 'application/text;charset=utf-8'
-    
+
     def setUp(self):
         super(DownloadTimeTrackingViewTest, self).setUp()
         self.allowed_users = [self.admin_user, self.staff_user]

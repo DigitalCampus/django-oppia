@@ -330,7 +330,7 @@ class RegenerateCertificatesView(TemplateView):
             user = request.user
 
         initial = {'email': user.email,
-                   'old_email': user.email }
+                   'old_email': user.email}
         form = RegenerateCertificatesForm(initial=initial)
         awards = Award.objects.filter(user=user)
         certificates = []
@@ -350,9 +350,9 @@ class RegenerateCertificatesView(TemplateView):
                 certificates.append(certificate)
 
         return render(request, 'profile/certificates/regenerate.html',
-                          {'user': user,
-                           'form': form,
-                           'certificates': certificates})
+                      {'user': user,
+                       'form': form,
+                       'certificates': certificates})
 
     def post(self, request, user_id=None):
         if user_id:

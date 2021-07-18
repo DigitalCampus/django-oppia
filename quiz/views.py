@@ -13,6 +13,7 @@ from quiz.models import QuizProps, \
 STR_CONTENT_TYPE = 'application/vnd.ms-excel;charset=utf-8'
 STR_CONTENT_DISPOSITION = "attachment; filename=export.xlsx"
 
+
 def get_feedback_data(feedback_id):
     feedback_questions = Question.objects.filter(
         quizquestion__quiz__pk=feedback_id).order_by('quizquestion__order')
@@ -44,6 +45,7 @@ def get_feedback_data(feedback_id):
         data.append(row)
 
     return data
+
 
 def get_quiz_data(quiz_id):
     quiz_questions = Question.objects.filter(

@@ -40,7 +40,7 @@ class Command(BaseCommand):
             last_sent_date = datetime.datetime.strptime(
                 last_sent, constants.CRON_DATETIME_FORMAT)
 
-        if last_sent is None or last_sent_date < start_date:  
+        if last_sent is None or last_sent_date < start_date:
             self.process_registration()
 
         # update last sent
