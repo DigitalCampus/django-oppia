@@ -30,7 +30,7 @@ class SettingProperties(models.Model):
     class Meta:
         verbose_name = _('Settings')
         verbose_name_plural = _('Settings')
-        ordering = ['key']
+        ordering = ['category', 'key']
 
     @staticmethod
     def get_property(property_key, default_value):
