@@ -113,3 +113,13 @@ class OppiaActivityViewsTest(OppiaTestCase):
             'myother@email.com',
             SettingProperties.get_property(
                 constants.OPPIA_SERVER_REGISTER_NOTIF_EMAIL_ADDRESS, ''))
+
+    def test_post_no_email(self):
+        data = {'server_url': self.STR_MY_SITE,
+                'include_no_courses': True,
+                'include_no_users': True,
+                'email_notifications': True,
+                'notif_email_address': ""}
+        self.client.force_login(user=self.admin_user)
+        self.client.post(self.url_register_page, data)
+        self.assertRaises(ValidationError)

@@ -179,6 +179,12 @@ class RegenerateCertficatesTest(OppiaTestCase):
                              200)
         self.assertEqual(0, len(mail.outbox))
 
+    def test_emailing_on_email_address_field_shows(self):
+        SettingProperties.set_bool(constants.OPPIA_EMAIL_CERTIFICATES, True)
+        url = reverse(self.STR_URL, args=[self.normal_user.id])
+        self.client.force_login(self.admin_user)
+        self.client.get(url)
+
     # Check when email changed
     @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_change_email(self):
@@ -199,3 +205,23 @@ class RegenerateCertficatesTest(OppiaTestCase):
         # check emails sent to new address
         for email in mail.outbox:
             self.assertEqual(new_email, email.to[0])
+
+    # test get own
+    def test_regenerate_own_get(self):
+        SettingProperties.set_bool(constants.OPPIA_EMAIL_CERTIFICATES, True)
+        url = reverse(self.STR_URL)
+        self.client.force_login(self.normal_user)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    # test post own
+    def test_regenerate_own_post(self):
+        SettingProperties.set_bool(constants.OPPIA_EMAIL_CERTIFICATES, True)
+        url = reverse(self.STR_URL)
+        self.client.force_login(self.normal_user)
+        response = self.client.post(url, {})
+        self.assertRedirects(response,
+                             reverse(self.STR_URL_REDIRECT),
+                             302,
+                             200)
+        self.assertEqual(4, len(mail.outbox))
