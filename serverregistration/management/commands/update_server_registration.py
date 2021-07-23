@@ -42,10 +42,10 @@ class Command(BaseCommand):
 
         if last_sent is None or last_sent_date < start_date:
             self.process_registration()
-
-        # update last sent
-        SettingProperties.set_string(constants.OPPIA_SERVER_REGISTER_LAST_SENT,
-                                     timezone.now())
+            # update last sent
+            SettingProperties.set_string(
+                constants.OPPIA_SERVER_REGISTER_LAST_SENT,
+                timezone.now())
 
     def process_registration(self):
 
