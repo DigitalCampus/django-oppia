@@ -5,6 +5,8 @@ from django import forms
 from django.urls import reverse
 from django.utils.translation import ugettext as _
 
+from settings import constants
+from settings.models import SettingProperties
 
 class RegisterServerForm(forms.Form):
     server_url = forms.CharField(
@@ -50,13 +52,20 @@ class RegisterServerForm(forms.Form):
             ))
         self.helper.layout.extend(['email_notifications',
                                    'notif_email_address'])
+        
+        if SettingProperties.get_bool(constants.OPPIA_SERVER_REGISTERED,
+                                      False):
+            button_title = _(u'Update registration')
+        else:
+            button_title = _(u'Register Server')
+            
         self.helper.layout.append(Div(
-                Submit('submit',
-                       _(u'Register Server'),
-                       css_class='btn btn-default'),
-                css_class='col-lg-offset-2 col-lg-4',
-            ),
-        )
+                    Submit('submit',
+                           button_title,
+                           css_class='btn btn-default'),
+                    css_class='col-lg-offset-2 col-lg-4',
+                ),
+            )
 
     def clean(self):
         cleaned_data = self.cleaned_data
