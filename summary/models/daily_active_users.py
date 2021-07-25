@@ -17,8 +17,8 @@ class DailyActiveUsers(models.Model):
                                              default=0)
 
     class Meta:
-        verbose_name = _(u'DailyActiveUsers')
-        verbose_name_plural = _(u'DailyActiveUsers')
+        verbose_name = _(u'DailyActiveUserDay')
+        verbose_name_plural = _(u'DailyActiveUserDays')
         unique_together = ("day", "total_submitted_date")
         index_together = ["day", "total_submitted_date"]
 
