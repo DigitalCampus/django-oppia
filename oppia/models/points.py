@@ -60,11 +60,21 @@ class Points(models.Model):
             users_points = users_points[:count]
 
         leaderboard = []
-        for u in users_points:
+        for idx, u in enumerate(users_points):
             user = User.objects.get(pk=u['user'])
             user.badges = 0 if u['badges'] is None else u['badges']
             user.total = 0 if u['points'] is None else u['points']
-            leaderboard.append(user)
+            
+            
+            leader_data = {}
+            leader_data['position'] = idx + 1
+            leader_data['username'] = user.username
+            leader_data['first_name'] = user.first_name
+            leader_data['last_name'] = user.last_name
+            leader_data['points'] = 0 if u['points'] is None else u['points']
+            leader_data['badges'] = 0 if u['badges'] is None else u['badges']
+            
+            leaderboard.append(leader_data)
 
         return leaderboard
 
@@ -103,8 +113,6 @@ class Points(models.Model):
 
         for idx, u in enumerate(top_users_points):
             user = User.objects.get(pk=u['user'])
-            user.badges = 0 if u['badges'] is None else u['badges']
-            user.total = 0 if u['points'] is None else u['points']
 
             leader_data = {}
             leader_data['position'] = idx + 1
