@@ -1,8 +1,13 @@
+import pytz
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
 from django.db.models import Count, Sum
-from django.db.models.functions import TruncDay, TruncMonth, TruncYear
+from django.db.models.functions import TruncDay, \
+    TruncMonth, \
+    TruncYear, \
+    TruncDate
 from django.utils import timezone
 
 from oppia.models import Tracker, Points, Course
@@ -230,9 +235,41 @@ class Command(BaseCommand):
             points, created = UserPointsSummary.objects \
                 .get_or_create(user=user)
             points.update_points(last_points_pk=last_points_pk,
-                                 newest_points_pk=newest_points_pk)
+                                 newest_points_pk=newest_points_pk)        
 
-    # Updates the DailyActiveUsers and DailyActiveUser models
+
+    def update_user_courses(self,
+                            last_tracker_pk=0,
+                            newest_tracker_pk=0,
+                            last_points_pk=0,
+                            newest_points_pk=0):
+
+        user_courses = Tracker.objects \
+            .filter(pk__gt=last_tracker_pk, pk__lte=newest_tracker_pk) \
+            .exclude(course__isnull=True) \
+            .values('course', 'user').distinct()
+
+        total_users = user_courses.count()
+        print('%d different user/courses to process.' % total_users)
+
+        count = 1
+        for uc_tracker in user_courses:
+            print('processing user/course trackers... (%d/%d)' % (count,
+                                                                  total_users))
+            try:
+                user = User.objects.get(pk=uc_tracker['user'])
+            except User.DoesNotExist:
+                continue
+            course = Course.objects.get(pk=uc_tracker['course'])
+            user_course, created = UserCourseSummary.objects \
+                .get_or_create(course=course, user=user)
+            user_course.update_summary(
+                last_tracker_pk=last_tracker_pk,
+                last_points_pk=last_points_pk,
+                newest_tracker_pk=newest_tracker_pk,
+                newest_points_pk=newest_points_pk)
+            count += 1
+        
     def update_daily_active_users(self,
                                   last_tracker_pk=0,
                                   newest_tracker_pk=0):
@@ -275,7 +312,7 @@ class Command(BaseCommand):
         trackers = Tracker.objects.filter(pk__gt=last_tracker_pk,
                                           pk__lte=newest_tracker_pk,
                                           course=course) \
-            .annotate(day=TruncDay(tracker_date_field)) \
+            .annotate(day=TruncDate(tracker_date_field)) \
             .values('day').distinct()
 
         # for each tracker update the DAU model
@@ -283,17 +320,17 @@ class Command(BaseCommand):
             self.stdout.write('Updating DAUs for %s - %s' %
                               (tracker['day'], course.get_title()))
             total_users = Tracker.objects.annotate(
-                day=TruncDay(tracker_date_field)) \
+                day=TruncDate(tracker_date_field)) \
                 .filter(day=tracker['day']) \
                 .aggregate(number_of_users=Count('user', distinct=True))
-
+            
             dau_obj, created = DailyActiveUsers.objects.update_or_create(
                 day=tracker['day'],
                 defaults={dau_total_date_field:
                           total_users['number_of_users']})
 
             users = Tracker.objects.annotate(
-                day=TruncDay(tracker_date_field)) \
+                day=TruncDate(tracker_date_field)) \
                 .filter(day=tracker['day']).values_list('user',
                                                         flat=True).distinct()
 
@@ -320,10 +357,10 @@ class Command(BaseCommand):
             return
 
         time_spent = Tracker.objects.annotate(
-            day=TruncDay(tracker_date_field)) \
-            .filter(day=tracker['day'], user=user_obj) \
-            .aggregate(time=Sum('time_taken'))
-
+                    day=TruncDate(tracker_date_field)) \
+                    .filter(day=tracker['day'], user=user_obj) \
+                    .aggregate(time=Sum('time_taken'))
+        
         # to avoid number out of no seconds in a day
         if time_spent['time'] > self.MAX_TIME:
             time_taken = self.MAX_TIME
