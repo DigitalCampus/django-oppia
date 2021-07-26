@@ -64,17 +64,7 @@ class Points(models.Model):
             user = User.objects.get(pk=u['user'])
             user.badges = 0 if u['badges'] is None else u['badges']
             user.total = 0 if u['points'] is None else u['points']
-            
-            
-            leader_data = {}
-            leader_data['position'] = idx + 1
-            leader_data['username'] = user.username
-            leader_data['first_name'] = user.first_name
-            leader_data['last_name'] = user.last_name
-            leader_data['points'] = 0 if u['points'] is None else u['points']
-            leader_data['badges'] = 0 if u['badges'] is None else u['badges']
-            
-            leaderboard.append(leader_data)
+            leaderboard.append(user)
 
         return leaderboard
 
@@ -91,8 +81,9 @@ class Points(models.Model):
             .order_by('-points')
 
         # check if there's going to be overlap or not
+        print(users_points.count())
         if users_points.count() <= (count_top + above + below + 1):
-            return Points.get_leaderboard()
+            return Points.get_leaderboard_top(users_points, users_points.count())
 
         leaderboard_data = Points.get_leaderboard_top(users_points, count_top)
         leaderboard_data = \
@@ -113,7 +104,9 @@ class Points(models.Model):
 
         for idx, u in enumerate(top_users_points):
             user = User.objects.get(pk=u['user'])
-
+            user.badges = 0 if u['badges'] is None else u['badges']
+            user.total = 0 if u['points'] is None else u['points']
+            
             leader_data = {}
             leader_data['position'] = idx + 1
             leader_data['username'] = user.username

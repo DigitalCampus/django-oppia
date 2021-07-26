@@ -335,7 +335,10 @@ class RegenerateCertificatesView(TemplateView):
         awards = Award.objects.filter(user=user)
         certificates = []
         for award in awards:
-            course = Course.objects.get(awardcourse__award=award)
+            try:
+                course = Course.objects.get(awardcourse__award=award)
+            except Course.DoesNotExist:
+                continue
             badge = award.badge
             certs = CertificateTemplate.objects.filter(course=course,
                                                        badge=badge,
