@@ -1,9 +1,14 @@
+import pytz
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
 from django.db.models import Count, Sum
-from django.db.models.functions import TruncDay, TruncMonth, TruncYear
+from django.db.models.functions import TruncDay, \
+    TruncMonth, \
+    TruncYear, \
+    TruncDate
 from django.utils import timezone
 
 from oppia.models import Tracker, Points, Course
@@ -174,7 +179,7 @@ class Command(BaseCommand):
                 .get_or_create(user=user)
             points.update_points(last_points_pk=last_points_pk,
                                  newest_points_pk=newest_points_pk)
-
+        
         # update daily active users
         self.update_daily_active_users(last_tracker_pk,
                                        newest_tracker_pk,
@@ -265,24 +270,25 @@ class Command(BaseCommand):
         trackers = Tracker.objects.filter(pk__gt=last_tracker_pk,
                                           pk__lte=newest_tracker_pk,
                                           course=course) \
-            .annotate(day=TruncDay(tracker_date_field)).values('day').distinct()
+            .annotate(day=TruncDate(tracker_date_field)).values('day').distinct()
 
         # for each tracker update the DAU model
         for tracker in trackers:
             print('Updating DAUs for %s - %s' % (tracker['day'],
                   course.get_title()))
+
             total_users = Tracker.objects.annotate(
-                day=TruncDay(tracker_date_field)) \
+                day=TruncDate(tracker_date_field)) \
                 .filter(day=tracker['day']) \
                 .aggregate(number_of_users=Count('user', distinct=True))
-
+            
             dau_obj, created = DailyActiveUsers.objects.update_or_create(
                 day=tracker['day'],
                 defaults={dau_total_date_field:
                           total_users['number_of_users']})
 
             users = Tracker.objects.annotate(
-                day=TruncDay(tracker_date_field)) \
+                day=TruncDate(tracker_date_field)) \
                 .filter(day=tracker['day']).values_list('user',
                                                         flat=True).distinct()
 
@@ -309,7 +315,7 @@ class Command(BaseCommand):
             return
 
         time_spent = Tracker.objects.annotate(
-                    day=TruncDay(tracker_date_field)) \
+                    day=TruncDate(tracker_date_field)) \
                     .filter(day=tracker['day'], user=user_obj) \
                     .aggregate(time=Sum('time_taken'))
         

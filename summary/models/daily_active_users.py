@@ -22,6 +22,9 @@ class DailyActiveUsers(models.Model):
         unique_together = ("day", "total_submitted_date")
         index_together = ["day", "total_submitted_date"]
 
+    def __str__(self):
+        return str(self.day)
+
     def get_total_time_spent(self):
         time_total = DailyActiveUser.objects.filter(
             dau=self, user__is_staff=False) \
