@@ -66,7 +66,8 @@ class QuestionAdmin(admin.ModelAdmin):
 
 
 class QuizAttemptResponseAdmin(admin.ModelAdmin):
-    list_display = ('question', 'score', 'text')
+    list_display = ('quizattempt', 'question', 'score', 'text')
+    readonly_fields = ('question', 'quizattempt')
 
 
 class QuizAdmin(admin.ModelAdmin):
