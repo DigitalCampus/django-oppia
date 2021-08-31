@@ -350,6 +350,7 @@ class RegenerateCertificatesView(TemplateView):
                 certificate['badge'] = badge
                 valid, display_name = cert.display_name(user)
                 certificate['display_name'] = display_name
+                certificate['cert_link'] = award.certificate_pdf
                 certificates.append(certificate)
 
         return render(request, 'profile/certificates/regenerate.html',

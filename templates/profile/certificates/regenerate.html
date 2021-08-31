@@ -34,6 +34,7 @@
                   <th scope="col">{% trans 'Course' %}</th>
                   <th scope="col">{% trans 'Badge' %}</th>
                   <th scope="col">{% trans 'Name to appear on certificate' %}</th>
+                  <th scope="col">&nbsp;</th>
                 </tr>
               </thead>
               <tbody>
@@ -41,7 +42,20 @@
 					<tr>
 	                  <td>{{ certificate.course }}</td>
 	                  <td>{{ certificate.badge.name }}</td>
-	                  <td>{{ certificate.display_name }}</td>
+	                  
+	                  	{% if certificate.display_name %}
+	                  		<td>{{ certificate.display_name }}</td>
+	                  		 <td>
+			                  {% if certificate.cert_link %}
+			                  	<a href="{{MEDIA_URL}}{{ certificate.cert_link }}" target="_blank">{% trans 'View current certificate' %}</a>
+			                  	{% endif %}	
+			                  </td>
+			            {% else %}
+			            	<td colspan="2">
+			            		{% trans "The user has not yet completed the required field for their certificate name, so this certificate will not be created or regenerated until they do."%}
+			            	</td>
+	                  	{% endif %}	
+	                
 	                </tr>
 				{% endfor %}
 	    	</tbody>
