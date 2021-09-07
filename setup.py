@@ -49,7 +49,7 @@ setup(
         "django-crispy-forms == 1.11.2",
         "pytz",
         "defusedxml==0.5.0",
-        "Pillow==8.2.0",
+        "Pillow==8.3.2",
         "sorl-thumbnail==12.7.0",
         "pycodestyle",
         "pytest",
