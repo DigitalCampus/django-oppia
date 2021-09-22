@@ -14,6 +14,9 @@
 
 {% block content %}
 <div class="container">
+
+	{% include 'common/ajax_wrapper.html' with query_template='av/query.html' %}
+
 	{% if page.object_list %}
 		<div class="table-responsive">
 	         <table class="table table-striped">

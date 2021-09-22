@@ -1,0 +1,18 @@
+{% extends 'common/list/base.html' %}
+{% load i18n %}
+
+ {% block table_head %}
+    <th scope="col" class="px-0">{% trans 'Media' %}</th>
+    <th class="p-0" scope="col"></th>
+{% endblock %}
+
+{% block item_row %}
+
+
+<td>{{ item.filename }}</td>
+<td>
+    <a href="{{ item.file.url }}" >
+        <span class="material-icons mr-2" data-toggle="tooltip" title="{% trans 'Download' %}">save_alt</span> {% trans 'download' %}
+    </a>
+</td>
+{% endblock %}

@@ -11,18 +11,18 @@
     <div class="collapse navbar-collapse" id="main-menu">
 	<ul class="navbar-nav ml-auto mt-2 mt-lg-0 ml-4">
         <li class="nav-item"><a class="nav-link" href="{% url 'oppia:course' %}">{% trans 'menu_courses' %}</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'av:index' %}">{% trans 'Media' %}</a></li>
-            {% if user.userprofile.get_can_upload %}
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="upload-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans 'Upload' %}<strong class="caret"></strong></a>
-                    <div class="dropdown-menu" aria-labelledby="upload-menu">
-                        <a class="dropdown-item" href="{% url 'oppia:upload' %}">{% trans 'Course' %}</a>
-                        {% if user.is_staff %}
-                            <a class="dropdown-item" href="{% url 'activitylog:upload' %}">{% trans 'Activity Log' %}</a>
-                        {% endif %}
-                    </div>
-                </li>
-            {% endif %}
+        <li class="nav-item"><a class="nav-link" href="{% url 'av:index' %}">{% trans 'Media' %}</a></li>
+        {% if user.userprofile.get_can_upload %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="upload-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans 'Upload' %}<strong class="caret"></strong></a>
+                <div class="dropdown-menu" aria-labelledby="upload-menu">
+                    <a class="dropdown-item" href="{% url 'oppia:upload' %}">{% trans 'Course' %}</a>
+                    {% if user.is_staff %}
+                        <a class="dropdown-item" href="{% url 'activitylog:upload' %}">{% trans 'Activity Log' %}</a>
+                    {% endif %}
+                </div>
+            </li>
+        {% endif %}
        {% if user.is_staff %}
             <li class="nav-item"><a class="nav-link" href="{% url 'oppia:cohorts' %}">{% trans 'Cohorts' %}</a></li>
 			<li class="nav-item"><a class="nav-link" href="{% url 'reports:index' %}">{% trans 'Analytics/Reports' %}</a></li>
