@@ -2,6 +2,7 @@ import os
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
@@ -66,9 +67,12 @@ class CourseListView(ListView, AjaxTemplateResponseMixin):
             .aggregated_stats('total_downloads')
 
         for course in course_list:
-            access_detail = can_view_course_detail(self.request, course.id)
+            try:
+                access_detail = can_view_course_detail(self.request, course.id)
+                course.access_detail = access_detail is not None
+            except PermissionDenied:
+                course.access_detail = None
             course.can_edit = can_edit_course(self.request, course.id)
-            course.access_detail = access_detail is not None
             for stats in course_stats:
                 if stats['course'] == course.id:
                     course.distinct_downloads = stats['distinct']

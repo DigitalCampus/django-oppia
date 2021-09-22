@@ -20,27 +20,12 @@ from oppia.permissions import user_can_upload, can_view_course
 STR_UPLOAD_MEDIA = _(u'Upload Media')
 
 
-class AVHome(TemplateView):
+class AVHome(ListView, AjaxTemplateResponseMixin):
 
-    def get(self, request):
-
-        uploaded_media = UploadedMedia.objects.all().order_by('-created_date')
-
-        paginator = Paginator(uploaded_media, 25)
-
-        try:
-            page = int(request.GET. get('page', '1'))
-        except ValueError:
-            page = 1
-
-        try:
-            media = paginator.page(page)
-        except (EmptyPage, InvalidPage):
-            media = paginator.page(paginator.num_pages)
-
-        return render(request, 'av/home.html',
-                      {'title': STR_UPLOAD_MEDIA,
-                       'page': media})
+    template_name = 'av/home.html'
+    ajax_template_name = 'av/query.html'
+    queryset = UploadedMedia.objects.all().order_by('-created_date')
+    extra_context = { 'title': STR_UPLOAD_MEDIA }
 
 
 class CourseMediaList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
