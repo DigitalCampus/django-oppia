@@ -2,6 +2,7 @@ import datetime
 import json
 
 import tablib
+from django.contrib.auth.models import User
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db.models import Sum
 from django.db.models.functions import TruncDay, TruncMonth, TruncYear
@@ -199,16 +200,19 @@ class ExportCourseTrackers(TemplateView):
                              t.agent,
                              lang))
             except ValueError:
-                data.append((t.tracker_date.strftime(
-                    constants.STR_DATETIME_FORMAT),
-                             t.user.id,
-                             t.type,
-                             "",
-                             "",
-                             t.time_taken,
-                             t.ip,
-                             t.agent,
-                             ""))
+                try:
+                    data.append((t.tracker_date.strftime(
+                        constants.STR_DATETIME_FORMAT),
+                                 t.user.id,
+                                 t.type,
+                                 "",
+                                 "",
+                                 t.time_taken,
+                                 t.ip,
+                                 t.agent,
+                                 ""))
+                except User.DoesNotExist:
+                    pass
 
         response = HttpResponse(
             data.export('xlsx'),
