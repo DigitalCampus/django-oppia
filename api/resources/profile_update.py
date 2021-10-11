@@ -111,15 +111,13 @@ class ChangePasswordResource(ModelResource):
         include_resource_uri = False
 
     def obj_create(self, bundle, **kwargs):
-        required = ['new_password1', 'new_password2']
-        check_required_params(bundle, required)
 
         if bundle.request.user:
             form = SetPasswordForm(bundle.request.user, data=bundle.data)
             if form.is_valid():
                 bundle.obj = form.save()
             else:
-                raise ImmediateHttpResponse(response=self.error_response(bundle.request, {'errors:':form.errors}))
+                raise ImmediateHttpResponse(response=self.error_response(bundle.request, {'errors':form.errors}))
 
         return bundle
 
