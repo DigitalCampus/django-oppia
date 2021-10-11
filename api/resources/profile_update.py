@@ -1,16 +1,16 @@
+from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
-
+from tastypie import fields
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie.authorization import Authorization
-from tastypie.exceptions import BadRequest, Unauthorized
+from tastypie.exceptions import BadRequest, Unauthorized, ImmediateHttpResponse
 from tastypie.resources import ModelResource
 
 from api.serializers import UserJSONSerializer
+from api.utils import check_required_params
 from profile.forms import ProfileForm
 from profile.models import UserProfile, CustomField
-
-from api.utils import check_required_params
 
 
 class ProfileUpdateResource(ModelResource):
@@ -91,3 +91,35 @@ class ProfileUpdateResource(ModelResource):
 
         bundle = self.process_profile_update(bundle)
         return bundle
+
+
+
+class ChangePasswordResource(ModelResource):
+    '''
+    For resetting user password
+    '''
+    message = fields.CharField()
+
+    class Meta:
+        queryset = User.objects.all()
+        resource_name = 'password'
+        allowed_methods = ['post']
+        fields = []
+        authorization = Authorization()
+        authentication = ApiKeyAuthentication()
+        always_return_data = False
+        include_resource_uri = False
+
+    def obj_create(self, bundle, **kwargs):
+        required = ['new_password1', 'new_password2']
+        check_required_params(bundle, required)
+
+        if bundle.request.user:
+            form = SetPasswordForm(bundle.request.user, data=bundle.data)
+            if form.is_valid():
+                bundle.obj = form.save()
+            else:
+                raise ImmediateHttpResponse(response=self.error_response(bundle.request, {'errors:':form.errors}))
+
+        return bundle
+
