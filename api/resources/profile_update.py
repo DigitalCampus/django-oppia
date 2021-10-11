@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from tastypie import fields
@@ -111,11 +111,11 @@ class ChangePasswordResource(ModelResource):
         include_resource_uri = False
 
     def obj_create(self, bundle, **kwargs):
-        required = ['old_password', 'new_password1', 'new_password2']
+        required = ['new_password1', 'new_password2']
         check_required_params(bundle, required)
 
         if bundle.request.user:
-            form = PasswordChangeForm(bundle.request.user, data=bundle.data)
+            form = SetPasswordForm(bundle.request.user, data=bundle.data)
             if form.is_valid():
                 bundle.obj = form.save()
             else:
