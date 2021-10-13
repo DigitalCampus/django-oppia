@@ -174,6 +174,7 @@ OPPIA_METADATA = {
 
 # turns on/off ability for users to self register
 OPPIA_ALLOW_SELF_REGISTRATION = True
+OPPIA_ALLOW_PROFILE_EDITING = True
 OPPIA_SHOW_GRAVATARS = True
 
 # determines if the points system is enabled

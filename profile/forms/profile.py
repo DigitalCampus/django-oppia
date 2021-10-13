@@ -51,7 +51,7 @@ class ProfileForm(forms.Form):
     job_title = forms.CharField(max_length=100, required=False)
     organisation = forms.CharField(max_length=100, required=False)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, allow_edit=True, *args, **kwargs):
         super(ProfileForm, self).__init__(* args, ** kwargs)
         if len(args) == 1:
             email = args[0]['email']
@@ -96,6 +96,14 @@ class ProfileForm(forms.Form):
                     css_class="form-group",
                 )
             )
+
+
+        if not allow_edit:
+            # Set fields as read-only if the user is not allow to edit their profile
+            for key, field in self.fields.items():
+                if not key.startswith('password'):
+                    field.widget.attrs.update({'readonly':'readonly'})
+
 
         self.helper.layout.extend(
             ['api_key',

@@ -155,6 +155,12 @@ class EditView(UpdateView):
     context_object_name = 'user'
     template_name = 'profile/profile.html'
 
+    def __init__(self,  **kwargs):
+        super().__init__( **kwargs)
+        self.allow_edit = SettingProperties \
+            .get_bool(constants.OPPIA_ALLOW_PROFILE_EDITING,
+                      settings.OPPIA_ALLOW_PROFILE_EDITING)
+
     def get_object(self, queryset=None):
         user_id = self.kwargs.get('user_id', )
         if user_id:
@@ -173,6 +179,7 @@ class EditView(UpdateView):
         """As it is not a ModelForm, we remove the instance argument"""
         kwargs = super().get_form_kwargs()
         kwargs.pop('instance')
+        kwargs.update({ 'allow_edit' : self.allow_profile_editing() })
         return kwargs
 
     def get_initial(self):
@@ -198,8 +205,9 @@ class EditView(UpdateView):
         return initial
 
     def form_valid(self, form):
-        self.edit_form_process(form, self.object)
-        messages.success(self.request, _(u"Profile updated"))
+        if self.allow_profile_editing():
+            self.edit_form_process(form, self.object)
+            messages.success(self.request, _(u"Profile updated"))
 
         # if password should be changed
         password = form.cleaned_data.get("password", )
@@ -209,6 +217,9 @@ class EditView(UpdateView):
             messages.success(self.request, _(u"Password updated"))
 
         return self.render_to_response(self.get_context_data(form=form))
+
+    def allow_profile_editing(self):
+        return self.allow_edit or self.request.user.is_staff
 
     def edit_form_process(self, form, view_user):
         email = form.cleaned_data.get("email")
