@@ -53,13 +53,10 @@ class ProfileForm(forms.Form):
 
     def __init__(self, allow_edit=True, *args, **kwargs):
         super(ProfileForm, self).__init__(* args, ** kwargs)
-        if len(args) == 1:
-            email = args[0]['email']
-            username = args[0]['username']
-        else:
-            kw = kwargs.pop('initial')
-            email = kw['email']
-            username = kw['username']
+
+        userdata = kwargs.get('initial') if 'initial' in kwargs else kwargs.get('data')
+        email = userdata.get('email', None)
+        username = userdata.get('username', None)
 
         helpers.custom_fields(self)
 

@@ -51,7 +51,7 @@ class ProfileUpdateResource(ModelResource):
             except KeyError:
                 pass
 
-        profile_form = ProfileForm(data)
+        profile_form = ProfileForm(data=data)
         if not profile_form.is_valid():
             error_str = ""
             for key, value in profile_form.errors.items():
