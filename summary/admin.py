@@ -71,7 +71,8 @@ class DailyActiveUsersAdmin(admin.ModelAdmin):
     list_display = ('day', 'total_submitted_date', 'total_tracker_date')
     ordering = ['-day']
     date_hierarchy = 'day'
-    
+
+
 class DailyActiveUserAdmin(admin.ModelAdmin):
     list_display = ('dau', 'user', 'type', 'time_spent', 'course')
     ordering = ['-dau']

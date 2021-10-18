@@ -1,27 +1,13 @@
 import datetime
-import io
-import qrcode
 import uuid
 
 from django.forms import ValidationError
 from django.http import FileResponse
-from django.shortcuts import render, reverse
-from django.utils.translation import ugettext_lazy as _
+from django.shortcuts import render
 from django.views.generic import TemplateView
 
-from PIL import Image
-
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import A4, landscape, portrait
-from reportlab.lib.utils import ImageReader
-
 from oppia.badges.certificates import generate_certificate_pdf
-from oppia.models import Award, Course, CertificateTemplate
-
-from profile.models import CustomField, UserProfileCustomField
-
-from settings import constants
-from settings.models import SettingProperties
+from oppia.models import Award, Course
 
 
 class PreviewCertificateView(TemplateView):

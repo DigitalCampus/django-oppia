@@ -1,6 +1,6 @@
 import datetime
 import json
-from urllib import request, parse
+from urllib import request
 from urllib.error import HTTPError
 
 from django.contrib.auth.models import User

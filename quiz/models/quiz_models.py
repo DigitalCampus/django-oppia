@@ -11,6 +11,7 @@ from quiz.models import Question
 
 from oppia import constants
 
+
 class Quiz(models.Model):
     owner = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     created_date = models.DateTimeField('date created', default=timezone.now)
@@ -131,7 +132,8 @@ class QuizAttempt(models.Model):
         verbose_name_plural = _('QuizAttempts')
 
     def __str__(self):
-        return self.user.username + " at " + self.attempt_date.strftime(constants.STR_DATETIME_FORMAT)
+        return self.user.username + " at " \
+            + self.attempt_date.strftime(constants.STR_DATETIME_FORMAT)
 
     def get_score_percent(self):
         if self.maxscore > 0:

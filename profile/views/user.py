@@ -156,7 +156,7 @@ class EditView(UpdateView):
     template_name = 'profile/profile.html'
 
     def __init__(self,  **kwargs):
-        super().__init__( **kwargs)
+        super().__init__(**kwargs)
         self.allow_edit = SettingProperties \
             .get_bool(constants.OPPIA_ALLOW_PROFILE_EDITING,
                       settings.OPPIA_ALLOW_PROFILE_EDITING)
@@ -179,7 +179,7 @@ class EditView(UpdateView):
         """As it is not a ModelForm, we remove the instance argument"""
         kwargs = super().get_form_kwargs()
         kwargs.pop('instance')
-        kwargs.update({ 'allow_edit' : self.allow_profile_editing() })
+        kwargs.update({'allow_edit': self.allow_profile_editing()})
         return kwargs
 
     def get_initial(self):

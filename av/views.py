@@ -1,21 +1,19 @@
 # oppia/av/views.py
 import os
-from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse
-from django.utils.decorators import method_decorator
-from django.utils.translation import ugettext_lazy as _
-from django.views.generic import TemplateView, ListView
 
-from av import constants
+from django.http import HttpResponse
+from django.shortcuts import redirect
+from django.urls import reverse
+from django.utils.translation import ugettext_lazy as _
+from django.views.generic import ListView
+
 from av import handler
 from av.models import UploadedMedia
 from helpers.mixins.AjaxTemplateResponseMixin import AjaxTemplateResponseMixin
 from helpers.mixins.ListItemUrlMixin import ListItemUrlMixin
 
 from oppia.models import Media, Course
-from oppia.permissions import user_can_upload, can_view_course
+from oppia.permissions import can_view_course
 
 STR_UPLOAD_MEDIA = _(u'Upload Media')
 
@@ -25,7 +23,7 @@ class AVHome(ListView, AjaxTemplateResponseMixin):
     template_name = 'av/home.html'
     ajax_template_name = 'av/query.html'
     queryset = UploadedMedia.objects.all().order_by('-created_date')
-    extra_context = { 'title': STR_UPLOAD_MEDIA }
+    extra_context = {'title': STR_UPLOAD_MEDIA}
 
 
 class CourseMediaList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):

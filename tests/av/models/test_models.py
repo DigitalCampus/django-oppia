@@ -1,6 +1,6 @@
 
 from oppia.test import OppiaTestCase
-from av.models import UploadedMedia, image_file_name
+from av.models import UploadedMedia
 
 
 class AVModelsTest(OppiaTestCase):

@@ -4,7 +4,6 @@ from django.urls import reverse
 
 from oppia.test import OppiaTestCase
 
-from reports.models import DashboardAccessLog
 from tests.defaults import UNAUTHORISED_TEMPLATE
 
 

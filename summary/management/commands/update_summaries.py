@@ -1,6 +1,4 @@
-import pytz
 
-from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
 from django.db.models import Count, Sum
@@ -235,8 +233,7 @@ class Command(BaseCommand):
             points, created = UserPointsSummary.objects \
                 .get_or_create(user=user)
             points.update_points(last_points_pk=last_points_pk,
-                                 newest_points_pk=newest_points_pk)        
-
+                                 newest_points_pk=newest_points_pk)
 
     def update_user_courses(self,
                             last_tracker_pk=0,
@@ -269,7 +266,7 @@ class Command(BaseCommand):
                 newest_tracker_pk=newest_tracker_pk,
                 newest_points_pk=newest_points_pk)
             count += 1
-        
+
     def update_daily_active_users(self,
                                   last_tracker_pk=0,
                                   newest_tracker_pk=0):
@@ -323,7 +320,7 @@ class Command(BaseCommand):
                 day=TruncDate(tracker_date_field)) \
                 .filter(day=tracker['day']) \
                 .aggregate(number_of_users=Count('user', distinct=True))
-            
+
             dau_obj, created = DailyActiveUsers.objects.update_or_create(
                 day=tracker['day'],
                 defaults={dau_total_date_field:
@@ -357,10 +354,10 @@ class Command(BaseCommand):
             return
 
         time_spent = Tracker.objects.annotate(
-                    day=TruncDate(tracker_date_field)) \
-                    .filter(day=tracker['day'], user=user_obj) \
-                    .aggregate(time=Sum('time_taken'))
-        
+            day=TruncDate(tracker_date_field)) \
+            .filter(day=tracker['day'], user=user_obj) \
+            .aggregate(time=Sum('time_taken'))
+
         # to avoid number out of no seconds in a day
         if time_spent['time'] > self.MAX_TIME:
             time_taken = self.MAX_TIME

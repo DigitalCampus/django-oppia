@@ -26,9 +26,11 @@ class Command(BaseCommand):
                         self.stdout \
                             .write("INFO: file sizes appear to be different:")
                         self.stdout \
-                            .write("filesize recorded in db:" + m.filesize)
+                            .write("filesize recorded in db:" + 
+                                   str(m.filesize))
                         self.stdout \
-                            .write("filesize of download url:" + total_size)
+                            .write("filesize of download url:" + 
+                                   str(total_size))
             except Exception:
                 self.stdout \
                     .write("WARNING: media file not found at: "

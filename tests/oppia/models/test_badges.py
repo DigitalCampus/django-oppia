@@ -1,4 +1,4 @@
-from django.core.files.uploadedfile import SimpleUploadedFile
+
 from django.forms import ValidationError
 from django.urls import reverse
 

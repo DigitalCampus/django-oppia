@@ -54,7 +54,7 @@ urlpatterns = [
          TemplateView.as_view(
              template_name="profile/certificates/success.html"),
          name="user_regenerate_certificates_success"),
-    
+
     path('regeneratecertificates/',
          profile_views.RegenerateCertificatesView.as_view(),
          name="user_regenerate_certificates"),

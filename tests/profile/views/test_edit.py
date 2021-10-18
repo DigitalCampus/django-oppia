@@ -174,9 +174,9 @@ class EditProfileViewTest(OppiaTestCase):
             username=self.normal_user.username).userprofile.organisation
         self.assertNotEqual(orig_org, new_org)
 
-
     def test_edit_others_profile_admin_allow_edit_false(self):
-        SettingProperties.set_bool(constants.OPPIA_ALLOW_PROFILE_EDITING, False)
+        SettingProperties.set_bool(constants.OPPIA_ALLOW_PROFILE_EDITING,
+                                   False)
 
         orig_org = User.objects.get(
             username=self.normal_user.username).userprofile.organisation
@@ -197,7 +197,8 @@ class EditProfileViewTest(OppiaTestCase):
 
     def test_edit_own_profile_nonstaff_user_allow_edit_false(self):
 
-        SettingProperties.set_bool(constants.OPPIA_ALLOW_PROFILE_EDITING, False)
+        SettingProperties.set_bool(constants.OPPIA_ALLOW_PROFILE_EDITING,
+                                   False)
 
         orig_org = User.objects.get(
             username=self.normal_user.username).userprofile.organisation
@@ -215,7 +216,6 @@ class EditProfileViewTest(OppiaTestCase):
             username=self.normal_user.username).userprofile.organisation
         # It should not have changed
         self.assertEqual(orig_org, new_org)
-
 
     def test_edit_others_profile_staff(self):
         orig_org = User.objects.get(
@@ -235,31 +235,10 @@ class EditProfileViewTest(OppiaTestCase):
             username=self.normal_user.username).userprofile.organisation
         self.assertNotEqual(orig_org, new_org)
 
-    def test_edit_others_profile_staff_allow_edit_false(self):
+    def test_edit_others_profile_staff_allow_edit_true(self):
 
-        SettingProperties.set_bool(constants.OPPIA_ALLOW_PROFILE_EDITING, False)
-
-        orig_org = User.objects.get(
-            username=self.normal_user.username).userprofile.organisation
-        new_org = 'my organisation'
-        self.client.force_login(self.staff_user)
-        post_data = {'organisation': new_org,
-                     'email': 'admin@me.com',
-                     'username': 'admin',
-                     'first_name': 'admin',
-                     'last_name': 'user'}
-        response = self.client.post(reverse('profile:edit_user',
-                                            args=[2]), data=post_data)
-        self.assertEqual(response.status_code, 200)
-
-        new_org = User.objects.get(
-            username=self.normal_user.username).userprofile.organisation
-        self.assertNotEqual(orig_org, new_org)
-
-
-    def test_edit_others_profile_staff_allow_edit_false(self):
-
-        SettingProperties.set_bool(constants.OPPIA_ALLOW_PROFILE_EDITING, False)
+        SettingProperties.set_bool(constants.OPPIA_ALLOW_PROFILE_EDITING,
+                                   False)
 
         orig_org = User.objects.get(
             username=self.normal_user.username).userprofile.organisation
@@ -277,7 +256,6 @@ class EditProfileViewTest(OppiaTestCase):
         new_org = User.objects.get(
             username=self.normal_user.username).userprofile.organisation
         self.assertNotEqual(orig_org, new_org)
-
 
     def test_edit_others_profile_teacher(self):
         orig_org = User.objects.get(

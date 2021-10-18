@@ -12,6 +12,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name='dailyactiveusers',
-            options={'verbose_name': 'DailyActiveUserDay', 'verbose_name_plural': 'DailyActiveUserDays'},
+            options={'verbose_name': 'DailyActiveUserDay',
+                     'verbose_name_plural': 'DailyActiveUserDays'},
         ),
     ]

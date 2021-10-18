@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
+from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from tastypie import fields
@@ -93,7 +93,6 @@ class ProfileUpdateResource(ModelResource):
         return bundle
 
 
-
 class ChangePasswordResource(ModelResource):
     '''
     For resetting user password
@@ -117,7 +116,7 @@ class ChangePasswordResource(ModelResource):
             if form.is_valid():
                 bundle.obj = form.save()
             else:
-                raise ImmediateHttpResponse(response=self.error_response(bundle.request, {'errors':form.errors}))
+                raise ImmediateHttpResponse(response=self.error_response(
+                    bundle.request, {'errors': form.errors}))
 
         return bundle
-

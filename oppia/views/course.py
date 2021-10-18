@@ -15,7 +15,6 @@ from oppia.models import Category, \
     CoursePublishingLog, \
     Course
 from oppia.permissions import can_edit_course, \
-    can_view_course, \
     can_download_course, \
     can_view_course_detail, \
     can_view_courses_list, can_upload

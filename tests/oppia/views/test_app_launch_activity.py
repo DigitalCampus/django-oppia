@@ -1,6 +1,5 @@
 
 from django.urls import reverse
-from django.template.loader import render_to_string
 from oppia.test import OppiaTestCase
 
 

@@ -8,6 +8,7 @@ from django.utils.translation import ugettext as _
 from settings import constants
 from settings.models import SettingProperties
 
+
 class RegisterServerForm(forms.Form):
     server_url = forms.CharField(
         widget=forms.TextInput(attrs={'readonly':
@@ -52,13 +53,13 @@ class RegisterServerForm(forms.Form):
             ))
         self.helper.layout.extend(['email_notifications',
                                    'notif_email_address'])
-        
+
         if SettingProperties.get_bool(constants.OPPIA_SERVER_REGISTERED,
                                       False):
             button_title = _(u'Update registration')
         else:
             button_title = _(u'Register Server')
-            
+
         self.helper.layout.append(Div(
                     Submit('submit',
                            button_title,

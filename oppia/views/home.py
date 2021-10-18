@@ -24,7 +24,6 @@ from oppia.models import Tracker, \
     Course, \
     CoursePermissions
 from profile.models import UserProfile
-from reports.signals import dashboard_accessed
 from summary.models import CourseDailyStats, UserCourseSummary
 
 

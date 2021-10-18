@@ -1,7 +1,6 @@
 from django.urls import reverse
 from django.urls.exceptions import NoReverseMatch
 
-from oppia.models import CertificateTemplate
 from oppia.test import OppiaTestCase
 
 

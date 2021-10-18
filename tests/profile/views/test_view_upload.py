@@ -6,7 +6,7 @@ from django.urls import reverse
 
 from oppia.test import OppiaTransactionTestCase
 
-from profile.models import CustomField, UserProfileCustomField, UserProfile
+from profile.models import CustomField, UserProfileCustomField
 
 from tests.defaults import UNAUTHORISED_TEMPLATE
 

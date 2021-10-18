@@ -11,7 +11,8 @@ from api.resources.badges import BadgesResource
 from api.resources.course import CourseResource, CourseStructureResource
 from api.resources.login import UserResource as UserResource
 from api.resources.points import PointsResource
-from api.resources.profile_update import ProfileUpdateResource, ChangePasswordResource
+from api.resources.profile_update import ProfileUpdateResource, \
+                                         ChangePasswordResource
 from api.resources.v1.register import RegisterResource as RegisterResourceV1
 from api.resources.v2.register import RegisterResource as RegisterResourceV2
 from api.resources.reset_password import ResetPasswordResource

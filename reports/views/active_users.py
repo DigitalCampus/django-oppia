@@ -3,7 +3,6 @@ import datetime
 from dateutil.relativedelta import relativedelta
 
 from django.contrib.admin.views.decorators import staff_member_required
-from django.db.models import Count
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
 

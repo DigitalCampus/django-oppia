@@ -1,7 +1,5 @@
 
-from django.conf import settings
 from django.contrib.admin.views.decorators import staff_member_required
-from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
 from django.views.generic import FormView

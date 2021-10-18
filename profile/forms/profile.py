@@ -54,7 +54,8 @@ class ProfileForm(forms.Form):
     def __init__(self, allow_edit=True, *args, **kwargs):
         super(ProfileForm, self).__init__(* args, ** kwargs)
 
-        userdata = kwargs.get('initial') if 'initial' in kwargs else kwargs.get('data')
+        userdata = kwargs.get('initial') \
+            if 'initial' in kwargs else kwargs.get('data')
         email = userdata.get('email', None)
         username = userdata.get('username', None)
 
@@ -94,13 +95,12 @@ class ProfileForm(forms.Form):
                 )
             )
 
-
         if not allow_edit:
-            # Set fields as read-only if the user is not allow to edit their profile
+            # Set fields as read-only if the user is not allow to edit their
+            # profile
             for key, field in self.fields.items():
                 if not key.startswith('password'):
-                    field.widget.attrs.update({'readonly':'readonly'})
-
+                    field.widget.attrs.update({'readonly': 'readonly'})
 
         self.helper.layout.extend(
             ['api_key',

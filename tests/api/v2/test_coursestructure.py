@@ -1,5 +1,4 @@
 import pytest
-import unittest
 
 from django.test import TestCase
 from tastypie.test import ResourceTestCaseMixin

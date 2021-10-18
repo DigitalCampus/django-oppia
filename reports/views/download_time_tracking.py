@@ -1,12 +1,8 @@
-import datetime
 import tablib
 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponse
-from django.shortcuts import render
 from django.utils.decorators import method_decorator
-
-from oppia import constants as oppia_constants
 
 from reports.views.base_report_template import BaseReportTemplateView
 

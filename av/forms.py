@@ -9,7 +9,6 @@ from django.conf import settings
 from django.core.files.uploadedfile import TemporaryUploadedFile, \
                                            InMemoryUploadedFile, \
                                            SimpleUploadedFile
-from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 

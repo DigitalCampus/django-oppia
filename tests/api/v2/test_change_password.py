@@ -42,21 +42,29 @@ class PasswordResourceTest(ResourceTestCaseMixin, TestCase):
         }
         login_url = get_api_url('v2', 'user')
 
-        login_attempt = self.api_client.post(login_url, format='json', data=old_login_data)
+        login_attempt = self.api_client.post(login_url,
+                                             format='json',
+                                             data=old_login_data)
         self.assertHttpCreated(login_attempt)
         self.assertValidJSON(login_attempt.content)
 
-        resp = self.api_client.post(self.url, format='json', data=password_change_data, authentication=self.get_credentials())
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=password_change_data,
+                                    authentication=self.get_credentials())
         self.assertHttpCreated(resp)
 
         # Check that the previous login fails
-        login_attempt = self.api_client.post(login_url, format='json', data=old_login_data)
+        login_attempt = self.api_client.post(login_url,
+                                             format='json',
+                                             data=old_login_data)
         self.assertHttpBadRequest(login_attempt)
 
         # Check that is the new one that is correct
-        login_attempt = self.api_client.post(login_url, format='json', data=new_login_data)
+        login_attempt = self.api_client.post(login_url,
+                                             format='json',
+                                             data=new_login_data)
         self.assertHttpCreated(login_attempt)
-
 
     # check inactive user can't access
     def test_no_password_repeat(self):
@@ -64,21 +72,27 @@ class PasswordResourceTest(ResourceTestCaseMixin, TestCase):
         data = {
             'new_password1': 'new_password'
         }
-        resp = self.api_client.post(self.url, format='json', data=data, authentication=self.get_credentials())
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data,
+                                    authentication=self.get_credentials())
         self.assertHttpBadRequest(resp)
         self.assertValidJSON(resp.content)
         response_data = self.deserialize(resp)
         self.assertTrue('errors' in response_data)
         self.assertTrue('new_password2' in response_data['errors'])
 
-
     # check no username
     def test_no_matching_passwords(self):
+
         data = {
             'new_password1': 'new_password',
             'new_password2': 'different_password'
         }
-        resp = self.api_client.post(self.url, format='json', data=data, authentication=self.get_credentials())
+        resp = self.api_client.post(self.url,
+                                    format='json',
+                                    data=data,
+                                    authentication=self.get_credentials())
         self.assertHttpBadRequest(resp)
         self.assertValidJSON(resp.content)
         response_data = self.deserialize(resp)
