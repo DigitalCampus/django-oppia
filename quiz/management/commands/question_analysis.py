@@ -11,7 +11,7 @@ from quiz import constants
 
 
 class Command(BaseCommand):
-    help = 'Generates the difficulty and dicrimintation index for each \
+    help = 'Generates the difficulty and discrimination index for each \
         question in the given quiz'
 
     def add_arguments(self, parser):

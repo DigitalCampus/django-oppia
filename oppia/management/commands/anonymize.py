@@ -19,7 +19,6 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
 
-        # Optional argument to start the summary calculation from the beginning
         parser.add_argument(
             '--noinput',
             dest='noinput',
