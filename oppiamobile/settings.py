@@ -63,7 +63,6 @@ TEMPLATES = [
 INSTALLED_APPS = [
     'quiz',
     'profile',
-    'content',
     'av',
     'settings',
     'summary',
