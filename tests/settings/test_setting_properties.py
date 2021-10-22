@@ -101,6 +101,13 @@ class SettingPropertiesTest(OppiaTestCase):
         retreived_value = SettingProperties.get_property(key, 100)
         self.assertEqual(100, retreived_value)
 
+    def test_get_prop_bool_none(self):
+        key = "testkeybool"
+        value = None
+        SettingProperties.set_bool(key, value)
+        retreived_value = SettingProperties.get_property(key, "default")
+        self.assertEqual("default", retreived_value)
+        
     def test_get_prop_int_doesnotexist(self):
         key = "testkey"
         value = 123

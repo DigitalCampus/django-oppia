@@ -57,8 +57,8 @@ class DownloadDataResourceTest(ResourceTestCaseMixin, TransactionTestCase):
 
     def test_individual_not_allowed(self):
         resp = self.api_client.get(
-            self.url + "2", format='json', data=self.user_auth)
-        self.assertEqual(301, resp.status_code)
+            self.url + "2/", format='json', data=self.user_auth)
+        self.assertHttpBadRequest(resp)
 
     def test_get_activity_user(self):
         resp = self.api_client.get(

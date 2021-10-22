@@ -152,10 +152,11 @@ def can_view_course(request, course_id):
             course = Course.objects.get(pk=course_id)
         else:
             try:
-                course = Course.objects.get(pk=course_id)
+                course = Course.objects.get(pk=course_id, is_archived=False)
             except Course.DoesNotExist:
                 course = Course.objects.get(
                     pk=course_id,
+                    is_archived=False,
                     coursepermissions__course__id=course_id,
                     coursepermissions__user__id=request.user.id,
                     coursepermissions__role=CoursePermissions.VIEWER)

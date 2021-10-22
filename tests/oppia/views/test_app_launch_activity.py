@@ -1,7 +1,9 @@
 
 from django.urls import reverse
 from oppia.test import OppiaTestCase
+from django.http import Http404
 
+from tests.utils import update_course_visibility
 
 class AppLaunchActivityTest(OppiaTestCase):
     fixtures = ['tests/test_user.json',
@@ -52,3 +54,13 @@ class AppLaunchActivityTest(OppiaTestCase):
         response = self.client.get(url)
         self.assertTemplateUsed(response, self.STR_LAUNCHER_TEMPLATE)
         self.assertEqual(200, response.status_code)
+        
+    def test_no_access_for_draft_course(self):
+        url = ('%s?course=' + self.valid_course) \
+            % reverse(self.STR_URL_REDIRECT)
+        update_course_visibility(1, False, True)
+        response = self.client.get(url)
+        self.assertRaises(Http404)
+        self.assertTemplateUsed(response, self.STR_LAUNCHER_TEMPLATE)
+        self.assertEqual(200, response.status_code)
+        update_course_visibility(1, False, False)
