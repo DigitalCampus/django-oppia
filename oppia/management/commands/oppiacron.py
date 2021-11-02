@@ -59,6 +59,9 @@ class Command(BaseCommand):
 
         # clear any expired sessions
         call_command('clearsessions')
+        
+        # add any missing api keys for Tastypie
+        call_command('backfill_api_keys')
 
         SettingProperties.set_string('oppia_cron_last_run', timezone.now())
         SettingProperties.delete_key('oppia_cron_lock')
