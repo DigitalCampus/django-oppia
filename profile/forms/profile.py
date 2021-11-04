@@ -50,6 +50,7 @@ class ProfileForm(forms.Form):
                                 required=True)
     job_title = forms.CharField(max_length=100, required=False)
     organisation = forms.CharField(max_length=100, required=False)
+    phone_number = forms.CharField(max_length=100, required=False)
 
     def __init__(self, allow_edit=True, *args, **kwargs):
         super(ProfileForm, self).__init__(* args, ** kwargs)
@@ -109,7 +110,8 @@ class ProfileForm(forms.Form):
              'first_name',
              'last_name',
              'job_title',
-             'organisation'])
+             'organisation',
+             'phone_number'])
 
         custom_fields = CustomField.objects.all().order_by('order')
         for custom_field in custom_fields:
