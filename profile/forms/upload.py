@@ -16,8 +16,8 @@ class UploadProfileForm(forms.Form):
         self.helper = FormHelper()
         self.helper.form_action = reverse('profile:upload')
         self.helper.form_class = 'form-horizontal'
-        self.helper.label_class = 'col-lg-2'
-        self.helper.field_class = 'col-lg-4'
+        self.helper.label_class = 'col-lg-3 col-md-4 col-sm-3'
+        self.helper.field_class = 'col-lg-6 col-md-8 col-sm-6'
         self.helper.layout = Layout(
             'upload_file',
             Div(
