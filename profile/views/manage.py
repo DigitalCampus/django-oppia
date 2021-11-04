@@ -43,10 +43,8 @@ def search_users(request):
     query_string = None
     if ('q' in request.GET) and request.GET['q'].strip():
         query_string = request.GET['q']
-        filter_query = utils.get_query(query_string, ['username',
-                                                'first_name',
-                                                'last_name',
-                                                'email', ])
+        profile_fields = ['username', 'first_name', 'last_name', 'email']
+        filter_query = utils.get_query(query_string, profile_fields)
         users = users.filter(filter_query)
 
     ordering = request.GET.get('order_by', None)
