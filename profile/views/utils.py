@@ -7,6 +7,8 @@ from django.urls import reverse
 
 from oppia.models import Tracker
 from oppia.views.utils import filter_trackers
+from profile.forms import CUSTOMFIELDS_SEARCH_PREFIX
+from profile.models import CustomField
 
 
 def filter_redirect(request_content):
@@ -52,7 +54,7 @@ def get_query(query_string, search_fields):
 def get_filters_from_row(search_form):
     filters = {}
     for row in search_form.cleaned_data:
-        if search_form.cleaned_data[row]:
+        if CUSTOMFIELDS_SEARCH_PREFIX not in row and search_form.cleaned_data[row]:
             if row == 'start_date':
                 filters['date_joined__gte'] = search_form.cleaned_data[row]
             elif row == 'end_date':
@@ -63,6 +65,23 @@ def get_filters_from_row(search_form):
                 filters[row] = search_form.cleaned_data[row]
     return filters
 
+
+def get_users_filtered_by_customfields(users, search_form):
+    custom_fields = CustomField.objects.all().order_by('order')
+    for field in custom_fields:
+        formfield = CUSTOMFIELDS_SEARCH_PREFIX + field.id
+        if formfield in search_form.cleaned_data and search_form.cleaned_data[formfield]:
+            value = search_form.cleaned_data[formfield]
+            if field.type == 'int':
+                q = Q(** {'userprofilecustomfield__key_name': field.id, 'userprofilecustomfield__value_int': value })
+            elif field.type == 'bool':
+                q = Q(** {'userprofilecustomfield__key_name': field.id, 'userprofilecustomfield__value_bool': value})
+            else:
+                q = Q(** {'userprofilecustomfield__key_name': field.id, 'userprofilecustomfield__value_str__icontains': value})
+
+            users = users.filter(q)
+
+    return users
 
 def get_tracker_activities(start_date,
                            end_date,

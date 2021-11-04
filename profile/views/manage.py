@@ -19,9 +19,7 @@ from profile.forms import UploadProfileForm, \
     UserSearchForm, \
     DeleteAccountForm
 from profile.models import UserProfile, CustomField, UserProfileCustomField
-from profile.views.utils import get_paginated_users, \
-    get_filters_from_row, \
-    get_query
+from profile.views import utils
 from quiz.models import QuizAttempt, QuizAttemptResponse
 
 
@@ -32,7 +30,7 @@ def search_users(request):
     filtered = False
     search_form = UserSearchForm(request.GET, request.FILES)
     if search_form.is_valid():
-        filters = get_filters_from_row(search_form)
+        filters = utils.get_filters_from_row(search_form)
         if filters:
             users = users.filter(**filters)
             filtered = True
@@ -40,10 +38,12 @@ def search_users(request):
     if not filtered:
         users = users.all()
 
+    users = utils.get_users_filtered_by_customfields(users, search_form)
+
     query_string = None
     if ('q' in request.GET) and request.GET['q'].strip():
         query_string = request.GET['q']
-        filter_query = get_query(query_string, ['username',
+        filter_query = utils.get_query(query_string, ['username',
                                                 'first_name',
                                                 'last_name',
                                                 'email', ])
@@ -78,7 +78,7 @@ def search_users(request):
 @staff_member_required
 def export_users(request):
 
-    ordering, users = get_paginated_users(request)
+    ordering, users = utils.get_paginated_users(request)
     for user in users:
         try:
             user.apiKey = user.api_key.key
@@ -98,7 +98,7 @@ def export_users(request):
 
 @staff_member_required
 def list_users(request):
-    ordering, users = get_paginated_users(request)
+    ordering, users = utils.get_paginated_users(request)
     return render(request, 'profile/users-paginated-list.html',
                   {'page': users,
                    'page_ordering': ordering,
