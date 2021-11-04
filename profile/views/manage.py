@@ -38,7 +38,8 @@ def search_users(request):
     if not filtered:
         users = users.all()
 
-    users = utils.get_users_filtered_by_customfields(users, search_form)
+    users, customfilter = utils.get_users_filtered_by_customfields(users, search_form)
+    filtered = filtered | customfilter
 
     query_string = None
     if ('q' in request.GET) and request.GET['q'].strip():

@@ -88,13 +88,15 @@ def get_filters_from_row(search_form):
 
 def get_users_filtered_by_customfields(users, search_form):
     custom_fields = CustomField.objects.all().order_by('order')
+    filtered = False
     for field in custom_fields:
         formfield = CUSTOMFIELDS_SEARCH_PREFIX + field.id
         if formfield in search_form.cleaned_data and search_form.cleaned_data[formfield]:
             value = search_form.cleaned_data[formfield]
             users = users.filter(get_customfields_filter(value, field))
+            filtered = True
 
-    return users
+    return users, filtered
 
 def get_tracker_activities(start_date,
                            end_date,
