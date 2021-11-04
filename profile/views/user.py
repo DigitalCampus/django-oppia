@@ -187,13 +187,16 @@ class EditView(UpdateView):
         user_profile, created = UserProfile.objects \
             .get_or_create(user=self.object)
 
-        initial = {'username': self.object.username,
-                   'email': self.object.email,
-                   'first_name': self.object.first_name,
-                   'last_name': self.object.last_name,
-                   'api_key': key.key,
-                   'job_title': user_profile.job_title,
-                   'organisation': user_profile.organisation}
+        initial = {
+            'username': self.object.username,
+            'email': self.object.email,
+            'first_name': self.object.first_name,
+            'last_name': self.object.last_name,
+            'api_key': key.key,
+            'job_title': user_profile.job_title,
+            'organisation': user_profile.organisation,
+            'phone_number': user_profile.phone_number
+        }
 
         custom_fields = CustomField.objects.all()
         for custom_field in custom_fields:
@@ -232,8 +235,9 @@ class EditView(UpdateView):
 
         user_profile, created = UserProfile.objects \
             .get_or_create(user=view_user)
-        user_profile.job_title = form.cleaned_data.get("job_title")
-        user_profile.organisation = form.cleaned_data.get("organisation")
+        user_profile.job_title = form.cleaned_data.get('job_title')
+        user_profile.organisation = form.cleaned_data.get('organisation')
+        user_profile.phone_number = form.cleaned_data.get('phone_number')
         user_profile.save()
 
         # save any custom fields
