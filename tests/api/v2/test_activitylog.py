@@ -14,6 +14,7 @@ class UploadAPIActivityLogTest(ResourceTestCaseMixin, TestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_malaria_quiz.json',
+                'tests/test_settings.json',
                 'tests/test_permissions.json',
                 'default_gamification_events.json']
 
