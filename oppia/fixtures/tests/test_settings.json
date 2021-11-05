@@ -1,0 +1,47 @@
+[
+  {
+    "model": "settings.settingproperties",
+    "pk": "MAX_UPLOAD_SIZE",
+    "fields": {
+      "category": "system_config",
+      "description": "The maximum upload size, in bytes, of course             files that will be allowed",
+      "str_value": null,
+      "int_value": 50485760,
+      "bool_value": null
+    }
+  },
+  {
+    "model": "settings.settingproperties",
+    "pk": "OPPIA_ALLOW_PROFILE_EDITING",
+    "fields": {
+      "category": "system_config",
+      "description": "Allow normal users to edit their profiles",
+      "str_value": null,
+      "int_value": null,
+      "bool_value": true
+    }
+  },
+  {
+    "model": "settings.settingproperties",
+    "pk": "OPPIA_ALLOW_SELF_REGISTRATION",
+    "fields": {
+      "category": "system_config",
+      "description": "Whether or not this Oppia server allows users             to self register",
+      "str_value": null,
+      "int_value": null,
+      "bool_value": false
+    }
+  },
+
+  {
+    "model": "settings.settingproperties",
+    "pk": "OPPIA_HOSTNAME",
+    "fields": {
+      "category": "system_config",
+      "description": "Domain/hostname for this Oppia server",
+      "str_value": "http://testserver",
+      "int_value": null,
+      "bool_value": null
+    }
+  }
+]
