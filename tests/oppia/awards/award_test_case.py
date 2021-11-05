@@ -14,7 +14,8 @@ class AwardsTestCase(OppiaTestCase):
                 'default_badges.json',
                 'default_gamification_events.json',
                 'tests/awards/award-course.json',
-                'tests/test_course_permissions.json']
+                'tests/test_course_permissions.json',
+                'tests/test_settings.json']
     file_root = './oppia/fixtures/tests/awards/'
     url = reverse('activitylog:upload')
 
