@@ -9,11 +9,11 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import ugettext as _
-from django.views.generic import FormView, TemplateView
+from django.views.generic import FormView, TemplateView, ListView
 from tastypie.models import ApiKey
 
 import profile
-from helpers.mixins.PermissionMixins import AdminRequiredMixin
+from helpers.mixins.PermissionMixins import AdminRequiredMixin, StaffRequiredMixin
 from oppia.models import Points, Award, Tracker
 from profile.forms import UploadProfileForm, \
     UserSearchForm, \
@@ -22,56 +22,46 @@ from profile.models import UserProfile, CustomField, UserProfileCustomField
 from profile.views import utils
 from quiz.models import QuizAttempt, QuizAttemptResponse
 
+class UserList(StaffRequiredMixin, ListView):
+    model = User
+    form_class = UserSearchForm
+    template_name = 'profile/search_user.html'
+    paginate_by = profile.SEARCH_USERS_RESULTS_PER_PAGE
+    default_order = 'first_name'
 
-@staff_member_required
-def search_users(request):
-    users = User.objects
+    def get_queryset(self):
+        form = self.form_class(self.request.GET)
+        users = User.objects
 
-    filtered = False
-    search_form = UserSearchForm(request.GET, request.FILES)
-    if search_form.is_valid():
-        filters = utils.get_filters_from_row(search_form)
-        if filters:
-            users = users.filter(**filters)
-            filtered = True
+        filtered = False
+        if form.is_valid():
+            filters = utils.get_filters_from_row(form)
+            if filters:
+                users = users.filter(**filters)
+                filtered = True
 
-    if not filtered:
-        users = users.all()
+        if not filtered:
+            users = users.all()
 
-    users, customfilter = utils.get_users_filtered_by_customfields(users, search_form)
-    filtered = filtered | customfilter
+        users, custom_filtered = utils.get_users_filtered_by_customfields(users, form)
+        self.filtered = filtered | custom_filtered
 
-    query_string = None
-    if ('q' in request.GET) and request.GET['q'].strip():
-        query_string = request.GET['q']
-        profile_fields = ['username', 'first_name', 'last_name', 'email']
-        filter_query = utils.get_query(query_string, profile_fields)
-        users = users.filter(filter_query)
+        query_string = self.request.GET.get('q', None)
+        if query_string:
+            profile_fields = ['username', 'first_name', 'last_name', 'email']
+            users = users.filter(utils.get_query(query_string, profile_fields))
 
-    ordering = request.GET.get('order_by', None)
-    if ordering is None:
-        ordering = 'first_name'
+        ordering = self.request.GET.get('order_by', self.default_order)
+        return users.distinct().order_by(ordering)
 
-    users = users.order_by(ordering)
-    paginator = Paginator(users, profile.SEARCH_USERS_RESULTS_PER_PAGE)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['quicksearch'] = self.request.GET.get('q', None)
+        context['search_form'] = self.form_class(self.request.GET)
+        context['advanced_search'] = self.filtered
+        context['page_ordering'] = self.request.GET.get('order_by', self.default_order)
+        return context
 
-    # Make sure page request is an int. If not, deliver first page.
-    try:
-        page = int(request.GET.get('page', '1'))
-    except ValueError:
-        page = 1
-
-    try:
-        users = paginator.page(page)
-    except (EmptyPage, InvalidPage):
-        users = paginator.page(paginator.num_pages)
-
-    return render(request, 'profile/search_user.html',
-                  {'quicksearch': query_string,
-                   'search_form': search_form,
-                   'advanced_search': filtered,
-                   'page': users,
-                   'page_ordering': ordering})
 
 
 @staff_member_required

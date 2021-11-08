@@ -64,7 +64,7 @@ urlpatterns = [
          name="user_regenerate_certificates_success"),
 
     path('upload/', profile_views.UploadUsers.as_view(), name="upload"),
-    path('search/', profile_views.search_users, name="search"),
+    path('search/', profile_views.UserList.as_view(), name="search"),
     path('export/', profile_views.export_users, name="export"),
     path('list/', profile_views.list_users, name="list"),
 
