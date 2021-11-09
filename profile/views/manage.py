@@ -4,7 +4,6 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
-from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -18,19 +17,26 @@ from oppia.models import Points, Award, Tracker
 from profile.forms import UploadProfileForm, \
     UserSearchForm, \
     DeleteAccountForm
+from profile.mixins.ExportAsCSVMixin import ExportAsCSVMixin
 from profile.models import UserProfile, CustomField, UserProfileCustomField
 from profile.views import utils
 from quiz.models import QuizAttempt, QuizAttemptResponse
 
-class UserList(StaffRequiredMixin, ListView):
+
+class UserList(StaffRequiredMixin, ExportAsCSVMixin, ListView):
     model = User
-    form_class = UserSearchForm
+    search_form = UserSearchForm
+    export_filter_form = UserSearchForm
     template_name = 'profile/search_user.html'
     paginate_by = profile.SEARCH_USERS_RESULTS_PER_PAGE
     default_order = 'first_name'
 
+    csv_filename = 'users'
+    available_fields = ['username', 'first_name', 'last_name', 'email',
+                        'userprofile__job_title', 'userprofile__organisation', 'userprofile__phone_number']
+
     def get_queryset(self):
-        form = self.form_class(self.request.GET)
+        form = self.search_form(self.request.GET)
         users = User.objects
 
         filtered = False
@@ -50,14 +56,13 @@ class UserList(StaffRequiredMixin, ListView):
         if query_string:
             profile_fields = ['username', 'first_name', 'last_name', 'email']
             users = users.filter(utils.get_query(query_string, profile_fields))
-
         ordering = self.request.GET.get('order_by', self.default_order)
         return users.distinct().order_by(ordering)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['quicksearch'] = self.request.GET.get('q', None)
-        context['search_form'] = self.form_class(self.request.GET)
+        context['search_form'] = self.search_form(self.request.GET)
         context['advanced_search'] = self.filtered
         context['page_ordering'] = self.request.GET.get('order_by', self.default_order)
         return context
@@ -80,7 +85,8 @@ def export_users(request):
         template = 'users-paginated-list.html'
 
     return render(request, 'profile/' + template,
-                  {'page': users,
+                  {'page_obj': users,
+                   'object_list': users.object_list,
                    'page_ordering': ordering,
                    'users_list_template': 'export'})
 

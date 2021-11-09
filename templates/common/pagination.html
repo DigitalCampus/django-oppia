@@ -1,28 +1,30 @@
-{% load i18n %}
 {% load query_string %}
+{% load i18n %}
 
-{% if page.has_previous or page.has_next %}
-<nav>
-  <ul class="pagination justify-content-center">
+<nav class="row my-3">
+    <div class="col-md-3 d-sm-none d-xs-none d-md-block pt-4 pl-5"><small>{{page.paginator.count|default:0}} {% trans 'elements' %}</small></div>
+    <div class="col-md-6">
+        {% if page.has_previous or page.has_next %}
+  <ul class="pagination justify-content-center mb-0">
       {% if page.has_previous %}
           <li class="page-item">
           <a class="page-link" href="{{ ajax_url }}{% query_string "" "page" %}&page={{ page.previous_page_number }}" aria-label="Previous">
-            <span aria-hidden="true"><em class="fas fa-chevron-left"></em></span>
+            <span aria-hidden="true"><i class="material-icons">navigate_before</i></span>
           </a>
          </li>
       {% endif %}
 
         {% if page.has_previous %}<li class="page-item"><a class="page-link" href="{{ ajax_url }}{% query_string "" "page" %}&page=1"> 1 <span class="sr-only"> 1</span></a></li>{% endif %}
-        {% if page.previous_page_number > 2 %}<li class="page-item"><span class="page-link">...</span></li> {% endif %}
+        {% if page.previous_page_number > 2 %}<li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">...</a></li> {% endif %}
         {% if page.previous_page_number > 1 %}
             <li class="page-item"><a class="page-link" href="{{ ajax_url }}{% query_string "" "page" %}&page={{ page.previous_page_number }}"> {{ page.previous_page_number }} <span class="sr-only"> {{ page.previous_page_number }}</span></a></li>
         {% endif %}
-        <li class="active page-item"><a class="page-link" href="{{ ajax_url }}{% query_string "" "page" %}&page={{ page.number }}"> {{ page.number }} <span class="sr-only"> {{ page.number }}</span></a></li>
+        <li class="page-item active"><a class="page-link" href="{{ ajax_url }}{% query_string "" "page" %}&page={{ page.number }}"> {{ page.number }} <span class="sr-only"> {{ page.number }}</span></a></li>
         {% if page.next_page_number != page.paginator.num_pages %}
             <li class="page-item"><a class="page-link" href="{{ ajax_url }}{% query_string "" "page" %}&page={{ page.next_page_number }}"> {{ page.next_page_number }} <span class="sr-only"> {{ page.next_page_number }}</span></a></li>
             {% with page.next_page_number|add:"1" as secondnext_page %}
                 {% if secondnext_page != page.paginator.num_pages %}
-                    <li class="page-item"><span class="page-link">...</span></li>
+                <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">...</a></li>
                 {% endif %}
             {% endwith %}
         {% endif %}
@@ -32,10 +34,18 @@
     {% if page.has_next %}
           <li class="page-item">
           <a class="page-link" href="{{ ajax_url }}{% query_string "" "page" %}&page={{ page.next_page_number }}" aria-label="Next">
-            <span aria-hidden="true"><span class="fas fa-chevron-right"></span></span>
+            <span aria-hidden="true"><i class="material-icons">navigate_next</i></span>
           </a>
          </li>
       {% endif %}
   </ul>
+        {% endif %}
+    </div>
+    <div class="col-md-3 d-sm-none d-xs-none d-md-block text-right">
+        {% if export_csv_fields %}
+            {% if page.paginator.count %} {% include 'common/list/export_csv.html' %} {% endif %}
+        {% endif %}
+    </div>
+
+
 </nav>
-{% endif %}
