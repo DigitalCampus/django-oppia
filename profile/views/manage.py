@@ -13,13 +13,14 @@ from tastypie.models import ApiKey
 
 import profile
 from helpers.mixins.PermissionMixins import AdminRequiredMixin, StaffRequiredMixin
+from helpers.mixins.TitleViewMixin import TitleViewMixin
 from oppia.models import Points, Award, Tracker
 from profile.forms import UploadProfileForm, \
     UserSearchForm, \
-    DeleteAccountForm
+    DeleteAccountForm, RegisterForm
 from profile.mixins.ExportAsCSVMixin import ExportAsCSVMixin
 from profile.models import UserProfile, CustomField, UserProfileCustomField
-from profile.views import utils
+from profile.views import utils, STR_COMMON_FORM
 from quiz.models import QuizAttempt, QuizAttemptResponse
 
 
@@ -68,6 +69,18 @@ class UserList(StaffRequiredMixin, ExportAsCSVMixin, ListView):
         return context
 
 
+class AddUserView(TitleViewMixin, FormView):
+
+    template_name = STR_COMMON_FORM
+    form_class = RegisterForm
+    title = _('Add user')
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('profile:users_list')
 
 @staff_member_required
 def export_users(request):
@@ -95,7 +108,8 @@ def export_users(request):
 def list_users(request):
     ordering, users = utils.get_paginated_users(request)
     return render(request, 'profile/users-paginated-list.html',
-                  {'page': users,
+                  {'page_obj': users,
+                   'object_list': users.object_list,
                    'page_ordering': ordering,
                    'users_list_template': 'select',
                    'ajax_url': request.path})

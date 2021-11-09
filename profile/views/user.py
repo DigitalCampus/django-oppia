@@ -40,7 +40,7 @@ STR_COMMON_FORM = 'common/form/form.html'
 STR_OPPIA_HOME = 'oppia:index'
 
 
-class LoginView(FormView, TitleViewMixin):
+class LoginView(TitleViewMixin, FormView):
     template_name = STR_COMMON_FORM
     form_class = LoginForm
     title = _(u'Login')
@@ -72,7 +72,7 @@ class LoginView(FormView, TitleViewMixin):
         return HttpResponseRedirect(reverse(STR_OPPIA_HOME))
 
 
-class RegisterView(FormView, TitleViewMixin):
+class RegisterView(TitleViewMixin, FormView):
 
     template_name = STR_COMMON_FORM
     form_class = RegisterForm
@@ -92,60 +92,16 @@ class RegisterView(FormView, TitleViewMixin):
         return {'next': filter_redirect(self.request.GET)}
 
     def form_valid(self, form):
-        response = super().form_valid(form)
+        form.save()
         # Create new user
         username = form.cleaned_data.get("username")
         password = form.cleaned_data.get("password")
-        self.register_form_process(form)
 
         u = authenticate(username=username, password=password)
         if u is not None and u.is_active:
             login(self.request, u)
 
-        return response
-
-    def register_form_process(self, form):
-        # Create new user
-        username = form.cleaned_data.get("username")
-        email = form.cleaned_data.get("email")
-        password = form.cleaned_data.get("password")
-        first_name = form.cleaned_data.get("first_name")
-        last_name = form.cleaned_data.get("last_name")
-        user = User.objects.create_user(username, email, password)
-        user.first_name = first_name
-        user.last_name = last_name
-        user.save()
-
-        # create UserProfile record
-        UserProfile.objects.create(
-            user=user,
-            job_title=form.cleaned_data.get("job_title"),
-            organisation=form.cleaned_data.get("organisation")
-        )
-
-        # save any custom fields
-        custom_fields = CustomField.objects.all()
-        for custom_field in custom_fields:
-            if custom_field.type == 'int':
-                profile_field = UserProfileCustomField(
-                    key_name=custom_field,
-                    user=user,
-                    value_int=form.cleaned_data.get(custom_field.id))
-            elif custom_field.type == 'bool':
-                profile_field = UserProfileCustomField(
-                    key_name=custom_field,
-                    user=user,
-                    value_bool=form.cleaned_data.get(custom_field.id))
-            else:
-                profile_field = UserProfileCustomField(
-                    key_name=custom_field,
-                    user=user,
-                    value_str=form.cleaned_data.get(custom_field.id))
-
-            if (form.cleaned_data.get(custom_field.id) is not None
-                and form.cleaned_data.get(custom_field.id) != '') \
-                    or custom_field.required is True:
-                profile_field.save()
+        return super().form_valid(form)
 
 
 class EditView(UpdateView):
