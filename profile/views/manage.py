@@ -13,6 +13,7 @@ from tastypie.models import ApiKey
 
 import profile
 from helpers.mixins.PermissionMixins import AdminRequiredMixin, StaffRequiredMixin
+from helpers.mixins.SafePaginatorMixin import SafePaginatorMixin
 from helpers.mixins.TitleViewMixin import TitleViewMixin
 from oppia.models import Points, Award, Tracker
 from profile.forms import UploadProfileForm, \
@@ -24,7 +25,7 @@ from profile.views import utils, STR_COMMON_FORM
 from quiz.models import QuizAttempt, QuizAttemptResponse
 
 
-class UserList(StaffRequiredMixin, ExportAsCSVMixin, ListView):
+class UserList(StaffRequiredMixin, ExportAsCSVMixin, SafePaginatorMixin, ListView):
     model = User
     search_form = UserSearchForm
     export_filter_form = UserSearchForm
