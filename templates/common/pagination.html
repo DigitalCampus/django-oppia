@@ -9,7 +9,7 @@
       {% if page.has_previous %}
           <li class="page-item">
           <a class="page-link" href="{{ ajax_url }}{% query_string "" "page" %}&page={{ page.previous_page_number }}" aria-label="Previous">
-            <span aria-hidden="true"><i class="material-icons">navigate_before</i></span>
+            <span aria-hidden="true"><em class="material-icons">navigate_before</em></span>
           </a>
          </li>
       {% endif %}
@@ -34,7 +34,7 @@
     {% if page.has_next %}
           <li class="page-item">
           <a class="page-link" href="{{ ajax_url }}{% query_string "" "page" %}&page={{ page.next_page_number }}" aria-label="Next">
-            <span aria-hidden="true"><i class="material-icons">navigate_next</i></span>
+            <span aria-hidden="true"><em class="material-icons">navigate_next</em></span>
           </a>
          </li>
       {% endif %}
