@@ -70,7 +70,7 @@ class UserList(StaffRequiredMixin, ExportAsCSVMixin, SafePaginatorMixin, ListVie
         return context
 
 
-class AddUserView(TitleViewMixin, FormView):
+class AddUserView(StaffRequiredMixin, TitleViewMixin, FormView):
 
     template_name = STR_COMMON_FORM
     form_class = RegisterForm
