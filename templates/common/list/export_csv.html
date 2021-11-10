@@ -1,10 +1,10 @@
 
 
-<button type="button" class="btn mt-3 btn-outline-primary" data-toggle="modal" data-target="#export_csv_modal">
+<button type="button" class="btn btn-outline-primary mr-3 mt-2" data-toggle="modal" data-target="#export_csv_modal">
   <em class="material-icons mr-2">assignment_returned</em> <span class="d-sm-none d-xs-none d-md-none d-lg-inline">Export...</span>
 </button>
 
-<div class="modal fade" id="export_csv_modal" tabindex="-1" role="dialog" aria-labelledby="export_csv_modal_label" aria-hidden="true">
+<div class="modal fade text-left" id="export_csv_modal" tabindex="-1" role="dialog" aria-labelledby="export_csv_modal_label" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -15,24 +15,25 @@
       </div>
       <div class="modal-body">
             <span class="text-primary"> Export {{paginator.count}} records</span>
-            <p class="lead font-weight-light"> Select the fields to include: </p>
-          <form method="get">
+            <p class="lead font-weight-light mb-0"> Select the fields to include: </p>
+            If you don't select any field, all of them will be included.
+          <form method="get" class="mt-3">
             <input type="hidden" name="export" value="csv" />
-            {% if filter.form %}
-            {% for hidden in filter.form.hidden_fields %}
-                {{ hidden }}
-            {% endfor %}
+            {% if export_filter_form %}
+              {% for hidden in export_filter_form.hidden_fields %}
+                  {{ hidden }}
+              {% endfor %}
 
-            {% for field in filter.form.visible_fields %}
-                <input type="hidden" name="{{field.name}}" value="{{field.value|default:''}}" />
-            {% endfor %}
+              {% for field in export_filter_form.visible_fields %}
+                  <input type="hidden" name="{{field.name}}" value="{{field.value|default:''}}" />
+              {% endfor %}
             {% endif %}
 
             <div class="border border-top-0 inner-scroll" style="max-height:40vh;">
               {% for field, label in export_csv_fields.items %}
             <div class="custom-control custom-checkbox">
               <input type="checkbox" class="custom-control-input" id="check_{{field}}" name="csv_fields[]" value="{{field}}">
-              <label class="custom-control-label" for="check_{{field}}">{{label}}</label>
+              <label class="custom-control-label" for="check_{{field}}">{{label.label}}</label>
             </div>
             {% endfor %}
             </div>

@@ -1,4 +1,4 @@
-<div class="form-group">
+<div class="form-group {{wrapper_class}}">
 {% if not_floating %}
     <label for="{{ field.id_for_label }}">{{ field.label }} {% if field.field.required %} <span class="text-primary lead">*{% endif %}</span></label>
     <input type="{{ field.field.widget.input_type }}" name="{{field.html_name}}" value="{{ field.value|default_if_none:'' }}" id="{{field.auto_id}}" class="form-control {{field.field.widget.attrs.class}}">

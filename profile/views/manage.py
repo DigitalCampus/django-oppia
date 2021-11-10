@@ -4,81 +4,89 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
-from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import ugettext as _
-from django.views.generic import FormView, TemplateView
+from django.views.generic import FormView, TemplateView, ListView
 from tastypie.models import ApiKey
 
 import profile
-from helpers.mixins.PermissionMixins import AdminRequiredMixin
+from helpers.mixins.PermissionMixins import AdminRequiredMixin, StaffRequiredMixin
+from helpers.mixins.SafePaginatorMixin import SafePaginatorMixin
+from helpers.mixins.TitleViewMixin import TitleViewMixin
 from oppia.models import Points, Award, Tracker
 from profile.forms import UploadProfileForm, \
     UserSearchForm, \
-    DeleteAccountForm
+    DeleteAccountForm, RegisterForm
+from profile.mixins.ExportAsCSVMixin import ExportAsCSVMixin
 from profile.models import UserProfile, CustomField, UserProfileCustomField
-from profile.views.utils import get_paginated_users, \
-    get_filters_from_row, \
-    get_query
+from profile.views import utils, STR_COMMON_FORM
 from quiz.models import QuizAttempt, QuizAttemptResponse
 
 
-@staff_member_required
-def search_users(request):
-    users = User.objects
+class UserList(StaffRequiredMixin, ExportAsCSVMixin, SafePaginatorMixin, ListView):
+    model = User
+    search_form = UserSearchForm
+    export_filter_form = UserSearchForm
+    template_name = 'profile/search_user.html'
+    paginate_by = profile.SEARCH_USERS_RESULTS_PER_PAGE
+    default_order = 'first_name'
 
-    filtered = False
-    search_form = UserSearchForm(request.GET, request.FILES)
-    if search_form.is_valid():
-        filters = get_filters_from_row(search_form)
-        if filters:
-            users = users.filter(**filters)
-            filtered = True
+    csv_filename = 'users'
+    available_fields = ['username', 'first_name', 'last_name', 'email',
+                        'userprofile__job_title', 'userprofile__organisation', 'userprofile__phone_number']
 
-    if not filtered:
-        users = users.all()
+    def get_queryset(self):
+        form = self.search_form(self.request.GET)
+        users = User.objects
 
-    query_string = None
-    if ('q' in request.GET) and request.GET['q'].strip():
-        query_string = request.GET['q']
-        filter_query = get_query(query_string, ['username',
-                                                'first_name',
-                                                'last_name',
-                                                'email', ])
-        users = users.filter(filter_query)
+        filtered = False
+        if form.is_valid():
+            filters = utils.get_filters_from_row(form)
+            if filters:
+                users = users.filter(**filters)
+                filtered = True
 
-    ordering = request.GET.get('order_by', None)
-    if ordering is None:
-        ordering = 'first_name'
+        if not filtered:
+            users = users.all()
 
-    users = users.order_by(ordering)
-    paginator = Paginator(users, profile.SEARCH_USERS_RESULTS_PER_PAGE)
+        users, custom_filtered = utils.get_users_filtered_by_customfields(users, form)
+        self.filtered = filtered | custom_filtered
 
-    # Make sure page request is an int. If not, deliver first page.
-    try:
-        page = int(request.GET.get('page', '1'))
-    except ValueError:
-        page = 1
+        query_string = self.request.GET.get('q', None)
+        if query_string:
+            profile_fields = ['username', 'first_name', 'last_name', 'email']
+            users = users.filter(utils.get_query(query_string, profile_fields))
+        ordering = self.request.GET.get('order_by', self.default_order)
+        return users.distinct().order_by(ordering)
 
-    try:
-        users = paginator.page(page)
-    except (EmptyPage, InvalidPage):
-        users = paginator.page(paginator.num_pages)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['quicksearch'] = self.request.GET.get('q', None)
+        context['search_form'] = self.search_form(self.request.GET)
+        context['advanced_search'] = self.filtered
+        context['page_ordering'] = self.request.GET.get('order_by', self.default_order)
+        return context
 
-    return render(request, 'profile/search_user.html',
-                  {'quicksearch': query_string,
-                   'search_form': search_form,
-                   'advanced_search': filtered,
-                   'page': users,
-                   'page_ordering': ordering})
 
+class AddUserView(TitleViewMixin, FormView):
+
+    template_name = STR_COMMON_FORM
+    form_class = RegisterForm
+    title = _('Add user')
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('profile:users_list')
 
 @staff_member_required
 def export_users(request):
 
-    ordering, users = get_paginated_users(request)
+    ordering, users = utils.get_paginated_users(request)
     for user in users:
         try:
             user.apiKey = user.api_key.key
@@ -91,16 +99,18 @@ def export_users(request):
         template = 'users-paginated-list.html'
 
     return render(request, 'profile/' + template,
-                  {'page': users,
+                  {'page_obj': users,
+                   'object_list': users.object_list,
                    'page_ordering': ordering,
                    'users_list_template': 'export'})
 
 
 @staff_member_required
 def list_users(request):
-    ordering, users = get_paginated_users(request)
+    ordering, users = utils.get_paginated_users(request)
     return render(request, 'profile/users-paginated-list.html',
-                  {'page': users,
+                  {'page_obj': users,
+                   'object_list': users.object_list,
                    'page_ordering': ordering,
                    'users_list_template': 'select',
                    'ajax_url': request.path})

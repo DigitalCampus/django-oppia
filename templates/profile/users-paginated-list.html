@@ -20,12 +20,12 @@
 
     {% if users_list_template %}
         {% with "profile/list/row-user-"|add:users_list_template|add:".html" as row_template_path %}
-            {% for user in page.object_list %}
+            {% for user in object_list %}
                 {% include row_template_path %}
             {% endfor %}
         {% endwith %}
     {% else %}
-        {% for user in page.object_list %}
+        {% for user in object_list %}
             {% include 'profile/list/row-user-default.html' %}
         {% endfor %}
 
@@ -35,4 +35,4 @@
 </table>
 </div>
 
-{% include "common/pagination.html" %}
+{% include "common/pagination.html" with page=page_obj %}

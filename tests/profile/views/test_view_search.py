@@ -9,7 +9,7 @@ class UserSearchActivityViewTest(OppiaTestCase):
                 'tests/test_permissions.json',
                 'tests/test_course_permissions.json']
 
-    url = reverse('profile:search')
+    url = reverse('profile:users_list')
     template = 'profile/search_user.html'
 
     def setUp(self):
@@ -28,26 +28,7 @@ class UserSearchActivityViewTest(OppiaTestCase):
         for disallowed_user in self.disallowed_users:
             self.client.force_login(user=disallowed_user)
             response = self.client.get(self.url)
-            self.assertRedirects(response,
-                                 '/admin/login/?next=' + self.url,
-                                 302,
-                                 200)
-
-    def test_view_search_post(self):
-
-        for allowed_user in self.allowed_users:
-            self.client.force_login(user=allowed_user)
-            response = self.client.post(self.url)
-            self.assertTemplateUsed(response, self.template)
-            self.assertEqual(response.status_code, 200)
-
-        for disallowed_user in self.disallowed_users:
-            self.client.force_login(user=disallowed_user)
-            response = self.client.post(self.url)
-            self.assertRedirects(response,
-                                 '/admin/login/?next=' + self.url,
-                                 302,
-                                 200)
+            self.assertEqual(response.status_code, 403)
 
     def test_view_search_page_123(self):
         self.client.force_login(self.admin_user)

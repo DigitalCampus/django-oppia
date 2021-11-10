@@ -11,22 +11,55 @@
 <form method="get" class="form-horizontal">
 <div class="jumbotron mb-4 ">
     <div class="d-md-flex">
-        <h3>{% trans 'Search users' %}</h3>
+        <h3>{% trans 'Users' %}</h3>
+
         <div class="flex-grow ml-4">
              <div class="input-group">
-
                   <input type="text" name="q" {% if quicksearch %}value="{{ quicksearch }}" {% endif %}class="form-control" aria-label="{% trans 'Search' %}" placeholder="{% trans 'Search...' %}">
-                  <span class="input-group-btn"><button class="btn btn-flat mr-3" type="submit" ><em class="fas fa-search"></em></button></span></span>
-                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#advanced-search" aria-expanded="false" aria-controls="collapseExample">Advanced search</button>
-            </div>
+                 <div class="btn-group mx-3" role="group" aria-label="Basic example">
+                     <button class="btn btn-primary" type="submit" ><em class="fas fa-search"></em></button>
+                     <button class="btn btn-secondary py-3 pr-5 {% if not advanced_search %}collapsed{% endif %}" type="button" data-toggle="collapse" data-target="#advanced-search" aria-expanded="false" aria-controls="collapseExample"><span>Advanced search</span> <em class="fas fa-chevron-down expand-btn ml-2"></em></button>
+
+                 </div>
+                   <a class="btn btn-light" type="button" href="{% url 'profile:add' %}"><em class="material-icons mr-2">add</em> Add user</a>
+             </div>
 
         </div>
     </div>
 
     <div id="advanced-search" class="collapse mt-4  {% if advanced_search %}show{% endif %}">
-        <div class="row"><div class="col-sm-11 col-md-7">
+        <div class="row">
+            <label class="col-form-label col-sm-3 col-md-2 col-lg-2 pr-0 control-label">
+                {% trans 'Registration date' %}
+            </label>
+            <div class="col-md-5">
             {% include "common/form/date-range.html" with dateform=search_form omit_form_tag=True %}
-        </div></div>
+            </div>
+            <div class="col-md-3 col-lg-2 mt-4">
+                {% include "common/form/checkbox.html" with field=search_form.is_active %}
+            </div>
+            <div class="col-md-3 mt-4">
+                {% include "common/form/checkbox.html" with field=search_form.is_staff %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5 col-lg-4 offset-lg-2">
+                {% include "common/form/input.html" with field=search_form.username wrapper_class="mb-0" %}
+            </div>
+            <div class="col-md-5 col-lg-4">
+                {% include "common/form/input.html" with field=search_form.email wrapper_class="mb-0" %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5 col-lg-4 offset-lg-2">
+                {% include "common/form/input.html" with field=search_form.first_name %}
+            </div>
+            <div class="col-md-5 col-lg-4">
+                {% include "common/form/input.html" with field=search_form.last_name %}
+            </div>
+        </div>
             {% crispy search_form %}
     </div>
 
