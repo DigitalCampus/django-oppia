@@ -40,7 +40,7 @@ class CourseMediaList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
         context = super().get_context_data(**kwargs)
         context['course'] = Course.objects.get(pk=self.kwargs['course_id'])
         context['uploaded'] = 0
-        for media in context['object_list']:
+        for media in self.get_queryset():
             media.uploaded = UploadedMedia.objects \
                 .filter(md5=media.digest).first()
             context['uploaded'] += 1 if media.uploaded else 0

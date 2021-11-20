@@ -10,7 +10,7 @@
 {% block header %}
 <div class="jumbotron mb-2">
 		<h3><a href="{% url 'oppia:recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a>
-			<em class="material-icons md-18 ">arrow_forward_ios</em>  {% trans 'Media' %} {{uploaded}}
+			<em class="material-icons md-18 ">arrow_forward_ios</em>  {% trans 'Media' %} ({{uploaded}})
 		</h3>
 
 </div>
