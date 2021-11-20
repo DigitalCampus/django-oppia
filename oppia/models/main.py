@@ -230,21 +230,13 @@ class Course(models.Model):
         tracker_viewed = Tracker.objects.filter(
             course=course,
             user=user,
-            digest__in=media.values_list('digest')) \
+            digest__in=media.values_list('digest'),
+            completed=True) \
             .values_list('digest') \
             .distinct() \
             .count()
 
-        event_viewed = 0
-        for m in media:
-            media = Tracker.objects.filter(course=course,
-                                           user=user,
-                                           data__contains=m.filename,
-                                           event='media_played')
-            if media.exists:
-                event_viewed += 1
-
-        return max(event_viewed, tracker_viewed)
+        return tracker_viewed
 
 
 class CoursePermissions(models.Model):
