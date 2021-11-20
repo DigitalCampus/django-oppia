@@ -13,8 +13,8 @@
 {% block item_row %}
 
 <td>{{ forloop.counter0|get_index:page_obj.start_index }}</td>
-<td>{% if OPPIA_SHOW_GRAVATARS %} {{ user|gravatar:24 }} {% endif %}
-    <a href="{% url 'profile:user_activity' user.id %}">{{ item.first_name }} {{ item.last_name }}</a>
+<td>{% if OPPIA_SHOW_GRAVATARS %} {{ item|gravatar:24 }} {% endif %}
+    <a href="{% url 'profile:user_activity' item.id %}">{{ item.first_name }} {{ item.last_name }}</a>
 </td>
 <td><span title="{{ item.total  }} {% trans 'points' %}">
     {{ item.total }}</span></td>
