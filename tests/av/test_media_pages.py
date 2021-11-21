@@ -29,11 +29,9 @@ class AVPagesViewTest(OppiaTestCase):
     def test_home_view_invalid_page_param(self):
         self.client.force_login(self.normal_user)
         response = self.client.get(self.index_url + "?page=abc")
-        self.assertTemplateUsed(response, self.index_template)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 404)
 
     def test_home_view_invalid_page_no(self):
         self.client.force_login(self.normal_user)
         response = self.client.get(self.index_url + "?page=999")
-        self.assertTemplateUsed(response, self.index_template)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 404)
