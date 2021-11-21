@@ -24,6 +24,7 @@ class AVHome(ListView, AjaxTemplateResponseMixin):
     ajax_template_name = 'av/query.html'
     queryset = UploadedMedia.objects.all().order_by('-created_date')
     extra_context = {'title': STR_UPLOAD_MEDIA}
+    paginate_by = 25
 
 
 class CourseMediaList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
