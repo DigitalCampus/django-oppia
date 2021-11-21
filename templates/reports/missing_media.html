@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{% trans 'Missing Media' %}
+{% endblock extra_head_title %}
+
+{% block header %}
+<div class="jumbotron mb-4">
+	<h3><a href="{% url 'reports:index' %}">{% trans 'Analytics/Reports' %}</a> &gt; {% trans 'Missing Media' %}</h3>
+</div>
+{% endblock header %}
+
+{% block content %}
+
+{% if user_list %}
+
+	 <div class="table-responsive">
+         <table class="table table-striped-expandable">
+             <caption class="d-none">{% trans "Completion rates" %}</caption>
+         	 <thead>
+                <tr>
+                  <th scope="col">{% trans 'Course' %}</th>
+                  <th scope="col">{% trans 'Users enroled' %}</th>
+                  <th scope="col">{% trans 'Completion rate (badge awarded)' %}</th>
+                </tr>
+              </thead>
+              <tbody>
+	{% for cl in courses_list %}
+		<tr>
+				<td>
+                <a href="{% url 'reports:course_completion_rates' cl.course.id %}"><strong>{{ cl.course.title|title_lang:LANGUAGE_CODE }}</strong></a>
+				{% if cl.course.is_draft %}
+					- <em>{% trans 'draft' %}</em>
+				{% endif %}
+				{% if cl.course.is_archived %}
+					- <em>{% trans 'archived' %}</em>
+				{% endif %}<br/>
+				<small>{% trans 'Categories:' %} {{ cl.course.get_categories }}</small></td>
+				<td>{{ cl.enroled }} </td>
+				<td>{{ cl.completion|floatformat:1 }}%</td>
+			</tr>
+	{% endfor %}
+			</tbody>
+ 		</table>
+	</div>
+{% endif %}
+
+{% endblock content %}
