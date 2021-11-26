@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{% trans 'Missing Media' %}
+{% endblock extra_head_title %}
+
+{% block header %}
+<div class="jumbotron mb-4">
+	<h3><a href="{% url 'reports:index' %}">{% trans 'Analytics/Reports' %}</a> &gt; {% trans 'Confirm Missing Media Purge' %}</h3>
+</div>
+{% endblock header %}
+
+{% block content %}
+
+<h3>{% trans 'Are you sure you want to remove all the missing media records for: ' %}{{ user.first_name }} {{ user.last_name }} ?</h3>
+
+<div class="alert alert-danger" role="alert">
+{% blocktrans %}
+<p>This will remove all their missing media records from the server, and is permanent.</p>
+<p>So should only be done after you have confirmed the user now has all the media on their device.</p>
+{% endblocktrans %}
+</div>
+
+<form method="post">
+	{% csrf_token %}
+	<input type="submit" value="Yes, confirm purge" class='btn btn-default'/>
+</form>
+<p>&nbsp;</p>
+<p><a href="{% url 'reports:missing_media' %}" class='btn btn-default'>{% trans 'No, return to missing media report' %}</a></p>
+
+{% endblock content %}

@@ -14,32 +14,29 @@
 
 {% block content %}
 
-{% if user_list %}
+{% if user_data %}
 
 	 <div class="table-responsive">
          <table class="table table-striped-expandable">
-             <caption class="d-none">{% trans "Completion rates" %}</caption>
+             <caption class="d-none">{% trans "Missing Media" %}</caption>
          	 <thead>
                 <tr>
-                  <th scope="col">{% trans 'Course' %}</th>
-                  <th scope="col">{% trans 'Users enroled' %}</th>
-                  <th scope="col">{% trans 'Completion rate (badge awarded)' %}</th>
+                  <th scope="col">{% trans 'User' %}</th>
+                  <th scope="col">{% trans 'Media files missing' %}</th>
+                  <th scope="col">{% trans 'Actions' %}</th>
                 </tr>
               </thead>
               <tbody>
-	{% for cl in courses_list %}
+	{% for ud in user_data %}
 		<tr>
 				<td>
-                <a href="{% url 'reports:course_completion_rates' cl.course.id %}"><strong>{{ cl.course.title|title_lang:LANGUAGE_CODE }}</strong></a>
-				{% if cl.course.is_draft %}
-					- <em>{% trans 'draft' %}</em>
-				{% endif %}
-				{% if cl.course.is_archived %}
-					- <em>{% trans 'archived' %}</em>
-				{% endif %}<br/>
-				<small>{% trans 'Categories:' %} {{ cl.course.get_categories }}</small></td>
-				<td>{{ cl.enroled }} </td>
-				<td>{{ cl.completion|floatformat:1 }}%</td>
+                <a href="{% url 'profile:user_activity' ud.user.id %}">{{ ud.user.first_name }} {{ ud.user.last_name }}</a></td>
+				<td><ul>
+					{% for filename in ud.filenames  %}
+						<li>{{ filename }}</li>
+					{% endfor %}
+				</ul></td>
+				<td><a href="{% url 'reports:missing_media_purge' ud.user.id %}" class='btn btn-default'>{% trans 'Purge records for user' %}</a></td>
 			</tr>
 	{% endfor %}
 			</tbody>
