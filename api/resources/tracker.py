@@ -163,6 +163,11 @@ class TrackerResource(ModelResource):
             bundle.obj.type = activity.type
             bundle.obj.activity_title = activity.title
             bundle.obj.section_title = activity.section.title
+
+            if 'course_version' in bundle.data:
+                bundle.obj.course_version = bundle.data['course_version']
+            else:
+                bundle.obj.course_version = bundle.obj.course.version
         else:
             bundle.obj.course = None
             bundle.obj.type = ''
