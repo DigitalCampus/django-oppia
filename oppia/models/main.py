@@ -493,6 +493,7 @@ class Tracker(models.Model):
                             default=None)
     completed = models.BooleanField(default=False)
     time_taken = models.IntegerField(default=0)
+    course_version = models.BigIntegerField(null=True, blank=True)
     activity_title = models.TextField(blank=True,
                                       null=True,
                                       default=None)
