@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{% trans 'Missing Media' %}
+{% endblock extra_head_title %}
+
+{% block header %}
+<div class="jumbotron mb-4">
+	<h3><a href="{% url 'reports:index' %}">{% trans 'Analytics/Reports' %}</a> &gt; {% trans 'Missing Media' %}</h3>
+</div>
+{% endblock header %}
+
+{% block content %}
+
+{% if user_data %}
+
+	 <div class="table-responsive">
+         <table class="table table-striped-expandable">
+             <caption class="d-none">{% trans "Missing Media" %}</caption>
+         	 <thead>
+                <tr>
+                  <th scope="col">{% trans 'User' %}</th>
+                  <th scope="col">{% trans 'Media files missing' %}</th>
+                  <th scope="col">{% trans 'Actions' %}</th>
+                </tr>
+              </thead>
+              <tbody>
+	{% for ud in user_data %}
+		<tr>
+				<td>
+                <a href="{% url 'profile:user_activity' ud.user.id %}">{{ ud.user.first_name }} {{ ud.user.last_name }}</a></td>
+				<td><ul>
+					{% for filename in ud.filenames  %}
+						<li>{{ filename }}</li>
+					{% endfor %}
+				</ul></td>
+				<td><a href="{% url 'reports:missing_media_purge' ud.user.id %}" class='btn btn-default'>{% trans 'Purge records for user' %}</a></td>
+			</tr>
+	{% endfor %}
+			</tbody>
+ 		</table>
+	</div>
+{% endif %}
+
+{% endblock content %}

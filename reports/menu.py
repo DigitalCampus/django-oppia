@@ -66,6 +66,10 @@ def menu_reports(request):
                {'name': _(u'Inactive Users'),
                 'description': _(u'Users who have not been active'),
                 'url': reverse('reports:inactive_users'),
+                'icon': 'vertical_split'},
+               {'name': _(u'Missing Media'),
+                'description': _(u'Users who have media missing on their devices'),
+                'url': reverse('reports:missing_media'),
                 'icon': 'vertical_split'}]
 
     map_viz_enabled = SettingProperties.get_bool(

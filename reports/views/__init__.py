@@ -15,3 +15,4 @@ from reports.views.lang_activity import LanguageActivityView
 from reports.views.countries import CountriesView
 from reports.views.inactive_users import InactiveUsersView
 from reports.views.download_time_tracking import DownloadTimeSpentView
+from reports.views.missing_media import MissingMediaView, MissingMediaPurgeView

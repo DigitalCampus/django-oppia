@@ -56,4 +56,10 @@ urlpatterns = [
     path('inactive-users',
          views.InactiveUsersView.as_view(),
          name="inactive_users"),
+    path('missing-media',
+         views.MissingMediaView.as_view(),
+         name="missing_media"),
+    path('missing-media/<int:user_id>/purge',
+         views.MissingMediaPurgeView.as_view(),
+         name="missing_media_purge"),
 ]
