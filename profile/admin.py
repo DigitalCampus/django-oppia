@@ -10,7 +10,7 @@ class UserProfileAdmin(admin.ModelAdmin):
 
 
 class CustomFieldAdmin(admin.ModelAdmin):
-    list_display = ('id', 'label', 'order', 'type')
+    list_display = ('id', 'label', 'order', 'type', 'required')
 
 
 class UserProfileCustomFieldAdmin(admin.ModelAdmin):
