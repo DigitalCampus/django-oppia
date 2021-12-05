@@ -421,7 +421,7 @@ class Activity(models.Model):
 
     def get_no_quiz_responses(self):
         # get the actual quiz id
-        quiz = Quiz.objects.filter(quizprops__name='digest', quizprops__value=self.digest).first()
+        quiz = Quiz.objects.filter(quizprops__name='digest', quizprops__value=self.digest).last()
         return QuizAttempt.objects.filter(quiz_id=quiz.id).count() if quiz is not None else 0
 
 
