@@ -277,7 +277,7 @@ class Command(BaseCommand):
 
         courses = Course.objects.all()
 
-        for course in courses:
+        for idx, course in enumerate(courses):
             self.stdout.write(course.get_title())
             # process for tracker date
             self.update_daily_active_users_dates(
@@ -286,7 +286,9 @@ class Command(BaseCommand):
                 newest_tracker_pk,
                 'tracker_date',
                 'total_tracker_date',
-                DailyActiveUser.TRACKER)
+                DailyActiveUser.TRACKER,
+                idx,
+                courses.count())
 
             # process for submitted date
             self.update_daily_active_users_dates(
@@ -295,7 +297,9 @@ class Command(BaseCommand):
                 newest_tracker_pk,
                 'submitted_date',
                 'total_submitted_date',
-                DailyActiveUser.SUBMITTED)
+                DailyActiveUser.SUBMITTED,
+                idx,
+                courses.count())
 
     def update_daily_active_users_dates(
             self,
@@ -304,7 +308,9 @@ class Command(BaseCommand):
             newest_tracker_pk,
             tracker_date_field,
             dau_total_date_field,
-            dau_type):
+            dau_type,
+            course_no,
+            course_total):
 
         trackers = Tracker.objects.filter(pk__gt=last_tracker_pk,
                                           pk__lte=newest_tracker_pk,
@@ -313,9 +319,15 @@ class Command(BaseCommand):
             .values('day').distinct()
 
         # for each tracker update the DAU model
-        for tracker in trackers:
-            self.stdout.write('Updating DAUs for %s - %s' %
-                              (tracker['day'], course.get_title()))
+        for idx, tracker in enumerate(trackers):
+            self.stdout.write('Updating DAUs for %s - %s (%s: course %d/%d DAU %d/%d)' %
+                              (tracker['day'],
+                               course.get_title(),
+                               dau_type,
+                               course_no+1,
+                               course_total,
+                               idx+1,
+                               trackers.count()))
             total_users = Tracker.objects.annotate(
                 day=TruncDate(tracker_date_field)) \
                 .filter(day=tracker['day']) \
