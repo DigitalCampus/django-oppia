@@ -50,8 +50,8 @@ class UploadView(TemplateView):
             # open file and process
             with open(uploaded_activity_log.file.path, 'rb') as file:
                 file_data = file.read()
-                messagesDelegate = MessagesDelegate(request)
-                success = process_activitylog(messagesDelegate, file_data)
+                messages_delegate = MessagesDelegate(request)
+                success = process_activitylog(messages_delegate, file_data)
                 if success:
                     return HttpResponseRedirect(
                         reverse('activitylog:upload_success'))
@@ -61,34 +61,34 @@ class UploadView(TemplateView):
                        'title': _(u'Upload Activity Log')})
 
 
-def process_activitylog(messagesDelegate, file_contents, messages=None):
+def process_activitylog(messages_delegate, file_contents, messages=None):
     # open file and process
     json_data = json.loads(file_contents)
-    if not validate_server(messagesDelegate, json_data):
+    if not validate_server(messages_delegate, json_data):
         return False
     else:
-        process_uploaded_file(messagesDelegate, json_data)
+        process_uploaded_file(messages_delegate, json_data)
         return True
 
 
-def process_uploaded_trackers(messagesDelegate, trackers, user, user_api_key):
+def process_uploaded_trackers(messages_delegate, trackers, user, user_api_key):
 
     request = HttpRequest()
     request.user = user
     for tracker in trackers:
         success, results = create_resource(TrackerResource, request, tracker)
         if success:
-            messagesDelegate.info(
+            messages_delegate.info(
                           _(u"Tracker activity %(uuid)s for %(username)s added"
                             % {'username': user.username, 'uuid': tracker.get('digest')}))
         else:
-            messagesDelegate.warning( _(
+            messages_delegate.warning( _(
                 u"Already uploaded: tracker activity %(uuid)s for %(username)s" % {'username': user.username,
                                        'uuid': tracker.get('digest', None)}),
                              'danger')
 
 
-def process_uploaded_quizresponses(messagesDelegate,
+def process_uploaded_quizresponses(messages_delegate,
                                    quiz_responses,
                                    user,
                                    user_api_key):
@@ -99,18 +99,18 @@ def process_uploaded_quizresponses(messagesDelegate,
                                            request,
                                            quizattempt)
         if success:
-            messagesDelegate.info(_(u"Quiz attempt for %(username)s added"
+            messages_delegate.info(_(u"Quiz attempt for %(username)s added"
                                      % {'username': user.username}))
         else:
-            messagesDelegate.info(
+            messages_delegate.info(
                           _(u"Already uploaded: quiz attempt for %(username)s added" % {'username': user.username}))
 
 
-def process_uploaded_file(messagesDelegate, json_data):
+def process_uploaded_file(messages_delegate, json_data):
     if 'users' in json_data:
         for user in json_data['users']:
             username = user['username']
-            req_user, user_profile = get_user_from_uploaded_log(messagesDelegate, user)
+            req_user, user_profile = get_user_from_uploaded_log(messages_delegate, user)
 
             user_profile.phone_number = user.get('phoneno', None)
             user_profile.job_title = user.get('jobtitle', None)
@@ -122,7 +122,7 @@ def process_uploaded_file(messagesDelegate, json_data):
                 user_api_key, created = ApiKey.objects \
                     .get_or_create(user=req_user)
                 if (created):
-                    messagesDelegate.warning(
+                    messages_delegate.warning(
                                      _(u"Generated new ApiKey for \
                                        %(username)s : %(apikey)s" % {
                                            'username': username,
@@ -130,17 +130,17 @@ def process_uploaded_file(messagesDelegate, json_data):
                                      'danger')
 
                 if 'trackers' in user:
-                    process_uploaded_trackers(messagesDelegate,
+                    process_uploaded_trackers(messages_delegate,
                                               user['trackers'],
                                               req_user,
                                               user_api_key)
                 if 'quizresponses' in user:
-                    process_uploaded_quizresponses(messagesDelegate,
+                    process_uploaded_quizresponses(messages_delegate,
                                                    user['quizresponses'],
                                                    req_user,
                                                    user_api_key)
             except ApiKey.DoesNotExist:
-                messagesDelegate.warning(
+                messages_delegate.warning(
                                  _(u"%(username)s not found. Please \
                                    check that this file is being uploaded to \
                                    the correct server."
@@ -148,7 +148,7 @@ def process_uploaded_file(messagesDelegate, json_data):
                                  'danger')
 
 
-def get_user_from_uploaded_log(messagesDelegate, user):
+def get_user_from_uploaded_log(messages_delegate, user):
     username = user['username']
 
     for field in user:
@@ -169,7 +169,7 @@ def get_user_from_uploaded_log(messagesDelegate, user):
         req_user.save()
 
         user_profile = UserProfile(user=req_user)
-        messagesDelegate.warning(
+        messages_delegate.warning(
                          _(u"%(username)s did not exist previously, and was created." % {'username': username}),
                          'danger')
     else:
@@ -180,7 +180,7 @@ def get_user_from_uploaded_log(messagesDelegate, user):
     return req_user, user_profile
 
 
-def validate_server(messageDelegate, data):
+def validate_server(messages_delegate, data):
 
     if 'server' in data:
         server_url = SettingProperties.get_string(constants.OPPIA_HOSTNAME, "localhost")
@@ -188,11 +188,11 @@ def validate_server(messageDelegate, data):
             return True
         else:
             print('Different tracker server: {}'.format(data['server']))
-            messageDelegate.warning(_(
+            messages_delegate.warning(_(
                 "The server in the activity log file does not match with the current one"))
             return False
     else:
-        messageDelegate.warning(_(
+        messages_delegate.warning(_(
             "The activity log file seems to be in a wrong format"))
         return False
 
@@ -204,8 +204,8 @@ def post_activitylog(request):
 
     json.loads(request.body)
 
-    messagesDelegate = MessagesDelegate(request)
-    success = process_activitylog(messagesDelegate, request.body)
+    messages_delegate = MessagesDelegate(request)
+    success = process_activitylog(messages_delegate, request.body)
     if success:
         return HttpResponse()
     else:

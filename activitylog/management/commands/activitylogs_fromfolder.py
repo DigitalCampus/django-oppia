@@ -48,13 +48,13 @@ class Command(BaseCommand):
             exit(-1)
 
         start_time = time.time()
-        messagesDelegate = MessagesDelegate()
+        messages_delegate = MessagesDelegate()
         for json in jsonfiles:
             filename = os.path.join(sourcedir, json)
             print ('Processing {}:'.format(filename))
             with open(filename, 'rb') as file:
                 file_data = file.read()
-                success = process_activitylog(messagesDelegate, file_data)
+                success = process_activitylog(messages_delegate, file_data)
                 if success:
                     print("Success!")
 
