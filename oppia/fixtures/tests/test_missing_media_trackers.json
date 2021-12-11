@@ -1,0 +1,48 @@
+[
+{
+    "model": "oppia.tracker",
+    "pk": 3162421,
+    "fields": {
+        "user": 3,
+        "submitted_date": "2015-01-16T15:18:43Z",
+        "tracker_date": "2015-01-16T14:19:17Z",
+        "ip": "83.56.130.108",
+        "agent": "OppiaMobile Android: 5.0.1",
+        "digest": "",
+        "data": "{\"appInstanceId\":\"4380254a-3dcf-4305-aef6-test\",\"filename\":\"LEC_1.3.1.B.%20Prompt%20attention_%20Element%20of%20AYH%20services%20A_Oromo.mp4\",\"uuid\":\"d472ed03-8a19-48b2-bc59-test1\"}",
+        "course": 1,
+        "type": null,
+        "completed": true,
+        "time_taken": 3,
+        "activity_title": "{\"en\": \"Introduction\"}",
+        "section_title": "{\"en\": \"Planning Antenatal Care\"}",
+        "uuid": "91e7ed35-c4ff-4b0c-b74e-123",
+        "lang": "es",
+        "points": null,
+        "event": "media_missing"
+    }
+},
+{
+    "model": "oppia.tracker",
+    "pk": 3162422,
+    "fields": {
+        "user": 3,
+        "submitted_date": "2015-01-16T15:18:43Z",
+        "tracker_date": "2015-01-16T14:19:17Z",
+        "ip": "83.56.130.108",
+        "agent": "OppiaMobile Android: 5.0.1",
+        "digest": "",
+        "data": "{\"appInstanceId\":\"4380254a-3dcf-4305-aef6-test2\",\"filename\":\"LEC_1.3.1.B.%20Prompt%20attention_%20Element%20of%20AYH%20services%20A_Oromo.mp4\",\"uuid\":\"d472ed03-8a19-48b2-bc59-test2\"}",
+        "course": 1,
+        "type": null,
+        "completed": true,
+        "time_taken": 3,
+        "activity_title": "{\"en\": \"Introduction\"}",
+        "section_title": "{\"en\": \"Planning Antenatal Care\"}",
+        "uuid": "91e7ed35-c4ff-4b0c-b74e-124",
+        "lang": "es",
+        "points": null,
+        "event": "media_missing"
+    }
+}
+]
