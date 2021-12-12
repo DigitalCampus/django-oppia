@@ -568,6 +568,57 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
                          timezone.now().day)
 
 
+    def test_course_version_in_tracker_data(self):
+        activity1 = {
+            'digest': '8f3a3c04152e43ceb40c13c9e1bbf76a12327',  # page
+            'data': '{\"uuid\": \"d5f305e9-dd03-4d97-96d5-uuid1\"}',
+            'course_version': '202112121954'
+        }
+        activity2 = {
+            'digest': '8f3a3c04152e43ceb40c13c9e1bbf76a12327',  # page
+            'data': '{\"uuid\": \"baa673cb-e5fc-4797-b7e9-uuid2\"}'
+        }
+
+        data = {'objects': [activity1, activity2]}
+        tracker_count_start = Tracker.objects.all().count()
+        resp = self.api_client.patch(self.url,
+                                     format='json',
+                                     data=data,
+                                     authentication=self.get_credentials())
+        self.assertHttpOK(resp)
+        self.assertValidJSON(resp.content)
+        
+        tracker_count_end = Tracker.objects.all().count()
+        self.assertEqual(tracker_count_start+2, tracker_count_end)
+        
+        tracker1 = Tracker.objects.get(uuid="d5f305e9-dd03-4d97-96d5-uuid1")
+        self.assertEqual(202112121954, tracker1.course_version)
+        
+        tracker2 = Tracker.objects.get(uuid="baa673cb-e5fc-4797-b7e9-uuid2")
+        self.assertEqual(20150611095753, tracker2.course_version)
+    
+    def test_course_version_string_version(self):  
+        activity1 = {
+            'digest': '8f3a3c04152e43ceb40c13c9e1bbf76a12327',  # page
+            'data': '{\"uuid\": \"d5f305e9-dd03-4d97-96d5-uuid3\"}',
+            'course_version': 'mycourseversion'
+        }
+        
+        data = {'objects': [activity1]}
+        tracker_count_start = Tracker.objects.all().count()
+        resp = self.api_client.patch(self.url,
+                                     format='json',
+                                     data=data,
+                                     authentication=self.get_credentials())
+        self.assertHttpOK(resp)
+        self.assertValidJSON(resp.content)
+        
+        tracker_count_end = Tracker.objects.all().count()
+        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        
+        tracker1 = Tracker.objects.get(uuid="d5f305e9-dd03-4d97-96d5-uuid3")
+        self.assertEqual(20150611095753, tracker1.course_version)
+
 # @TODO test UUID not in bundle data
 
 # @TODO test media doesn't exist
