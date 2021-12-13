@@ -4,17 +4,10 @@
     "users": [
         {
             "username": "demo",
-            "email": "",
-            "password": "sha1$$15e6a4ae01aaf6120ac191093dea3c7950142251",
-            "firstname": "John",
-            "lastname": "Doe",
-            "organisation": "home",
-            "jobtitle": "",
-            "phoneno": "null",
             "trackers": [
                 {
-                	"data":"{\"query\":\"🌐\",\"results_count\":0,\"uuid\":\"20d7cc17-91ee-4050-9a47-utf1\"}",
-                	"tracker_date":"2017-01-01 05:43:26",
+                	"data":"{\"query\":\"🌐\",\"results_count\":5,\"uuid\":\"20d7cc17-91ee-4050-9a47-utf1\"}",
+                	"tracker_date":"2021-12-01 05:43:26",
                 	"completed":1,
                 	"digest":"",
                 	"event":"search_performed",
@@ -23,7 +16,7 @@
                 },
                 {
                 	"data":"{\"query\":\"ðŸ˜œ\",\"results_count\":0,\"uuid\":\"20d7cc17-91ee-4050-9a47-utf2\"}",
-                	"tracker_date":"2017-01-01 05:43:26",
+                	"tracker_date":"2021-12-01 05:43:26",
                 	"completed":1,
                 	"digest":"",
                 	"event":"search_performed",
