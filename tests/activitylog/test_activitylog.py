@@ -24,6 +24,7 @@ class UploadActivityLogTest(OppiaTestCase):
     wrong_activity_file = './oppia/fixtures/activity_logs/wrong_format.json'
     new_user_activity = './oppia/fixtures/activity_logs/new_user_activity.json'
     quiz_attempt_log = './oppia/fixtures/activity_logs/quiz_attempts.json'
+    file_with_emojis = './oppia/fixtures/activity_logs/file_with_emojis.json'
 
     def test_no_file(self):
         # no file
@@ -177,3 +178,22 @@ class UploadActivityLogTest(OppiaTestCase):
         self.assertEqual(tracker_count_start, tracker_count_end)
         self.assertEqual(qa_count_start + 1, qa_count_end)
         self.assertEqual(qar_count_start + 7, qar_count_end)
+        
+    def test_file_with_emojis(self):
+        tracker_count_start = Tracker.objects.all().count()
+
+        self.client.force_login(self.admin_user)
+
+        with open(self.file_with_emojis, 'rb') as activity_log_file:
+            response = self.client.post(self.url,
+                                        {'activity_log_file':
+                                         activity_log_file})
+
+        # should be redirected to the success page
+        self.assertRedirects(response,
+                             reverse('activitylog:upload_success'),
+                             302,
+                             200)
+
+        tracker_count_end = Tracker.objects.all().count()
+        self.assertEqual(tracker_count_start+2, tracker_count_end)
