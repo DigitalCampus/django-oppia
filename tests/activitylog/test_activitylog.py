@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 
 from oppia.models import Tracker
+from profile.models import UserProfile
 from quiz.models import QuizAttemptResponse, QuizAttempt
 
 
@@ -24,6 +25,7 @@ class UploadActivityLogTest(OppiaTestCase):
     wrong_activity_file = './oppia/fixtures/activity_logs/wrong_format.json'
     new_user_activity = './oppia/fixtures/activity_logs/new_user_activity.json'
     quiz_attempt_log = './oppia/fixtures/activity_logs/quiz_attempts.json'
+    activity_with_userinfo = './oppia/fixtures/activity_logs/activity_with_userinfo.json'
 
     def test_no_file(self):
         # no file
@@ -65,6 +67,51 @@ class UploadActivityLogTest(OppiaTestCase):
 
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start + 2, tracker_count_end)
+
+
+    def test_userprofile_updated(self):
+
+        self.client.force_login(self.admin_user)
+
+        with open(self.activity_with_userinfo, 'rb') as activity_log_file:
+            response = self.client.post(self.url,
+                                        {'activity_log_file':
+                                         activity_log_file})
+
+        # should be redirected to the success page
+        self.assertRedirects(response,
+                             reverse('activitylog:upload_success'),
+                             302,
+                             200)
+
+        userprofile = UserProfile.objects.get(user__username='demo')
+        self.assertEqual(userprofile.phone_number, '123456789')
+        self.assertEqual(userprofile.organisation, 'home')
+
+
+    def test_empty_userprofile_doesnt_update_fields(self):
+
+        userprofile = UserProfile.objects.get(user__username='demo')
+        userprofile.phone_number = '123456789'
+        userprofile.organisation = 'home'
+        userprofile.save()
+
+        self.client.force_login(self.admin_user)
+
+        with open(self.basic_activity_log, 'rb') as activity_log_file:
+            response = self.client.post(self.url,
+                                        {'activity_log_file':
+                                             activity_log_file})
+
+        # should be redirected to the success page
+        self.assertRedirects(response,
+                             reverse('activitylog:upload_success'),
+                             302,
+                             200)
+
+        userprofile = UserProfile.objects.get(user__username='demo')
+        self.assertEqual(userprofile.phone_number, '123456789')
+        self.assertEqual(userprofile.organisation, 'home')
 
     def test_new_user_file(self):
         tracker_count_start = Tracker.objects.all().count()
