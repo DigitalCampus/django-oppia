@@ -115,6 +115,14 @@ class UserProfileCustomField (models.Model):
     def __str__(self):
         return self.key_name.id + ": " + self.user.username
 
+    @staticmethod
+    def get_user_value(user, key_name):
+        try:
+            return UserProfileCustomField.objects.get(
+                key_name=key_name, user=user).get_value()
+        except UserProfileCustomField.DoesNotExist:
+            return None
+
     def get_value(self):
         if self.value_bool is not None:
             return self.value_bool
