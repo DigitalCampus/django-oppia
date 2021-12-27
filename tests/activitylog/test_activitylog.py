@@ -4,13 +4,14 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 
 from oppia.models import Tracker
-from profile.models import UserProfile
+from profile.models import UserProfile, UserProfileCustomField
 from quiz.models import QuizAttemptResponse, QuizAttempt
 
 
 class UploadActivityLogTest(OppiaTestCase):
 
     fixtures = ['tests/test_user.json',
+                'tests/test_customfields.json',
                 'tests/test_oppia.json',
                 'tests/test_malaria_quiz.json',
                 'tests/test_settings.json',
@@ -84,14 +85,18 @@ class UploadActivityLogTest(OppiaTestCase):
                              302,
                              200)
 
-        userprofile = UserProfile.objects.get(user__username='demo')
+        user = User.objects.get(username='demo')
+        userprofile = UserProfile.objects.get(user=user)
         self.assertEqual(userprofile.phone_number, '123456789')
         self.assertEqual(userprofile.organisation, 'home')
+        self.assertEqual(UserProfileCustomField.get_user_value(user, 'country'), 'ES')
+        self.assertEqual(UserProfileCustomField.get_user_value(user, 'agree_to_terms'), True)
 
 
     def test_empty_userprofile_doesnt_update_fields(self):
 
-        userprofile = UserProfile.objects.get(user__username='demo')
+        user = User.objects.get(username='demo')
+        userprofile = UserProfile.objects.get(user=user)
         userprofile.phone_number = '123456789'
         userprofile.organisation = 'home'
         userprofile.save()
@@ -109,9 +114,11 @@ class UploadActivityLogTest(OppiaTestCase):
                              302,
                              200)
 
-        userprofile = UserProfile.objects.get(user__username='demo')
+        userprofile = UserProfile.objects.get(user=user)
         self.assertEqual(userprofile.phone_number, '123456789')
         self.assertEqual(userprofile.organisation, 'home')
+        self.assertEqual(UserProfileCustomField.get_user_value(user, 'country'), 'FI')
+        self.assertEqual(UserProfileCustomField.get_user_value(user, 'agree_to_terms'), None)
 
     def test_new_user_file(self):
         tracker_count_start = Tracker.objects.all().count()

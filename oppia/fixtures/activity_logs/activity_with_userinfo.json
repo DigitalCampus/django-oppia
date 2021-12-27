@@ -9,6 +9,8 @@
             "organisation": "home",
             "jobtitle": "",
             "phoneno": "123456789",
+            "country": "ES",
+            "agree_to_terms": true,
             "trackers": [
                 {
                     "data": "{\"lang\":\"en\",\"timetaken\":5,\"mediafile\":\"who-why-did-mrs-x-die-20140220.m4v\",\"media\":\"played\",\"uuid\":\"32b2b917-dfc2-4574-b463-9c0b607b60f4\"}",
