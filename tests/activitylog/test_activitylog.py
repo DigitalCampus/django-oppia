@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 
 from oppia.models import Tracker
-from profile.models import UserProfile, UserProfileCustomField
+from profile.models import UserProfile, UserProfileCustomField, CustomField
 from quiz.models import QuizAttemptResponse, QuizAttempt
 
 
@@ -27,6 +27,10 @@ class UploadActivityLogTest(OppiaTestCase):
     new_user_activity = './oppia/fixtures/activity_logs/new_user_activity.json'
     quiz_attempt_log = './oppia/fixtures/activity_logs/quiz_attempts.json'
     activity_with_userinfo = './oppia/fixtures/activity_logs/activity_with_userinfo.json'
+    activity_with_empty_userinfo = './oppia/fixtures/activity_logs/activity_with_empty_userinfo.json'
+
+    def assert_redirects_success(self, response):
+        self.assertRedirects(response, reverse('activitylog:upload_success'), 302, 200)
 
     def test_no_file(self):
         # no file
@@ -61,10 +65,7 @@ class UploadActivityLogTest(OppiaTestCase):
                                          activity_log_file})
 
         # should be redirected to the success page
-        self.assertRedirects(response,
-                             reverse('activitylog:upload_success'),
-                             302,
-                             200)
+        self.assert_redirects_success(response)
 
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start + 2, tracker_count_end)
@@ -80,10 +81,7 @@ class UploadActivityLogTest(OppiaTestCase):
                                          activity_log_file})
 
         # should be redirected to the success page
-        self.assertRedirects(response,
-                             reverse('activitylog:upload_success'),
-                             302,
-                             200)
+        self.assert_redirects_success(response)
 
         user = User.objects.get(username='demo')
         userprofile = UserProfile.objects.get(user=user)
@@ -109,16 +107,71 @@ class UploadActivityLogTest(OppiaTestCase):
                                              activity_log_file})
 
         # should be redirected to the success page
-        self.assertRedirects(response,
-                             reverse('activitylog:upload_success'),
-                             302,
-                             200)
+        self.assert_redirects_success(response)
 
         userprofile = UserProfile.objects.get(user=user)
         self.assertEqual(userprofile.phone_number, '123456789')
         self.assertEqual(userprofile.organisation, 'home')
         self.assertEqual(UserProfileCustomField.get_user_value(user, 'country'), 'FI')
         self.assertEqual(UserProfileCustomField.get_user_value(user, 'agree_to_terms'), None)
+
+
+    def test_empty_string_userprofile_doesnt_update_fields(self):
+
+        user = User.objects.get(username='demo')
+        userprofile = UserProfile.objects.get(user=user)
+        userprofile.phone_number = '123456789'
+        userprofile.organisation = 'home'
+        userprofile.save()
+
+        self.client.force_login(self.admin_user)
+
+        with open(self.activity_with_empty_userinfo, 'rb') as activity_log_file:
+            response = self.client.post(self.url,
+                                        {'activity_log_file':
+                                             activity_log_file})
+
+        # should be redirected to the success page
+        self.assert_redirects_success(response)
+
+        userprofile = UserProfile.objects.get(user=user)
+        self.assertEqual(userprofile.phone_number, '123456789')
+        self.assertEqual(userprofile.organisation, 'home')
+        self.assertEqual(UserProfileCustomField.get_user_value(user, 'country'), 'FI')
+
+
+    def test_empty_string_userprofile_creates_nonexistent_custom_fields(self):
+        # If a user profile is submitted that contains empty string custom fields that didn't
+        # exist previously, in that case those fields should be created with the empty value
+
+        user = User.objects.get(username='demo')
+        #remove user custom fields
+
+        CustomField.objects.create(
+            id='extra',
+            type='str',
+            required=True,
+            label='Required'
+        )
+
+        UserProfileCustomField.objects.filter(user=user).delete()
+        self.assertEqual(UserProfileCustomField.get_user_value(user, 'country'), None)
+        self.assertEqual(UserProfileCustomField.get_user_value(user, 'extra'), None)
+        self.client.force_login(self.admin_user)
+
+        with open(self.activity_with_empty_userinfo, 'rb') as activity_log_file:
+            response = self.client.post(self.url,
+                                        {'activity_log_file':
+                                             activity_log_file})
+
+        # should be redirected to the success page
+        self.assert_redirects_success(response)
+        # "extra" field is required, so the CustomField is created anyway
+        self.assertEqual(UserProfileCustomField.get_user_value(user, 'extra'), '')
+        # Country field is not required, so is not created with an empty value
+        self.assertEqual(UserProfileCustomField.get_user_value(user, 'country'), None)
+
+
 
     def test_new_user_file(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -132,10 +185,7 @@ class UploadActivityLogTest(OppiaTestCase):
                                          activity_log_file})
 
         # should be redirected to the update step 2 form
-        self.assertRedirects(response,
-                             reverse('activitylog:upload_success'),
-                             302,
-                             200)
+        self.assert_redirects_success(response)
 
         tracker_count_end = Tracker.objects.all().count()
         user_count_end = User.objects.all().count()
@@ -154,10 +204,7 @@ class UploadActivityLogTest(OppiaTestCase):
                                         {'activity_log_file':
                                          activity_log_quiz_file})
 
-        self.assertRedirects(response,
-                             reverse('activitylog:upload_success'),
-                             302,
-                             200)
+        self.assert_redirects_success(response)
 
         tracker_count_end = Tracker.objects.all().count()
         qa_count_end = QuizAttempt.objects.all().count()
@@ -177,10 +224,7 @@ class UploadActivityLogTest(OppiaTestCase):
                                         {'activity_log_file':
                                          activity_log_file})
 
-        self.assertRedirects(response,
-                             reverse('activitylog:upload_success'),
-                             302,
-                             200)
+        self.assert_redirects_success(response)
 
         # Now upload the same file
         with open(self.basic_activity_log, 'rb') as activity_log_file:
@@ -188,10 +232,7 @@ class UploadActivityLogTest(OppiaTestCase):
                                         {'activity_log_file':
                                          activity_log_file})
 
-        self.assertRedirects(response,
-                             reverse('activitylog:upload_success'),
-                             302,
-                             200)
+        self.assert_redirects_success(response)
 
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start + 2, tracker_count_end)
@@ -208,10 +249,7 @@ class UploadActivityLogTest(OppiaTestCase):
                                         {'activity_log_file':
                                          activity_log_quiz_file})
 
-        self.assertRedirects(response,
-                             reverse('activitylog:upload_success'),
-                             302,
-                             200)
+        self.assert_redirects_success(response)
 
         # Now upload the same file
         with open(self.quiz_attempt_log, 'rb') as activity_log_quiz_file:
@@ -219,10 +257,7 @@ class UploadActivityLogTest(OppiaTestCase):
                                         {'activity_log_file':
                                          activity_log_quiz_file})
 
-        self.assertRedirects(response,
-                             reverse('activitylog:upload_success'),
-                             302,
-                             200)
+        self.assert_redirects_success(response)
 
         tracker_count_end = Tracker.objects.all().count()
         qa_count_end = QuizAttempt.objects.all().count()
