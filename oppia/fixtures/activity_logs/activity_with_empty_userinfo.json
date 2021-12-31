@@ -1,0 +1,41 @@
+{
+    "export_date": "Sat Jan 02 04:39:02 GMT+00:00 2016",
+    "server": "http://testserver",
+    "users": [
+        {
+            "username": "demo",
+            "firstname": "John",
+            "lastname": "Doe",
+            "organisation": "",
+            "jobtitle": "",
+            "phoneno": "",
+            "country": "",
+            "extra": "",
+            "agree_to_terms": true,
+            "trackers": [
+                {
+                    "data": "{\"lang\":\"en\",\"timetaken\":5,\"mediafile\":\"who-why-did-mrs-x-die-20140220.m4v\",\"media\":\"played\",\"uuid\":\"32b2b917-dfc2-4574-b463-9c0b607b60f4\"}",
+                    "tracker_date": "2019-01-02 06:45:02",
+                    "completed": 0,
+                    "digest": "45ad219ead30b9a1818176598f8bbbf9",
+                    "event": "media_played",
+                    "points": 0,
+                    "course": "anc1-all",
+                    "type": ""
+                },
+                {
+                   "data":"{\"lang\":\"en\",\"timetaken\":21,\"quiz_id\":580,\"instance_id\":\"7858be53-5d52-4594-9386-e46bbd3a728b\",\"score\":0,\"uuid\":\"7268b529-5d3c-43e5-913c-b2897a3d7b77\"}",
+                   "tracker_date":"2017-03-22 04:17:45",
+                   "completed":0,
+                   "digest":"126f5d4f955f0e65bf9c24875ff42d8238906cr0s2a1p80a0m0",
+                   "event":"quiz_attempt",
+                   "points":0,
+                   "course":"anc1-all",
+                   "type":""
+                }
+            ],
+            "quizresponses": [],
+            "points": []
+        }
+    ]
+}
