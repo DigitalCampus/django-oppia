@@ -47,7 +47,7 @@
 	                  		<td>{{ certificate.display_name }}</td>
 	                  		 <td>
 			                  {% if certificate.cert_link %}
-			                  	<a href="{{MEDIA_URL}}{{ certificate.cert_link }}" target="_blank">{% trans 'View current certificate' %}</a>
+			                  	<a href="{{MEDIA_URL}}{{ certificate.cert_link }}" target="_blank" rel="noopener">{% trans 'View current certificate' %}</a>
 			                  	{% endif %}	
 			                  </td>
 			            {% else %}
