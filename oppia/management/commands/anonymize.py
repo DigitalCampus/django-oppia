@@ -78,7 +78,7 @@ class Command(BaseCommand):
                 profile.about = ''
                 profile.job_title = 'my job'
                 profile.organisation = 'my organisation'
-                profile.phone_no = '0123456789'
+                profile.phone_number = '0123456789'
                 profile.save()
             except UserProfile.DoesNotExist:
                 pass

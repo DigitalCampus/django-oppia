@@ -112,9 +112,12 @@ def process_uploaded_file(messages_delegate, json_data):
             username = user['username']
             req_user, user_profile = get_user_from_uploaded_log(messages_delegate, user)
 
-            user_profile.phone_number = user.get('phoneno', None)
-            user_profile.job_title = user.get('jobtitle', None)
-            user_profile.organisation = user.get('organisation', None)
+            if 'job_title' in user and user['job_title'] != '':
+                user_profile.job_title = user['job_title']
+            if 'organisation' in user and user['organisation'] != '':
+                user_profile.organisation = user['organisation']
+            if 'phoneno' in user and user['phoneno'] != '':
+                user_profile.phone_number = user['phoneno']
             user_profile.save()
             user_profile.update_customfields(user)
 

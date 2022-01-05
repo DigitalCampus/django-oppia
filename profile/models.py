@@ -59,22 +59,19 @@ class UserProfile(models.Model):
 
         custom_fields = CustomField.objects.all()
         for custom_field in custom_fields:
-            if (custom_field.id in fields_dict
-                and fields_dict[custom_field.id] != '') \
-                    or custom_field.required is True:
+            if custom_field.id in fields_dict and (
+                fields_dict[custom_field.id] != '' or custom_field.required is True
+            ):
 
                 profile_field, created = UserProfileCustomField.objects \
                     .get_or_create(key_name=custom_field, user=self.user)
 
                 if custom_field.type == 'int':
-                    profile_field.value_int = fields_dict.get(custom_field.id,
-                                                              None)
+                    profile_field.value_int = fields_dict.get(custom_field.id, None)
                 elif custom_field.type == 'bool':
-                    profile_field.value_bool = fields_dict.get(custom_field.id,
-                                                               None)
+                    profile_field.value_bool = fields_dict.get(custom_field.id, None)
                 else:
-                    profile_field.value_str = fields_dict.get(custom_field.id,
-                                                              None)
+                    profile_field.value_str = fields_dict.get(custom_field.id, None)
 
                 profile_field.save()
 
@@ -117,6 +114,14 @@ class UserProfileCustomField (models.Model):
 
     def __str__(self):
         return self.key_name.id + ": " + self.user.username
+
+    @staticmethod
+    def get_user_value(user, key_name):
+        try:
+            return UserProfileCustomField.objects.get(
+                key_name=key_name, user=user).get_value()
+        except UserProfileCustomField.DoesNotExist:
+            return None
 
     def get_value(self):
         if self.value_bool is not None:
