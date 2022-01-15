@@ -24,7 +24,7 @@ class UserSearchForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(UserSearchForm, self).__init__(* args, ** kwargs)
 
-        helpers.custom_fields(self, prefix=CUSTOMFIELDS_SEARCH_PREFIX)
+        helpers.custom_fields(self, prefix=CUSTOMFIELDS_SEARCH_PREFIX, make_required=False)
 
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
@@ -35,6 +35,7 @@ class UserSearchForm(forms.Form):
 
         custom_fields = CustomField.objects.all().order_by('order')
         for custom_field in custom_fields:
+            custom_field.required = False
             self.helper.layout.append(CUSTOMFIELDS_SEARCH_PREFIX+custom_field.id)
 
         self.helper.layout.append(
