@@ -231,17 +231,20 @@ class UploadUsers(AdminRequiredMixin, FormView):
         if 'email' in row:
             user.email = row['email']
 
+        password = None
         auto_password = False
-        if 'password' in row:
-            password = row['password']
-        else:
-            password = User.objects.make_random_password()
-            auto_password = True
 
-        user.set_password(password)
-        user.save()
+        # Only set password if the user doesn't have already one
+        if not user.password and not user.has_usable_password():
+            if 'password' in row:
+                password = row['password']
+            else:
+                password = User.objects.make_random_password()
+                auto_password = True
+            user.set_password(password)
 
         self.update_user_profile(user, row)
+        user.save()
 
         # update CustomFields
         self.update_custom_fields(user, row)
