@@ -61,13 +61,15 @@
 
 		<p>You may also optionally add the following columns/fields:</p>
 		<ul>
-			<li><code>password</code> (note: if you do not add a password, one will be randomly generated)</li>
+			<li><code>password</code> (note: the password will not be overriden if the user already has one. In case of a new user, if you do not add a password one will be randomly generated)</li>
 			<li><code>email</code></li>
 			<li><code>phone_number</code></li>
+			<li><code>organisation</code></li>
+			<li><code>job_title</code></li>
 		{% endblocktrans %}
 			{% if custom_fields %}
 				{% for cf in custom_fields %}
-				<li><code>{{ cf.id }}</code></li>
+				<li><code>{{ cf.id }}</code>: {{cf.label}}</li>
 				{% endfor %}
 			{% endif %}
 		</ul>
