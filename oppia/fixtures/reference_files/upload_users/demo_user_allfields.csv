@@ -1,0 +1,2 @@
+username,firstname,lastname,password,phone_number,country,no_field,age,agree_to_terms
+demo,UpdatedName,UpdatedLastname,newPassword,555555555,Portugal,randomdata,99,True

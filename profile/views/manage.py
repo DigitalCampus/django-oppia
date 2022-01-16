@@ -197,7 +197,6 @@ class UploadUsers(AdminRequiredMixin, FormView):
         results = []
         try:
             for row in csv_file:
-                print(row)
                 # check all required fields defined
                 all_defined = True
                 for rf in required_fields:
@@ -282,7 +281,7 @@ class UploadUsers(AdminRequiredMixin, FormView):
                 upcf, created = UserProfileCustomField.objects.get_or_create(
                     user=user, key_name=cf)
                 if cf.type == 'bool':
-                    if override_fields or not upcf.value_bool:
+                    if override_fields or upcf.value_bool == None:
                         upcf.value_bool = row[cf.id]
                 elif cf.type == 'int':
                     if override_fields or not upcf.value_int:
