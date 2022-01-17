@@ -177,10 +177,8 @@ class UploadUsers(AdminRequiredMixin, FormView):
     template_name = 'profile/upload.html'
 
     def form_valid(self, form):
-
         required_fields = ['username', 'firstname', 'lastname']
         only_update = form.cleaned_data.get('only_update', False)
-
         csv_file = csv.DictReader(
             chunk.decode('utf-8-sig') for chunk in self.request.FILES['upload_file'])
 
@@ -239,12 +237,13 @@ class UploadUsers(AdminRequiredMixin, FormView):
         auto_password = False
 
         # Only set password if the user doesn't have already one
-        if not user.password and not user.has_usable_password():
+        if not user.password or not user.has_usable_password():
             if 'password' in row:
                 password = row['password']
             else:
                 password = User.objects.make_random_password()
                 auto_password = True
+
             user.set_password(password)
 
         user.save()

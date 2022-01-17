@@ -1,4 +1,5 @@
 import pytest
+from django.contrib.auth.hashers import make_password
 
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -38,7 +39,7 @@ class UserUploadActivityViewTest(OppiaTransactionTestCase):
         self.disallowed_users = [self.staff_user,
                                  self.teacher_user,
                                  self.normal_user]
-
+    
     def test_view_upload_permissions_get(self):
 
         for allowed_user in self.allowed_users:
@@ -146,36 +147,17 @@ class UserUploadActivityViewTest(OppiaTransactionTestCase):
         self.assertEqual(user_count_start+2, user_count_end)
 
         # check the user data
-        country_cf = CustomField.objects.get(id='country')
-        age_cf = CustomField.objects.get(id='age')
-        terms_cf = CustomField.objects.get(id='agree_to_terms')
-
         user100 = User.objects.get(username='user100')
         self.assertEqual(user100.userprofile.phone_number, "+0123456789")
-        upcf = UserProfileCustomField.objects.get(key_name=country_cf,
-                                                  user=user100)
-        self.assertEqual(upcf.get_value(), "Sweden")
-
-        upcf = UserProfileCustomField.objects.get(key_name=age_cf,
-                                                  user=user100)
-        self.assertEqual(upcf.get_value(), 24)
-
-        upcf = UserProfileCustomField.objects.get(key_name=terms_cf,
-                                                  user=user100)
-        self.assertTrue(upcf.get_value())
+        self.assertEqual(UserProfileCustomField.get_user_value(user100, 'country'), "Sweden")
+        self.assertEqual(UserProfileCustomField.get_user_value(user100, 'age'), 24)
+        self.assertTrue(UserProfileCustomField.get_user_value(user100, 'agree_to_terms'))
 
         user101 = User.objects.get(username='user101')
         self.assertEqual(user101.userprofile.phone_number, "+987654321")
-        upcf = UserProfileCustomField.objects.get(key_name=country_cf,
-                                                  user=user101)
-        self.assertEqual(upcf.get_value(), "Iceland")
-        upcf = UserProfileCustomField.objects.get(key_name=age_cf,
-                                                  user=user101)
-        self.assertEqual(upcf.get_value(), 30)
-
-        upcf = UserProfileCustomField.objects.get(key_name=terms_cf,
-                                                  user=user101)
-        self.assertFalse(upcf.get_value())
+        self.assertEqual(UserProfileCustomField.get_user_value(user101, 'country'), "Iceland")
+        self.assertEqual(UserProfileCustomField.get_user_value(user101, 'age'), 30)
+        self.assertFalse(UserProfileCustomField.get_user_value(user101, 'agree_to_terms'))
 
 
     def test_custom_fields_not_updated(self):
@@ -184,7 +166,7 @@ class UserUploadActivityViewTest(OppiaTransactionTestCase):
             upload_file = SimpleUploadedFile(upload_user_file.name,
                                              upload_user_file.read())
 
-        self.client.post(self.url, {'upload_file': upload_file})
+        self.client.post(self.url, {'upload_file': upload_file, 'only_update': True})
 
         user_count_start = User.objects.all().count()
         # now upload the updated file
@@ -210,7 +192,7 @@ class UserUploadActivityViewTest(OppiaTransactionTestCase):
         self.assertEqual(upcf.get_value(), "Russia")
 
 
-    def test_existing_user_nonempty_fields_dont_update(self):
+    def test_existing_user_nonempty_fields_only_update(self):
         self.client.force_login(user=self.admin_user)
         with open(self.all_fields, 'rb') as upload_user_file:
             upload_file = SimpleUploadedFile(upload_user_file.name,
@@ -245,7 +227,7 @@ class UserUploadActivityViewTest(OppiaTransactionTestCase):
         self.assertEqual(UserProfileCustomField.get_user_value(user, 'age'), 30)
 
 
-    def test_existing_user_empty_fields_dont_update(self):
+    def test_existing_user_empty_fields_only_update(self):
         self.client.force_login(user=self.admin_user)
         with open(self.all_fields, 'rb') as upload_user_file:
             upload_file = SimpleUploadedFile(upload_user_file.name,
@@ -323,4 +305,66 @@ class UserUploadActivityViewTest(OppiaTransactionTestCase):
         self.assertEqual(UserProfileCustomField.get_user_value(user, 'age'), 99)
 
 
+    def test_existing_password_not_overriden(self):
+        self.client.force_login(user=self.admin_user)
+        with open(self.all_fields, 'rb') as upload_user_file:
+            upload_file = SimpleUploadedFile(upload_user_file.name,
+                                             upload_user_file.read())
+
+        user = User.objects.get(username='demo')
+        user.set_password('test_password')
+        user.save()
+
+        self.assertEqual(user.check_password('test_password'), True)
+        # Password shouldn't be updated regardless of the 'only_update' value
+        self.client.post(self.url, {'upload_file': upload_file, 'only_update': False})
+        self.assertEqual(user.check_password('test_password'), True)
+        self.client.post(self.url, {'upload_file': upload_file, 'only_update': False})
+        self.assertEqual(user.check_password('test_password'), True)
+
+
+    def test_nonexisting_password_updated(self):
+
+        self.client.force_login(user=self.admin_user)
+        with open(self.all_fields, 'rb') as upload_user_file:
+            upload_file = SimpleUploadedFile(upload_user_file.name,
+                                             upload_user_file.read())
+
+        user = User.objects.get(username='demo')
+        user.password = ''
+        user.save()
+
+        self.client.post(self.url, {'upload_file': upload_file, 'only_update': True})
+
+        user = User.objects.get(username='demo')
+        self.assertEqual(user.check_password('newPassword'), True)
+
+
+    def test_unusable_password_updated(self):
+        self.client.force_login(user=self.admin_user)
+        with open(self.all_fields, 'rb') as upload_user_file:
+            upload_file = SimpleUploadedFile(upload_user_file.name,
+                                             upload_user_file.read())
+
+        user = User.objects.get(username='demo')
+        user.set_unusable_password()
+        user.save()
+
+        self.assertEqual(user.check_password('newPassword'), False)
+        self.client.post(self.url, {'upload_file': upload_file, 'only_update': True})
+
+        user = User.objects.get(username='demo')
+        self.assertEqual(user.check_password('newPassword'), True)
+
+
+    def test_nonexisting_password_generated(self):
+        self.client.force_login(user=self.admin_user)
+        with open(self.custom_fields, 'rb') as upload_user_file:
+            upload_file = SimpleUploadedFile(upload_user_file.name,
+                                             upload_user_file.read())
+
+        self.client.post(self.url, {'upload_file': upload_file, 'only_update': True})
+
+        user100 = User.objects.get(username='user100')
+        self.assertEqual(user100.has_usable_password(), True)
 
