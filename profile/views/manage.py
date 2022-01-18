@@ -177,13 +177,13 @@ class UploadUsers(AdminRequiredMixin, FormView):
     template_name = 'profile/upload.html'
 
     def form_valid(self, form):
-        csv_file = csv.DictReader(
-            chunk.decode() for chunk in self.request.FILES['upload_file'])
         required_fields = ['username', 'firstname', 'lastname']
+        only_update = form.cleaned_data.get('only_update', False)
+        csv_file = csv.DictReader(
+            chunk.decode('utf-8-sig') for chunk in self.request.FILES['upload_file'])
 
         context = self.get_context_data(form=form)
-        context['results'] = self.process_upload_user_file(csv_file,
-                                                           required_fields)
+        context['results'] = self.process_upload_user_file(csv_file, required_fields, only_update)
         return self.render_to_response(context)
 
     def get_context_data(self, **kwargs):
@@ -191,7 +191,7 @@ class UploadUsers(AdminRequiredMixin, FormView):
         context["custom_fields"] = CustomField.objects.all().order_by('order')
         return context
 
-    def process_upload_user_file(self, csv_file, required_fields):
+    def process_upload_user_file(self, csv_file, required_fields, only_update):
         results = []
         try:
             for row in csv_file:
@@ -210,7 +210,7 @@ class UploadUsers(AdminRequiredMixin, FormView):
                 if not all_defined:
                     continue
 
-                results.append(self.process_upload_file_save_user(row))
+                results.append(self.process_upload_file_save_user(row, not only_update))
 
         except Exception:
             result = {
@@ -222,29 +222,34 @@ class UploadUsers(AdminRequiredMixin, FormView):
 
         return results
 
-    def process_upload_file_save_user(self, row):
-        user, user_created = User.objects.get_or_create(
-            username=row['username'])
-        user.first_name = row['firstname']
-        user.last_name = row['lastname']
+    def process_upload_file_save_user(self, row, override_fields):
+        user, user_created = User.objects.get_or_create(username=row['username'])
 
-        if 'email' in row:
+        if override_fields or not user.first_name:
+            user.first_name = row['firstname']
+        if override_fields or not user.last_name:
+            user.last_name = row['lastname']
+
+        if 'email' in row and (override_fields or not user.email):
             user.email = row['email']
 
+        password = None
         auto_password = False
-        if 'password' in row:
-            password = row['password']
-        else:
-            password = User.objects.make_random_password()
-            auto_password = True
 
-        user.set_password(password)
+        # Only set password if the user doesn't have already one
+        if not user.password or not user.has_usable_password():
+            if 'password' in row:
+                password = row['password']
+            else:
+                password = User.objects.make_random_password()
+                auto_password = True
+
+            user.set_password(password)
+
         user.save()
 
-        self.update_user_profile(user, row)
-
-        # update CustomFields
-        self.update_custom_fields(user, row)
+        self.update_user_profile(user, row, override_fields)
+        self.update_custom_fields(user, row, override_fields)
 
         result = {
             'created': user_created,
@@ -261,22 +266,26 @@ class UploadUsers(AdminRequiredMixin, FormView):
 
         return result
 
-    def update_user_profile(self, user, row):
+    def update_user_profile(self, user, row, override_fields):
         up, created = UserProfile.objects.get_or_create(user=user)
         for col_name in row:
-            setattr(up, col_name, row[col_name])
+            if override_fields or (hasattr(up, col_name) and not getattr(up, col_name)):
+                setattr(up, col_name, row[col_name])
         up.save()
 
-    def update_custom_fields(self, user, row):
+    def update_custom_fields(self, user, row, override_fields):
         custom_fields = CustomField.objects.all()
         for cf in custom_fields:
             if cf.id in row:
                 upcf, created = UserProfileCustomField.objects.get_or_create(
                     user=user, key_name=cf)
                 if cf.type == 'bool':
-                    upcf.value_bool = row[cf.id]
+                    if override_fields or upcf.value_bool == None:
+                        upcf.value_bool = row[cf.id]
                 elif cf.type == 'int':
-                    upcf.value_int = row[cf.id]
+                    if override_fields or not upcf.value_int:
+                        upcf.value_int = row[cf.id]
                 else:
-                    upcf.value_str = row[cf.id]
+                    if override_fields or not upcf.value_str:
+                        upcf.value_str = row[cf.id]
                 upcf.save()

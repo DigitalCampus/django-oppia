@@ -11,6 +11,10 @@ class UploadProfileForm(forms.Form):
         required=True,
         error_messages={'required': _('Please select a file to upload')}, )
 
+    only_update = forms.BooleanField(initial=True, required=False,
+        label=_('Only update data'),
+        help_text=_('If a user already exists, only missing/blank fields will be updated'))
+
     def __init__(self, *args, **kwargs):
         super(UploadProfileForm, self).__init__(* args, ** kwargs)
         self.helper = FormHelper()
@@ -20,6 +24,7 @@ class UploadProfileForm(forms.Form):
         self.helper.field_class = 'col-lg-6 col-md-8 col-sm-6'
         self.helper.layout = Layout(
             'upload_file',
+            'only_update',
             Div(
                 Submit('submit', _(u'Upload'), css_class='btn btn-default'),
                 css_class='col-lg-offset-2 col-lg-4',
