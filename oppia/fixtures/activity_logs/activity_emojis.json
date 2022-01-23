@@ -1,0 +1,9 @@
+{
+	"export_date":"Tue Apr 24 10:35:33 GMT+00:00 2018",
+	"server": "http://testserver",
+	"users":[
+		{ "username":"demo","trackers":[
+			{"data":"{\"query\":\"🌐\",\"results_count\":0,\"uuid\":\"20d7cc17-91ee-4050-9a47-ea520293ed8c\"}","tracker_date":"2017-01-01 05:43:26","completed":1,"digest":"","event":"search_performed","points":0,"type":"search"}
+		], "quizresponses":[], "points":[]}
+	]
+}

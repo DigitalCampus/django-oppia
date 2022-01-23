@@ -26,6 +26,7 @@ class UploadActivityLogTest(OppiaTestCase):
     wrong_activity_file = './oppia/fixtures/activity_logs/wrong_format.json'
     new_user_activity = './oppia/fixtures/activity_logs/new_user_activity.json'
     quiz_attempt_log = './oppia/fixtures/activity_logs/quiz_attempts.json'
+    activity_with_emojis = './oppia/fixtures/activity_logs/activity_emojis.json'
     activity_with_userinfo = './oppia/fixtures/activity_logs/activity_with_userinfo.json'
     activity_with_empty_userinfo = './oppia/fixtures/activity_logs/activity_with_empty_userinfo.json'
 
@@ -171,7 +172,23 @@ class UploadActivityLogTest(OppiaTestCase):
         # Country field is not required, so is not created with an empty value
         self.assertEqual(UserProfileCustomField.get_user_value(user, 'country'), None)
 
+    def test_file_with_emojis(self):
+        tracker_count_start = Tracker.objects.all().count()
+        user_count_start = User.objects.all().count()
 
+        self.client.force_login(self.admin_user)
+
+        with open(self.activity_with_emojis, 'rb') as activity_log_file:
+            response = self.client.post(self.url,
+                                        {'activity_log_file':
+                                         activity_log_file})
+
+        # should be redirected to the update step 2 form
+        self.assert_redirects_success(response)
+        user_count_end = User.objects.all().count()
+        tracker_count_end = Tracker.objects.all().count()
+        self.assertEqual(tracker_count_start + 1, tracker_count_end)
+        self.assertEqual(user_count_start, user_count_end)
 
     def test_new_user_file(self):
         tracker_count_start = Tracker.objects.all().count()
