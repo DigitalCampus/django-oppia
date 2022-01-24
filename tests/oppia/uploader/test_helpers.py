@@ -3,7 +3,7 @@ import json
 from django.contrib.auth.models import User
 from oppia.test import OppiaTestCase
 
-from oppia.uploader import create_quiz_props, create_quiz_questions
+from oppia.uploader import create_or_update_quiz_props, create_quiz_questions
 from quiz.models import Quiz, QuizProps, QuizQuestion
 
 
@@ -27,7 +27,7 @@ class UploadHelpersTest(OppiaTestCase):
 
         quiz_obj['id'] = quiz.pk
 
-        create_quiz_props(quiz, quiz_obj)
+        create_or_update_quiz_props(quiz, quiz_obj)
 
         # now check the props have been saved correctly
         # (using the sample quiz file)

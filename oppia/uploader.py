@@ -526,7 +526,6 @@ def parse_and_save_quiz(req, user, activity, act_xml):
     """
 
     quiz_obj = json.loads(activity.content)
-
     quiz_existed = False
     # first of all, we find the quiz digest to see if it is already saved
     if quiz_obj['props']['digest']:
@@ -546,38 +545,29 @@ def parse_and_save_quiz(req, user, activity, act_xml):
             quiz_existed = False
 
     if quiz_existed:
-        try:
-            quiz_act = Activity.objects.get(digest=quiz_digest)
-            updated_content = quiz_act.content
-        except Activity.DoesNotExist:
-            updated_content = create_quiz(req,
-                                          user,
-                                          quiz_obj,
-                                          act_xml,
-                                          activity)
+        quiz = quizzes.first()
     else:
-        updated_content = create_quiz(req, user, quiz_obj, act_xml, activity)
+        quiz = create_quiz(user, quiz_obj)
 
-    return updated_content
+    # add quiz props
+    quiz_obj['id'] = quiz.pk
+    create_or_update_quiz_props(quiz, quiz_obj)
+
+    return json.dumps(quiz_obj)
 
 
-def create_quiz(req, user, quiz_obj, act_xml, activity=None):
 
+def create_quiz(user, quiz_obj):
     quiz = Quiz()
     quiz.owner = user
     quiz.title = clean_lang_dict(quiz_obj['title'])
     quiz.description = clean_lang_dict(quiz_obj['description'])
     quiz.save()
 
-    quiz_obj['id'] = quiz.pk
-
-    # add quiz props
-    create_quiz_props(quiz, quiz_obj)
-
     # add quiz questions
     create_quiz_questions(user, quiz, quiz_obj)
 
-    return json.dumps(quiz_obj)
+    return quiz
 
 
 def get_content(elem, node_name):
@@ -665,13 +655,12 @@ def clean_old_course(req, user, oldsections, old_course_filename, course):
 
 
 # helper functions
-def create_quiz_props(quiz, quiz_obj):
+def create_or_update_quiz_props(quiz, quiz_obj):
     for prop in quiz_obj['props']:
         if prop != 'id':
-            QuizProps(
-                quiz=quiz, name=prop,
-                value=quiz_obj['props'][prop]
-            ).save()
+            qprop, created = QuizProps.objects.get_or_create(quiz=quiz, name=prop)
+            qprop.value = quiz_obj['props'][prop]
+            qprop.save()
 
 
 def create_quiz_questions(user, quiz, quiz_obj):
