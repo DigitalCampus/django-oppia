@@ -2,11 +2,13 @@ import json
 
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
+from django.core.files.base import ContentFile
 from django.urls import reverse
 from django.http import HttpResponseRedirect, \
     HttpResponse, \
     HttpResponseBadRequest, HttpRequest
 from django.shortcuts import render
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
@@ -205,10 +207,28 @@ def post_activitylog(request):
     if request.method != 'PATCH':
         return HttpResponse(status=405)
 
-    json.loads(request.body)
-
+    json_data = json.loads(request.body)
     messages_delegate = MessagesDelegate(request)
     success = process_activitylog(messages_delegate, request.body)
+
+    users = []
+    if 'users' in json_data:
+        users = [user['username'] for user in json_data['users']]
+
+    post_user = None
+    for user in users:
+        post_user = User.objects.filter(username=user).first()
+        if post_user:
+            break
+
+    # If none of the users included exists in the server, we don't save the file
+    if post_user:
+        username = users[0] if len(users) == 1 else 'activity'
+        filename = '{}_{}.json'.format(username, timezone.now().strftime('%Y%m%d%H%M%S'))
+        uploaded_activity_log = UploadedActivityLog(create_user=post_user)
+        uploaded_activity_log.file.save(name=filename, content=ContentFile(request.body))
+        uploaded_activity_log.save()
+
     if success:
         return HttpResponse()
     else:
