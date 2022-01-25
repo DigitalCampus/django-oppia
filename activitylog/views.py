@@ -211,7 +211,9 @@ def post_activitylog(request):
     messages_delegate = MessagesDelegate(request)
     success = process_activitylog(messages_delegate, request.body)
 
-    users = [user['username'] for user in json_data['users']]
+    users = []
+    if 'users' in json_data:
+        users = [user['username'] for user in json_data['users']]
 
     post_user = None
     for user in users:
