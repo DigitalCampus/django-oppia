@@ -71,7 +71,7 @@ class ActivityLogsFromFolderTest(OppiaTestCase):
                      stdout=out)
         
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+4, tracker_count_end)
+        self.assertEqual(tracker_count_start+7, tracker_count_end)
 
         qa_count_end = QuizAttempt.objects.all().count()
         self.assertEqual(qa_count_start+1, qa_count_end)
