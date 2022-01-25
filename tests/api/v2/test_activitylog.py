@@ -3,6 +3,7 @@ import json
 from django.contrib.auth.models import User
 from django.test import TestCase
 
+from activitylog.models import UploadedActivityLog
 from oppia.models import Tracker
 from quiz.models import QuizAttemptResponse, QuizAttempt
 from tastypie.test import ResourceTestCaseMixin
@@ -25,6 +26,7 @@ class UploadAPIActivityLogTest(ResourceTestCaseMixin, TestCase):
     wrong_activity_file = './oppia/fixtures/activity_logs/wrong_format.json'
     new_user_activity = './oppia/fixtures/activity_logs/new_user_activity.json'
     quiz_attempt_log = './oppia/fixtures/activity_logs/quiz_attempts.json'
+    multiple_users = './oppia/fixtures/activity_logs/multiple_users.json'
 
     def setUp(self):
         super(UploadAPIActivityLogTest, self).setUp()
@@ -56,7 +58,7 @@ class UploadAPIActivityLogTest(ResourceTestCaseMixin, TestCase):
         self.assertEqual(400, response.status_code)
 
     def test_correct_basic_data(self):
-
+        uploaded_count_start = UploadedActivityLog.objects.all().count()
         tracker_count_start = Tracker.objects.all().count()
 
         with open(self.basic_activity_log) as activity_log_file:
@@ -69,12 +71,18 @@ class UploadAPIActivityLogTest(ResourceTestCaseMixin, TestCase):
         self.assertEqual(200, response.status_code)
 
         tracker_count_end = Tracker.objects.all().count()
+        uploaded_count_end = UploadedActivityLog.objects.all().count()
+        last_uploaded = UploadedActivityLog.objects.all().order_by('-created_date').first()
         self.assertEqual(tracker_count_start + 2, tracker_count_end)
+        self.assertEqual(uploaded_count_start + 1, uploaded_count_end)
+        self.assertEqual(last_uploaded.create_user.username, 'demo')
+        self.assertIn('demo', last_uploaded.file.name)
+
 
     def test_new_user_file(self):
         tracker_count_start = Tracker.objects.all().count()
         user_count_start = User.objects.all().count()
-
+        uploaded_count_start = UploadedActivityLog.objects.all().count()
         with open(self.new_user_activity) as activity_log_file:
             json_data = json.load(activity_log_file)
 
@@ -86,8 +94,37 @@ class UploadAPIActivityLogTest(ResourceTestCaseMixin, TestCase):
         self.assertEqual(200, response.status_code)
         tracker_count_end = Tracker.objects.all().count()
         user_count_end = User.objects.all().count()
+        uploaded_count_end = UploadedActivityLog.objects.all().count()
+        last_uploaded = UploadedActivityLog.objects.all().order_by('-created_date').first()
+
         self.assertEqual(tracker_count_start + 2, tracker_count_end)
         self.assertEqual(user_count_start + 1, user_count_end)
+        self.assertEqual(uploaded_count_start + 1, uploaded_count_end)
+        self.assertEqual(last_uploaded.create_user.username, 'newuser')
+        self.assertIn('newuser', last_uploaded.file.name)
+
+
+    def test_multiple_users_data(self):
+        uploaded_count_start = UploadedActivityLog.objects.all().count()
+        tracker_count_start = Tracker.objects.all().count()
+
+        with open(self.multiple_users) as activity_log_file:
+            json_data = json.load(activity_log_file)
+
+        response = self.api_client.patch(self.url,
+                                         format='json',
+                                         data=json_data,
+                                         authentication=self.get_credentials())
+        self.assertEqual(200, response.status_code)
+
+        tracker_count_end = Tracker.objects.all().count()
+        uploaded_count_end = UploadedActivityLog.objects.all().count()
+        last_uploaded = UploadedActivityLog.objects.all().order_by('-created_date').first()
+        self.assertEqual(tracker_count_start + 4, tracker_count_end)
+        self.assertEqual(uploaded_count_start + 1, uploaded_count_end)
+        self.assertEqual(last_uploaded.create_user.username, 'demo')
+        self.assertIn('activity', last_uploaded.file.name)
+
 
     def test_wrong_format_file(self):
 
