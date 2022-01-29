@@ -7,6 +7,7 @@ class UserSearchActivityViewTest(OppiaTestCase):
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
                 'tests/test_permissions.json',
+                'tests/test_customfields.json',
                 'tests/test_course_permissions.json']
 
     url = reverse('profile:users_list')
@@ -29,6 +30,46 @@ class UserSearchActivityViewTest(OppiaTestCase):
             self.client.force_login(user=disallowed_user)
             response = self.client.get(self.url)
             self.assertEqual(response.status_code, 403)
+
+    def test_view_search_basic_query(self):
+            self.client.force_login(user=self.admin_user)
+            url = self.url + '?q=demo'
+            response = self.client.get(url)
+            user_count = response.context['page_obj'].paginator.count
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(user_count, 2)
+
+    def test_view_search_username(self):
+            self.client.force_login(user=self.admin_user)
+            url = self.url + '?username=demo'
+            response = self.client.get(url)
+            user_count = response.context['page_obj'].paginator.count
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(user_count, 1)
+
+    def test_view_search_staff(self):
+            self.client.force_login(user=self.admin_user)
+            url = self.url + '?is_staff=on'
+            response = self.client.get(url)
+            user_count = response.context['page_obj'].paginator.count
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(user_count, 2)
+
+    def test_view_search_customfield(self):
+            self.client.force_login(user=self.admin_user)
+            url = self.url + '?userprofilecustomfield_country=FI'
+            response = self.client.get(url)
+            user_count = response.context['page_obj'].paginator.count
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(user_count, 2)
+
+    def test_view_search_multiple_fields(self):
+            self.client.force_login(user=self.admin_user)
+            url = self.url + '?userprofilecustomfield_country=FI&first_name=demo'
+            response = self.client.get(url)
+            user_count = response.context['page_obj'].paginator.count
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(user_count, 1)
 
     def test_view_search_page_123(self):
         self.client.force_login(self.admin_user)
