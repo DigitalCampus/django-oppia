@@ -30,6 +30,7 @@ class UploadActivityLogTest(OppiaTestCase):
     activity_with_emojis = './oppia/fixtures/activity_logs/activity_emojis.json'
     activity_with_userinfo = './oppia/fixtures/activity_logs/activity_with_userinfo.json'
     activity_with_empty_userinfo = './oppia/fixtures/activity_logs/activity_with_empty_userinfo.json'
+    activity_with_nulled_userinfo = './oppia/fixtures/activity_logs/activity_with_nulled_userinfo.json'
 
     def assert_redirects_success(self, response):
         self.assertRedirects(response, reverse('activitylog:upload_success'), 302, 200)
@@ -129,6 +130,30 @@ class UploadActivityLogTest(OppiaTestCase):
         self.client.force_login(self.admin_user)
 
         with open(self.activity_with_empty_userinfo, 'rb') as activity_log_file:
+            response = self.client.post(self.url,
+                                        {'activity_log_file':
+                                             activity_log_file})
+
+        # should be redirected to the success page
+        self.assert_redirects_success(response)
+
+        userprofile = UserProfile.objects.get(user=user)
+        self.assertEqual(userprofile.phone_number, '123456789')
+        self.assertEqual(userprofile.organisation, 'home')
+        self.assertEqual(UserProfileCustomField.get_user_value(user, 'country'), 'FI')
+
+
+    def test_null_string_userprofile_doesnt_update_fields(self):
+
+        user = User.objects.get(username='demo')
+        userprofile = UserProfile.objects.get(user=user)
+        userprofile.phone_number = '123456789'
+        userprofile.organisation = 'home'
+        userprofile.save()
+
+        self.client.force_login(self.admin_user)
+
+        with open(self.activity_with_nulled_userinfo, 'rb') as activity_log_file:
             response = self.client.post(self.url,
                                         {'activity_log_file':
                                              activity_log_file})

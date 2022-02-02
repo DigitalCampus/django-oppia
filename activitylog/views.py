@@ -114,11 +114,11 @@ def process_uploaded_file(messages_delegate, json_data):
             username = user['username']
             req_user, user_profile = get_user_from_uploaded_log(messages_delegate, user)
 
-            if 'job_title' in user and user['job_title'] != '':
+            if 'job_title' in user and user['job_title']:
                 user_profile.job_title = user['job_title']
-            if 'organisation' in user and user['organisation'] != '':
+            if 'organisation' in user and user['organisation']:
                 user_profile.organisation = user['organisation']
-            if 'phoneno' in user and user['phoneno'] != '':
+            if 'phoneno' in user and user['phoneno']:
                 user_profile.phone_number = user['phoneno']
             user_profile.save()
             user_profile.update_customfields(user)
@@ -164,7 +164,7 @@ def get_user_from_uploaded_log(messages_delegate, user):
         # User was registered offline, we create a new one
         req_user = User(
             username=username,
-            email=user['email'] if user['email'] is not None else '',
+            email=user['email'] if 'email' in user and user['email'] is not None else '',
         )
 
         req_user.password = user['password'] \
