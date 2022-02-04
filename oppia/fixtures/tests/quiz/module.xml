@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+  <meta>
+    <versionid>20220203084840</versionid>
+    <priority>0</priority>
+    <server>https://staging.oppia-mobile.org/</server>
+    <sequencing>none</sequencing>
+    <tags>reference-course</tags>
+    <exportversion>2022020201</exportversion>
+    <title lang="en"><![CDATA[Reference Course]]></title>
+    <shortname>ref-course</shortname>
+    <description lang="en"><![CDATA[]]></description>
+    <langs>
+      <lang>EN_US</lang>
+      <lang>es</lang>
+      <lang>en</lang>
+    </langs>
+  </meta>
+  <structure>
+    <section order="1">
+      <title lang="en"><![CDATA[Examples of different features and activities]]></title>
+      <image filename="/images/2_25.png"/>
+      <activities>
+        <activity type="feedback" order="1" digest="ad011c907c04b0feb4e9df57ef781907">
+          <title lang="en"><![CDATA[Course Feedback]]></title>
+          <content lang="en">{"id":250,"title":{"en":"Course Feedback"},"description":{"en":"Pre-test"},"props":{"courseversion":"20220203084840","showfeedback":false,"passthreshold":0,"maxattempts":"unlimited","maxscore":0,"digest":"ad011c907c04b0feb4e9df57ef781907"},"questions":[{"order":1,"id":701,"question":{"id":529,"type":"shortanswer","title":{"en":"certificate name"},"props":{"maxscore":0,"required":false},"responses":[]}},{"order":2,"id":209,"question":{"id":569,"type":"essay","title":{"en":"alt_name"},"props":{"maxscore":0,"required":false},"responses":[]}}]}</content>
+        </activity>
+        <activity type="page" order="2" digest="876826c4fca2240149433ef638b4566b">
+          <title lang="en"><![CDATA[Course Introduction]]></title>
+          <location lang="en">01_3_en.html</location>
+        </activity>
+        <activity type="page" order="3" digest="08acc487cc7b324e3c827c94787e3148">
+          <title lang="en"><![CDATA[styles demo]]></title>
+          <location lang="en">01_4_en.html</location>
+        </activity>
+        <activity type="page" order="4" digest="d9bc4463b7f5028bc072c107e05842a8">
+          <title lang="en"><![CDATA[Example of text page]]></title>
+          <location lang="en">01_14_en.html</location>
+        </activity>
+        <activity type="page" order="5" digest="59ba120f6e0e5c39401be357d79307c6">
+          <title lang="en"><![CDATA[Example of tabless]]></title>
+          <location lang="en">01_15_en.html</location>
+        </activity>
+        <activity type="quiz" order="6" digest="338898cb3afc9cfe734d19862cb0242a">
+          <title lang="en"><![CDATA[Demo Quiz]]></title>
+          <content lang="en"><![CDATA[{"id":999,"title":{"en":"Demo Quiz"},"description":{"en":"<p>Examples of different features and activities<br><\/p><p><img src=\"@@PLUGINFILE@@\/unit1.png\" alt=\"\" width=\"167\" height=\"167\" role=\"presentation\" class=\"img-fluid atto_image_button_text-bottom\"><br><\/p>"},"props":{"courseversion":"20220203084840","showfeedback":2,"passthreshold":0,"maxattempts":"unlimited","maxscore":2,"digest":"338898cb3afc9cfe734d19862cb0242a", "moodle_quiz_id": 1234, "moodle_quiz_title": "Demo Quiz", "moodle_quiz_desc": "Examples of different features and activities"},"questions":[{"order":1,"id":14,"question":{"id":200,"type":"multichoice","title":{"en":"<p>A multiple choice question\n<\/p>"},"props":{"maxscore":1,"shuffleanswers":"1", "moodle_question_id": 9988},"responses":[{"order":1,"id":431,"props":{"id":414},"title":{"en":"<p>Dog<br><\/p>"},"score":"0.0000"},{"order":2,"id":774,"props":{"id":115},"title":{"en":"<p>Cat<br><\/p>"},"score":"1.0000"},{"order":3,"id":665,"props":{"id":883},"title":{"en":"<p>Mouse<br><\/p>"},"score":"0.0000"},{"order":4,"id":156,"props":{"id":785},"title":{"en":"<p>Flea<br><\/p>"},"score":"0.0000"}]}},{"order":2,"id":718,"question":{"id":457,"type":"multichoice","title":{"en":"<p>missing question<\/p>"},"props":{"maxscore":1,"shuffleanswers":"1"},"responses":[{"order":1,"id":451,"props":{"id":286},"title":{"EN_US":"<p><span lang=\"EN-US\">This is the correct one (but has a different language span)<\/span><br><\/p>"},"score":"1.0000"},{"order":2,"id":862,"props":{"id":935},"title":{"EN_US":"<p><span lang=\"EN-US\">Wrong one (with language span).<\/span><br><\/p>"},"score":"0.0000"},{"order":3,"id":295,"props":{"id":253},"title":{"en":"<p>Wrong one<\/p>"},"score":"0.0000"}]}}]}]]></content>
+        </activity>
+        <activity type="page" order="7" digest="1362c6eb2a202a4f0c3bd5cae2e32fca">
+          <title lang="en"><![CDATA[Stylesheet demo]]></title>
+          <location lang="en">01_17_en.html</location>
+        </activity>
+        <activity type="page" order="8" digest="b474b15a3e8e74a19fb7f55864ca6387">
+          <title lang="en"><![CDATA[Example of page with embedded image]]></title>
+          <location lang="en">01_18_en.html</location>
+        </activity>
+        <activity type="resource" order="9" digest="80c12bb8f1d6a11045f27977329444ad">
+          <title lang="en"><![CDATA[Example of an image resource file]]></title>
+          <description lang="en"><![CDATA[Example of an image resource file]]></description>
+          <location lang="en" type="image/png">/resources/example-image.png</location>
+        </activity>
+        <activity type="url" order="10" digest="8c8622cbb88cce0fbd90666fe803ef43">
+          <title lang="en"><![CDATA[Example of a URL activity]]></title>
+          <description lang="en"><![CDATA[Example of a URL activity]]></description>
+          <location lang="en">http://digital-campus.org</location>
+        </activity>
+        <activity type="feedback" order="11" digest="02f11bc7305f95a6d181435943530c56">
+          <title lang="en"><![CDATA[Feedback with optional]]></title>
+          <content lang="en">{"id":447,"title":{"en":"Feedback with optional"},"description":{"en":"Pre-test"},"props":{"courseversion":"20220203084840","showfeedback":false,"passthreshold":0,"maxattempts":"unlimited","maxscore":0,"digest":"02f11bc7305f95a6d181435943530c56"},"questions":[{"order":1,"id":603,"question":{"id":133,"type":"description","title":{"en":"This is just &lt;strong&gt;information&lt;\/strong&gt;, like an introduction: &lt;ul&gt; &lt;li&gt;blablabla&lt;\/li&gt;&lt;li&gt;aaaaa&lt;\/li&gt;&lt;\/ul&gt;"},"props":{"maxscore":0,"required":false},"responses":[]}},{"order":2,"id":24,"question":{"id":396,"type":"multichoice","title":{"en":"This multiple choice is required. Do it."},"props":{"maxscore":0,"required":true},"responses":[{"order":1,"id":482,"props":{},"title":{"en":"One\n"},"score":"0"},{"order":2,"id":635,"props":{},"title":{"en":"Two\n"},"score":"0"},{"order":3,"id":992,"props":{},"title":{"en":"Three\n"},"score":"0"},{"order":4,"id":986,"props":{},"title":{"en":"Caramba"},"score":"0"}]}},{"order":3,"id":562,"question":{"id":403,"type":"essay","title":{"en":"Tell me your life (optional)"},"props":{"maxscore":0,"required":false},"responses":[]}},{"order":4,"id":130,"question":{"id":164,"type":"multichoice","title":{"en":"This is optional, but do it anyway"},"props":{"maxscore":0,"required":false},"responses":[{"order":1,"id":562,"props":{},"title":{"en":"AAAA\n"},"score":"0"},{"order":2,"id":179,"props":{},"title":{"en":"BBBB\n"},"score":"0"},{"order":3,"id":616,"props":{},"title":{"en":"CCCC"},"score":"0"}]}},{"order":5,"id":141,"question":{"id":949,"type":"numerical","title":{"en":"How many questions do you want?"},"props":{"maxscore":0,"required":true},"responses":[]}}]}</content>
+        </activity>
+        <activity type="resource" order="12" digest="4ec6875ac4e353f67cb89c50f0a25e47">
+          <title lang="en"><![CDATA[File with strange names]]></title>
+          <description lang="en"><![CDATA[igoiggioogiiog hg hg g]]></description>
+          <location lang="en" type="application/pdf">/resources/FEgasgsda gsdgsadg_.pdf</location>
+        </activity>
+        <activity type="quiz" order="13" digest="4ce5dae70fd8e3e2ad8150dc4c663aac">
+          <title lang="en"><![CDATA[Quiz with HTML]]></title>
+          <content lang="en"><![CDATA[{"id":958,"title":{"en":"Quiz with HTML"},"description":{"en":"<p>Examples of different features and activities<br><\/p><p><img src=\"@@PLUGINFILE@@\/unit1.png\" alt=\"\" width=\"167\" height=\"167\" role=\"presentation\" class=\"img-fluid atto_image_button_text-bottom\"><br><\/p>"},"props":{"courseversion":"20220203084840","showfeedback":2,"passthreshold":0,"maxattempts":"unlimited","maxscore":5,"digest":"4ce5dae70fd8e3e2ad8150dc4c663aac"},"questions":[{"order":1,"id":977,"question":{"id":597,"type":"multichoice","title":{"en":"<p>This question has <b>some basic<\/b> HTML in it.<\/p>\n<p>Lorem ipsum <i>dolor sit amet<\/i>, consectetur adipiscing elit, <\/p>\n<p><\/p>\n<ul>\n    <li>s<span style=\"font-size: 0.9375rem;\">ed do <strong>eiusmod<\/strong> tempor incididunt <\/span><\/li>\n    <li><span style=\"font-size: 0.9375rem;\">ut labore et <em>dolore<\/em> magna aliqua. <\/span><\/li>\n    <li><span style=\"font-size: 0.9375rem;\">Ut <u>enim <\/u>ad minim <strike>veniam<\/strike>, <sup>quis <\/sup>nostrud exercitation ullamco laboris<\/span><\/li>\n<\/ul>\n<p style=\"text-align: right;\">P and Text alignment?<\/p>\n\n<blockquote>\n    This is a blockquote.\n<\/blockquote><blockquote>\n\n<table>\n<caption style=\"caption-side: top\">Table title<\/caption>\n<thead>\n<tr>\n<th scope=\"col\">a1<\/th>\n<th scope=\"col\">bbb<\/th>\n<\/tr>\n<\/thead>\n<tbody>\n<tr>\n<td>a2<\/td>\n<td>ccc<\/td>\n<\/tr>\n<tr>\n<td>a3<\/td>\n<td>ddd<\/td>\n<\/tr>\n<\/tbody>\n<\/table>\n\n\n<\/blockquote>\n\n\n<p><\/p>"},"props":{"maxscore":1,"shuffleanswers":"1"},"responses":[{"order":1,"id":250,"props":{"id":747,"feedback":{"en":"<p>Feedback in plain text<\/p>"}},"title":{"en":"<p>Choice in plain text<\/p>"},"score":"0.0000"},{"order":2,"id":171,"props":{"id":283,"feedback":{"en":"<h3>Feedback with HTML!<\/h3><p><ul><li>hfgd <b>hgfhkdjgfnhgkfdjh<\/b><\/li><li>fdghkjfnghk jdfhgfhgdhdgf&nbsp;<\/li><\/ul><\/p>"}},"title":{"en":"<p>Choice with <b>HTML<\/b>!\u00b4<\/p><p><\/p><ul><li>And a list<\/li><li>of <u>unordered <\/u>items<\/li><\/ul><p><\/p>"},"score":"1.0000"}]}},{"order":2,"id":641,"question":{"id":499,"type":"multiselect","title":{"en":"<p>Testing partially correct answers<\/p>"},"props":{"maxscore":1,"shuffleanswers":"1"},"responses":[{"order":1,"id":23,"props":{"id":881,"feedback":{"en":"<p>Here we have a feedback with HTML. A list for example:<\/p><p><\/p><ul><li>one<\/li><li>two<\/li><li>threee items!<\/li><\/ul><p><\/p>"}},"title":{"en":"<p>This one is correct<\/p>"},"score":"0.5000"},{"order":2,"id":335,"props":{"id":189,"feedback":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">Yes, this is correct!<\/p>"}},"title":{"en":"<p>This is <b>correct <\/b>as well!&nbsp;<\/p><h5>And has some HTML into it<\/h5>"},"score":"0.5000"},{"order":3,"id":184,"props":{"id":848,"feedback":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">That's wrong.... please go back and review the course<\/p>"}},"title":{"en":"<p>This not.<\/p>"},"score":"0.0000"}]}},{"order":3,"id":379,"question":{"id":18,"type":"shortanswer","title":{"en":"<h3>This short answer<\/h3>\n<p>has some HTML layout into it,<\/p>\n<p>like line breaks and... <span style=\"color:#ff0000;\">color!<\/span><\/p>\n<p>\n<\/p>"},"props":{"maxscore":1},"responses":[{"order":1,"id":586,"props":{"id":684},"title":{"en":"yes"},"score":"1.0000"}]}},{"order":4,"id":879,"question":{"id":107,"type":"multiselect","title":{"en":"<p>Strange characters selection <\/p>"},"props":{"maxscore":1,"shuffleanswers":"1"},"responses":[{"order":1,"id":437,"props":{"id":259},"title":{"en":"Always store the vaccine vials in vaccine carriers at +2\u00b0C to +8\u00b0C during vaccination"},"score":"0.3333"},{"order":2,"id":97,"props":{"id":282},"title":{"en":"<p>Option 2<\/p>"},"score":"0.0000"},{"order":3,"id":288,"props":{"id":156},"title":{"en":"<p>Option 3<\/p>"},"score":"0.3333"},{"order":4,"id":860,"props":{"id":226},"title":{"en":"<p>Option 4<\/p>"},"score":"0.3333"}]}},{"order":5,"id":618,"question":{"id":615,"type":"multichoice","title":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">Question with lists as responses<\/p>"},"props":{"maxscore":1,"shuffleanswers":"1"},"responses":[{"order":1,"id":902,"props":{"id":815,"feedback":{"en":"<p dir=\"ltr\" style=\"text-align: left;\"><\/p><p dir=\"ltr\">Correct!<\/p><p dir=\"ltr\"><\/p><ol><li>Step A<\/li><li>Step B<\/li><li>Step C<\/li><li>Step D<\/li><\/ol><br><p><\/p>"}},"title":{"en":"<p dir=\"ltr\" style=\"text-align: left;\"><ol><li>Step A<\/li><li>Step B<\/li><li>Step C<\/li><li>Step D<\/li><\/ol><\/p>"},"score":"1.0000"},{"order":2,"id":155,"props":{"id":588,"feedback":{"en":"<p dir=\"ltr\" style=\"text-align: left;\"><\/p><p dir=\"ltr\">Incorrect, the right response is&nbsp;<\/p><p dir=\"ltr\"><\/p><ol><li>Step A<\/li><li>Step B<\/li><li>Step C<\/li><li>Step D<\/li><\/ol><br><p><\/p>"}},"title":{"en":"<p dir=\"ltr\" style=\"text-align: left;\"><\/p><ol><li>Step B<\/li><li>Step C<\/li><li>Step A<\/li><li>Step D<\/li><\/ol><br><p><\/p>"},"score":"0.0000"},{"order":3,"id":809,"props":{"id":228,"feedback":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">Incorrect, the right response is&nbsp;<\/p><p dir=\"ltr\" style=\"text-align: left;\"><\/p><ol><li>Step A<\/li><li>Step B<\/li><li>Step C<\/li><li>Step D<\/li><\/ol><br><p><\/p>"}},"title":{"en":"<p dir=\"ltr\" style=\"text-align: left;\"><\/p><ol><li>Step D<\/li><li>Step C<\/li><li>Step B<\/li><li>Step A<\/li><\/ol><br><p><\/p>"},"score":"0.0000"}]}}]}]]></content>
+        </activity>
+      </activities>
+    </section>
+    <section order="2">
+      <title lang="es"><![CDATA[Sesion para usar multilang]]></title>
+      <title lang="en"><![CDATA[Section to test multilang]]></title>
+      <image filename="/images/3_25.png"/>
+      <activities>
+        <activity type="page" order="1" digest="22cf9ee3262b15caa8d1659daa10d779">
+          <title lang="en"><![CDATA[Video activity]]></title>
+          <media>
+            <file filename="sample_video.m4v" digest="5c414654ad2bd2bc1ea9819435e1f193" filesize="496995" download_url="https://staging.oppia-mobile.org/media/uploaded/2021/07/sample_video.m4v" length="4"/>
+          </media>
+          <location lang="en">02_5_en.html</location>
+        </activity>
+        <activity type="page" order="2" digest="015ea1aac595bdf2c2ba2d76a05d3405">
+          <title lang="en"><![CDATA[page with image]]></title>
+          <location lang="en">02_6_en.html</location>
+        </activity>
+        <activity type="page" order="3" digest="0335d9057432d8040705dda84c83065c">
+          <title lang="es"><![CDATA[Curso para usar multilang]]></title>
+          <title lang="en"><![CDATA[Course for testing multilang]]></title>
+          <location lang="es">02_24_es.html</location>
+          <location lang="en">02_24_en.html</location>
+        </activity>
+        <activity type="feedback" order="4" digest="41f0e8b1f7fa3c6b364692549dcba2eb">
+          <title lang="es"><![CDATA[Feedback para usar multilang]]></title>
+          <title lang="en"><![CDATA[Feedback for testing multilang]]></title>
+          <content lang="en">{"id":529,"title":{"es":"Feedback para usar multilang","en":"Feedback for testing multilang"},"description":{"en":"Pre-test"},"props":{"courseversion":"20220203084840","showfeedback":false,"passthreshold":0,"maxattempts":"unlimited","maxscore":0,"digest":"41f0e8b1f7fa3c6b364692549dcba2eb"},"questions":[{"order":1,"id":485,"question":{"id":124,"type":"multichoice","title":{"es":"Pregunta para usar multilang","en":"Feedback Question for testing multilang"},"props":{"maxscore":0,"required":true},"responses":[{"order":1,"id":46,"props":{},"title":{"es":"Funciona","en":"Works"},"score":"0"},{"order":2,"id":838,"props":{},"title":{"es":"No Funciona","en":"Doesn't Work"},"score":"0"}]}},{"order":2,"id":282,"question":{"id":40,"type":"multichoice","title":{"en":"Question without multilang"},"props":{"maxscore":0,"required":false},"responses":[{"order":1,"id":210,"props":{},"title":{"en":"Yes\n"},"score":"0"},{"order":2,"id":714,"props":{},"title":{"en":"No"},"score":"0"}]}}]}</content>
+        </activity>
+        <activity type="quiz" order="5" digest="c97d2530e3e9f4be517b6ab4cfbbdff4">
+          <title lang="es"><![CDATA[Quiz para usar multilang]]></title>
+          <title lang="en"><![CDATA[Quiz for testing multilang]]></title>
+          <content lang="en"><![CDATA[{"id":308,"title":{"es":"Quiz para usar multilang","en":"Quiz for testing multilang"},"description":{"es":"<img src=\"@@PLUGINFILE@@\/unit2.png\" alt=\"\" width=\"167\" height=\"167\" role=\"presentation\" class=\"img-fluid atto_image_button_text-bottom\">Sesion para usar multilang","en":"<img src=\"@@PLUGINFILE@@\/unit2.png\" alt=\"\" width=\"167\" height=\"167\" role=\"presentation\" class=\"img-fluid atto_image_button_text-bottom\">Section to test multilang"},"props":{"courseversion":"20220203084840","showfeedback":2,"passthreshold":0,"maxattempts":"unlimited","maxscore":6,"digest":"c97d2530e3e9f4be517b6ab4cfbbdff4",  "moodle_quiz_id": 1235, "moodle_quiz_title": "Quiz para usar multilang Quiz for testing multilang", "moodle_quiz_desc": "Quiz with spanish and english questions"},"questions":[{"order":1,"id":709,"question":{"id":919,"type":"multichoice","title":{"es":"Esta es una pregunta?","en":"This is a question?"},"props":{"maxscore":1,"shuffleanswers":"1"},"responses":[{"order":1,"id":336,"props":{"id":919,"feedback":{"es":"Verdad","en":"Correct"}},"title":{"es":"Si","en":"Yes"},"score":"1.0000"},{"order":2,"id":476,"props":{"id":958,"feedback":{"es":"Has hecho una falta","en":"Not quite right"}},"title":{"es":"quizas","en":"Maybe"},"score":"0.0000"}]}},{"order":2,"id":108,"question":{"id":280,"type":"multichoice","title":{"es":"Verdad o falso?","en":"A true\/false question"},"props":{"maxscore":1},"responses":[{"order":1,"id":40,"props":{"id":87,"feedback":{"es":"Verdad","en":"Correct"}},"title":{"en":"True"},"score":"1.0000"},{"order":2,"id":504,"props":{"id":199,"feedback":{"es":"Falso","en":"Incorrect"}},"title":{"en":"False"},"score":"0.0000"}]}},{"order":3,"id":183,"question":{"id":58,"type":"multiselect","title":{"es":"Multi opciones","en":"Multiselect"},"props":{"maxscore":1,"shuffleanswers":"1"},"responses":[{"order":1,"id":866,"props":{"id":561,"feedback":{"es":"Verdad","en":"Correct"}},"title":{"es":"Uno","en":"One"},"score":"0.5000"},{"order":2,"id":26,"props":{"id":261,"feedback":{"es":"falso","en":"Incorrect"}},"title":{"es":"Dos","en":"Two"},"score":"0.0000"},{"order":3,"id":520,"props":{"id":695,"feedback":{"es":"Verdad","en":"Correct"}},"title":{"es":"todos","en":"All"},"score":"0.5000"}]}},{"order":4,"id":281,"question":{"id":908,"type":"shortanswer","title":{"es":"Repuesta corta","en":"Short Answer"},"props":{"maxscore":1},"responses":[{"order":1,"id":535,"props":{"id":69,"feedback":{"es":"Verdad","en":"Correct"}},"title":{"en":"short"},"score":"1.0000"},{"order":2,"id":203,"props":{"id":926,"feedback":{"es":"Verdad","en":"Correct"}},"title":{"en":"corto"},"score":"1.0000"},{"order":3,"id":282,"props":{"id":113,"feedback":{"es":"Verdad","en":"Correct"}},"title":{"es":"corto","en":"short"},"score":"1.0000"},{"order":4,"id":444,"props":{"id":227,"feedback":{"es":"Falso","en":"Wrong"}},"title":{"en":"*"},"score":"0.0000"},{"order":5,"id":157,"props":{"id":113,"feedback":{"es":"Falso","en":"Wrong"}},"title":{"es":"*","en":"*"},"score":"0.0000"}]}},{"order":5,"id":818,"question":{"id":406,"type":"numerical","title":{"es":"2 por 2 iguals ?","en":"2 * 2 ="},"props":{"maxscore":1},"responses":[{"order":1,"id":495,"props":{"id":835,"feedback":{"es":"Verdad","en":"Correct"},"tolerance":"0"},"title":{"en":"4"},"score":"1.0000"},{"order":2,"id":430,"props":{"id":681,"feedback":{"es":"Casi","en":"Almost"},"tolerance":"1"},"title":{"en":"4"},"score":"0.5000"}]}},{"order":6,"id":799,"question":{"id":902,"type":"matching","title":{"es":"Quien come que?","en":"Who eats what?"},"props":{"maxscore":1,"correctfeedback":{"en":"Your answer is correct."},"partiallycorrectfeedback":{"en":"Your answer is partially correct."},"incorrectfeedback":{"en":"Your answer is incorrect."}},"responses":[{"order":1,"id":287,"props":{},"title":{"es":"gato|raton","en":"cat|Mice"},"score":"0.3333"},{"order":2,"id":583,"props":{},"title":{"es":"Perro|gato","en":"Dog|cat"},"score":"0.3333"},{"order":3,"id":260,"props":{},"title":{"es":"Raton|queso","en":"Mice|cheese"},"score":"0.3333"}]}}]}]]></content>
+        </activity>
+      </activities>
+    </section>
+    <section order="3">
+      <title lang="en"><![CDATA[Video and Image files]]></title>
+      <image filename="/images/4_25.png"/>
+      <activities>
+        <activity type="page" order="1" digest="50d9ad8e30c9720ac2ab25bf0832cf0b">
+          <title lang="en"><![CDATA[media file name with no spaces, no video poster]]></title>
+          <media>
+            <file filename="video-1-no-spaces.mp4" digest="e876651bb9408add6d8ba1207a7cac66" filesize="8652333" download_url="https://staging.oppia-mobile.org/media/uploaded/2021/10/video-1-no-spaces.mp4" length="2"/>
+          </media>
+          <location lang="en">03_7_en.html</location>
+        </activity>
+        <activity type="page" order="2" digest="36e58028a804a6933b10dfd302451f78">
+          <title lang="en"><![CDATA[media file name with no spaces, video poster image with no spaces in filename]]></title>
+          <media>
+            <file filename="video-2-no-spaces.mp4" digest="0e9efba1ff6f1d20b23292b02386df71" filesize="8367313" download_url="https://staging.oppia-mobile.org/media/uploaded/2021/10/video-2-no-spaces.mp4" length="2"/>
+          </media>
+          <location lang="en">03_8_en.html</location>
+        </activity>
+        <activity type="page" order="3" digest="2bd00e97e54682bae9f56b0cce984731">
+          <title lang="en"><![CDATA[media file name with spaces, no video poster]]></title>
+          <media>
+            <file filename="video3 with spaces.mp4" digest="1e0d557df1a6bddd83b74119db0beb1d" filesize="9035793" download_url="https://staging.oppia-mobile.org/media/uploaded/2021/10/video3_with_spaces.mp4" length="2"/>
+          </media>
+          <location lang="en">03_9_en.html</location>
+        </activity>
+        <activity type="page" order="4" digest="f5e028e16f513f8b457440e906c5a373">
+          <title lang="en"><![CDATA[media file name with spaces, video poster image with no spaces in filename]]></title>
+          <media>
+            <file filename="video 4 with spaces.mp4" digest="ad52531901d45fdf4f5428db91a1173f" filesize="10890989" download_url="https://staging.oppia-mobile.org/media/uploaded/2021/10/video_4_with_spaces.mp4" length="3"/>
+          </media>
+          <location lang="en">03_10_en.html</location>
+        </activity>
+        <activity type="page" order="5" digest="8cec0e05db7dc9503cd8d53c096f5474">
+          <title lang="en"><![CDATA[media file name with no spaces, video poster image with spaces in filename]]></title>
+          <media>
+            <file filename="video-5-no-spaces.mp4" digest="b27ad4002aa871eb8360c48053fd42b1" filesize="12428229" download_url="https://staging.oppia-mobile.org/media/uploaded/2021/10/video-5-no-spaces.mp4" length="4"/>
+          </media>
+          <location lang="en">03_11_en.html</location>
+        </activity>
+        <activity type="page" order="6" digest="b169b422f493301d4039885779ba54d8">
+          <title lang="en"><![CDATA[media file name with spaces, video poster image with spaces in filename]]></title>
+          <media>
+            <file filename="video 6 with spaces.mp4" digest="baec0edf0b50a069afc795d2d1bc98de" filesize="11304133" download_url="https://staging.oppia-mobile.org/media/uploaded/2021/10/video_6_with_spaces.mp4" length="3"/>
+          </media>
+          <location lang="en">03_12_en.html</location>
+        </activity>
+        <activity type="page" order="7" digest="e981ffb068f9fc49eb34c3cd147e97f4">
+          <title lang="en"><![CDATA[media file with dots and spaces]]></title>
+          <media>
+            <file filename="videowith.dots.and spaces.mp4" digest="c6d7be0a972aa2c622673ac618428382" filesize="9115433" download_url="https://staging.oppia-mobile.org/media/uploaded/2021/10/videowith.dots.and_spaces.mp4" length="3"/>
+          </media>
+          <location lang="en">03_13_en.html</location>
+        </activity>
+      </activities>
+    </section>
+    <section order="4">
+      <title lang="en"><![CDATA[Topic 4]]></title>
+      <activities>
+        <activity type="quiz" order="1" digest="f67303f5cf36e27dcc3714a26999a471">
+          <title lang="en"><![CDATA[Quiz with unicode characters - test for #OPPIA-830]]></title>
+          <content lang="en"><![CDATA[{"id":160,"title":{"en":"Quiz with unicode characters - test for #OPPIA-830"},"description":{"en":""},"props":{"courseversion":"20220203084840","showfeedback":2,"passthreshold":0,"maxattempts":"unlimited","maxscore":2,"digest":"missingdigest"},"questions":[{"order":1,"id":14,"question":{"id":218,"type":"multiselect","title":{"en":"Test with Unicode characters in response options"},"props":{"maxscore":1,"shuffleanswers":"1"},"responses":[{"order":1,"id":258,"props":{"id":5,"feedback":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">Correct!<\/p>"}},"title":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">response option without unicode - correct<\/p>"},"score":"0.5000"},{"order":2,"id":205,"props":{"id":529,"feedback":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">incorrect<\/p>"}},"title":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">response option without unicode - incorrect<br><\/p>"},"score":"0.0000"},{"order":3,"id":380,"props":{"id":871,"feedback":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">correct<\/p>"}},"title":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">With unicode - correct -&nbsp;+2\u00b0C to +8\u00b0C<\/p>"},"score":"0.5000"},{"order":4,"id":530,"props":{"id":377,"feedback":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">that's wrong!<\/p>"}},"title":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">With unicode - incorrect -&nbsp;+2\u00b0C to +8\u00b0C<br><\/p>"},"score":"0.0000"}]}},{"order":2,"id":847,"question":{"id":423,"type":"multichoice","title":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">Another question<\/p>"},"props":{"maxscore":1},"responses":[{"order":1,"id":106,"props":{"id":270,"feedback":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">yes true is correct<\/p>"}},"title":{"en":"True"},"score":"1.0000"},{"order":2,"id":282,"props":{"id":203,"feedback":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">false is incorrect<\/p>"}},"title":{"en":"False"},"score":"0.0000"}]}}]}]]></content>
+        </activity>
+      </activities>
+    </section>
+    <section order="5">
+      <title lang="en"><![CDATA[Quizzes for testing password protection]]></title>
+      <activities>
+        <activity type="quiz" order="1" digest="cbca401d4ae3cad1ebe1e024ee75ba13">
+          <title lang="en"><![CDATA[Quiz with password protection - unlimited attempts allowed]]></title>
+          <content lang="en"><![CDATA[{"id":839,"title":{"en":"Quiz with password protection - unlimited attempts allowed"},"description":{"en":""},"props":{"courseversion":"20220203084840","showfeedback":2,"passthreshold":0,"maxattempts":"unlimited","maxscore":1,"digest":"cbca401d4ae3cad1ebe1e024ee75ba13","password":"letmein"},"questions":[{"order":1,"id":498,"question":{"id":585,"type":"multichoice","title":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">Is it snowing today?\n<\/p>"},"props":{"maxscore":1},"responses":[{"order":1,"id":698,"props":{"id":131,"feedback":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">Yes, of course it is snowing<\/p>"}},"title":{"en":"True"},"score":"1.0000"},{"order":2,"id":219,"props":{"id":710,"feedback":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">It's winter, why would it not be snowing?<\/p>"}},"title":{"en":"False"},"score":"0.0000"}]}}]}]]></content>
+        </activity>
+        <activity type="quiz" order="2" digest="cb011ac06aa37fc54a77e56fa27fe5ec">
+          <title lang="en"><![CDATA[Quiz with password - single attempt allowed]]></title>
+          <content lang="en"><![CDATA[{"id":904,"title":{"en":"Quiz with password - single attempt allowed"},"description":{"en":""},"props":{"courseversion":"20220203084840","showfeedback":2,"passthreshold":0,"maxattempts":"unlimited","maxscore":1,"digest":"cb011ac06aa37fc54a77e56fa27fe5ec","password":"letmein"},"questions":[{"order":1,"id":914,"question":{"id":864,"type":"multichoice","title":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">You can only access this quiz how many times?<\/p>"},"props":{"maxscore":1,"shuffleanswers":"1"},"responses":[{"order":1,"id":897,"props":{"id":928},"title":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">1<\/p>"},"score":"1.0000"},{"order":2,"id":123,"props":{"id":640},"title":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">2<\/p>"},"score":"0.0000"},{"order":3,"id":115,"props":{"id":529},"title":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">3<\/p>"},"score":"0.0000"},{"order":4,"id":573,"props":{"id":552},"title":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">unlimited<\/p>"},"score":"0.0000"}]}}]}]]></content>
+        </activity>
+      </activities>
+    </section>
+    <section order="6">
+      <title lang="en"><![CDATA[Quizzes for testing OPPIA-900 - displaying right/wrong answers]]></title>
+      <activities>
+        <activity type="quiz" order="1" digest="f53f559b8680e31a395117108b1d02b4">
+          <title lang="en"><![CDATA[Right/wrong answers immediately after quiz and on scorecard]]></title>
+          <content lang="en"><![CDATA[{"id":466,"title":{"en":"Right\/wrong answers immediately after quiz and on scorecard"},"description":{"en":""},"props":{"courseversion":"20220203084840","showfeedback":2,"passthreshold":0,"maxattempts":"unlimited","maxscore":1,"digest":"f53f559b8680e31a395117108b1d02b4"},"questions":[{"order":1,"id":803,"question":{"id":58,"type":"multichoice","title":{"en":"<p>What is the capital of Wales?\n<\/p>"},"props":{"maxscore":1,"shuffleanswers":"1"},"responses":[{"order":1,"id":662,"props":{"id":104},"title":{"en":"<p>Swansea<br><\/p>"},"score":"0.0000"},{"order":2,"id":585,"props":{"id":970},"title":{"en":"Glasgow"},"score":"0.0000"},{"order":3,"id":709,"props":{"id":788},"title":{"en":"<p>Bangor<br><\/p>"},"score":"0.0000"},{"order":4,"id":454,"props":{"id":918},"title":{"en":"<p>Cardiff<br><\/p>"},"score":"1.0000"}]}}]}]]></content>
+        </activity>
+        <activity type="quiz" order="2" digest="f99014ca40ee39bd0663cd027786e37c">
+          <title lang="en"><![CDATA[Right/wrong answers immediately after quiz but not on scorecard]]></title>
+          <content lang="en"><![CDATA[{"id":222,"title":{"en":"Right\/wrong answers immediately after quiz but not on scorecard"},"description":{"en":""},"props":{"courseversion":"20220203084840","showfeedback":2,"passthreshold":0,"maxattempts":"unlimited","later_whether_correct":false,"maxscore":1,"digest":"f99014ca40ee39bd0663cd027786e37c"},"questions":[{"order":1,"id":318,"question":{"id":818,"type":"multichoice","title":{"en":"<p>What is the capital of Wales?\n<\/p>"},"props":{"maxscore":1,"shuffleanswers":"1"},"responses":[{"order":1,"id":88,"props":{"id":355},"title":{"en":"<p>Swansea<br><\/p>"},"score":"0.0000"},{"order":2,"id":602,"props":{"id":564},"title":{"en":"Glasgow"},"score":"0.0000"},{"order":3,"id":472,"props":{"id":77},"title":{"en":"<p>Bangor<br><\/p>"},"score":"0.0000"},{"order":4,"id":868,"props":{"id":921},"title":{"en":"<p>Cardiff<br><\/p>"},"score":"1.0000"}]}}]}]]></content>
+        </activity>
+        <activity type="quiz" order="3" digest="ee242589cf397a010da93f5a0109360b">
+          <title lang="en"><![CDATA[Right/wrong answers on scorecard but not immediately after quiz]]></title>
+          <content lang="en"><![CDATA[{"id":343,"title":{"en":"Right\/wrong answers on scorecard but not immediately after quiz"},"description":{"en":""},"props":{"courseversion":"20220203084840","showfeedback":2,"passthreshold":0,"maxattempts":"unlimited","immediate_whether_correct":false,"maxscore":2,"digest":"ee242589cf397a010da93f5a0109360b"},"questions":[{"order":1,"id":505,"question":{"id":657,"type":"multichoice","title":{"en":"<p>What is the capital of Wales?\n<\/p>"},"props":{"maxscore":1,"shuffleanswers":"1"},"responses":[{"order":1,"id":388,"props":{"id":158},"title":{"en":"<p>Swansea<br><\/p>"},"score":"0.0000"},{"order":2,"id":797,"props":{"id":590},"title":{"en":"Glasgow"},"score":"0.0000"},{"order":3,"id":829,"props":{"id":193},"title":{"en":"<p>Bangor<br><\/p>"},"score":"0.0000"},{"order":4,"id":649,"props":{"id":37},"title":{"en":"<p>Cardiff<br><\/p>"},"score":"1.0000"}]}},{"order":2,"id":593,"question":{"id":672,"type":"multichoice","title":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">Is it snowing today?\n<\/p>"},"props":{"maxscore":1},"responses":[{"order":1,"id":885,"props":{"id":687,"feedback":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">Yes, of course it is snowing<\/p>"}},"title":{"en":"True"},"score":"1.0000"},{"order":2,"id":850,"props":{"id":705,"feedback":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">It's winter, why would it not be snowing?<\/p>"}},"title":{"en":"False"},"score":"0.0000"}]}}]}]]></content>
+        </activity>
+        <activity type="quiz" order="4" digest="f94988cbdb7b24e185491bae1112761c">
+          <title lang="en"><![CDATA[Right/wrong answers not immediately after quiz and not on scorecard]]></title>
+          <content lang="en"><![CDATA[{"id":907,"title":{"en":"Right\/wrong answers not immediately after quiz and not on scorecard"},"description":{"en":""},"props":{"courseversion":"20220203084840","showfeedback":2,"passthreshold":0,"maxattempts":"unlimited","immediate_whether_correct":false,"later_whether_correct":false,"maxscore":2,"digest":"f94988cbdb7b24e185491bae1112761c"},"questions":[{"order":1,"id":232,"question":{"id":421,"type":"multichoice","title":{"en":"<p>What is the capital of Wales?\n<\/p>"},"props":{"maxscore":1,"shuffleanswers":"1"},"responses":[{"order":1,"id":134,"props":{"id":284},"title":{"en":"<p>Swansea<br><\/p>"},"score":"0.0000"},{"order":2,"id":272,"props":{"id":271},"title":{"en":"Glasgow"},"score":"0.0000"},{"order":3,"id":520,"props":{"id":186},"title":{"en":"<p>Bangor<br><\/p>"},"score":"0.0000"},{"order":4,"id":454,"props":{"id":428},"title":{"en":"<p>Cardiff<br><\/p>"},"score":"1.0000"}]}},{"order":2,"id":638,"question":{"id":714,"type":"multichoice","title":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">Is it snowing today?\n<\/p>"},"props":{"maxscore":1},"responses":[{"order":1,"id":502,"props":{"id":912,"feedback":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">Yes, of course it is snowing<\/p>"}},"title":{"en":"True"},"score":"1.0000"},{"order":2,"id":445,"props":{"id":447,"feedback":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">It's winter, why would it not be snowing?<\/p>"}},"title":{"en":"False"},"score":"0.0000"}]}}]}]]></content>
+        </activity>
+      </activities>
+    </section>
+    <section order="7" password="password">
+      <title lang="en"><![CDATA[Topic with password 1 (initial: with password, update: new password)]]></title>
+      <activities>
+        <activity type="page" order="1" digest="16da6f6a8a957fa7e04add194e15d8b2">
+          <title lang="en"><![CDATA[Page in password protected topic 1]]></title>
+          <location lang="en">07_34_en.html</location>
+        </activity>
+        <activity type="quiz" order="2" digest="adc1c509b957cf2398dec407360ce5e8">
+          <title lang="en"><![CDATA[Quiz in password protected topic]]></title>
+          <content lang="en"><![CDATA[{"id":21,"title":{"en":"Quiz in password protected topic"},"description":{"en":""},"props":{"courseversion":"20220203084840","showfeedback":2,"passthreshold":0,"maxattempts":"unlimited","maxscore":4,"digest":"adc1c509b957cf2398dec407360ce5e8"},"questions":[{"order":1,"id":796,"question":{"id":552,"type":"matching","title":{"es":"Quien come que?","en":"Who eats what?"},"props":{"maxscore":1,"correctfeedback":{"en":"Your answer is correct."},"partiallycorrectfeedback":{"en":"Your answer is partially correct."},"incorrectfeedback":{"en":"Your answer is incorrect."}},"responses":[{"order":1,"id":779,"props":{},"title":{"es":"gato|raton","en":"cat|Mice"},"score":"0.3333"},{"order":2,"id":900,"props":{},"title":{"es":"Perro|gato","en":"Dog|cat"},"score":"0.3333"},{"order":3,"id":266,"props":{},"title":{"es":"Raton|queso","en":"Mice|cheese"},"score":"0.3333"}]}},{"order":2,"id":182,"question":{"id":844,"type":"multichoice","title":{"en":"<p>A multiple choice question\n<\/p>"},"props":{"maxscore":1,"shuffleanswers":"1"},"responses":[{"order":1,"id":882,"props":{"id":447},"title":{"en":"<p>Dog<br><\/p>"},"score":"0.0000"},{"order":2,"id":253,"props":{"id":84},"title":{"en":"<p>Cat<br><\/p>"},"score":"1.0000"},{"order":3,"id":620,"props":{"id":344},"title":{"en":"<p>Mouse<br><\/p>"},"score":"0.0000"},{"order":4,"id":301,"props":{"id":409},"title":{"en":"<p>Flea<br><\/p>"},"score":"0.0000"}]}},{"order":3,"id":429,"question":{"id":196,"type":"numerical","title":{"es":"2 por 2 iguals ?","en":"2 * 2 ="},"props":{"maxscore":1},"responses":[{"order":1,"id":20,"props":{"id":844,"feedback":{"es":"Verdad","en":"Correct"},"tolerance":"0"},"title":{"en":"4"},"score":"1.0000"},{"order":2,"id":570,"props":{"id":664,"feedback":{"es":"Casi","en":"Almost"},"tolerance":"1"},"title":{"en":"4"},"score":"0.5000"}]}},{"order":4,"id":461,"question":{"id":823,"type":"multichoice","title":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">Is it snowing today?\n<\/p>"},"props":{"maxscore":1},"responses":[{"order":1,"id":491,"props":{"id":666,"feedback":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">Yes, of course it is snowing<\/p>"}},"title":{"en":"True"},"score":"1.0000"},{"order":2,"id":533,"props":{"id":452,"feedback":{"en":"<p dir=\"ltr\" style=\"text-align: left;\">It's winter, why would it not be snowing?<\/p>"}},"title":{"en":"False"},"score":"0.0000"}]}}]}]]></content>
+        </activity>
+      </activities>
+    </section>
+    <section order="8" password="password">
+      <title lang="en"><![CDATA[Topic with password 2 (initial: with password, update: password unchanged)]]></title>
+      <activities>
+        <activity type="page" order="1" digest="17e32dddf137b99aee711b3708de53aa">
+          <title lang="en"><![CDATA[Page in password protected topic 2]]></title>
+          <location lang="en">08_36_en.html</location>
+        </activity>
+      </activities>
+    </section>
+    <section order="9">
+      <title lang="en"><![CDATA[Topic with password 3 (initial: no password, update: with password)]]></title>
+      <activities>
+        <activity type="page" order="1" digest="9a3326275554c76a64c1e90786242796">
+          <title lang="en"><![CDATA[Page in password protected topic 3]]></title>
+          <location lang="en">09_37_en.html</location>
+        </activity>
+      </activities>
+    </section>
+    <section order="10" password="password">
+      <title lang="en"><![CDATA[Topic with password 4 (initial: with password, update: no password)]]></title>
+      <activities>
+        <activity type="page" order="1" digest="d38211a3c7ee336b34ae5c58ddb4bee0">
+          <title lang="en"><![CDATA[Page in password protected topic 4]]></title>
+          <location lang="en">10_38_en.html</location>
+        </activity>
+      </activities>
+    </section>
+  </structure>
+  <media>
+    <file filename="sample_video.m4v" digest="5c414654ad2bd2bc1ea9819435e1f193" filesize="496995" download_url="https://staging.oppia-mobile.org/media/uploaded/2021/07/sample_video.m4v" length="4"/>
+    <file filename="video-1-no-spaces.mp4" digest="e876651bb9408add6d8ba1207a7cac66" filesize="8652333" download_url="https://staging.oppia-mobile.org/media/uploaded/2021/10/video-1-no-spaces.mp4" length="2"/>
+    <file filename="video-2-no-spaces.mp4" digest="0e9efba1ff6f1d20b23292b02386df71" filesize="8367313" download_url="https://staging.oppia-mobile.org/media/uploaded/2021/10/video-2-no-spaces.mp4" length="2"/>
+    <file filename="video3 with spaces.mp4" digest="1e0d557df1a6bddd83b74119db0beb1d" filesize="9035793" download_url="https://staging.oppia-mobile.org/media/uploaded/2021/10/video3_with_spaces.mp4" length="2"/>
+    <file filename="video 4 with spaces.mp4" digest="ad52531901d45fdf4f5428db91a1173f" filesize="10890989" download_url="https://staging.oppia-mobile.org/media/uploaded/2021/10/video_4_with_spaces.mp4" length="3"/>
+    <file filename="video-5-no-spaces.mp4" digest="b27ad4002aa871eb8360c48053fd42b1" filesize="12428229" download_url="https://staging.oppia-mobile.org/media/uploaded/2021/10/video-5-no-spaces.mp4" length="4"/>
+    <file filename="video 6 with spaces.mp4" digest="baec0edf0b50a069afc795d2d1bc98de" filesize="11304133" download_url="https://staging.oppia-mobile.org/media/uploaded/2021/10/video_6_with_spaces.mp4" length="3"/>
+    <file filename="videowith.dots.and spaces.mp4" digest="c6d7be0a972aa2c622673ac618428382" filesize="9115433" download_url="https://staging.oppia-mobile.org/media/uploaded/2021/10/videowith.dots.and_spaces.mp4" length="3"/>
+  </media>
+</module>
