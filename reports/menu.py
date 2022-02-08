@@ -68,7 +68,8 @@ def menu_reports(request):
                 'url': reverse('reports:inactive_users'),
                 'icon': 'vertical_split'},
                {'name': _(u'Missing Media'),
-                'description': _(u'Users who have media missing on their devices'),
+                'description': _(u'Users who have media missing on their \
+                                   devices'),
                 'url': reverse('reports:missing_media'),
                 'icon': 'vertical_split'}]
 

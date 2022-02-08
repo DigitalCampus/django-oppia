@@ -11,6 +11,7 @@ from quiz.models import QuizAttempt
 from settings import constants
 from settings.models import SettingProperties
 
+
 class PopulateCourseVersionTest(OppiaTestCase):
 
     fixtures = ['tests/test_user.json',
@@ -24,14 +25,16 @@ class PopulateCourseVersionTest(OppiaTestCase):
 
     def test_update_courseversion(self):
         out = StringIO()
-        count_start = Tracker.objects.filter(course_version__isnull=True).count()
+        count_start = Tracker.objects.filter(
+            course_version__isnull=True).count()
         call_command('populate_courseversion', stdout=out)
         count_end = Tracker.objects.filter(course_version__isnull=True).count()
         self.assertEqual(count_start-1, count_end)
-        
+
     def test_update_courseversion_no_more_trackers(self):
         out = StringIO()
-        count_start = Tracker.objects.filter(course_version__isnull=True).count()
+        count_start = Tracker.objects.filter(
+            course_version__isnull=True).count()
         call_command('populate_courseversion', stdout=out)
         # re-run command to check
         call_command('populate_courseversion', stdout=out)

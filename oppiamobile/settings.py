@@ -110,7 +110,7 @@ LOGGING = {
             'propagate': True,
         },
     }
-}   
+}
 
 TIME_ZONE = 'UTC'
 USE_TZ = True

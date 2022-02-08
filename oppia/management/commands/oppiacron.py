@@ -59,7 +59,7 @@ class Command(BaseCommand):
 
         # clear any expired sessions
         call_command('clearsessions')
-        
+
         # add any missing api keys for Tastypie
         call_command('backfill_api_keys')
 

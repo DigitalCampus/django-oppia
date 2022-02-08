@@ -72,12 +72,12 @@ class UploadAPIActivityLogTest(ResourceTestCaseMixin, TestCase):
 
         tracker_count_end = Tracker.objects.all().count()
         uploaded_count_end = UploadedActivityLog.objects.all().count()
-        last_uploaded = UploadedActivityLog.objects.all().order_by('-created_date').first()
+        last_uploaded = UploadedActivityLog.objects.all() \
+            .order_by('-created_date').first()
         self.assertEqual(tracker_count_start + 2, tracker_count_end)
         self.assertEqual(uploaded_count_start + 1, uploaded_count_end)
         self.assertEqual(last_uploaded.create_user.username, 'demo')
         self.assertIn('demo', last_uploaded.file.name)
-
 
     def test_new_user_file(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -95,14 +95,14 @@ class UploadAPIActivityLogTest(ResourceTestCaseMixin, TestCase):
         tracker_count_end = Tracker.objects.all().count()
         user_count_end = User.objects.all().count()
         uploaded_count_end = UploadedActivityLog.objects.all().count()
-        last_uploaded = UploadedActivityLog.objects.all().order_by('-created_date').first()
+        last_uploaded = UploadedActivityLog.objects.all() \
+            .order_by('-created_date').first()
 
         self.assertEqual(tracker_count_start + 2, tracker_count_end)
         self.assertEqual(user_count_start + 1, user_count_end)
         self.assertEqual(uploaded_count_start + 1, uploaded_count_end)
         self.assertEqual(last_uploaded.create_user.username, 'newuser')
         self.assertIn('newuser', last_uploaded.file.name)
-
 
     def test_multiple_users_data(self):
         uploaded_count_start = UploadedActivityLog.objects.all().count()
@@ -119,12 +119,12 @@ class UploadAPIActivityLogTest(ResourceTestCaseMixin, TestCase):
 
         tracker_count_end = Tracker.objects.all().count()
         uploaded_count_end = UploadedActivityLog.objects.all().count()
-        last_uploaded = UploadedActivityLog.objects.all().order_by('-created_date').first()
+        last_uploaded = UploadedActivityLog.objects.all() \
+            .order_by('-created_date').first()
         self.assertEqual(tracker_count_start + 4, tracker_count_end)
         self.assertEqual(uploaded_count_start + 1, uploaded_count_end)
         self.assertEqual(last_uploaded.create_user.username, 'demo')
         self.assertIn('activity', last_uploaded.file.name)
-
 
     def test_wrong_format_file(self):
 

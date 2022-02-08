@@ -320,14 +320,15 @@ class Command(BaseCommand):
 
         # for each tracker update the DAU model
         for idx, tracker in enumerate(trackers):
-            self.stdout.write('Updating DAUs for %s - %s (%s: course %d/%d DAU %d/%d)' %
-                              (tracker['day'],
-                               course.get_title(),
-                               dau_type,
-                               course_no+1,
-                               course_total,
-                               idx+1,
-                               trackers.count()))
+            self.stdout.write(
+                'Updating DAUs for %s - %s (%s: course %d/%d DAU %d/%d)' %
+                (tracker['day'],
+                 course.get_title(),
+                 dau_type,
+                 course_no+1,
+                 course_total,
+                 idx+1,
+                 trackers.count()))
             total_users = Tracker.objects.annotate(
                 day=TruncDate(tracker_date_field)) \
                 .filter(day=tracker['day']) \

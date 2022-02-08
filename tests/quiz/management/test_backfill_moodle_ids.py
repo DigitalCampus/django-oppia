@@ -16,15 +16,18 @@ class BackfillMoodleIdsTest(OppiaTestCase):
                 'tests/quiz/test_backfill_moodle_ids.json']
 
     def test_backfill(self):
-        
+
         quiz_props_count_start = QuizProps.objects.all().count()
         question_props_count_start = QuestionProps.objects.all().count()
-        
+
         out = StringIO()
-        call_command('backfill_moodle_ids', './oppia/fixtures/tests/quiz/module.xml', stdout=out)
-        
+        call_command('backfill_moodle_ids',
+                     './oppia/fixtures/tests/quiz/module.xml',
+                     stdout=out)
+
         quiz_props_count_end = QuizProps.objects.all().count()
         question_props_count_end = QuestionProps.objects.all().count()
-        
+
         self.assertEqual(quiz_props_count_start+6, quiz_props_count_end)
-        self.assertEqual(question_props_count_start+1, question_props_count_end)
+        self.assertEqual(question_props_count_start+1,
+                         question_props_count_end)

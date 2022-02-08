@@ -10,7 +10,7 @@ from quiz.models import Quiz, QuizProps, Question, QuestionProps
 
 class Command(BaseCommand):
     help = _(u'Backfills the Moodle ids for quizzes')
-    
+
     def add_arguments(self, parser):
 
         # required argument to the module.xml file
@@ -19,10 +19,10 @@ class Command(BaseCommand):
             type=str,
             help=_(u'Directory and file path to the module.xml file'),
         )
-        
+
     def handle(self, *args, **options):
         # read file to xml
-        doc = ET.parse(options['coursexml']) 
+        doc = ET.parse(options['coursexml'])
 
         # iterate through the quizzes
         for structure in doc.findall('structure'):
@@ -34,19 +34,19 @@ class Command(BaseCommand):
                             self.process_quiz(quiz_content)
 
     def process_quiz(self, quiz_content):
-        
+
         quiz_json = json.loads(quiz_content)
 
         # find Oppia quiz id - based on digest
         quiz_digest = quiz_json['props']['digest']
-        
+
         try:
             oppia_quiz = Quiz.objects.get(quizprops__name='digest',
                                           quizprops__value=quiz_digest)
         except Quiz.DoesNotExist:
             self.stdout.write(_(u"Quiz not found"))
-            return        
-        
+            return
+
         try:
             moodle_quiz_id = quiz_json['props']['moodle_quiz_id']
             moodle_quiz_title = quiz_json['props']['moodle_quiz_title']
@@ -54,26 +54,26 @@ class Command(BaseCommand):
         except KeyError:
             self.stdout.write(_(u"Missing Moodle data for this quiz"))
             return
-        
-        # add/update moodle_quiz_id, moodle_quiz_title and add/update 
+
+        # add/update moodle_quiz_id, moodle_quiz_title and add/update
         # moodle_quiz_desc
         qp_id, created_id = QuizProps.objects.get_or_create(
             quiz=oppia_quiz, name="moodle_quiz_id")
         qp_id.value = moodle_quiz_id
         qp_id.save()
-        
+
         qp_title, created_title = QuizProps.objects.get_or_create(
             quiz=oppia_quiz, name="moodle_quiz_title")
         qp_title.value = moodle_quiz_title
         qp_title.save()
-        
+
         qp_desc, created_desc = QuizProps.objects.get_or_create(
             quiz=oppia_quiz, name="moodle_quiz_desc")
         qp_desc.value = moodle_quiz_desc
         qp_desc.save()
-        
+
         self.stdout.write(_(u"Updated quiz props for %s" % oppia_quiz.title))
-        
+
         # process the questions
         for question_json in quiz_json['questions']:
             self.process_question(oppia_quiz, question_json)
@@ -83,22 +83,25 @@ class Command(BaseCommand):
         # find the question
         question_title = json.dumps(question_json['question']['title'])
         try:
-            oppia_question = Question.objects.get(quizquestion__quiz=oppia_quiz,
-                                                  title=question_title)
+            oppia_question = Question.objects.get(
+                quizquestion__quiz=oppia_quiz,
+                title=question_title)
         except Question.DoesNotExist:
             self.stdout.write(_(u'Question not found %s' % question_title))
             return
-        
+
         try:
-            moodle_question_id = question_json['question']['props']['moodle_question_id']
+            moodle_question_id = \
+                question_json['question']['props']['moodle_question_id']
         except KeyError:
-            self.stdout.write(_(u"Missing Moodle data for this question - %s" % question_title))
+            self.stdout.write(_(u"Missing Moodle data for this question - %s" %
+                                question_title))
             return
-        
+
         # add/update moodle_question_id
         qp_id, created_desc = QuestionProps.objects.get_or_create(
             question=oppia_question, name="moodle_question_id")
         qp_id.value = moodle_question_id
         qp_id.save()
-        self.stdout.write(_(u"Updated question props for %s" % oppia_question.title))
-        
+        self.stdout.write(_(u"Updated question props for %s" %
+                            oppia_question.title))

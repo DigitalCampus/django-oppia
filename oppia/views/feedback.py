@@ -60,7 +60,7 @@ class CourseFeedbackResponsesList(ListView,
 
         activity = Activity.objects.get(pk=self.kwargs['feedback_id'])
         quiz = Quiz.objects.filter(quizprops__name='digest',
-                                quizprops__value=activity.digest).last()
+                                   quizprops__value=activity.digest).last()
 
         return QuizAttempt.objects.filter(quiz=quiz) \
             .order_by('-submitted_date', '-attempt_date')

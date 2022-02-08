@@ -47,8 +47,7 @@ class Command(BaseCommand):
                                                          attempts))
 
             if attempts == 0:
-                print(_(u"Deleting quiz {}, as it has no attempts and is a \
-                    duplicate").format(quiz.title))
+                print(_(u"Deleting quiz {}, as it has no attempts and is a duplicate").format(quiz.title))
                 self.delete_quiz(quiz)
 
     def check_no_digest(self):
@@ -66,8 +65,7 @@ class Command(BaseCommand):
         for quiz in quizzes:
             qas = QuizAttempt.objects.filter(quiz=quiz, user__is_staff=False)
             if qas.count() == 0:
-                print(_(u"Deleting quiz {}, as it was created over {} years \
-                    ago and has no attempts").format(quiz.title, years))
+                print(_(u"Deleting quiz {}, as it was created over {} years ago and has no attempts").format(quiz.title, years))
                 self.delete_quiz(quiz)
 
     def delete_quiz(self, quiz):
@@ -77,6 +75,5 @@ class Command(BaseCommand):
     def delete_questions_with_no_quiz(self):
         questions = Question.objects.filter(quizquestion__isnull=True)
         for question in questions:
-            print(_(u"Deleting question {}, as it is not attached to any \
-                quiz").format(question.title))
+            print(_(u"Deleting question {}, as it is not attached to any quiz").format(question.title))
             question.delete()

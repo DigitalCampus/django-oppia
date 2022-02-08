@@ -192,14 +192,14 @@ class MainModelsCoreTest(OppiaTestCase):
     TRACKER Model
     '''
     def test_tracker_get_media_title(self):
-        tracker = Tracker.objects.get(pk=1462220)
+        tracker = Tracker.objects.get(pk=62220)
         self.assertEqual('who-why-did-mrs-x-die-20140220.m4v',
                          tracker.get_media_title())
 
     def test_tracker_activity_views_all(self):
         user = User.objects.get(pk=2)
         no_views = Tracker.activity_views(user, Activity.PAGE)
-        self.assertEqual(247, no_views)
+        self.assertEqual(245, no_views)
 
     def test_tracker_activity_views_start_date(self):
         user = User.objects.get(pk=2)
@@ -219,7 +219,7 @@ class MainModelsCoreTest(OppiaTestCase):
         no_views = Tracker.activity_views(user,
                                           Activity.PAGE,
                                           end_date=end_date)
-        self.assertEqual(201, no_views)
+        self.assertEqual(199, no_views)
 
     def test_tracker_activity_views_start_end_date(self):
         user = User.objects.get(pk=2)
@@ -233,16 +233,16 @@ class MainModelsCoreTest(OppiaTestCase):
                                           Activity.PAGE,
                                           start_date=start_date,
                                           end_date=end_date)
-        self.assertEqual(79, no_views)
+        self.assertEqual(77, no_views)
 
     def test_tracker_activity_views_course(self):
         user = User.objects.get(pk=2)
         course = Course.objects.get(pk=1)
         no_views = Tracker.activity_views(user, Activity.PAGE, course=course)
-        self.assertEqual(234, no_views)
+        self.assertEqual(232, no_views)
 
     def test_tracker_to_xml_string(self):
         course = Course.objects.get(pk=1)
         user = User.objects.get(pk=2)
         xml = Tracker.to_xml_string(course, user)
-        self.assertEqual(40383, len(xml))
+        self.assertEqual(40093, len(xml))

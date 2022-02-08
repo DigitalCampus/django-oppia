@@ -556,7 +556,6 @@ def parse_and_save_quiz(req, user, activity, act_xml):
     return json.dumps(quiz_obj)
 
 
-
 def create_quiz(user, quiz_obj):
     quiz = Quiz()
     quiz.owner = user
@@ -658,7 +657,8 @@ def clean_old_course(req, user, oldsections, old_course_filename, course):
 def create_or_update_quiz_props(quiz, quiz_obj):
     for prop in quiz_obj['props']:
         if prop != 'id':
-            qprop, created = QuizProps.objects.get_or_create(quiz=quiz, name=prop)
+            qprop, created = QuizProps.objects.get_or_create(quiz=quiz,
+                                                             name=prop)
             qprop.value = quiz_obj['props'][prop]
             qprop.save()
 

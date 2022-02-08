@@ -24,11 +24,13 @@ class ExportAsCSVMixin(View):
             for field_name in cls.available_fields:
                 label = instance.get_field_label(field_name)
                 if label:
-                    cls.__csv_fields[field_name] = {'label': str(label), 'type':'base'}
+                    cls.__csv_fields[field_name] = {'label': str(label),
+                                                    'type': 'base'}
 
         custom_fields = CustomField.objects.all().order_by('order')
         for field in custom_fields:
-            cls.__csv_fields[field.id] = {'label': str(field.label), 'type':field.type}
+            cls.__csv_fields[field.id] = {'label': str(field.label),
+                                          'type': field.type}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -38,14 +40,17 @@ class ExportAsCSVMixin(View):
     def get_field_label(self, field_name):
         if hasattr(self.model, field_name):
             try:
-                label = self.model._meta.get_field(field_name).verbose_name.strip()
+                label = self.model._meta.get_field(
+                    field_name).verbose_name.strip()
                 if field_name in self.field_labels:
                     return self.field_labels[field_name]
                 else:
                     return label
             except FieldDoesNotExist:
-                # If it is not a field, we try to find a property with that name
-                if field_name in dir(self.model) or isinstance(getattr(self.model, field_name), property):
+                # If it is not a field, we try to find a property with that
+                # name
+                if field_name in dir(self.model) or \
+                        isinstance(getattr(self.model, field_name), property):
                     if field_name in self.field_labels:
                         return self.field_labels[field_name]
 
@@ -53,23 +58,34 @@ class ExportAsCSVMixin(View):
             return self.field_labels[field_name]
 
         else:
-        # We try to find a foreignKey model field
+            # We try to find a foreignKey model field
             field_model = field_name.split('__')
             if len(field_model) == 2 and field_model[0] in dir(self.model):
-                model = self.model._meta.get_field(field_model[0]).remote_field.model
-                return model._meta.get_field(field_model[1]).verbose_name.strip()
+                model = self.model._meta.get_field(
+                    field_model[0]).remote_field.model
+                return model._meta.get_field(
+                    field_model[1]).verbose_name.strip()
 
         return None
 
-
-    def export_csv(self, request, object_list, filter_list=None, *args, **kwargs):
+    def export_csv(self,
+                   request,
+                   object_list,
+                   filter_list=None,
+                   *args,
+                   **kwargs):
 
         now = datetime.datetime.now()
         response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename="{}_{}.csv'.format(self.csv_filename, now.strftime('%Y%m%d'))
+        response['Content-Disposition'] = \
+            'attachment; filename="{}_{}.csv'.format(self.csv_filename,
+                                                     now.strftime('%Y%m%d'))
 
         response.write(u'\ufeff'.encode('utf-8'))
-        writer = csv.writer(response, dialect='excel', delimiter=str(','), quotechar=str('"'))
+        writer = csv.writer(response,
+                            dialect='excel',
+                            delimiter=str(','),
+                            quotechar=str('"'))
 
         # If no field was selected, we export all of them
         if filter_list is None or len(filter_list) == 0:
@@ -91,17 +107,17 @@ class ExportAsCSVMixin(View):
                 if self.__csv_fields[field]['type'] == 'base':
                     value = self.get_field_value(elem, field)
                 else:
-                    customfield = UserProfileCustomField.objects.filter(key_name=field, user=elem).first()
+                    customfield = UserProfileCustomField.objects.filter(
+                        key_name=field, user=elem).first()
                     value = customfield.get_value() if customfield else None
                 results.append(value)
             writer.writerow(results)
 
         return response
 
-
-    # Method to access a value by field name, traversing the foreign key objects
+    # Method to access a value by field name, traversing the foreign key
+    # objects
     def get_field_value(self, instance, field):
-
         field_path = field.split('__')
         attr = instance
         value = None
@@ -126,13 +142,13 @@ class ExportAsCSVMixin(View):
             return '%s' % value()
         return value
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['export_csv_fields'] = self.__csv_fields
 
         if self.export_filter_form:
-            context['export_filter_form'] = self.export_filter_form(self.request.GET)
+            context['export_filter_form'] = self.export_filter_form(
+                self.request.GET)
 
         return context
 
@@ -140,13 +156,17 @@ class ExportAsCSVMixin(View):
         return self.get_queryset()
 
     def get(self, request, *args, **kwargs):
-        if request.GET.get('export','') == 'csv':
+        if request.GET.get('export', '') == 'csv':
             if 'o' in request.GET:
                 request.GET = request.GET.copy()
                 del request.GET['o']
             filter_list = request.GET.getlist('csv_fields[]', None)
             object_list = self.get_list_to_export()
 
-            return self.export_csv(request, object_list, filter_list, *args, **kwargs)
+            return self.export_csv(request,
+                                   object_list,
+                                   filter_list,
+                                   *args,
+                                   **kwargs)
 
         return super().get(request, *args, **kwargs)

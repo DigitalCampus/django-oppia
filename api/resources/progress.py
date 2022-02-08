@@ -52,7 +52,7 @@ class UserCourseSummaryResource(ModelResource):
                 courses = Course.objects.filter(
                     coursecohort__cohort__participant__user=view_user,
                     coursecohort__cohort__participant__role=
-                        Participant.STUDENT) \
+                    Participant.STUDENT) \
                     .filter(
                         coursecohort__cohort__participant__user=request.user,
                         coursecohort__cohort__participant__role=

@@ -98,7 +98,7 @@ class Command(BaseCommand):
             req.add_header('Authorization', 'Api-Key ' + api_key)
             try:
                 request.urlopen(req)
-            except  HTTPError:
+            except HTTPError:
                 self.stdout.write("Error posting the server registration")
 
     def get_api_key(self):

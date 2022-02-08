@@ -20,7 +20,7 @@ class ActivityLogsFromFolderTest(OppiaTestCase):
                 'tests/test_course_permissions.json']
 
     activity_logs_folder = './oppia/fixtures/activity_logs/'
-    
+
     def test_no_folder(self):
         out = StringIO()
         count_start = Tracker.objects.all().count()
@@ -28,23 +28,23 @@ class ActivityLogsFromFolderTest(OppiaTestCase):
             call_command('activitylogs_fromfolder', stdout=out)
         count_end = Tracker.objects.all().count()
         self.assertEqual(count_start, count_end)
-       
+
     def test_invalid_folder(self):
         out = StringIO()
         count_start = Tracker.objects.all().count()
         with self.assertRaises(SystemExit):
-            call_command('activitylogs_fromfolder', 
+            call_command('activitylogs_fromfolder',
                          "./folder-does-not_exist/",
                          stdout=out)
         count_end = Tracker.objects.all().count()
         self.assertEqual(count_start, count_end)
-    
+
     # not a directory
     def test_not_a_folder(self):
         out = StringIO()
         count_start = Tracker.objects.all().count()
         with self.assertRaises(SystemExit):
-            call_command('activitylogs_fromfolder', 
+            call_command('activitylogs_fromfolder',
                          './oppia/fixtures/activity_logs/basic_activity.json',
                          stdout=out)
         count_end = Tracker.objects.all().count()
@@ -55,21 +55,21 @@ class ActivityLogsFromFolderTest(OppiaTestCase):
         out = StringIO()
         count_start = Tracker.objects.all().count()
         with self.assertRaises(SystemExit):
-            call_command('activitylogs_fromfolder', 
+            call_command('activitylogs_fromfolder',
                          './oppia/fixtures/activity_logs/no_json_files/',
                          stdout=out)
         count_end = Tracker.objects.all().count()
         self.assertEqual(count_start, count_end)
-            
+
     def test_folder(self):
         out = StringIO()
         tracker_count_start = Tracker.objects.all().count()
         qa_count_start = QuizAttempt.objects.all().count()
-        
+
         call_command('activitylogs_fromfolder',
                      self.activity_logs_folder,
                      stdout=out)
-        
+
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start+7, tracker_count_end)
 
