@@ -49,10 +49,8 @@ class Command(BaseCommand):
         
         try:
             moodle_quiz_id = quiz_json['props']['moodle_quiz_id']
-            moodle_quiz_title = quiz_json['props']['moodle_quiz_title']
-            moodle_quiz_desc = quiz_json['props']['moodle_quiz_desc']
         except KeyError:
-            self.stdout.write(_(u"Missing Moodle data for this quiz"))
+            self.stdout.write(_(u"Missing moodle_quiz_id for this quiz"))
             return
         
         # add/update moodle_quiz_id, moodle_quiz_title and add/update 
@@ -61,16 +59,6 @@ class Command(BaseCommand):
             quiz=oppia_quiz, name="moodle_quiz_id")
         qp_id.value = moodle_quiz_id
         qp_id.save()
-        
-        qp_title, created_title = QuizProps.objects.get_or_create(
-            quiz=oppia_quiz, name="moodle_quiz_title")
-        qp_title.value = moodle_quiz_title
-        qp_title.save()
-        
-        qp_desc, created_desc = QuizProps.objects.get_or_create(
-            quiz=oppia_quiz, name="moodle_quiz_desc")
-        qp_desc.value = moodle_quiz_desc
-        qp_desc.save()
         
         self.stdout.write(_(u"Updated quiz props for %s" % oppia_quiz.title))
         
