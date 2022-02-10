@@ -1,4 +1,4 @@
-django==2.2.26
+django==2.2.27
 django-tastypie==0.14.2
 django-crispy-forms==1.11.2
 pytz
