@@ -5,8 +5,10 @@ from gamification.models import CourseGamificationEvent, \
                                 MediaGamificationEvent, \
                                 ActivityGamificationEvent
 from oppia.test import OppiaTestCase
-from oppia.models import Course, CoursePublishingLog
+from oppia.models import Course, CoursePublishingLog, Quiz, Activity, Question
 from zipfile import BadZipfile
+
+from quiz.models import QuizProps, QuestionProps
 
 
 class CourseUploadTest(OppiaTestCase):
@@ -27,6 +29,8 @@ class CourseUploadTest(OppiaTestCase):
     course_no_activities = file_root + 'test_course_no_activities.zip'
     course_with_custom_points = file_root + 'ref-1.zip'
     course_with_custom_points_updated = file_root + 'ref-1-updated.zip'
+    course_with_quizprops = file_root + 'quizprops_course.zip'
+    course_with_updated_quizprops = file_root + 'quizprops_course_updated.zip'
 
     @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_upload_template(self):
@@ -196,3 +200,57 @@ class CourseUploadTest(OppiaTestCase):
         activity_game_events_end = ActivityGamificationEvent. \
             objects.all().count()
         self.assertEqual(activity_game_events_start, activity_game_events_end)
+
+
+    @pytest.mark.xfail(reason="works on local but not on github workflows")
+    def test_update_quizprops(self):
+        self.client.force_login(self.admin_user)
+
+        with open(self.course_with_quizprops, 'rb') as course_file:
+
+            response = self.client.post(reverse('oppia:upload'), {'course_file': course_file})
+
+            course = Course.objects.get(shortname='quizprops_course')
+            self.assertRedirects(response,
+                                 reverse('oppia:upload_step2',
+                                         args=[course.id]),
+                                 302,
+                                 200)
+
+            current_quizzes = Activity.objects.filter(section__course=course, type=Activity.QUIZ).values_list('digest', flat=True)
+            quizzes = Quiz.objects.filter(quizprops__name='digest', quizprops__value__in=current_quizzes)
+            quiz_questions = Question.objects.filter(quizquestion__quiz__in=quizzes)
+            quiz_props = QuizProps.objects.filter(quiz__in=quizzes)
+            question_props = QuestionProps.objects.filter(question__in=quiz_questions)
+
+            self.assertEqual(1, quizzes.count())
+            self.assertEqual(2, quiz_questions.count())
+            self.assertEqual(8, quiz_props.count())
+            self.assertEqual(4, question_props.count())
+            self.assertEqual(QuizProps.objects.filter(name='moodle_quiz_id', quiz=quizzes.first()).first().value, '43504')
+
+            # Lower the version so that we can upload a new one regardless of the current date
+            course.version = 100
+            course.save()
+
+
+        with open(self.course_with_updated_quizprops, 'rb') as course_file:
+
+            response = self.client.post(reverse('oppia:upload'), {'course_file': course_file})
+            course = Course.objects.get(shortname='quizprops_course')
+
+            current_quizzes = Activity.objects.filter(section__course=course, type=Activity.QUIZ).values_list('digest',
+                                                                                                              flat=True)
+            quizzes = Quiz.objects.filter(quizprops__name='digest', quizprops__value__in=current_quizzes)
+            quiz_questions = Question.objects.filter(quizquestion__quiz__in=quizzes)
+            quiz_props = QuizProps.objects.filter(quiz__in=quizzes)
+            question_props = QuestionProps.objects.filter(question__in=quiz_questions)
+
+            # Assert that no new quizzes or props were created, only updated
+            self.assertEqual(1, quizzes.count())
+            self.assertEqual(2, quiz_questions.count())
+            self.assertEqual(8, quiz_props.count())
+
+            self.assertEqual(5, question_props.count()) # Additional question prop added
+            self.assertEqual(QuizProps.objects.filter(name='moodle_quiz_id', quiz=quizzes.first()).first().value,
+                             '43505') # property updated
