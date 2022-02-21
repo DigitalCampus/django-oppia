@@ -546,6 +546,9 @@ def parse_and_save_quiz(req, user, activity, act_xml):
 
     if quiz_existed:
         quiz = quizzes.first()
+        # If the quiz already existed (same digest) we can update the questions based on its
+        # current titles, assuming they haven't changed
+        update_quiz_questions(quiz, quiz_obj)
     else:
         quiz = create_quiz(user, quiz_obj)
 
@@ -704,3 +707,22 @@ def create_quiz_questions(user, quiz, quiz_obj):
                         response=response, name=prop,
                         value=r['props'][prop]
                     ).save()
+
+
+def update_quiz_questions(quiz, quiz_obj):
+    for q in quiz_obj['questions']:
+        try:
+            question = Question.objects.get(type=q['question']['type'], title=clean_lang_dict(q['question']['title']), quiz=quiz)
+            quiz_question, created = QuizQuestion.objects.get_or_create(quiz=quiz, question=question,order=q['order'])
+            q['id'] = quiz_question.pk
+            q['question']['id'] = question.pk
+
+            for prop in q['question']['props']:
+                if prop != 'id':
+                    qprop, created = QuestionProps.objects.get_or_create(question=question, name=prop)
+                    qprop.value = q['question']['props'][prop]
+                    qprop.save()
+
+
+        except Question.DoesNotExist:
+            continue
