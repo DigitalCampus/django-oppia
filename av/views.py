@@ -35,15 +35,16 @@ class CourseMediaList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
 
     def get_queryset(self):
         course_id = self.kwargs['course_id']
-        return Media.objects.filter(course__id=course_id).order_by('id')
+        media = Media.objects.filter(course__id=course_id).order_by('id')
+        for m in media:
+            m.uploaded = UploadedMedia.objects.filter(md5=m.digest).first()
+        return media
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['course'] = Course.objects.get(pk=self.kwargs['course_id'])
         context['uploaded'] = 0
-        for media in self.get_queryset():
-            media.uploaded = UploadedMedia.objects \
-                .filter(md5=media.digest).first()
+        for media in context['object_list']:
             context['uploaded'] += 1 if media.uploaded else 0
 
         if self.request.GET.get('error', None) == 'no_media':
