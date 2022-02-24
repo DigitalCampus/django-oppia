@@ -96,21 +96,20 @@ def get_length(filepath):
 
 def zip_course_media(zipname, media_contents):
 
-    files = []
+    uploaded_files = []
 
-    for media in media_contents:
-        if media.file and media.file.storage.exists(media.file.name):
-            files.append(media.file)
+    for uploaded in media_contents:
+        if uploaded.file and uploaded.file.storage.exists(uploaded.file.name):
+            uploaded_files.append(uploaded)
             # zip.writestr(course.shortname + "/tracker.xml",
             # Tracker.to_xml_string(course, request.user))
 
-    if len(files) == 0:
+    if len(uploaded_files) == 0:
         return False
 
     path = os.path.join(settings.COURSE_UPLOAD_DIR, "temp", zipname)
     with zipfile.ZipFile(path, "w") as zip:
-        for file in files:
-            upload, filename = os.path.split(file.name)
-            zip.write(file.path, filename)
+        for uploaded in uploaded_files:
+            zip.write(uploaded.file.path, uploaded.media.filename)
 
     return path
