@@ -444,7 +444,7 @@ def parse_and_save_activity(request,
     digest = activity_node.get("digest")
     existed = False
     try:
-        activity = Activity.objects.get(digest=digest)
+        activity = Activity.objects.get(digest=digest, section__course__shortname=course.shortname)
         existed = True
     except Activity.DoesNotExist:
         activity = Activity()
