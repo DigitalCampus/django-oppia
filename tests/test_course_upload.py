@@ -28,6 +28,7 @@ class CourseUploadTest(OppiaTestCase):
     course_old_version = file_root + 'ncd1_old_course.zip'
     course_no_activities = file_root + 'test_course_no_activities.zip'
     course_with_custom_points = file_root + 'ref-1.zip'
+    course_with_copied_activities = file_root + 'ref-1-copy.zip'
     course_with_custom_points_updated = file_root + 'ref-1-updated.zip'
     course_with_quizprops = file_root + 'quizprops_course.zip'
     course_with_updated_quizprops = file_root + 'quizprops_course_updated.zip'
@@ -254,3 +255,34 @@ class CourseUploadTest(OppiaTestCase):
             self.assertEqual(5, question_props.count()) # Additional question prop added
             self.assertEqual(QuizProps.objects.filter(name='moodle_quiz_id', quiz=quizzes.first()).first().value,
                              '43505') # property updated
+
+    @pytest.mark.xfail(reason="works on local but not on github workflows")
+    def test_course_with_repeated_activities(self):
+        with open(self.course_with_custom_points, 'rb') as course_file:
+            self.client.force_login(self.admin_user)
+            response = self.client.post(reverse('oppia:upload'),
+                                        {'course_file': course_file})
+            course = Course.objects.latest('created_date')
+            self.assertRedirects(response,
+                                 reverse('oppia:upload_step2',
+                                         args=[course.id]), 302, 200)
+
+        course_activities = Activity.objects.filter(section__course__shortname='ref-1').count()
+        self.assertEqual(course_activities, 5)
+
+        with open(self.course_with_copied_activities, 'rb') as course_file:
+            self.client.force_login(self.admin_user)
+            response = self.client.post(reverse('oppia:upload'),
+                                        {'course_file': course_file})
+            course = Course.objects.latest('created_date')
+            self.assertRedirects(response,
+                                 reverse('oppia:upload_step2',
+                                         args=[course.id]), 302, 200)
+
+        course_activities = Activity.objects.filter(section__course__shortname='ref-1').count()
+        new_course_activities = Activity.objects.filter(section__course__shortname='ref-1-copy').count()
+
+        self.assertEqual(new_course_activities, 5)
+        self.assertEqual(course_activities, 5)
+
+
