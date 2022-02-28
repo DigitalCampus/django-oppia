@@ -6,6 +6,7 @@ import os
 import xml.etree.ElementTree as ET
 from django.conf import settings
 from django.core.management.base import BaseCommand
+from django.utils.translation import ugettext_lazy as _
 
 from oppia.models import Course, Activity, Section, Media
 from oppia.uploader import get_activity_content, parse_and_save_quiz
