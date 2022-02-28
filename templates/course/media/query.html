@@ -12,10 +12,10 @@
 
 {% if item.uploaded %}
     <td class="text-center"><span class="material-icons">done</span></td>
-    <td class="px-0"><a href="{{item.uploaded.file.url}}">{{item.filename}}</a></td>
+    <td class="px-0"><a href="{% url 'av:download_media_file' course.pk item.pk %}">{{item.filename}}</a></td>
     <td> <code>{{item.digest}}</code> </td>
     <td class="p-0">
-        <a href="{{item.uploaded.file.url}}" data-toggle="tooltip" title="{% trans 'Download' %}" class="btn btn-inline btn-outline-primary"><span class="material-icons">save_alt</span></a>
+        <a href="{% url 'av:download_media_file' course.pk item.pk %}" data-toggle="tooltip" title="{% trans 'Download' %}" class="btn btn-inline btn-outline-primary"><span class="material-icons">save_alt</span></a>
     </td>
 {% else %}
     <td class="text-center"><span class="material-icons">clear</span></td>
