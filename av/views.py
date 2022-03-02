@@ -35,15 +35,16 @@ class CourseMediaList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
 
     def get_queryset(self):
         course_id = self.kwargs['course_id']
-        return Media.objects.filter(course__id=course_id).order_by('id')
+        media = Media.objects.filter(course__id=course_id).order_by('id')
+        for m in media:
+            m.uploaded = UploadedMedia.objects.filter(md5=m.digest).first()
+        return media
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['course'] = Course.objects.get(pk=self.kwargs['course_id'])
         context['uploaded'] = 0
-        for media in self.get_queryset():
-            media.uploaded = UploadedMedia.objects \
-                .filter(md5=media.digest).first()
+        for media in context['object_list']:
             context['uploaded'] += 1 if media.uploaded else 0
 
         if self.request.GET.get('error', None) == 'no_media':
@@ -51,14 +52,25 @@ class CourseMediaList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
         return context
 
 
+def download_media_file(request, course_id, media_id):
+    course = can_view_course(request, course_id)
+    media = Media.objects.get(pk=media_id)
+    uploaded = UploadedMedia.objects.filter(md5=media.digest).first()
+
+    response = HttpResponse()
+    response['Content-Disposition'] = 'attachment; filename="%s"' \
+                                      % (media.filename)
+    return response
+
 def download_course_media(request, course_id):
     course = can_view_course(request, course_id)
-    digests = Media.objects.filter(course=course).values_list('digest',
-                                                              flat=True)
-    media = UploadedMedia.objects.filter(md5__in=digests)
+    media = Media.objects.filter(course=course)
+    uploaded = UploadedMedia.objects.filter(md5__in=media.values_list('digest', flat=True))
+    for file in uploaded:
+        file.media = media.get(digest=file.md5)
 
     filename = course.shortname + "_media.zip"
-    path = handler.zip_course_media(filename, media)
+    path = handler.zip_course_media(filename, uploaded)
 
     if path:
         with open(path, 'rb') as package:
