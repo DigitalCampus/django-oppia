@@ -368,11 +368,13 @@ class Command(BaseCommand):
 
         time_spent = Tracker.objects.annotate(
             day=TruncDate(tracker_date_field)) \
-            .filter(day=tracker['day'], user=user_obj) \
+            .filter(day=tracker['day'], user=user_obj, course=course) \
             .aggregate(time=Sum('time_taken'))
 
         # to avoid number out of no seconds in a day
-        if time_spent['time'] > self.MAX_TIME:
+        if time_spent['time'] is None:
+            return
+        elif time_spent['time'] > self.MAX_TIME:
             time_taken = self.MAX_TIME
         else:
             time_taken = time_spent['time']
