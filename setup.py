@@ -38,7 +38,7 @@ setup(
         'Development Status :: 4 - Beta',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.8',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
@@ -62,6 +62,7 @@ setup(
         "django-sass-processor==1.0.1",
         "qrcode==6.1",
         "libsass==0.21.0",
-        "xmltodict==0.12.0"
+        "xmltodict==0.12.0",
+        "django-storages==1.12.3"
     ],
 )
