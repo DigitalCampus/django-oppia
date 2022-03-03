@@ -49,6 +49,9 @@ class Command(BaseCommand):
         oldsections = list(Section.objects.filter(course=course)
                            .values_list('pk', flat=True))
 
+        # add in any baseline activities
+        self.parse_baseline_activities(xml_doc, course, False)
+    
         # add all the sections and activities
         structure = xml_doc.find("structure")
         self.process_course_sections(structure, course, False)
@@ -61,8 +64,6 @@ class Command(BaseCommand):
         act_count = Activity.objects.all().count()
         quiz_count = Quiz.objects.all().count()
         print('Count: {} course activities, {} total, {} quizzes'.format(course_count, act_count, quiz_count))
-
-
 
     def process_course_sections(self, structure, course, new_course):
         for index, section in enumerate(structure.findall("section")):
@@ -87,6 +88,23 @@ class Command(BaseCommand):
             for act in activities.findall("activity"):
                 self.parse_and_save_activity(course, section, act, False)
 
+    def parse_baseline_activities(self, xml_doc, course, new_course):
+        
+        for meta in xml_doc.findall('meta')[:1]:
+            activity_nodes = meta.findall("activity")
+            if len(activity_nodes) > 0:
+                section = Section(
+                    course=course,
+                    title='{"en": "Baseline"}',
+                    order=0
+                )
+                section.save()
+                for activity_node in activity_nodes:
+                    self.parse_and_save_activity(course,
+                                                 section,
+                                                 activity_node,
+                                                 new_course,
+                                                 True)
 
     def parse_and_save_activity(self,
                                 course,
