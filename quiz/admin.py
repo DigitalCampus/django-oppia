@@ -24,19 +24,21 @@ class QuizAttemptAdmin(admin.ModelAdmin):
                     'ip',
                     'instance_id',
                     'agent')
-
+    readonly_fields = ['user', 'quiz']
 
 class QuestionPropsAdmin(admin.ModelAdmin):
     list_display = ('question', 'name', 'value')
+    readonly_fields = ['question']
 
 
 class ResponsePropsAdmin(admin.ModelAdmin):
     list_display = ('response', 'name', 'value')
+    readonly_fields = ['response']
 
 
 class QuizPropsAdmin(admin.ModelAdmin):
     list_display = ('quiz', 'name', 'value')
-
+    readonly_fields = ['quiz']
 
 class QuestionAdmin(admin.ModelAdmin):
     list_display = ('owner',
@@ -48,6 +50,7 @@ class QuestionAdmin(admin.ModelAdmin):
                     'difficulty_index',
                     'discrimination_index')
     search_fields = ['title']
+    readonly_fields = ['owner']
 
     def no_responses(self, obj):
         return obj.get_no_responses()
@@ -67,7 +70,7 @@ class QuestionAdmin(admin.ModelAdmin):
 
 class QuizAttemptResponseAdmin(admin.ModelAdmin):
     list_display = ('quizattempt', 'question', 'score', 'text')
-    readonly_fields = ('question', 'quizattempt')
+    readonly_fields = ['question', 'quizattempt']
 
 
 class QuizAdmin(admin.ModelAdmin):
@@ -79,6 +82,7 @@ class QuizAdmin(admin.ModelAdmin):
                     'draft',
                     'deleted')
     search_fields = ['title', 'description']
+    readonly_fields = ['owner']
 
 
 class ResponseAdmin(admin.ModelAdmin):
@@ -90,10 +94,12 @@ class ResponseAdmin(admin.ModelAdmin):
                     'score',
                     'order')
     search_fields = ['title']
+    readonly_fields = ['question', 'owner']
 
 
 class QuizQuestionAdmin(admin.ModelAdmin):
     list_display = ('quiz', 'question', 'order')
+    readonly_fields = ['question', 'quiz']
 
 
 admin.site.register(Quiz, QuizAdmin)
