@@ -29,7 +29,9 @@ class RegenerateCourseStructureTest(OppiaTestCase):
         act_count_start = Activity.objects.all().count()
         quiz_count_start = Quiz.objects.all().count()
 
-        call_command('regenerate_course_structure', 'ncd1-et', stdout=StringIO())
+        call_command('regenerate_course_structure',
+                     'ncd1-et',
+                     stdout=StringIO())
 
         act_count_end = Activity.objects.all().count()
         quiz_count_end = Quiz.objects.all().count()
@@ -37,4 +39,3 @@ class RegenerateCourseStructureTest(OppiaTestCase):
         self.assertEqual(act_count_start, act_count_end)
         # 8 quizzes added as not included in the original fixtures
         self.assertEqual(quiz_count_start+8, quiz_count_end)
-

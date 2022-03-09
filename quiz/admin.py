@@ -26,6 +26,7 @@ class QuizAttemptAdmin(admin.ModelAdmin):
                     'agent')
     readonly_fields = ['user', 'quiz']
 
+
 class QuestionPropsAdmin(admin.ModelAdmin):
     list_display = ('question', 'name', 'value')
     readonly_fields = ['question']
@@ -39,6 +40,7 @@ class ResponsePropsAdmin(admin.ModelAdmin):
 class QuizPropsAdmin(admin.ModelAdmin):
     list_display = ('quiz', 'name', 'value')
     readonly_fields = ['quiz']
+
 
 class QuestionAdmin(admin.ModelAdmin):
     list_display = ('owner',

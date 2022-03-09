@@ -85,10 +85,11 @@ def process_uploaded_trackers(messages_delegate, trackers, user, user_api_key):
                             % {'username': user.username,
                                'uuid': tracker.get('digest')}))
         else:
-            messages_delegate.warning( _(
-                u"Already uploaded: tracker activity %(uuid)s for %(username)s" % {'username': user.username,
-                                       'uuid': tracker.get('digest', None)}),
-                             'danger')
+            messages_delegate.warning(
+                _(u"Already uploaded: tracker activity %(uuid)s for "
+                  "%(username)s" % {'username': user.username,
+                                    'uuid': tracker.get('digest', None)}),
+                'danger')
 
 
 def process_uploaded_quizresponses(messages_delegate,

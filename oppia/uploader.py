@@ -444,7 +444,8 @@ def parse_and_save_activity(request,
     digest = activity_node.get("digest")
     existed = False
     try:
-        activity = Activity.objects.get(digest=digest, section__course__shortname=course.shortname)
+        activity = Activity.objects.get(
+            digest=digest, section__course__shortname=course.shortname)
         existed = True
     except Activity.DoesNotExist:
         activity = Activity()
@@ -543,8 +544,8 @@ def parse_and_save_quiz(user, activity, act_xml):
 
     if quiz_existed:
         quiz = quizzes.first()
-        # If the quiz already existed (same digest) we can update the questions based on its
-        # current titles, assuming they haven't changed
+        # If the quiz already existed (same digest) we can update the questions
+        # based on its current titles, assuming they haven't changed
         update_quiz_questions(quiz, quiz_obj)
     else:
         quiz = create_quiz(user, quiz_obj)
@@ -721,13 +722,14 @@ def update_quiz_questions(quiz, quiz_obj):
         else:
             question = question.filter(quizquestion__order=q['order']).first()
 
-        quiz_question, created = QuizQuestion.objects.get_or_create(quiz=quiz, question=question,order=q['order'])
+        quiz_question, created = QuizQuestion.objects.get_or_create(
+            quiz=quiz, question=question, order=q['order'])
         q['id'] = quiz_question.pk
         q['question']['id'] = question.pk
 
         for prop in q['question']['props']:
             if prop != 'id':
-                qprop, created = QuestionProps.objects.get_or_create(question=question, name=prop)
+                qprop, created = QuestionProps.objects.get_or_create(
+                    question=question, name=prop)
                 qprop.value = q['question']['props'][prop]
                 qprop.save()
-

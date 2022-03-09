@@ -12,7 +12,8 @@ from django.views.generic import FormView, TemplateView, ListView
 from tastypie.models import ApiKey
 
 import profile
-from helpers.mixins.PermissionMixins import AdminRequiredMixin, StaffRequiredMixin
+from helpers.mixins.PermissionMixins import AdminRequiredMixin, \
+    StaffRequiredMixin
 from helpers.mixins.SafePaginatorMixin import SafePaginatorMixin
 from helpers.mixins.TitleViewMixin import TitleViewMixin
 from oppia.models import Points, Award, Tracker
@@ -25,7 +26,10 @@ from profile.views import utils, STR_COMMON_FORM
 from quiz.models import QuizAttempt, QuizAttemptResponse
 
 
-class UserList(StaffRequiredMixin, ExportAsCSVMixin, SafePaginatorMixin, ListView):
+class UserList(StaffRequiredMixin,
+               ExportAsCSVMixin,
+               SafePaginatorMixin,
+               ListView):
     model = User
     search_form = UserSearchForm
     export_filter_form = UserSearchForm
@@ -34,8 +38,13 @@ class UserList(StaffRequiredMixin, ExportAsCSVMixin, SafePaginatorMixin, ListVie
     default_order = 'first_name'
 
     csv_filename = 'users'
-    available_fields = ['username', 'first_name', 'last_name', 'email',
-                        'userprofile__job_title', 'userprofile__organisation', 'userprofile__phone_number']
+    available_fields = ['username',
+                        'first_name',
+                        'last_name',
+                        'email',
+                        'userprofile__job_title',
+                        'userprofile__organisation',
+                        'userprofile__phone_number']
 
     def get_queryset(self):
         form = self.search_form(self.request.GET)
@@ -51,7 +60,8 @@ class UserList(StaffRequiredMixin, ExportAsCSVMixin, SafePaginatorMixin, ListVie
         if not filtered:
             users = users.all()
 
-        users, custom_filtered = utils.get_users_filtered_by_customfields(users, form)
+        users, custom_filtered = utils.get_users_filtered_by_customfields(
+            users, form)
         self.filtered = filtered | custom_filtered
 
         query_string = self.request.GET.get('q', None)
@@ -66,7 +76,8 @@ class UserList(StaffRequiredMixin, ExportAsCSVMixin, SafePaginatorMixin, ListVie
         context['quicksearch'] = self.request.GET.get('q', None)
         context['search_form'] = self.search_form(self.request.GET)
         context['advanced_search'] = self.filtered
-        context['page_ordering'] = self.request.GET.get('order_by', self.default_order)
+        context['page_ordering'] = self.request.GET.get('order_by',
+                                                        self.default_order)
         return context
 
 
@@ -82,6 +93,7 @@ class AddUserView(StaffRequiredMixin, TitleViewMixin, FormView):
 
     def get_success_url(self):
         return reverse('profile:users_list')
+
 
 @staff_member_required
 def export_users(request):
@@ -183,7 +195,9 @@ class UploadUsers(AdminRequiredMixin, FormView):
             chunk.decode('utf-8-sig') for chunk in self.request.FILES['upload_file'])
 
         context = self.get_context_data(form=form)
-        context['results'] = self.process_upload_user_file(csv_file, required_fields, only_update)
+        context['results'] = self.process_upload_user_file(csv_file,
+                                                           required_fields,
+                                                           only_update)
         return self.render_to_response(context)
 
     def get_context_data(self, **kwargs):
@@ -210,7 +224,8 @@ class UploadUsers(AdminRequiredMixin, FormView):
                 if not all_defined:
                     continue
 
-                results.append(self.process_upload_file_save_user(row, not only_update))
+                results.append(
+                    self.process_upload_file_save_user(row, not only_update))
 
         except Exception:
             result = {
@@ -223,7 +238,8 @@ class UploadUsers(AdminRequiredMixin, FormView):
         return results
 
     def process_upload_file_save_user(self, row, override_fields):
-        user, user_created = User.objects.get_or_create(username=row['username'])
+        user, user_created = User.objects.get_or_create(
+            username=row['username'])
 
         if override_fields or not user.first_name:
             user.first_name = row['firstname']
@@ -269,7 +285,8 @@ class UploadUsers(AdminRequiredMixin, FormView):
     def update_user_profile(self, user, row, override_fields):
         up, created = UserProfile.objects.get_or_create(user=user)
         for col_name in row:
-            if override_fields or (hasattr(up, col_name) and not getattr(up, col_name)):
+            if override_fields or (hasattr(up, col_name)
+                                   and not getattr(up, col_name)):
                 setattr(up, col_name, row[col_name])
         up.save()
 
@@ -280,7 +297,7 @@ class UploadUsers(AdminRequiredMixin, FormView):
                 upcf, created = UserProfileCustomField.objects.get_or_create(
                     user=user, key_name=cf)
                 if cf.type == 'bool':
-                    if override_fields or upcf.value_bool == None:
+                    if override_fields or upcf.value_bool is None:
                         upcf.value_bool = row[cf.id]
                 elif cf.type == 'int':
                     if override_fields or not upcf.value_int:

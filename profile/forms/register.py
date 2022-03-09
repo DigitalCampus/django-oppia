@@ -122,7 +122,6 @@ class RegisterForm(forms.Form):
         # Always return the full collection of cleaned data.
         return cleaned_data
 
-
     def save(self):
         username = self.cleaned_data.get("username")
         email = self.cleaned_data.get("email")

@@ -11,9 +11,12 @@ class UploadProfileForm(forms.Form):
         required=True,
         error_messages={'required': _('Please select a file to upload')}, )
 
-    only_update = forms.BooleanField(initial=True, required=False,
+    only_update = forms.BooleanField(
+        initial=True,
+        required=False,
         label=_('Only update data'),
-        help_text=_('If a user already exists, only missing/blank fields will be updated'))
+        help_text=_("If a user already exists, only missing/blank fields will "
+                    "be updated"))
 
     def __init__(self, *args, **kwargs):
         super(UploadProfileForm, self).__init__(* args, ** kwargs)

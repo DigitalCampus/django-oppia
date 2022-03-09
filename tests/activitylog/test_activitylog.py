@@ -20,20 +20,22 @@ class UploadActivityLogTest(OppiaTestCase):
                 'tests/test_course_permissions.json']
 
     url = reverse('activitylog:upload')
-    basic_activity_log = './oppia/fixtures/activity_logs/basic_activity.json'
-    activity_log_file_path = \
-        './oppia/fixtures/activity_logs/activity_upload_test.json'
-    wrong_activity_file = './oppia/fixtures/activity_logs/wrong_format.json'
-    new_user_activity = './oppia/fixtures/activity_logs/new_user_activity.json'
-    quiz_attempt_log = './oppia/fixtures/activity_logs/quiz_attempts.json'
-    file_with_emojis = './oppia/fixtures/activity_logs/file_with_emojis.json'
-    activity_with_emojis = './oppia/fixtures/activity_logs/activity_emojis.json'
-    activity_with_userinfo = './oppia/fixtures/activity_logs/activity_with_userinfo.json'
-    activity_with_empty_userinfo = './oppia/fixtures/activity_logs/activity_with_empty_userinfo.json'
-    activity_with_nulled_userinfo = './oppia/fixtures/activity_logs/activity_with_nulled_userinfo.json'
+
+    path = './oppia/fixtures/activity_logs/'
+    basic_activity_log = path + 'basic_activity.json'
+    activity_log_file_path = path + 'activity_upload_test.json'
+    wrong_activity_file = path + 'wrong_format.json'
+    new_user_activity = path + 'new_user_activity.json'
+    quiz_attempt_log = path + 'quiz_attempts.json'
+    file_with_emojis = path + 'file_with_emojis.json'
+    activity_with_emojis = path + 'activity_emojis.json'
+    activity_with_userinfo = path + 'activity_with_userinfo.json'
+    activity_with_empty_userinfo = path + 'activity_with_empty_userinfo.json'
+    activity_with_nulled_userinfo = path + 'activity_with_nulled_userinfo.json'
 
     def assert_redirects_success(self, response):
-        self.assertRedirects(response, reverse('activitylog:upload_success'), 302, 200)
+        self.assertRedirects(response,
+                             reverse('activitylog:upload_success'), 302, 200)
 
     def test_no_file(self):
         # no file
@@ -73,7 +75,6 @@ class UploadActivityLogTest(OppiaTestCase):
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start + 2, tracker_count_end)
 
-
     def test_userprofile_updated(self):
 
         self.client.force_login(self.admin_user)
@@ -90,9 +91,10 @@ class UploadActivityLogTest(OppiaTestCase):
         userprofile = UserProfile.objects.get(user=user)
         self.assertEqual(userprofile.phone_number, '123456789')
         self.assertEqual(userprofile.organisation, 'home')
-        self.assertEqual(UserProfileCustomField.get_user_value(user, 'country'), 'ES')
-        self.assertEqual(UserProfileCustomField.get_user_value(user, 'agree_to_terms'), True)
-
+        self.assertEqual(UserProfileCustomField.get_user_value(
+            user, 'country'), 'ES')
+        self.assertEqual(UserProfileCustomField.get_user_value(
+            user, 'agree_to_terms'), True)
 
     def test_empty_userprofile_doesnt_update_fields(self):
 
@@ -107,7 +109,7 @@ class UploadActivityLogTest(OppiaTestCase):
         with open(self.basic_activity_log, 'rb') as activity_log_file:
             response = self.client.post(self.url,
                                         {'activity_log_file':
-                                             activity_log_file})
+                                         activity_log_file})
 
         # should be redirected to the success page
         self.assert_redirects_success(response)
@@ -115,9 +117,10 @@ class UploadActivityLogTest(OppiaTestCase):
         userprofile = UserProfile.objects.get(user=user)
         self.assertEqual(userprofile.phone_number, '123456789')
         self.assertEqual(userprofile.organisation, 'home')
-        self.assertEqual(UserProfileCustomField.get_user_value(user, 'country'), 'FI')
-        self.assertEqual(UserProfileCustomField.get_user_value(user, 'agree_to_terms'), None)
-
+        self.assertEqual(UserProfileCustomField.get_user_value(
+            user, 'country'), 'FI')
+        self.assertEqual(UserProfileCustomField.get_user_value(
+            user, 'agree_to_terms'), None)
 
     def test_empty_string_userprofile_doesnt_update_fields(self):
 
@@ -129,10 +132,9 @@ class UploadActivityLogTest(OppiaTestCase):
 
         self.client.force_login(self.admin_user)
 
-        with open(self.activity_with_empty_userinfo, 'rb') as activity_log_file:
+        with open(self.activity_with_empty_userinfo, 'rb') as alf:
             response = self.client.post(self.url,
-                                        {'activity_log_file':
-                                             activity_log_file})
+                                        {'activity_log_file': alf})
 
         # should be redirected to the success page
         self.assert_redirects_success(response)
@@ -140,8 +142,8 @@ class UploadActivityLogTest(OppiaTestCase):
         userprofile = UserProfile.objects.get(user=user)
         self.assertEqual(userprofile.phone_number, '123456789')
         self.assertEqual(userprofile.organisation, 'home')
-        self.assertEqual(UserProfileCustomField.get_user_value(user, 'country'), 'FI')
-
+        self.assertEqual(UserProfileCustomField.get_user_value(
+            user, 'country'), 'FI')
 
     def test_null_string_userprofile_doesnt_update_fields(self):
 
@@ -153,10 +155,9 @@ class UploadActivityLogTest(OppiaTestCase):
 
         self.client.force_login(self.admin_user)
 
-        with open(self.activity_with_nulled_userinfo, 'rb') as activity_log_file:
+        with open(self.activity_with_nulled_userinfo, 'rb') as alf:
             response = self.client.post(self.url,
-                                        {'activity_log_file':
-                                             activity_log_file})
+                                        {'activity_log_file': alf})
 
         # should be redirected to the success page
         self.assert_redirects_success(response)
@@ -164,15 +165,16 @@ class UploadActivityLogTest(OppiaTestCase):
         userprofile = UserProfile.objects.get(user=user)
         self.assertEqual(userprofile.phone_number, '123456789')
         self.assertEqual(userprofile.organisation, 'home')
-        self.assertEqual(UserProfileCustomField.get_user_value(user, 'country'), 'FI')
-
+        self.assertEqual(UserProfileCustomField.get_user_value(
+            user, 'country'), 'FI')
 
     def test_empty_string_userprofile_creates_nonexistent_custom_fields(self):
-        # If a user profile is submitted that contains empty string custom fields that didn't
-        # exist previously, in that case those fields should be created with the empty value
+        # If a user profile is submitted that contains empty string custom
+        # fields that didn't exist previously, in that case those fields should
+        # be created with the empty value
 
         user = User.objects.get(username='demo')
-        #remove user custom fields
+        # remove user custom fields
 
         CustomField.objects.create(
             id='extra',
@@ -182,21 +184,24 @@ class UploadActivityLogTest(OppiaTestCase):
         )
 
         UserProfileCustomField.objects.filter(user=user).delete()
-        self.assertEqual(UserProfileCustomField.get_user_value(user, 'country'), None)
-        self.assertEqual(UserProfileCustomField.get_user_value(user, 'extra'), None)
+        self.assertEqual(UserProfileCustomField.get_user_value(
+            user, 'country'), None)
+        self.assertEqual(UserProfileCustomField.get_user_value(
+            user, 'extra'), None)
         self.client.force_login(self.admin_user)
 
-        with open(self.activity_with_empty_userinfo, 'rb') as activity_log_file:
+        with open(self.activity_with_empty_userinfo, 'rb') as alf:
             response = self.client.post(self.url,
-                                        {'activity_log_file':
-                                             activity_log_file})
+                                        {'activity_log_file': alf})
 
         # should be redirected to the success page
         self.assert_redirects_success(response)
         # "extra" field is required, so the CustomField is created anyway
-        self.assertEqual(UserProfileCustomField.get_user_value(user, 'extra'), '')
+        self.assertEqual(UserProfileCustomField.get_user_value(
+            user, 'extra'), '')
         # Country field is not required, so is not created with an empty value
-        self.assertEqual(UserProfileCustomField.get_user_value(user, 'country'), None)
+        self.assertEqual(UserProfileCustomField.get_user_value(
+            user, 'country'), None)
 
     def test_file_with_emojis(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -309,8 +314,8 @@ class UploadActivityLogTest(OppiaTestCase):
         self.assertEqual(tracker_count_start, tracker_count_end)
         self.assertEqual(qa_count_start + 1, qa_count_end)
         self.assertEqual(qar_count_start + 7, qar_count_end)
-        
-    def test_file_with_emojis(self):
+
+    def test_file_with_emojis2(self):
         tracker_count_start = Tracker.objects.all().count()
 
         self.client.force_login(self.admin_user)

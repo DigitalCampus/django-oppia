@@ -69,5 +69,5 @@ class Command(BaseCommand):
                 tracker.course_version = act.section.course.version
                 tracker.save()
 
-        print("Added course version to {} out of {} activity trackers" \
+        print("Added course version to {} out of {} activity trackers"
               .format(count, trackcount))
