@@ -24,7 +24,9 @@
       "can_upload": false,
       "organisation": "",
       "user": 1,
-      "job_title": ""
+      "job_title": "",
+      "created": "2022-03-10T07:00:00Z",
+      "modified": "2022-03-10T07:00:00Z"
     },
     "model": "profile.userprofile",
     "pk": 1
@@ -54,7 +56,9 @@
       "can_upload": false,
       "organisation": "",
       "user": 2,
-      "job_title": ""
+      "job_title": "",
+      "created": "2022-03-10T07:00:00Z",
+      "modified": "2022-03-10T07:00:00Z"
     },
     "model": "profile.userprofile",
     "pk": 2
@@ -84,7 +88,9 @@
       "can_upload": false,
       "organisation": "",
       "user": 3,
-      "job_title": ""
+      "job_title": "",
+      "created": "2022-03-10T07:00:00Z",
+      "modified": "2022-03-10T07:00:00Z"
     },
     "model": "profile.userprofile",
     "pk": 3
@@ -115,7 +121,9 @@
       "can_upload": true,
       "organisation": "",
       "user": 4,
-      "job_title": ""
+      "job_title": "",
+      "created": "2022-03-10T07:00:00Z",
+      "modified": "2022-03-10T07:00:00Z"
     },
     "model": "profile.userprofile",
     "pk": 4
