@@ -1,6 +1,6 @@
 {% load i18n %}
 
-{% include "oppia/includes/activity-graph.html" %}
+{% include "oppia/includes/activity-graph.html" with graph_div_id="activity_graph_div" %}
 
 {% if activity_graph_data %}
     <button class="btn btn-default btn-primary btn-sm download-csv-button" data-csv="graph_data">{% trans 'Download as CSV' %}</button>

@@ -73,18 +73,23 @@ class HomeView(TemplateView):
                 return HttpResponseRedirect(reverse('oppia:manager_index'))
 
             # admin/staff view
-            form, activity = self.admin_authenticated(request)
+            form, activity_tracker_date = self.admin_authenticated(request)
+            form, activity_submitted_date = self.admin_authenticated(request)
             leaderboard = Points.get_leaderboard(
                 constants.LEADERBOARD_HOMEPAGE_RESULTS_PER_PAGE)
         else:
-            activity = []
+            activity_tracker_date = []
+            activity_submitted_date = []
             leaderboard = None
             form = None
 
-        return render(request, 'oppia/home.html',
-                      {'form': form,
-                       'activity_graph_data': activity,
-                       'leaderboard': leaderboard})
+        return render(
+            request,
+            'oppia/home.html',
+            {'form': form,
+             'activity_graph_data_tracker_date': activity_tracker_date,
+             'activity_graph_data_submitted_date': activity_submitted_date,
+             'leaderboard': leaderboard})
 
     def admin_authenticated(self, request):
         activity = []
@@ -184,11 +189,21 @@ class ManagerView(TemplateView):
         end_date = timezone.now()
 
         # get activity
-        activity = get_trackers(start_date, end_date, courses)
+        activity_tracker_date = get_trackers(start_date,
+                                             end_date,
+                                             courses,
+                                             date_data="tracker_date")
+        activity_submitted_date = get_trackers(start_date,
+                                               end_date,
+                                               courses,
+                                               date_data="submitted_date")
 
-        return render(request, 'oppia/home-manager.html',
-                      {'courses': courses,
-                       'activity_graph_data': activity, })
+        return render(
+            request,
+            'oppia/home-manager.html',
+            {'courses': courses,
+             'activity_graph_data': activity_tracker_date, 
+             'activity_submitted_graph_data': activity_submitted_date})
 
 
 class TeacherView(TemplateView):
@@ -215,19 +230,28 @@ class TeacherView(TemplateView):
         return context
 
 
-def get_trackers(start_date, end_date, courses, students=None):
+def get_trackers(start_date,
+                 end_date,
+                 courses,
+                 students=None,
+                 date_data='tracker_date'):
     activity = []
     no_days = (end_date - start_date).days + 1
-    trackers = Tracker.objects.filter(course__in=courses,
-                                      tracker_date__gte=start_date,
-                                      tracker_date__lte=end_date)
+    if date_data == "submitted_date":
+        trackers = Tracker.objects.filter(course__in=courses,
+                                          submitted_date__gte=start_date,
+                                          submitted_date__lte=end_date)
+    else:  
+        trackers = Tracker.objects.filter(course__in=courses,
+                                          tracker_date__gte=start_date,
+                                          tracker_date__lte=end_date)
 
     if students:
         trackers.filter(user__in=students)
 
-    trackers.annotate(day=TruncDay('tracker_date'),
-                      month=TruncMonth('tracker_date'),
-                      year=TruncYear('tracker_date')) \
+    trackers.annotate(day=TruncDay(date_data),
+                      month=TruncMonth(date_data),
+                      year=TruncYear(date_data)) \
         .values('day') \
         .annotate(count=Count('id'))
     for i in range(0, no_days, +1):

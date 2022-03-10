@@ -9,7 +9,7 @@
 {% block content %}
 
 <h3>{% trans 'Recent Activity' %}</h3>
-{% include "oppia/includes/activity-graph.html" %}	
+{% include "oppia/includes/activity-graph.html" with graph_div_id="activity_graph_div" %}	
 
 <h3>{% trans 'Cohorts' %}</h3>
 <div class="table-responsive">
