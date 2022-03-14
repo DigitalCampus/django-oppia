@@ -3,7 +3,7 @@ django-tastypie==0.14.2
 django-crispy-forms==1.11.2
 pytz
 defusedxml==0.7.0
-Pillow==9.0.0
+Pillow==9.0.1
 sorl-thumbnail==12.7.0
 libsass==0.21.0
 django-compressor==2.4.1
