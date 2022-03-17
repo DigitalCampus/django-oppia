@@ -46,6 +46,12 @@ class UserCourseSummary (models.Model):
     completed_activities = models.IntegerField(blank=False,
                                                null=False,
                                                default=0)
+    total_activity_current = models.IntegerField(blank=False,
+                                                 null=False,
+                                                 default=0)
+    total_activity_previous = models.IntegerField(blank=False,
+                                                  null=False,
+                                                  default=0)
 
     objects = UserCourseSummaryQS.as_manager()
 
