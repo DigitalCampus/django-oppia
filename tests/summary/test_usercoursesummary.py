@@ -75,26 +75,18 @@ class UserCourseSummaryTestCourseV1(OppiaTestCase):
             user=self.user_a)
         self.assertEqual(5, user_a_summary.total_activity)
         self.assertEqual(3, user_a_summary.completed_activities)
-        self.assertEqual(5, user_a_summary.total_activity_current)
-        self.assertEqual(0, user_a_summary.total_activity_previous)
+        #self.assertEqual(5, user_a_summary.total_activity_current)
+        #self.assertEqual(0, user_a_summary.total_activity_previous)
+        self.assertEqual(1, user_a_summary.total_downloads)
+        self.assertEqual(0, user_a_summary.quizzes_passed)
         
         # User B
-        user_b_summary = UserCourseSummary.objects.get(
-            course=self.course,
-            user=self.user_b)
-        self.assertEqual(0, user_b_summary.total_activity)
-        self.assertEqual(0, user_b_summary.completed_activities)
-        self.assertEqual(0, user_b_summary.total_activity_current)
-        self.assertEqual(0, user_b_summary.total_activity_previous)
+        with self.assertRaises(UserCourseSummary.DoesNotExist):
+            UserCourseSummary.objects.get(course=self.course, user=self.user_b)
 
         # User C
-        user_c_summary = UserCourseSummary.objects.get(
-            course=self.course,
-            user=self.user_c)
-        self.assertEqual(0, user_c_summary.total_activity)
-        self.assertEqual(0, user_c_summary.completed_activities)
-        self.assertEqual(0, user_c_summary.total_activity_current)
-        self.assertEqual(0, user_c_summary.total_activity_previous)
+        with self.assertRaises(UserCourseSummary.DoesNotExist):
+            UserCourseSummary.objects.get(course=self.course, user=self.user_c)
         
 class UserCourseSummaryTestCourseV2(OppiaTestCase):
     
@@ -125,8 +117,10 @@ class UserCourseSummaryTestCourseV2(OppiaTestCase):
             user=self.user_a)
         self.assertEqual(9, user_a_summary.total_activity)
         self.assertEqual(5, user_a_summary.completed_activities)
-        self.assertEqual(6, user_a_summary.total_activity_current)
-        self.assertEqual(3, user_a_summary.total_activity_previous)
+        #self.assertEqual(6, user_a_summary.total_activity_current)
+        #self.assertEqual(3, user_a_summary.total_activity_previous)
+        self.assertEqual(2, user_a_summary.total_downloads)
+        self.assertEqual(1, user_a_summary.quizzes_passed)
         
         # User B
         user_b_summary = UserCourseSummary.objects.get(
@@ -134,17 +128,14 @@ class UserCourseSummaryTestCourseV2(OppiaTestCase):
             user=self.user_b)
         self.assertEqual(3, user_b_summary.total_activity)
         self.assertEqual(2, user_b_summary.completed_activities)
-        self.assertEqual(3, user_b_summary.total_activity_current)
-        self.assertEqual(0, user_b_summary.total_activity_previous)
+        #self.assertEqual(3, user_b_summary.total_activity_current)
+        #self.assertEqual(0, user_b_summary.total_activity_previous)
+        self.assertEqual(0, user_b_summary.total_downloads)
+        self.assertEqual(1, user_b_summary.quizzes_passed)
 
         # User C
-        user_c_summary = UserCourseSummary.objects.get(
-            course=self.course,
-            user=self.user_c)
-        self.assertEqual(0, user_c_summary.total_activity)
-        self.assertEqual(0, user_c_summary.completed_activities)
-        self.assertEqual(0, user_c_summary.total_activity_current)
-        self.assertEqual(0, user_c_summary.total_activity_previous)
+        with self.assertRaises(UserCourseSummary.DoesNotExist):
+            UserCourseSummary.objects.get(course=self.course, user=self.user_c)
 
 class UserCourseSummaryTestCourseV3(OppiaTestCase):
     
@@ -175,8 +166,10 @@ class UserCourseSummaryTestCourseV3(OppiaTestCase):
             user=self.user_a)
         self.assertEqual(11, user_a_summary.total_activity)
         self.assertEqual(4, user_a_summary.completed_activities)
-        self.assertEqual(5, user_a_summary.total_activity_current)
-        self.assertEqual(6, user_a_summary.total_activity_previous)
+        #self.assertEqual(5, user_a_summary.total_activity_current)
+        #self.assertEqual(6, user_a_summary.total_activity_previous)
+        self.assertEqual(3, user_a_summary.total_downloads)
+        self.assertEqual(0, user_a_summary.quizzes_passed)
         
         # User B
         user_b_summary = UserCourseSummary.objects.get(
@@ -184,8 +177,10 @@ class UserCourseSummaryTestCourseV3(OppiaTestCase):
             user=self.user_b)
         self.assertEqual(6, user_b_summary.total_activity)
         self.assertEqual(4, user_b_summary.completed_activities)
-        self.assertEqual(5, user_b_summary.total_activity_current)
-        self.assertEqual(1, user_b_summary.total_activity_previous)
+        #self.assertEqual(5, user_b_summary.total_activity_current)
+        #self.assertEqual(1, user_b_summary.total_activity_previous)
+        self.assertEqual(0, user_b_summary.total_downloads)
+        self.assertEqual(1, user_b_summary.quizzes_passed)
 
         # User C
         user_c_summary = UserCourseSummary.objects.get(
@@ -193,8 +188,10 @@ class UserCourseSummaryTestCourseV3(OppiaTestCase):
             user=self.user_c)
         self.assertEqual(4, user_c_summary.total_activity)
         self.assertEqual(3, user_c_summary.completed_activities)
-        self.assertEqual(4, user_c_summary.total_activity_current)
-        self.assertEqual(0, user_c_summary.total_activity_previous)
+        #self.assertEqual(4, user_c_summary.total_activity_current)
+        #self.assertEqual(0, user_c_summary.total_activity_previous)
+        self.assertEqual(0, user_c_summary.total_downloads)
+        self.assertEqual(1, user_c_summary.quizzes_passed)
     
     '''
     to test

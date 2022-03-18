@@ -5,6 +5,7 @@ from django.db import models
 from django.db.models import Sum, Count, QuerySet
 from django.utils.translation import ugettext_lazy as _
 
+from oppia import constants
 from oppia.models import Course, Tracker, Points, Award
 
 
@@ -77,11 +78,14 @@ class UserCourseSummary (models.Model):
                                                pk__gt=last_tracker_pk,
                                                pk__lte=newest_tracker_pk)
 
+        activity_trackers = self_trackers.exclude(
+            type=constants.STR_TRACKER_TYPE_DOWNLOAD)
+
         # Add the values that are directly obtained from the last pks
         self.total_activity = (0 if first_tracker else self.total_activity) \
-            + self_trackers.count()
+            + activity_trackers.count()
         self.total_downloads = (0 if first_tracker else self.total_downloads) \
-            + self_trackers.filter(type='download').count()
+            + self_trackers.filter(type=constants.STR_TRACKER_TYPE_DOWNLOAD).count()
 
         filters = {
             'user': self.user,

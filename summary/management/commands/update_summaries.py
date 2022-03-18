@@ -9,6 +9,7 @@ from django.db.models.functions import TruncDay, \
 from django.utils import timezone
 
 from oppia.models import Tracker, Points, Course
+from oppia import constants
 from settings.models import SettingProperties
 from summary.models import UserCourseSummary, \
     CourseDailyStats, \
@@ -126,6 +127,7 @@ class Command(BaseCommand):
         user_courses = Tracker.objects \
             .filter(pk__gt=last_tracker_pk, pk__lte=newest_tracker_pk) \
             .exclude(course__isnull=True) \
+            .exclude(type=constants.STR_TRACKER_TYPE_DOWNLOAD) \
             .values('course', 'user').distinct()
 
         total_users = user_courses.count()
