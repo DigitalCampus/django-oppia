@@ -1,0 +1,342 @@
+[
+{
+    "model": "settings.settingproperties",
+    "pk": "last_points_pk",
+    "fields": {
+        "category": "system",
+        "description": null,
+        "str_value": null,
+        "int_value": 5,
+        "bool_value": null
+    }
+},
+{
+    "model": "settings.settingproperties",
+    "pk": "last_tracker_pk",
+    "fields": {
+        "category": "system",
+        "description": null,
+        "str_value": null,
+        "int_value": 8,
+        "bool_value": null
+    }
+},
+{
+    "model": "settings.settingproperties",
+    "pk": "MAX_UPLOAD_SIZE",
+    "fields": {
+        "category": "system_config",
+        "description": "The maximum upload size, in bytes, of course         files that will be allowed",
+        "str_value": null,
+        "int_value": 5242880,
+        "bool_value": null
+    }
+},
+{
+    "model": "settings.settingproperties",
+    "pk": "OPPIA_ALLOW_PROFILE_EDITING",
+    "fields": {
+        "category": "system_config",
+        "description": "Allow normal users to edit their profiles",
+        "str_value": null,
+        "int_value": null,
+        "bool_value": true
+    }
+},
+{
+    "model": "settings.settingproperties",
+    "pk": "OPPIA_ALLOW_SELF_REGISTRATION",
+    "fields": {
+        "category": "system_config",
+        "description": "Whether or not this Oppia server allows users         to self register",
+        "str_value": null,
+        "int_value": null,
+        "bool_value": true
+    }
+},
+{
+    "model": "settings.settingproperties",
+    "pk": "OPPIA_ANDROID_ON_GOOGLE_PLAY",
+    "fields": {
+        "category": "app",
+        "description": "Whether or not this Oppia server has a specific         app available on the Google Play Store",
+        "str_value": null,
+        "int_value": null,
+        "bool_value": true
+    }
+},
+{
+    "model": "settings.settingproperties",
+    "pk": "OPPIA_ANDROID_PACKAGEID",
+    "fields": {
+        "category": "app",
+        "description": "The java package id of the specific app on the         Google Play Store",
+        "str_value": "org.digitalcampus.mobile.learning",
+        "int_value": null,
+        "bool_value": null
+    }
+},
+{
+    "model": "settings.settingproperties",
+    "pk": "OPPIA_BADGES_ENABLED",
+    "fields": {
+        "category": "gamification",
+        "description": "Whether or not badges are enabled for this         Oppia implementation",
+        "str_value": null,
+        "int_value": null,
+        "bool_value": true
+    }
+},
+{
+    "model": "settings.settingproperties",
+    "pk": "OPPIA_BADGES_PERCENT_COMPLETED",
+    "fields": {
+        "category": "gamification",
+        "description": "If the badging is set to all quizzes             plus a percentage of all other activities, what will that             percentage be",
+        "str_value": null,
+        "int_value": 80,
+        "bool_value": null
+    }
+},
+{
+    "model": "settings.settingproperties",
+    "pk": "OPPIA_CARTODB_ACCOUNT",
+    "fields": {
+        "category": "visualisations",
+        "description": "Username for the CartoDB account",
+        "str_value": null,
+        "int_value": null,
+        "bool_value": null
+    }
+},
+{
+    "model": "settings.settingproperties",
+    "pk": "OPPIA_CARTODB_KEY",
+    "fields": {
+        "category": "visualisations",
+        "description": "CartoDB account API key",
+        "str_value": null,
+        "int_value": null,
+        "bool_value": null
+    }
+},
+{
+    "model": "settings.settingproperties",
+    "pk": "OPPIA_DATA_RETENTION_YEARS",
+    "fields": {
+        "category": "system_config",
+        "description": "The number of years for users data to be kept.         Any users who have not logged in and not had any tracker activity         in this number of years will be removed from Oppia, along with         their activity data",
+        "str_value": null,
+        "int_value": 7,
+        "bool_value": null
+    }
+},
+{
+    "model": "settings.settingproperties",
+    "pk": "OPPIA_EMAIL_CERTIFICATES",
+    "fields": {
+        "category": "certification",
+        "description": "Whether or not certificates should be             emailed to users",
+        "str_value": null,
+        "int_value": null,
+        "bool_value": false
+    }
+},
+{
+    "model": "settings.settingproperties",
+    "pk": "OPPIA_GOOGLE_ANALYTICS_CODE",
+    "fields": {
+        "category": "analytics",
+        "description": "Google Analytics code, if enabled",
+        "str_value": "YOUR_GOOGLE_ANALYTICS_CODE",
+        "int_value": null,
+        "bool_value": null
+    }
+},
+{
+    "model": "settings.settingproperties",
+    "pk": "OPPIA_GOOGLE_ANALYTICS_DOMAIN",
+    "fields": {
+        "category": "analytics",
+        "description": "Google Analytics domain name, if enabled",
+        "str_value": "YOUR_DOMAIN",
+        "int_value": null,
+        "bool_value": null
+    }
+},
+{
+    "model": "settings.settingproperties",
+    "pk": "OPPIA_GOOGLE_ANALYTICS_ENABLED",
+    "fields": {
+        "category": "analytics",
+        "description": "Whether or not Google Analytics is enabled",
+        "str_value": null,
+        "int_value": null,
+        "bool_value": false
+    }
+},
+{
+    "model": "settings.settingproperties",
+    "pk": "OPPIA_HOSTNAME",
+    "fields": {
+        "category": "system_config",
+        "description": "Domain/hostname for this Oppia server",
+        "str_value": null,
+        "int_value": null,
+        "bool_value": null
+    }
+},
+{
+    "model": "settings.settingproperties",
+    "pk": "OPPIA_IPSTACK_APIKEY",
+    "fields": {
+        "category": "visualisations",
+        "description": "IPStack API key",
+        "str_value": "",
+        "int_value": null,
+        "bool_value": null
+    }
+},
+{
+    "model": "settings.settingproperties",
+    "pk": "OPPIA_MAP_VISUALISATION_ENABLED",
+    "fields": {
+        "category": "visualisations",
+        "description": "Whether or not the map visualization is enabled         for this Oppia implementation",
+        "str_value": null,
+        "int_value": null,
+        "bool_value": false
+    }
+},
+{
+    "model": "settings.settingproperties",
+    "pk": "OPPIA_POINTS_ENABLED",
+    "fields": {
+        "category": "gamification",
+        "description": "Whether or not points are enabled for this         Oppia implementation",
+        "str_value": null,
+        "int_value": null,
+        "bool_value": true
+    }
+},
+{
+    "model": "settings.settingproperties",
+    "pk": "OPPIA_SHOW_GRAVATARS",
+    "fields": {
+        "category": "system_config",
+        "description": "Whether or not to use Gravatars for users'         profile pictures",
+        "str_value": null,
+        "int_value": null,
+        "bool_value": true
+    }
+},
+{
+    "model": "settings.settingproperties",
+    "pk": "oppia_summary_cron_last_run",
+    "fields": {
+        "category": "system",
+        "description": null,
+        "str_value": "2022-03-18 12:27:54.795386+00:00",
+        "int_value": null,
+        "bool_value": null
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 1,
+    "fields": {
+        "course": 1,
+        "day": "2022-03-18",
+        "type": "download",
+        "total": 1
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 2,
+    "fields": {
+        "course": 1,
+        "day": "2022-03-18",
+        "type": "page",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 3,
+    "fields": {
+        "course": 1,
+        "day": "2022-03-18",
+        "type": "quiz",
+        "total": 2
+    }
+},
+{
+    "model": "summary.coursedailystats",
+    "pk": 4,
+    "fields": {
+        "course": 1,
+        "day": "2022-03-18",
+        "type": "feedback",
+        "total": 1
+    }
+},
+{
+    "model": "summary.usercoursesummary",
+    "pk": 1,
+    "fields": {
+        "user": 2,
+        "course": 1,
+        "points": 90,
+        "total_downloads": 1,
+        "total_activity": 6,
+        "quizzes_passed": 0,
+        "badges_achieved": 0,
+        "pretest_score": null,
+        "media_viewed": 0,
+        "completed_activities": 3,
+        "total_activity_current": 0,
+        "total_activity_previous": 0
+    }
+},
+{
+    "model": "summary.userpointssummary",
+    "pk": 1,
+    "fields": {
+        "user": 2,
+        "points": 140,
+        "badges": 0
+    }
+},
+{
+    "model": "summary.dailyactiveusers",
+    "pk": 1,
+    "fields": {
+        "day": "2022-03-18",
+        "total_submitted_date": 1,
+        "total_tracker_date": 1
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 1,
+    "fields": {
+        "dau": 1,
+        "user": 2,
+        "type": "tracker",
+        "time_spent": 24,
+        "course": 1
+    }
+},
+{
+    "model": "summary.dailyactiveuser",
+    "pk": 2,
+    "fields": {
+        "dau": 1,
+        "user": 2,
+        "type": "submitted",
+        "time_spent": 24,
+        "course": 1
+    }
+}
+]

@@ -2,6 +2,8 @@ from django.core.management import call_command
 
 from io import StringIO
 
+from django.contrib.auth.models import User
+
 from oppia.test import OppiaTestCase
 from oppia.models import Course
 from summary.models import UserCourseSummary
@@ -47,7 +49,10 @@ COURSE_SHORTNAME = "oppia800course"
 
 class UserCourseSummaryTestCourseV1(OppiaTestCase):
     
-    fixtures = []
+    fixtures = ['default_gamification_events.json',
+                'default_badges.json',
+                'tests/usercoursesummary/user.json',
+                'tests/usercoursesummary/course_tracker_v1.json']
     
     def setUp(self):
         self.course = Course.objects.get(shortname=COURSE_SHORTNAME)
@@ -93,13 +98,103 @@ class UserCourseSummaryTestCourseV1(OppiaTestCase):
         
 class UserCourseSummaryTestCourseV2(OppiaTestCase):
     
-    fixtures = []
+    fixtures = ['default_gamification_events.json',
+                'default_badges.json',
+                'tests/usercoursesummary/user.json',
+                'tests/usercoursesummary/course_tracker_v2.json',
+                'tests/usercoursesummary/settings_summary_v1.json',]
     
+    def setUp(self):
+        self.course = Course.objects.get(shortname=COURSE_SHORTNAME)
+        self.user_a = User.objects.get(username="user_a")
+        self.user_b = User.objects.get(username="user_b")
+        self.user_c = User.objects.get(username="user_c")
+
+    def test_incremental(self):
+        call_command('update_summaries', stdout=StringIO())
+        self.check_summary_values()
+        
+    def test_fromstart(self):
+        call_command('update_summaries', '--fromstart', stdout=StringIO())
+        self.check_summary_values()
+    
+    def check_summary_values(self):
+         # User A
+        user_a_summary = UserCourseSummary.objects.get(
+            course=self.course,
+            user=self.user_a)
+        self.assertEqual(9, user_a_summary.total_activity)
+        self.assertEqual(5, user_a_summary.completed_activities)
+        self.assertEqual(6, user_a_summary.total_activity_current)
+        self.assertEqual(3, user_a_summary.total_activity_previous)
+        
+        # User B
+        user_b_summary = UserCourseSummary.objects.get(
+            course=self.course,
+            user=self.user_b)
+        self.assertEqual(3, user_b_summary.total_activity)
+        self.assertEqual(2, user_b_summary.completed_activities)
+        self.assertEqual(3, user_b_summary.total_activity_current)
+        self.assertEqual(0, user_b_summary.total_activity_previous)
+
+        # User C
+        user_c_summary = UserCourseSummary.objects.get(
+            course=self.course,
+            user=self.user_c)
+        self.assertEqual(0, user_c_summary.total_activity)
+        self.assertEqual(0, user_c_summary.completed_activities)
+        self.assertEqual(0, user_c_summary.total_activity_current)
+        self.assertEqual(0, user_c_summary.total_activity_previous)
 
 class UserCourseSummaryTestCourseV3(OppiaTestCase):
     
-    fixtures = []
+    fixtures = ['default_gamification_events.json',
+                'default_badges.json',
+                'tests/usercoursesummary/user.json',
+                'tests/usercoursesummary/course_tracker_v3.json',
+                'tests/usercoursesummary/settings_summary_v2.json',]
     
+    def setUp(self):
+        self.course = Course.objects.get(shortname=COURSE_SHORTNAME)
+        self.user_a = User.objects.get(username="user_a")
+        self.user_b = User.objects.get(username="user_b")
+        self.user_c = User.objects.get(username="user_c")
+
+    def test_incremental(self):
+        call_command('update_summaries', stdout=StringIO())
+        self.check_summary_values()
+        
+    def test_fromstart(self):
+        call_command('update_summaries', '--fromstart', stdout=StringIO())
+        self.check_summary_values()
+    
+    def check_summary_values(self):
+         # User A
+        user_a_summary = UserCourseSummary.objects.get(
+            course=self.course,
+            user=self.user_a)
+        self.assertEqual(11, user_a_summary.total_activity)
+        self.assertEqual(4, user_a_summary.completed_activities)
+        self.assertEqual(5, user_a_summary.total_activity_current)
+        self.assertEqual(6, user_a_summary.total_activity_previous)
+        
+        # User B
+        user_b_summary = UserCourseSummary.objects.get(
+            course=self.course,
+            user=self.user_b)
+        self.assertEqual(6, user_b_summary.total_activity)
+        self.assertEqual(4, user_b_summary.completed_activities)
+        self.assertEqual(5, user_b_summary.total_activity_current)
+        self.assertEqual(1, user_b_summary.total_activity_previous)
+
+        # User C
+        user_c_summary = UserCourseSummary.objects.get(
+            course=self.course,
+            user=self.user_c)
+        self.assertEqual(4, user_c_summary.total_activity)
+        self.assertEqual(3, user_c_summary.completed_activities)
+        self.assertEqual(4, user_c_summary.total_activity_current)
+        self.assertEqual(0, user_c_summary.total_activity_previous)
     
     '''
     to test
