@@ -295,8 +295,8 @@
         "pretest_score": null,
         "media_viewed": 0,
         "completed_activities": 5,
-        "total_activity_current": 0,
-        "total_activity_previous": 0
+        "total_activity_current": 6,
+        "total_activity_previous": 3
     }
 },
 {
@@ -313,7 +313,7 @@
         "pretest_score": null,
         "media_viewed": 0,
         "completed_activities": 2,
-        "total_activity_current": 0,
+        "total_activity_current": 3,
         "total_activity_previous": 0
     }
 },

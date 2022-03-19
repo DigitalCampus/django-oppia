@@ -6,7 +6,7 @@ from django.db.models import Sum, Count, QuerySet
 from django.utils.translation import ugettext_lazy as _
 
 from oppia import constants
-from oppia.models import Course, Tracker, Points, Award
+from oppia.models import Course, Tracker, Points, Award, Activity
 
 
 class UserCourseSummaryQS(QuerySet):
@@ -85,7 +85,8 @@ class UserCourseSummary (models.Model):
         self.total_activity = (0 if first_tracker else self.total_activity) \
             + activity_trackers.count()
         self.total_downloads = (0 if first_tracker else self.total_downloads) \
-            + self_trackers.filter(type=constants.STR_TRACKER_TYPE_DOWNLOAD).count()
+            + self_trackers.filter(
+                type=constants.STR_TRACKER_TYPE_DOWNLOAD).count()
 
         filters = {
             'user': self.user,
@@ -114,5 +115,28 @@ class UserCourseSummary (models.Model):
         # Update the data in the database
         self.save()
 
+        # update total_activity_current and total_activity_previous
+        self.update_current_previous_activity()
+
         elapsed_time = time.time() - t
         print('took %.2f seconds' % elapsed_time)
+
+    def update_current_previous_activity(self):
+        # get the current activity digests
+        # note: can't base only on the latest set of trackers since the values
+        # could go up or down depending on current activities in the course,
+        # some may have been removed or updated
+        current_digests = Activity.objects.filter(
+            section__course=self.course).values_list('digest', flat=True)
+
+        current_activities = Tracker.objects.filter(
+            user=self.user,
+            course=self.course,
+            digest__in=current_digests)
+
+        self.total_activity_current = current_activities.count()
+        self.total_activity_previous = self.total_activity \
+            - self.total_activity_current
+        # alternate approach for calculating total_activity_previous is to
+        # actually inspect the trackers but this would take much longer
+        self.save()
