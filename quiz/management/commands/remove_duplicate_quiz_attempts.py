@@ -7,7 +7,7 @@ Management command to remove any duplicate quiz attempts (based on instance_id)
 from django.core.management import call_command
 from django.core.management.base import BaseCommand
 from django.db.models import Count, Max
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from quiz.models import QuizAttempt
 

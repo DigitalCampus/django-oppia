@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.contrib.auth.models import User
 from django.http import JsonResponse, Http404
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie.authorization import ReadOnlyAuthorization

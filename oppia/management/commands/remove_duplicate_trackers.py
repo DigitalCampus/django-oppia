@@ -7,7 +7,7 @@ Management command to remove any duplicate trackers (based on UUID)
 from django.core.management import call_command
 from django.core.management.base import BaseCommand
 from django.db.models import Count, Min, Q
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from oppia.models import Tracker
 

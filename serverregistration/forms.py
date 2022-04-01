@@ -3,7 +3,7 @@ from crispy_forms.layout import Layout, Submit, Div, HTML
 
 from django import forms
 from django.urls import reverse
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 from settings import constants
 from settings.models import SettingProperties

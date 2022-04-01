@@ -7,7 +7,7 @@ from django.conf import settings
 from django.contrib.auth import authenticate
 from django.http import HttpResponse, \
                         JsonResponse
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 

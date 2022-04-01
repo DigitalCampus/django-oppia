@@ -7,7 +7,7 @@ from django.core.management import call_command
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.urls import reverse
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.views.generic import ListView, UpdateView, FormView, TemplateView
 
 from io import StringIO

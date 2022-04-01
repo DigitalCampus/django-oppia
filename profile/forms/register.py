@@ -4,7 +4,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.core.validators import validate_email
 from django.urls import reverse
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 from profile.models import CustomField, UserProfile, UserProfileCustomField
 from profile.forms import helpers

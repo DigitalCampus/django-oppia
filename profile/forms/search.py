@@ -3,7 +3,7 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Div, Row
 from django import forms
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 from profile.forms import helpers
 from profile.models import CustomField

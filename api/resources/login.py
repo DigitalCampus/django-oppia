@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.db.models import Sum
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from tastypie import fields
 from tastypie.authentication import Authentication
 from tastypie.authorization import Authorization

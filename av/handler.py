@@ -7,7 +7,7 @@ import zipfile
 
 from django.conf import settings
 from django.contrib import messages
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from av import constants
 from av.forms import UploadMediaForm

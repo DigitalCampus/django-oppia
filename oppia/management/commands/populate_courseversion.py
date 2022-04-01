@@ -6,7 +6,7 @@ Management command to populate course_version (to run after applying the
 """
 
 from django.core.management.base import BaseCommand
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from oppia.models import Tracker, Activity
 from settings.models import SettingProperties

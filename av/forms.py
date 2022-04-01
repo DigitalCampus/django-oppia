@@ -10,7 +10,7 @@ from django.core.files.uploadedfile import TemporaryUploadedFile, \
                                            InMemoryUploadedFile, \
                                            SimpleUploadedFile
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from av.models import UploadedMedia
 

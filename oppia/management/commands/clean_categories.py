@@ -1,7 +1,7 @@
 
 from django.core.management.base import BaseCommand
 from django.db.models import Exists, OuterRef
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from oppia.models import CourseCategory, Category
 

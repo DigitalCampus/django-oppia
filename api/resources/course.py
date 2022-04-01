@@ -10,7 +10,7 @@ from django.conf.urls import url
 from django.core.exceptions import MultipleObjectsReturned
 from django.db.models import Q
 from django.http import HttpResponse, Http404
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from tastypie import fields
 from tastypie.authentication import ApiKeyAuthentication, Authentication
 from tastypie.authorization import ReadOnlyAuthorization, Authorization

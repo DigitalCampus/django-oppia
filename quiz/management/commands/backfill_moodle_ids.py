@@ -2,7 +2,7 @@ import xml.etree.ElementTree as ET
 import json
 
 from django.core.management.base import BaseCommand
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 from oppia.models import Activity
 from quiz.models import Quiz, QuizProps, Question, QuestionProps
