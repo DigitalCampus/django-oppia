@@ -141,7 +141,6 @@ SERVER_EMAIL = 'adming@email.org'
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/1.11/topics/i18n/
 LANGUAGE_CODE = 'en-GB'
 USE_I18N = True
 USE_L10N = True
@@ -150,12 +149,11 @@ LOCALE_PATHS = [
     os.path.join(BASE_DIR, "oppia", "locale")
 ]
 
-LANGUAGES = ('en', _('English'))
+LANGUAGES = [('en', _('English'))]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Login and logout settings
-# https://docs.djangoproject.com/en/1.11/ref/settings/#login-redirect-url
 LOGIN_URL = '/profile/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
@@ -244,6 +242,8 @@ DATABASES = {
         'ATOMIC_REQUESTS': True,
     }
 }
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Import secret_settings.py (if exists)
 # > see settings_secret.py.template for reference
