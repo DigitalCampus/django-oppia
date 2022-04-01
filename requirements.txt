@@ -1,5 +1,5 @@
-django==2.2.27
-django-tastypie==0.14.2
+django==3.2.12
+django-tastypie==0.14.4
 django-crispy-forms==1.11.2
 pytz
 defusedxml==0.7.0
