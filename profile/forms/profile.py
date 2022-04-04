@@ -51,6 +51,7 @@ class ProfileForm(forms.Form):
     job_title = forms.CharField(max_length=100, required=False)
     organisation = forms.CharField(max_length=100, required=False)
     phone_number = forms.CharField(max_length=100, required=False)
+    exclude_from_reporting = forms.BooleanField(required=False, help_text=_('If checked, the activity from this user will not be taken into account for summary calculations and reports'))
 
     def __init__(self, allow_edit=True, *args, **kwargs):
         super(ProfileForm, self).__init__(* args, ** kwargs)
@@ -64,8 +65,9 @@ class ProfileForm(forms.Form):
 
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
+        self.helper.form_tag = False
         self.helper.label_class = 'col-lg-2 col-md-3 col-sm-4'
-        self.helper.field_class = 'col-lg-5 col-md-7 col-sm-8'
+        self.helper.field_class = 'col-lg-5 col-md-8 col-sm-8'
 
         self.helper.layout = Layout()
 
@@ -78,7 +80,9 @@ class ProfileForm(forms.Form):
                 'gravatar_id': gravatar_id,
                 'size': 64
             })
-            self.helper.layout.append(
+            self.gravatar = FormHelper()
+            self.gravatar.form_tag = False
+            self.gravatar.layout = Layout(
                 Div(
                     HTML("""<label class="control-label col-lg-2">"""
                          + _(u'Photo') + """</label>"""),
@@ -104,12 +108,7 @@ class ProfileForm(forms.Form):
                     field.widget.attrs.update({'readonly': 'readonly'})
 
         self.helper.layout.extend(
-            ['api_key',
-             'username',
-             'email',
-             'first_name',
-             'last_name',
-             'job_title',
+            ['job_title',
              'organisation',
              'phone_number'])
 
