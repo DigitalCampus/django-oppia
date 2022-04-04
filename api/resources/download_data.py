@@ -1,7 +1,7 @@
-from django.conf.urls import url
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.template.loader import render_to_string
+from django.urls.conf import re_path
 
 from oppia.models import Points, Award, Tracker
 from profile.views.user import ExportDataView
@@ -31,30 +31,30 @@ class DownloadDataResource(ModelResource):
     def prepend_urls(self):
         return [
             # for profile
-            url(r"^(?P<resource_name>%s)/profile%s$"
-                % (self._meta.resource_name, trailing_slash()),
-                self.wrap_view('download_profile_data'),
-                name="api_download_profile_data"),
+            re_path(r"^(?P<resource_name>%s)/profile%s$"
+                    % (self._meta.resource_name, trailing_slash()),
+                    self.wrap_view('download_profile_data'),
+                    name="api_download_profile_data"),
             # for trackers
-            url(r"^(?P<resource_name>%s)/activity%s$"
-                % (self._meta.resource_name, trailing_slash()),
-                self.wrap_view('download_activity_data'),
-                name="api_download_activity_data"),
+            re_path(r"^(?P<resource_name>%s)/activity%s$"
+                    % (self._meta.resource_name, trailing_slash()),
+                    self.wrap_view('download_activity_data'),
+                    name="api_download_activity_data"),
             # for quiz
-            url(r"^(?P<resource_name>%s)/quiz%s$"
-                % (self._meta.resource_name, trailing_slash()),
-                self.wrap_view('download_quiz_data'),
-                name="api_download_quiz_data"),
+            re_path(r"^(?P<resource_name>%s)/quiz%s$"
+                    % (self._meta.resource_name, trailing_slash()),
+                    self.wrap_view('download_quiz_data'),
+                    name="api_download_quiz_data"),
             # for badges
-            url(r"^(?P<resource_name>%s)/badges%s$"
-                % (self._meta.resource_name, trailing_slash()),
-                self.wrap_view('download_badge_data'),
-                name="api_download_badge_data"),
+            re_path(r"^(?P<resource_name>%s)/badges%s$"
+                    % (self._meta.resource_name, trailing_slash()),
+                    self.wrap_view('download_badge_data'),
+                    name="api_download_badge_data"),
             # for points
-            url(r"^(?P<resource_name>%s)/points%s$"
-                % (self._meta.resource_name, trailing_slash()),
-                self.wrap_view('download_points_data'),
-                name="api_download_points_data"),
+            re_path(r"^(?P<resource_name>%s)/points%s$"
+                    % (self._meta.resource_name, trailing_slash()),
+                    self.wrap_view('download_points_data'),
+                    name="api_download_points_data"),
         ]
 
     # prevent just getting list of users

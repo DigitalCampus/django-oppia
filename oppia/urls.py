@@ -1,5 +1,4 @@
 from django.conf import settings
-from django.conf.urls import url
 from django.urls import path
 from django.views import static
 from django.views.generic import TemplateView
@@ -89,7 +88,7 @@ urlpatterns = [
     path('view/',
          views.AppLauncherDetailView.as_view(),
          name="app_launch_activity_redirect"),
-    url(r'^media/(?P<path>.*)$',
-        static.serve,
-        {'document_root': settings.MEDIA_ROOT}),
+    path('media/<str:path>',
+         static.serve,
+         {'document_root': settings.MEDIA_ROOT}),
 ]

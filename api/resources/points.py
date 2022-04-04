@@ -1,5 +1,6 @@
-from django.conf.urls import url
 from django.http import JsonResponse
+from django.urls.conf import re_path
+
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie.authorization import ReadOnlyAuthorization
 from tastypie.resources import ModelResource
@@ -33,12 +34,12 @@ class PointsResource(ModelResource):
 
     def prepend_urls(self):
         return [
-            url(r"^leaderboard-all/$",
-                self.wrap_view('leaderboard_all'),
-                name="api_leaderboard_all"),
-            url(r"^leaderboard/$",
-                self.wrap_view('leaderboard'),
-                name="api_leaderboard"),
+            re_path(r"^leaderboard-all/$",
+                    self.wrap_view('leaderboard_all'),
+                    name="api_leaderboard_all"),
+            re_path(r"^leaderboard/$",
+                    self.wrap_view('leaderboard'),
+                    name="api_leaderboard"),
         ]
 
     def leaderboard_all(self, request, **kwargs):

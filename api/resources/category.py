@@ -1,8 +1,8 @@
 import json
 
-from django.conf.urls import url
 from django.db.models import Q
 from django.http import HttpResponse, Http404
+from django.urls.conf import re_path
 from tastypie import fields
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie.authorization import ReadOnlyAuthorization
@@ -53,10 +53,10 @@ class CategoryResource(ModelResource):
 
     def prepend_urls(self):
         return [
-            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)%s$"
-                % (self._meta.resource_name, trailing_slash()),
-                self.wrap_view('tag_detail'),
-                name="api_tag_detail"),
+            re_path(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)%s$"
+                    % (self._meta.resource_name, trailing_slash()),
+                    self.wrap_view('tag_detail'),
+                    name="api_tag_detail"),
         ]
 
     def tag_detail(self, request, **kwargs):

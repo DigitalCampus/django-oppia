@@ -1,4 +1,4 @@
-from django.conf.urls import url, include
+from django.conf.urls import include
 from django.urls import path
 from tastypie.api import Api
 
@@ -64,10 +64,10 @@ def get_api_v2():
 
 
 urlpatterns = [
-    url(r'^', include(get_api_v1().urls)),
-    url(r'^', include(get_api_v2().urls)),
-    url(r'^publish/$', publish_view, name="oppia_publish"),
-    url(r'^media/$', upload_view, name="oppia_upload_media_api"),
-    url(r'^activitylog/$', post_activitylog, name="oppia_upload_activitylog"),
+    path('', include(get_api_v1().urls)),
+    path('', include(get_api_v2().urls)),
+    path('publish/', publish_view, name="oppia_publish"),
+    path('media/', upload_view, name="oppia_upload_media_api"),
+    path('activitylog/', post_activitylog, name="oppia_upload_activitylog"),
     path('media/<str:digest>', get_view, name="get_upload_media_api"),
 ]

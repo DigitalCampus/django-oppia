@@ -1,6 +1,5 @@
 
-
-from django.conf.urls import url, include
+from django.conf.urls import include
 from django.urls import path
 from django.utils.translation import gettext_lazy as _
 from django.contrib import admin
@@ -8,16 +7,16 @@ from django.contrib import admin
 admin.site.index_title = _(u'Welcome to the OppiaMobile admin pages')
 
 urlpatterns = [
-    url(r'^', include('oppia.urls', namespace='oppia')),
-    url(r'^api/', include('api.urls')),
-    url(r'^profile/', include('profile.urls', namespace='profile')),
-    url(r'^reports/', include('reports.urls')),
-    url(r'^activitylog/', include('activitylog.urls')),
-    path(r'av/', include('av.urls', namespace="oppia_av")),
-    url(r'^gamification/', include('gamification.urls')),
-    url(r'^admin/', admin.site.urls),
-    url(r'^integrations/', include('integrations.urls')),
-    url(r'^quiz/', include('quiz.urls')),
-    url(r'^serverregistration/', include('serverregistration.urls')),
+    path('', include('oppia.urls', namespace='oppia')),
+    path('api/', include('api.urls')),
+    path('profile/', include('profile.urls', namespace='profile')),
+    path('reports/', include('reports.urls')),
+    path('activitylog/', include('activitylog.urls')),
+    path('av/', include('av.urls', namespace="oppia_av")),
+    path('gamification/', include('gamification.urls')),
+    path('admin/', admin.site.urls),
+    path('integrations/', include('integrations.urls')),
+    path('quiz/', include('quiz.urls')),
+    path('serverregistration/', include('serverregistration.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
 ]
