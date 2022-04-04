@@ -65,7 +65,7 @@ class Command(BaseCommand):
             u.first_name = "User"
             u.last_name = u.id
             u.email = "user" + str(u.id) + "@oppia-mobile.org"
-            u.password = make_password(time.time())
+            u.password = make_password(str(time.time()))
             try:
                 u.save()
             except IntegrityError:
