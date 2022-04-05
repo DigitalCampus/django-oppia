@@ -1,7 +1,7 @@
 
 from django.contrib.auth.models import User
 from django.db import models
-from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 
 from oppia.models import Participant, CoursePermissions
 
@@ -15,6 +15,9 @@ class UserProfile(models.Model):
     phone_number = models.TextField(blank=True, null=True, default=None)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
+    exclude_from_reporting = models.BooleanField(default=False,
+                                                 verbose_name=_('Exclude from reporting'),
+                                                 help_text=_('If checked, the activity from this user will not be taken into account for summary calculations and reports'))
 
     def get_can_upload(self):
         if self.user.is_staff:

@@ -9,7 +9,7 @@
 
 
 {% block header %}
-<div class="jumbotron mb-4 ">
+<div class="jumbotron mb-2">
 	<div class="row">
 		<div class="col-sm-5">
 			<h3>Profile</h3>
@@ -35,10 +35,38 @@
 {% endblock header %}
 
 {% block content %}
+<form method="post" class="shadow-sm" style="margin-top:-1.5rem;">
+<div class="jumbotron p-4 bg-light shadow-none">
 
-{% include "includes/messages.html" %}	
+	{% include "includes/messages.html" %}
 
-{% crispy form %}
+<div class="row">
+	{% if form.gravatar %}
+	<div class="col-md-2 p-0">
+		{% crispy form form.gravatar %}
+	</div>
+	{% endif %}
+	<div class="{% if form.gravatar %}col-md-10 {% else %} col-md-12 {% endif %}">
+		{{ form.first_name|as_crispy_field}}
+		{{ form.last_name|as_crispy_field}}
+		{{ form.email|as_crispy_field}}
+	</div>
+</div>
+{% if form.gravatar %}<hr>{% endif %}
+{{ form.username|as_crispy_field}}
+{{ form.api_key|as_crispy_field}}
+
+{% if request.user.is_staff %}
+	{{ form.exclude_from_reporting|as_crispy_field}}
+{% endif %}
+
+</div>
+
+<div class="p-4">
+{% crispy form form.helper %}
+</div>
+
+</form>
 
 <div style="clear:both"></div>
 

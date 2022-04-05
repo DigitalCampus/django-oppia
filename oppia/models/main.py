@@ -522,6 +522,7 @@ class Tracker(models.Model):
     class Meta:
         verbose_name = _('Tracker')
         verbose_name_plural = _('Trackers')
+        indexes = [models.Index(fields=['course', 'user']), ]
 
     def __str__(self):
         return self.agent
