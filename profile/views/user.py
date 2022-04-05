@@ -151,7 +151,8 @@ class EditView(UpdateView):
             'api_key': key.key,
             'job_title': user_profile.job_title,
             'organisation': user_profile.organisation,
-            'phone_number': user_profile.phone_number
+            'phone_number': user_profile.phone_number,
+            'exclude_from_reporting': user_profile.exclude_from_reporting
         }
 
         custom_fields = CustomField.objects.all()
@@ -194,6 +195,9 @@ class EditView(UpdateView):
         user_profile.job_title = form.cleaned_data.get('job_title')
         user_profile.organisation = form.cleaned_data.get('organisation')
         user_profile.phone_number = form.cleaned_data.get('phone_number')
+
+        if self.request.user.is_staff:
+            user_profile.exclude_from_reporting = form.cleaned_data.get('exclude_from_reporting')
         user_profile.save()
 
         # save any custom fields

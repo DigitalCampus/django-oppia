@@ -8,13 +8,14 @@ from profile.models import UserProfile, CustomField, UserProfileCustomField
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = ('user',
                     'can_upload',
-                    'about',
+                    'exclude_from_reporting',
                     'job_title',
                     'organisation',
                     'phone_number',
                     'created',
                     'modified')
     readonly_fields = ['user']
+    search_fields = ['user__username', 'user__first_name', 'user__last_name', 'user__email', 'organisation']
 
 
 class CustomFieldAdmin(admin.ModelAdmin):

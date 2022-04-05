@@ -1,10 +1,10 @@
 {% load i18n %}
 {% load display_functions %}
 
-<tr id="{{ user.username }}">
-    <td>{{user.username}}</td>
+<tr id="{{ user.username }}" class="link-row" data-href="{% url 'profile:user_activity' user.id %}">
+    <td><code>{{user.username}}</code></td>
     <td>{% if OPPIA_SHOW_GRAVATARS %} {{ user|gravatar:24 }} {% endif %}
-        <a href="{% url 'profile:user_activity' user.id %}">{{ user.first_name }} {{ user.last_name }}</a>
+        {{ user.first_name }} {{ user.last_name }}
     </td>
     <td>{{ user.date_joined|date:"d/m/Y" }}</td>
     <td class="text-right">

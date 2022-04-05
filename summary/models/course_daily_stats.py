@@ -1,11 +1,11 @@
 
 import datetime
 from django.db import models
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.utils.translation import ugettext_lazy as _
 
 from oppia import constants
-from oppia.models import Course, Tracker
+from oppia.models import Course, Tracker, User
 
 
 class CourseDailyStats (models.Model):
@@ -44,12 +44,17 @@ class CourseDailyStats (models.Model):
             .strptime(day.strftime(constants.STR_DATE_FORMAT) + " 23:59:59",
                       constants.STR_DATETIME_FORMAT)
 
+        excluded_users = User.objects \
+            .filter(Q(is_staff=True) | Q(is_superuser=True) | Q(userprofile__exclude_from_reporting=True)) \
+            .distinct().values_list('pk', flat=True)
+
         course = Course.objects.get(pk=course)
         trackers = Tracker.objects.filter(course=course,
                                           tracker_date__gte=day_start,
                                           tracker_date__lte=day_end,
                                           pk__gt=last_tracker_pk,
                                           pk__lte=newest_tracker_pk) \
+                                  .excludes(user__in=excluded_users) \
                                   .values('type') \
                                   .annotate(total=Count('type'))
 
