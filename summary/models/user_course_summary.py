@@ -19,7 +19,8 @@ class UserCourseSummaryQS(QuerySet):
 
     def aggregated_stats(self, type, single=False):
         if type in self.AGGREGABLE_STATS:
-            stats = list(self.values('course').annotate(distinct=Count('user'),
+            qs = self.exclude(user__userprofile__exclude_from_reporting=True)
+            stats = list(qs.values('course').annotate(distinct=Count('user'),
                                                         total=Sum(type)))
             if single:
                 return stats[0] if len(stats) > 0 else None

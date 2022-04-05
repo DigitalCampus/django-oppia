@@ -1,7 +1,7 @@
-
+import time
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
-from django.db.models import Count, Sum
+from django.db.models import Count, Sum, Q
 from django.db.models.functions import TruncDay, \
     TruncMonth, \
     TruncYear, \
@@ -89,6 +89,8 @@ class Command(BaseCommand):
             SettingProperties.delete_key('oppia_summary_cron_lock')
             return
 
+        start_time = time.time()
+
         self.update_user_course_summary(last_tracker_pk,
                                         newest_tracker_pk,
                                         last_points_pk,
@@ -102,6 +104,8 @@ class Command(BaseCommand):
 
         self.update_daily_active_users(last_tracker_pk,
                                        newest_tracker_pk)
+
+        print("--- %s seconds ---" % (time.time() - start_time))
 
         # update last tracker and points PKs with the last one processed
         SettingProperties.objects \
@@ -160,10 +164,13 @@ class Command(BaseCommand):
         if last_tracker_pk == 0:
             CourseDailyStats.objects.all().delete()
 
+        excluded_users = self.get_excluded_users()
+
         # get different (distinct) courses/dates involved
         course_daily_type_logs = Tracker.objects \
             .filter(pk__gt=last_tracker_pk, pk__lte=newest_tracker_pk) \
             .exclude(course__isnull=True) \
+            .exclude(user__in=excluded_users) \
             .annotate(day=TruncDay('tracker_date'),
                       month=TruncMonth('tracker_date'),
                       year=TruncYear('tracker_date')) \
@@ -174,6 +181,7 @@ class Command(BaseCommand):
         total_logs = course_daily_type_logs.count()
         self.stdout.write('%d different courses/dates/types to process.'
                           % total_logs)
+
         count = 0
         for type_log in course_daily_type_logs:
             course = Course.objects.get(pk=type_log['course'])
@@ -192,8 +200,8 @@ class Command(BaseCommand):
         search_daily_logs = Tracker.objects \
             .filter(pk__gt=last_tracker_pk,
                     pk__lte=newest_tracker_pk,
-                    user__is_staff=False,
                     type='search') \
+            .exclude(user__in=excluded_users) \
             .annotate(day=TruncDay('tracker_date'),
                       month=TruncMonth('tracker_date'),
                       year=TruncYear('tracker_date')) \
@@ -320,6 +328,8 @@ class Command(BaseCommand):
             .annotate(day=TruncDate(tracker_date_field)) \
             .values('day').distinct()
 
+        trackers_count = trackers.count()
+
         # for each tracker update the DAU model
         for idx, tracker in enumerate(trackers):
             self.stdout.write(
@@ -330,21 +340,17 @@ class Command(BaseCommand):
                  course_no+1,
                  course_total,
                  idx+1,
-                 trackers.count()))
-            total_users = Tracker.objects.annotate(
-                day=TruncDate(tracker_date_field)) \
-                .filter(day=tracker['day']) \
-                .aggregate(number_of_users=Count('user', distinct=True))
-
-            dau_obj, created = DailyActiveUsers.objects.update_or_create(
-                day=tracker['day'],
-                defaults={dau_total_date_field:
-                          total_users['number_of_users']})
+                 trackers_count))
 
             users = Tracker.objects.annotate(
                 day=TruncDate(tracker_date_field)) \
-                .filter(day=tracker['day']).values_list('user',
+                .filter(day=tracker['day'], course=course).values_list('user',
                                                         flat=True).distinct()
+
+            total_users = len(users)
+            dau_obj, created = DailyActiveUsers.objects.update_or_create(
+                day=tracker['day'],
+                defaults={ dau_total_date_field: total_users })
 
             for user_id in users:
                 self.update_daily_active_users_update(
@@ -393,3 +399,10 @@ class Command(BaseCommand):
                 self.stdout.write("added %s" % user_obj.username)
             else:
                 self.stdout.write("updated %s" % user_obj.username)
+
+
+    def get_excluded_users(self):
+        # We avoid using the admin users and users that explicitly we want to exclude from summaries
+        return User.objects \
+            .filter(Q(is_staff=True) | Q(is_superuser=True) | Q(userprofile__exclude_from_reporting=True)) \
+            .distinct().values_list('pk', flat=True)
