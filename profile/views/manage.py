@@ -16,6 +16,7 @@ from helpers.mixins.PermissionMixins import AdminRequiredMixin, \
     StaffRequiredMixin
 from helpers.mixins.SafePaginatorMixin import SafePaginatorMixin
 from helpers.mixins.TitleViewMixin import TitleViewMixin
+from helpers.ajax import is_ajax
 from oppia.models import Points, Award, Tracker
 from profile.forms import UploadProfileForm, \
     UserSearchForm, \
@@ -107,7 +108,7 @@ def export_users(request):
             user.apiKey = ApiKey.objects.create(user=user).key
 
     template = 'export-users.html'
-    if request.is_ajax():
+    if is_ajax(request):
         template = 'users-paginated-list.html'
 
     return render(request, 'profile/' + template,

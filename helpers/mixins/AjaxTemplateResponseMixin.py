@@ -1,5 +1,5 @@
 from django.views.generic.base import TemplateResponseMixin
-
+from helpers.ajax import is_ajax
 
 class AjaxTemplateResponseMixin(TemplateResponseMixin):
     """
@@ -16,7 +16,7 @@ class AjaxTemplateResponseMixin(TemplateResponseMixin):
 
         response = super(AjaxTemplateResponseMixin, self) \
             .render_to_response(context, **response_kwargs)
-        if self.request.is_ajax():
+        if is_ajax(self.request):
             response['Cache-Control'] = 'no-cache'
             response['Vary'] = 'Accept'
         return response
@@ -28,7 +28,7 @@ class AjaxTemplateResponseMixin(TemplateResponseMixin):
         """
 
         template_names = None
-        if self.request.is_ajax() and self.ajax_template_name is not None:
+        if is_ajax(self.request) and self.ajax_template_name is not None:
             template_names = [self.ajax_template_name, self.template_name]
 
         if template_names is None:
