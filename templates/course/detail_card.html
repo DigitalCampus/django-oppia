@@ -3,12 +3,7 @@
 
 <div class="card-header">
     <h6 class="card-title">{{ course.title|title_lang:LANGUAGE_CODE }}
-    {% if course.is_draft %}
-        <span class="badge badge-dark badge-sm ml-2"><small>{% trans 'draft' %}</small></span>
-    {% endif %}
-    {% if course.is_archived %}
-        <span class="badge badge-dark badge-sm ml-2"><small>{% trans 'archived' %}</small></span>
-    {% endif %}
+        {% include "common/info_badges.html" with course=course%}
     </h6>
     <h6 class="card-subtitle mb-2 text-muted"><em>{% trans 'Categories:' %} {{ course.get_categories}}</em></h6>
 </div>
