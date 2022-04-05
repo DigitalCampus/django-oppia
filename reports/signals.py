@@ -4,7 +4,7 @@ import oppia
 from django.dispatch import Signal
 from reports.models import DashboardAccessLog
 
-dashboard_accessed = Signal(providing_args=["request", "data"])
+dashboard_accessed = Signal()
 
 
 def dashboard_accessed_callback(sender, **kwargs):

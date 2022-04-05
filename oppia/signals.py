@@ -12,7 +12,7 @@ from oppia.models import Points, Tracker
 from settings import constants
 from settings.models import SettingProperties
 
-course_downloaded = Signal(providing_args=["request", "course", "user"])
+course_downloaded = Signal()
 
 NON_ACTIVITY_EVENTS = [
     'course_downloaded', 'register'
