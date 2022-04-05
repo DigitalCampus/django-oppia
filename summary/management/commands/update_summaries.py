@@ -105,7 +105,7 @@ class Command(BaseCommand):
         self.update_daily_active_users(last_tracker_pk,
                                        newest_tracker_pk)
 
-        print("--- %s seconds ---" % (time.time() - start_time))
+        print("--- took %s seconds ---" % (time.time() - start_time))
 
         # update last tracker and points PKs with the last one processed
         SettingProperties.objects \

@@ -4,6 +4,7 @@ from io import StringIO
 
 from oppia.test import OppiaTestCase
 from oppia.models import Tracker, Points
+from profile.models import UserProfile
 from settings.models import SettingProperties
 from summary.models import CourseDailyStats
 
@@ -115,6 +116,29 @@ class SummaryCronTest(OppiaTestCase):
         tracker_id = SettingProperties.get_int('last_tracker_pk', 0)
         self.assertEqual(tracker_id, 1484256)
         # this id is from the test_tracker data
+
+    def test_summary_exclude_from_reporting(self):
+        call_command('update_summaries', '--fromstart', stdout=StringIO())
+
+        # check new details on pks
+        tracker_id = SettingProperties.get_int('last_tracker_pk', 0)
+        self.assertEqual(tracker_id, 1484256)
+        num_daily_stats = CourseDailyStats.objects.count()
+        self.assertEqual(num_daily_stats, 196)
+
+        excluded_user = UserProfile.objects.get(user__username='demo')
+        excluded_user.exclude_from_reporting = True
+        excluded_user.save()
+
+        call_command('update_summaries', '--fromstart', stdout=StringIO())
+
+        # check new details on pks
+        tracker_id = SettingProperties.get_int('last_tracker_pk', 0)
+        self.assertEqual(tracker_id, 1484256)
+        num_daily_stats = CourseDailyStats.objects.count()
+        # New daily stats are less than the previous ones, as some got ignored
+        self.assertEqual(num_daily_stats, 122)
+
 
     def test_summary_invalid_latest_tracker(self):
         SettingProperties.objects.update_or_create(key='last_tracker_pk',
