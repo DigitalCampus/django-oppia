@@ -40,7 +40,7 @@ urlpatterns = [
          views.CourseDataExports.as_view(),
          name="course_data_exports"),
     path('course/<int:course_id>/detail/',
-         views.CourseRecentActivityDetail.as_view(),
+         views.CourseActivityDetailList.as_view(),
          name="recent_activity_detail"),
     path('course/<int:course_id>/exports/trackers/',
          views.ExportCourseTrackers.as_view(),

@@ -74,9 +74,12 @@ def get_query(query_string, search_fields):
     return query
 
 
-def get_filters_from_row(search_form):
+def get_filters_from_row(search_form, convert_date=True):
     filters = {}
     for row in search_form.cleaned_data:
+        if not convert_date and (row == 'start_date' or row == 'end_date'):
+            continue
+
         if CUSTOMFIELDS_SEARCH_PREFIX not in row \
                 and search_form.cleaned_data[row]:
             if row == 'start_date':

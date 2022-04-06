@@ -57,17 +57,19 @@ class DateRangeForm(forms.Form):
             )
         )
 
+    def parse_date(self, date):
+        return datetime.datetime.strptime(date, STR_DATE_FORMAT)
+
     def clean(self):
-        cleaned_data = super(DateRangeForm, self).clean()
+        cleaned_data = super().clean()
         start_date = cleaned_data.get("start_date")
         end_date = cleaned_data.get("end_date")
         try:
-            start_date = datetime.datetime.strptime(start_date,
-                                                    STR_DATE_FORMAT)
+            start_date = self.parse_date(start_date)
         except (TypeError, ValueError):
             raise forms.ValidationError("Please enter a valid start date.")
         try:
-            end_date = datetime.datetime.strptime(end_date, STR_DATE_FORMAT)
+            end_date = self.parse_date(end_date)
         except (TypeError, ValueError):
             raise forms.ValidationError(_("Please enter a valid end date."))
 
