@@ -110,7 +110,7 @@ def can_add_cohort(request):
     return False
 
 
-def can_edit_cohort(request, cohort_id):
+def can_edit_cohort(request):
     if request.user.is_staff:
         return True
     return False
@@ -235,6 +235,7 @@ def can_view_courses_list(request, order_by='title'):
                                         is_archived=False).order_by(order_by)
     return courses
 
-
+# Sonarcloud raises a code smell that the request and exception params here 
+# are redundant, however, Django requires them
 def oppia_403_handler(request, exception):
     return HttpResponseForbidden('403.html')

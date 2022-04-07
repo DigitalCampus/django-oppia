@@ -25,6 +25,8 @@ def get_points(request):
     return {'points': points, 'badges': badges}
 
 
+# Sonarcloud raises a code smell that the request param here is redundant,
+# however, Django requires it
 def get_version(request):
     version = "v" + str(oppia.VERSION[0]) + "." \
                 + str(oppia.VERSION[1]) + "." \
@@ -35,6 +37,8 @@ def get_version(request):
     return {'version': version}
 
 
+# Sonarcloud raises a code smell that the request param here is redundant,
+# however, Django requires it
 def get_settings(request):
     self_register = SettingProperties.get_bool(
                                 constants.OPPIA_ALLOW_SELF_REGISTRATION,
@@ -105,7 +109,7 @@ def get_settings(request):
         'OPPIA_GOOGLE_ANALYTICS_CODE': ga_code,
         'OPPIA_GOOGLE_ANALYTICS_DOMAIN': ga_domain,
         'OPPIA_SHOW_GRAVATARS': show_gravatars,
-        'OPPIA_REPORTS': menu_reports(request),
+        'OPPIA_REPORTS': menu_reports(),
         'DEBUG': settings.DEBUG,
         'CRON_WARNING': cron_warning,
         'COURSE_COMPLETE_BADGE_CRITERIA': badge_award_method,

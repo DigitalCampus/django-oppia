@@ -44,7 +44,6 @@ class Quiz(models.Model):
         return no_attempts
 
     def avg_score(self):
-        # TODO - sure this could be tidied up
         attempts = QuizAttempt.objects.filter(quiz=self)
         total = 0
         for a in attempts:

@@ -160,8 +160,7 @@ class Command(BaseCommand):
         activity.description = description
 
         if (activity_type == "quiz") or (activity_type == "feedback"):
-            updated_json = parse_and_save_quiz(
-                user=None, activity=activity, act_xml=activity_node)
+            updated_json = parse_and_save_quiz(user=None, activity=activity)
             # we need to update the JSON contents both in the XML and in the
             # activity data
             activity_node.find("content").text = \

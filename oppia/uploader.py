@@ -485,7 +485,7 @@ def parse_and_save_activity(request,
                             data=msg_text).save()
 
     if (activity_type == "quiz") or (activity_type == "feedback"):
-        updated_json = parse_and_save_quiz(user, activity, activity_node)
+        updated_json = parse_and_save_quiz(user, activity)
         # we need to update the JSON contents both in the XML and in the
         # activity data
         activity_node.find("content").text = \
@@ -515,11 +515,11 @@ def parse_and_save_activity(request,
                                 data=msg_text).save()
 
 
-def parse_and_save_quiz(user, activity, act_xml):
+def parse_and_save_quiz(user, activity):
     """
-    Parses an Activity XML that is a Quiz and saves it to the DB
+    Parses activity content that is a Quiz and saves it to the DB
     :parm user: the user that uploaded the course
-    :param activity: a XML DOM element containing the activity
+    :param activity: an activity object that contains the quiz as a json object
     :return: None
     """
 

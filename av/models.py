@@ -55,10 +55,3 @@ def uploaded_media_delete_file(sender, instance, **kwargs):
         os.remove(file_to_delete)
     except OSError:
         pass
-
-
-def image_file_name(instance, filename):
-    return os.path.join('uploaded/images',
-                        filename[0:2],
-                        filename[2:4],
-                        filename)

@@ -63,7 +63,7 @@ class UploadView(TemplateView):
                        'title': _(u'Upload Activity Log')})
 
 
-def process_activitylog(messages_delegate, file_contents, messages=None):
+def process_activitylog(messages_delegate, file_contents):
     # open file and process
     json_data = json.loads(file_contents)
     if not validate_server(messages_delegate, json_data):
@@ -73,7 +73,7 @@ def process_activitylog(messages_delegate, file_contents, messages=None):
         return True
 
 
-def process_uploaded_trackers(messages_delegate, trackers, user, user_api_key):
+def process_uploaded_trackers(messages_delegate, trackers, user):
 
     request = HttpRequest()
     request.user = user
@@ -92,10 +92,8 @@ def process_uploaded_trackers(messages_delegate, trackers, user, user_api_key):
                 'danger')
 
 
-def process_uploaded_quizresponses(messages_delegate,
-                                   quiz_responses,
-                                   user,
-                                   user_api_key):
+def process_uploaded_quizresponses(messages_delegate, quiz_responses, user):
+
     request = HttpRequest()
     request.user = user
     for quizattempt in quiz_responses:
@@ -141,13 +139,11 @@ def process_uploaded_file(messages_delegate, json_data):
                 if 'trackers' in user:
                     process_uploaded_trackers(messages_delegate,
                                               user['trackers'],
-                                              req_user,
-                                              user_api_key)
+                                              req_user)
                 if 'quizresponses' in user:
                     process_uploaded_quizresponses(messages_delegate,
                                                    user['quizresponses'],
-                                                   req_user,
-                                                   user_api_key)
+                                                   req_user)
             except ApiKey.DoesNotExist:
                 messages_delegate.warning(
                                  _(u"%(username)s not found. Please \

@@ -28,8 +28,7 @@ class Migration(migrations.Migration):
                 ('created_date', models.DateTimeField(
                     default=django.utils.timezone.now,
                     verbose_name=b'date created')),
-                ('image', models.ImageField(
-                    upload_to=av.models.image_file_name)),
+                ('image', models.ImageField()),
                 ('default_image', models.BooleanField(default=False)),
                 ('create_user', models.ForeignKey(
                     on_delete=django.db.models.deletion.CASCADE,

@@ -173,7 +173,7 @@ class CohortEditView(UserPassesTestMixin, UpdateView):
 
     # Permissions check
     def test_func(self):
-        return can_edit_cohort(self.request, self.kwargs['pk'])
+        return can_edit_cohort(self.request)
 
     def get_form_kwargs(self):
         """Return the keyword arguments for instantiating the form."""

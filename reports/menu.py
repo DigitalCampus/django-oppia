@@ -6,7 +6,7 @@ from settings import constants
 from settings.models import SettingProperties
 
 
-def menu_reports(request):
+def menu_reports():
     # add in here any reports that need to appear
 
     reports = [{'name': _(u'User Registrations'),

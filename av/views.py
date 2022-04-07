@@ -52,7 +52,7 @@ class CourseMediaList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
         return context
 
 
-def download_media_file(request, course_id, media_id):
+def download_media_file(media_id):
     media = Media.objects.get(pk=media_id)
 
     response = HttpResponse()
