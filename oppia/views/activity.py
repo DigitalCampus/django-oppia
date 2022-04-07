@@ -3,15 +3,13 @@ import json
 
 import tablib
 from django.contrib.auth.models import User
-from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db.models import Sum
 from django.db.models.functions import TruncDay, TruncMonth, TruncYear
 from django.http import HttpResponse
 from django.utils import timezone
 from django.views.generic import TemplateView, DetailView, ListView
-from django.views.generic.edit import BaseFormView
 
-from helpers.forms.dates import DateRangeIntervalForm, DateRangeForm
+from helpers.forms.dates import DateRangeIntervalForm
 from oppia import constants
 from oppia.constants import STR_DATE_FORMAT
 from oppia.forms.activity_search import ActivitySearchForm
@@ -50,12 +48,10 @@ class CourseActivityDetail(DetailView):
         form = DateRangeIntervalForm(initial)
         if form.is_valid():
             start_date = timezone.make_aware(
-                datetime.datetime.strptime(form.cleaned_data.get("start_date"),
-                                           constants.STR_DATE_FORMAT),
+                datetime.datetime.strptime(form.cleaned_data.get("start_date"), STR_DATE_FORMAT),
                 timezone.get_current_timezone())
             end_date = timezone.make_aware(
-                datetime.datetime.strptime(form.cleaned_data.get("end_date"),
-                                           constants.STR_DATE_FORMAT),
+                datetime.datetime.strptime(form.cleaned_data.get("end_date"), STR_DATE_FORMAT),
                 timezone.get_current_timezone())
             interval = form.cleaned_data.get("interval")
 
