@@ -29,12 +29,7 @@
 						<td>
 						<a href="{% url 'oppia:recent_activity' course.id %}"><strong>{{ course.title|title_lang:LANGUAGE_CODE }}</strong></a>
 						   
-						{% if course.is_draft %}
-						    <span class="badge badge-dark ml-2">{% trans 'draft' %}</span>
-						{% endif %}
-						{% if course.is_archived %}
-						    <span class="badge badge-dark ml-2">{% trans 'archived' %}</span>
-						{% endif %}<br/>
+						{% include "common/info_badges.html" with course=course %}<br/>
 						<small>{% trans 'Categories:' %} {{ course.get_categories}}</small>
 						</td>
 						<td>{{ course.lastupdated_date }} </td>

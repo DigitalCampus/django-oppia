@@ -173,7 +173,8 @@ def can_download_course(request, course_id):
             try:
                 course = Course.objects.get(pk=course_id,
                                             is_draft=False,
-                                            is_archived=False)
+                                            is_archived=False,
+                                            new_downloads_enabled=True)
             except Course.DoesNotExist:
                 course = Course.objects.get(
                     pk=course_id,

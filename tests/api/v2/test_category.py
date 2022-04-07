@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from tastypie.test import ResourceTestCaseMixin
 
-from tests.utils import get_api_key, get_api_url
+from tests.utils import get_api_key, get_api_url, update_course_new_downloads_enabled
 
 
 class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
@@ -88,3 +88,23 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
                                    format='json',
                                    data=self.auth_data)
         self.assertHttpNotFound(resp)
+
+    def test_count_new_downloads_enabled(self):
+        # Expected courses having new downloads enabled by category (based on test_oppia.json)
+        expected = {'HEAT': 2, 'ANC': 1, 'Antenatal Care': 1, 'NCD': 1, 'reference': 0}
+
+        # Enable new downloads from 3 of the 4 courses
+        update_course_new_downloads_enabled(1, True)
+        update_course_new_downloads_enabled(2, True)
+        update_course_new_downloads_enabled(3, True)
+        update_course_new_downloads_enabled(4, False)
+
+        resp = self.api_client.get(
+            self.url, format='json', data=self.auth_data)
+        self.assertHttpOK(resp)
+        self.assertValidJSON(resp.content)
+        response_data = self.deserialize(resp)
+        self.assertTrue('tags' in response_data)
+        for tag in response_data['tags']:
+            self.assertTrue('count_new_downloads_enabled' in tag)
+            self.assertEqual(tag['count_new_downloads_enabled'], expected.get(tag['name']))

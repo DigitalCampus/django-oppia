@@ -41,6 +41,7 @@ class Course(models.Model):
                                   default=None)
     is_draft = models.BooleanField(default=False)
     is_archived = models.BooleanField(default=False)
+    new_downloads_enabled = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = _('Course')
