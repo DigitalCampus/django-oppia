@@ -228,11 +228,10 @@ def can_view_courses_list(request, order_by='title'):
             coursepermissions__user=request.user,
             coursepermissions__role=CoursePermissions.MANAGER) \
             .order_by(order_by)
-        if manager_courses.count() > 0:
+        if manager_courses.exists():
             return manager_courses
 
-        courses = Course.objects.filter(is_draft=False,
-                                        is_archived=False).order_by(order_by)
+        courses = Course.objects.filter(is_draft=False, is_archived=False).order_by(order_by)
     return courses
 
 

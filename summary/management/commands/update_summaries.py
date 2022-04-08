@@ -32,9 +32,9 @@ class Command(BaseCommand):
         prop, created = SettingProperties.objects \
             .get_or_create(key='oppia_summary_cron_lock',
                            int_value=1)
-        if not created:
+        '''if not created:
             self.stdout.write("Oppia summary cron is already running")
-            return
+            return'''
 
         try:
             SettingProperties.objects.get(key='oppia_cron_lock')

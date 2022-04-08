@@ -85,20 +85,12 @@ class DateRangeForm(forms.Form):
         return cleaned_data
 
 
-class DateRangeIntervalForm(forms.Form):
+class DateRangeIntervalForm(DateRangeForm):
     INTERVALS = (('days', _('days'),), ('months', _('months')),)
-    start_date = forms.CharField(
-        required=True,
-        error_messages={'required': _('Please enter a start date'),
-                        'invalid': STR_ENTER_VALID_DATE})
-    end_date = forms.CharField(
-        required=True,
-        error_messages={'required': _('Please enter an end date'),
-                        'invalid': STR_ENTER_VALID_DATE})
     interval = forms.ChoiceField(widget=forms.Select, choices=INTERVALS)
 
     def __init__(self, *args, **kwargs):
-        super(DateRangeIntervalForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Row(
@@ -110,28 +102,3 @@ class DateRangeIntervalForm(forms.Form):
                                  css_class='date-picker-row-fluid'),
             )
         )
-
-    def clean(self):
-        cleaned_data = super(DateRangeIntervalForm, self).clean()
-        start_date = cleaned_data.get("start_date")
-        end_date = cleaned_data.get("end_date")
-        try:
-            start_date = datetime.datetime.strptime(start_date,
-                                                    STR_DATE_FORMAT)
-        except (TypeError, ValueError):
-            raise forms.ValidationError(_("Please enter a valid start date."))
-        try:
-            end_date = datetime.datetime.strptime(end_date, STR_DATE_FORMAT)
-        except (TypeError, ValueError):
-            raise forms.ValidationError(_("Please enter a valid end date."))
-
-        # check end date on or before today
-        if end_date > datetime.datetime.now():
-            raise forms.ValidationError(_("End date can't be in the future."))
-
-        # check start date before end date
-        if start_date > end_date:
-            raise forms.ValidationError(
-                _("Start date must be before the end date."))
-
-        return cleaned_data

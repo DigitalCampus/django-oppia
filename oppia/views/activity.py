@@ -10,6 +10,7 @@ from django.utils import timezone
 from django.views.generic import TemplateView, DetailView, ListView
 
 from helpers.forms.dates import DateRangeIntervalForm
+from helpers.mixins.DateRangeFilterMixin import DateRangeFilterMixin
 from oppia import constants
 from oppia.constants import STR_DATE_FORMAT
 from oppia.forms.activity_search import ActivitySearchForm
@@ -21,51 +22,25 @@ from profile.views import utils
 from summary.models import CourseDailyStats, UserCourseSummary
 
 
-class CourseActivityDetail(DetailView):
-
+class CourseActivityDetail(DateRangeFilterMixin, DetailView):
     template_name = 'course/detail.html'
     pk_url_kwarg = 'course_id'
     context_object_name = 'course'
     model = Course
+    daterange_form_class = DateRangeIntervalForm
+    daterange_form_initial = { 'interval': 'days' }
 
     def get_context_data(self, **kwargs):
 
         context = super().get_context_data(**kwargs)
         can_view_course_detail(self.request, self.object.id)
 
-        start_date = timezone.now() - datetime.timedelta(
-            days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
-        end_date = timezone.now()
-        interval = 'days'
-        initial = {'start_date': start_date,
-                   'end_date': end_date,
-                   'interval': interval}
-
-        initial.update(self.request.GET.dict())
-        if isinstance(initial['interval'], list):
-            initial['interval'] = initial['interval'][0]
-
-        form = DateRangeIntervalForm(initial)
-        if form.is_valid():
-            start_date = timezone.make_aware(
-                datetime.datetime.strptime(form.cleaned_data.get("start_date"), STR_DATE_FORMAT),
-                timezone.get_current_timezone())
-            end_date = timezone.make_aware(
-                datetime.datetime.strptime(form.cleaned_data.get("end_date"), STR_DATE_FORMAT),
-                timezone.get_current_timezone())
-            interval = form.cleaned_data.get("interval")
-
-        form.form_method = 'get'
-        context['form'] = form
+        start_date, end_date = self.get_daterange()
+        interval = self.get_daterange_form().cleaned_data.get("interval")
         context['monthly'] = interval == 'months'
 
-        context['download_stats'] = UserCourseSummary.objects \
-            .filter(course=self.object.id) \
-            .aggregated_stats('total_downloads', single=True)
-
-        context['leaderboard'] = Points.get_leaderboard(
-            constants.LEADERBOARD_HOMEPAGE_RESULTS_PER_PAGE, self.object)
-
+        context['download_stats'] = UserCourseSummary.objects.filter(course=self.object.id).aggregated_stats('total_downloads', single=True)
+        context['leaderboard'] = Points.get_leaderboard(constants.LEADERBOARD_HOMEPAGE_RESULTS_PER_PAGE, self.object)
         context['data'] = self.get_activity(start_date, end_date, interval)
 
         return context
@@ -73,9 +48,7 @@ class CourseActivityDetail(DetailView):
     def get_activity(self, start_date, end_date, interval):
         if interval == 'days':
             daily_stats = CourseDailyStats.objects\
-                .filter(course=self.object,
-                        day__gte=start_date,
-                        day__lte=end_date) \
+                .filter(course=self.object, day__gte=start_date, day__lte=end_date) \
                 .annotate(stat_date=TruncDay('day')) \
                 .values('stat_date', 'type') \
                 .annotate(total=Sum('total'))
@@ -84,9 +57,7 @@ class CourseActivityDetail(DetailView):
 
         else:
             monthly_stats = CourseDailyStats.objects \
-                .filter(course=self.object,
-                        day__gte=start_date,
-                        day__lte=end_date) \
+                .filter(course=self.object, day__gte=start_date, day__lte=end_date) \
                 .annotate(month=TruncMonth('day'), year=TruncYear('day')) \
                 .values('month', 'year', 'type') \
                 .annotate(total=Sum('total')) \
@@ -94,57 +65,32 @@ class CourseActivityDetail(DetailView):
 
             return generate_graph_data(monthly_stats, True)
 
-class CourseActivityDetailList(ListView):
+
+class CourseActivityDetailList(DateRangeFilterMixin, ListView):
     template_name = 'course/detail/list.html'
     paginate_by = 25
-    filter_form = ActivitySearchForm
-    form = None
+    daterange_form_class = ActivitySearchForm
 
     def get_course_id(self):
         return self.kwargs['course_id']
 
     def get_queryset(self):
         self.filtered = False
-        form = self.get_form()
-        trackers = Tracker.objects.filter(course__pk=self.get_course_id()) \
+        trackers = Tracker.objects.filter(course__pk=self.get_course_id())
+        start_date, end_date = self.get_daterange()
+        trackers = trackers.filter( tracker_date__gte=start_date, tracker_date__lte=end_date)
 
-        if form.is_valid():
-            start_date = timezone.make_aware(
-                datetime.datetime.strptime(form.cleaned_data.get("start_date"),
-                                           constants.STR_DATE_FORMAT),
-                timezone.get_current_timezone())
-            end_date = timezone.make_aware(
-                datetime.datetime.strptime(form.cleaned_data.get("end_date"),
-                                           constants.STR_DATE_FORMAT),
-                timezone.get_current_timezone())
-
-            trackers = trackers.filter( tracker_date__gte=start_date, tracker_date__lte=end_date)
-
-            filters = utils.get_filters_from_row(form, convert_date=False)
-            if filters:
-                trackers = trackers.filter(**filters)
-                self.filtered = True
+        filters = utils.get_filters_from_row(self.get_daterange_form(), convert_date=False)
+        if filters:
+            trackers = trackers.filter(**filters)
+            self.filtered = True
 
         return trackers.order_by('-tracker_date')
 
-    def get_initial(self):
-        start_date = timezone.now() - datetime.timedelta(
-            days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
-        end_date = timezone.now()
-        return { 'start_date': start_date.strftime(STR_DATE_FORMAT), 'end_date': end_date.strftime(STR_DATE_FORMAT) }
-
-    def get_form(self):
-        if not self.form:
-            initial = self.get_initial()
-            initial.update(self.request.GET.dict())
-            self.form = self.filter_form(initial)
-            self.form.form_method = 'get'
-        return self.form
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['course'] = can_view_course_detail(self.request, self.get_course_id())
-        context['form'] = self.get_form()
         context['advanced_search'] = self.filtered
 
         for tracker in context['page_obj'].object_list:
