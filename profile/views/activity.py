@@ -3,91 +3,65 @@ import json
 import operator
 from itertools import chain
 
+from django.contrib.auth.models import User
 from django.db.models import Max, Min, Avg
 from django.shortcuts import render
 from django.utils import timezone
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from helpers.mixins.DateRangeFilterMixin import DateRangeFilterMixin
 from oppia.forms.activity_search import ActivitySearchForm
 from oppia.models import Activity, Tracker
-from oppia.permissions import get_user, \
-    get_user_courses, \
-    can_view_course
+from oppia.permissions import get_user, get_user_courses, can_view_course
 from profile.views.utils import get_tracker_activities
 from quiz.models import Quiz, QuizAttempt
 from summary.models import UserCourseSummary
 
 
-def user_activity(request, user_id):
+class UserScorecard(DateRangeFilterMixin, DetailView):
+    template_name = 'profile/user-scorecard.html'
+    context_object_name = 'view_user'
+    pk_url_kwarg = 'user_id'
+    model = User
 
-    view_user = get_user(request, user_id)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        get_user(self.request, self.object.pk) #TODO: Change permissions check
+        cohort_courses, other_courses, all_courses = get_user_courses(self.request, self.object)
 
-    cohort_courses, other_courses, all_courses = get_user_courses(request,
-                                                                  view_user)
+        courses = []
+        for course in all_courses:
+            courses.append(UserCourseSummary.objects.get_stats_summary(self.object, course))
 
-    courses = []
-    for course in all_courses:
-        course_stats = UserCourseSummary.objects.filter(user=view_user,
-                                                        course=course)
-        if course_stats:
-            course_stats = course_stats[0]
-            data = {'course': course,
-                    'course_display': str(course),
-                    'no_quizzes_completed': course_stats.quizzes_passed,
-                    'pretest_score': course_stats.pretest_score,
-                    'no_activities_completed':
-                        course_stats.completed_activities,
-                    'no_media_viewed': course_stats.media_viewed,
-                    'no_points': course_stats.points,
-                    'no_badges': course_stats.badges_achieved, }
-        else:
-            data = {'course': course,
-                    'course_display': str(course),
-                    'no_quizzes_completed': 0,
-                    'pretest_score': None,
-                    'no_activities_completed': 0,
-                    'no_media_viewed': 0,
-                    'no_points': 0,
-                    'no_badges': 0, }
+        order_options = ['course_display',
+                         'no_quizzes_completed',
+                         'pretest_score',
+                         'no_activities_completed',
+                         'no_points',
+                         'no_badges',
+                         'no_media_viewed']
+        default_order = 'course_display'
 
-        courses.append(data)
+        ordering = self.request.GET.get('order_by', default_order)
+        inverse_order = ordering.startswith('-')
+        if inverse_order:
+            ordering = ordering[1:]
 
-    order_options = ['course_display',
-                     'no_quizzes_completed',
-                     'pretest_score',
-                     'no_activities_completed',
-                     'no_points',
-                     'no_badges',
-                     'no_media_viewed']
-    default_order = 'course_display'
+        if ordering not in order_options:
+            ordering = default_order
+            inverse_order = False
 
-    ordering = request.GET.get('order_by', default_order)
-    inverse_order = ordering.startswith('-')
-    if inverse_order:
-        ordering = ordering[1:]
+        courses.sort(key=operator.itemgetter(ordering), reverse=inverse_order)
 
-    if ordering not in order_options:
-        ordering = default_order
-        inverse_order = False
+        start_date, end_date = self.get_daterange()
+        course_ids = list(chain(cohort_courses.values_list('id', flat=True),
+                                other_courses.values_list('id', flat=True)))
+        activity = get_tracker_activities(start_date, end_date, self.object, course_ids=course_ids)
 
-    courses.sort(key=operator.itemgetter(ordering), reverse=inverse_order)
-
-    start_date = timezone.now() - datetime.timedelta(days=31)
-    end_date = timezone.now()
-
-    course_ids = list(chain(cohort_courses.values_list('id', flat=True),
-                            other_courses.values_list('id', flat=True)))
-    activity = get_tracker_activities(start_date,
-                                      end_date,
-                                      view_user,
-                                      course_ids=course_ids)
-
-    return render(request, 'profile/user-scorecard.html',
-                  {'view_user': view_user,
-                   'courses': courses,
-                   'page_ordering': ('-' if inverse_order else '') + ordering,
-                   'activity_graph_data': activity})
+        context['courses'] = courses
+        context['page_ordering'] = ('-' if inverse_order else '') + ordering
+        context['activity_graph_data'] = activity
+        return context
 
 
 def user_course_activity_view(request, user_id, course_id):

@@ -59,8 +59,12 @@
 
 	<div class="col-lg-8">
 
-	<h3>{% trans 'Recent activity' %}</h3>
-	{% include "oppia/includes/activity-graph.html" with graph_div_id="activity_graph_div" %}
+		<div class="row">
+			<div class="col-sm-5 col-md-4 col-lg-4 pt-3"><h3>{% trans 'Recent activity' %}</h3></div>
+			<div class="col-sm-7 col-md-5 col-lg-5">{% include "common/form/date-range.html" with dateform=form %}</div>
+		</div>
+		{% include "oppia/includes/activity-graph.html" with graph_div_id="activity_graph_div" %}
+
 	</div>
 </div>
 

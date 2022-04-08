@@ -107,11 +107,7 @@ def get_users_filtered_by_customfields(users, search_form):
     return users, filtered
 
 
-def get_tracker_activities(start_date,
-                           end_date,
-                           user,
-                           course_ids=[],
-                           course=None):
+def get_tracker_activities(start_date, end_date, user, course_ids=[], course=None):
     if course:
         trackers = Tracker.objects.filter(course=course)
     else:

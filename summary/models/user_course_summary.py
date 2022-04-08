@@ -15,6 +15,21 @@ class UserCourseSummaryQS(QuerySet):
                         'media_viewed',
                         'completed_activities')
 
+    def get_stats_summary(self, user, course):
+
+        course_stats = UserCourseSummary.get_stats_dict(course)
+        summary = UserCourseSummary.objects.filter(user=user, course=course).first()
+
+        if summary:
+            course_stats['no_quizzes_completed'] = summary.quizzes_passed
+            course_stats['pretest_score'] = summary.pretest_score
+            course_stats['no_activities_completed'] = summary.completed_activities
+            course_stats['no_media_viewed'] = summary.media_viewed
+            course_stats['no_points'] = summary.points
+            course_stats['no_badges'] = summary.badges_achieved
+
+        return course_stats
+
     def aggregated_stats(self, type, single=False):
         if type in self.AGGREGABLE_STATS:
             qs = self.exclude(user__userprofile__exclude_from_reporting=True)
@@ -47,6 +62,18 @@ class UserCourseSummary (models.Model):
         verbose_name_plural = _(u'UserCourseSummaries')
         unique_together = ("user", "course")
         index_together = ["user", "course"]
+
+    @staticmethod
+    def get_stats_dict(course):
+        return {
+            'course': course,
+            'course_display': course.get_title(),
+            'no_quizzes_completed': 0,
+            'pretest_score': None,
+            'no_activities_completed': 0,
+            'no_media_viewed': 0,
+            'no_points': 0,
+            'no_badges': 0, }
 
     def update_summary(self,
                        last_tracker_pk=0, newest_tracker_pk=0,

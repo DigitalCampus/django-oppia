@@ -20,7 +20,7 @@ urlpatterns = [
     path('points/', profile_views.PointsView.as_view(), name="points"),
     path('badges/', profile_views.BadgesView.as_view(), name="badges"),
 
-    path('<int:user_id>/activity/', profile_views.user_activity, name="user_activity"),
+    path('<int:user_id>/activity/', profile_views.UserScorecard.as_view(), name="user_activity"),
     path('<int:user_id>/activity/detail/', profile_views.UserActivityDetailList.as_view(), name="user_activity_detail"),
     path('<int:user_id>/<int:course_id>/activity/', profile_views.user_course_activity_view, name="user_course_activity"),
     path('<int:user_id>/quizattempts/', profile_views.UserAttemptsList.as_view(), name="user_all_attempts"),
