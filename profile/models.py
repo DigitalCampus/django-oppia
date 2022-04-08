@@ -16,57 +16,40 @@ class UserProfile(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     exclude_from_reporting = models.BooleanField(default=False,
-                                                 verbose_name=_('Exclude from reporting'),
-                                                 help_text=_('If checked, the activity from this user will not be taken into account for summary calculations and reports'))
+         verbose_name=_('Exclude from reporting'),
+         help_text=_('If checked, the activity from this user will not be taken into account for summary calculations and reports'))
 
     def get_can_upload(self):
         if self.user.is_staff:
             return True
-        manager = CoursePermissions.objects \
-            .filter(user=self.user,
-                    role=CoursePermissions.MANAGER).count()
-        if manager > 0:
+        manager = CoursePermissions.objects.filter(user=self.user, role=CoursePermissions.MANAGER)
+        if manager.exists():
             return True
         return self.can_upload
 
     def get_can_upload_activitylog(self):
-        if self.user.is_staff:
-            return True
-        return False
+        return self.user.is_staff
 
     def is_student_only(self):
         if self.user.is_staff:
             return False
-        teacher = Participant.objects.filter(user=self.user,
-                                             role=Participant.TEACHER).count()
-        manager = CoursePermissions.objects \
-            .filter(user=self.user,
-                    role=CoursePermissions.MANAGER).count()
-        if teacher > 0 or manager > 0:
-            return False
-        else:
-            return True
+        teacher = Participant.objects.filter(user=self.user, role=Participant.TEACHER)
+        manager = CoursePermissions.objects.filter(user=self.user, role=CoursePermissions.MANAGER)
+        return not teacher.exists() and not manager.exists()
 
     def is_teacher_only(self):
         if self.user.is_staff:
             return False
-        teacher = Participant.objects.filter(user=self.user,
-                                             role=Participant.TEACHER).count()
-        manager = CoursePermissions.objects \
-            .filter(user=self.user,
-                    role=CoursePermissions.MANAGER).count()
-        if teacher > 0 and manager == 0:
-            return True
-        else:
-            return False
+        teacher = Participant.objects.filter(user=self.user, role=Participant.TEACHER).count()
+        manager = CoursePermissions.objects.filter(user=self.user, role=CoursePermissions.MANAGER).count()
+        return teacher.exists() and not manager.exists()
 
     def update_customfields(self, fields_dict):
 
         custom_fields = CustomField.objects.all()
         for custom_field in custom_fields:
             if custom_field.id in fields_dict and (
-                (fields_dict[custom_field.id] != ''
-                 and fields_dict[custom_field.id] is not None)
+                (fields_dict[custom_field.id] != '' and fields_dict[custom_field.id] is not None)
                     or custom_field.required is True
             ):
 
@@ -74,14 +57,11 @@ class UserProfile(models.Model):
                     .get_or_create(key_name=custom_field, user=self.user)
 
                 if custom_field.type == 'int':
-                    profile_field.value_int = fields_dict.get(custom_field.id,
-                                                              None)
+                    profile_field.value_int = fields_dict.get(custom_field.id, None)
                 elif custom_field.type == 'bool':
-                    profile_field.value_bool = fields_dict.get(custom_field.id,
-                                                               None)
+                    profile_field.value_bool = fields_dict.get(custom_field.id, None)
                 else:
-                    profile_field.value_str = fields_dict.get(custom_field.id,
-                                                              None)
+                    profile_field.value_str = fields_dict.get(custom_field.id, None)
 
                 profile_field.save()
 
@@ -99,10 +79,7 @@ class CustomField(models.Model):
     required = models.BooleanField(default=False)
     order = models.IntegerField(default=0)
     helper_text = models.TextField(blank=True, null=True, default=None)
-    type = models.CharField(max_length=10,
-                            choices=DATA_TYPES,
-                            null=False,
-                            blank=False)
+    type = models.CharField(max_length=10, choices=DATA_TYPES, null=False, blank=False)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
@@ -128,8 +105,7 @@ class UserProfileCustomField (models.Model):
     @staticmethod
     def get_user_value(user, key_name):
         try:
-            return UserProfileCustomField.objects.get(
-                key_name=key_name, user=user).get_value()
+            return UserProfileCustomField.objects.get(key_name=key_name, user=user).get_value()
         except UserProfileCustomField.DoesNotExist:
             return None
 

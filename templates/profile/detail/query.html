@@ -5,7 +5,7 @@
 
  {% block table_head %}
     <th scope="col">{% trans 'table_header_tracker_date' %}</th>
-    <th scope="col">{% trans 'table_header_tracker_user' %}</th>
+    <th scope="col">{% trans 'table_header_tracker_course' %}</th>
     <th scope="col">{% trans 'table_header_tracker_type' %}</th>
     <th scope="col">{% trans 'table_header_tracker_activity' %}</th>
     <th scope="col">{% trans 'table_header_tracker_timetaken' %}</th>
@@ -16,14 +16,7 @@
 
 <tr id='{{ item.id }}' name="trackerlist" class="hover">
 			<td>{{ item.tracker_date|date:"d M Y H:i" }}</td>
-			<td>{% if OPPIA_SHOW_GRAVATARS %}
-       				{{ item.user|gravatar:24 }}
-       			{% endif %}
-       			{% if requesitem.user.is_staff %}
-					<a href="{% url 'profile:user_activity' item.user.id %}">{{ item.user.first_name }} {{ item.user.last_name }}</a>
-				{% else %}
-					{{ item.user.first_name }} {{ item.user.last_name }}
-				{% endif %}</td>
+			<td>{{ item.course}} </td>
 			<td><samp>{{ item.type }}</samp></td>
 			<td>{% if item.get_media_title %}
 					{{ item.get_media_title }}

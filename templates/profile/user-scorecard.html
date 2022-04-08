@@ -44,7 +44,7 @@
 			<div class="list-group list-group-flush">
 				<a href="{% url 'profile:edit_user' view_user.id %}" class="list-group-item list-group-item-action">
 					<em class="fas fa-fw text-primary mr-3 fa-user-edit"></em> {% trans 'Edit profile' %}</a>
-				<a href="" class="list-group-item list-group-item-action">
+				<a href="{% url 'profile:user_activity_detail' view_user.id %}"  class="list-group-item list-group-item-action">
 					<em class="fas fa-fw text-primary mr-3 fa-chart-bar"></em> {% trans 'Detailed activity' %}</a>
 				<a href="{% url 'profile:user_all_attempts' view_user.id %}" class="list-group-item list-group-item-action">
 					<em class="far fa-fw text-primary mr-3 fa-check-circle"></em>{% trans 'Quiz attempts' %}</a>

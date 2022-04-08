@@ -1,15 +1,23 @@
 import datetime
+import json
 import operator
 from itertools import chain
 
+from django.contrib.auth.models import User
 from django.db.models import Max, Min, Avg
 from django.shortcuts import render
 from django.utils import timezone
+from django.views.generic import ListView
 
-from oppia.models import Activity
+from oppia import constants
+from oppia.constants import STR_DATE_FORMAT
+from oppia.forms.activity_search import ActivitySearchForm
+from oppia.models import Activity, Tracker
 from oppia.permissions import get_user, \
     get_user_courses, \
     can_view_course
+from profile.models import UserProfile
+from profile.views import utils
 from profile.views.utils import get_tracker_activities
 from quiz.models import Quiz, QuizAttempt
 from summary.models import UserCourseSummary
@@ -211,3 +219,69 @@ def process_quiz_activity(view_user,
             'passed': passed
             }
     return quiz, course_pretest, quizzes_attempted, quizzes_passed
+
+
+class UserActivityDetailList(ListView):
+    template_name = 'profile/detail/list.html'
+    paginate_by = 25
+    filter_form = ActivitySearchForm
+    form = None
+
+    def get_user_id(self):
+        return self.kwargs['user_id']
+
+    def get_queryset(self):
+        self.filtered = False
+        form = self.get_form()
+        trackers = Tracker.objects\
+            .filter(user__pk=self.get_user_id()) \
+            .exclude(type__exact='')
+
+        if form.is_valid():
+            start_date = timezone.make_aware(
+                datetime.datetime.strptime(form.cleaned_data.get("start_date"), STR_DATE_FORMAT),
+                timezone.get_current_timezone())
+            end_date = timezone.make_aware(
+                datetime.datetime.strptime(form.cleaned_data.get("end_date"), STR_DATE_FORMAT),
+                timezone.get_current_timezone())
+
+            trackers = trackers.filter( tracker_date__gte=start_date, tracker_date__lte=end_date)
+            print(trackers.count())
+            filters = utils.get_filters_from_row(form, convert_date=False)
+            #if filters:
+            #    trackers = trackers.filter(**filters)
+            #    self.filtered = True
+
+        return trackers.order_by('-tracker_date')
+
+    def get_initial(self):
+        start_date = timezone.now() - datetime.timedelta(days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
+        end_date = timezone.now()
+        return { 'start_date': start_date.strftime(constants.STR_DATE_FORMAT), 'end_date': end_date.strftime(STR_DATE_FORMAT) }
+
+    def get_form(self):
+        if not self.form:
+            initial = self.get_initial()
+            initial.update(self.request.GET.dict())
+            self.form = self.filter_form(initial)
+            self.form.form_method = 'get'
+        return self.form
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = User.objects.get(pk=self.get_user_id())
+        context['form'] = self.get_form()
+        context['advanced_search'] = self.filtered
+
+        for tracker in context['page_obj'].object_list:
+            tracker.data_obj = []
+            try:
+                data_dict = json.loads(tracker.data)
+                for key, value in data_dict.items():
+                    tracker.data_obj.append([key, value])
+            except ValueError:
+                pass
+            tracker.data_obj.append(['agent', tracker.agent])
+            tracker.data_obj.append(['ip', tracker.ip])
+
+        return context
