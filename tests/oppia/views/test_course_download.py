@@ -1,5 +1,7 @@
-import pytest
+import os
+import shutil
 
+from django.conf import settings
 from django.urls import reverse
 from oppia.models import Tracker
 from oppia.test import OppiaTestCase
@@ -15,6 +17,7 @@ class DownloadViewTest(OppiaTestCase):
                 'tests/test_permissions.json',
                 'tests/test_course_permissions.json']
     STR_EXPECTED_CONTENT_TYPE = 'application/zip'
+    TEST_COURSES = ['anc_test_course.zip']
 
     def setUp(self):
         super(DownloadViewTest, self).setUp()
@@ -22,8 +25,15 @@ class DownloadViewTest(OppiaTestCase):
                                                  args=[1])
         self.course_download_url_invalid = reverse('oppia:course_download',
                                                    args=[123])
+        self.copy_test_courses()
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
+    # Copy test courses to upload directory
+    def copy_test_courses(self):
+        for test_course in self.TEST_COURSES:
+            src = os.path.join(settings.TEST_RESOURCES, test_course)
+            dst = os.path.join(settings.COURSE_UPLOAD_DIR, test_course)
+            shutil.copyfile(src, dst)
+
     def test_live_course_admin(self):
         response = self.get_view(self.course_download_url_valid,
                                  self.admin_user)
@@ -31,7 +41,6 @@ class DownloadViewTest(OppiaTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_EXPECTED_CONTENT_TYPE)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_live_course_staff(self):
         response = self.get_view(self.course_download_url_valid,
                                  self.staff_user)
@@ -39,7 +48,6 @@ class DownloadViewTest(OppiaTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_EXPECTED_CONTENT_TYPE)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_live_course_teacher(self):
         response = self.get_view(self.course_download_url_valid,
                                  self.teacher_user)
@@ -47,7 +55,6 @@ class DownloadViewTest(OppiaTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_EXPECTED_CONTENT_TYPE)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_live_course_normal(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.get_view(self.course_download_url_valid,
@@ -58,7 +65,6 @@ class DownloadViewTest(OppiaTestCase):
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start+1, tracker_count_end)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_draft_course_admin(self):
         update_course_visibility(1, True, False)
         response = self.get_view(self.course_download_url_valid,
@@ -68,7 +74,6 @@ class DownloadViewTest(OppiaTestCase):
                          self.STR_EXPECTED_CONTENT_TYPE)
         update_course_visibility(1, False, False)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_draft_course_staff(self):
         update_course_visibility(1, True, False)
         response = self.get_view(self.course_download_url_valid,

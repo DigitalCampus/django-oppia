@@ -1,8 +1,12 @@
+import os
+import shutil
+
 import pytest
 
 from django.core import mail
 from django.core.management import call_command
 from django.forms import ValidationError
+from django.conf import settings
 
 from io import StringIO
 
@@ -32,7 +36,21 @@ class GenerateCertificatesTest(OppiaTestCase):
                 'tests/test_customfields.json',
                 'tests/awards/test_feedback_display_name.json']
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
+    TEST_IMG_NAMES = ['certificate_test2_aIeE1m6.png', 'certificate_test2_Aq5hcOr.png',
+                      'certificate_portrait_valid_f1uzKEr.png', 'certificate_landscape_valid_XI8nTfU.png']
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.copy_required_test_images(cls)
+
+    def copy_required_test_images(cls):
+        for test_img_name in cls.TEST_IMG_NAMES:
+            src = os.path.join(settings.TEST_RESOURCES, 'certificate', 'templates', test_img_name)
+            dst = os.path.join(settings.MEDIA_ROOT, 'certificate', 'templates', test_img_name)
+            os.makedirs(os.path.dirname(dst), exist_ok=True)
+            shutil.copyfile(src, dst)
+
     def test_create_certificate_new(self):
         SettingProperties.set_bool(constants.OPPIA_EMAIL_CERTIFICATES, True)
         current_award = Award.objects.get(pk=4)
@@ -45,7 +63,6 @@ class GenerateCertificatesTest(OppiaTestCase):
         self.assertFalse(current_award.certificate_pdf == "")
         self.assertEqual(len(mail.outbox), 2)
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_create_certificate_all(self):
 
         current_award = Award.objects.all().first()
@@ -58,7 +75,6 @@ class GenerateCertificatesTest(OppiaTestCase):
         self.assertFalse(current_award.certificate_pdf == "")
         self.assertEqual(len(mail.outbox), 0)
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_create_certificate_no_data(self):
         ct = CertificateTemplate.objects.get(pk=4)
         ct.include_name = False
@@ -67,27 +83,23 @@ class GenerateCertificatesTest(OppiaTestCase):
         ct.save()
         call_command('generate_certificates', '--allcerts', stdout=StringIO())
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_create_certificate_validate_url(self):
         ct = CertificateTemplate.objects.get(pk=4)
         ct.validation = "URL"
         ct.save()
         call_command('generate_certificates', '--allcerts', stdout=StringIO())
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_create_certificate_validate_qrcode(self):
         ct = CertificateTemplate.objects.get(pk=4)
         ct.validation = "QRCODE"
         ct.save()
         call_command('generate_certificates', '--allcerts', stdout=StringIO())
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_email_certificates(self):
         SettingProperties.set_bool(constants.OPPIA_EMAIL_CERTIFICATES, True)
         call_command('generate_certificates', '--allcerts', stdout=StringIO())
         self.assertEqual(len(mail.outbox), 0)
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_email_certificates_one_time(self):
         SettingProperties.set_bool(constants.OPPIA_EMAIL_CERTIFICATES, True)
         call_command('generate_certificates', '--allcerts', stdout=StringIO())
@@ -99,7 +111,6 @@ class GenerateCertificatesTest(OppiaTestCase):
     #######
     # Display name tests
     #######
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_display_name_form_validation_registration_field(self):
         certificate_template = CertificateTemplate.objects.get(pk=1)
         certificate_template.display_name_method = \
@@ -108,7 +119,6 @@ class GenerateCertificatesTest(OppiaTestCase):
         with self.assertRaises(ValidationError):
             certificate_template.save()
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_display_name_form_validation_feedback_field(self):
         certificate_template = CertificateTemplate.objects.get(pk=1)
         certificate_template.display_name_method = \
@@ -117,7 +127,6 @@ class GenerateCertificatesTest(OppiaTestCase):
         with self.assertRaises(ValidationError):
             certificate_template.save()
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_display_name_form_validation_invalid(self):
         certificate_template = CertificateTemplate.objects.get(pk=1)
         certificate_template.display_name_method = "RandomMethod"
@@ -125,7 +134,6 @@ class GenerateCertificatesTest(OppiaTestCase):
             certificate_template.save()
 
     # first/last name from profile
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_display_name_user_profile(self):
         certificate_template = CertificateTemplate.objects.get(pk=1)
         certificate_template.display_name_method = \
@@ -146,7 +154,6 @@ class GenerateCertificatesTest(OppiaTestCase):
         self.assertFalse(current_award.certificate_pdf == "")
 
     # registration form
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_display_name_reg_form_complete(self):
 
         cf = CustomField.objects.get(pk="country")
@@ -169,7 +176,6 @@ class GenerateCertificatesTest(OppiaTestCase):
         current_award = Award.objects.get(pk=4)
         self.assertFalse(current_award.certificate_pdf == "")
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_display_name_reg_form_incomplete(self):
 
         cf = CustomField.objects.get(pk="country")
@@ -193,7 +199,6 @@ class GenerateCertificatesTest(OppiaTestCase):
         current_award = Award.objects.get(pk=4)
         self.assertTrue(current_award.certificate_pdf == "")
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_display_name_reg_form_changed(self):
 
         cf = CustomField.objects.get(pk="country")
@@ -219,7 +224,6 @@ class GenerateCertificatesTest(OppiaTestCase):
         self.assertTrue(valid)
 
     # feedback field
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_display_name_feedback_once(self):
         certificate_template = CertificateTemplate.objects.get(pk=5)
         valid, display_name = certificate_template.display_name(
@@ -235,7 +239,6 @@ class GenerateCertificatesTest(OppiaTestCase):
         current_award = Award.objects.get(pk=10)
         self.assertFalse(current_award.certificate_pdf == "")
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_display_name_feedback_none(self):
         QuizAttempt.objects.all().delete()
         certificate_template = CertificateTemplate.objects.get(pk=5)
@@ -251,7 +254,6 @@ class GenerateCertificatesTest(OppiaTestCase):
         current_award = Award.objects.get(pk=10)
         self.assertTrue(current_award.certificate_pdf == "")
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_display_name_feedback_many(self):
         # add a new quiz attempt
         quiz = Quiz.objects.get(pk=41)
@@ -287,7 +289,6 @@ class GenerateCertificatesTest(OppiaTestCase):
     ######
 
     # valid user
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_resend_valid_user(self):
         SettingProperties.set_bool(constants.OPPIA_EMAIL_CERTIFICATES, True)
         current_award = Award.objects.get(pk=4)

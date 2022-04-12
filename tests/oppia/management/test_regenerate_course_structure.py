@@ -24,7 +24,6 @@ class RegenerateCourseStructureTest(OppiaTestCase):
         with self.assertRaises(CommandError):
             call_command('regenerate_course_structure', stdout=StringIO())
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_course_fix_run(self):
         act_count_start = Activity.objects.all().count()
         quiz_count_start = Quiz.objects.all().count()

@@ -1,3 +1,6 @@
+import os
+
+from django.conf import settings
 from django.urls import reverse
 
 from oppia.awards import courses_completed
@@ -16,7 +19,7 @@ class AwardsTestCase(OppiaTestCase):
                 'tests/awards/award-course.json',
                 'tests/test_course_permissions.json',
                 'tests/test_settings.json']
-    file_root = './oppia/fixtures/tests/awards/'
+    file_root = os.path.join(settings.FIXTURES_PATH, 'tests', 'awards')
     url = reverse('activitylog:upload')
 
     def set_badge_method(self, method, course=None):
@@ -26,7 +29,7 @@ class AwardsTestCase(OppiaTestCase):
         badge.save()
 
     def load_trackers(self, file, plus_trackers=0):
-        tracker_file = self.file_root + file
+        tracker_file = os.path.join(self.file_root, file)
         self.client.force_login(self.admin_user)
 
         tracker_count_start = Tracker.objects.all().count()

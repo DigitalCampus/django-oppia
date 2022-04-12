@@ -1,10 +1,13 @@
 # tests/api/test_course_publish.py
+import os
+
 import api
 import pytest
 
 from oppia.test import OppiaTransactionTestCase
 
 from oppia.models import Course, CoursePublishingLog
+from django.conf import settings
 from settings.models import SettingProperties
 
 
@@ -18,10 +21,8 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
     def setUp(self):
         super(CoursePublishResourceTest, self).setUp()
         self.url = '/api/publish/'
-        self.course_file_path = \
-            './oppia/fixtures/reference_files/ncd1_test_course.zip'
-        self.video_file_path = \
-            './oppia/fixtures/reference_files/sample_video.m4v'
+        self.course_file_path = os.path.join(settings.TEST_RESOURCES, 'ncd1_test_course.zip')
+        self.video_file_path = os.path.join(settings.TEST_RESOURCES, 'sample_video.m4v')
 
     # test only POST is available
     def test_no_get(self):
@@ -78,7 +79,6 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
         self.assertEqual(response.status_code, 400)
 
     # test is user has correct permissions or not to upload
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_upload_permission_admin(self):
         old_no_cpls = CoursePublishingLog.objects \
             .filter(action='api_course_published').count()
@@ -98,7 +98,6 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
             .filter(action='api_course_published').count()
         self.assertEqual(old_no_cpls+1, new_no_cpls)
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_upload_permission_staff(self):
         # set course owner to staff
         course = Course.objects.get(shortname='ncd1-et')
@@ -123,7 +122,6 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
             .filter(action='api_course_published').count()
         self.assertEqual(old_no_cpls+1, new_no_cpls)
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_upload_permission_teacher(self):
         # set course owner to teacher
         course = Course.objects.get(shortname='ncd1-et')
@@ -148,7 +146,6 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
                 .filter(action='api_course_published').count()
             self.assertEqual(old_no_cpls+1, new_no_cpls)
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_upload_permission_user(self):
 
         old_no_cpls = CoursePublishingLog.objects \
@@ -203,8 +200,6 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
             self.assertEqual(old_no_cpls+1, new_no_cpls)
 
     # test if user is trying to overwrite course they don't already own
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow \
-        see issue: https://github.com/DigitalCampus/django-oppia/issues/689")
     def test_overwriting_course_non_owner(self):
         # set course owner to admin
         course = Course.objects.get(shortname='anc1-all')
