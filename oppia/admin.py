@@ -38,7 +38,8 @@ class CourseAdmin(admin.ModelAdmin):
                     'user',
                     'filename',
                     'is_draft',
-                    'is_archived')
+                    'is_archived',
+                    'new_downloads_enabled')
     search_fields = ['title', 'shortname', 'version', 'filename']
 
     def title_lang(self, obj):

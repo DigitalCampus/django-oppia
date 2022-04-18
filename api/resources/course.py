@@ -51,7 +51,8 @@ class CourseResource(ModelResource):
                   'description',
                   'author',
                   'username',
-                  'organisation']
+                  'organisation',
+                  'new_downloads_enabled']
         authentication = ApiKeyAuthentication()
         authorization = ReadOnlyAuthorization()
         serializer = CourseJSONSerializer()

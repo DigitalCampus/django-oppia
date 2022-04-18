@@ -16,6 +16,7 @@ from api.resources.course import CourseResource
 
 class CategoryResource(ModelResource):
     count = fields.IntegerField(readonly=True)
+    count_new_downloads_enabled = fields.IntegerField(readonly=True)
 
     class Meta:
         queryset = Category.objects.all()
@@ -115,6 +116,10 @@ class CategoryResource(ModelResource):
             return bundle.request.build_absolute_uri(bundle.data['icon'])
         else:
             return None
+
+    def dehydrate_count_new_downloads_enabled(self, bundle):
+        return Course.objects.filter(category=bundle.obj,
+                                     new_downloads_enabled=True).count()
 
     def alter_list_data_to_serialize(self, request, data):
         if isinstance(data, dict) and 'objects' in data:
