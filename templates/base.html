@@ -52,7 +52,7 @@
     <div class="fixed-bottom alert alert-danger alert-dismissable debug-alert" style="z-index:200;">
        <a href="#" class="close ml-2" data-dismiss="alert" aria-label="close">&times;</a>
        <em class="material-icons mr-2 float-left">bug_report</em>
-       {% trans 'Cron tasks have not been run for over 7 days' %}
+       {{ CRON_WARNING_MESSAGE }}
     </div>
 {% endif %}
 
