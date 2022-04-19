@@ -64,71 +64,70 @@ class UserScorecard(DateRangeFilterMixin, DetailView):
         return context
 
 
-def user_course_activity_view(request, user_id, course_id):
+class UserCourseScorecard(DateRangeFilterMixin, DetailView):
+    template_name = 'profile/user-course-scorecard.html'
+    context_object_name = 'view_user'
+    pk_url_kwarg = 'user_id'
+    model = User
 
-    view_user = get_user(request, user_id)
-    course = can_view_course(request, course_id)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
-    act_quizzes = Activity.objects \
-        .filter(section__course=course, type=Activity.QUIZ) \
-        .order_by('section__order', 'order')
+        get_user(self.request, self.object.pk) #TODO: Change permissions check
+        course = can_view_course(self.request, self.kwargs['course_id'])
 
-    quizzes_attempted = 0
-    quizzes_passed = 0
-    course_pretest = None
+        act_quizzes = Activity.objects \
+            .filter(section__course=course, type=Activity.QUIZ) \
+            .order_by('section__order', 'order')
 
-    quizzes = []
-    for aq in act_quizzes:
-        quiz, course_pretest, quizzes_attempted, quizzes_passed = \
-            process_quiz_activity(view_user,
-                                  aq,
-                                  course_pretest,
-                                  quizzes_attempted,
-                                  quizzes_passed)
-        quizzes.append(quiz)
+        quizzes_attempted = 0
+        quizzes_passed = 0
+        course_pretest = None
 
-    activities_completed = course.get_activities_completed(course, view_user)
-    activities_total = course.get_no_activities()
-    activities_percent = (activities_completed * 100) / activities_total
+        quizzes = []
+        for aq in act_quizzes:
+            quiz, course_pretest, quizzes_attempted, quizzes_passed = \
+                process_quiz_activity(self.object, aq, course_pretest, quizzes_attempted, quizzes_passed)
+            quizzes.append(quiz)
 
-    start_date = timezone.now() - datetime.timedelta(days=31)
-    end_date = timezone.now()
+        activities_completed = course.get_activities_completed(course, self.object)
+        activities_total = course.get_no_activities()
+        activities_percent = (activities_completed * 100) / activities_total
 
-    activity = get_tracker_activities(start_date,
-                                      end_date,
-                                      view_user,
-                                      course=course)
+        start_date, end_date = self.get_daterange()
 
-    order_options = ['quiz_order',
-                     'no_attempts',
-                     'max_score',
-                     'min_score',
-                     'first_score',
-                     'latest_score',
-                     'avg_score']
-    default_order = 'quiz_order'
-    ordering = request.GET.get('order_by', default_order)
-    inverse_order = ordering.startswith('-')
-    if inverse_order:
-        ordering = ordering[1:]
-    if ordering not in order_options:
-        ordering = default_order
-        inverse_order = False
+        activity = get_tracker_activities(start_date, end_date, self.object, course=course)
 
-    quizzes.sort(key=operator.itemgetter(ordering), reverse=inverse_order)
+        order_options = ['quiz_order',
+                         'no_attempts',
+                         'max_score',
+                         'min_score',
+                         'first_score',
+                         'latest_score',
+                         'avg_score']
+        default_order = 'quiz_order'
+        ordering = self.request.GET.get('order_by', default_order)
+        inverse_order = ordering.startswith('-')
+        if inverse_order:
+            ordering = ordering[1:]
+        if ordering not in order_options:
+            ordering = default_order
+            inverse_order = False
 
-    return render(request, 'profile/user-course-scorecard.html',
-                  {'view_user': view_user,
-                   'course': course,
-                   'quizzes': quizzes,
-                   'quizzes_passed': quizzes_passed,
-                   'quizzes_attempted': quizzes_attempted,
-                   'pretest_score': course_pretest,
-                   'activities_completed': activities_completed,
-                   'activities_total': activities_total,
-                   'activities_percent': activities_percent,
-                   'page_ordering': ('-' if inverse_order else '') + ordering,
-                   'activity_graph_data': activity})
+        quizzes.sort(key=operator.itemgetter(ordering), reverse=inverse_order)
+
+        context['page_ordering'] = ('-' if inverse_order else '') + ordering
+        context['course'] = course
+        context['quizzes'] = quizzes
+        context['quizzes_passed'] = quizzes_passed
+        context['quizzes_attempted'] = quizzes_attempted
+        context['pretest_score'] = course_pretest
+        context['activities_completed'] = activities_completed
+        context['activities_total'] = activities_total
+        context['activities_percent'] = activities_percent
+        context['activity_graph_data'] = activity
+
+        return context
 
 
 def process_quiz_activity(view_user,

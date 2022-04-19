@@ -22,7 +22,7 @@ urlpatterns = [
 
     path('<int:user_id>/activity/', profile_views.UserScorecard.as_view(), name="user_activity"),
     path('<int:user_id>/activity/detail/', profile_views.UserActivityDetailList.as_view(), name="user_activity_detail"),
-    path('<int:user_id>/<int:course_id>/activity/', profile_views.user_course_activity_view, name="user_course_activity"),
+    path('<int:user_id>/<int:course_id>/activity/', profile_views.UserCourseScorecard.as_view(), name="user_course_activity"),
     path('<int:user_id>/quizattempts/', profile_views.UserAttemptsList.as_view(), name="user_all_attempts"),
     path('<int:user_id>/<int:course_id>/quiz/<int:quiz_id>/attempts/',  profile_views.QuizAttemptsList.as_view(), name="user_quiz_attempts"),
     path('<int:user_id>/<int:course_id>/quiz/<int:quiz_id>/attempts/<int:pk>', profile_views.QuizAttemptDetail.as_view(), name="quiz_attempt_detail"),
