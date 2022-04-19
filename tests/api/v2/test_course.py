@@ -118,48 +118,56 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
 
     def test_course_get_single_new_downloads_enabled_normal_visible(self):
         update_course_visibility(1, False, False)
+        update_course_new_downloads_enabled(1, True)
         resp = self.perform_request(1, self.user_auth)
         self.assertHttpOK(resp)
         self.assertValidJSON(resp.content)
 
     def test_course_get_single_new_downloads_enabled_staff_visible(self):
         update_course_visibility(1, False, False)
+        update_course_new_downloads_enabled(1, True)
         resp = self.perform_request(1, self.staff_auth)
         self.assertHttpOK(resp)
         self.assertValidJSON(resp.content)
 
     def test_course_get_single_new_downloads_enabled_teacher_visible(self):
         update_course_visibility(1, False, False)
+        update_course_new_downloads_enabled(1, True)
         resp = self.perform_request(1, self.teacher_auth)
         self.assertHttpOK(resp)
         self.assertValidJSON(resp.content)
 
     def test_course_get_single_new_downloads_enabled_admin_visible(self):
         update_course_visibility(1, False, False)
+        update_course_new_downloads_enabled(1, True)
         resp = self.perform_request(1, self.admin_auth)
         self.assertHttpOK(resp)
         self.assertValidJSON(resp.content)
 
     def test_course_get_single_new_downloads_disabled_normal_visible(self):
         update_course_visibility(1, False, False)
+        update_course_new_downloads_enabled(1, False)
         resp = self.perform_request(1, self.user_auth)
         self.assertHttpOK(resp)
         self.assertValidJSON(resp.content)
 
     def test_course_get_single_new_downloads_disabled_staff_visible(self):
         update_course_visibility(1, False, False)
+        update_course_new_downloads_enabled(1, False)
         resp = self.perform_request(1, self.staff_auth)
         self.assertHttpOK(resp)
         self.assertValidJSON(resp.content)
 
     def test_course_get_single_new_downloads_disabled_teacher_visible(self):
         update_course_visibility(1, False, False)
+        update_course_new_downloads_enabled(1, False)
         resp = self.perform_request(1, self.teacher_auth)
         self.assertHttpOK(resp)
         self.assertValidJSON(resp.content)
 
     def test_course_get_single_new_downloads_disabled_admin_visible(self):
         update_course_visibility(1, False, False)
+        update_course_new_downloads_enabled(1, False)
         resp = self.perform_request(1, self.admin_auth)
         self.assertHttpOK(resp)
         self.assertValidJSON(resp.content)
