@@ -185,6 +185,14 @@
     }
 },
 {
+    "model": "oppia.coursecategory",
+    "pk": 7,
+    "fields": {
+        "course": 3,
+        "category": 5
+    }
+},
+{
     "model": "oppia.section",
     "pk": 1,
     "fields": {

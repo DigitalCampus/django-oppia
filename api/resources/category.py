@@ -17,6 +17,7 @@ from api.resources.course import CourseResource
 class CategoryResource(ModelResource):
     count = fields.IntegerField(readonly=True)
     count_new_downloads_enabled = fields.IntegerField(readonly=True)
+    course_statuses = fields.DictField(readonly=True)
 
     class Meta:
         queryset = Category.objects.all()
@@ -120,6 +121,20 @@ class CategoryResource(ModelResource):
     def dehydrate_count_new_downloads_enabled(self, bundle):
         return Course.objects.filter(category=bundle.obj,
                                      new_downloads_enabled=True).count()
+
+    def dehydrate_course_statuses(self, bundle):
+        courses = Course.objects.filter(category=bundle.obj)
+        return {course.shortname: self.get_course_status(course) for course in courses}
+
+    def get_course_status(self, course):
+        if course.is_archived:
+            return "archived"
+        elif course.is_draft:
+            return "draft"
+        elif course.new_downloads_enabled:
+            return "new_downloads_enabled"
+        else:
+            return "live"
 
     def alter_list_data_to_serialize(self, request, data):
         if isinstance(data, dict) and 'objects' in data:
