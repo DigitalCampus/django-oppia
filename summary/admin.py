@@ -2,9 +2,7 @@ from django.contrib import admin
 
 from summary.models import UserCourseSummary, \
                            CourseDailyStats, \
-                           UserPointsSummary, \
-                           DailyActiveUsers, \
-                           DailyActiveUser
+                           UserPointsSummary
 
 STR_UPDATE_SUMMARY = "Update summary"
 
@@ -67,19 +65,6 @@ class UserPointsAdmin(admin.ModelAdmin):
     update_summary.short_description = STR_UPDATE_SUMMARY
 
 
-class DailyActiveUsersAdmin(admin.ModelAdmin):
-    list_display = ('day', 'total_submitted_date', 'total_tracker_date')
-    ordering = ['-day']
-    date_hierarchy = 'day'
-
-
-class DailyActiveUserAdmin(admin.ModelAdmin):
-    list_display = ('dau', 'user', 'type', 'time_spent', 'course')
-    ordering = ['-dau']
-
-
 admin.site.register(UserCourseSummary, UserCourseSummaryAdmin)
 admin.site.register(CourseDailyStats, CourseDailyStatsAdmin)
 admin.site.register(UserPointsSummary, UserPointsAdmin)
-admin.site.register(DailyActiveUsers, DailyActiveUsersAdmin)
-admin.site.register(DailyActiveUser, DailyActiveUserAdmin)
