@@ -131,8 +131,8 @@ class CategoryResource(ModelResource):
             return "archived"
         elif course.is_draft:
             return "draft"
-        elif course.new_downloads_enabled:
-            return "new_downloads_enabled"
+        elif not course.new_downloads_enabled:
+            return "new_downloads_disabled"
         else:
             return "live"
 
