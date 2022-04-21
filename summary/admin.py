@@ -4,6 +4,8 @@ from summary.models import UserCourseSummary, \
                            CourseDailyStats, \
                            UserPointsSummary
 
+from helpers.mixins.PermissionMixins import ReadOnlyAdminMixin
+
 STR_UPDATE_SUMMARY = "Update summary"
 
 
@@ -16,7 +18,7 @@ def message_user(model, request, model_name, query_count):
                            model_name + " summaries successfully updated.")
 
 
-class UserCourseSummaryAdmin(admin.ModelAdmin):
+class UserCourseSummaryAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
     list_display = ('user',
                     'course',
                     'points',
@@ -37,7 +39,7 @@ class UserCourseSummaryAdmin(admin.ModelAdmin):
     update_summary.short_description = STR_UPDATE_SUMMARY
 
 
-class CourseDailyStatsAdmin(admin.ModelAdmin):
+class CourseDailyStatsAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
     list_display = ('course', 'day', 'type', 'total')
     date_hierarchy = 'day'
     ordering = '-day',
@@ -52,7 +54,7 @@ class CourseDailyStatsAdmin(admin.ModelAdmin):
     update_summary.short_description = STR_UPDATE_SUMMARY
 
 
-class UserPointsAdmin(admin.ModelAdmin):
+class UserPointsSummaryAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
     list_display = ('user', 'points', 'badges')
     ordering = '-points',
     actions = ['update_summary']
@@ -67,4 +69,4 @@ class UserPointsAdmin(admin.ModelAdmin):
 
 admin.site.register(UserCourseSummary, UserCourseSummaryAdmin)
 admin.site.register(CourseDailyStats, CourseDailyStatsAdmin)
-admin.site.register(UserPointsSummary, UserPointsAdmin)
+admin.site.register(UserPointsSummary, UserPointsSummaryAdmin)
