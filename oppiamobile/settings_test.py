@@ -1,7 +1,7 @@
 import datetime
 import tempfile
 
-from oppiamobile.settings import *
+from oppiamobile.settings_base import *
 
 # Database - mainly this is for the automated testing
 # a proper RDBMS should be configured in your settings_secret.py
