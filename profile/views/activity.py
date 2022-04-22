@@ -4,6 +4,7 @@ import operator
 from itertools import chain
 
 from django.contrib.auth.models import User
+from django.core.exceptions import PermissionDenied
 from django.db.models import Max, Min, Avg
 from django.shortcuts import render
 from django.utils import timezone
@@ -13,7 +14,7 @@ from helpers.mixins.DateRangeFilterMixin import DateRangeFilterMixin
 from helpers.mixins.SafePaginatorMixin import SafePaginatorMixin
 from oppia.forms.activity_search import ActivitySearchForm
 from oppia.models import Activity, Tracker
-from oppia.permissions import get_user, get_user_courses, can_view_course
+from oppia.permissions import get_user, get_user_courses, can_view_course, can_view_course_activity
 from profile.views.utils import get_tracker_activities
 from quiz.models import Quiz, QuizAttempt
 from summary.models import UserCourseSummary
@@ -32,6 +33,7 @@ class UserScorecard(DateRangeFilterMixin, DetailView):
 
         courses = []
         for course in all_courses:
+            course.can_view_course_activity = can_view_course_activity(self.request, course.id)
             courses.append(UserCourseSummary.objects.get_stats_summary(self.object, course))
 
         order_options = ['course_display',

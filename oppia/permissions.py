@@ -210,6 +210,25 @@ def can_view_course_detail(request, course_id):
             raise PermissionDenied
 
 
+def can_view_course_activity(request, course_id):
+    try:
+        if request.user.is_staff:
+            return Course.objects.filter(pk=course_id).exists()
+        else:
+            try:
+                return Course.objects.filter(CourseFilter.IS_NOT_ARCHIVED & CourseFilter.IS_NOT_DRAFT).filter(pk=course_id).exists()
+            except Course.DoesNotExist:
+                return Course.objects \
+                    .filter(CourseFilter.IS_NOT_ARCHIVED & CourseFilter.IS_NOT_DRAFT) \
+                    .filter(
+                    pk=course_id,
+                    coursepermissions__course__id=course_id,
+                    coursepermissions__user__id=request.user.id,
+                    coursepermissions__role=CoursePermissions.VIEWER).exists()
+    except Course.DoesNotExist:
+        return False
+
+
 def can_edit_course(request, course_id):
     if request.user.is_staff:
         return True
