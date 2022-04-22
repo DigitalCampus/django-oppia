@@ -1,6 +1,8 @@
 import json
+import os
 
 from django.contrib.auth.models import User
+from django.conf import settings
 from oppia.test import OppiaTestCase
 
 from oppia.uploader import create_or_update_quiz_props, create_quiz_questions
@@ -15,7 +17,7 @@ class UploadHelpersTest(OppiaTestCase):
                 'tests/test_permissions.json',
                 'default_badges.json',
                 'tests/test_course_permissions.json']
-    quiz_json_file = './oppia/fixtures/reference_files/sample_quiz.json'
+    quiz_json_file = os.path.join(settings.TEST_RESOURCES, 'sample_quiz.json')
 
     def test_create_quiz_props(self):
         # get existing quiz and remove existing props

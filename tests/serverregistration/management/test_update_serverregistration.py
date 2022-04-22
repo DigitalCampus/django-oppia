@@ -1,9 +1,11 @@
 import datetime
+import os
 import re
 import httpretty
 
 from io import StringIO
 
+from django.conf import settings
 from django.core.management import call_command
 from django.utils import timezone
 
@@ -23,10 +25,9 @@ class ServerRegistrationUpdateTest(OppiaTestCase):
                 'tests/test_viz.json']
 
     imp_site_url = "https://implementations.oppia-mobile.org"
-    update_valid_response = \
-        './oppia/fixtures/tests/implementations/201_created.json'
-    get_api_key_valid_response = \
-        './oppia/fixtures/tests/implementations/api_key_created.json'
+    implementations_path = os.path.join(settings.FIXTURES_PATH, 'tests', 'implementations')
+    update_valid_response = os.path.join(implementations_path, '201_created.json')
+    get_api_key_valid_response = os.path.join(implementations_path, 'api_key_created.json')
     update_uri_regex = re.compile(
         imp_site_url + "/api/oppia/?(?:&?[^=&]*=[^=&]*)*")
     get_api_key_uri_regex = re.compile(

@@ -1,8 +1,11 @@
 import json
+import os
+
 import pytest
 import unittest
 
 from django import forms
+from django.conf import settings
 from oppia.test import OppiaTestCase
 
 
@@ -20,10 +23,8 @@ class MediaAPIResourceTest(OppiaTestCase):
         self.url = '/api/media/'
         self.get_valid_digest = '/api/media/3f2d7d54e969e303901ba5a177bd2334'
         self.get_invalid_digest = '/api/media/123456789'
-        self.course_file_path = \
-            './oppia/fixtures/reference_files/ncd1_test_course.zip'
-        self.video_file_path = \
-            './oppia/fixtures/reference_files/sample_video.m4v'
+        self.course_file_path = os.path.join(settings.TEST_RESOURCES, 'ncd1_test_course.zip')
+        self.video_file_path = os.path.join(settings.TEST_RESOURCES, 'sample_video.m4v')
 
     # test only POST is available
     def test_no_get(self):
@@ -90,7 +91,6 @@ class MediaAPIResourceTest(OppiaTestCase):
     @pytest.mark.xfail(reason="the test framework seems to only recognise the \
         file as application/octet-stream, so upload ways fails as incorrect \
         mime-type is found")
-    @unittest.expectedFailure
     def test_upload_user(self):
 
         # normal user
@@ -103,7 +103,6 @@ class MediaAPIResourceTest(OppiaTestCase):
     @pytest.mark.xfail(reason="the test framework seems to only recognise the \
         file as application/octet-stream, so upload ways fails as incorrect \
         mime-type is found")
-    @unittest.expectedFailure
     def test_upload_teacher(self):
         # teacher
         with open(self.video_file_path, 'rb') as video_file:
@@ -115,7 +114,6 @@ class MediaAPIResourceTest(OppiaTestCase):
     @pytest.mark.xfail(reason="the test framework seems to only recognise the \
         file as application/octet-stream, so upload ways fails as incorrect \
         mime-type is found")
-    @unittest.expectedFailure
     def test_upload_staff(self):
         # staff
         with open(self.video_file_path, 'rb') as video_file:
@@ -127,7 +125,6 @@ class MediaAPIResourceTest(OppiaTestCase):
     @pytest.mark.xfail(reason="the test framework seems to only recognise the \
         file as application/octet-stream, so upload ways fails as incorrect \
         mime-type is found")
-    @unittest.expectedFailure
     def test_upload_admin(self):
         # admin
         with open(self.video_file_path, 'rb') as video_file:

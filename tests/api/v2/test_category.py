@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from tastypie.test import ResourceTestCaseMixin
 
-from tests.utils import get_api_key, get_api_url
+from tests.utils import get_api_key, get_api_url, update_course_new_downloads_enabled
 
 
 class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
@@ -88,3 +88,56 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
                                    format='json',
                                    data=self.auth_data)
         self.assertHttpNotFound(resp)
+
+    def test_count_new_downloads_enabled(self):
+        # Expected count of courses having new downloads enabled by category (based on test_oppia.json)
+        expected = {'HEAT': 2, 'ANC': 1, 'Antenatal Care': 1, 'NCD': 1, 'reference': 1}
+
+        # Enable new downloads from 3 of the 4 courses
+        update_course_new_downloads_enabled(1, True)
+        update_course_new_downloads_enabled(2, True)
+        update_course_new_downloads_enabled(3, True)
+        update_course_new_downloads_enabled(4, False)
+
+        resp = self.api_client.get(
+            self.url, format='json', data=self.auth_data)
+        self.assertHttpOK(resp)
+        self.assertValidJSON(resp.content)
+        response_data = self.deserialize(resp)
+        self.assertTrue('tags' in response_data)
+        for tag in response_data['tags']:
+            self.assertTrue('count_new_downloads_enabled' in tag)
+            self.assertEqual(tag['count_new_downloads_enabled'], expected.get(tag['name']))
+
+    def test_course_statuses(self):
+        # Expected courses having new downloads disabled by category (based on test_oppia.json)
+        expected = {
+                    'HEAT':
+                        {'anc1-all': 'live',
+                         'ncd1-et': 'new_downloads_disabled'},
+                    'ANC':
+                        {'anc1-all': 'live'},
+                    'Antenatal Care':
+                        {'anc1-all': 'live'},
+                    'NCD':
+                        {'ncd1-et': 'new_downloads_disabled'},
+                    'reference':
+                        {'ref-1': 'new_downloads_disabled',
+                         'draft-test': 'draft'}
+                    }
+
+        # Disable new downloads from 2 of the 4 courses (ncd1-et and ref-1)
+        update_course_new_downloads_enabled(1, True)
+        update_course_new_downloads_enabled(2, False)
+        update_course_new_downloads_enabled(3, True)
+        update_course_new_downloads_enabled(4, False)
+
+        resp = self.api_client.get(
+            self.url, format='json', data=self.auth_data)
+        self.assertHttpOK(resp)
+        self.assertValidJSON(resp.content)
+        response_data = self.deserialize(resp)
+        self.assertTrue('tags' in response_data)
+        for tag in response_data['tags']:
+            self.assertTrue('course_statuses' in tag)
+            self.assertEqual(tag['course_statuses'], expected.get(tag['name']))

@@ -14,15 +14,11 @@ class OppiaCronTest(OppiaTestCase):
                 'default_badges.json',
                 'tests/test_course_permissions.json']
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow \
-        see issue: https://oppia.atlassian.net/browse/OPPIA-19")
     def test_oppiacron_output(self):
         out = StringIO()
         call_command('oppiacron', stdout=out)
         self.assertEqual(u'Cleaning up:', out.getvalue()[0:12])
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow \
-        see issue: https://oppia.atlassian.net/browse/OPPIA-19")
     def test_oppiacron_hours_output(self):
         out = StringIO()
         call_command('oppiacron', '--hours=48', stdout=out)

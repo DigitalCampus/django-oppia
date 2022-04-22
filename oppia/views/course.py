@@ -40,6 +40,9 @@ class CourseListView(ListView, AjaxTemplateResponseMixin):
             courses = courses.filter(is_archived=True)
         elif course_filter == 'live':
             courses = courses.filter(is_archived=False, is_draft=False)
+        elif course_filter == 'new_downloads_enabled':
+            courses = courses.filter(new_downloads_enabled=True)
+
 
         category = self.get_current_category()
         if category is not None:
@@ -155,7 +158,8 @@ class CourseFormView(CanEditCoursePermission, FormView):
 
     def get_initial(self):
         return {'categories': self.course.get_categories(),
-                'is_draft': self.course.is_draft, }
+                'is_draft': self.course.is_draft,
+                'new_downloads_enabled': self.course.new_downloads_enabled}
 
     def form_valid(self, form):
         self.update_course_tags(form, self.course, self.request.user)
@@ -170,6 +174,8 @@ class CourseFormView(CanEditCoursePermission, FormView):
         categories = form.cleaned_data.get("categories", "").strip().split(",")
         is_draft = form.cleaned_data.get("is_draft")
         course.is_draft = is_draft
+        new_downloads_enabled = form.cleaned_data.get("new_downloads_enabled")
+        course.new_downloads_enabled = new_downloads_enabled
         course.save()
         # remove any existing tags
         CourseCategory.objects.filter(course=course).delete()

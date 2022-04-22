@@ -1,5 +1,7 @@
+import os
 from io import StringIO
 
+from django.conf import settings
 from django.core.management import call_command
 
 from oppia.test import OppiaTestCase
@@ -22,7 +24,7 @@ class BackfillMoodleIdsTest(OppiaTestCase):
 
         out = StringIO()
         call_command('backfill_moodle_ids',
-                     './oppia/fixtures/tests/quiz/module.xml',
+                     os.path.join(settings.FIXTURES_PATH, 'tests', 'quiz', 'module.xml'),
                      stdout=out)
 
         quiz_props_count_end = QuizProps.objects.all().count()

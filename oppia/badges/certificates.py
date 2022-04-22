@@ -1,4 +1,5 @@
 import io
+
 import qrcode
 
 from django.shortcuts import reverse
@@ -22,8 +23,8 @@ def generate_certificate_pdf(display_name,
     cert_template = CertificateTemplate.objects.get(pk=certificate_template_id)
     buffer = io.BytesIO()
 
-    img = Image.open(cert_template.image_file.path)
-    w, h = img.size
+    with Image.open(cert_template.image_file.path) as img:
+        w, h = img.size
 
     # Create the PDF object
     if w > h:

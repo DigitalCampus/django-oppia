@@ -1,7 +1,10 @@
+import os
+
 from oppia.test import OppiaTestCase
 
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.conf import settings
 
 from oppia.models import Tracker
 from profile.models import UserProfile, UserProfileCustomField, CustomField
@@ -21,17 +24,17 @@ class UploadActivityLogTest(OppiaTestCase):
 
     url = reverse('activitylog:upload')
 
-    path = './oppia/fixtures/activity_logs/'
-    basic_activity_log = path + 'basic_activity.json'
-    activity_log_file_path = path + 'activity_upload_test.json'
-    wrong_activity_file = path + 'wrong_format.json'
-    new_user_activity = path + 'new_user_activity.json'
-    quiz_attempt_log = path + 'quiz_attempts.json'
-    file_with_emojis = path + 'file_with_emojis.json'
-    activity_with_emojis = path + 'activity_emojis.json'
-    activity_with_userinfo = path + 'activity_with_userinfo.json'
-    activity_with_empty_userinfo = path + 'activity_with_empty_userinfo.json'
-    activity_with_nulled_userinfo = path + 'activity_with_nulled_userinfo.json'
+    activity_logs_folder = os.path.join(settings.TEST_RESOURCES, 'activity_logs')
+    basic_activity_log = os.path.join(activity_logs_folder, 'basic_activity.json')
+    activity_log_file_path = os.path.join(activity_logs_folder, 'activity_upload_test.json')
+    wrong_activity_file = os.path.join(activity_logs_folder, 'wrong_format.json')
+    new_user_activity = os.path.join(activity_logs_folder, 'new_user_activity.json')
+    quiz_attempt_log = os.path.join(activity_logs_folder, 'quiz_attempts.json')
+    file_with_emojis = os.path.join(activity_logs_folder, 'file_with_emojis.json')
+    activity_with_emojis = os.path.join(activity_logs_folder, 'activity_emojis.json')
+    activity_with_userinfo = os.path.join(activity_logs_folder, 'activity_with_userinfo.json')
+    activity_with_empty_userinfo = os.path.join(activity_logs_folder, 'activity_with_empty_userinfo.json')
+    activity_with_nulled_userinfo = os.path.join(activity_logs_folder, 'activity_with_nulled_userinfo.json')
 
     def assert_redirects_success(self, response):
         self.assertRedirects(response,

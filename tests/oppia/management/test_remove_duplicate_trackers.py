@@ -37,7 +37,6 @@ class RemoveDuplicateTrackersTest(OppiaTestCase):
         call_command('remove_duplicate_trackers', stdout=out)
         return out.getvalue().rstrip()
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     @unittest.skipIf(settings.DATABASES['default']['ENGINE']
                      == 'django.db.backends.sqlite3',
                      "This is an sqlite-specific issue")

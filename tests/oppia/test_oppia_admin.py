@@ -1,4 +1,8 @@
+import os
+import shutil
+
 import pytest
+from django.conf import settings
 from django.urls import reverse
 from oppia.test import OppiaTestCase
 
@@ -23,8 +27,13 @@ class OppiaAdminTest(OppiaTestCase):
         response = self.client.get(reverse('admin:oppia_activity_changelist'))
         self.assertEqual(200, response.status_code)
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_certificate_preview(self):
+        test_img_name = 'certificate_test2_aIeE1m6.png'
+        src = os.path.join(settings.TEST_RESOURCES, 'certificate', 'templates', test_img_name)
+        dst = os.path.join(settings.MEDIA_ROOT, 'certificate', 'templates', test_img_name)
+        os.makedirs(os.path.dirname(dst), exist_ok=True)
+        shutil.copyfile(src, dst)
+
         self.client.force_login(user=self.admin_user)
         response = self.client.get(reverse('oppia:certificate_preview',
                                            args={1}))

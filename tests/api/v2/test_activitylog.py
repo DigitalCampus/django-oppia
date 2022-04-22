@@ -1,7 +1,9 @@
 import json
+import os
 
 from django.contrib.auth.models import User
 from django.test import TestCase
+from django.conf import settings
 
 from activitylog.models import UploadedActivityLog
 from oppia.models import Tracker
@@ -20,13 +22,13 @@ class UploadAPIActivityLogTest(ResourceTestCaseMixin, TestCase):
                 'default_gamification_events.json']
 
     url = '/api/activitylog/'
-    basic_activity_log = './oppia/fixtures/activity_logs/basic_activity.json'
-    activity_log_file_path = \
-        './oppia/fixtures/activity_logs/activity_upload_test.json'
-    wrong_activity_file = './oppia/fixtures/activity_logs/wrong_format.json'
-    new_user_activity = './oppia/fixtures/activity_logs/new_user_activity.json'
-    quiz_attempt_log = './oppia/fixtures/activity_logs/quiz_attempts.json'
-    multiple_users = './oppia/fixtures/activity_logs/multiple_users.json'
+    activity_logs_folder = os.path.join(settings.TEST_RESOURCES, 'activity_logs')
+    basic_activity_log = os.path.join(activity_logs_folder, 'basic_activity.json')
+    activity_log_file_path = os.path.join(activity_logs_folder, 'activity_upload_test.json')
+    wrong_activity_file = os.path.join(activity_logs_folder, 'wrong_format.json')
+    new_user_activity = os.path.join(activity_logs_folder, 'new_user_activity.json')
+    quiz_attempt_log = os.path.join(activity_logs_folder, 'quiz_attempts.json')
+    multiple_users = os.path.join(activity_logs_folder, 'multiple_users.json')
 
     def setUp(self):
         super(UploadAPIActivityLogTest, self).setUp()
