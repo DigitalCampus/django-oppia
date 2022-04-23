@@ -6,7 +6,7 @@ import os
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Max
+from django.db.models import Max, Func, F
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from tastypie.models import create_api_key
@@ -199,17 +199,16 @@ class Course(models.Model):
 
     @staticmethod
     def get_no_quizzes_completed(course, user):
-        acts = Activity.objects.filter(section__course=course,
-                                       baseline=False,
-                                       type=Activity.QUIZ) \
-                    .values_list('digest')
-        return Tracker.objects.filter(course=course,
-                                      user=user,
-                                      completed=True,
-                                      digest__in=acts) \
-            .values_list('digest') \
-            .distinct() \
-            .count()
+        acts = Activity.objects.filter(section__course=course, baseline=False, type=Activity.QUIZ).values_list('digest')
+        quizzes = Quiz.objects.filter(quizprops__value__in=acts, quizprops__name="digest")
+        print(acts)
+        quizzes_passed = QuizAttempt.objects\
+                    .filter(quiz__in=quizzes, user=user)\
+                    .annotate(percent=F('score')/F('maxscore'))\
+                    .filter(percent__gte=0.75) \
+                    .values_list('quiz__id').distinct()
+
+        return quizzes_passed.count()
 
     @staticmethod
     def get_activities_completed(course, user):
