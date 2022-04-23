@@ -108,6 +108,7 @@ def zip_course_media(zipname, media_contents):
         return False
 
     path = os.path.join(settings.COURSE_UPLOAD_DIR, "temp", zipname)
+    os.makedirs(os.path.dirname(path), exist_ok=True)
     with zipfile.ZipFile(path, "w") as zip:
         for uploaded in uploaded_files:
             zip.write(uploaded.file.path, uploaded.media.filename)

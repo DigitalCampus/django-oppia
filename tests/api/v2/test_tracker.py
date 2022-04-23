@@ -483,8 +483,6 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertTrue('badges' in response_data)
 
     # empty bundle.data...
-    @pytest.mark.xfail(reason="will fail until this issue is fixed \
-        https://github.com/DigitalCampus/django-oppia/issues/703")
     @unittest.expectedFailure
     def test_tracker_empty_data(self):
         data = {
@@ -502,8 +500,6 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertEqual(tracker_count_start, tracker_count_end)
 
     # @TODO data is none
-    @pytest.mark.xfail(reason="will fail until this issue is fixed \
-        https://github.com/DigitalCampus/django-oppia/issues/703")
     @unittest.expectedFailure
     def test_tracker_none_data(self):
         data = {
@@ -521,8 +517,6 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertEqual(tracker_count_start, tracker_count_end)
 
     # data not included
-    @pytest.mark.xfail(reason="will fail until this issue is fixed \
-        https://github.com/DigitalCampus/django-oppia/issues/703")
     @unittest.expectedFailure
     def test_tracker_no_data(self):
         data = {

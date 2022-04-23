@@ -1,6 +1,9 @@
+import os
+
 import httpretty
 import re
 
+from django.conf import settings
 from django.core.management import call_command
 from io import StringIO
 
@@ -20,15 +23,12 @@ class Ip2LocationTest(OppiaTransactionTestCase):
                 'default_badges.json',
                 'tests/test_course_permissions.json']
 
-    ipstack_valid_response = './oppia/fixtures/tests/ipstack/200_valid.json'
-    ipstack_valid_response_no_city = \
-        './oppia/fixtures/tests/ipstack/200_valid_no_city.json'
-    ipstack_valid_response_no_region = \
-        './oppia/fixtures/tests/ipstack/200_valid_no_region.json'
-    ipstack_valid_response_no_city_region = \
-        './oppia/fixtures/tests/ipstack/200_valid_no_city_region.json'
-    ipstack_valid_response_lat_lng_0 = \
-        './oppia/fixtures/tests/ipstack/200_valid_lat_lng_0.json'
+    ipstack_path = os.path.join(settings.FIXTURES_PATH, 'tests', 'ipstack')
+    ipstack_valid_response = os.path.join(ipstack_path, '200_valid.json' )
+    ipstack_valid_response_no_city = os.path.join(ipstack_path, '200_valid_no_city.json')
+    ipstack_valid_response_no_region = os.path.join(ipstack_path, '200_valid_no_region.json')
+    ipstack_valid_response_no_city_region = os.path.join(ipstack_path, '200_valid_no_city_region.json')
+    ipstack_valid_response_lat_lng_0 = os.path.join(ipstack_path, '200_valid_lat_lng_0.json')
     ipstack_uri_regex = \
         re.compile("https?://api.ipstack.com/??(?:&?[^=&]*=[^=&]*)*")
 

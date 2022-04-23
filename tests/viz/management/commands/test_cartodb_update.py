@@ -1,8 +1,10 @@
+import os
 from io import StringIO
 
 import re
 
 import httpretty
+from django.conf import settings
 from django.core.management import call_command
 from oppia.test import OppiaTestCase
 from settings import constants
@@ -19,7 +21,7 @@ class CartoDBUpdateTest(OppiaTestCase):
                 'tests/test_course_permissions.json',
                 'tests/test_viz.json']
 
-    cartodb_valid_response = './oppia/fixtures/tests/cartodb/200_valid.json'
+    cartodb_valid_response = os.path.join(settings.FIXTURES_PATH, 'tests', 'cartodb', '200_valid.json')
     cartodb_uri_regex = re.compile(
         "https://[A-Za-z0-9-]+.cartodb.com/api/v2/sql??(?:&?[^=&]*=[^=&]*)*")
 

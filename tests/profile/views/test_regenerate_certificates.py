@@ -1,7 +1,11 @@
+import os
+import shutil
+
 import pytest
 
 from django.core import mail
 from django.urls import reverse
+from django.conf import settings
 
 from oppia.test import OppiaTestCase
 
@@ -28,6 +32,17 @@ class RegenerateCertficatesTest(OppiaTestCase):
     STR_URL = 'profile:user_regenerate_certificates'
     STR_URL_REDIRECT = 'profile:user_regenerate_certificates_success'
     STR_TEMPLATE = 'profile/certificates/regenerate.html'
+    TEST_IMG_NAMES = ['certificate_test2_aIeE1m6.png', 'certificate_test2_Aq5hcOr.png',
+                      'certificate_portrait_valid_f1uzKEr.png', 'certificate_landscape_valid_XI8nTfU.png']
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        for test_img_name in cls.TEST_IMG_NAMES:
+            src = os.path.join(settings.TEST_RESOURCES, 'certificate', 'templates', test_img_name)
+            dst = os.path.join(settings.MEDIA_ROOT, 'certificate', 'templates', test_img_name)
+            os.makedirs(os.path.dirname(dst), exist_ok=True)
+            shutil.copyfile(src, dst)
 
     ####
     # check access via GET various users
@@ -87,7 +102,6 @@ class RegenerateCertficatesTest(OppiaTestCase):
                              302,
                              200)
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_post_staff_own(self):
         url = reverse(self.STR_URL, args=[self.staff_user.id])
         self.client.force_login(self.staff_user)
@@ -108,7 +122,6 @@ class RegenerateCertficatesTest(OppiaTestCase):
                              302,
                              200)
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_post_user_own(self):
         url = reverse(self.STR_URL, args=[self.normal_user.id])
         self.client.force_login(self.normal_user)
@@ -119,7 +132,6 @@ class RegenerateCertficatesTest(OppiaTestCase):
                              302,
                              200)
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_post_admin_other(self):
         url = reverse(self.STR_URL, args=[self.normal_user.id])
         self.client.force_login(self.admin_user)
@@ -130,7 +142,6 @@ class RegenerateCertficatesTest(OppiaTestCase):
                              302,
                              200)
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_post_staff_other(self):
         url = reverse(self.STR_URL, args=[self.normal_user.id])
         self.client.force_login(self.staff_user)
@@ -153,7 +164,6 @@ class RegenerateCertficatesTest(OppiaTestCase):
         response = self.client.post(url, {})
         self.assertEqual(response.status_code, 403)
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_emailing_on(self):
         SettingProperties.set_bool(constants.OPPIA_EMAIL_CERTIFICATES, True)
         url = reverse(self.STR_URL, args=[self.normal_user.id])
@@ -166,7 +176,6 @@ class RegenerateCertficatesTest(OppiaTestCase):
                              200)
         self.assertEqual(4, len(mail.outbox))
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_emailing_off(self):
         SettingProperties.set_bool(constants.OPPIA_EMAIL_CERTIFICATES, False)
         url = reverse(self.STR_URL, args=[self.normal_user.id])
@@ -186,7 +195,6 @@ class RegenerateCertficatesTest(OppiaTestCase):
         self.client.get(url)
 
     # Check when email changed
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_change_email(self):
         SettingProperties.set_bool(constants.OPPIA_EMAIL_CERTIFICATES, True)
         current_email = self.normal_user.email
@@ -215,7 +223,6 @@ class RegenerateCertficatesTest(OppiaTestCase):
         self.assertEqual(response.status_code, 200)
 
     # test post own
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_regenerate_own_post(self):
         SettingProperties.set_bool(constants.OPPIA_EMAIL_CERTIFICATES, True)
         url = reverse(self.STR_URL)
