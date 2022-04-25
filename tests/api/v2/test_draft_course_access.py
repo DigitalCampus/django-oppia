@@ -1,5 +1,9 @@
+import os
+import shutil
+
 import pytest
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.test import TransactionTestCase
 from tastypie.test import ResourceTestCaseMixin
@@ -17,6 +21,7 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
 
     STR_DOWNLOAD = 'download/'
     STR_ZIP_EXPECTED_CONTENT_TYPE = 'application/zip'
+    TEST_COURSES = ['anc_test_course.zip', 'draft-20150611100319.zip']
 
     def setUp(self):
         super(DraftCourseAccessTest, self).setUp()
@@ -65,6 +70,15 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         self.tag_url = get_api_url('v2', 'tag')
         self.draft_tag_url = get_api_url('v2', 'tag', 8)
         self.live_tag_url = get_api_url('v2', 'tag', 1)
+
+        self.copy_test_courses()
+
+    # Copy test courses to upload directory
+    def copy_test_courses(self):
+        for test_course in self.TEST_COURSES:
+            src = os.path.join(settings.TEST_RESOURCES, test_course)
+            dst = os.path.join(settings.COURSE_UPLOAD_DIR, test_course)
+            shutil.copyfile(src, dst)
 
     # check the tag listings
     def test_admin_tags(self):
@@ -232,7 +246,6 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(3, len(response_data['courses']))
 
     # check course download pk - draft
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_draft_course_pk_download_admin(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.api_client.get(
@@ -243,7 +256,6 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start+1, tracker_count_end)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_draft_course_pk_download_staff(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.api_client.get(
@@ -254,7 +266,6 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start+1, tracker_count_end)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_draft_course_pk_download_teacher(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.api_client.get(
@@ -263,7 +274,6 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_draft_course_pk_download_user(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.api_client.get(
@@ -272,7 +282,6 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_draft_course_pk_download_manager(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.api_client.get(
@@ -283,7 +292,6 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start+1, tracker_count_end)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_draft_course_pk_download_viewer(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.api_client.get(
@@ -295,7 +303,6 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(tracker_count_start+1, tracker_count_end)
 
     # check course download pk - live
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_live_course_pk_download_admin(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.api_client.get(
@@ -306,7 +313,6 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start+1, tracker_count_end)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_live_course_pk_download_staff(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.api_client.get(
@@ -317,7 +323,6 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start+1, tracker_count_end)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_live_course_pk_download_teacher(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.api_client.get(
@@ -328,7 +333,6 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start+1, tracker_count_end)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_live_course_pk_download_user(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.api_client.get(
@@ -339,7 +343,6 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start+1, tracker_count_end)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_live_course_pk_download_manager(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.api_client.get(
@@ -350,7 +353,6 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start+1, tracker_count_end)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_live_course_pk_download_viewer(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.api_client.get(
@@ -362,7 +364,6 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(tracker_count_start+1, tracker_count_end)
 
     # check course download shortname live
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_live_course_shortname_download_admin(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.api_client.get(
@@ -375,7 +376,6 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start+1, tracker_count_end)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_live_course_shortname_download_staff(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.api_client.get(
@@ -388,7 +388,6 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start+1, tracker_count_end)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_live_course_shortname_download_teacher(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.api_client.get(
@@ -401,7 +400,6 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start+1, tracker_count_end)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_live_course_shortname_download_user(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.api_client.get(
@@ -412,7 +410,6 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start+1, tracker_count_end)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_live_course_shortname_download_manager(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.api_client.get(
@@ -425,7 +422,6 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start+1, tracker_count_end)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_live_course_shortname_download_viewer(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.api_client.get(
@@ -439,7 +435,6 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(tracker_count_start+1, tracker_count_end)
 
     # check course download shortname draft
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_draft_course_shortname_download_admin(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.api_client.get(
@@ -452,7 +447,6 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start+1, tracker_count_end)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_draft_course_shortname_download_staff(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.api_client.get(
@@ -465,7 +459,6 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start+1, tracker_count_end)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_draft_course_shortname_download_teacher(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.api_client.get(
@@ -476,7 +469,6 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_draft_course_shortname_download_user(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.api_client.get(
@@ -487,7 +479,6 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_draft_course_shortname_download_manager(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.api_client.get(
@@ -500,7 +491,6 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start+1, tracker_count_end)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_draft_course_shortname_download_viewer(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.api_client.get(

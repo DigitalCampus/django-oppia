@@ -18,6 +18,12 @@ class DownloadMediaTest(OppiaTestCase):
                 'tests/test_av_uploadedmedia.json']
 
     STR_EXPECTED_CONTENT_TYPE = 'application/zip'
+    UPLOADED_ROOT = os.path.join(settings.MEDIA_ROOT, 'uploaded', '2020', '11')
+    MEDIA_FILENAME = 'sample_video.m4v'
+
+    def setUp(self):
+        super(DownloadMediaTest, self).setUp()
+        os.makedirs(self.UPLOADED_ROOT, exist_ok=True)
 
     def test_permissions(self):
         url = reverse('av:course_media', args=[1])
@@ -32,19 +38,10 @@ class DownloadMediaTest(OppiaTestCase):
             self.assertTemplateUsed(response, 'course/media/list.html')
             self.assertEqual(200, response.status_code)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_course_with_media(self):
         # copy sample video to correct location
-        src = os.path.join(settings.BASE_DIR,
-                           'oppia',
-                           'fixtures',
-                           'reference_files',
-                           'sample_video.m4v')
-        dst = os.path.join(settings.MEDIA_ROOT,
-                           'uploaded',
-                           '2020',
-                           '11',
-                           'sample_video.m4v')
+        src = os.path.join(settings.TEST_RESOURCES, self.MEDIA_FILENAME)
+        dst = os.path.join(self.UPLOADED_ROOT, self.MEDIA_FILENAME)
         shutil.copyfile(src, dst)
 
         self.client.force_login(self.normal_user)

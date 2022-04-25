@@ -1,6 +1,9 @@
+import os
+
 import pytest
 
 from django.urls import reverse
+from django.conf import settings
 from gamification.models import ActivityGamificationEvent, \
                                 CourseGamificationEvent, \
                                 MediaGamificationEvent
@@ -15,13 +18,11 @@ class GamificationFormsTest(OppiaTestCase):
                 'tests/test_quiz.json',
                 'default_gamification_events.json',
                 'tests/test_course_permissions.json']
-    file_root = './oppia/fixtures/reference_files/'
-    course_file_path = file_root + 'ncd1_test_course.zip'
-    media_course_file_path = file_root + 'ref-1.zip'
+    course_file_path = os.path.join(settings.TEST_RESOURCES, 'ncd1_test_course.zip')
+    media_course_file_path = os.path.join(settings.TEST_RESOURCES, 'ref-1.zip')
 
     B_STR_COURSE_XML = b'Course XML updated'
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_gamification_event_form_post_no_change(self):
         data = {
             'events-TOTAL_FORMS': 0,
@@ -35,7 +36,6 @@ class GamificationFormsTest(OppiaTestCase):
         response = self.client.post(url, data)
         self.assertEqual(200, response.status_code)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_gamification_event_form_post_add_course(self):
 
         # Need to upload the file first to make sure it's properly loaded
@@ -79,7 +79,6 @@ class GamificationFormsTest(OppiaTestCase):
             event='course_downloaded')
         self.assertEqual(500, course_game.points)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_gamification_event_form_post_delete_course(self):
 
         # Need to upload the file first to make sure it's properly loaded
@@ -123,7 +122,6 @@ class GamificationFormsTest(OppiaTestCase):
             CourseGamificationEvent.objects.get(course__id=2,
                                                 event='course_downloaded')
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_gamification_event_form_post_add_activity(self):
 
         # Need to upload the file first to make sure it's properly loaded
@@ -165,7 +163,6 @@ class GamificationFormsTest(OppiaTestCase):
         activity_end_count = ActivityGamificationEvent.objects.all().count()
         self.assertEqual(activity_start_count+1, activity_end_count)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_gamification_event_form_post_delete_activity(self):
 
         # Need to upload the file first to make sure it's properly loaded
@@ -212,7 +209,6 @@ class GamificationFormsTest(OppiaTestCase):
         activity_end_count = ActivityGamificationEvent.objects.all().count()
         self.assertEqual(activity_start_count-1, activity_end_count)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_gamification_event_form_post_add_media(self):
 
         # Need to upload the file first to make sure it's properly loaded
@@ -253,7 +249,6 @@ class GamificationFormsTest(OppiaTestCase):
         media_end_count = MediaGamificationEvent.objects.all().count()
         self.assertEqual(media_start_count+1, media_end_count)
 
-    @pytest.mark.xfail(reason="works on local but not on github workflows")
     def test_gamification_event_form_post_delete_media(self):
 
         # Need to upload the file first to make sure it's properly loaded

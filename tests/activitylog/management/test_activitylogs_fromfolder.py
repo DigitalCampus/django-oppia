@@ -1,5 +1,8 @@
+import os
+
 from django.core.management import call_command
 from django.core.management.base import CommandError
+from django.conf import settings
 
 from io import StringIO
 
@@ -19,7 +22,7 @@ class ActivityLogsFromFolderTest(OppiaTestCase):
                 'default_gamification_events.json',
                 'tests/test_course_permissions.json']
 
-    activity_logs_folder = './oppia/fixtures/activity_logs/'
+    activity_logs_folder = os.path.join(settings.TEST_RESOURCES, 'activity_logs')
 
     def test_no_folder(self):
         out = StringIO()
@@ -34,7 +37,7 @@ class ActivityLogsFromFolderTest(OppiaTestCase):
         count_start = Tracker.objects.all().count()
         with self.assertRaises(SystemExit):
             call_command('activitylogs_fromfolder',
-                         "./folder-does-not_exist/",
+                         os.path.join(self.activity_logs_folder, 'folder-does-not_exist'),
                          stdout=out)
         count_end = Tracker.objects.all().count()
         self.assertEqual(count_start, count_end)
@@ -45,7 +48,7 @@ class ActivityLogsFromFolderTest(OppiaTestCase):
         count_start = Tracker.objects.all().count()
         with self.assertRaises(SystemExit):
             call_command('activitylogs_fromfolder',
-                         './oppia/fixtures/activity_logs/basic_activity.json',
+                         os.path.join(self.activity_logs_folder, 'basic_activity.json'),
                          stdout=out)
         count_end = Tracker.objects.all().count()
         self.assertEqual(count_start, count_end)
@@ -56,7 +59,7 @@ class ActivityLogsFromFolderTest(OppiaTestCase):
         count_start = Tracker.objects.all().count()
         with self.assertRaises(SystemExit):
             call_command('activitylogs_fromfolder',
-                         './oppia/fixtures/activity_logs/no_json_files/',
+                         os.path.join(self.activity_logs_folder, 'no_json_files'),
                          stdout=out)
         count_end = Tracker.objects.all().count()
         self.assertEqual(count_start, count_end)

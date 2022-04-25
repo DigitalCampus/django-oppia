@@ -23,6 +23,5 @@ class CleanCertificatesTest(OppiaTestCase):
                 'tests/test_customfields.json',
                 'tests/awards/test_feedback_display_name.json']
 
-    @pytest.mark.xfail(reason="works on local, but not on Github workflow")
     def test_clean_certs(self):
         call_command('clean_certificates', stdout=StringIO())

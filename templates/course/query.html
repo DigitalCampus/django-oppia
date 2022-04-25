@@ -18,12 +18,7 @@
     {% else %}
         <strong>{{ item.title|title_lang:LANGUAGE_CODE }}</strong>
     {% endif %}
-{% if item.is_draft %}
-    <span class="badge badge-dark ml-2">{% trans 'draft' %}</span>
-{% endif %}
-{% if item.is_archived %}
-    <span class="badge badge-dark ml-2">{% trans 'archived' %}</span>
-{% endif %}<br/>
+    {% include "common/info_badges.html" with course=item %}<br/>
 <small>{% trans 'Categories:' %} {{ item.get_categories }}</small>
 </td>
 <td>{{ item.lastupdated_date }} </td>

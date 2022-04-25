@@ -42,3 +42,10 @@ def update_course_owner(id, owner_id):
 def get_file_contents(filename):
     with open(filename, 'r') as f:
         return f.read()
+
+
+def update_course_new_downloads_enabled(course_id, new_downloads_enabled):
+    """ Update the flag new_downloads_enabled for the specified course_id """
+    course = Course.objects.get(pk=course_id)
+    course.new_downloads_enabled = new_downloads_enabled
+    course.save()

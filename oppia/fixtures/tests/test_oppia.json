@@ -13,7 +13,8 @@
         "filename": "anc_test_course.zip",
         "badge_icon": "",
         "is_draft": false,
-        "is_archived": false
+        "is_archived": false,
+        "new_downloads_enabled": true
     }
 },
 {
@@ -30,7 +31,8 @@
         "filename": "ncd1_test_course.zip",
         "badge_icon": "",
         "is_draft": false,
-        "is_archived": false
+        "is_archived": false,
+        "new_downloads_enabled": true
     }
 },
 {
@@ -47,7 +49,8 @@
         "filename": "draft-20150611100319.zip",
         "badge_icon": "",
         "is_draft": true,
-        "is_archived": false
+        "is_archived": false,
+        "new_downloads_enabled": true
     }
 },
 {
@@ -64,7 +67,8 @@
         "filename": "ref-1-20191230160407.zip",
         "badge_icon": "",
         "is_draft": false,
-        "is_archived": false
+        "is_archived": false,
+        "new_downloads_enabled": true
     }
 },
 {
@@ -177,6 +181,14 @@
     "pk": 6,
     "fields": {
         "course": 4,
+        "category": 5
+    }
+},
+{
+    "model": "oppia.coursecategory",
+    "pk": 7,
+    "fields": {
+        "course": 3,
         "category": 5
     }
 },

@@ -75,6 +75,10 @@ class UploadCourseStep2Form(forms.Form):
                 help_text=_("Whether this course is only a draft"),
                 required=False, )
 
+    new_downloads_enabled = forms.BooleanField(
+                help_text=_("Whether this course accepts new downloads"),
+                required=False, )
+
     def __init__(self, *args, **kwargs):
         super(UploadCourseStep2Form, self).__init__(* args, ** kwargs)
         self.helper = FormHelper()
@@ -84,6 +88,7 @@ class UploadCourseStep2Form(forms.Form):
         self.helper.layout = Layout(
                 'categories',
                 'is_draft',
+                'new_downloads_enabled',
                 Div(
                    Submit('submit', _(u'Save'), css_class='btn btn-default'),
                    css_class='col-lg-offset-2 col-lg-4',

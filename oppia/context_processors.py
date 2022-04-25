@@ -3,6 +3,7 @@ import datetime
 import oppia
 
 from django.conf import settings
+from django.utils.translation import gettext_lazy as _
 from oppia.models import Points, Award, BadgeMethod
 
 from reports.signals import dashboard_accessed
@@ -70,6 +71,8 @@ def get_settings(request):
         constants.OPPIA_CRON_LAST_RUN, None)
     last_summary_cron = SettingProperties.get_string(
         constants.OPPIA_SUMMARY_CRON_LAST_RUN, None)
+    cron_warning_threshold = SettingProperties.get_int(
+        constants.OPPIA_CRON_WARNING_HOURS, 168)
 
     TIME_ZONE_FIX = '+00:00'
     # fix for bad timezone dates
@@ -82,7 +85,8 @@ def get_settings(request):
     if last_cron is None or last_summary_cron is None:
         cron_warning = True
     else:
-        start_date = datetime.datetime.now() - datetime.timedelta(days=7)
+        start_date = datetime.datetime.now() - datetime.timedelta(
+            hours=cron_warning_threshold)
         last_cron_date = datetime.datetime.strptime(
             last_cron, constants.CRON_DATETIME_FORMAT)
         if last_cron_date < start_date:
@@ -93,12 +97,14 @@ def get_settings(request):
         if last_summary_cron_date < start_date:
             cron_warning = True
 
+    cron_warning_message = _("Cron tasks have not been run for over %d hours" % cron_warning_threshold)
     server_registered = SettingProperties.get_bool(
             constants.OPPIA_SERVER_REGISTERED, False)
 
     email_certificates = SettingProperties.get_bool(
             constants.OPPIA_EMAIL_CERTIFICATES, False)
 
+    
     return {
         'OPPIA_ALLOW_SELF_REGISTRATION': self_register,
         'OPPIA_GOOGLE_ANALYTICS_ENABLED': ga_enabled,
@@ -108,6 +114,7 @@ def get_settings(request):
         'OPPIA_REPORTS': menu_reports(request),
         'DEBUG': settings.DEBUG,
         'CRON_WARNING': cron_warning,
+        'CRON_WARNING_MESSAGE': cron_warning_message,
         'COURSE_COMPLETE_BADGE_CRITERIA': badge_award_method,
         'COURSE_COMPLETE_BADGE_CRITERIA_PERCENT': badge_award_method_percent,
         'SERVER_REGISTERED': server_registered,
