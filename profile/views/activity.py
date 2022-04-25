@@ -10,6 +10,7 @@ from django.utils import timezone
 from django.views.generic import ListView, DetailView
 
 from helpers.mixins.DateRangeFilterMixin import DateRangeFilterMixin
+from helpers.mixins.SafePaginatorMixin import SafePaginatorMixin
 from oppia.forms.activity_search import ActivitySearchForm
 from oppia.models import Activity, Tracker
 from oppia.permissions import get_user, get_user_courses, can_view_course
@@ -190,7 +191,7 @@ def process_quiz_activity(view_user,
     return quiz, course_pretest, quizzes_attempted, quizzes_passed
 
 
-class UserActivityDetailList(DateRangeFilterMixin, ListView):
+class UserActivityDetailList(DateRangeFilterMixin, SafePaginatorMixin, ListView):
     template_name = 'profile/detail/list.html'
     paginate_by = 25
     daterange_form_class = ActivitySearchForm

@@ -101,7 +101,7 @@ class OppiaViewsTest(OppiaTestCase):
         data = {'start_date': '2019-12-01',
                 'end_date': '2019-12-31',
                 'interval': 'days'}
-        response = self.client.post(self.URL_INDEX, data)
+        response = self.client.get(self.URL_INDEX, data)
         self.assertEqual(200, response.status_code)
 
     def test_home_admin_post_months(self):
@@ -109,7 +109,7 @@ class OppiaViewsTest(OppiaTestCase):
         data = {'start_date': '2019-01-01',
                 'end_date': '2019-12-31',
                 'interval': 'months'}
-        response = self.client.post(self.URL_INDEX, data)
+        response = self.client.get(self.URL_INDEX, data)
         self.assertEqual(200, response.status_code)
 
     def test_home_admin_post_invalid_dates(self):
@@ -117,7 +117,7 @@ class OppiaViewsTest(OppiaTestCase):
         data = {'start_date': '2019-01',
                 'end_date': '2019-12',
                 'interval': 'months'}
-        response = self.client.post(self.URL_INDEX, data)
+        response = self.client.get(self.URL_INDEX, data)
         self.assertRaises(ValidationError)
         self.assertEqual(200, response.status_code)
 
@@ -126,7 +126,7 @@ class OppiaViewsTest(OppiaTestCase):
         data = {'start_date': '2019-12-01',
                 'end_date': '2019-12-31',
                 'interval': 'days'}
-        response = self.client.post(self.URL_MANAGER_INDEX, data)
+        response = self.client.get(self.URL_MANAGER_INDEX, data)
         self.assertEqual(200, response.status_code)
 
     def test_home_manager_post_months(self):
@@ -134,7 +134,7 @@ class OppiaViewsTest(OppiaTestCase):
         data = {'start_date': '2019-01-01',
                 'end_date': '2019-12-31',
                 'interval': 'months'}
-        response = self.client.post(self.URL_MANAGER_INDEX, data)
+        response = self.client.get(self.URL_MANAGER_INDEX, data)
         self.assertEqual(200, response.status_code)
 
     def test_home_manager_post_invalid_dates(self):
@@ -142,7 +142,7 @@ class OppiaViewsTest(OppiaTestCase):
         data = {'start_date': '2019-01',
                 'end_date': '2019-12',
                 'interval': 'months'}
-        response = self.client.post(self.URL_MANAGER_INDEX, data)
+        response = self.client.get(self.URL_MANAGER_INDEX, data)
         self.assertRaises(ValidationError)
         self.assertEqual(200, response.status_code)
 

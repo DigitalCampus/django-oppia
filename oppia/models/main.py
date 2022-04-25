@@ -67,22 +67,15 @@ class Course(models.Model):
         return self.title
 
     def is_first_download(self, user):
-        no_downloads = Tracker.objects.filter(user=user,
-                                              course=self,
-                                              type='download').count()
-        is_first_download = False
-        if no_downloads == 0:
-            is_first_download = True
-        return is_first_download
+        no_downloads = Tracker.objects.filter(user=user, course=self, type='download').count()
+        return no_downloads == 0
 
     def no_downloads(self):
-        no_downloads = Tracker.objects.filter(course=self,
-                                              type='download').count()
+        no_downloads = Tracker.objects.filter(course=self, type='download').count()
         return no_downloads
 
     def no_distinct_downloads(self):
-        no_distinct_downloads = Tracker.objects.filter(course=self,
-                                                       type='download') \
+        no_distinct_downloads = Tracker.objects.filter(course=self, type='download') \
             .values('user_id') \
             .distinct().count()
         return no_distinct_downloads
@@ -102,26 +95,20 @@ class Course(models.Model):
                               now.month,
                               now.day) - datetime.timedelta(days=7),
             timezone.get_current_timezone())
-        return Tracker.objects.filter(course=self,
-                                      tracker_date__gte=last_week).count()
-
-    def has_quizzes(self):
-        return Activity.objects.filter(section__course=self,
-                                       type=Activity.QUIZ).exists()
-
-    def has_feedback(self):
-        return Activity.objects.filter(section__course=self,
-                                       type=Activity.FEEDBACK).exists()
+        return Tracker.objects.filter(course=self, tracker_date__gte=last_week).count()
 
     def get_feedback_activities(self):
-        feedback = Activity.objects.filter(section__course=self,
-                                           type=Activity.FEEDBACK)
-        return feedback
+        return Activity.objects.filter(section__course=self, type=Activity.FEEDBACK)
 
     def get_quiz_activities(self):
-        quiz = Activity.objects.filter(section__course=self,
-                                       type=Activity.QUIZ)
-        return quiz
+        return Activity.objects.filter(section__course=self, type=Activity.QUIZ)
+
+    def has_quizzes(self):
+        return self.get_quiz_activities().exists()
+
+    def has_feedback(self):
+        return self.get_feedback_activities().exists()
+
 
     def get_removed_quizzes(self):
         current_quizzes = Activity.objects.filter(
@@ -447,7 +434,7 @@ class Media(models.Model):
         # first check if there are specific points for this activity
         media_custom_points = MediaGamificationEvent.objects \
             .filter(media=self)
-        if media_custom_points.count() > 0:
+        if media_custom_points.exists():
             source = _('Custom Points')
             return {'events': media_custom_points, 'source': source}
 
@@ -457,7 +444,7 @@ class Media(models.Model):
             .filter(course=self.course,
                     event__startswith='media_')
 
-        if course_custom_points.count() > 0:
+        if course_custom_points.exists():
             source = STR_COURSE_INHERITED
             return {'events': course_custom_points, 'source': source}
         else:
@@ -540,7 +527,7 @@ class Tracker(models.Model):
         for a in activities:
             return a.type
         media = Media.objects.filter(digest=self.digest)
-        if media.count() > 0:
+        if media.exists():
             return "media"
         return None
 
@@ -580,22 +567,18 @@ class Tracker(models.Model):
         return self.section_title
 
     def activity_exists(self):
-        activities = Activity.objects.filter(digest=self.digest).count()
-        if activities >= 1:
+        activities = Activity.objects.filter(digest=self.digest)
+        if activities.exists():
             return True
-        media = Media.objects.filter(digest=self.digest).count()
-        if media >= 1:
+        media = Media.objects.filter(digest=self.digest)
+        if media.exists():
             return True
         return False
 
     @staticmethod
     def has_completed_trackers(course, user):
-        count = Tracker.objects.filter(user=user,
-                                       course=course,
-                                       completed=True).count()
-        if count > 0:
-            return True
-        return False
+        return Tracker.objects.filter(user=user, course=course, completed=True).exists()
+
 
     @staticmethod
     def to_xml_string(course, user):

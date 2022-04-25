@@ -40,8 +40,8 @@ class UserProfile(models.Model):
     def is_teacher_only(self):
         if self.user.is_staff:
             return False
-        teacher = Participant.objects.filter(user=self.user, role=Participant.TEACHER).count()
-        manager = CoursePermissions.objects.filter(user=self.user, role=CoursePermissions.MANAGER).count()
+        teacher = Participant.objects.filter(user=self.user, role=Participant.TEACHER)
+        manager = CoursePermissions.objects.filter(user=self.user, role=CoursePermissions.MANAGER)
         return teacher.exists() and not manager.exists()
 
     def update_customfields(self, fields_dict):

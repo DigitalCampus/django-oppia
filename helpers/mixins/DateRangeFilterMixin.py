@@ -40,17 +40,21 @@ class DateRangeFilterMixin(object):
 
     def get_daterange(self):
         form = self.get_daterange_form()
-        if form.is_valid():
-            current_tz = timezone.get_current_timezone()
-            start_date = timezone.make_aware(
-                datetime.datetime.strptime(form.cleaned_data.get("start_date"), STR_DATE_FORMAT), current_tz)
-            end_date = timezone.make_aware(
-                datetime.datetime.strptime(form.cleaned_data.get("end_date"), STR_DATE_FORMAT), current_tz)
 
-            return start_date, end_date
+        if form.is_valid():
+            start_date = self.format_tz_date(form.cleaned_data.get("start_date"))
+            end_date = self.format_tz_date(form.cleaned_data.get("end_date"))
         else:
             dates = self.get_initial_daterange()
-            return dates['start_date'], dates['end_date']
+            start_date = self.format_tz_date(dates['start_date'])
+            end_date = self.format_tz_date(dates['end_date'])
+
+        return start_date, end_date
+
+
+    def format_tz_date(self, date):
+        current_tz = timezone.get_current_timezone()
+        return timezone.make_aware(datetime.datetime.strptime(date, STR_DATE_FORMAT), current_tz)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

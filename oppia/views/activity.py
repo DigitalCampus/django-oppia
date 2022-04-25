@@ -11,6 +11,7 @@ from django.views.generic import TemplateView, DetailView, ListView
 
 from helpers.forms.dates import DateRangeIntervalForm
 from helpers.mixins.DateRangeFilterMixin import DateRangeFilterMixin
+from helpers.mixins.SafePaginatorMixin import SafePaginatorMixin
 from oppia import constants
 from oppia.constants import STR_DATE_FORMAT
 from oppia.forms.activity_search import ActivitySearchForm
@@ -66,7 +67,7 @@ class CourseActivityDetail(DateRangeFilterMixin, DetailView):
             return generate_graph_data(monthly_stats, True)
 
 
-class CourseActivityDetailList(DateRangeFilterMixin, ListView):
+class CourseActivityDetailList(DateRangeFilterMixin, SafePaginatorMixin, ListView):
     template_name = 'course/detail/list.html'
     paginate_by = 25
     daterange_form_class = ActivitySearchForm
