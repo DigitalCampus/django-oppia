@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load display_functions %}
+{% load crispy_forms_tags %}
+
+{% block extra_head_title %}
+	{{ course.title|title_lang:LANGUAGE_CODE }}
+{% endblock extra_head_title %}
+
+{% block extra_scripts %}
+<script type="text/javascript">
+	$('tr[name=trackerlist]').each(function(i){
+		$('#detail'+$(this).attr('id')).toggle();
+		$(this).click(function() {
+			$('#detail'+$(this).attr('id')).slideDown(700);
+		});
+	});
+</script>
+{% endblock extra_scripts %}
+
+{% block header %}
+<div class="jumbotron pb-2 mb-3">
+	<form method="get">
+	<div class="row">
+		<div class="col-md-12">
+			<h3><a href="{% url 'profile:user_activity' user.pk %}">{{ user.first_name }} {{ user.last_name }}</a>
+				<em class="material-icons md-18 ">arrow_forward_ios</em>  {% trans 'Detail activity' %}
+			</h3>
+		</div>
+		<div class="col-md-5">
+			{% include "common/form/date-range.html" with dateform=form omit_form_tag=True %}
+		</div>
+		<div class="col-md-7 pl-0">
+			<div class="btn-group mt-2" role="group" aria-label="Basic example">
+				 <button class="btn btn-primary" type="submit" ><em class="fas fa-search"></em></button>
+				 <button class="btn btn-secondary py-3 pr-5 {% if not advanced_search %}collapsed{% endif %}" type="button" data-toggle="collapse" data-target="#advanced-search" aria-expanded="false" aria-controls="collapseExample"><span>Advanced search</span> <em class="fas fa-chevron-down expand-btn ml-2"></em></button>
+			 </div>
+		</div>
+	</div>
+
+	<div id="advanced-search" class="collapse mt-4  {% if advanced_search %}show{% endif %}">
+		<div class="row">
+            <div class="col-md-5 col-lg-4 mb-3">
+                {% include "common/form/input.html" with field=form.type wrapper_class="mb-0" %}
+            </div>
+            <div class="col-md-5 col-lg-4">
+                {% include "common/form/input.html" with field=form.digest wrapper_class="mb-0" %}
+            </div>
+		</div>
+		{% crispy form form.advanced %}
+	</div>
+	</form>
+</div>
+{% endblock header %}
+
+{% block content %}
+{% include 'profile/detail/query.html' %}
+{% endblock %}

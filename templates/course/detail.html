@@ -38,12 +38,12 @@
 
 		var chartOptions = {
 			width: "100%",
-			height: 400,
+			height: 500,
 			vAxis: {title: "{% trans 'No. attempts' %}"},
 			pointSize:5,
-			chartArea: {left:100,width:"70%",height:"75%"},
+			chartArea: {left:75,width:"87%",height:"75%"},
 			backgroundColor: 'transparent',
-			legend: {position:'right'}
+			legend: {position:'top'}
 		};
 		{% if monthly %}
 			chartOptions['hAxis'] = { format: 'MMM yyyy' };
@@ -102,7 +102,7 @@
 		</div>
 	</div>
 
-	<div class="col-lg-8">
+	<div class="col-lg-8 pl-0">
 		{% include "includes/messages.html" %}
 
 		<h3 class="mb-0 d-lg-none ">{% trans 'courses_recent_activity' %} <a href="{% url 'oppia:recent_activity_detail' course.pk %}" class="btn btn-sm btn-light ml-3">{% trans 'View detail activity' %}</a> </h3>

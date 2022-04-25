@@ -10,14 +10,8 @@ from django.views.generic import TemplateView, ListView, DetailView, FormView
 
 from helpers.mixins.AjaxTemplateResponseMixin import AjaxTemplateResponseMixin
 from oppia.forms.upload import UploadCourseStep1Form, UploadCourseStep2Form
-from oppia.models import Category, \
-    CourseCategory, \
-    CoursePublishingLog, \
-    Course
-from oppia.permissions import can_edit_course, \
-    can_download_course, \
-    can_view_course_detail, \
-    can_view_courses_list, can_upload
+from oppia.models import Category, CourseCategory, CoursePublishingLog, Course
+from oppia.permissions import can_edit_course, can_download_course, can_view_course_detail, can_view_courses_list, can_upload
 from oppia.signals import course_downloaded
 from oppia.uploader import handle_uploaded_file
 from summary.models import UserCourseSummary
@@ -51,8 +45,7 @@ class CourseListView(ListView, AjaxTemplateResponseMixin):
         return courses
 
     def get_current_category(self):
-        return self.kwargs['category_id'] \
-            if 'category_id' in self.kwargs else None
+        return self.kwargs['category_id'] if 'category_id' in self.kwargs else None
 
     def get_ordering(self):
         return self.request.GET.get('order_by', self.default_order)
@@ -83,9 +76,7 @@ class CourseListView(ListView, AjaxTemplateResponseMixin):
                     course_stats.remove(stats)
 
         context['page_ordering'] = self.get_ordering()
-        context['category_list'] = Category.objects.all() \
-            .exclude(coursecategory=None) \
-            .order_by('name')
+        context['category_list'] = Category.objects.all().exclude(coursecategory=None).order_by('name')
         context['current_category'] = self.get_current_category()
         context['course_filter'] = self.get_filter()
 
@@ -98,12 +89,10 @@ class CourseDownload(TemplateView):
         course = can_download_course(request, course_id)
         file_to_download = course.getAbsPath()
         binary_file = open(file_to_download, 'rb')
-        response = HttpResponse(binary_file.read(),
-                                content_type='application/zip')
+        response = HttpResponse(binary_file.read(), content_type='application/zip')
         binary_file.close()
         response['Content-Length'] = os.path.getsize(file_to_download)
-        response['Content-Disposition'] = 'attachment; filename="%s"' \
-            % (course.filename)
+        response['Content-Disposition'] = 'attachment; filename="%s"' % (course.filename)
 
         course_downloaded.send(sender=self, course=course, request=request)
 
@@ -122,19 +111,15 @@ class UploadStep1(CanUploadCoursePermission, FormView):
 
     def form_valid(self, form):
         user = self.request.user
-        extract_path = os.path.join(settings.COURSE_UPLOAD_DIR,
-                                    'temp',
-                                    str(user.id))
-        course, resp = handle_uploaded_file(self.request.FILES['course_file'],
-                                            extract_path, self.request, user)
+        extract_path = os.path.join(settings.COURSE_UPLOAD_DIR, 'temp', str(user.id))
+        course, resp = handle_uploaded_file(self.request.FILES['course_file'], extract_path, self.request, user)
         if course:
             CoursePublishingLog(course=course,
                                 user=user,
                                 action="file_uploaded",
                                 data=self.request.FILES['course_file'].name) \
                                 .save()
-            return HttpResponseRedirect(reverse('oppia:upload_step2',
-                                                args=[course.id]))
+            return HttpResponseRedirect(reverse('oppia:upload_step2', args=[course.id]))
         else:
             return super().form_invalid(form)
 
@@ -186,8 +171,7 @@ class CourseFormView(CanEditCoursePermission, FormView):
                 category.created_by = user
                 category.save()
             # add tag to course
-            if not CourseCategory.objects.filter(course=course,
-                                                 category=category).exists():
+            if not CourseCategory.objects.filter(course=course, category=category).exists():
                 cc = CourseCategory()
                 cc.course = course
                 cc.category = category
