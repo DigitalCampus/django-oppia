@@ -149,7 +149,7 @@ LOCALE_PATHS = [
     os.path.join(BASE_DIR, "oppia", "locale")
 ]
 
-LANGUAGES = ('en', _('English'))
+LANGUAGES = [('en', _('English'))]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
