@@ -44,7 +44,7 @@
 			<div class="list-group list-group-flush">
 				<a href="{% url 'profile:edit_user' view_user.id %}" class="list-group-item list-group-item-action">
 					<em class="fas fa-fw text-primary mr-3 fa-user-edit"></em> {% trans 'Edit profile' %}</a>
-				<a href="" class="list-group-item list-group-item-action">
+				<a href="{% url 'profile:user_activity_detail' view_user.id %}"  class="list-group-item list-group-item-action">
 					<em class="fas fa-fw text-primary mr-3 fa-chart-bar"></em> {% trans 'Detailed activity' %}</a>
 				<a href="{% url 'profile:user_all_attempts' view_user.id %}" class="list-group-item list-group-item-action">
 					<em class="far fa-fw text-primary mr-3 fa-check-circle"></em>{% trans 'Quiz attempts' %}</a>
@@ -59,8 +59,12 @@
 
 	<div class="col-lg-8">
 
-	<h3>{% trans 'Recent activity' %}</h3>
-	{% include "oppia/includes/activity-graph.html" with graph_div_id="activity_graph_div" %}
+		<div class="row">
+			<div class="col-sm-5 col-md-4 col-lg-4 pt-3"><h3>{% trans 'Recent activity' %}</h3></div>
+			<div class="col-sm-7 col-md-5 col-lg-5">{% include "common/form/date-range.html" with dateform=form %}</div>
+		</div>
+		{% include "oppia/includes/activity-graph.html" with graph_div_id="activity_graph_div" %}
+
 	</div>
 </div>
 

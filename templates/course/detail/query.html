@@ -1,0 +1,70 @@
+{% extends 'common/list/base.html' %}
+{% load i18n %}
+{% load display_functions %}
+{% load sort_link %}
+
+ {% block table_head %}
+    <th scope="col">{% trans 'table_header_tracker_date' %}</th>
+    <th scope="col">{% trans 'table_header_tracker_user' %}</th>
+    <th scope="col">{% trans 'table_header_tracker_type' %}</th>
+    <th scope="col">{% trans 'table_header_tracker_activity' %}</th>
+    <th scope="col">{% trans 'table_header_tracker_timetaken' %}</th>
+    <th scope="col">{% trans 'table_header_tracker_lang' %}</th>
+{% endblock %}
+
+{% block item_row %}
+
+<tr id='{{ item.id }}' name="trackerlist" class="hover">
+			<td>{{ item.tracker_date|date:"d M Y H:i" }}</td>
+			<td>{% if OPPIA_SHOW_GRAVATARS %}
+       				{{ item.user|gravatar:24 }}
+       			{% endif %}
+       			{% if requesitem.user.is_staff %}
+					<a href="{% url 'profile:user_activity' item.user.id %}">{{ item.user.first_name }} {{ item.user.last_name }}</a>
+				{% else %}
+					{{ item.user.first_name }} {{ item.user.last_name }}
+				{% endif %}</td>
+			<td><samp>{{ item.type }}</samp></td>
+			<td>{% if item.get_media_title %}
+					{{ item.get_media_title }}
+				{% else %}
+					{% if item.activity_title %}
+						{{ item.activity_title|title_lang:LANGUAGE_CODE }}
+					{% endif %}
+					{% if item.section_title %}
+						({{ item.section_title|title_lang:LANGUAGE_CODE }})
+					{% endif %}
+				{% endif %}</td>
+			<td>{{ item.time_taken }}</td>
+			<td>{% if item.get_lang %}{{ item.get_lang}}{% else %}--{% endif %}</td>
+		</tr>
+		<tr id='detail{{ item.id }}'>
+			<td colspan="6">
+				 <div class="table-responsive">
+        			 <table class="table table-striped">
+        			     <caption  class="d-none">{% trans 'Tracker detail' %}</caption>
+			         	 <thead>
+			                <tr>
+			                  <th scope="col">{% trans 'Name' %}</th>
+			                  <th scope="col">{% trans 'Value' %}</th>
+			                </tr>
+			              </thead>
+			              <tbody>
+				{% for k,v in item.data_obj %}
+					<tr>
+						<td>{{ k }}</td>
+						<td>{{ v }}</td>
+					</tr>
+			{% endfor %}
+			</tbody>
+ 		</table>
+			</td>
+        </tr>
+
+{% endblock %}
+
+{% block empty_list %}
+    <div class="my-2">
+    <h4>{% trans 'No hits during the date range selected' %}</h4>
+    </div>
+{% endblock %}
