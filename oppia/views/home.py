@@ -8,21 +8,18 @@ from django.core.exceptions import PermissionDenied
 from django.db.models import Count, Sum
 from django.db.models.functions import TruncDay, TruncMonth, TruncYear
 from django.http import HttpResponseRedirect, Http404
-from django.shortcuts import render
 from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import TemplateView, ListView
 
 from helpers.forms.dates import DateRangeIntervalForm
 from helpers.mixins.AjaxTemplateResponseMixin import AjaxTemplateResponseMixin
+from helpers.mixins.DateRangeFilterMixin import DateRangeFilterMixin
 from helpers.mixins.SafePaginatorMixin import SafePaginatorMixin
 from oppia import constants
 from oppia import permissions
 from oppia.models import Activity, Points
-from oppia.models import Tracker, \
-    Participant, \
-    Course, \
-    CoursePermissions
+from oppia.models import Tracker, Participant, Course, CoursePermissions
 from profile.models import UserProfile
 from summary.models import CourseDailyStats, UserCourseSummary
 
@@ -38,18 +35,13 @@ class AboutView(TemplateView):
     extra_context = {'settings': settings}
 
 
-class HomeView(TemplateView):
+class HomeView(DateRangeFilterMixin, TemplateView):
+    template_name = 'oppia/home.html'
+    daterange_form_class = DateRangeIntervalForm
+    daterange_form_initial = { 'interval': 'days' }
 
-    def get(self, request):
-        return self.process(request)
-
-    def post(self, request):
-        return self.process(request)
-
-    def process(self, request):
-
+    def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-
             # create profile if none exists (for first admin user login and
             # historical for very old users)
             try:
@@ -62,9 +54,7 @@ class HomeView(TemplateView):
             up = request.user.userprofile
             # if user is student redirect to their scorecard
             if up.is_student_only():
-                return HttpResponseRedirect(reverse('profile:user_activity',
-                                                    args=[request.user.id]))
-
+                return HttpResponseRedirect(reverse('profile:user_activity', args=[request.user.id]))
             # is user is teacher redirect to teacher home
             if up.is_teacher_only():
                 return HttpResponseRedirect(reverse('oppia:teacher_index'))
@@ -72,68 +62,30 @@ class HomeView(TemplateView):
             if permissions.is_manager_only(request.user):
                 return HttpResponseRedirect(reverse('oppia:manager_index'))
 
-            # admin/staff view
-            form, activity_tracker_date = self.admin_authenticated(request)
-            form, activity_submitted_date = self.admin_authenticated(request)
-            leaderboard = Points.get_leaderboard(
-                constants.LEADERBOARD_HOMEPAGE_RESULTS_PER_PAGE)
-        else:
-            activity_tracker_date = []
-            activity_submitted_date = []
-            leaderboard = None
-            form = None
+        return super().get(request, *args, **kwargs)
 
-        return render(
-            request,
-            'oppia/home.html',
-            {'form': form,
-             'activity_graph_data_tracker_date': activity_tracker_date,
-             'activity_graph_data_submitted_date': activity_submitted_date,
-             'leaderboard': leaderboard})
 
-    def admin_authenticated(self, request):
-        activity = []
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
-        start_date = timezone.now() - datetime.timedelta(
-            days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
-        end_date = timezone.now()
-        interval = 'days'
-        if request.method == 'POST':
-            form = DateRangeIntervalForm(request.POST)
-            if form.is_valid():
-                start_date = form.cleaned_data.get("start_date")
-                start_date = datetime.datetime.strptime(
-                    start_date,
-                    constants.STR_DATE_FORMAT)
-                end_date = form.cleaned_data.get("end_date")
-                end_date = datetime.datetime.strptime(
-                    end_date,
-                    constants.STR_DATE_FORMAT)
-                interval = form.cleaned_data.get("interval")
-        else:
-            data = {}
-            data['start_date'] = start_date
-            data['end_date'] = end_date
-            data['interval'] = interval
-            form = DateRangeIntervalForm(initial=data)
+        start_date, end_date = self.get_daterange()
+        interval = self.get_daterange_form().cleaned_data.get("interval")
 
         if interval == 'days':
-            activity = process_home_activity_days(activity,
-                                                  start_date,
-                                                  end_date)
+            activity = process_home_activity_days(start_date, end_date)
         else:
-            activity = process_home_activity_months(activity,
-                                                    start_date,
-                                                    end_date)
+            activity = process_home_activity_months(start_date, end_date)
 
-        return form, activity
+        context['activity_graph_data_tracker_date'] = activity
+        context['leaderboard'] = Points.get_leaderboard(constants.LEADERBOARD_HOMEPAGE_RESULTS_PER_PAGE)
+        return context
 
 
-def process_home_activity_days(activity, start_date, end_date):
+def process_home_activity_days(start_date, end_date):
+    activity = []
     no_days = (end_date - start_date).days + 1
     tracker_stats = CourseDailyStats.objects \
-        .filter(day__gte=start_date,
-                day__lte=end_date) \
+        .filter(day__gte=start_date, day__lte=end_date) \
         .values('day') \
         .annotate(count=Sum('total'))
 
@@ -147,9 +99,9 @@ def process_home_activity_days(activity, start_date, end_date):
     return activity
 
 
-def process_home_activity_months(activity, start_date, end_date):
+def process_home_activity_months(start_date, end_date):
+    activity = []
     delta = relativedelta(months=+1)
-
     no_months = 0
     tmp_date = start_date
     while tmp_date <= end_date:
@@ -170,40 +122,31 @@ def process_home_activity_months(activity, start_date, end_date):
 
 class ManagerView(TemplateView):
 
-    def get(self, request):
-        return self.process(request)
+    template_name = 'oppia/home-manager.html'
 
-    def post(self, request):
-        return self.process(request)
+    def get_context_data(self, **kwargs):
 
-    def process(self, request):
-        if not permissions.is_manager_only(request.user):
+        context = super().get_context_data(**kwargs)
+        if not permissions.is_manager_only(self.request.user):
             raise PermissionDenied
 
         courses = Course.objects.filter(
-            coursepermissions__user=request.user,
+            coursepermissions__user=self.request.user,
             coursepermissions__role=CoursePermissions.MANAGER)
 
-        start_date = timezone.now() - datetime.timedelta(
-            days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
+        start_date = timezone.now() - datetime.timedelta(days=constants.ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
         end_date = timezone.now()
 
         # get activity
-        activity_tracker_date = get_trackers(start_date,
-                                             end_date,
-                                             courses,
-                                             date_data="tracker_date")
-        activity_submitted_date = get_trackers(start_date,
-                                               end_date,
-                                               courses,
-                                               date_data="submitted_date")
+        activity_tracker_date = get_trackers(start_date, end_date, courses, date_data="tracker_date")
+        activity_submitted_date = get_trackers(start_date, end_date, courses, date_data="submitted_date")
 
-        return render(
-            request,
-            'oppia/home-manager.html',
-            {'courses': courses,
-             'activity_graph_data': activity_tracker_date, 
-             'activity_submitted_graph_data': activity_submitted_date})
+        context['courses'] = courses
+        context['activity_graph_data'] = activity_tracker_date
+        context['activity_submitted_graph_data'] = activity_submitted_date
+
+        return context
+
 
 
 class TeacherView(TemplateView):
@@ -230,28 +173,18 @@ class TeacherView(TemplateView):
         return context
 
 
-def get_trackers(start_date,
-                 end_date,
-                 courses,
-                 students=None,
-                 date_data='tracker_date'):
+def get_trackers(start_date, end_date, courses, students=None, date_data='tracker_date'):
     activity = []
     no_days = (end_date - start_date).days + 1
     if date_data == "submitted_date":
-        trackers = Tracker.objects.filter(course__in=courses,
-                                          submitted_date__gte=start_date,
-                                          submitted_date__lte=end_date)
+        trackers = Tracker.objects.filter(course__in=courses, submitted_date__gte=start_date, submitted_date__lte=end_date)
     else:  
-        trackers = Tracker.objects.filter(course__in=courses,
-                                          tracker_date__gte=start_date,
-                                          tracker_date__lte=end_date)
+        trackers = Tracker.objects.filter(course__in=courses, tracker_date__gte=start_date, tracker_date__lte=end_date)
 
     if students:
         trackers.filter(user__in=students)
 
-    trackers.annotate(day=TruncDay(date_data),
-                      month=TruncMonth(date_data),
-                      year=TruncYear(date_data)) \
+    trackers.annotate(day=TruncDay(date_data), month=TruncMonth(date_data), year=TruncYear(date_data)) \
         .values('day') \
         .annotate(count=Count('id'))
     for i in range(0, no_days, +1):
