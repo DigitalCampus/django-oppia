@@ -62,7 +62,7 @@ class HomeView(DateRangeFilterMixin, TemplateView):
             if permissions.is_manager_only(request.user):
                 return HttpResponseRedirect(reverse('oppia:manager_index'))
 
-        return super().dispatch(request, *args, **kwargs)
+        return super().get(request, *args, **kwargs)
 
 
     def get_context_data(self, **kwargs):
