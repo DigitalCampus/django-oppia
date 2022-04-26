@@ -4,9 +4,11 @@ from summary.models import UserCourseSummary, \
                            CourseDailyStats, \
                            UserPointsSummary, \
                            DailyActiveUser, \
-                           DailyActiveUsers
+                           DailyActiveUsers, \
+                           UserCourseDailySummary
 
 from helpers.mixins.PermissionMixins import ReadOnlyAdminMixin
+
 
 STR_UPDATE_SUMMARY = "Update summary"
 
@@ -79,9 +81,20 @@ class DailyActiveUserAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
     list_display = ('dau', 'user', 'type', 'time_spent', 'course')
     ordering = ['-dau']
 
+class UserCourseDailySummaryAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
+    list_display = ('day',
+                    'user',
+                    'course',
+                    'type',
+                    'total_tracked',
+                    'time_spent_tracked',
+                    'total_submitted',
+                    'time_spent_submitted')
+    ordering = ['-day']
 
 admin.site.register(UserCourseSummary, UserCourseSummaryAdmin)
 admin.site.register(CourseDailyStats, CourseDailyStatsAdmin)
 admin.site.register(UserPointsSummary, UserPointsSummaryAdmin)
 admin.site.register(DailyActiveUsers, DailyActiveUsersAdmin)
 admin.site.register(DailyActiveUser, DailyActiveUserAdmin)
+admin.site.register(UserCourseDailySummary, UserCourseDailySummaryAdmin)
