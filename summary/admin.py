@@ -2,7 +2,9 @@ from django.contrib import admin
 
 from summary.models import UserCourseSummary, \
                            CourseDailyStats, \
-                           UserPointsSummary
+                           UserPointsSummary, \
+                           DailyActiveUser, \
+                           DailyActiveUsers
 
 from helpers.mixins.PermissionMixins import ReadOnlyAdminMixin
 
@@ -67,6 +69,19 @@ class UserPointsSummaryAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
     update_summary.short_description = STR_UPDATE_SUMMARY
 
 
+class DailyActiveUsersAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
+    list_display = ('day', 'total_submitted_date', 'total_tracker_date')
+    ordering = ['-day']
+    date_hierarchy = 'day'
+
+
+class DailyActiveUserAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
+    list_display = ('dau', 'user', 'type', 'time_spent', 'course')
+    ordering = ['-dau']
+
+
 admin.site.register(UserCourseSummary, UserCourseSummaryAdmin)
 admin.site.register(CourseDailyStats, CourseDailyStatsAdmin)
 admin.site.register(UserPointsSummary, UserPointsSummaryAdmin)
+admin.site.register(DailyActiveUsers, DailyActiveUsersAdmin)
+admin.site.register(DailyActiveUser, DailyActiveUserAdmin)
