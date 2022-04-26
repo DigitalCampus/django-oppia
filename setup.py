@@ -45,7 +45,7 @@ setup(
     install_requires=[
         "django == 3.2.13",
         "django-tastypie == 0.14.4",
-        "tablib == 3.2.0",
+        "tablib == 3.2.1",
         "django-crispy-forms == 1.14.0",
         "pytz",
         "defusedxml==0.7.1",
@@ -63,6 +63,7 @@ setup(
         "qrcode==7.3..1",
         "libsass==0.21.0",
         "xmltodict==0.12.0",
-        "django-storages==1.12.3"
+        "django-storages==1.12.3",
+        "django-database-view==0.3.0"
     ],
 )
