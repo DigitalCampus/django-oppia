@@ -4,7 +4,8 @@ from summary.models import UserCourseSummary, \
                            CourseDailyStats, \
                            UserPointsSummary, \
                            DailyActiveUsers, \
-                           DailyActiveUser
+                           DailyActiveUser, \
+                           UserCourseDailySummary
 
 STR_UPDATE_SUMMARY = "Update summary"
 
@@ -77,9 +78,20 @@ class DailyActiveUserAdmin(admin.ModelAdmin):
     list_display = ('dau', 'user', 'type', 'time_spent', 'course')
     ordering = ['-dau']
 
+class UserCourseDailySummaryAdmin(admin.ModelAdmin):
+    list_display = ('day',
+                    'user',
+                    'course',
+                    'type',
+                    'total_tracked',
+                    'time_spent_tracked',
+                    'total_submitted',
+                    'time_spent_submitted')
+    ordering = ['-day']
 
 admin.site.register(UserCourseSummary, UserCourseSummaryAdmin)
 admin.site.register(CourseDailyStats, CourseDailyStatsAdmin)
 admin.site.register(UserPointsSummary, UserPointsAdmin)
 admin.site.register(DailyActiveUsers, DailyActiveUsersAdmin)
 admin.site.register(DailyActiveUser, DailyActiveUserAdmin)
+admin.site.register(UserCourseDailySummary, UserCourseDailySummaryAdmin)
