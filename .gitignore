@@ -21,3 +21,4 @@ oppiamobile/settings_secret.py
 /pytestdebug.log
 /db.sqlite3
 /*.sock
+/.pytest_cache/
