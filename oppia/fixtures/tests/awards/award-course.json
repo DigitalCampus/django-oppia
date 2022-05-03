@@ -12,8 +12,7 @@
         "shortname": "award-test",
         "filename": "award-test.zip",
         "badge_icon": "",
-        "is_draft": false,
-        "is_archived": false
+        "status": "live"
     }
 },
 {

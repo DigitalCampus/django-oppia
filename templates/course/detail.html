@@ -60,7 +60,7 @@
 		<div class="col-md-6">
 			<div class="d-lg-none">
 			<h3>{{ course.title|title_lang:LANGUAGE_CODE }}
-				{% include "common/info_badges.html" with course=course %}
+				{% include "common/info_badge.html" with course=course %}
 			</h3>
 			<p><em>{% trans 'Categories:' %} {{ course.get_categories}}}</em></p>
 			</div>

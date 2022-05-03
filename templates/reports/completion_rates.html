@@ -31,10 +31,10 @@
 		<tr>
 				<td>
                 <a href="{% url 'reports:course_completion_rates' cl.course.id %}"><strong>{{ cl.course.title|title_lang:LANGUAGE_CODE }}</strong></a>
-				{% if cl.course.is_draft %}
+				{% if CourseStatus.DRAFT in cl.course.status %}
 					- <em>{% trans 'draft' %}</em>
 				{% endif %}
-				{% if cl.course.is_archived %}
+				{% if CourseStatus.ARCHIVED in cl.course.status %}
 					- <em>{% trans 'archived' %}</em>
 				{% endif %}<br/>
 				<small>{% trans 'Categories:' %} {{ cl.course.get_categories }}</small></td>

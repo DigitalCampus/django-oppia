@@ -28408,8 +28408,7 @@
             "priority": 0,
             "filename": "test-course.zip",
             "badge_icon": "",
-            "is_draft": false,
-            "is_archived": false
+            "status": "live"
         }
     },
     {

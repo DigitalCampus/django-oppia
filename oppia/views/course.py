@@ -10,10 +10,11 @@ from django.views.generic import TemplateView, ListView, DetailView, FormView
 
 from helpers.mixins.AjaxTemplateResponseMixin import AjaxTemplateResponseMixin
 from oppia.forms.upload import UploadCourseStep1Form, UploadCourseStep2Form
-from oppia.models import Category, CourseCategory, CoursePublishingLog, Course
+from oppia.models import Category, CourseCategory, CoursePublishingLog, Course, CourseStatus
 from oppia.permissions import can_edit_course, can_download_course, can_view_course_detail, can_view_courses_list, can_upload
 from oppia.signals import course_downloaded
 from oppia.uploader import handle_uploaded_file
+from oppia.utils.filters import CourseFilter
 from summary.models import UserCourseSummary
 
 
@@ -29,13 +30,13 @@ class CourseListView(ListView, AjaxTemplateResponseMixin):
         courses = can_view_courses_list(self.request, self.get_ordering())
         course_filter = self.get_filter()
         if course_filter == 'draft':
-            courses = courses.filter(is_draft=True)
+            courses = courses.filter(CourseFilter.IS_DRAFT)
         elif course_filter == 'archived':
-            courses = courses.filter(is_archived=True)
+            courses = courses.filter(CourseFilter.IS_ARCHIVED)
         elif course_filter == 'live':
-            courses = courses.filter(is_archived=False, is_draft=False)
-        elif course_filter == 'new_downloads_enabled':
-            courses = courses.filter(new_downloads_enabled=True)
+            courses = courses.filter(CourseFilter.IS_NOT_ARCHIVED & CourseFilter.IS_NOT_DRAFT)
+        elif course_filter == 'new_downloads_disabled':
+            courses = courses.filter(CourseFilter.NEW_DOWNLOADS_DISABLED)
 
 
         category = self.get_current_category()
@@ -143,8 +144,8 @@ class CourseFormView(CanEditCoursePermission, FormView):
 
     def get_initial(self):
         return {'categories': self.course.get_categories(),
-                'is_draft': self.course.is_draft,
-                'new_downloads_enabled': self.course.new_downloads_enabled}
+                'is_draft': CourseStatus.DRAFT in self.course.status,
+                'new_downloads_enabled': CourseStatus.NEW_DOWNLOADS_DISABLED not in self.course.status}
 
     def form_valid(self, form):
         self.update_course_tags(form, self.course, self.request.user)
@@ -157,10 +158,8 @@ class CourseFormView(CanEditCoursePermission, FormView):
 
     def update_course_tags(self, form, course, user):
         categories = form.cleaned_data.get("categories", "").strip().split(",")
-        is_draft = form.cleaned_data.get("is_draft")
-        course.is_draft = is_draft
-        new_downloads_enabled = form.cleaned_data.get("new_downloads_enabled")
-        course.new_downloads_enabled = new_downloads_enabled
+        status = form.cleaned_data.get("status")
+        course.status = status
         course.save()
         # remove any existing tags
         CourseCategory.objects.filter(course=course).delete()

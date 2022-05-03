@@ -8,8 +8,8 @@ from django.contrib.auth.models import User
 from django.test import TransactionTestCase
 from tastypie.test import ResourceTestCaseMixin
 
-from tests.utils import get_api_key, get_api_url, update_course_visibility
-from oppia.models import Tracker
+from tests.utils import get_api_key, get_api_url, update_course_status
+from oppia.models import Tracker, CourseStatus
 
 
 class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
@@ -216,55 +216,55 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
 
     def test_draft_course_admin(self):
         tracker_count_start = Tracker.objects.all().count()
-        update_course_visibility(1, True, False)
+        update_course_status(1, CourseStatus.DRAFT)
         resource_url = get_api_url('v1', 'course', 1) + self.STR_DOWNLOAD
         response = self.api_client.get(
             resource_url, format='json', data=self.admin_auth)
         self.assertHttpOK(response)
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
-        update_course_visibility(1, False, False)
+        update_course_status(1, CourseStatus.LIVE)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start+1, tracker_count_end)
 
     def test_draft_course_staff(self):
         tracker_count_start = Tracker.objects.all().count()
-        update_course_visibility(1, True, False)
+        update_course_status(1, CourseStatus.DRAFT)
         resource_url = get_api_url('v1', 'course', 1) + self.STR_DOWNLOAD
         response = self.api_client.get(
             resource_url, format='json', data=self.staff_auth)
         self.assertHttpOK(response)
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
-        update_course_visibility(1, False, False)
+        update_course_status(1, CourseStatus.LIVE)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start+1, tracker_count_end)
 
     def test_draft_course_teacher(self):
         tracker_count_start = Tracker.objects.all().count()
-        update_course_visibility(1, True, False)
+        update_course_status(1, CourseStatus.DRAFT)
         resource_url = get_api_url('v1', 'course', 1) + self.STR_DOWNLOAD
         response = self.api_client.get(
             resource_url, format='json', data=self.teacher_auth)
         self.assertEqual(response.status_code, 404)
-        update_course_visibility(1, False, False)
+        update_course_status(1, CourseStatus.LIVE)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_draft_course_normal(self):
         tracker_count_start = Tracker.objects.all().count()
-        update_course_visibility(1, True, False)
+        update_course_status(1, CourseStatus.DRAFT)
         resource_url = get_api_url('v1', 'course', 1) + self.STR_DOWNLOAD
         response = self.api_client.get(
             resource_url, format='json', data=self.user_auth)
         self.assertEqual(response.status_code, 404)
-        update_course_visibility(1, False, False)
+        update_course_status(1, CourseStatus.LIVE)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_archived_course_admin(self):
         tracker_count_start = Tracker.objects.all().count()
-        update_course_visibility(1, False, True)
+        update_course_status(1, CourseStatus.ARCHIVED)
         resource_url = get_api_url('v1', 'course', 1) + self.STR_DOWNLOAD
         response = self.api_client.get(
             resource_url, format='json', data=self.admin_auth)
@@ -274,34 +274,34 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
 
     def test_archived_course_staff(self):
         tracker_count_start = Tracker.objects.all().count()
-        update_course_visibility(1, False, True)
+        update_course_status(1, CourseStatus.ARCHIVED)
         resource_url = get_api_url('v1', 'course', 1) + self.STR_DOWNLOAD
         response = self.api_client.get(
             resource_url, format='json', data=self.staff_auth)
         self.assertEqual(response.status_code, 404)
-        update_course_visibility(1, False, False)
+        update_course_status(1, CourseStatus.LIVE)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_archived_course_teacher(self):
         tracker_count_start = Tracker.objects.all().count()
-        update_course_visibility(1, False, True)
+        update_course_status(1, CourseStatus.ARCHIVED)
         resource_url = get_api_url('v1', 'course', 1) + self.STR_DOWNLOAD
         response = self.api_client.get(
             resource_url, format='json', data=self.teacher_auth)
         self.assertEqual(response.status_code, 404)
-        update_course_visibility(1, False, False)
+        update_course_status(1, CourseStatus.LIVE)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_archived_course_normal(self):
         tracker_count_start = Tracker.objects.all().count()
-        update_course_visibility(1, False, True)
+        update_course_status(1, CourseStatus.ARCHIVED)
         resource_url = get_api_url('v1', 'course', 1) + self.STR_DOWNLOAD
         response = self.api_client.get(
             resource_url, format='json', data=self.user_auth)
         self.assertEqual(response.status_code, 404)
-        update_course_visibility(1, False, False)
+        update_course_status(1, CourseStatus.LIVE)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
 

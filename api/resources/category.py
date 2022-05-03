@@ -12,6 +12,7 @@ from tastypie.utils import trailing_slash
 from oppia.models import Course, Category
 
 from api.resources.course import CourseResource
+from oppia.utils.filters import CourseCategoryFilter, CourseFilter
 
 
 class CategoryResource(ModelResource):
@@ -37,20 +38,19 @@ class CategoryResource(ModelResource):
     def get_object_list(self, request):
         if request.user.is_staff:
             return Category.objects.filter(
-                courses__isnull=False,
-                coursecategory__course__is_archived=False).distinct().order_by(
-                    '-order_priority', 'name')
+                Q(courses__isnull=False)
+                & CourseCategoryFilter.COURSE_IS_NOT_ARCHIVED) \
+                .distinct().order_by(
+                '-order_priority', 'name')
         else:
             return Category.objects.filter(
-                courses__isnull=False,
-                coursecategory__course__is_archived=False) \
-                .filter(Q(coursecategory__course__is_draft=False) |
-                        (Q(coursecategory__course__is_draft=True)
-                         & Q(coursecategory__course__user=request.user)) |
-                        (Q(coursecategory__course__is_draft=True)
-                         & Q(coursecategory__course__coursepermissions__user
-                             =request.user))
-                        ) \
+                Q(courses__isnull=False)
+                & CourseCategoryFilter.COURSE_IS_NOT_ARCHIVED
+                & (CourseCategoryFilter.COURSE_IS_NOT_DRAFT
+                   | (CourseCategoryFilter.COURSE_IS_DRAFT & Q(coursecategory__course__user=request.user))
+                   | (CourseCategoryFilter.COURSE_IS_DRAFT & Q(coursecategory__course__coursepermissions__user=request.user))
+                   )
+                ) \
                 .distinct().order_by('-order_priority', 'name')
 
     def prepend_urls(self):
@@ -72,19 +72,17 @@ class CategoryResource(ModelResource):
             raise Http404()
 
         if request.user.is_staff:
-            courses = Course.objects.filter(
-                category=category,
-                is_archived=False).order_by('-priority', 'title')
+            courses = Course.objects.filter(category=category).filter(CourseFilter.IS_NOT_ARCHIVED).order_by(
+                '-priority', 'title')
         else:
-            courses = Course.objects.filter(category=category,
-                                            is_archived=False) \
-                        .filter(
-                                Q(is_draft=False) |
-                                (Q(is_draft=True) & Q(user=request.user)) |
-                                (Q(is_draft=True)
-                                 & Q(coursepermissions__user=request.user))
-                                ) \
-                        .distinct().order_by('-priority', 'title')
+            courses = Course.objects.filter(category=category) \
+                .filter(CourseFilter.IS_NOT_ARCHIVED) \
+                .filter(
+                CourseFilter.IS_NOT_DRAFT |
+                (CourseFilter.IS_DRAFT & Q(user=request.user)) |
+                (CourseFilter.IS_DRAFT & Q(coursepermissions__user=request.user))
+            ) \
+                .distinct().order_by('-priority', 'title')
 
         course_data = []
         cr = CourseResource()
@@ -102,14 +100,12 @@ class CategoryResource(ModelResource):
         return response
 
     def dehydrate_count(self, bundle):
-        tmp = Course.objects.filter(category__id=bundle.obj.id,
-                                    is_archived=False)
+        tmp = Course.objects.filter(category__id=bundle.obj.id).filter(CourseFilter.IS_NOT_ARCHIVED)
         if bundle.request.user.is_staff:
             count = tmp.count()
         else:
-            count = tmp.filter(Q(is_draft=False) |
-                               (Q(is_draft=True) &
-                                Q(user=bundle.request.user))).count()
+            count = tmp.filter(
+                CourseFilter.IS_NOT_DRAFT | (CourseFilter.IS_DRAFT & Q(user=bundle.request.user))).count()
         return count
 
     def dehydrate_icon(self, bundle):
@@ -119,22 +115,11 @@ class CategoryResource(ModelResource):
             return None
 
     def dehydrate_count_new_downloads_enabled(self, bundle):
-        return Course.objects.filter(category=bundle.obj,
-                                     new_downloads_enabled=True).count()
+        return Course.objects.filter(category=bundle.obj).filter(CourseFilter.NEW_DOWNLOADS_ENABLED).count()
 
     def dehydrate_course_statuses(self, bundle):
         courses = Course.objects.filter(category=bundle.obj)
-        return {course.shortname: self.get_course_status(course) for course in courses}
-
-    def get_course_status(self, course):
-        if course.is_archived:
-            return "archived"
-        elif course.is_draft:
-            return "draft"
-        elif not course.new_downloads_enabled:
-            return "new_downloads_disabled"
-        else:
-            return "live"
+        return {course.shortname: course.status for course in courses}
 
     def alter_list_data_to_serialize(self, request, data):
         if isinstance(data, dict) and 'objects' in data:

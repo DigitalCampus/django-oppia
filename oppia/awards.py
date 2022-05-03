@@ -1,6 +1,7 @@
 
 from oppia import badges
 from oppia.models import Badge, BadgeMethod, Course
+from oppia.utils.filters import CourseFilter
 
 
 def courses_completed(hours):
@@ -10,7 +11,7 @@ def courses_completed(hours):
         print("Badge not found: coursecompleted")
         return False
 
-    courses = Course.objects.filter(is_draft=False, is_archived=False)
+    courses = Course.objects.filter(CourseFilter.IS_NOT_DRAFT & CourseFilter.IS_NOT_ARCHIVED)
 
     for course in courses:
         print(course.get_title())

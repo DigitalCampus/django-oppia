@@ -12,9 +12,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 
 from oppia.models import Category, \
-                         CourseCategory, \
-                         CoursePublishingLog, \
-                         CoursePermissions
+    CourseCategory, \
+    CoursePublishingLog, \
+    CoursePermissions, CourseStatus
 from settings import constants
 from settings.models import SettingProperties
 from oppia.uploader import handle_uploaded_file, get_course_shortname
@@ -163,8 +163,7 @@ def publish_view(request):
         return JsonResponse(response_data, status=status)
 
     else:
-        course.is_draft = (request.POST['is_draft'] == "True"
-                           or request.POST['is_draft'] == "true")
+        course.status = CourseStatus.DRAFT if (request.POST['is_draft'] in {"True", "true"}) else CourseStatus.LIVE
         course.save()
 
         # remove any existing tags

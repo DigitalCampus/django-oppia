@@ -14,7 +14,7 @@
 				<em class="material-icons md-18 ">arrow_forward_ios</em>  {% trans 'Course index' %}
 			</h3>
 			<p>
-				{% include "common/info_badges.html" with course=course %}
+				{% include "common/info_badge.html" with course=course %}
 				<em>{% trans 'Categories:' %} {{ course.get_categories}}</em>
 			</p>
 		</div>

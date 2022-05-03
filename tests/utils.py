@@ -1,7 +1,7 @@
 from django.urls import reverse
 from tastypie.models import ApiKey
 
-from oppia.models import Course
+from oppia.models import Course, CourseStatus
 
 
 def get_api_key(user):
@@ -26,10 +26,9 @@ def get_api_url(version, resource_name, resource_id=None):
     return reverse(view_name, kwargs=kwargs)
 
 
-def update_course_visibility(id, is_draft, is_archived):
+def update_course_status(id, course_status):
     course = Course.objects.get(pk=id)
-    course.is_draft = is_draft
-    course.is_archived = is_archived
+    course.status = course_status
     course.save()
 
 
@@ -42,10 +41,3 @@ def update_course_owner(id, owner_id):
 def get_file_contents(filename):
     with open(filename, 'r') as f:
         return f.read()
-
-
-def update_course_new_downloads_enabled(course_id, new_downloads_enabled):
-    """ Update the flag new_downloads_enabled for the specified course_id """
-    course = Course.objects.get(pk=course_id)
-    course.new_downloads_enabled = new_downloads_enabled
-    course.save()

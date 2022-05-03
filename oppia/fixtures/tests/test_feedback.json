@@ -13,8 +13,7 @@
         "priority": 4,
         "filename": "covid19-ipc-20200519105820.zip",
         "badge_icon": "",
-        "is_draft": false,
-        "is_archived": false
+        "status": "live"
     }
 },
 {

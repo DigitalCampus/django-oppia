@@ -91,7 +91,7 @@
                             <div class="list-pie" data-total="{{ c.course.get_no_activities }}" data-completed="{{ c.no_activities_completed }}" ></div>
                             <a href="{% url 'profile:user_course_activity' view_user.id c.course.id%}">
                             {{ c.course.title|title_lang:LANGUAGE_CODE }}</a>
-							{% include "common/info_badges.html" with course=c.course %}
+							{% include "common/info_badge.html" with course=c.course %}
                         </td>
 						<td>
 							{% if c.pretest_score %}

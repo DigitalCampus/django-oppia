@@ -5,6 +5,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 
 from oppia.models import Course
+from oppia.utils.filters import CourseFilter
 
 from summary.models import UserCourseSummary
 
@@ -14,8 +15,7 @@ class CompletionRatesView(TemplateView):
 
     def get(self, request):
 
-        courses = Course.objects.filter(is_draft=False,
-                                        is_archived=False).order_by('title')
+        courses = Course.objects.filter(CourseFilter.IS_NOT_ARCHIVED & CourseFilter.IS_NOT_DRAFT).order_by('title')
 
         courses_list = []
 
