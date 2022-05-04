@@ -9,11 +9,6 @@ from summary.models import UserCourseSummary
 
 class ViewUserCourseCompletePercent(DbView):
 
-    id = models.OneToOneField(UserProfileCustomField, primary_key=True,
-        on_delete=models.DO_NOTHING, db_column='id')
-    no_activities = models.IntegerField(blank=True, null=True)
-    percent_complete = models.IntegerField(blank=True, null=True)
-
     @classmethod
     def view(cls):
         qs = UserProfileCustomField.objects.filter(
@@ -40,5 +35,7 @@ class ViewUserCourseCompletePercent(DbView):
             .annotate(
                 percent_complete=F(
                     'user__usercoursesummary__completed_activities') / F(
-                        'no_activities') * 100)
+                    'no_activities') * 100)
+
         return str(qs.query)
+        
