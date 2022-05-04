@@ -1,18 +1,44 @@
+from django.db import models
+from django.db.models import Count, F
+
 from dbview.models import DbView
 
-from django.contrib.auth.models import User
+from profile.models import UserProfileCustomField
+from summary.models import UserCourseSummary
+
 
 class ViewUserCourseCompletePercent(DbView):
-    
+
+    id = models.OneToOneField(UserProfileCustomField, primary_key=True,
+        on_delete=models.DO_NOTHING, db_column='id')
+    no_activities = models.IntegerField(blank=True, null=True)
+    percent_complete = models.IntegerField(blank=True, null=True)
+
     @classmethod
     def view(cls):
-        """
-        exclude staff/admin users
-        exclude user from reporting
-        """
-        qs = User.objects.all().values('username',
-                                       'first_name',
-                                       'last_name',
-                                       'email',
-                                       'userprofile__phone_number')
+        qs = UserProfileCustomField.objects.filter(
+            user__is_staff=False,
+            user__is_superuser=False,
+            user__userprofile__exclude_from_reporting=False) \
+            .values('id',
+                    'user__id',
+                    'user__username',
+                    'user__first_name',
+                    'user__last_name',
+                    'user__email',
+                    'user__userprofile__phone_number',
+                    'key_name',
+                    'value_int',
+                    'value_str',
+                    'value_bool',
+                    'user__usercoursesummary__course__id',
+                    'user__usercoursesummary__course__title',
+                    'user__usercoursesummary__completed_activities') \
+            .annotate(
+                no_activities=Count(
+                    'user__usercoursesummary__course__section__activity')) \
+            .annotate(
+                percent_complete=F(
+                    'user__usercoursesummary__completed_activities') / F(
+                        'no_activities') * 100)
         return str(qs.query)
