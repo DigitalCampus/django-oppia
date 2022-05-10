@@ -38,4 +38,3 @@ class ViewUserCourseCompletePercent(DbView):
                     'no_activities') * 100)
 
         return str(qs.query)
-        
