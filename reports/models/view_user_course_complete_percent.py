@@ -16,25 +16,25 @@ class ViewUserCourseCompletePercent(DbView):
             user__is_superuser=False,
             user__userprofile__exclude_from_reporting=False) \
             .values('id',
-                    'user__id',
-                    'user__username',
-                    'user__first_name',
-                    'user__last_name',
-                    'user__email',
-                    'user__userprofile__phone_number',
-                    'key_name',
-                    'value_int',
-                    'value_str',
-                    'value_bool',
-                    'user__usercoursesummary__course__id',
-                    'user__usercoursesummary__course__title',
-                    'user__usercoursesummary__completed_activities') \
+                    userid=F('user__id'),
+                    username=F('user__username'),
+                    first_name=F('user__first_name'),
+                    last_name=F('user__last_name'),
+                    email=F('user__email'),
+                    phone_number=F('user__userprofile__phone_number'),
+                    profile_field_name=F('key_name'),
+                    profile_field_value_int=F('value_int'),
+                    profile_field_value_str=F('value_str'),
+                    profile_field_value_bool=F('value_bool'),
+                    course_id=F('user__usercoursesummary__course__id'),
+                    course_title=F('user__usercoursesummary__course__title'),
+                    no_activities_completed=F('user__usercoursesummary__completed_activities')) \
             .annotate(
-                no_activities=Count(
+                total_no_activities=Count(
                     'user__usercoursesummary__course__section__activity')) \
             .annotate(
                 percent_complete=F(
-                    'user__usercoursesummary__completed_activities') / F(
-                    'no_activities') * 100)
+                    'no_activities_completed') / F(
+                    'total_no_activities') * 100)
 
         return str(qs.query)

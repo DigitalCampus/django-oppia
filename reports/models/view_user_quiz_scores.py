@@ -11,8 +11,8 @@ class ViewUserQuizScores(DbView):
 
     @classmethod
     def view(cls):
-        #.filter(Q(quiz__quizprops__name="courseversion") 
-            #| Q(quizprops__name="moodle_quiz_id") ) \
+        # for some reason the event and quizprops_name filters need to be
+        # escaped - unclear why
         qs = QuizAttempt.objects.filter(
             user__is_staff=False,
             user__is_superuser=False,
@@ -21,26 +21,25 @@ class ViewUserQuizScores(DbView):
             .filter(Q(quiz__quizprops__name='\"courseversion\"') 
             | Q(quiz__quizprops__name='\"moodle_quiz_id\"') ) \
             .values('id',
-                    'user__id',
-                    'user__username',
-                    'user__first_name',
-                    'user__last_name',
-                    'user__email',
-                    'user__userprofile__phone_number',
-                    'user__userprofilecustomfield__key_name',
-                    'user__userprofilecustomfield__value_int',
-                    'user__userprofilecustomfield__value_str',
-                    'user__userprofilecustomfield__value_bool',
-                    'quiz__title',
-                    'quiz__quizprops__name',
-                    'quiz__quizprops__value',
-                    'attempt_date',
-                    'score',
-                    'maxscore') \
+                    userid=F('user__id'),
+                    username=F('user__username'),
+                    first_name=F('user__first_name'),
+                    last_name=F('user__last_name'),
+                    email=F('user__email'),
+                    phone_number=F('user__userprofile__phone_number'),
+                    profile_field_name=F('user__userprofilecustomfield__key_name'),
+                    profile_field_value_int=F('user__userprofilecustomfield__value_int'),
+                    profile_field_value_str=F('user__userprofilecustomfield__value_str'),
+                    profile_field_value_bool=F('user__userprofilecustomfield__value_bool'),
+                    quiz_title=F('quiz__title'),
+                    quiz_property_name=F('quiz__quizprops__name'),
+                    quiz_property_value=F('quiz__quizprops__value'),
+                    quiz_attempt_date=F('attempt_date'),
+                    user_score=F('score'),
+                    quiz_maxscore=F('maxscore')) \
             .annotate(
                 score_percent=F(
-                    'score') / F(
+                    'user_score') / F(
                     'maxscore') * 100)
-        print(qs.query)
 
         return str(qs.query)
