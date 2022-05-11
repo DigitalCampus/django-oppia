@@ -31,6 +31,7 @@ class ViewUserQuizScores(DbView):
                     profile_field_value_int=F('user__userprofilecustomfield__value_int'),
                     profile_field_value_str=F('user__userprofilecustomfield__value_str'),
                     profile_field_value_bool=F('user__userprofilecustomfield__value_bool'),
+                    quizid=F('quiz__id'),
                     quiz_title=F('quiz__title'),
                     quiz_property_name=F('quiz__quizprops__name'),
                     quiz_property_value=F('quiz__quizprops__value'),
