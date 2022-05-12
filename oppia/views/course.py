@@ -37,7 +37,8 @@ class CourseListView(ListView, AjaxTemplateResponseMixin):
             courses = courses.filter(CourseFilter.IS_NOT_ARCHIVED & CourseFilter.IS_NOT_DRAFT)
         elif course_filter == 'new_downloads_disabled':
             courses = courses.filter(CourseFilter.NEW_DOWNLOADS_DISABLED)
-
+        elif course_filter == 'read_only':
+            courses = courses.filter(CourseFilter.IS_READ_ONLY)
 
         category = self.get_current_category()
         if category is not None:
