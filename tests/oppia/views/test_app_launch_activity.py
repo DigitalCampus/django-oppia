@@ -61,7 +61,7 @@ class AppLaunchActivityTest(OppiaTestCase):
     def test_no_access_for_draft_course(self):
         url = ('%s?course=' + self.valid_course) \
             % reverse(self.STR_URL_REDIRECT)
-        update_course_status(1, CourseStatus.ARCHIVED)
+        update_course_status(1, CourseStatus.DRAFT)
         response = self.client.get(url)
         self.assertRaises(Http404)
         self.assertTemplateUsed(response, self.STR_LAUNCHER_TEMPLATE)
