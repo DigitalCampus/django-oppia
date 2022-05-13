@@ -19,11 +19,11 @@ from gamification.models import CourseGamificationEvent, \
                                 MediaGamificationEvent
 from gamification.xml_writer import GamificationXMLWriter
 from oppia.models import Course, \
-                         Section, \
-                         Activity, \
-                         Media, \
-                         CoursePublishingLog, \
-                         CoursePermissions
+    Section, \
+    Activity, \
+    Media, \
+    CoursePublishingLog, \
+    CoursePermissions, CourseStatus
 from oppia.utils.course_file import unescape_xml
 from quiz.models import Quiz, \
                         Question, \
@@ -196,7 +196,7 @@ def process_course(extract_path, f, mod_name, request, user):
 
     except Course.DoesNotExist:
         course = Course()
-        course.is_draft = True
+        course.status = CourseStatus.DRAFT
         new_course = True
 
     old_course_version = course.version

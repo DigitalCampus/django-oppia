@@ -11,6 +11,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from tastypie.models import create_api_key
 
+from oppia import constants
 from quiz.models import QuizAttempt, Quiz
 
 from xml.dom.minidom import Document
@@ -19,6 +20,13 @@ models.signals.post_save.connect(create_api_key, sender=User)
 
 STR_COURSE_INHERITED = _('Inherited from course')
 STR_GLOBAL_INHERITED = _('Inherited from global defaults')
+
+
+class CourseStatus(models.TextChoices):
+    LIVE = 'live', _('Live')
+    DRAFT = 'draft', _('Draft')
+    ARCHIVED = 'archived', _('Archived')
+    NEW_DOWNLOADS_DISABLED = 'new_downloads_disabled', _('New downloads disabled')
 
 
 class Course(models.Model):
@@ -39,9 +47,10 @@ class Course(models.Model):
     badge_icon = models.FileField(upload_to="badges",
                                   blank=True,
                                   default=None)
-    is_draft = models.BooleanField(default=False)
-    is_archived = models.BooleanField(default=False)
-    new_downloads_enabled = models.BooleanField(default=True)
+    status = models.CharField(max_length=100,
+                              choices=CourseStatus.choices,
+                              default=CourseStatus.LIVE,
+                              help_text=_(constants.STATUS_FIELD_HELP_TEXT))
 
     class Meta:
         verbose_name = _('Course')

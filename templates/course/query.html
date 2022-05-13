@@ -18,12 +18,12 @@
     {% else %}
         <strong>{{ item.title|title_lang:LANGUAGE_CODE }}</strong>
     {% endif %}
-    {% include "common/info_badges.html" with course=item %}<br/>
+    {% include "common/info_badge.html" with course=item %}<br/>
 <small>{% trans 'Categories:' %} {{ item.get_categories }}</small>
 </td>
 <td>{{ item.lastupdated_date }} </td>
 <td>{{ item.total_downloads|default:0 }} downloads by {{ item.distinct_downloads|default:0 }} users<br/>
-    {% if not item.is_archived %}
+    {% if CourseStatus.ARCHIVED not in item.status %}
     	<a href="{% url 'oppia:course_download' item.id %}">{% trans 'download course' %}</a>
     {% endif %}
 </td>

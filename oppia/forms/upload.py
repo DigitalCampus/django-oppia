@@ -7,7 +7,9 @@ from django.conf import settings
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
-from settings import constants
+from oppia.models import CourseStatus
+from settings import constants as SettingsConstants
+from oppia import constants as OppiaConstants
 from settings.models import SettingProperties
 
 
@@ -20,7 +22,7 @@ class UploadCourseStep1Form(forms.Form):
     def __init__(self, *args, **kwargs):
         super(UploadCourseStep1Form, self).__init__(* args, ** kwargs)
 
-        max_upload = SettingProperties.get_int(constants.MAX_UPLOAD_SIZE,
+        max_upload = SettingProperties.get_int(SettingsConstants.MAX_UPLOAD_SIZE,
                                                settings.OPPIA_MAX_UPLOAD_SIZE)
         self.fields['course_file'].help_text = \
             _('Max size %(size)d Mb') % \
@@ -45,7 +47,7 @@ class UploadCourseStep1Form(forms.Form):
         cleaned_data = super(UploadCourseStep1Form, self).clean()
         file = cleaned_data.get("course_file")
 
-        max_upload = SettingProperties.get_int(constants.MAX_UPLOAD_SIZE,
+        max_upload = SettingProperties.get_int(SettingsConstants.MAX_UPLOAD_SIZE,
                                                settings.OPPIA_MAX_UPLOAD_SIZE)
 
         if file is not None and file.size > max_upload:
@@ -71,13 +73,12 @@ class UploadCourseStep2Form(forms.Form):
                 required=True,
                 error_messages={'required':
                                 _('Please enter at least one category')})
-    is_draft = forms.BooleanField(
-                help_text=_("Whether this course is only a draft"),
-                required=False, )
 
-    new_downloads_enabled = forms.BooleanField(
-                help_text=_("Whether this course accepts new downloads"),
-                required=False, )
+    status = forms.ChoiceField(
+        choices=CourseStatus.choices,
+        help_text=_(OppiaConstants.STATUS_FIELD_HELP_TEXT),
+        required=True,
+    )
 
     def __init__(self, *args, **kwargs):
         super(UploadCourseStep2Form, self).__init__(* args, ** kwargs)
@@ -87,8 +88,7 @@ class UploadCourseStep2Form(forms.Form):
         self.helper.field_class = 'col-lg-4'
         self.helper.layout = Layout(
                 'categories',
-                'is_draft',
-                'new_downloads_enabled',
+                'status',
                 Div(
                    Submit('submit', _(u'Save'), css_class='btn btn-default'),
                    css_class='col-lg-offset-2 col-lg-4',

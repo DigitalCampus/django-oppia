@@ -29,7 +29,7 @@
 						<td>
 						<a href="{% url 'oppia:recent_activity' course.id %}"><strong>{{ course.title|title_lang:LANGUAGE_CODE }}</strong></a>
 						   
-						{% include "common/info_badges.html" with course=course %}<br/>
+						{% include "common/info_badge.html" with course=course %}<br/>
 						<small>{% trans 'Categories:' %} {{ course.get_categories}}</small>
 						</td>
 						<td>{{ course.lastupdated_date }} </td>

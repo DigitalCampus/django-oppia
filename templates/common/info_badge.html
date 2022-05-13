@@ -1,0 +1,6 @@
+
+{% load i18n %}
+
+{% if course.status != 'live' %}
+    <span class="badge badge-dark ml-2"><small>{% trans course.get_status_display %}</small></span>
+{% endif %}
