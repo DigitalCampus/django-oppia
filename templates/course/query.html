@@ -30,7 +30,9 @@
 <td class="py-1">
     {% if item.can_edit %}
         <a href="{% url 'oppia:course_edit' item.id %}" data-toggle="tooltip" title="{% trans 'Edit' %}" class="btn btn-inline btn-outline-primary"><em class="fas fa-2x fa-edit"></em> </a>
-        <a href="{% url 'oppia_gamification_edit_course' item.id %}" data-toggle="tooltip" title="{% trans 'Edit Gamification' %}" class="btn btn-inline btn-outline-primary"><em class="fas fa-2x fa-gamepad"></em></a>
+        {% if item.can_edit_gamification %}
+            <a href="{% url 'oppia_gamification_edit_course' item.id %}" data-toggle="tooltip" title="{% trans 'Edit Gamification' %}" class="btn btn-inline btn-outline-primary"><em class="fas fa-2x fa-gamepad"></em></a>
+        {% endif %}
     {% endif %}
 </td>
 {% endblock %}
