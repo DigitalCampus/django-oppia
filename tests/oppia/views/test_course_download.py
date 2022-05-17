@@ -125,6 +125,74 @@ class DownloadViewTest(OppiaTestCase):
         self.assertEqual(response.status_code, 404)
         update_course_status(1, CourseStatus.LIVE)
 
+    def test_new_downloads_disabled_course_admin(self):
+        update_course_status(1, CourseStatus.NEW_DOWNLOADS_DISABLED)
+        response = self.get_view(self.course_download_url_valid,
+                                 self.admin_user)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['content-type'],
+                         self.STR_EXPECTED_CONTENT_TYPE)
+        update_course_status(1, CourseStatus.LIVE)
+
+    def test_new_downloads_disabled_course_staff(self):
+        update_course_status(1, CourseStatus.NEW_DOWNLOADS_DISABLED)
+        response = self.get_view(self.course_download_url_valid,
+                                 self.staff_user)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['content-type'],
+                         self.STR_EXPECTED_CONTENT_TYPE)
+        update_course_status(1, CourseStatus.LIVE)
+
+    def test_new_downloads_disabled_course_teacher(self):
+        update_course_status(1, CourseStatus.NEW_DOWNLOADS_DISABLED)
+        response = self.get_view(self.course_download_url_valid,
+                                 self.teacher_user)
+        self.assertEqual(response.status_code, 404)
+        update_course_status(1, CourseStatus.LIVE)
+
+    def test_new_downloads_disabled_course_normal(self):
+        update_course_status(1, CourseStatus.NEW_DOWNLOADS_DISABLED)
+        response = self.get_view(self.course_download_url_valid,
+                                 self.normal_user)
+        self.assertEqual(response.status_code, 404)
+        update_course_status(1, CourseStatus.LIVE)
+
+    def test_read_only_course_admin(self):
+        update_course_status(1, CourseStatus.READ_ONLY)
+        response = self.get_view(self.course_download_url_valid,
+                                 self.admin_user)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['content-type'],
+                         self.STR_EXPECTED_CONTENT_TYPE)
+        update_course_status(1, CourseStatus.LIVE)
+
+    def test_read_only_course_staff(self):
+        update_course_status(1, CourseStatus.READ_ONLY)
+        response = self.get_view(self.course_download_url_valid,
+                                 self.staff_user)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['content-type'],
+                         self.STR_EXPECTED_CONTENT_TYPE)
+        update_course_status(1, CourseStatus.LIVE)
+
+    def test_read_only_course_teacher(self):
+        update_course_status(1, CourseStatus.READ_ONLY)
+        response = self.get_view(self.course_download_url_valid,
+                                 self.teacher_user)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['content-type'],
+                         self.STR_EXPECTED_CONTENT_TYPE)
+        update_course_status(1, CourseStatus.LIVE)
+
+    def test_read_only_course_normal(self):
+        update_course_status(1, CourseStatus.READ_ONLY)
+        response = self.get_view(self.course_download_url_valid,
+                                 self.normal_user)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['content-type'],
+                         self.STR_EXPECTED_CONTENT_TYPE)
+        update_course_status(1, CourseStatus.LIVE)
+
     # Course does not exist
     def test_dne_course_admin(self):
         response = self.get_view(self.course_download_url_invalid,

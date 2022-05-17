@@ -14,7 +14,7 @@ from gamification.models import DefaultGamificationEvent, \
                                 MediaGamificationEvent
 from gamification.xml_writer import GamificationXMLWriter
 from oppia.models import Course, Points, Activity, Media
-from oppia.permissions import can_edit_course
+from oppia.permissions import can_edit_course, can_edit_course_gamification
 
 
 @staff_member_required
@@ -52,7 +52,7 @@ def leaderboard_export(request, course_id=None):
 
 
 def edit_course_gamification(request, course_id):
-    if not can_edit_course(request, course_id):
+    if not can_edit_course_gamification(request, course_id):
         raise PermissionDenied
 
     course = get_object_or_404(Course, pk=course_id)

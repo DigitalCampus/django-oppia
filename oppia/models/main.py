@@ -27,6 +27,7 @@ class CourseStatus(models.TextChoices):
     DRAFT = 'draft', _('Draft')
     ARCHIVED = 'archived', _('Archived')
     NEW_DOWNLOADS_DISABLED = 'new_downloads_disabled', _('New downloads disabled')
+    READ_ONLY = 'read_only', _('Read only')
 
 
 class Course(models.Model):

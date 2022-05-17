@@ -11,7 +11,8 @@ from django.views.generic import TemplateView, ListView, DetailView, FormView
 from helpers.mixins.AjaxTemplateResponseMixin import AjaxTemplateResponseMixin
 from oppia.forms.upload import UploadCourseStep1Form, UploadCourseStep2Form
 from oppia.models import Category, CourseCategory, CoursePublishingLog, Course, CourseStatus
-from oppia.permissions import can_edit_course, can_download_course, can_view_course_detail, can_view_courses_list, can_upload
+from oppia.permissions import can_edit_course, can_download_course, can_view_course_detail, can_view_courses_list, \
+    can_upload, can_edit_course_gamification
 from oppia.signals import course_downloaded
 from oppia.uploader import handle_uploaded_file
 from oppia.utils.filters import CourseFilter
@@ -37,7 +38,8 @@ class CourseListView(ListView, AjaxTemplateResponseMixin):
             courses = courses.filter(CourseFilter.IS_NOT_ARCHIVED & CourseFilter.IS_NOT_DRAFT)
         elif course_filter == 'new_downloads_disabled':
             courses = courses.filter(CourseFilter.NEW_DOWNLOADS_DISABLED)
-
+        elif course_filter == 'read_only':
+            courses = courses.filter(CourseFilter.IS_READ_ONLY)
 
         category = self.get_current_category()
         if category is not None:
@@ -69,6 +71,7 @@ class CourseListView(ListView, AjaxTemplateResponseMixin):
             except PermissionDenied:
                 course.access_detail = None
             course.can_edit = can_edit_course(self.request, course.id)
+            course.can_edit_gamification = can_edit_course_gamification(self.request, course.id)
             for stats in course_stats:
                 if stats['course'] == course.id:
                     course.distinct_downloads = stats['distinct']

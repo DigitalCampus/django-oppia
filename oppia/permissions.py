@@ -240,6 +240,12 @@ def can_view_courses_list(request, order_by='title'):
     return courses
 
 
+def can_edit_course_gamification(request, course_id):
+    return can_edit_course(request, course_id) \
+           and Course.objects.filter(CourseFilter.IS_NOT_ARCHIVED & CourseFilter.NEW_DOWNLOADS_ENABLED & CourseFilter.IS_NOT_READ_ONLY)\
+               .filter(pk=course_id).exists()
+
+
 # Sonarcloud raises a code smell that the request and exception params here 
 # are redundant, however, Django requires them
 def oppia_403_handler(request, exception):

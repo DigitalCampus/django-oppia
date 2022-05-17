@@ -17,7 +17,7 @@ from oppia.constants import STR_DATE_FORMAT
 from oppia.forms.activity_search import ActivitySearchForm
 from oppia.models import Points, Course
 from oppia.models import Tracker
-from oppia.permissions import can_view_course_detail
+from oppia.permissions import can_view_course_detail, can_edit_course_gamification
 from oppia.views.utils import generate_graph_data
 from profile.views import utils
 from summary.models import CourseDailyStats, UserCourseSummary
@@ -43,6 +43,7 @@ class CourseActivityDetail(DateRangeFilterMixin, DetailView):
         context['download_stats'] = UserCourseSummary.objects.filter(course=self.object.id).aggregated_stats('total_downloads', single=True)
         context['leaderboard'] = Points.get_leaderboard(constants.LEADERBOARD_HOMEPAGE_RESULTS_PER_PAGE, self.object)
         context['data'] = self.get_activity(start_date, end_date, interval)
+        context['can_edit_course_gamification'] = can_edit_course_gamification(self.request, self.object.id)
 
         return context
 
