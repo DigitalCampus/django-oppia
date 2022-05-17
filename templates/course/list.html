@@ -33,8 +33,8 @@
 {% endif %}
 	<div class="col-auto">
     <form method="get">
-	<em class="fas fa-eye mr-1 text-primary"></em> </span> {% trans 'Filter by visibility: ' %}
-	<select class="form-control" name="visibility" id="course-visibility-filter">
+	<em class="fas fa-eye mr-1 text-primary"></em> </span> {% trans 'Filter by status: ' %}
+	<select class="form-control" name="status" id="course-status-filter">
         <option value="">{% trans 'All' %}</option>
         <option value="live" {% if course_filter == "live" %} selected="selected"{% endif %}>{% trans 'Live' %}</option>
         <option value="draft" {% if course_filter == "draft" %} selected="selected"{% endif %}>{% trans 'Draft' %}</option>
@@ -60,7 +60,7 @@
                 return true;
             });
 
-            $('#course-visibility-filter').on('change', function(){
+            $('#course-status-filter').on('change', function(){
                 $(this).parent().submit();
             })
         });

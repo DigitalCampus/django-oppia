@@ -35,7 +35,7 @@ class CourseListView(ListView, AjaxTemplateResponseMixin):
         elif course_filter == 'archived':
             courses = courses.filter(CourseFilter.IS_ARCHIVED)
         elif course_filter == 'live':
-            courses = courses.filter(CourseFilter.IS_NOT_ARCHIVED & CourseFilter.IS_NOT_DRAFT)
+            courses = courses.filter(CourseFilter.IS_LIVE)
         elif course_filter == 'new_downloads_disabled':
             courses = courses.filter(CourseFilter.NEW_DOWNLOADS_DISABLED)
         elif course_filter == 'read_only':
@@ -54,7 +54,7 @@ class CourseListView(ListView, AjaxTemplateResponseMixin):
         return self.request.GET.get('order_by', self.default_order)
 
     def get_filter(self):
-        return self.request.GET.get('visibility', '')
+        return self.request.GET.get('status', '')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
