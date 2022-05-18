@@ -5,6 +5,8 @@ from oppia.models import CourseStatus
 
 
 class CourseFilter:
+    IS_LIVE = Q(status=CourseStatus.LIVE)
+    IS_NOT_LIVE = ~Q(status=CourseStatus.LIVE)
     IS_ARCHIVED = Q(status=CourseStatus.ARCHIVED)
     IS_NOT_ARCHIVED = ~Q(status=CourseStatus.ARCHIVED)
     IS_DRAFT = Q(status=CourseStatus.DRAFT)

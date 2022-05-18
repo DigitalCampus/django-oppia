@@ -28,21 +28,21 @@ class CourseViewsTest(OppiaTestCase):
     def test_tag_view_live(self):
         self.client.force_login(user=self.admin_user)
         url = reverse(self.STR_URL_TAG_COURSES, args=[2])
-        response = self.client.get('%s?visibility=live' % url)
+        response = self.client.get('%s?status=live' % url)
         self.assertEqual(200, response.status_code)
         self.assertTemplateUsed(response, self.course_list_template)
 
     def test_tag_view_draft(self):
         self.client.force_login(user=self.admin_user)
         url = reverse(self.STR_URL_TAG_COURSES, args=[2])
-        response = self.client.get('%s?visibility=draft' % url)
+        response = self.client.get('%s?status=draft' % url)
         self.assertEqual(200, response.status_code)
         self.assertTemplateUsed(response, self.course_list_template)
 
     def test_tag_view_archived(self):
         self.client.force_login(user=self.admin_user)
         url = reverse(self.STR_URL_TAG_COURSES, args=[2])
-        response = self.client.get('%s?visibility=archived' % url)
+        response = self.client.get('%s?status=archived' % url)
         self.assertEqual(200, response.status_code)
         self.assertTemplateUsed(response, self.course_list_template)
 
