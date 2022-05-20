@@ -230,6 +230,18 @@ class Course(models.Model):
 
         return tracker_viewed
 
+    def is_live(self):
+        return self.status == CourseStatus.LIVE
+
+    def is_draft(self):
+        return self.status == CourseStatus.DRAFT
+
+    def is_archived(self):
+        return self.status == CourseStatus.ARCHIVED
+
+    def are_new_downloads_disabled(self):
+        return self.status == CourseStatus.NEW_DOWNLOADS_DISABLED
+
 
 class CoursePermissions(models.Model):
 

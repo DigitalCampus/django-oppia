@@ -147,8 +147,7 @@ class CourseFormView(CanEditCoursePermission, FormView):
 
     def get_initial(self):
         return {'categories': self.course.get_categories(),
-                'is_draft': CourseStatus.DRAFT in self.course.status,
-                'new_downloads_enabled': CourseStatus.NEW_DOWNLOADS_DISABLED not in self.course.status}
+                'status': self.course.status}
 
     def form_valid(self, form):
         self.update_course_tags(form, self.course, self.request.user)

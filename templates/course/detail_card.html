@@ -14,11 +14,14 @@
             {{ course.description|title_lang:LANGUAGE_CODE|default_if_none:"No description"  }}
         </p>
         {% if extended %}
-        <strong class="text-black-50">{% trans 'Shortname:' %}</strong> <code>{{ course.shortname }}</code><br>
-        <strong class="text-black-50">{% trans 'Version:' %}</strong> <code>{{ course.version }}</code><br>
-        <strong class="text-black-50">{% trans 'Created:' %} </strong> {{ course.created_date }}<br>
-        <strong class="text-black-50">{% trans 'Last updated:' %} </strong> {{ course.lastupdated_date }}<br>
-        <a href="{% url 'oppia:course_download' course.id %}" class="btn btn-primary mt-3 mb-2"><em class="fas mr-2 fa-arrow-down"></em> {% trans 'Download course' %}</a><br>
+            <strong class="text-black-50">{% trans 'Shortname:' %}</strong> <code>{{ course.shortname }}</code><br>
+            <strong class="text-black-50">{% trans 'Version:' %}</strong> <code>{{ course.version }}</code><br>
+            <strong class="text-black-50">{% trans 'Created:' %} </strong> {{ course.created_date }}<br>
+            <strong class="text-black-50">{% trans 'Last updated:' %} </strong> {{ course.lastupdated_date }}<br>
+        
+            {% if not course.is_archived %}
+                 <a href="{% url 'oppia:course_download' course.id %}" class="btn btn-primary mt-3 mb-2"><em class="fas mr-2 fa-arrow-down"></em> {% trans 'Download course' %}</a><br>
+            {% endif %}
         {% endif %}
 
         {{ download_stats.total|default:0 }} downloads by {{ download_stats.distinct|default:0 }} users
