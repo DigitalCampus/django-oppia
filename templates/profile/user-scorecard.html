@@ -89,8 +89,13 @@
 					<tr>
 						<td>
                             <div class="list-pie" data-total="{{ c.course.get_no_activities }}" data-completed="{{ c.no_activities_completed }}" ></div>
-                            <a href="{% url 'profile:user_course_activity' view_user.id c.course.id%}">
-                            {{ c.course.title|title_lang:LANGUAGE_CODE }}</a>
+							{% if c.course.can_view_course_activity %}
+								<a href="{% url 'profile:user_course_activity' view_user.id c.course.id%}">{{ c.course.title|title_lang:LANGUAGE_CODE }}</a>
+							{% else %}
+								<strong>{{ c.course.title|title_lang:LANGUAGE_CODE }}</strong>
+							{% endif %}
+
+
 							{% include "common/info_badge.html" with course=c.course %}
                         </td>
 						<td>

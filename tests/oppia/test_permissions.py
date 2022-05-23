@@ -1,7 +1,12 @@
 
 from django.urls import reverse
+
+from oppia.models import CourseStatus
 from oppia.test import OppiaTestCase
-from oppia.permissions import is_manager_only
+from oppia.permissions import is_manager_only, can_view_course_activity
+from django.test.client import RequestFactory
+
+from tests.utils import update_course_status
 
 
 class PermissionsViewTest(OppiaTestCase):
@@ -12,6 +17,11 @@ class PermissionsViewTest(OppiaTestCase):
                 'tests/test_course_permissions.json']
 
     STR_ADMIN_INDEX = 'admin:index'
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.factory = RequestFactory()
 
     def assert_response(self, view, status_code, user=None, view_kwargs=None):
         route = reverse(view, kwargs=view_kwargs)
@@ -296,3 +306,66 @@ class PermissionsViewTest(OppiaTestCase):
 
     def test_is_manager_manager(self):
         self.assertTrue(is_manager_only(self.manager_user))
+
+    def test_admin_can_view_course_activity_live(self):
+        course_id = 1
+        request = self.factory.get("")
+        request.user = self.admin_user
+        update_course_status(course_id, CourseStatus.LIVE)
+        self.assertTrue(can_view_course_activity(request, course_id))
+
+    def test_admin_can_view_course_link_draft(self):
+        course_id = 1
+        request = self.factory.get("")
+        request.user = self.admin_user
+        update_course_status(course_id, CourseStatus.DRAFT)
+        self.assertTrue(can_view_course_activity(request, course_id))
+
+    def test_admin_can_view_course_link_archived(self):
+        course_id = 1
+        request = self.factory.get("")
+        request.user = self.admin_user
+        update_course_status(course_id, CourseStatus.ARCHIVED)
+        self.assertTrue(can_view_course_activity(request, course_id))
+
+    def test_staff_can_view_course_activity_live(self):
+        course_id = 1
+        request = self.factory.get("")
+        request.user = self.staff_user
+        update_course_status(course_id, CourseStatus.LIVE)
+        self.assertTrue(can_view_course_activity(request, course_id))
+
+    def test_staff_can_view_course_link_draft(self):
+        course_id = 1
+        request = self.factory.get("")
+        request.user = self.staff_user
+        update_course_status(course_id, CourseStatus.DRAFT)
+        self.assertTrue(can_view_course_activity(request, course_id))
+
+    def test_staff_can_view_course_link_archived(self):
+        course_id = 1
+        request = self.factory.get("")
+        request.user = self.staff_user
+        update_course_status(course_id, CourseStatus.ARCHIVED)
+        self.assertTrue(can_view_course_activity(request, course_id))
+
+    def test_user_can_view_course_activity_live(self):
+        course_id = 1
+        request = self.factory.get("")
+        request.user = self.normal_user
+        update_course_status(course_id, CourseStatus.LIVE)
+        self.assertTrue(can_view_course_activity(request, course_id))
+
+    def test_user_cannot_view_course_link_draft(self):
+        course_id = 1
+        request = self.factory.get("")
+        request.user = self.normal_user
+        update_course_status(course_id, CourseStatus.DRAFT)
+        self.assertFalse(can_view_course_activity(request, course_id))
+
+    def test_user_cannot_view_course_link_archived(self):
+        course_id = 1
+        request = self.factory.get("")
+        request.user = self.normal_user
+        update_course_status(course_id, CourseStatus.ARCHIVED)
+        self.assertFalse(can_view_course_activity(request, course_id))
