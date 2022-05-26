@@ -8,12 +8,6 @@
 
 {% block section_title %}
 	<h3><a href="{% url 'oppia:recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a>
-	{% if CourseStatus.DRAFT in course.status %}
-		<span class="badge badge-dark ml-2"><small>{% trans 'draft' %}</small></span>
-	{% endif %}
-	{% if CourseStatus.ARCHIVED in course.status %}
-		<span class="badge badge-dark ml-2"><small>{% trans 'archived' %}</small></span>
-	{% endif %}
 		<em class="material-icons md-18 ">arrow_forward_ios</em>  {% trans 'Detail activity' %}
 	</h3>
 	<p><em>{% trans 'Categories:' %} {{ course.get_categories}}</em></p>
