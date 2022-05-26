@@ -18,7 +18,7 @@ from tastypie.utils import timezone
 
 from api.serializers import PrettyJSONSerializer
 from oppia import DEFAULT_IP_ADDRESS
-from oppia.models import Activity, Tracker, Media, Points, Award
+from oppia.models import Activity, Tracker, Media, Points, Award, Course
 
 from api.resources.login import UserResource
 from api.validation import TrackerValidation
@@ -110,8 +110,7 @@ class TrackerResource(ModelResource):
         for key, value in kwargs.items():
             setattr(bundle.obj, key, value)
 
-        self.authorized_create_detail(self.get_object_list(bundle.request),
-                                      bundle)
+        self.authorized_create_detail(self.get_object_list(bundle.request), bundle)
         bundle = self.full_hydrate(bundle)
 
         if bundle.obj.type == 'search':
@@ -163,7 +162,16 @@ class TrackerResource(ModelResource):
             bundle.obj.type = activity.type
             bundle.obj.activity_title = activity.title
             bundle.obj.section_title = activity.section.title
+        else:
+            bundle.obj.course = None
+            bundle.obj.type = ''
+            bundle.obj.activity_title = ''
+            bundle.obj.section_title = ''
 
+            if 'event' in bundle.data and bundle.data['event'] == 'media_missing':
+                bundle.obj.course = Course.objects.filter(shortname=bundle.data['course']).first()
+
+        if bundle.obj.course is not None:
             if 'course_version' in bundle.data:
                 try:
                     int(bundle.data['course_version'])
@@ -172,11 +180,6 @@ class TrackerResource(ModelResource):
                     bundle.obj.course_version = bundle.obj.course.version
             else:
                 bundle.obj.course_version = bundle.obj.course.version
-        else:
-            bundle.obj.course = None
-            bundle.obj.type = ''
-            bundle.obj.activity_title = ''
-            bundle.obj.section_title = ''
 
         bundle = self.process_tracker_bundle(bundle)
 
@@ -232,29 +235,26 @@ class TrackerResource(ModelResource):
             data = self.alter_deserialized_detail_data(request, data)
             bundle = self.build_bundle(data=dict_strip_unicode_keys(data))
             bundle.request.user = request.user
-            bundle.request.META['REMOTE_ADDR'] = \
-                request.META.get('REMOTE_ADDR', DEFAULT_IP_ADDRESS)
-            bundle.request.META['HTTP_USER_AGENT'] = \
-                request.META.get('HTTP_USER_AGENT', 'unknown')
+            bundle.request.META['REMOTE_ADDR'] = request.META.get('REMOTE_ADDR', DEFAULT_IP_ADDRESS)
+            bundle.request.META['HTTP_USER_AGENT'] = request.META.get('HTTP_USER_AGENT', 'unknown')
             # check UUID not already submitted
             if 'data' in bundle.data:
                 json_data = json.loads(bundle.data['data'])
                 if 'uuid' in json_data:
                     uuids = Tracker.objects.filter(uuid=json_data['uuid'])
-                    if uuids.count() == 0:
-                        self.obj_create(bundle, request=request)
-                else:
-                    self.obj_create(bundle, request=request)
-            else:
-                self.obj_create(bundle, request=request)
+                    if uuids.exists():
+                        continue
 
-        response_data = {'points': self.dehydrate_points(bundle),
-                         'badges': self.dehydrate_badges(bundle),
-                         'scoring': self.dehydrate_scoring(bundle),
-                         'badging': self.dehydrate_badging(bundle),
-                         'metadata': self.dehydrate_metadata(bundle),
-                         'course_points': self.dehydrate_course_points(bundle),
-                         }
+            self.obj_create(bundle, request=request)
+
+        response_data = {
+            'points': self.dehydrate_points(bundle),
+            'badges': self.dehydrate_badges(bundle),
+            'scoring': self.dehydrate_scoring(bundle),
+            'badging': self.dehydrate_badging(bundle),
+            'metadata': self.dehydrate_metadata(bundle),
+            'course_points': self.dehydrate_course_points(bundle),
+        }
         response = HttpResponse(content=json.dumps(response_data),
                                 content_type="application/json; charset=utf-8")
         return response
