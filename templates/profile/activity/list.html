@@ -1,0 +1,16 @@
+{% extends "tracker/list.html" %}
+{% load i18n %}
+
+{% block extra_head_title %}
+	{{ user.first_name }} {{ user.last_name }} | {% trans 'Detail activity' %}
+{% endblock extra_head_title %}
+
+{% block section_title %}
+	<h3><a href="{% url 'profile:user_activity' user.pk %}">{{ user.first_name }} {{ user.last_name }}</a>
+		<em class="material-icons md-18 ">arrow_forward_ios</em>  {% trans 'Detail activity' %}
+	</h3>
+{% endblock section_title %}
+
+{% block content %}
+{% include 'tracker/query.html' with show_course=True %}
+{% endblock %}

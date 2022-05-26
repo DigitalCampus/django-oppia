@@ -69,7 +69,7 @@ class CourseActivityDetail(DateRangeFilterMixin, DetailView):
 
 
 class CourseActivityDetailList(DateRangeFilterMixin, SafePaginatorMixin, ListView):
-    template_name = 'course/detail/list.html'
+    template_name = 'course/activity/list.html'
     paginate_by = 25
     daterange_form_class = ActivitySearchForm
 

@@ -194,7 +194,7 @@ def process_quiz_activity(view_user,
 
 
 class UserActivityDetailList(DateRangeFilterMixin, SafePaginatorMixin, ListView):
-    template_name = 'profile/detail/list.html'
+    template_name = 'profile/activity/list.html'
     paginate_by = 25
     daterange_form_class = ActivitySearchForm
 

@@ -7,13 +7,20 @@
 	{{ course.title|title_lang:LANGUAGE_CODE }}
 {% endblock extra_head_title %}
 
+
+{% block extra_styles %}
+<style type="text/css">
+    .hide-tracker{ position:absolute; bottom: 15px; right: 15px; }
+</style>
+
+{% endblock extra_styles %}
+
 {% block extra_scripts %}
 <script type="text/javascript">
 	$('tr[name=trackerlist]').each(function(i){
-		$('#detail'+$(this).attr('id')).toggle();
-		$(this).click(function() {
-			$('#detail'+$(this).attr('id')).slideDown(700);
-		});
+		var trackerDetail = $('#detail'+$(this).attr('id')).toggle();
+		$(this).click( function(){ trackerDetail.toggle(); });
+		trackerDetail.find('button').click( function(){ trackerDetail.toggle(); });
 	});
 </script>
 {% endblock extra_scripts %}
@@ -23,29 +30,22 @@
 	<form method="get">
 	<div class="row">
 		<div class="col-md-12">
-			<h3><a href="{% url 'oppia:recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a>
-			{% if CourseStatus.DRAFT in course.status %}
-				<span class="badge badge-dark ml-2"><small>{% trans 'draft' %}</small></span>
-			{% endif %}
-			{% if CourseStatus.ARCHIVED in course.status %}
-				<span class="badge badge-dark ml-2"><small>{% trans 'archived' %}</small></span>
-			{% endif %}
-				<em class="material-icons md-18 ">arrow_forward_ios</em>  {% trans 'Detail activity' %}
-			</h3>
-			<p><em>{% trans 'Categories:' %} {{ course.get_categories}}</em></p>
+            {% block section_title %}
+				{% trans 'Detail activity' %}
+			{% endblock section_title %}
 		</div>
 		<div class="col-md-5">
 			{% include "common/form/date-range.html" with dateform=form omit_form_tag=True %}
 		</div>
 		<div class="col-md-7 pl-0">
-			<div class="btn-group mt-2" role="group" aria-label="Basic example">
+			<div class="btn-group mt-2" role="group" aria-label="Search">
 				 <button class="btn btn-primary" type="submit" ><em class="fas fa-search"></em></button>
 				 <button class="btn btn-secondary py-3 pr-5 {% if not advanced_search %}collapsed{% endif %}" type="button" data-toggle="collapse" data-target="#advanced-search" aria-expanded="false" aria-controls="collapseExample"><span>Advanced search</span> <em class="fas fa-chevron-down expand-btn ml-2"></em></button>
 			 </div>
 		</div>
 	</div>
 
-	<div id="advanced-search" class="collapse mt-4  {% if advanced_search %}show{% endif %}">
+	<div id="advanced-search" class="collapse mt-4 pb-4 {% if advanced_search %}show{% endif %}">
 		<div class="row">
             <div class="col-md-5 col-lg-4 mb-3">
                 {% include "common/form/input.html" with field=form.type wrapper_class="mb-0" %}
@@ -54,17 +54,11 @@
                 {% include "common/form/input.html" with field=form.digest wrapper_class="mb-0" %}
             </div>
 		</div>
-		<div class="row">
-			<div class="col-md-5 col-lg-4 mb-3">
-                {% include "common/form/input.html" with field=form.user__username wrapper_class="mb-0" %}
-            </div>
-        </div>
+        {% block extra_search_fields %}
+        {% endblock extra_search_fields %}
+
 		{% crispy form form.advanced %}
 	</div>
 	</form>
 </div>
 {% endblock header %}
-
-{% block content %}
-{% include 'course/detail/query.html' %}
-{% endblock %}
