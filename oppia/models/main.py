@@ -242,6 +242,9 @@ class Course(models.Model):
     def are_new_downloads_disabled(self):
         return self.status == CourseStatus.NEW_DOWNLOADS_DISABLED
 
+    def is_read_only(self):
+        return self.status == CourseStatus.READ_ONLY
+
 
 class CoursePermissions(models.Model):
 

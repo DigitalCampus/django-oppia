@@ -1,0 +1,27 @@
+.badge {
+  i {
+    font-size: 18px;
+    padding-right: 5px;
+    vertical-align:middle;
+  }
+}
+
+.badge-draft {
+  background-color: #87589D;
+  color: white;
+}
+
+.badge-archived {
+  background-color: #3D3D3D;
+  color: white;
+}
+
+.badge-new-downloads-disabled {
+  background-color: #4EA8C2;
+  color: white;
+}
+
+.badge-read-only {
+  background-color: #BF7D54;
+  color: white;
+}
