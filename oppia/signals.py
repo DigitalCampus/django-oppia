@@ -12,26 +12,9 @@ from oppia.models import Points, Tracker
 from settings import constants
 from settings.models import SettingProperties
 
-course_downloaded = Signal()
-
 NON_ACTIVITY_EVENTS = [
     'course_downloaded', 'register'
 ]
-
-
-def course_downloaded_callback(sender, **kwargs):
-    request = kwargs.get('request')
-    course = kwargs.get('course')
-
-    tracker = Tracker()
-    tracker.user = request.user
-    tracker.course = course
-    tracker.type = 'download'
-    tracker.data = json.dumps({'version': course.version})
-    tracker.ip = request.META.get('REMOTE_ADDR', DEFAULT_IP_ADDRESS)
-    tracker.agent = request.META.get('HTTP_USER_AGENT', 'unknown')
-    tracker.save()
-
 
 # rules for applying points (or not)
 def apply_points(user):
@@ -134,4 +117,3 @@ def badgeaward_callback(sender, **kwargs):
 
 
 models.signals.post_save.connect(tracker_callback, sender=Tracker)
-course_downloaded.connect(course_downloaded_callback)

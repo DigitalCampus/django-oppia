@@ -296,7 +296,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_live_course_staff(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -305,7 +305,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_live_course_teacher(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -314,7 +314,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_live_course_normal(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -323,7 +323,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_draft_course_admin(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -333,7 +333,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_draft_course_staff(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -343,7 +343,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_draft_course_teacher(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -362,7 +362,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_draft_course_normal(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -412,7 +412,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_new_downloads_disabled_course_staff(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -422,7 +422,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_new_downloads_disabled_course_teacher(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -432,7 +432,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start + 1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_new_downloads_disabled_course_teacher_owner(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -443,7 +443,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_new_downloads_disabled_course_normal(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -453,7 +453,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start + 1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_read_only_course_admin(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -463,7 +463,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_read_only_course_staff(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -473,7 +473,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_read_only_course_teacher(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -483,7 +483,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start + 1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_read_only_course_teacher_owner(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -494,7 +494,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_read_only_course_normal(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -504,7 +504,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start + 1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     # Course does not exist
     def test_dne_course_admin(self):
@@ -542,7 +542,7 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_dne_course_shortname_normal(self):
         tracker_count_start = Tracker.objects.all().count()

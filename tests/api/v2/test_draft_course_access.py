@@ -254,7 +254,7 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_draft_course_pk_download_staff(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -264,7 +264,7 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_draft_course_pk_download_teacher(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -290,7 +290,7 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_draft_course_pk_download_viewer(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -300,7 +300,7 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     # check course download pk - live
     def test_live_course_pk_download_admin(self):
@@ -311,7 +311,7 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_live_course_pk_download_staff(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -321,7 +321,7 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_live_course_pk_download_teacher(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -331,7 +331,7 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_live_course_pk_download_user(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -341,7 +341,7 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_live_course_pk_download_manager(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -351,7 +351,7 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_live_course_pk_download_viewer(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -361,7 +361,7 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     # check course download shortname live
     def test_live_course_shortname_download_admin(self):
@@ -374,7 +374,7 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_live_course_shortname_download_staff(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -386,7 +386,7 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_live_course_shortname_download_teacher(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -398,7 +398,7 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_live_course_shortname_download_user(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -408,7 +408,7 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_live_course_shortname_download_manager(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -420,7 +420,7 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_live_course_shortname_download_viewer(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -432,7 +432,7 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     # check course download shortname draft
     def test_draft_course_shortname_download_admin(self):
@@ -445,7 +445,7 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_draft_course_shortname_download_staff(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -457,7 +457,7 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_draft_course_shortname_download_teacher(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -489,7 +489,7 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_draft_course_shortname_download_viewer(self):
         tracker_count_start = Tracker.objects.all().count()
@@ -501,4 +501,4 @@ class DraftCourseAccessTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)

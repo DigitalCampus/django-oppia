@@ -63,7 +63,7 @@ class DownloadViewTest(OppiaTestCase):
         self.assertEqual(response['content-type'],
                          self.STR_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
-        self.assertEqual(tracker_count_start+1, tracker_count_end)
+        self.assertEqual(tracker_count_start, tracker_count_end)
 
     def test_draft_course_admin(self):
         update_course_status(1, CourseStatus.DRAFT)
