@@ -2,17 +2,17 @@
 {% load i18n %}
 
 {% if course.is_draft %}
-    <span class="badge badge-draft ml-2"><small><i class="material-icons">edit</i>{% trans course.get_status_display %}</small></span>
+    <span class="badge badge-draft ml-2"><small><em class="material-icons">edit</em>{% trans course.get_status_display %}</small></span>
 {% endif %}
 
 {% if course.is_archived %}
-    <span class="badge badge-archived ml-2"><i class="material-icons">archive</i>{% trans course.get_status_display %}</span>
+    <span class="badge badge-archived ml-2"><em class="material-icons">archive</em>{% trans course.get_status_display %}</span>
 {% endif %}
 
 {% if course.are_new_downloads_disabled %}
-    <span class="badge badge-new-downloads-disabled ml-2"><i class="material-icons">file_download_off</i>{% trans course.get_status_display %}</span>
+    <span class="badge badge-new-downloads-disabled ml-2"><em class="material-icons">file_download_off</em>{% trans course.get_status_display %}</span>
 {% endif %}
 
 {% if course.is_read_only %}
-    <span class="badge badge-read-only ml-2"><i class="material-icons">visibility</i>{% trans course.get_status_display %}</span>
+    <span class="badge badge-read-only ml-2"><em class="material-icons">visibility</em>{% trans course.get_status_display %}</span>
 {% endif %}
