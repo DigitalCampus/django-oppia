@@ -27,7 +27,7 @@ class OppiaActivityViewsTest(OppiaTestCase):
                                                args=[1])
 
     STR_COURSE_DETAIL_TEMPLATE = 'course/detail.html'
-    activity_detail_template = 'course/detail/list.html'
+    activity_detail_template = 'course/activity/list.html'
     start_date = timezone.make_aware(
         datetime.datetime.strptime(
             '2018-11-28', "%Y-%m-%d"),

@@ -1,0 +1,26 @@
+{% extends "tracker/list.html" %}
+{% load i18n %}
+{% load display_functions %}
+
+{% block extra_head_title %}
+	{{ course.title|title_lang:LANGUAGE_CODE }}
+{% endblock extra_head_title %}
+
+{% block section_title %}
+	<h3><a href="{% url 'oppia:recent_activity' course.id %}">{{ course.title|title_lang:LANGUAGE_CODE }}</a>
+		<em class="material-icons md-18 ">arrow_forward_ios</em>  {% trans 'Detail activity' %}
+	</h3>
+	<p><em>{% trans 'Categories:' %} {{ course.get_categories}}</em></p>
+{% endblock section_title %}
+
+{% block extra_search_fields %}
+		<div class="row">
+			<div class="col-md-5 col-lg-4 mb-3">
+                {% include "common/form/input.html" with field=form.user__username wrapper_class="mb-0" %}
+            </div>
+        </div>
+{% endblock extra_search_fields %}
+
+{% block content %}
+{% include 'tracker/query.html' with show_user=True %}
+{% endblock %}
