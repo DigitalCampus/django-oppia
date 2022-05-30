@@ -166,7 +166,8 @@ class TrackerResource(ModelResource):
             bundle.obj.activity_title = activity.title
             bundle.obj.section_title = activity.section.title
         else:
-            bundle.obj.course = Course.objects.filter(shortname=bundle.data['course']).first()
+            if 'course' in bundle.data:
+                bundle.obj.course = Course.objects.filter(shortname=bundle.data['course']).first()
             bundle.obj.activity_title = ''
             bundle.obj.section_title = ''
 
