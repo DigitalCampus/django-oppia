@@ -13,7 +13,6 @@ from oppia.forms.upload import UploadCourseStep1Form, UploadCourseStep2Form
 from oppia.models import Category, CourseCategory, CoursePublishingLog, Course, CourseStatus
 from oppia.permissions import can_edit_course, can_download_course, can_view_course_detail, can_view_courses_list, \
     can_upload, can_edit_course_gamification
-from oppia.signals import course_downloaded
 from oppia.uploader import handle_uploaded_file
 from oppia.utils.filters import CourseFilter
 from summary.models import UserCourseSummary
@@ -97,8 +96,6 @@ class CourseDownload(TemplateView):
         binary_file.close()
         response['Content-Length'] = os.path.getsize(file_to_download)
         response['Content-Disposition'] = 'attachment; filename="%s"' % (course.filename)
-
-        course_downloaded.send(sender=self, course=course, request=request)
 
         return response
 

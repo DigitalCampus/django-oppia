@@ -18,8 +18,7 @@ from tastypie.resources import ModelResource
 from tastypie.utils import trailing_slash
 
 from api.serializers import CourseJSONSerializer
-from oppia.models import Tracker, Course, CourseCategory, CourseStatus
-from oppia.signals import course_downloaded
+from oppia.models import Tracker, Course, CourseCategory
 from oppia.utils.filters import CourseFilter
 
 STR_COURSE_NOT_FOUND = _(u"Course not found")
@@ -163,8 +162,6 @@ class CourseResource(ModelResource):
                 'attachment; filename="%s"' % (course.filename)
         except IOError:
             raise Http404(STR_COURSE_NOT_FOUND)
-
-        course_downloaded.send(sender=self, course=course, request=request)
 
         return response
 

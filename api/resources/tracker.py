@@ -26,6 +26,8 @@ from api.validation import TrackerValidation
 from settings import constants
 from settings.models import SettingProperties
 
+NON_ACTIVITY_ALLOWED_TYPES = ['search', 'download']
+
 
 class TrackerResource(ModelResource):
     '''
@@ -138,11 +140,12 @@ class TrackerResource(ModelResource):
         bundle.obj.agent = bundle.request.META.get('HTTP_USER_AGENT',
                                                    'unknown')
 
-        if 'type' in bundle.data and bundle.data['type'] == 'search':
-            # if the tracker is a search, we just need to save it
-            bundle.obj.course = None
-            bundle.obj.type = "search"
-            return bundle
+        if 'type' in bundle.data and bundle.data['type'] in NON_ACTIVITY_ALLOWED_TYPES:
+            bundle.obj.type = bundle.data['type']
+
+            if bundle.data['type'] == 'search':
+                # if the tracker is a search, we just need to save it
+                return bundle
 
         # find out the course & activity type from the digest
         if 'course' in bundle.data:
@@ -163,13 +166,9 @@ class TrackerResource(ModelResource):
             bundle.obj.activity_title = activity.title
             bundle.obj.section_title = activity.section.title
         else:
-            bundle.obj.course = None
-            bundle.obj.type = ''
+            bundle.obj.course = Course.objects.filter(shortname=bundle.data['course']).first()
             bundle.obj.activity_title = ''
             bundle.obj.section_title = ''
-
-            if 'event' in bundle.data and bundle.data['event'] == 'media_missing':
-                bundle.obj.course = Course.objects.filter(shortname=bundle.data['course']).first()
 
         if bundle.obj.course is not None:
             if 'course_version' in bundle.data:
