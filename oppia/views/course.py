@@ -10,7 +10,7 @@ from django.views.generic import TemplateView, ListView, DetailView, FormView
 
 from helpers.mixins.AjaxTemplateResponseMixin import AjaxTemplateResponseMixin
 from oppia.forms.upload import UploadCourseStep1Form, UploadCourseStep2Form
-from oppia.models import Category, CourseCategory, CoursePublishingLog, Course, CourseStatus
+from oppia.models import Category, CourseCategory, CoursePublishingLog, Course
 from oppia.permissions import can_edit_course, can_download_course, can_view_course_detail, can_view_courses_list, \
     can_upload, can_edit_course_gamification
 from oppia.uploader import handle_uploaded_file

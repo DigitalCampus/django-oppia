@@ -1,12 +1,9 @@
-import json
 import math
 
 from django.conf import settings
 from django.db import models
-from django.dispatch import Signal
 
 from gamification.models import DefaultGamificationEvent
-from oppia import DEFAULT_IP_ADDRESS
 from oppia.models import Points, Tracker
 
 from settings import constants
@@ -15,6 +12,7 @@ from settings.models import SettingProperties
 NON_ACTIVITY_EVENTS = [
     'course_downloaded', 'register'
 ]
+
 
 # rules for applying points (or not)
 def apply_points(user):

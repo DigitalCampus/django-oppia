@@ -38,7 +38,7 @@ class AboutView(TemplateView):
 class HomeView(DateRangeFilterMixin, TemplateView):
     template_name = 'oppia/home.html'
     daterange_form_class = DateRangeIntervalForm
-    daterange_form_initial = { 'interval': 'days' }
+    daterange_form_initial = {'interval': 'days'}
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -63,7 +63,6 @@ class HomeView(DateRangeFilterMixin, TemplateView):
                 return HttpResponseRedirect(reverse('oppia:manager_index'))
 
         return super().get(request, *args, **kwargs)
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -148,7 +147,6 @@ class ManagerView(TemplateView):
         return context
 
 
-
 class TeacherView(TemplateView):
     template_name = 'oppia/home-teacher.html'
 
@@ -177,8 +175,10 @@ def get_trackers(start_date, end_date, courses, students=None, date_data='tracke
     activity = []
     no_days = (end_date - start_date).days + 1
     if date_data == "submitted_date":
-        trackers = Tracker.objects.filter(course__in=courses, submitted_date__gte=start_date, submitted_date__lte=end_date)
-    else:  
+        trackers = Tracker.objects.filter(course__in=courses,
+                                          submitted_date__gte=start_date,
+                                          submitted_date__lte=end_date)
+    else:
         trackers = Tracker.objects.filter(course__in=courses, tracker_date__gte=start_date, tracker_date__lte=end_date)
 
     if students:

@@ -81,6 +81,7 @@ class DailyActiveUserAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
     list_display = ('dau', 'user', 'type', 'time_spent', 'course')
     ordering = ['-dau']
 
+
 class UserCourseDailySummaryAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
     list_display = ('day',
                     'user',
@@ -91,6 +92,7 @@ class UserCourseDailySummaryAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
                     'total_submitted',
                     'time_spent_submitted')
     ordering = ['-day']
+
 
 admin.site.register(UserCourseSummary, UserCourseSummaryAdmin)
 admin.site.register(CourseDailyStats, CourseDailyStatsAdmin)

@@ -1,7 +1,7 @@
 from django.urls import reverse
 from tastypie.models import ApiKey
 
-from oppia.models import Course, CourseStatus
+from oppia.models import Course
 
 
 def get_api_key(user):

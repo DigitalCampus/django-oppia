@@ -3,6 +3,7 @@
 from django.db import migrations, models
 from dbview.helpers import CreateView
 
+
 class Migration(migrations.Migration):
 
     dependencies = [

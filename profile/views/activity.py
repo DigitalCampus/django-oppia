@@ -1,13 +1,9 @@
-import datetime
 import json
 import operator
 from itertools import chain
 
 from django.contrib.auth.models import User
-from django.core.exceptions import PermissionDenied
 from django.db.models import Max, Min, Avg
-from django.shortcuts import render
-from django.utils import timezone
 from django.views.generic import ListView, DetailView
 
 from helpers.mixins.DateRangeFilterMixin import DateRangeFilterMixin
@@ -28,7 +24,7 @@ class UserScorecard(DateRangeFilterMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        get_user(self.request, self.object.pk) #TODO: Change permissions check
+        get_user(self.request, self.object.pk)  # TODO: Change permissions check
         cohort_courses, other_courses, all_courses = get_user_courses(self.request, self.object)
 
         courses = []
@@ -76,7 +72,7 @@ class UserCourseScorecard(DateRangeFilterMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        get_user(self.request, self.object.pk) #TODO: Change permissions check
+        get_user(self.request, self.object.pk)  # TODO: Change permissions check
         course = can_view_course(self.request, self.kwargs['course_id'])
 
         act_quizzes = Activity.objects \
@@ -210,15 +206,14 @@ class UserActivityDetailList(DateRangeFilterMixin, SafePaginatorMixin, ListView)
 
         print(start_date)
         print(end_date)
-        trackers = trackers.filter( tracker_date__gte=start_date, tracker_date__lte=end_date)
+        trackers = trackers.filter(tracker_date__gte=start_date, tracker_date__lte=end_date)
 
-        #filters = utils.get_filters_from_row(form, convert_date=False)
-        #if filters:
+        # filters = utils.get_filters_from_row(form, convert_date=False)
+        # if filters:
         #    trackers = trackers.filter(**filters)
         #    self.filtered = True
 
         return trackers.order_by('-tracker_date')
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

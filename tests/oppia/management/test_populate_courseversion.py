@@ -1,15 +1,9 @@
 from django.core.management import call_command
-from django.core.management.base import CommandError
 
 from io import StringIO
 
 from oppia.models import Tracker
 from oppia.test import OppiaTestCase
-
-from quiz.models import QuizAttempt
-
-from settings import constants
-from settings.models import SettingProperties
 
 
 class PopulateCourseVersionTest(OppiaTestCase):

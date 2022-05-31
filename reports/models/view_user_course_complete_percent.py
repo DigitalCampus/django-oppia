@@ -1,10 +1,8 @@
-from django.db import models
 from django.db.models import Count, F
 
 from dbview.models import DbView
 
 from profile.models import UserProfileCustomField
-from summary.models import UserCourseSummary
 
 
 class ViewUserCourseCompletePercent(DbView):

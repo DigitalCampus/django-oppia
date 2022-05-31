@@ -29,7 +29,7 @@ class UploadView(FormView):
 
     form_class = UploadActivityLogForm
     template_name = 'common/upload.html'
-    extra_context = { 'title': _(u'Upload Activity Log') }
+    extra_context = {'title': _(u'Upload Activity Log')}
     success_url = reverse_lazy('activitylog:upload_success')
 
     def form_valid(self, form):
@@ -129,7 +129,7 @@ def get_user_from_uploaded_log(messages_delegate, user):
 
     if not User.objects.filter(username=username).exists():
         # User was registered offline, we create a new one
-        req_user = User(username=username, email=user.get('email', '') )
+        req_user = User(username=username, email=user.get('email', ''))
 
         req_user.password = user.get('password', make_password(None))
         req_user.first_name = user.get('firstname', '')
@@ -137,8 +137,7 @@ def get_user_from_uploaded_log(messages_delegate, user):
         req_user.save()
 
         messages_delegate.warning(
-            _(u"%(username)s did not exist previously, and was created." %
-            {'username': username}), 'danger')
+            _(u"%(username)s did not exist previously, and was created." % {'username': username}), 'danger')
 
     else:
         req_user = User.objects.filter(username=username).first()
@@ -168,7 +167,7 @@ def validate_server(messages_delegate, data):
             return True
         else:
             print('Different tracker server: {}'.format(data['server']))
-            messages_delegate.warning( _('The server in the activity log file does not match with the current one'))
+            messages_delegate.warning(_('The server in the activity log file does not match with the current one'))
             return False
     else:
         messages_delegate.warning(_('The activity log file seems to be in a wrong format'))

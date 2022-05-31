@@ -51,7 +51,6 @@ class DateRangeFilterMixin(object):
 
         return start_date, end_date
 
-
     def format_tz_date(self, date):
         current_tz = timezone.get_current_timezone()
         return timezone.make_aware(datetime.datetime.strptime(date, STR_DATE_FORMAT), current_tz)

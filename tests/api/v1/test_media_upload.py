@@ -1,9 +1,6 @@
 # tests/api/test_course_publish.py
 import os
 
-import pytest
-import unittest
-
 from django import forms
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile

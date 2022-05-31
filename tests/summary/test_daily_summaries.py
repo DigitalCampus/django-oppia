@@ -7,7 +7,7 @@ from django.db.models import Sum
 
 from oppia.test import OppiaTestCase
 from oppia.models import Course
-from summary.models import UserCourseSummary, UserCourseDailySummary
+from summary.models import UserCourseDailySummary
 
 # View test_usercoursesummary for course trackers description
 

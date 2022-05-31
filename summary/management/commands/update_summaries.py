@@ -53,7 +53,6 @@ class Command(BaseCommand):
             last_points_pk = SettingProperties .get_property('last_points_pk', 0)
             self.update_summaries(last_tracker_pk, last_points_pk)
 
-
     def update_summaries(self, last_tracker_pk=0, last_points_pk=0):
 
         SettingProperties.set_string('oppia_summary_cron_last_run', timezone.now())
@@ -148,7 +147,9 @@ class Command(BaseCommand):
         count = 0
         for type_log in course_daily_type_logs:
             course = Course.objects.get(pk=type_log['course'])
-            stats, created = CourseDailyStats.objects.get_or_create(course=course, day=type_log['day'], type=type_log['type'])
+            stats, created = CourseDailyStats.objects.get_or_create(course=course,
+                                                                    day=type_log['day'],
+                                                                    type=type_log['type'])
             stats.total = (0 if last_tracker_pk == 0 else stats.total) + type_log['total']
             stats.save()
 
@@ -172,7 +173,6 @@ class Command(BaseCommand):
             stats.total += log['total']
             stats.save()
 
-
     # Updates the CourseDailyStats model
     def update_user_course_daily_stats(self, last_tracker_pk=0, newest_tracker_pk=0):
         if last_tracker_pk == 0:
@@ -180,7 +180,6 @@ class Command(BaseCommand):
 
         self.update_daily_stats('tracker', 'tracked', last_tracker_pk, newest_tracker_pk)
         self.update_daily_stats('submitted', 'submitted', last_tracker_pk, newest_tracker_pk)
-
 
     def update_daily_stats(self, date_name, stats_name, last_tracker_pk=0, newest_tracker_pk=0):
         # get different (distinct) courses/dates involved
@@ -199,7 +198,13 @@ class Command(BaseCommand):
         for log in daily_type_tracked:
             course = Course.objects.get(pk=log['course'])
             user = User.objects.get(pk=log['user'])
-            print('{}/{}) {} {} - {} {}: {}'.format(count, total_logs, log['day'], log['course'], user.username, log['type'], log['total']))
+            print('{}/{}) {} {} - {} {}: {}'.format(count,
+                                                    total_logs,
+                                                    log['day'],
+                                                    log['course'],
+                                                    user.username,
+                                                    log['type'],
+                                                    log['total']))
 
             stats, created = UserCourseDailySummary.objects.get_or_create(
                 day=log['day'], user=user, course=course, type=log['type'])
@@ -235,7 +240,6 @@ class Command(BaseCommand):
                 continue
             points, created = UserPointsSummary.objects.get_or_create(user=user)
             points.update_points(last_points_pk=last_points_pk, newest_points_pk=newest_points_pk)
-
 
     def update_daily_active_users(self,
                                   last_tracker_pk=0,
@@ -304,13 +308,12 @@ class Command(BaseCommand):
 
             users = Tracker.objects.annotate(
                 day=TruncDate(tracker_date_field)) \
-                .filter(day=tracker['day'], course=course).values_list('user',
-                                                        flat=True).distinct()
+                .filter(day=tracker['day'], course=course).values_list('user', flat=True).distinct()
 
             total_users = len(users)
             dau_obj, created = DailyActiveUsers.objects.update_or_create(
                 day=tracker['day'],
-                defaults={ dau_total_date_field: total_users })
+                defaults={dau_total_date_field: total_users})
 
             for user_id in users:
                 self.update_daily_active_users_update(
@@ -359,7 +362,6 @@ class Command(BaseCommand):
                 self.stdout.write("added %s" % user_obj.username)
             else:
                 self.stdout.write("updated %s" % user_obj.username)
-
 
     def get_excluded_users(self):
         # We avoid using the admin users and users that explicitly we want to exclude from summaries

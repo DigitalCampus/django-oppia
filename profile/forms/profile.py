@@ -51,7 +51,10 @@ class ProfileForm(forms.Form):
     job_title = forms.CharField(max_length=100, required=False)
     organisation = forms.CharField(max_length=100, required=False)
     phone_number = forms.CharField(max_length=100, required=False)
-    exclude_from_reporting = forms.BooleanField(required=False, help_text=_('If checked, the activity from this user will not be taken into account for summary calculations and reports'))
+    exclude_from_reporting = forms.BooleanField(
+        required=False,
+        help_text=_('If checked, the activity from this user will not be taken into account for summary '
+                    'calculations and reports'))
 
     def __init__(self, allow_edit=True, *args, **kwargs):
         super(ProfileForm, self).__init__(* args, ** kwargs)

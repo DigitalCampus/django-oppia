@@ -24,7 +24,7 @@ class Ip2LocationTest(OppiaTransactionTestCase):
                 'tests/test_course_permissions.json']
 
     ipstack_path = os.path.join(settings.FIXTURES_PATH, 'tests', 'ipstack')
-    ipstack_valid_response = os.path.join(ipstack_path, '200_valid.json' )
+    ipstack_valid_response = os.path.join(ipstack_path, '200_valid.json')
     ipstack_valid_response_no_city = os.path.join(ipstack_path, '200_valid_no_city.json')
     ipstack_valid_response_no_region = os.path.join(ipstack_path, '200_valid_no_region.json')
     ipstack_valid_response_no_city_region = os.path.join(ipstack_path, '200_valid_no_city_region.json')

@@ -14,7 +14,7 @@ from gamification.models import DefaultGamificationEvent, \
                                 MediaGamificationEvent
 from gamification.xml_writer import GamificationXMLWriter
 from oppia.models import Course, Points, Activity, Media
-from oppia.permissions import can_edit_course, can_edit_course_gamification
+from oppia.permissions import can_edit_course_gamification
 
 
 @staff_member_required

@@ -108,7 +108,6 @@ def get_settings(request):
     email_certificates = SettingProperties.get_bool(
             constants.OPPIA_EMAIL_CERTIFICATES, False)
 
-    
     return {
         'OPPIA_ALLOW_SELF_REGISTRATION': self_register,
         'OPPIA_GOOGLE_ANALYTICS_ENABLED': ga_enabled,

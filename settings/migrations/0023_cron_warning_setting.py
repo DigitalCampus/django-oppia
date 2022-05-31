@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.conf import settings
 from django.db import migrations
 from django.utils.translation import gettext_lazy as _
 
@@ -19,7 +18,7 @@ def add_cron_warning_setting(apps, schema_editor):
         settings_prop.description = _(
             u"Number of hours since last cron warning threshold")
         settings_prop.category = constants.SETTING_CATEGORY_SYSTEM_CONFIG
-        settings_prop.int_value = 24 # default 1 day
+        settings_prop.int_value = 24  # default 1 day
         settings_prop.save()
 
 

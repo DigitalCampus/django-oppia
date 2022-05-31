@@ -36,7 +36,7 @@ class UserProfileCustomFieldAdmin(admin.ModelAdmin):
                     'value_bool',
                     'created',
                     'modified')
-    readonly_fields = ['user','key_name']
+    readonly_fields = ['user', 'key_name']
 
 
 admin.site.register(UserProfile, UserProfileAdmin)

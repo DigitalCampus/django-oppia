@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 from oppia.models import Course
 
+
 class UserCourseDailySummary(models.Model):
     day = models.DateField(blank=False, null=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)

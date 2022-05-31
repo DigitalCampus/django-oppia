@@ -1,5 +1,4 @@
 import os
-import pytest
 import shutil
 
 from django.conf import settings

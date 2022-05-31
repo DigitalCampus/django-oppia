@@ -2,8 +2,6 @@ import os
 import shutil
 from zipfile import ZipFile
 
-import pytest
-
 from django.conf import settings
 from django.test import TestCase
 from tastypie.test import ResourceTestCaseMixin

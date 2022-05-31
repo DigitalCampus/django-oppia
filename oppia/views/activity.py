@@ -1,19 +1,16 @@
-import datetime
 import json
-
 import tablib
+
 from django.contrib.auth.models import User
 from django.db.models import Sum
 from django.db.models.functions import TruncDay, TruncMonth, TruncYear
 from django.http import HttpResponse
-from django.utils import timezone
 from django.views.generic import TemplateView, DetailView, ListView
 
 from helpers.forms.dates import DateRangeIntervalForm
 from helpers.mixins.DateRangeFilterMixin import DateRangeFilterMixin
 from helpers.mixins.SafePaginatorMixin import SafePaginatorMixin
 from oppia import constants
-from oppia.constants import STR_DATE_FORMAT
 from oppia.forms.activity_search import ActivitySearchForm
 from oppia.models import Points, Course
 from oppia.models import Tracker
@@ -29,7 +26,7 @@ class CourseActivityDetail(DateRangeFilterMixin, DetailView):
     context_object_name = 'course'
     model = Course
     daterange_form_class = DateRangeIntervalForm
-    daterange_form_initial = { 'interval': 'days' }
+    daterange_form_initial = {'interval': 'days'}
 
     def get_context_data(self, **kwargs):
 
@@ -40,7 +37,8 @@ class CourseActivityDetail(DateRangeFilterMixin, DetailView):
         interval = self.get_daterange_form().cleaned_data.get("interval")
         context['monthly'] = interval == 'months'
 
-        context['download_stats'] = UserCourseSummary.objects.filter(course=self.object.id).aggregated_stats('total_downloads', single=True)
+        context['download_stats'] = UserCourseSummary.objects \
+            .filter(course=self.object.id).aggregated_stats('total_downloads', single=True)
         context['leaderboard'] = Points.get_leaderboard(constants.LEADERBOARD_HOMEPAGE_RESULTS_PER_PAGE, self.object)
         context['data'] = self.get_activity(start_date, end_date, interval)
         context['can_edit_course_gamification'] = can_edit_course_gamification(self.request, self.object.id)
@@ -80,7 +78,7 @@ class CourseActivityDetailList(DateRangeFilterMixin, SafePaginatorMixin, ListVie
         self.filtered = False
         trackers = Tracker.objects.filter(course__pk=self.get_course_id())
         start_date, end_date = self.get_daterange()
-        trackers = trackers.filter( tracker_date__gte=start_date, tracker_date__lte=end_date)
+        trackers = trackers.filter(tracker_date__gte=start_date, tracker_date__lte=end_date)
 
         filters = utils.get_filters_from_row(self.get_daterange_form(), convert_date=False)
         if filters:
@@ -88,7 +86,6 @@ class CourseActivityDetailList(DateRangeFilterMixin, SafePaginatorMixin, ListVie
             self.filtered = True
 
         return trackers.order_by('-tracker_date')
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

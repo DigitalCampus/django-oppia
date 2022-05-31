@@ -2,7 +2,6 @@
 import os
 
 import api
-import pytest
 
 from django.conf import settings
 from django.test.client import RequestFactory

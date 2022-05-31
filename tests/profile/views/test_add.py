@@ -1,12 +1,6 @@
 
-from django import forms
 from django.urls import reverse
 from oppia.test import OppiaTestCase
-
-from django.contrib.auth.models import User
-
-from settings import constants
-from settings.models import SettingProperties
 
 
 class EditProfileViewTest(OppiaTestCase):

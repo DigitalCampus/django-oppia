@@ -13,6 +13,10 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='userprofile',
             name='exclude_from_reporting',
-            field=models.BooleanField(default=False, help_text='If checked, the activity from this user will not be taken into account for summary calculations and reports', verbose_name='Exclude from reporting'),
+            field=models.BooleanField(
+                default=False,
+                help_text='If checked, the activity from this user will not be taken into account for summary '
+                          'calculations and reports',
+                verbose_name='Exclude from reporting'),
         ),
     ]

@@ -1,5 +1,4 @@
 
-# TODO TagResource
 from django.contrib.auth.models import User
 from django.test import TestCase
 from tastypie.test import ResourceTestCaseMixin
@@ -110,19 +109,12 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
     def test_course_statuses(self):
         # Expected courses having new downloads disabled by category (based on test_oppia.json)
         expected = {
-                    'HEAT':
-                        {'anc1-all': 'live',
-                         'ncd1-et': 'new_downloads_disabled'},
-                    'ANC':
-                        {'anc1-all': 'live'},
-                    'Antenatal Care':
-                        {'anc1-all': 'live'},
-                    'NCD':
-                        {'ncd1-et': 'new_downloads_disabled'},
-                    'reference':
-                        {'ref-1': 'new_downloads_disabled',
-                         'draft-test': 'draft'}
-                    }
+            'HEAT': {'anc1-all': 'live', 'ncd1-et': 'new_downloads_disabled'},
+            'ANC': {'anc1-all': 'live'},
+            'Antenatal Care': {'anc1-all': 'live'},
+            'NCD': {'ncd1-et': 'new_downloads_disabled'},
+            'reference': {'ref-1': 'new_downloads_disabled', 'draft-test': 'draft'}
+            }
 
         # Disable new downloads from 2 of the 4 courses (ncd1-et and ref-1)
         update_course_status(2, CourseStatus.NEW_DOWNLOADS_DISABLED)

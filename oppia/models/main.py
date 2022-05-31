@@ -6,7 +6,7 @@ import os
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Max, Func, F
+from django.db.models import Max, F
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from tastypie.models import create_api_key
@@ -119,7 +119,6 @@ class Course(models.Model):
     def has_feedback(self):
         return self.get_feedback_activities().exists()
 
-
     def get_removed_quizzes(self):
         current_quizzes = Activity.objects.filter(
             section__course=self,
@@ -199,13 +198,12 @@ class Course(models.Model):
     def get_no_quizzes_completed(course, user):
         acts = Activity.objects.filter(section__course=course, baseline=False, type=Activity.QUIZ).values_list('digest')
         quizzes = Quiz.objects.filter(quizprops__value__in=acts, quizprops__name="digest")
-        quizzes_passed = QuizAttempt.objects\
-                    .filter(quiz__in=quizzes, user=user)\
-                    .annotate(percent=F('score')/F('maxscore'))\
-                    .filter(percent__gte=0.75) \
-                    .values_list('quiz__id').distinct()
+        quizzes_passed = QuizAttempt.objects \
+            .filter(quiz__in=quizzes, user=user)\
+            .annotate(percent=F('score')/F('maxscore'))\
+            .filter(percent__gte=0.75) \
+            .values_list('quiz__id').distinct()
         return quizzes_passed.count()
-
 
     @staticmethod
     def get_activities_completed(course, user):
@@ -603,7 +601,6 @@ class Tracker(models.Model):
     @staticmethod
     def has_completed_trackers(course, user):
         return Tracker.objects.filter(user=user, course=course, completed=True).exists()
-
 
     @staticmethod
     def to_xml_string(course, user):

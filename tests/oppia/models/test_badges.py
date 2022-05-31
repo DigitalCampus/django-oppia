@@ -21,7 +21,9 @@ class BadgesModelTest(OppiaTestCase):
     def test_certificate_portrait_valid(self):
         count_start = CertificateTemplate.objects.all().count()
         self.client.force_login(self.admin_user)
-        with open(os.path.join(settings.TEST_RESOURCES, 'certificate_templates', 'certificate_portrait_valid.png'), 'rb') as cert_file:
+        with open(os.path.join(settings.TEST_RESOURCES,
+                               'certificate_templates',
+                               'certificate_portrait_valid.png'), 'rb') as cert_file:
             self.client.post(self.url, {
                 'course': 1,
                 'badge': 1,
@@ -45,7 +47,9 @@ class BadgesModelTest(OppiaTestCase):
     def test_certificate_portrait_invalid(self):
         count_start = CertificateTemplate.objects.all().count()
         self.client.force_login(self.admin_user)
-        with open(os.path.join(settings.TEST_RESOURCES, 'certificate_templates', 'certificate_portrait_invalid.png'), 'rb') as cert_file:
+        with open(os.path.join(settings.TEST_RESOURCES,
+                               'certificate_templates',
+                               'certificate_portrait_invalid.png'), 'rb') as cert_file:
             self.client.post(self.url, {
                 'course': 1,
                 'badge': 1,
@@ -68,7 +72,9 @@ class BadgesModelTest(OppiaTestCase):
     def test_certificate_landscape_valid(self):
         count_start = CertificateTemplate.objects.all().count()
         self.client.force_login(self.admin_user)
-        with open(os.path.join(settings.TEST_RESOURCES, 'certificate_templates', 'certificate_landscape_valid.png'), 'rb') as cert_file:
+        with open(os.path.join(settings.TEST_RESOURCES,
+                               'certificate_templates',
+                               'certificate_landscape_valid.png'), 'rb') as cert_file:
             self.client.post(self.url, {
                 'course': 1,
                 'badge': 1,
@@ -92,7 +98,9 @@ class BadgesModelTest(OppiaTestCase):
     def test_certificate_landscape_invalid(self):
         count_start = CertificateTemplate.objects.all().count()
         self.client.force_login(self.admin_user)
-        with open(os.path.join(settings.TEST_RESOURCES, 'certificate_templates', 'certificate_landscape_invalid.png'), 'rb') as cert_file:
+        with open(os.path.join(settings.TEST_RESOURCES,
+                               'certificate_templates',
+                               'certificate_landscape_invalid.png'), 'rb') as cert_file:
             self.client.post(self.url, {
                 'course': 1,
                 'badge': 1,

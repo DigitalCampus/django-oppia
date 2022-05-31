@@ -37,20 +37,33 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='course',
             name='status',
-            field=models.CharField(choices=[('live', 'Live'), ('draft', 'Draft'), ('archived', 'Archived'), ('new_downloads_disabled', 'New downloads disabled')],
-                                   null=True,
-                                   help_text='More details about each status can be found in the <a href=https://oppiamobile.readthedocs.io/en/latest/implementers/courses/statuses.html>documentation.</a><br>Note that statuses new-downloads-disabled and read-only are only compatible with app version 7.3.9 or above.',
-                                   max_length=100),
+            field=models.CharField(
+                choices=[('live', 'Live'),
+                         ('draft', 'Draft'),
+                         ('archived', 'Archived'),
+                         ('new_downloads_disabled', 'New downloads disabled')],
+                null=True,
+                help_text='More details about each status can be found in the '
+                          '<a href=https://oppiamobile.readthedocs.io/en/latest/implementers/courses/statuses.html>'
+                          'documentation.</a><br>Note that statuses new-downloads-disabled and read-only are only '
+                          'compatible with app version 7.3.9 or above.',
+                max_length=100),
         ),
         migrations.RunPython(migrate_course_status, reverse_func),
         migrations.AlterField(
             model_name='course',
             name='status',
-            field=models.CharField(choices=[('live', 'Live'), ('draft', 'Draft'), ('archived', 'Archived'),
-                                            ('new_downloads_disabled', 'New downloads disabled')],
-                                   default='live',
-                                   help_text='More details about each status can be found in the <a href=https://oppiamobile.readthedocs.io/en/latest/implementers/courses/statuses.html>documentation.</a><br>Note that statuses new-downloads-disabled and read-only are only compatible with app version 7.3.9 or above.',
-                                   max_length=100),
+            field=models.CharField(
+                choices=[('live', 'Live'),
+                         ('draft', 'Draft'),
+                         ('archived', 'Archived'),
+                         ('new_downloads_disabled', 'New downloads disabled')],
+                default='live',
+                help_text='More details about each status can be found in the '
+                          '<a href=https://oppiamobile.readthedocs.io/en/latest/implementers/courses/statuses.html>'
+                          'documentation.</a><br>Note that statuses new-downloads-disabled and read-only are only '
+                          'compatible with app version 7.3.9 or above.',
+                max_length=100),
         ),
         migrations.RemoveField(
             model_name='course',

@@ -1,13 +1,12 @@
 # oppia/profile/forms.py
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Div, Row
+from crispy_forms.layout import Layout, Submit, Div
 from django import forms
 from django.utils.translation import gettext as _
 
 from helpers.forms.dates import DateRangeForm
 from profile.forms import helpers
-from profile.models import CustomField
 
 CUSTOMFIELDS_SEARCH_PREFIX = 'userprofilecustomfield_'
 
@@ -26,14 +25,12 @@ class ActivitySearchForm(DateRangeForm):
 
         self.advanced = FormHelper()
         self.advanced.form_class = 'form-horizontal'
-        self.advanced.label_class = ("col-sm-3 col-md-2 col-lg-2 pr-0 "
-                                   "control-label")
+        self.advanced.label_class = ("col-sm-3 col-md-2 col-lg-2 pr-0 control-label")
         self.advanced.field_class = 'col-sm-8 col-md-4 col-lg-5'
         self.advanced.form_method = 'GET'
         self.advanced.layout = Layout()
         self.advanced.form_tag = False
         self.helper.form_tag = False
-
 
         self.advanced.layout.append(
             Div(

@@ -139,7 +139,6 @@ class SummaryCronTest(OppiaTestCase):
         # New daily stats are less than the previous ones, as some got ignored
         self.assertEqual(num_daily_stats, 122)
 
-
     def test_summary_invalid_latest_tracker(self):
         SettingProperties.objects.update_or_create(key='last_tracker_pk',
                                                    defaults={"int_value":

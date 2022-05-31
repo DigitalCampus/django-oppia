@@ -176,7 +176,9 @@ def can_download_course(request, course_id):
         else:
             try:
                 course = Course.objects \
-                    .filter(CourseFilter.IS_NOT_DRAFT & CourseFilter.IS_NOT_ARCHIVED & CourseFilter.NEW_DOWNLOADS_ENABLED) \
+                    .filter(CourseFilter.IS_NOT_DRAFT
+                            & CourseFilter.IS_NOT_ARCHIVED
+                            & CourseFilter.NEW_DOWNLOADS_ENABLED) \
                     .get(pk=course_id)
 
             except Course.DoesNotExist:
@@ -216,15 +218,16 @@ def can_view_course_activity(request, course_id):
             return Course.objects.filter(pk=course_id).exists()
         else:
             try:
-                return Course.objects.filter(CourseFilter.IS_NOT_ARCHIVED & CourseFilter.IS_NOT_DRAFT).filter(pk=course_id).exists()
+                return Course.objects.filter(CourseFilter.IS_NOT_ARCHIVED
+                                             & CourseFilter.IS_NOT_DRAFT).filter(pk=course_id).exists()
             except Course.DoesNotExist:
                 return Course.objects \
                     .filter(CourseFilter.IS_NOT_ARCHIVED & CourseFilter.IS_NOT_DRAFT) \
                     .filter(
-                    pk=course_id,
-                    coursepermissions__course__id=course_id,
-                    coursepermissions__user__id=request.user.id,
-                    coursepermissions__role=CoursePermissions.VIEWER).exists()
+                        pk=course_id,
+                        coursepermissions__course__id=course_id,
+                        coursepermissions__user__id=request.user.id,
+                        coursepermissions__role=CoursePermissions.VIEWER).exists()
     except Course.DoesNotExist:
         return False
 
@@ -261,11 +264,12 @@ def can_view_courses_list(request, order_by='title'):
 
 def can_edit_course_gamification(request, course_id):
     return can_edit_course(request, course_id) \
-           and Course.objects.filter(CourseFilter.IS_NOT_ARCHIVED & CourseFilter.NEW_DOWNLOADS_ENABLED & CourseFilter.IS_NOT_READ_ONLY)\
-               .filter(pk=course_id).exists()
+           and Course.objects.filter(CourseFilter.IS_NOT_ARCHIVED
+                                     & CourseFilter.NEW_DOWNLOADS_ENABLED
+                                     & CourseFilter.IS_NOT_READ_ONLY).filter(pk=course_id).exists()
 
 
-# Sonarcloud raises a code smell that the request and exception params here 
+# Sonarcloud raises a code smell that the request and exception params here
 # are redundant, however, Django requires them
 def oppia_403_handler(request, exception):
     return HttpResponseForbidden('403.html')

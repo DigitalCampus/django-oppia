@@ -2,7 +2,6 @@
 import os
 
 import api
-import pytest
 
 from oppia.test import OppiaTransactionTestCase
 

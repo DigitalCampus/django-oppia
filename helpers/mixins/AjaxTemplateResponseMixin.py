@@ -1,6 +1,7 @@
 from django.views.generic.base import TemplateResponseMixin
 from helpers.ajax import is_ajax
 
+
 class AjaxTemplateResponseMixin(TemplateResponseMixin):
     """
     A mixin that can be used to render a different templates based in the

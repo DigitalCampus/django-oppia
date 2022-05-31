@@ -24,7 +24,10 @@ class Migration(migrations.Migration):
                 ('time_spent_tracked', models.IntegerField(default=0)),
                 ('total_submitted', models.IntegerField(default=0)),
                 ('total_tracked', models.IntegerField(default=0)),
-                ('course', models.ForeignKey(blank=True, default=None, null=True, on_delete=django.db.models.deletion.CASCADE, to='oppia.Course')),
+                ('course', models.ForeignKey(blank=True,
+                                             default=None,
+                                             null=True,
+                                             on_delete=django.db.models.deletion.CASCADE, to='oppia.Course')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
             options={

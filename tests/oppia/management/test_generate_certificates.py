@@ -1,8 +1,6 @@
 import os
 import shutil
 
-import pytest
-
 from django.core import mail
 from django.core.management import call_command
 from django.forms import ValidationError

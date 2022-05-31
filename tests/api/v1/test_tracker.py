@@ -1,5 +1,4 @@
 import datetime
-import pytest
 import unittest
 
 from django.contrib.auth.models import User

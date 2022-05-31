@@ -1,8 +1,6 @@
 import os
 import shutil
 
-import pytest
-
 from django.core import mail
 from django.urls import reverse
 from django.conf import settings

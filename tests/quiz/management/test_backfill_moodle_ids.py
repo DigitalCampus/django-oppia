@@ -6,7 +6,7 @@ from django.core.management import call_command
 
 from oppia.test import OppiaTestCase
 
-from quiz.models import Quiz, Question, QuizProps, QuestionProps
+from quiz.models import Quiz, QuizProps, QuestionProps
 
 
 class BackfillMoodleIdsTest(OppiaTestCase):
