@@ -69,7 +69,7 @@ class Command(BaseCommand):
         print("Count: {} course activities, {} total, {} quizzes"
               .format(course_count, act_count, quiz_count))
 
-    def process_course_sections(self, structure, course, new_course):
+    def process_course_sections(self, structure, course, is_new_course):
         for index, section in enumerate(structure.findall("section")):
 
             activities = section.find('activities')
@@ -92,7 +92,7 @@ class Command(BaseCommand):
             for act in activities.findall("activity"):
                 self.parse_and_save_activity(course, section, act, False)
 
-    def parse_baseline_activities(self, xml_doc, course, new_course):
+    def parse_baseline_activities(self, xml_doc, course, is_new_course):
 
         for meta in xml_doc.findall('meta')[:1]:
             activity_nodes = meta.findall("activity")
@@ -107,20 +107,20 @@ class Command(BaseCommand):
                     self.parse_and_save_activity(course,
                                                  section,
                                                  activity_node,
-                                                 new_course,
+                                                 is_new_course,
                                                  True)
 
     def parse_and_save_activity(self,
                                 course,
                                 section,
                                 activity_node,
-                                new_course,
+                                is_new_course,
                                 is_baseline=False):
         """
         Parses an Activity XML and saves it to the DB
         :param section: section the activity belongs to
         :param act: a XML DOM element containing a single activity
-        :param new_course: boolean indicating if it is a new course or existed
+        :param is_new_course: boolean indicating if it is a new course or existed
                 previously
         :param is_baseline: is the activity part of the baseline?
         :return: None

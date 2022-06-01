@@ -101,7 +101,7 @@ def extract_file(f, extract_path, request, user):
 def handle_uploaded_file(f, extract_path, request, user):
     result, mod_name = extract_file(f, extract_path, request, user)
     if not result:
-        return result, mod_name
+        return result, mod_name, False
 
     # check there is at least a sub dir
     if mod_name == '':
@@ -111,11 +111,11 @@ def handle_uploaded_file(f, extract_path, request, user):
                             action="invalid_zip",
                             data=msg_text).save()
         shutil.rmtree(extract_path, ignore_errors=True)
-        return False, 400
+        return False, 400, False
 
     response = 200
     try:
-        course, response = process_course(extract_path,
+        course, response, is_new_course = process_course(extract_path,
                                           f,
                                           mod_name,
                                           request,
@@ -126,12 +126,12 @@ def handle_uploaded_file(f, extract_path, request, user):
         CoursePublishingLog(user=user,
                             action="upload_error",
                             data=str(e)).save()
-        return False, 500
+        return False, 500, False
     finally:
         # remove the temp upload files
         shutil.rmtree(extract_path, ignore_errors=True)
 
-    return course, response
+    return course, response, is_new_course
 
 
 def process_course(extract_path, f, mod_name, request, user):
@@ -143,13 +143,13 @@ def process_course(extract_path, f, mod_name, request, user):
         CoursePublishingLog(user=user,
                             action="no_module_xml",
                             data=msg_text).save()
-        return False, 400
+        return False, 400, False
 
     # parse the module.xml file
     doc = ET.parse(xml_path)
     meta_info = parse_course_meta(doc)
 
-    new_course = False
+    is_new_course = False
     oldsections = []
     old_course_filename = None
 
@@ -171,7 +171,7 @@ def process_course(extract_path, f, mod_name, request, user):
                                 user=user,
                                 action="permissions_error",
                                 data=msg_text).save()
-            return False, 401
+            return False, 401, is_new_course
         # check if course version is older
         if course.version > meta_info['versionid']:
             msg_text = _(u"A newer version of this course already exists")
@@ -182,7 +182,7 @@ def process_course(extract_path, f, mod_name, request, user):
                                 user=user,
                                 action="newer_version_exists",
                                 data=msg_text).save()
-            return False, 400
+            return False, 400, is_new_course
 
         # obtain the old sections
         oldsections = list(Section.objects.filter(course=course)
@@ -197,7 +197,7 @@ def process_course(extract_path, f, mod_name, request, user):
     except Course.DoesNotExist:
         course = Course()
         course.status = CourseStatus.DRAFT
-        new_course = True
+        is_new_course = True
 
     old_course_version = course.version
 
@@ -210,8 +210,8 @@ def process_course(extract_path, f, mod_name, request, user):
     course.filename = f.name
     course.save()
 
-    if not parse_course_contents(request, doc, course, user, new_course):
-        return False, 500
+    if not parse_course_contents(request, doc, course, user, is_new_course):
+        return False, 500, is_new_course
     clean_old_course(request, user, oldsections, old_course_filename, course)
 
     # save gamification events
@@ -246,10 +246,10 @@ def process_course(extract_path, f, mod_name, request, user):
     writer = GamificationXMLWriter(course)
     writer.update_gamification(request.user)
 
-    return course, 200
+    return course, 200, is_new_course
 
 
-def process_course_sections(request, structure, course, user, new_course):
+def process_course_sections(request, structure, course, user, is_new_course):
     for index, section in enumerate(structure.findall("section")):
 
         activities = section.find('activities')
@@ -283,7 +283,7 @@ def process_course_sections(request, structure, course, user, new_course):
                                     course,
                                     section,
                                     act,
-                                    new_course)
+                                    is_new_course)
 
 
 def process_course_media_events(request, media, events, course, user):
@@ -341,10 +341,10 @@ def process_course_media(request, media_element, course, user):
             process_course_media_events(request, media, events, course, user)
 
 
-def parse_course_contents(request, xml_doc, course, user, new_course):
+def parse_course_contents(request, xml_doc, course, user, is_new_course):
 
     # add in any baseline activities
-    parse_baseline_activities(request, xml_doc, course, user, new_course)
+    parse_baseline_activities(request, xml_doc, course, user, is_new_course)
 
     # add all the sections and activities
     structure = xml_doc.find("structure")
@@ -358,7 +358,7 @@ def parse_course_contents(request, xml_doc, course, user, new_course):
                             data=msg_text).save()
         return False
 
-    process_course_sections(request, structure, course, user, new_course)
+    process_course_sections(request, structure, course, user, is_new_course)
 
     media_element = xml_doc.find('media')
     if media_element is not None:
@@ -366,7 +366,7 @@ def parse_course_contents(request, xml_doc, course, user, new_course):
     return True
 
 
-def parse_baseline_activities(request, xml_doc, course, user, new_course):
+def parse_baseline_activities(request, xml_doc, course, user, is_new_course):
 
     for meta in xml_doc.findall('meta')[:1]:
         activity_nodes = meta.findall("activity")
@@ -383,7 +383,7 @@ def parse_baseline_activities(request, xml_doc, course, user, new_course):
                                         course,
                                         section,
                                         activity_node,
-                                        new_course,
+                                        is_new_course,
                                         is_baseline=True)
 
 
@@ -413,13 +413,13 @@ def parse_and_save_activity(request,
                             course,
                             section,
                             activity_node,
-                            new_course,
+                            is_new_course,
                             is_baseline=False):
     """
     Parses an Activity XML and saves it to the DB
     :param section: section the activity belongs to
     :param act: a XML DOM element containing a single activity
-    :param new_course: boolean indicating if it is a new course or existed
+    :param is_new_course: boolean indicating if it is a new course or existed
             previously
     :param is_baseline: is the activity part of the baseline?
     :return: None
@@ -460,7 +460,7 @@ def parse_and_save_activity(request,
     activity.content = content
     activity.description = description
 
-    if not existed and not new_course:
+    if not existed and not is_new_course:
         msg_text = _(u'Activity "%(act)s"(%(digest)s) did not exist \
                      previously.') % {'act': activity.title,
                                       'digest': activity.digest}
