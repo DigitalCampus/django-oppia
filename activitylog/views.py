@@ -15,6 +15,7 @@ from tastypie.models import ApiKey
 from activitylog.forms import UploadActivityLogForm
 from activitylog.models import UploadedActivityLog
 from api.resources.tracker import TrackerResource
+from datarecovery.models import DataRecovery
 from helpers.api.tasty_resource import create_resource
 from helpers.messages import MessagesDelegate
 from oppia.permissions import user_can_upload
@@ -54,11 +55,11 @@ class UploadView(FormView):
 def process_activitylog(messages_delegate, file_contents):
     # open file and process
     json_data = json.loads(file_contents)
-    if not validate_server(messages_delegate, json_data):
-        return False
+    success, errors = validate_server(messages_delegate, json_data)
+    if not success:
+        return False, errors
     else:
-        process_uploaded_file(messages_delegate, json_data)
-        return True
+        return process_uploaded_file(messages_delegate, json_data)
 
 
 def process_uploaded_trackers(messages_delegate, trackers, user):
@@ -94,11 +95,13 @@ def process_uploaded_quizresponses(messages_delegate, quiz_responses, user):
 
 
 def process_uploaded_file(messages_delegate, json_data):
+    errors = []
     if 'users' in json_data:
         for user in json_data['users']:
             username = user['username']
             req_user = get_user_from_uploaded_log(messages_delegate, user)
-            create_or_update_userprofile(messages_delegate, req_user, user)
+            user_profile_data = {data:user[data] for data in user if data not in ["username", "trackers", "quizresponses", "points"]}
+            errors = create_or_update_userprofile(messages_delegate, req_user, user_profile_data)
 
             try:
                 user_api_key, created = ApiKey.objects.get_or_create(user=req_user)
@@ -111,13 +114,21 @@ def process_uploaded_file(messages_delegate, json_data):
 
                 if 'trackers' in user:
                     process_uploaded_trackers(messages_delegate, user['trackers'], req_user)
+                else:
+                    return False, errors.append(DataRecovery.Reason.MISSING_TRACKERS_TAG)
                 if 'quizresponses' in user:
                     process_uploaded_quizresponses(messages_delegate, user['quizresponses'], req_user)
+                else:
+                    return False, errors.append(DataRecovery.Reason.MISSING_QUIZRESPONSES_TAG)
 
             except ApiKey.DoesNotExist:
                 messages_delegate.warning(
                      _(u"%(username)s not found. Please check that this file is being uploaded to \
                        the correct server." % {'username': username}), 'danger')
+    else:
+        return False, errors.append(DataRecovery.Reason.MISSING_USER_TAG)
+
+    return True, errors
 
 
 def get_user_from_uploaded_log(messages_delegate, user):
@@ -135,6 +146,13 @@ def get_user_from_uploaded_log(messages_delegate, user):
         req_user.first_name = user.get('firstname', '')
         req_user.last_name = user.get('lastname', '')
         req_user.save()
+
+        DataRecovery.create_data_recovery_entry(
+            user=req_user,
+            data_type=DataRecovery.Type.ACTIVITY_LOG,
+            reasons=[DataRecovery.Reason.USER_DID_NOT_EXIST_AND_WAS_CREATED],
+            data={'username': req_user.username, 'first_name': req_user.first_name, 'last_name': req_user.last_name}
+        )
 
         messages_delegate.warning(
             _(u"%(username)s did not exist previously, and was created." % {'username': username}), 'danger')
@@ -156,22 +174,22 @@ def create_or_update_userprofile(messages_delegate, req_user, user_data):
         user_profile.phone_number = user_data['phoneno']
 
     user_profile.save()
-    user_profile.update_customfields(user_data)
+    errors = user_profile.update_customfields(user_data)
+    return errors
 
 
 def validate_server(messages_delegate, data):
-
     if 'server' in data:
         server_url = SettingProperties.get_string(constants.OPPIA_HOSTNAME, 'localhost')
         if data['server'].startswith(server_url):
-            return True
+            return True, None
         else:
             print('Different tracker server: {}'.format(data['server']))
             messages_delegate.warning(_('The server in the activity log file does not match with the current one'))
-            return False
+            return False, DataRecovery.Reason.DIFFERENT_TRACKER_SERVER
     else:
         messages_delegate.warning(_('The activity log file seems to be in a wrong format'))
-        return False
+        return False, DataRecovery.Reason.MISSING_SERVER
 
 
 @csrf_exempt
@@ -181,7 +199,7 @@ def post_activitylog(request):
 
     json_data = json.loads(request.body)
     messages_delegate = MessagesDelegate(request)
-    success = process_activitylog(messages_delegate, request.body)
+    success, errors = process_activitylog(messages_delegate, request.body)
 
     users = []
     if 'users' in json_data:
@@ -203,6 +221,16 @@ def post_activitylog(request):
         uploaded_activity_log.file.save(name=filename,
                                         content=ContentFile(request.body))
         uploaded_activity_log.save()
+    else:
+        errors.append(DataRecovery.Reason.NONE_OF_THE_INCLUDED_USERS_EXIST_ON_THE_SERVER)
+
+    if errors:
+        DataRecovery.create_data_recovery_entry(
+            user=post_user,
+            data_type=DataRecovery.Type.ACTIVITY_LOG,
+            reasons=errors,
+            data=json_data
+        )
 
     if success:
         return HttpResponse()
