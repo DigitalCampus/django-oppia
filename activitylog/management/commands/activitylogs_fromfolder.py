@@ -58,9 +58,11 @@ class Command(BaseCommand):
             print('Processing {}:'.format(filename))
             with open(filename, 'rb') as file:
                 file_data = file.read()
-                success = process_activitylog(messages_delegate, file_data)
+                success, errors = process_activitylog(messages_delegate, file_data)
                 if success:
                     print("Success!")
+                else:
+                    print("Errors: " + str(errors))
 
         print("Process finished. Time taken: %s seconds"
               % (time.time() - start_time))

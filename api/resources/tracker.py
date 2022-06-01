@@ -17,6 +17,7 @@ from tastypie.resources import ModelResource, \
 from tastypie.utils import timezone
 
 from api.serializers import PrettyJSONSerializer
+from datarecovery.models import DataRecovery
 from oppia import DEFAULT_IP_ADDRESS
 from oppia.models import Activity, Tracker, Media, Points, Award, Course
 
@@ -62,16 +63,18 @@ class TrackerResource(ModelResource):
                   'badging']
         validation = TrackerValidation()
 
-    def process_tracker_bundle(self, bundle):
+    def process_tracker_bundle(self, bundle, errors):
         try:
-            if 'course' in bundle.data and 'digest' in bundle.data:
-                media = Media.objects.filter(
-                    digest=bundle.data['digest'],
-                    course__shortname=bundle.data['course']).first()
-            elif 'digest' in bundle.data:
-                media = Media.objects.filter(
-                    digest=bundle.data['digest']).first()
+            if 'digest' in bundle.data:
+                if 'course' in bundle.data:
+                    media = Media.objects.filter(
+                        digest=bundle.data['digest'],
+                        course__shortname=bundle.data['course']).first()
+                else:
+                    media = Media.objects.filter(
+                        digest=bundle.data['digest']).first()
             else:
+                errors.append(DataRecovery.Reason.MISSING_MEDIA_DIGEST)
                 media = None
 
             if media is not None:
@@ -84,16 +87,21 @@ class TrackerResource(ModelResource):
             json_data = json.loads(bundle.data['data'])
             if 'timetaken' in json_data:
                 bundle.obj.time_taken = json_data['timetaken']
+
             if 'uuid' in json_data:
                 bundle.obj.uuid = json_data['uuid']
+
             if 'lang' in json_data:
                 bundle.obj.lang = json_data['lang']
+
+        except JSONDecodeError:
+            errors.append(DataRecovery.Reason.JSON_DECODE_ERROR)
         except ValueError:
-            pass
+            errors.append(DataRecovery.Reason.INAPPROPRIATE_ARGUMENT_VALUE)
         except KeyError:
-            pass
+            errors.append(DataRecovery.Reason.MAPPING_KEY_NOT_FOUND)
         except TypeError:  # means json_data is None
-            pass
+            errors.append(DataRecovery.Reason.INAPPROPRIATE_ARGUMENT_TYPE)
 
         if 'points' in bundle.data:
             bundle.obj.points = bundle.data['points']
@@ -101,7 +109,7 @@ class TrackerResource(ModelResource):
         if 'event' in bundle.data:
             bundle.obj.event = bundle.data['event']
 
-        return bundle
+        return bundle, errors
 
     def obj_create(self, bundle, **kwargs):
         """
@@ -125,10 +133,18 @@ class TrackerResource(ModelResource):
                         or json_data['query'].strip() == "":
                     return bundle
             except JSONDecodeError:
+                DataRecovery.create_data_recovery_entry(
+                    user=bundle.request.user,
+                    data_type=DataRecovery.Type.TRACKER,
+                    reasons=[DataRecovery.Reason.JSON_DECODE_ERROR],
+                    data=bundle.data
+                )
                 return bundle
+
         return self.save(bundle)
 
     def hydrate(self, bundle, request=None):
+        errors = []
 
         # remove any id if this is submitted - otherwise it may overwrite
         # existing tracker item
@@ -148,16 +164,19 @@ class TrackerResource(ModelResource):
                 return bundle
 
         # find out the course & activity type from the digest
-        if 'course' in bundle.data:
-            activity = Activity.objects \
-                .filter(
+        if 'digest' in bundle.data:
+            if 'course' in bundle.data:
+                activity = Activity.objects \
+                    .filter(
                     digest=bundle.data['digest'],
                     section__course__shortname=bundle.data['course']) \
-                .first()
-        elif 'digest' in bundle.data:
-            activity = Activity.objects.filter(
-                digest=bundle.data['digest']).first()
+                    .first()
+            else:
+                errors.append(DataRecovery.Reason.MISSING_COURSE_TAG)
+                activity = Activity.objects.filter(
+                    digest=bundle.data['digest']).first()
         else:
+            errors.append(DataRecovery.Reason.MISSING_ACTIVITY_DIGEST)
             activity = None
 
         if activity is not None:
@@ -181,7 +200,15 @@ class TrackerResource(ModelResource):
             else:
                 bundle.obj.course_version = bundle.obj.course.version
 
-        bundle = self.process_tracker_bundle(bundle)
+        bundle, errors = self.process_tracker_bundle(bundle, errors)
+
+        if errors:
+            DataRecovery.create_data_recovery_entry(
+                user=bundle.request.user,
+                data_type=DataRecovery.Type.TRACKER,
+                reasons=errors,
+                data=bundle.data
+            )
 
         return bundle
 

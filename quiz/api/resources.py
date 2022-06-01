@@ -7,6 +7,7 @@ from tastypie.authorization import Authorization
 from tastypie.exceptions import BadRequest
 from tastypie.resources import ModelResource
 
+from datarecovery.models import DataRecovery
 from oppia import DEFAULT_IP_ADDRESS
 from oppia.models import Points, Award
 from quiz.api.serializers import QuizAttemptJSONSerializer
@@ -54,6 +55,7 @@ class QuizAttemptResource(ModelResource):
         serializer = QuizAttemptJSONSerializer()
 
     def hydrate(self, bundle, request=None):
+        errors = []
         bundle.obj.user = User.objects.get(pk=bundle.request.user.id)
         bundle.obj.ip = bundle.request.META.get('REMOTE_ADDR',
                                                 DEFAULT_IP_ADDRESS)
@@ -64,6 +66,7 @@ class QuizAttemptResource(ModelResource):
         try:
             bundle.obj.quiz = Quiz.objects.get(pk=bundle.data['quiz_id'])
         except Quiz.DoesNotExist:
+            errors.append(DataRecovery.Reason.QUIZ_DOES_NOT_EXIST)
             raise BadRequest(_(u'Quiz does not exist'))
 
         # see if instance id already submitted
@@ -80,12 +83,14 @@ class QuizAttemptResource(ModelResource):
                     response['question'] = Question.objects.get(
                         pk=response['question_id'])
                 except Question.DoesNotExist:
+                    errors.append(DataRecovery.Reason.QUESTION_DOES_NOT_EXIST)
                     raise BadRequest(_(u'Question does not exist'))
                 # check part of this quiz
                 try:
                     QuizQuestion.objects.get(quiz=bundle.obj.quiz,
                                              question=response['question'])
                 except QuizQuestion.DoesNotExist:
+                    errors.append(DataRecovery.Reason.QUESTION_FROM_DIFFERENT_QUIZ)
                     raise BadRequest(
                         _(u'This question is not part of this quiz'))
 

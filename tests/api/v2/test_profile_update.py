@@ -1,30 +1,9 @@
 from django.contrib.auth.models import User
-from django.test import TestCase
-from tastypie.test import ResourceTestCaseMixin
 
-from tests.utils import get_api_key, get_api_url
+from tests.profile.user_profile_base_test_case import UserProfileBaseTestCase
 
 
-class ProfileUpdateResourceTest(ResourceTestCaseMixin, TestCase):
-    fixtures = ['tests/test_user.json',
-                'tests/test_oppia.json',
-                'tests/test_permissions.json']
-
-    def setUp(self):
-        super(ProfileUpdateResourceTest, self).setUp()
-        self.username = 'demo'
-        self.user = User.objects.get(username=self.username)
-        self.api_key = get_api_key(user=self.user).key
-        self.base_data = {
-            'email': 'demo@me.com',
-            'first_name': 'demo',
-            'last_name': 'user',
-            'organisation': ''
-        }
-        self.url = get_api_url('v2', 'profileupdate')
-
-    def get_credentials(self):
-        return self.create_apikey(username=self.username, api_key=self.api_key)
+class ProfileUpdateResourceTest(UserProfileBaseTestCase):
 
     def test_edit_own_profile_user(self):
         orig_firstname = self.user.first_name
