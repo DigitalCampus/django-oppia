@@ -8,8 +8,9 @@ from django.test.client import RequestFactory
 
 from oppia.test import OppiaTransactionTestCase
 
-from oppia.models import Course, CoursePublishingLog
+from oppia.models import Course, CoursePublishingLog, CourseStatus
 from settings.models import SettingProperties
+from tests.utils import update_course_status
 
 
 class CoursePublishResourceTest(OppiaTransactionTestCase):
@@ -30,6 +31,17 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
         self.course_file_path = os.path.join(settings.TEST_RESOURCES, 'ncd1_test_course.zip')
         self.video_file_path = os.path.join(settings.TEST_RESOURCES, 'sample_video.m4v')
         self.course_draft_file_path = os.path.join(settings.TEST_RESOURCES, 'draft-20150611100319.zip')
+        self.non_existing_course = os.path.join(settings.TEST_RESOURCES, 'test_course_empty_section.zip')
+        self.non_existing_course_shortname = "empty-section"
+
+    def publish_course(self, course_file, is_draft):
+        response = self.client.post(self.url,
+                                    {'username': 'admin',
+                                     'password': 'password',
+                                     'tags': 'demo',
+                                     'is_draft': is_draft,
+                                     api.COURSE_FILE_FIELD: course_file})
+        return response
 
     # test only POST is available
     def test_no_get(self):
@@ -369,3 +381,93 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
             new_no_cpls = CoursePublishingLog.objects \
                 .filter(action='invalid_zip').count()
             self.assertEqual(old_no_cpls+2, new_no_cpls)
+
+    def test_publish_new_live_course(self):
+        with open(self.non_existing_course, 'rb') as course_file:
+            response = self.publish_course(course_file, False)
+            self.assertEqual(201, response.status_code)
+
+            course = Course.objects.get(shortname=self.non_existing_course_shortname)
+            self.assertEqual(CourseStatus.LIVE, course.status)
+
+    def test_publish_live_course_when_live_course_exists__should_publish(self):
+        update_course_status(2, CourseStatus.LIVE)
+
+        with open(self.course_file_path, 'rb') as course_file:
+            response = self.publish_course(course_file, False)
+            self.assertEqual(201, response.status_code)
+
+    def test_publish_live_course_when_draft_course_exists__should_not_publish(self):
+        update_course_status(2, CourseStatus.DRAFT)
+
+        with open(self.course_file_path, 'rb') as course_file:
+            response = self.publish_course(course_file, False)
+            self.assertEqual(400, response.status_code)
+
+    def test_publish_live_course_when_newdownloadsdisabled_course_exists__should_not_publish(self):
+        update_course_status(2, CourseStatus.NEW_DOWNLOADS_DISABLED)
+
+        with open(self.course_file_path, 'rb') as course_file:
+            response = self.publish_course(course_file, False)
+            self.assertEqual(400, response.status_code)
+
+    def test_publish_live_course_when_archived_course_exists__should_not_publish(self):
+        update_course_status(2, CourseStatus.ARCHIVED)
+
+        with open(self.course_file_path, 'rb') as course_file:
+            response = self.publish_course(course_file, False)
+            self.assertEqual(400, response.status_code)
+
+    def test_publish_live_course_when_readonly_course_exists__should_not_publish(self):
+        update_course_status(2, CourseStatus.READ_ONLY)
+
+        with open(self.course_file_path, 'rb') as course_file:
+            response = self.publish_course(course_file, False)
+            self.assertEqual(400, response.status_code)
+
+    def test_publish_new_draft_course(self):
+        with open(self.non_existing_course, 'rb') as course_file:
+            response = self.publish_course(course_file, True)
+            self.assertEqual(201, response.status_code)
+
+            course = Course.objects.get(shortname=self.non_existing_course_shortname)
+            self.assertEqual(CourseStatus.DRAFT, course.status)
+
+    def test_publish_draft_course_when_live_course_exists__should_publish_and_update_status(self):
+        course_id = 2
+        update_course_status(course_id, CourseStatus.LIVE)
+
+        with open(self.course_file_path, 'rb') as course_file:
+            response = self.publish_course(course_file, True)
+            self.assertEqual(201, response.status_code)
+
+            course = Course.objects.get(pk=course_id)
+            self.assertEqual(CourseStatus.DRAFT, course.status)
+
+    def test_publish_draft_course_when_draft_course_exists__should_publish(self):
+        update_course_status(2, CourseStatus.DRAFT)
+
+        with open(self.course_file_path, 'rb') as course_file:
+            response = self.publish_course(course_file, True)
+            self.assertEqual(201, response.status_code)
+
+    def test_publish_draft_course_when_newdownloadsdisabled_course_exists__should_not_publish(self):
+        update_course_status(2, CourseStatus.NEW_DOWNLOADS_DISABLED)
+
+        with open(self.course_file_path, 'rb') as course_file:
+            response = self.publish_course(course_file, True)
+            self.assertEqual(400, response.status_code)
+
+    def test_publish_draft_course_when_archived_course_exists__should_not_publish(self):
+        update_course_status(2, CourseStatus.ARCHIVED)
+
+        with open(self.course_file_path, 'rb') as course_file:
+            response = self.publish_course(course_file, True)
+            self.assertEqual(400, response.status_code)
+
+    def test_publish_draft_course_when_readonly_course_exists__should_not_publish(self):
+        update_course_status(2, CourseStatus.READ_ONLY)
+
+        with open(self.course_file_path, 'rb') as course_file:
+            response = self.publish_course(course_file, True)
+            self.assertEqual(400, response.status_code)
