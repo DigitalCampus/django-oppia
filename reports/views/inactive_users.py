@@ -9,8 +9,6 @@ from reports.views.base_report_template import BaseReportTemplateView
 from settings import constants
 from settings.models import SettingProperties
 
-from summary.models import DailyActiveUser
-
 
 @method_decorator(staff_member_required, name='dispatch')
 class InactiveUsersView(BaseReportTemplateView):

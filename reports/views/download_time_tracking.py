@@ -6,8 +6,6 @@ from django.utils.decorators import method_decorator
 
 from reports.views.base_report_template import BaseReportTemplateView
 
-from summary.models import DailyActiveUser
-
 
 @method_decorator(staff_member_required, name='dispatch')
 class DownloadTimeSpentView(BaseReportTemplateView):

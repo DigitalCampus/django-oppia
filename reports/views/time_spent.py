@@ -8,9 +8,6 @@ from oppia import constants as oppia_constants
 
 from reports.views.base_report_template import BaseReportTemplateView
 
-from summary.models import DailyActiveUsers
-
-
 def seconds_to_hours(seconds):
     TIME_DURATION_UNITS = (
             ('week', 60*60*24*7),

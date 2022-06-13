@@ -10,8 +10,6 @@ from oppia import constants as oppia_constants
 
 from reports.views.base_report_template import BaseReportTemplateView
 
-from summary.models import DailyActiveUser
-
 
 @method_decorator(staff_member_required, name='dispatch')
 class DailyActiveUsersView(BaseReportTemplateView):
