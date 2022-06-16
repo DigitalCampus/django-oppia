@@ -21,3 +21,4 @@ class UserCourseDailySummary(models.Model):
     class Meta:
         verbose_name = _(u'UserCourseDailySummary')
         verbose_name_plural = _(u'UserCourseDailySummaries')
+

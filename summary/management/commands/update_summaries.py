@@ -2,7 +2,7 @@ import time
 
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
-from django.db.models import Count, Sum, Q
+from django.db.models import Count, Sum
 from django.db.models.functions import TruncDay
 from django.utils import timezone
 
@@ -82,7 +82,6 @@ class Command(BaseCommand):
         self.update_course_daily_stats(last_tracker_pk, newest_tracker_pk)
         self.update_user_points_summary(last_points_pk, newest_points_pk)
         self.update_user_course_daily_stats(last_tracker_pk, newest_tracker_pk)
-        self.update_daily_active_users(last_tracker_pk, newest_tracker_pk)
 
         print("--- took %s seconds ---" % (time.time() - start_time))
 
@@ -128,7 +127,7 @@ class Command(BaseCommand):
         if last_tracker_pk == 0:
             CourseDailyStats.objects.all().delete()
 
-        excluded_users = self.get_excluded_users()
+        excluded_users = UserCourseSummary.get_excluded_users()
 
         # get different (distinct) courses/dates involved
         course_daily_type_logs = Tracker.objects \
@@ -239,10 +238,3 @@ class Command(BaseCommand):
                 continue
             points, created = UserPointsSummary.objects.get_or_create(user=user)
             points.update_points(last_points_pk=last_points_pk, newest_points_pk=newest_points_pk)
-
-
-    def get_excluded_users(self):
-        # We avoid using the admin users and users that explicitly we want to exclude from summaries
-        return User.objects \
-            .filter(Q(is_staff=True) | Q(is_superuser=True) | Q(userprofile__exclude_from_reporting=True)) \
-            .distinct().values_list('pk', flat=True)
