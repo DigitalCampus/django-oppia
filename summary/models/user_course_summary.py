@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Sum, Count, QuerySet
+from django.db.models import Sum, Count, QuerySet, Q
 from django.utils.translation import gettext_lazy as _
 
 from oppia import constants
@@ -74,6 +74,14 @@ class UserCourseSummary (models.Model):
             'no_media_viewed': 0,
             'no_points': 0,
             'no_badges': 0, }
+
+    @staticmethod
+    def get_excluded_users():
+        # Returns a list of user PKs to be excluded when calculating summaries
+        # We avoid using the admin users and users that explicitly we want to exclude from summaries
+        return User.objects \
+            .filter(Q(is_staff=True) | Q(is_superuser=True) | Q(userprofile__exclude_from_reporting=True)) \
+            .distinct().values_list('pk', flat=True)
 
     def update_summary(self,
                        last_tracker_pk=0, newest_tracker_pk=0,

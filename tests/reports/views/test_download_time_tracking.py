@@ -11,8 +11,7 @@ class DownloadTimeTrackingViewTest(OppiaTestCase):
                 'tests/test_cohort.json',
                 'tests/test_course_permissions.json',
                 'tests/test_usercoursesummary.json',
-                'tests/test_customfields.json',
-                'tests/test_daus.json']
+                'tests/test_customfields.json']
 
     url = reverse('reports:user-course-time-spent')
 

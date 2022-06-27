@@ -1,53 +1,37 @@
-import datetime
-
 from abc import abstractmethod
 
+from collections.abc import Mapping
+
+from django.contrib.admin.views.decorators import staff_member_required
+from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 
-from helpers.forms import dates
-
-from oppia import constants as oppia_constants
+from helpers.mixins.DateRangeFilterMixin import DateRangeFilterMixin
 from reports import constants
+from summary.models import UserCourseSummary
 
 
-class BaseReportTemplateView(TemplateView):
+@method_decorator(staff_member_required, name='dispatch')
+class BaseReportTemplateView(DateRangeFilterMixin, TemplateView):
 
-    def get(self, request):
+    users_filter_by = None
+    daterange_no_days = constants.ANNUAL_NO_DAYS
 
-        start_date = datetime.date.today() - datetime.timedelta(
-            days=constants.ANNUAL_NO_DAYS)
-        end_date = datetime.date.today()
-        data = {}
-        data['start_date'] = start_date.strftime(
-            oppia_constants.STR_DATE_FORMAT)
-        data['end_date'] = end_date.strftime(
-            oppia_constants.STR_DATE_FORMAT)
-        form = dates.DateRangeForm(initial=data)
+    def dispatch(self, request, *args, **kwargs):
+        self.users_filter_by = UserCourseSummary.get_excluded_users()
+        return super().dispatch(request, *args, **kwargs)
 
-        return self.process(request, form, start_date, end_date)
 
-    def post(self, request):
-        start_date = datetime.date.today() - datetime.timedelta(
-            days=constants.ANNUAL_NO_DAYS)
-        end_date = datetime.date.today()
-        form = dates.DateRangeForm(request.POST)
-        if form.is_valid():
-            start_date = form.cleaned_data.get("start_date")
-            end_date = form.cleaned_data.get("end_date")
-
-        if isinstance(start_date, str):
-            start_date = datetime.datetime.strptime(
-                start_date,
-                oppia_constants.STR_DATE_FORMAT)
-        if isinstance(end_date, str):
-            end_date = datetime.datetime.strptime(
-                end_date,
-                oppia_constants.STR_DATE_FORMAT)
-        data = {}
-        data['start_date'] = start_date
-        data['end_date'] = end_date
-        return self.process(request, form, start_date, end_date)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        start_date, end_date = self.get_daterange()
+        data = self.get_graph_data(start_date, end_date)
+        if isinstance(data, Mapping):
+            context.update(data)
+        else:
+            context['activity_graph_data'] = data
+        return context
 
     @abstractmethod
-    def process(self, request, form, start_date, end_date):
+    def get_graph_data(self, start_date, end_date):
         pass

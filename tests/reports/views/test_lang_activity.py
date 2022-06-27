@@ -52,23 +52,20 @@ class LangActivityViewTest(OppiaTransactionTestCase):
 
         self.client.force_login(self.admin_user)
         start_date = timezone.now() - datetime.timedelta(days=31)
-        response = self.client.post(self.url,
-                                    data={'start_date': start_date})
+        response = self.client.get(self.url, data={'start_date': start_date})
         self.assertTemplateUsed(response, self.template)
         self.assertEqual(response.status_code, 200)
 
     def test_lang_activity_future_date(self):
         self.client.force_login(self.admin_user)
         start_date = timezone.now() + datetime.timedelta(days=31)
-        response = self.client.post(self.url,
-                                    data={'start_date': start_date})
+        response = self.client.get(self.url, data={'start_date': start_date})
         self.assertTemplateUsed(response, self.template)
         self.assertEqual(response.status_code, 200)
 
     def test_lang_activity_invalid_date(self):
         self.client.force_login(self.admin_user)
         start_date = "not a valid date"
-        response = self.client.post(self.url,
-                                    data={'start_date': start_date})
+        response = self.client.get(self.url, data={'start_date': start_date})
         self.assertTemplateUsed(response, self.template)
         self.assertEqual(200, response.status_code)

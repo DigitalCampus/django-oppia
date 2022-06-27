@@ -2,14 +2,14 @@ import time
 
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
-from django.db.models import Count, Sum, Q
-from django.db.models.functions import TruncDay, TruncDate
+from django.db.models import Count, Sum
+from django.db.models.functions import TruncDay
 from django.utils import timezone
 
 from oppia import constants
 from oppia.models import Tracker, Points, Course
 from settings.models import SettingProperties
-from summary.models import UserCourseSummary, CourseDailyStats, UserPointsSummary, DailyActiveUser, DailyActiveUsers
+from summary.models import UserCourseSummary, CourseDailyStats, UserPointsSummary
 from summary.models.user_course_daily_summary import UserCourseDailySummary
 
 
@@ -70,8 +70,7 @@ class Command(BaseCommand):
             newest_points_pk = last_points_pk
 
         print('Last tracker processed: %d\nNewest tracker: %d\n'
-              % (last_tracker_pk,
-                 newest_tracker_pk))
+              % (last_tracker_pk, newest_tracker_pk))
         if last_tracker_pk >= newest_tracker_pk:
             self.stdout.write('No new trackers to process. Aborting cron...')
             SettingProperties.delete_key('oppia_summary_cron_lock')
@@ -83,7 +82,6 @@ class Command(BaseCommand):
         self.update_course_daily_stats(last_tracker_pk, newest_tracker_pk)
         self.update_user_points_summary(last_points_pk, newest_points_pk)
         self.update_user_course_daily_stats(last_tracker_pk, newest_tracker_pk)
-        self.update_daily_active_users(last_tracker_pk, newest_tracker_pk)
 
         print("--- took %s seconds ---" % (time.time() - start_time))
 
@@ -129,7 +127,7 @@ class Command(BaseCommand):
         if last_tracker_pk == 0:
             CourseDailyStats.objects.all().delete()
 
-        excluded_users = self.get_excluded_users()
+        excluded_users = UserCourseSummary.get_excluded_users()
 
         # get different (distinct) courses/dates involved
         course_daily_type_logs = Tracker.objects \
@@ -240,131 +238,3 @@ class Command(BaseCommand):
                 continue
             points, created = UserPointsSummary.objects.get_or_create(user=user)
             points.update_points(last_points_pk=last_points_pk, newest_points_pk=newest_points_pk)
-
-    def update_daily_active_users(self,
-                                  last_tracker_pk=0,
-                                  newest_tracker_pk=0):
-
-        if last_tracker_pk == 0:
-            # wipe the cache table first
-            DailyActiveUsers.objects.all().delete()
-
-        courses = Course.objects.all()
-
-        for idx, course in enumerate(courses):
-            self.stdout.write(course.get_title())
-            # process for tracker date
-            self.update_daily_active_users_dates(
-                course,
-                last_tracker_pk,
-                newest_tracker_pk,
-                'tracker_date',
-                'total_tracker_date',
-                DailyActiveUser.TRACKER,
-                idx,
-                courses.count())
-
-            # process for submitted date
-            self.update_daily_active_users_dates(
-                course,
-                last_tracker_pk,
-                newest_tracker_pk,
-                'submitted_date',
-                'total_submitted_date',
-                DailyActiveUser.SUBMITTED,
-                idx,
-                courses.count())
-
-    def update_daily_active_users_dates(
-            self,
-            course,
-            last_tracker_pk,
-            newest_tracker_pk,
-            tracker_date_field,
-            dau_total_date_field,
-            dau_type,
-            course_no,
-            course_total):
-
-        trackers = Tracker.objects.filter(pk__gt=last_tracker_pk,
-                                          pk__lte=newest_tracker_pk,
-                                          course=course) \
-            .annotate(day=TruncDate(tracker_date_field)) \
-            .values('day').distinct()
-
-        trackers_count = trackers.count()
-
-        # for each tracker update the DAU model
-        for idx, tracker in enumerate(trackers):
-            self.stdout.write(
-                'Updating DAUs for %s - %s (%s: course %d/%d DAU %d/%d)' %
-                (tracker['day'],
-                 course.get_title(),
-                 dau_type,
-                 course_no+1,
-                 course_total,
-                 idx+1,
-                 trackers_count))
-
-            users = Tracker.objects.annotate(
-                day=TruncDate(tracker_date_field)) \
-                .filter(day=tracker['day'], course=course).values_list('user', flat=True).distinct()
-
-            total_users = len(users)
-            dau_obj, created = DailyActiveUsers.objects.update_or_create(
-                day=tracker['day'],
-                defaults={dau_total_date_field: total_users})
-
-            for user_id in users:
-                self.update_daily_active_users_update(
-                    tracker,
-                    tracker_date_field,
-                    user_id,
-                    course,
-                    dau_obj,
-                    dau_type)
-
-    def update_daily_active_users_update(self,
-                                         tracker,
-                                         tracker_date_field,
-                                         user_id,
-                                         course,
-                                         dau_obj,
-                                         dau_type):
-
-        try:
-            user_obj = User.objects.get(pk=user_id)
-        except User.DoesNotExist:
-            return
-
-        time_spent = Tracker.objects.annotate(
-            day=TruncDate(tracker_date_field)) \
-            .filter(day=tracker['day'], user=user_obj, course=course) \
-            .aggregate(time=Sum('time_taken'))
-
-        # to avoid number out of no seconds in a day
-        if time_spent['time'] is None:
-            return
-        elif time_spent['time'] > self.MAX_TIME:
-            time_taken = self.MAX_TIME
-        else:
-            time_taken = time_spent['time']
-
-        if time_taken != 0:
-            dau, created = DailyActiveUser.objects.get_or_create(
-                dau=dau_obj,
-                user=user_obj,
-                type=dau_type,
-                course=course)
-            dau.time_spent = time_taken
-            dau.save()
-            if created:
-                self.stdout.write("added %s" % user_obj.username)
-            else:
-                self.stdout.write("updated %s" % user_obj.username)
-
-    def get_excluded_users(self):
-        # We avoid using the admin users and users that explicitly we want to exclude from summaries
-        return User.objects \
-            .filter(Q(is_staff=True) | Q(is_superuser=True) | Q(userprofile__exclude_from_reporting=True)) \
-            .distinct().values_list('pk', flat=True)

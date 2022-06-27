@@ -1,18 +1,24 @@
 import tablib
-
-from django.contrib.admin.views.decorators import staff_member_required
+from django.db.models import Sum
 from django.http import HttpResponse
-from django.utils.decorators import method_decorator
 
+from oppia.models import Course, User
 from reports.views.base_report_template import BaseReportTemplateView
+from summary.models import UserCourseDailySummary
 
-from summary.models import DailyActiveUser
 
-
-@method_decorator(staff_member_required, name='dispatch')
 class DownloadTimeSpentView(BaseReportTemplateView):
 
-    def process(self, request, form, start_date, end_date):
+    def get(self, request, *args, **kwargs):
+        start_date, end_date = self.get_daterange()
+        data = self.get_graph_data(start_date, end_date)
+
+        response = HttpResponse(data.csv, content_type='application/text;charset=utf-8')
+        response['Content-Disposition'] = "attachment; filename=time_tracking.csv"
+        return response
+
+
+    def get_graph_data(self, start_date, end_date):
 
         headers = ('date',
                    'user_id',
@@ -24,24 +30,30 @@ class DownloadTimeSpentView(BaseReportTemplateView):
         data = tablib.Dataset(*data, headers=headers)
 
         # get all the users who have some time spent in a day
-        active_users_days = DailyActiveUser.objects.filter(
-            type=DailyActiveUser.TRACKER)
+        daily_summaries =  UserCourseDailySummary.objects\
+            .values('day', 'user', 'course')\
+            .annotate(time_spent=Sum('time_spent_tracked'))
 
-        for aud in active_users_days:
+        for aud in daily_summaries:
+
+            print(aud)
+            user = User.objects.filter(pk=aud['user']).first()
+            course = Course.objects.filter(pk=aud['course']).first()
             data.append(
                         (
-                           aud.dau.day,
-                           aud.user.id,
-                           aud.user.username,
-                           aud.course.shortname,
-                           aud.course.get_title(),
-                           aud.time_spent
+                           aud['day'],
+                           aud['user'],
+                           user.username,
+                           course.shortname,
+                           course.get_title(),
+                           aud['time_spent']
                         )
                     )
 
-        response = HttpResponse(data.csv,
-                                content_type='application/text;charset=utf-8')
-        response['Content-Disposition'] = \
-            "attachment; filename=time_tracking.csv"
+        return data
 
-        return response
+
+
+
+
+

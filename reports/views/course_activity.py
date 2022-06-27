@@ -1,35 +1,29 @@
 import datetime
 
-from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Sum
 from django.db.models.functions import TruncMonth, TruncYear
-from django.shortcuts import render
 from django.utils import timezone
-from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 
 from oppia.models import Course
-
 from reports.views.base_report_template import BaseReportTemplateView
-
 from summary.models import CourseDailyStats
 
 
-@method_decorator(staff_member_required, name='dispatch')
 class CourseActivityView(BaseReportTemplateView):
 
-    def process(self, request, form, start_date, end_date):
+    template_name = 'reports/course_activity.html'
+
+    def get_graph_data(self, start_date, end_date):
 
         daily_activity = CourseDailyStats.objects \
-            .filter(day__gte=start_date,
-                    day__lte=end_date) \
+            .filter(day__gte=start_date, day__lte=end_date) \
             .values('day') \
             .annotate(count=Sum('total')) \
             .order_by('day')
 
         course_activity = CourseDailyStats.objects \
-            .filter(day__gte=start_date,
-                    day__lte=end_date) \
+            .filter(day__gte=start_date, day__lte=end_date) \
             .annotate(month=TruncMonth('day'),
                       year=TruncYear('day')) \
             .values('month', 'year') \
@@ -68,10 +62,9 @@ class CourseActivityView(BaseReportTemplateView):
             hits_percent = float(other_course_activity * 100.0 / total_hits)
             hot_courses.append({'course': _('Other'),
                                 'hits_percent': hits_percent})
-        return render(request, 'reports/course_activity.html',
-                      {'form': form,
-                       'daily_activity': daily_activity,
-                       'course_activity': course_activity,
-                       'previous_course_activity':
-                       previous_course_activity,
-                       'hot_courses': hot_courses})
+        return  {
+            'daily_activity': daily_activity,
+            'course_activity': course_activity,
+            'previous_course_activity': previous_course_activity,
+            'hot_courses': hot_courses
+        }
