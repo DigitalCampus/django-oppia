@@ -11,8 +11,7 @@ class MonthlyActiveUsersViewTest(OppiaTestCase):
                 'tests/test_cohort.json',
                 'tests/test_course_permissions.json',
                 'tests/test_usercoursesummary.json',
-                'tests/test_customfields.json',
-                'tests/test_daus.json']
+                'tests/test_customfields.json']
 
     url = reverse('reports:maus')
     template = 'reports/maus.html'
@@ -42,6 +41,6 @@ class MonthlyActiveUsersViewTest(OppiaTestCase):
         self.client.force_login(user=self.admin_user)
         data = {'start_date': "2000-01-01",
                 'end_date': "2000-12-31"}
-        response = self.client.post(self.url, data=data)
+        response = self.client.get(self.url, data=data)
         self.assertTemplateUsed(response, self.template)
         self.assertEqual(response.status_code, 200)

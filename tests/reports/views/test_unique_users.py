@@ -39,6 +39,6 @@ class DailyActiveUsersViewTest(OppiaTestCase):
 
     def test_post(self):
         self.client.force_login(user=self.admin_user)
-        response = self.client.post(self.url, data={'group_by': 'country'})
+        response = self.client.get(self.url, data={'group_by': 'country'})
         self.assertTemplateUsed(response, self.template)
         self.assertEqual(response.status_code, 200)

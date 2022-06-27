@@ -11,8 +11,7 @@ class AverageTimeSpentViewTest(OppiaTestCase):
                 'tests/test_cohort.json',
                 'tests/test_course_permissions.json',
                 'tests/test_usercoursesummary.json',
-                'tests/test_customfields.json',
-                'tests/test_daus.json']
+                'tests/test_customfields.json']
 
     url = reverse('reports:averagetimespent')
     template = 'reports/average_time_spent.html'
@@ -42,7 +41,7 @@ class AverageTimeSpentViewTest(OppiaTestCase):
         self.client.force_login(self.admin_user)
         start_date = "2015-01-01"
         end_date = "2019-12-31"
-        response = self.client.post(self.url,
+        response = self.client.get(self.url,
                                     data={'start_date': start_date,
                                           'end_date': end_date})
         self.assertTemplateUsed(response, self.template)
