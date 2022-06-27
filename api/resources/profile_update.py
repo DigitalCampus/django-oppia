@@ -9,6 +9,7 @@ from tastypie.resources import ModelResource
 
 from api.serializers import UserJSONSerializer
 from api.utils import check_required_params
+from datarecovery.models import DataRecovery
 from profile.forms import ProfileForm
 from profile.models import UserProfile, CustomField
 
@@ -38,6 +39,7 @@ class ProfileUpdateResource(ModelResource):
         return user_profile
 
     def process_profile_update(self, bundle):
+        errors = []
         data = {'email': bundle.data['email']
                 if 'email' in bundle.data else '',
                 'first_name': bundle.data['first_name'],
@@ -45,11 +47,15 @@ class ProfileUpdateResource(ModelResource):
                 'username': bundle.request.user}
 
         custom_fields = CustomField.objects.all()
+        missing_fields = []
         for custom_field in custom_fields:
             try:
                 data[custom_field.id] = bundle.data[custom_field.id]
             except KeyError:
-                pass
+                missing_fields.append(custom_field.id)
+
+        if missing_fields:
+            errors.append(DataRecovery.Reason.CUSTOM_PROFILE_FIELDS_MISSING + str(missing_fields))
 
         profile_form = ProfileForm(data=data)
         if not profile_form.is_valid():
@@ -64,7 +70,8 @@ class ProfileUpdateResource(ModelResource):
             last_name = bundle.data['last_name']
 
         try:
-            bundle.obj = User.objects.get(username=bundle.request.user)
+            user = User.objects.get(username=bundle.request.user)
+            bundle.obj = user
             bundle.obj.first_name = first_name
             bundle.obj.last_name = last_name
             bundle.obj.email = email
@@ -75,7 +82,20 @@ class ProfileUpdateResource(ModelResource):
         # Create base UserProfile
         user_profile = self.process_profile_update_base_profile(bundle)
         # Create any CustomField entries
-        user_profile.update_customfields(bundle.data)
+        user_fields = [f.name for f in User._meta.get_fields()]
+        custom_fields = {field: bundle.data[field] for field in bundle.data if field not in user_fields}
+        update_custom_fields_errors = user_profile.update_customfields(custom_fields)
+
+        if update_custom_fields_errors:
+            errors.append(update_custom_fields_errors)
+
+        if errors:
+            DataRecovery.create_data_recovery_entry(
+                user=user,
+                data_type=DataRecovery.Type.USER_PROFILE,
+                reasons=errors,
+                data=bundle.data
+            )
 
         return bundle
 
