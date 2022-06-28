@@ -5,6 +5,7 @@ from django.core.management.base import BaseCommand
 from django.db.models import Count, Sum
 from django.db.models.functions import TruncDay
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 from oppia import constants
 from oppia.models import Tracker, Points, Course
@@ -14,7 +15,7 @@ from summary.models.user_course_daily_summary import UserCourseDailySummary
 
 
 class Command(BaseCommand):
-    help = 'Updates course, points and daily active users summary tables'
+    help = _('Updates course, points and daily active users summary tables')
     MAX_TIME = 60*60*24
 
     def add_arguments(self, parser):
@@ -23,8 +24,7 @@ class Command(BaseCommand):
         parser.add_argument('--fromstart',
                             action='store_true',
                             dest='fromstart',
-                            help='Calculate summary tables from the beginning, \
-                              not just the last ones')
+                            help=_('Calculate summary tables from the beginning, not just the last ones'))
 
     def handle(self, *args, **options):
 
@@ -33,12 +33,12 @@ class Command(BaseCommand):
             .get_or_create(key='oppia_summary_cron_lock',
                            int_value=1)
         if not created:
-            self.stdout.write("Oppia summary cron is already running")
+            self.stdout.write(_("Oppia summary cron is already running"))
             return
 
         try:
             SettingProperties.objects.get(key='oppia_cron_lock')
-            self.stdout.write("Oppia cron is already running")
+            self.stdout.write(_("Oppia cron is already running"))
             SettingProperties.delete_key('oppia_summary_cron_lock')
             return
         except SettingProperties.DoesNotExist:
@@ -63,7 +63,7 @@ class Command(BaseCommand):
             newest_tracker_pk = Tracker.objects.latest('id').id
             newest_points_pk = Points.objects.latest('id').id
         except Tracker.DoesNotExist:
-            self.stdout.write("Tracker table is empty. Aborting cron...")
+            self.stdout.write(_("Tracker table is empty. Aborting cron..."))
             SettingProperties.delete_key('oppia_summary_cron_lock')
             return
         except Points.DoesNotExist:
@@ -72,7 +72,7 @@ class Command(BaseCommand):
         print('Last tracker processed: %d\nNewest tracker: %d\n'
               % (last_tracker_pk, newest_tracker_pk))
         if last_tracker_pk >= newest_tracker_pk:
-            self.stdout.write('No new trackers to process. Aborting cron...')
+            self.stdout.write(_('No new trackers to process. Aborting cron...'))
             SettingProperties.delete_key('oppia_summary_cron_lock')
             return
 
@@ -83,7 +83,7 @@ class Command(BaseCommand):
         self.update_user_points_summary(last_points_pk, newest_points_pk)
         self.update_user_course_daily_stats(last_tracker_pk, newest_tracker_pk)
 
-        print("--- took %s seconds ---" % (time.time() - start_time))
+        print(_("--- took %s seconds ---") % (time.time() - start_time))
 
         # update last tracker and points PKs with the last one processed
         SettingProperties.objects.update_or_create(key='last_tracker_pk', defaults={"int_value": newest_tracker_pk})
@@ -103,11 +103,11 @@ class Command(BaseCommand):
             .values('course', 'user').distinct()
 
         total_users = user_courses.count()
-        self.stdout.write('%d different user/courses to process.' % total_users)
+        self.stdout.write(_('%d different user/courses to process.') % total_users)
 
         count = 1
         for uc_tracker in user_courses:
-            self.stdout.write('processing user/course trackers... (%d/%d)' % (count, total_users))
+            self.stdout.write(_('processing user/course trackers... (%d/%d)') % (count, total_users))
             try:
                 user = User.objects.get(pk=uc_tracker['user'])
             except User.DoesNotExist:
@@ -140,7 +140,7 @@ class Command(BaseCommand):
             .order_by('day')
 
         total_logs = course_daily_type_logs.count()
-        self.stdout.write('%d different courses/dates/types to process.' % total_logs)
+        self.stdout.write(_('%d different courses/dates/types to process.') % total_logs)
 
         count = 0
         for type_log in course_daily_type_logs:
@@ -165,7 +165,7 @@ class Command(BaseCommand):
             .annotate(total=Count('type')) \
             .order_by('day')
 
-        self.stdout.write('%d different search/dates to process.' % noncourse_daily_logs.count())
+        self.stdout.write(_('%d different search/dates to process.') % noncourse_daily_logs.count())
         for log in noncourse_daily_logs:
             stats, created = CourseDailyStats.objects.get_or_create(course=None, day=log['day'], type=log['type'])
             stats.total += log['total']
@@ -190,7 +190,7 @@ class Command(BaseCommand):
             .order_by('day')
 
         total_logs = daily_type_tracked.count()
-        self.stdout.write('{} different {} courses/dates/types to process.'.format(total_logs, date_name))
+        self.stdout.write(_('{} different {} courses/dates/types to process.').format(total_logs, date_name))
 
         count = 1
         for log in daily_type_tracked:
@@ -203,6 +203,9 @@ class Command(BaseCommand):
                                                     user.username,
                                                     log['type'],
                                                     log['total']))
+            if log['type'] is None:
+                print(_("Skipping as no value for tracker.type"))
+                continue
 
             stats, created = UserCourseDailySummary.objects.get_or_create(
                 day=log['day'], user=user, course=course, type=log['type'])
@@ -230,7 +233,7 @@ class Command(BaseCommand):
             .values('user').distinct()
 
         total_users = users_points.count()
-        self.stdout.write('%d different user/points to process.' % total_users)
+        self.stdout.write(_('%d different user/points to process.') % total_users)
         for user_points in users_points:
             try:
                 user = User.objects.get(pk=user_points['user'])
