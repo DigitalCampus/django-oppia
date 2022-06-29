@@ -14,13 +14,14 @@ class DateRangeFilterMixin(object):
     daterange_form_method = 'get'
     daterange_form_context_name = 'form'
     daterange_form_initial = {}
+    daterange_no_days = ACTIVITY_GRAPH_DEFAULT_NO_DAYS
 
     def __init__(self):
         self.daterange_form_instance = None
 
     # Gets the default daterange from today back to the one month
     def get_initial_daterange(self):
-        start_date = timezone.now() - datetime.timedelta(days=ACTIVITY_GRAPH_DEFAULT_NO_DAYS)
+        start_date = timezone.now() - datetime.timedelta(days=self.daterange_no_days)
         end_date = timezone.now()
 
         return {

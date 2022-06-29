@@ -1,14 +1,10 @@
 import datetime
 
-from django.contrib.admin.views.decorators import staff_member_required
-from django.shortcuts import render
-from django.utils.decorators import method_decorator
+from django.db.models import Avg, Sum
 
 from oppia import constants as oppia_constants
-
 from reports.views.base_report_template import BaseReportTemplateView
-
-from summary.models import DailyActiveUsers
+from summary.models import UserCourseDailySummary
 
 
 def seconds_to_hours(seconds):
@@ -28,60 +24,54 @@ def seconds_to_hours(seconds):
     return ', '.join(parts)
 
 
-@method_decorator(staff_member_required, name='dispatch')
 class AverageTimeSpentView(BaseReportTemplateView):
 
-    def process(self, request, form, start_date, end_date):
+    template_name = 'reports/average_time_spent.html'
+
+    def get_graph_data(self, start_date, end_date):
         data = []
         max_time = 0
         no_days = (end_date - start_date).days + 1
         for i in range(0, no_days, +1):
-            temp = start_date + datetime.timedelta(days=i)
-            try:
-                avg_time = DailyActiveUsers.objects.get(
-                    day=temp.strftime(oppia_constants.STR_DATE_FORMAT))
-                time_spent = avg_time.get_avg_time_spent()
-                if time_spent > max_time:
-                    max_time = time_spent
-                data.append([temp.strftime(
-                    oppia_constants.STR_DATE_DISPLAY_FORMAT),
-                    int(round(time_spent)),
-                    seconds_to_hours(int(round(time_spent)))])
-            except DailyActiveUsers.DoesNotExist:
-                data.append(
-                    [temp.strftime(oppia_constants.STR_DATE_DISPLAY_FORMAT),
-                     0, 0])
+            day = start_date + datetime.timedelta(days=i)
+            time_spent = UserCourseDailySummary.objects.filter(day=day).aggregate(avg=Avg('time_spent_tracked'))['avg']
+            if time_spent is None:
+                time_spent = 0
+            max_time = max(max_time, time_spent)
+            data.append([
+                day.strftime(oppia_constants.STR_DATE_DISPLAY_FORMAT),
+                int(round(time_spent)),
+                seconds_to_hours(int(round(time_spent)))]
+            )
 
-        return render(request, 'reports/average_time_spent.html',
-                      {'activity_graph_data': data,
-                       'form': form,
-                       'max_time': max_time})
+        return {
+            'activity_graph_data': data,
+            'max_time': max_time
+        }
 
 
-@method_decorator(staff_member_required, name='dispatch')
 class TotalTimeSpentView(BaseReportTemplateView):
 
-    def process(self, request, form, start_date, end_date):
+    template_name = 'reports/total_time_spent.html'
+
+    def get_graph_data(self, start_date, end_date):
         data = []
         max_time = 0
         no_days = (end_date - start_date).days + 1
+
         for i in range(0, no_days, +1):
-            temp = start_date + datetime.timedelta(days=i)
-            try:
-                summary_count_time_total = DailyActiveUsers.objects.get(
-                    day=temp.strftime(oppia_constants.STR_DATE_FORMAT))
-                time_spent = summary_count_time_total.get_total_time_spent()
-                if time_spent > max_time:
-                    max_time = time_spent
-                data.append([temp.strftime(
-                    oppia_constants.STR_DATE_DISPLAY_FORMAT),
-                    int(round(time_spent)),
-                    seconds_to_hours(int(round(time_spent)))])
-            except DailyActiveUsers.DoesNotExist:
-                data.append(
-                    [temp.strftime(oppia_constants.STR_DATE_DISPLAY_FORMAT),
-                     0, 0])
-        return render(request, 'reports/total_time_spent.html',
-                      {'activity_graph_data': data,
-                       'form': form,
-                       'max_time': max_time})
+            day = start_date + datetime.timedelta(days=i)
+            time_spent = UserCourseDailySummary.objects.filter(day=day).aggregate(sum=Sum('time_spent_tracked'))['sum']
+            if time_spent is None:
+                time_spent = 0
+            max_time = max(max_time, time_spent)
+            data.append([
+                day.strftime(oppia_constants.STR_DATE_DISPLAY_FORMAT),
+                int(round(time_spent)),
+                seconds_to_hours(int(round(time_spent)))]
+            )
+
+        return {
+            'activity_graph_data': data,
+            'max_time': max_time
+        }

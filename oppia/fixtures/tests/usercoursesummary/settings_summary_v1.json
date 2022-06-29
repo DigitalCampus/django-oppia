@@ -307,36 +307,5 @@
         "points": 140,
         "badges": 0
     }
-},
-{
-    "model": "summary.dailyactiveusers",
-    "pk": 1,
-    "fields": {
-        "day": "2022-03-18",
-        "total_submitted_date": 1,
-        "total_tracker_date": 1
-    }
-},
-{
-    "model": "summary.dailyactiveuser",
-    "pk": 1,
-    "fields": {
-        "dau": 1,
-        "user": 2,
-        "type": "tracker",
-        "time_spent": 24,
-        "course": 1
-    }
-},
-{
-    "model": "summary.dailyactiveuser",
-    "pk": 2,
-    "fields": {
-        "dau": 1,
-        "user": 2,
-        "type": "submitted",
-        "time_spent": 24,
-        "course": 1
-    }
 }
 ]

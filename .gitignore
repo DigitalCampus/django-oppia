@@ -18,6 +18,8 @@ oppiamobile/settings_secret.py
 /sonarcloud.sh
 /sonarcloud
 /static/css/oppia.css
+/static/css/oppia.css.map
+
 /pytestdebug.log
 /db.sqlite3
 /*.sock
