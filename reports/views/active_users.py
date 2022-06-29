@@ -35,7 +35,6 @@ class MonthlyActiveUsersView(BaseReportTemplateView):
 
     def get_graph_data(self, start_date, end_date):
         delta = relativedelta(months=+1)
-        start_date, end_date = self.get_daterange()
         no_months = 0
         tmp_date = start_date
         while tmp_date <= end_date:
