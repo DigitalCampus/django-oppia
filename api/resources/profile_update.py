@@ -47,11 +47,15 @@ class ProfileUpdateResource(ModelResource):
                 'username': bundle.request.user}
 
         custom_fields = CustomField.objects.all()
+        missing_fields = []
         for custom_field in custom_fields:
             try:
                 data[custom_field.id] = bundle.data[custom_field.id]
             except KeyError:
-                pass
+                missing_fields.append(custom_field.id)
+
+        if missing_fields:
+            errors.append(DataRecovery.Reason.CUSTOM_PROFILE_FIELDS_MISSING + str(missing_fields))
 
         profile_form = ProfileForm(data=data)
         if not profile_form.is_valid():

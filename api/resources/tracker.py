@@ -80,8 +80,10 @@ class TrackerResource(ModelResource):
             if media is not None:
                 bundle.obj.course = media.course
                 bundle.obj.type = 'media'
+            else:
+                errors.append(DataRecovery.Reason.MEDIA_DOES_NOT_EXIST)
         except Media.DoesNotExist:
-            pass
+            errors.append(DataRecovery.Reason.MEDIA_DOES_NOT_EXIST)
 
         try:
             json_data = json.loads(bundle.data['data'])
