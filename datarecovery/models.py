@@ -29,13 +29,6 @@ class DataRecovery(models.Model):
         MISSING_TRACKERS_TAG = 'Missing trackers tag'
         MISSING_QUIZRESPONSES_TAG = 'Missing quizresponses tag'
         MISSING_COURSE_TAG = 'Missing course tag'
-        MISSING_TIMETAKEN_TAG = 'Missing timetaken tag'
-        MISSING_UUID_TAG = 'Missing uuid tag'
-        MISSING_LANG_TAG = 'Missing lang tag'
-        MISSING_POINTS_TAG = 'Missing points tag'
-        MISSING_EVENT_TAG = 'Missing event tag'
-        MISSING_QUESTIONID_TAG = 'Missing question_id tag'
-        MEDIA_DOES_NOT_EXIST = 'Media does not exist'
         QUESTION_DOES_NOT_EXIST = 'Question does not exist'
         QUESTION_FROM_DIFFERENT_QUIZ = 'Question from different quiz'
         QUIZ_DOES_NOT_EXIST = 'Quiz does not exist'
@@ -44,14 +37,12 @@ class DataRecovery(models.Model):
         MAPPING_KEY_NOT_FOUND = 'Mapping key not found'
         INAPPROPRIATE_ARGUMENT_TYPE = 'Inappropriate argument type'
         CUSTOM_PROFILE_FIELDS_NOT_DEFINED_IN_THE_SERVER = 'Custom profile fields not defined in the server: '
-        CUSTOM_PROFILE_FIELDS_MISSING = 'Custom profile fields missing in the request: '
-        OTHER = 'Other'
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     created_date = models.DateTimeField(default=timezone.now)
     data_type = models.CharField(choices=Type.TYPE_CHOICES, max_length=13, null=False, blank=False)
     reasons = models.CharField(max_length=500, null=True, blank=True)
-    data = models.JSONField(null=False, blank=False)
+    data = models.TextField(null=False, blank=False)
     recovered = models.BooleanField(default=False)
 
     @staticmethod

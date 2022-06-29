@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                 ('created_date', models.DateTimeField(default=django.utils.timezone.now)),
                 ('data_type', models.CharField(choices=[('activity_log', 'Activity log'), ('tracker', 'Tracker'), ('quiz', 'Quiz'), ('user_profile', 'User profile')], max_length=13)),
                 ('reasons', models.CharField(blank=True, max_length=500, null=True)),
-                ('data', models.JSONField()),
+                ('data', models.TextField()),
                 ('recovered', models.BooleanField(default=False)),
                 ('user', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],

@@ -48,6 +48,7 @@ class UserProfile(models.Model):
         return teacher.exists() and not manager.exists()
 
     def update_customfields(self, fields_dict):
+        errors = []
         custom_fields = CustomField.objects.all()
         for custom_field in custom_fields:
             if custom_field.id in fields_dict and (
@@ -68,7 +69,10 @@ class UserProfile(models.Model):
                 profile_field.save()
 
         missing_fields = [field for field in fields_dict if field not in custom_fields.values_list('id', flat=True).all()]
-        return DataRecovery.Reason.CUSTOM_PROFILE_FIELDS_NOT_DEFINED_IN_THE_SERVER + str(missing_fields) if missing_fields else ""
+        if missing_fields:
+            errors.append(DataRecovery.Reason.CUSTOM_PROFILE_FIELDS_NOT_DEFINED_IN_THE_SERVER + str(missing_fields))
+
+        return errors
 
 
 class CustomField(models.Model):

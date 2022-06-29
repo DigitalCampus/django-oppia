@@ -80,27 +80,22 @@ class TrackerResource(ModelResource):
             if media is not None:
                 bundle.obj.course = media.course
                 bundle.obj.type = 'media'
-            else:
-                errors.append(DataRecovery.Reason.MEDIA_DOES_NOT_EXIST)
         except Media.DoesNotExist:
-            errors.append(DataRecovery.Reason.MEDIA_DOES_NOT_EXIST)
+            pass
 
         try:
             json_data = json.loads(bundle.data['data'])
             if 'timetaken' in json_data:
                 bundle.obj.time_taken = json_data['timetaken']
-            else:
-                errors.append(DataRecovery.Reason.MISSING_TIMETAKEN_TAG)
 
             if 'uuid' in json_data:
                 bundle.obj.uuid = json_data['uuid']
-            else:
-                errors.append(DataRecovery.Reason.MISSING_UUID_TAG)
 
             if 'lang' in json_data:
                 bundle.obj.lang = json_data['lang']
-            else:
-                errors = errors.join(DataRecovery.Reason.MISSING_LANG_TAG)
+
+        except JSONDecodeError:
+            errors.append(DataRecovery.Reason.JSON_DECODE_ERROR)
         except ValueError:
             errors.append(DataRecovery.Reason.INAPPROPRIATE_ARGUMENT_VALUE)
         except KeyError:

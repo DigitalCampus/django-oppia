@@ -44,7 +44,7 @@ class UploadView(FormView):
         with open(uploaded_activity_log.file.path, 'rb') as file:
             file_data = file.read()
             messages_delegate = MessagesDelegate(self.request)
-            success = process_activitylog(messages_delegate, file_data)
+            success, errors = process_activitylog(messages_delegate, file_data)
 
         if success:
             return super().form_valid(form)
@@ -59,8 +59,8 @@ def process_activitylog(messages_delegate, file_contents):
     if not success:
         return False, errors
     else:
-        return process_uploaded_file(messages_delegate, json_data)
-
+        result, errors = process_uploaded_file(messages_delegate, json_data)
+        return result, errors
 
 def process_uploaded_trackers(messages_delegate, trackers, user):
 
@@ -115,18 +115,21 @@ def process_uploaded_file(messages_delegate, json_data):
                 if 'trackers' in user:
                     process_uploaded_trackers(messages_delegate, user['trackers'], req_user)
                 else:
-                    return False, errors.append(DataRecovery.Reason.MISSING_TRACKERS_TAG)
+                    errors.append(DataRecovery.Reason.MISSING_TRACKERS_TAG)
+                    return False, errors
                 if 'quizresponses' in user:
                     process_uploaded_quizresponses(messages_delegate, user['quizresponses'], req_user)
                 else:
-                    return False, errors.append(DataRecovery.Reason.MISSING_QUIZRESPONSES_TAG)
+                    errors.append(DataRecovery.Reason.MISSING_QUIZRESPONSES_TAG)
+                    return False, errors
 
             except ApiKey.DoesNotExist:
                 messages_delegate.warning(
                      _(u"%(username)s not found. Please check that this file is being uploaded to \
                        the correct server." % {'username': username}), 'danger')
     else:
-        return False, errors.append(DataRecovery.Reason.MISSING_USER_TAG)
+        errors.append(DataRecovery.Reason.MISSING_USER_TAG)
+        return False, errors
 
     return True, errors
 
@@ -186,10 +189,10 @@ def validate_server(messages_delegate, data):
         else:
             print('Different tracker server: {}'.format(data['server']))
             messages_delegate.warning(_('The server in the activity log file does not match with the current one'))
-            return False, DataRecovery.Reason.DIFFERENT_TRACKER_SERVER
+            return False, [DataRecovery.Reason.DIFFERENT_TRACKER_SERVER]
     else:
         messages_delegate.warning(_('The activity log file seems to be in a wrong format'))
-        return False, DataRecovery.Reason.MISSING_SERVER
+        return False, [DataRecovery.Reason.MISSING_SERVER]
 
 
 @csrf_exempt

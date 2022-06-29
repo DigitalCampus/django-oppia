@@ -93,23 +93,15 @@ class QuizAttemptResource(ModelResource):
                     errors.append(DataRecovery.Reason.QUESTION_FROM_DIFFERENT_QUIZ)
                     raise BadRequest(
                         _(u'This question is not part of this quiz'))
-            else:
-                errors.append(DataRecovery.Reason.MISSING_QUESTIONID_TAG)
 
         if 'points' in bundle.data:
             bundle.obj.points = bundle.data['points']
-        else:
-            errors.append(DataRecovery.Reason.MISSING_POINTS_TAG)
 
         if 'event' in bundle.data:
             bundle.obj.event = bundle.data['event']
-        else:
-            errors.append(DataRecovery.Reason.MISSING_EVENT_TAG)
 
         if 'timetaken' in bundle.data:
             bundle.obj.time_taken = bundle.data['timetaken']
-        else:
-            errors.append(DataRecovery.Reason.MISSING_TIMETAKEN_TAG)
 
         return bundle
 

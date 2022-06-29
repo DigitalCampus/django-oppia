@@ -62,7 +62,7 @@ class Command(BaseCommand):
                 if success:
                     print("Success!")
                 else:
-                    print("Errors: " + errors)
+                    print("Errors: " + str(errors))
 
         print("Process finished. Time taken: %s seconds"
               % (time.time() - start_time))
