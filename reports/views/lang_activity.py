@@ -37,4 +37,4 @@ class LanguageActivityView(BaseReportTemplateView):
             languages.append({'lang': _('Other'),
                               'hits_percent': hits_percent})
 
-        return {'languages': languages }
+        return {'languages': languages}

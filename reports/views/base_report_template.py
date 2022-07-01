@@ -21,7 +21,6 @@ class BaseReportTemplateView(DateRangeFilterMixin, TemplateView):
         self.users_filter_by = UserCourseSummary.get_excluded_users()
         return super().dispatch(request, *args, **kwargs)
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         start_date, end_date = self.get_daterange()

@@ -32,7 +32,6 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
     def test_all_info_correct(self):
         pass
 
-
     def wrong_tracker_data_format(self):
         pass
 

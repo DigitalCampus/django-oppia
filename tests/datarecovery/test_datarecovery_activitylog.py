@@ -39,7 +39,6 @@ class ActivitylogUploadTest(ResourceTestCaseMixin, TestCase):
     def get_credentials(self):
         return self.create_apikey(username=self.username, api_key=self.api_key)
 
-
     def test_correct_data(self):
 
         initial_datacount = DataRecovery.objects.count()
@@ -51,8 +50,7 @@ class ActivitylogUploadTest(ResourceTestCaseMixin, TestCase):
                                          data=json_data,
                                          authentication=self.get_credentials())
         self.assertEqual(200, response.status_code)
-        self.assertEqual(initial_datacount, DataRecovery.objects.count() )
-
+        self.assertEqual(initial_datacount, DataRecovery.objects.count())
 
     def test_wrong_server(self):
         initial_datacount = DataRecovery.objects.count()
@@ -61,27 +59,22 @@ class ActivitylogUploadTest(ResourceTestCaseMixin, TestCase):
 
         json_data['server'] = 'another_server'
 
-        self.api_client.patch(self.url,
-                                         format='json',
-                                         data=json_data,
-                                         authentication=self.get_credentials())
+        self.api_client.patch(self.url, format='json', data=json_data, authentication=self.get_credentials())
 
         self.assertEqual(initial_datacount + 1, DataRecovery.objects.count())
         last_data = DataRecovery.objects.all().latest('pk')
         self.assertTrue(DataRecovery.Reason.DIFFERENT_TRACKER_SERVER in last_data.reasons)
 
-
     def test_wrong_format(self):
         initial_datacount = DataRecovery.objects.count()
         self.api_client.patch(self.url,
                               format='json',
-                              data={'what':'some random data'},
+                              data={'what': 'some random data'},
                               authentication=self.get_credentials())
 
         self.assertEqual(initial_datacount + 1, DataRecovery.objects.count())
         last_data = DataRecovery.objects.all().latest('pk')
         self.assertTrue(DataRecovery.Reason.MISSING_SERVER in last_data.reasons)
-
 
     def test_trackers_missing(self):
         initial_datacount = DataRecovery.objects.count()
@@ -100,7 +93,6 @@ class ActivitylogUploadTest(ResourceTestCaseMixin, TestCase):
         last_data = DataRecovery.objects.all().latest('pk')
         self.assertTrue(DataRecovery.Reason.MISSING_TRACKERS_TAG in last_data.reasons)
 
-
     def test_quizzes_missing(self):
         initial_datacount = DataRecovery.objects.count()
         with open(self.basic_activity_log) as activity_log_file:
@@ -118,7 +110,6 @@ class ActivitylogUploadTest(ResourceTestCaseMixin, TestCase):
         last_data = DataRecovery.objects.all().latest('pk')
         self.assertTrue(DataRecovery.Reason.MISSING_QUIZRESPONSES_TAG in last_data.reasons)
 
-
     def test_userprofile_missing_customfields(self):
         initial_datacount = DataRecovery.objects.count()
         with open(self.basic_activity_log) as activity_log_file:
@@ -127,10 +118,7 @@ class ActivitylogUploadTest(ResourceTestCaseMixin, TestCase):
         for user in json_data['users']:
             user['missing_customfield'] = 'test'
 
-        response = self.api_client.patch(self.url,
-                                        format='json',
-                                        data=json_data,
-                                        authentication=self.get_credentials())
+        self.api_client.patch(self.url, format='json', data=json_data, authentication=self.get_credentials())
 
         self.assertEqual(initial_datacount + 1, DataRecovery.objects.count())
         last_data = DataRecovery.objects.all().latest('pk')

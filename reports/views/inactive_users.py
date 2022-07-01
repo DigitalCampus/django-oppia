@@ -22,7 +22,6 @@ class InactiveUsersView(BaseReportTemplateView):
 
         data['total_users'] = total_users
 
-
         active_last_month = self.users_active_since(end_date - datetime.timedelta(days=31))
         data['inactive_one_month_no'] = total_users - active_last_month
         data['inactive_one_month_percent'] = int((total_users - active_last_month) * 100 / total_users)
@@ -44,11 +43,10 @@ class InactiveUsersView(BaseReportTemplateView):
             year_data = {}
             year_data['year'] = i
             year_data['inactive_no'] = total_users - active_years
-            year_data['inactive_percent'] =  int((total_users - active_years) * 100 / total_users)
+            year_data['inactive_percent'] = int((total_users - active_years) * 100 / total_users)
             data['years'].append(year_data)
 
-        return { 'inactive_user_data': data }
-
+        return {'inactive_user_data': data}
 
     def users_active_since(self, day):
         return UserCourseDailySummary.objects \

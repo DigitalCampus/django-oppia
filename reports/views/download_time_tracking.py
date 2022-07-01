@@ -17,7 +17,6 @@ class DownloadTimeSpentView(BaseReportTemplateView):
         response['Content-Disposition'] = "attachment; filename=time_tracking.csv"
         return response
 
-
     def get_graph_data(self, start_date, end_date):
 
         headers = ('date',
@@ -30,7 +29,7 @@ class DownloadTimeSpentView(BaseReportTemplateView):
         data = tablib.Dataset(*data, headers=headers)
 
         # get all the users who have some time spent in a day
-        daily_summaries =  UserCourseDailySummary.objects\
+        daily_summaries = UserCourseDailySummary.objects\
             .values('day', 'user', 'course')\
             .annotate(time_spent=Sum('time_spent_tracked'))
 
@@ -51,9 +50,3 @@ class DownloadTimeSpentView(BaseReportTemplateView):
                     )
 
         return data
-
-
-
-
-
-

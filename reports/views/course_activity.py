@@ -62,7 +62,7 @@ class CourseActivityView(BaseReportTemplateView):
             hits_percent = float(other_course_activity * 100.0 / total_hits)
             hot_courses.append({'course': _('Other'),
                                 'hits_percent': hits_percent})
-        return  {
+        return {
             'daily_activity': daily_activity,
             'course_activity': course_activity,
             'previous_course_activity': previous_course_activity,

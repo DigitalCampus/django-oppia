@@ -167,10 +167,7 @@ class TrackerResource(ModelResource):
         if 'digest' in bundle.data:
             if 'course' in bundle.data:
                 activity = Activity.objects \
-                    .filter(
-                    digest=bundle.data['digest'],
-                    section__course__shortname=bundle.data['course']) \
-                    .first()
+                    .filter(digest=bundle.data['digest'], section__course__shortname=bundle.data['course']).first()
             else:
                 errors.append(DataRecovery.Reason.MISSING_COURSE_TAG)
                 activity = Activity.objects.filter(

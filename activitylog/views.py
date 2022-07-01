@@ -62,6 +62,7 @@ def process_activitylog(messages_delegate, file_contents):
         result, errors = process_uploaded_file(messages_delegate, json_data)
         return result, errors
 
+
 def process_uploaded_trackers(messages_delegate, trackers, user):
 
     request = HttpRequest()
@@ -100,7 +101,10 @@ def process_uploaded_file(messages_delegate, json_data):
         for user in json_data['users']:
             username = user['username']
             req_user = get_user_from_uploaded_log(messages_delegate, user)
-            user_profile_data = {data:user[data] for data in user if data not in ["username", "trackers", "quizresponses", "points"]}
+            user_profile_data = {data: user[data] for data in user if data not in ["username",
+                                                                                   "trackers",
+                                                                                   "quizresponses",
+                                                                                   "points"]}
             errors = create_or_update_userprofile(messages_delegate, req_user, user_profile_data)
 
             try:

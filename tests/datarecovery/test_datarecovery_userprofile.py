@@ -17,9 +17,9 @@ class UserProfileResourceTest(UserProfileBaseTestCase):
         self.assertHttpCreated(response)
         self.assertEqual(initial_datacount, DataRecovery.objects.count())
 
-
     # If we receive some fields not defined in the server, we should save them
     def test_missing_customfields(self):
+
         initial_datacount = DataRecovery.objects.count()
         post_data = self.base_data.copy()
         post_data['missing_customfield'] = 'test'

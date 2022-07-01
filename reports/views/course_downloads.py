@@ -35,5 +35,5 @@ class CourseDownloadsView(BaseReportTemplateView):
         return {
             'daily_downloads': daily_downloads,
             'course_downloads': course_downloads,
-            'previous_course_downloads':previous_course_downloads
+            'previous_course_downloads': previous_course_downloads
         }

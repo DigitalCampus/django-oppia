@@ -41,8 +41,6 @@ class AverageTimeSpentViewTest(OppiaTestCase):
         self.client.force_login(self.admin_user)
         start_date = "2015-01-01"
         end_date = "2019-12-31"
-        response = self.client.get(self.url,
-                                    data={'start_date': start_date,
-                                          'end_date': end_date})
+        response = self.client.get(self.url, data={'start_date': start_date, 'end_date': end_date})
         self.assertTemplateUsed(response, self.template)
         self.assertEqual(response.status_code, 200)

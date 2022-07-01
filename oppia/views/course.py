@@ -113,7 +113,10 @@ class UploadStep1(CanUploadCoursePermission, FormView):
     def form_valid(self, form):
         user = self.request.user
         extract_path = os.path.join(settings.COURSE_UPLOAD_DIR, 'temp', str(user.id))
-        course, resp, is_new_course = handle_uploaded_file(self.request.FILES['course_file'], extract_path, self.request, user)
+        course, resp, is_new_course = handle_uploaded_file(self.request.FILES['course_file'],
+                                                           extract_path,
+                                                           self.request,
+                                                           user)
         if course:
             CoursePublishingLog(course=course,
                                 user=user,

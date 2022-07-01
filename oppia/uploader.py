@@ -115,11 +115,7 @@ def handle_uploaded_file(f, extract_path, request, user):
 
     response = 200
     try:
-        course, response, is_new_course = process_course(extract_path,
-                                          f,
-                                          mod_name,
-                                          request,
-                                          user)
+        course, response, is_new_course = process_course(extract_path, f, mod_name, request, user)
     except Exception as e:
         logger.error(e)
         messages.error(request, str(e), extra_tags="danger")

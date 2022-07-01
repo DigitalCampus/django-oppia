@@ -107,7 +107,9 @@ class CategoryResource(ModelResource):
         else:
             count = tmp.filter(CourseFilter.IS_NOT_DRAFT
                                | (CourseFilter.IS_DRAFT & Q(user=bundle.request.user))
-                               | (CourseFilter.IS_DRAFT & Q(pk__in=CoursePermissions.objects.filter(user=bundle.request.user).values('course')))).count()
+                               | (CourseFilter.IS_DRAFT
+                                  & Q(pk__in=CoursePermissions.objects.filter(
+                                      user=bundle.request.user).values('course')))).count()
         return count
 
     def dehydrate_icon(self, bundle):
@@ -121,7 +123,8 @@ class CategoryResource(ModelResource):
 
         if not bundle.request.user.is_staff:
             courses = courses.filter(CourseFilter.IS_NOT_DRAFT
-                                     | Q(pk__in=CoursePermissions.objects.filter(user=bundle.request.user).values('course')))
+                                     | Q(pk__in=CoursePermissions.objects.filter(
+                                         user=bundle.request.user).values('course')))
 
         return courses.filter(category=bundle.obj).filter(CourseFilter.NEW_DOWNLOADS_ENABLED).count()
 
@@ -129,8 +132,9 @@ class CategoryResource(ModelResource):
         courses = Course.objects.filter(category=bundle.obj).filter(CourseFilter.IS_NOT_ARCHIVED)
 
         if not bundle.request.user.is_staff:
-            courses = courses.filter(CourseFilter.IS_NOT_DRAFT \
-                                     | Q(pk__in=CoursePermissions.objects.filter(user=bundle.request.user).values('course')))
+            courses = courses.filter(CourseFilter.IS_NOT_DRAFT
+                                     | Q(pk__in=CoursePermissions.objects.filter(
+                                         user=bundle.request.user).values('course')))
 
         return {course.shortname: course.status for course in courses}
 

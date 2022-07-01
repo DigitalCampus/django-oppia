@@ -48,4 +48,3 @@ class DataRecovery(models.Model):
     @staticmethod
     def create_data_recovery_entry(user, data_type, reasons, data):
         DataRecovery.objects.create(user=user, data_type=data_type, reasons=','.join(reasons), data=data)
-
