@@ -192,7 +192,7 @@ def process_course(extract_path, f, mod_name, request, user):
 
     except Course.DoesNotExist:
         course = Course()
-        course.status = CourseStatus.DRAFT
+        course.status = CourseStatus.objects.get(name=CourseStatus.DRAFT)
         is_new_course = True
 
     old_course_version = course.version

@@ -16,6 +16,7 @@ from viz.models import UserLocationVisualization
 
 class Ip2LocationTest(OppiaTransactionTestCase):
     fixtures = ['tests/test_user.json',
+                'tests/test_course_statuses.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
                 'tests/test_permissions.json',

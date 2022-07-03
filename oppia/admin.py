@@ -1,9 +1,9 @@
-
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.db.models import Q
 from django.urls import reverse
 from django.utils.html import format_html
 
+from helpers.mixins.PermissionMixins import EditOnlyAdminMixin
 from oppia.models import Course, \
                          Section, \
                          Activity, \
@@ -15,6 +15,7 @@ from oppia.models import Participant, Category, CourseCategory
 from oppia.models import Badge, Award, Points, AwardCourse, BadgeMethod
 from oppia.models import CourseCohort, CoursePublishingLog
 from oppia.models import CertificateTemplate
+from oppia.models.course_status import CourseStatus
 
 from quiz.models import Question, QuizProps
 
@@ -168,6 +169,24 @@ class CertificateTemplateAdmin(admin.ModelAdmin):
     preview.short_description = "Preview/Test"
 
 
+class CourseStatusAdmin(EditOnlyAdminMixin, admin.ModelAdmin):
+    list_display = ('name', 'available')
+    readonly_fields = ('name',)
+
+    SUCCESS_MSG = '{status_name} status updated successfully.'
+    ERROR_MSG = '{status_name} status can\'t be deactivated because some courses with this status exist.'
+
+    def message_user(self, *args): 
+        pass
+
+    def save_model(self, request, obj, form, change):
+        if obj.available or not Course.objects.filter(status=obj).exists():
+            messages.add_message(request, messages.INFO, self.SUCCESS_MSG.format(status_name=obj.name))
+            super(CourseStatusAdmin, self).save_model(request, obj, form, change)
+        else:
+            messages.add_message(request, messages.ERROR, self.ERROR_MSG.format(status_name=obj.name))
+
+
 admin.site.register(Activity, ActivityAdmin)
 admin.site.register(Award, AwardAdmin)
 admin.site.register(Badge, BadgeAdmin)
@@ -186,3 +205,4 @@ admin.site.register(Tracker, TrackerAdmin)
 admin.site.register(CoursePermissions, CoursePermissionsAdmin)
 admin.site.register(CoursePublishingLog, CoursePublishingLogAdmin)
 admin.site.register(CertificateTemplate, CertificateTemplateAdmin)
+admin.site.register(CourseStatus, CourseStatusAdmin)

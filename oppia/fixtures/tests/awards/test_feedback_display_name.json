@@ -35,7 +35,7 @@
         "priority": 0,
         "filename": "ref-1-20191230160407.zip",
         "badge_icon": "",
-        "status": "live"
+        "status": ["live"]
     }
 },
 {
@@ -52,7 +52,7 @@
         "priority": 0,
         "filename": "feedback-20210626211301.zip",
         "badge_icon": "",
-        "status": "live"
+        "status": ["live"]
     }
 },
 {

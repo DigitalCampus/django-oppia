@@ -8,6 +8,7 @@ from tests.utils import get_api_key, get_api_url
 
 class DownloadDataResourceTest(ResourceTestCaseMixin, TransactionTestCase):
     fixtures = ['tests/test_user.json',
+                'tests/test_course_statuses.json',
                 'tests/test_oppia.json',
                 'tests/test_permissions.json',
                 'default_gamification_events.json',

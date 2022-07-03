@@ -12,7 +12,7 @@
         "shortname": "anc1-all",
         "filename": "anc_test_course.zip",
         "badge_icon": "",
-        "status": "live"
+        "status": ["live"]
     }
 },
 {
@@ -28,7 +28,7 @@
         "shortname": "ncd1-et",
         "filename": "ncd1_test_course.zip",
         "badge_icon": "",
-        "status": "live"
+        "status": ["live"]
     }
 },
 {
@@ -44,7 +44,7 @@
         "shortname": "draft-test",
         "filename": "draft-20150611100319.zip",
         "badge_icon": "",
-        "status": "draft"
+        "status": ["draft"]
     }
 },
 {
@@ -60,7 +60,7 @@
         "shortname": "ref-1",
         "filename": "ref-1-20191230160407.zip",
         "badge_icon": "",
-        "status": "live"
+        "status": ["live"]
     }
 },
 {

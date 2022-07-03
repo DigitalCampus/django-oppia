@@ -95,6 +95,7 @@ course-v3 - page 1v2 twice,
 
 COURSE_SHORTNAME = "oppia800course"
 
+JSON_COURSE_STATUSES = 'tests/test_course_statuses.json'
 JSON_GAMIFICATION = 'default_gamification_events.json'
 JSON_BADGES = 'default_badges.json'
 JSON_USERS = 'tests/usercoursesummary/user.json'
@@ -102,7 +103,8 @@ JSON_USERS = 'tests/usercoursesummary/user.json'
 
 class UserCourseSummaryTestCourseV1(OppiaTestCase):
 
-    fixtures = [JSON_GAMIFICATION,
+    fixtures = [JSON_COURSE_STATUSES,
+                JSON_GAMIFICATION,
                 JSON_BADGES,
                 JSON_USERS,
                 'tests/usercoursesummary/course_tracker_v1.json']
@@ -144,7 +146,8 @@ class UserCourseSummaryTestCourseV1(OppiaTestCase):
 
 class UserCourseSummaryTestCourseV2(OppiaTestCase):
 
-    fixtures = [JSON_GAMIFICATION,
+    fixtures = [JSON_COURSE_STATUSES,
+                JSON_GAMIFICATION,
                 JSON_BADGES,
                 JSON_USERS,
                 'tests/usercoursesummary/course_tracker_v2.json',
@@ -194,7 +197,8 @@ class UserCourseSummaryTestCourseV2(OppiaTestCase):
 
 class UserCourseSummaryTestCourseV3(OppiaTestCase):
 
-    fixtures = [JSON_GAMIFICATION,
+    fixtures = [JSON_COURSE_STATUSES,
+                JSON_GAMIFICATION,
                 JSON_BADGES,
                 JSON_USERS,
                 'tests/usercoursesummary/course_tracker_v3.json',

@@ -167,7 +167,10 @@ def publish_view(request):
         if errors:
             return JsonResponse({'errors': errors}, status=400)
         else:
-            course.status = CourseStatus.DRAFT if is_request_status_draft(request) else CourseStatus.LIVE
+            if is_request_status_draft(request):
+                course.status = CourseStatus.objects.get(name=CourseStatus.DRAFT)
+            else:
+                course.status = CourseStatus.objects.get(name=CourseStatus.LIVE)
             course.save()
 
         # remove any existing tags
@@ -216,8 +219,8 @@ def validate_course_status(course, request, is_new_course):
         # Don't apply status validations on a new course
         return error_msg
 
-    if course.status in [CourseStatus.ARCHIVED, CourseStatus.NEW_DOWNLOADS_DISABLED, CourseStatus.READ_ONLY] \
-            or (course.status == CourseStatus.DRAFT and not is_request_status_draft(request)):
+    if course.status.name in [CourseStatus.ARCHIVED, CourseStatus.NEW_DOWNLOADS_DISABLED, CourseStatus.READ_ONLY] \
+            or (course.status.name == CourseStatus.DRAFT and not is_request_status_draft(request)):
         error_msg.append(f"This course currently has {course.status} status, so cannot now be updated.")
 
     return error_msg

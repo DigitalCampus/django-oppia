@@ -13,7 +13,7 @@
         "priority": 0,
         "filename": "oppia800course-v1.zip",
         "badge_icon": "",
-        "status": "live"
+        "status": ["live"]
     }
 },
 {

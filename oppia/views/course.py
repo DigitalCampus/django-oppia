@@ -10,7 +10,7 @@ from django.views.generic import TemplateView, ListView, DetailView, FormView
 
 from helpers.mixins.AjaxTemplateResponseMixin import AjaxTemplateResponseMixin
 from oppia.forms.upload import UploadCourseStep1Form, UploadCourseStep2Form
-from oppia.models import Category, CourseCategory, CoursePublishingLog, Course
+from oppia.models import Category, CourseCategory, CoursePublishingLog, Course, CourseStatus
 from oppia.permissions import can_edit_course, can_download_course, can_view_course_detail, can_view_courses_list, \
     can_upload, can_edit_course_gamification
 from oppia.uploader import handle_uploaded_file
@@ -81,6 +81,7 @@ class CourseListView(ListView, AjaxTemplateResponseMixin):
         context['page_ordering'] = self.get_ordering()
         context['category_list'] = Category.objects.all().exclude(coursecategory=None).order_by('name')
         context['current_category'] = self.get_current_category()
+        context['available_statuses'] = CourseStatus.objects.available_statuses()
         context['course_filter'] = self.get_filter()
 
         return context
@@ -161,7 +162,7 @@ class CourseFormView(CanEditCoursePermission, FormView):
     def update_course_tags(self, form, course, user):
         categories = form.cleaned_data.get("categories", "").strip().split(",")
         status = form.cleaned_data.get("status")
-        course.status = status
+        course.status = CourseStatus.objects.get(name=status)
         course.save()
         # remove any existing tags
         CourseCategory.objects.filter(course=course).delete()

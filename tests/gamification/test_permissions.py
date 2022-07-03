@@ -9,6 +9,7 @@ from tests.utils import update_course_status
 class GamificationPermissionsTest(OppiaTestCase):
 
     fixtures = ['tests/test_user.json',
+                'tests/test_course_statuses.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
                 'tests/test_course_permissions.json']

@@ -10,6 +10,7 @@ from oppia.test import OppiaTestCase
 class DownloadMediaTest(OppiaTestCase):
 
     fixtures = ['tests/test_user.json',
+                'tests/test_course_statuses.json',
                 'tests/test_oppia.json',
                 'tests/test_permissions.json',
                 'default_gamification_events.json',

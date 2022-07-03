@@ -5,6 +5,7 @@ from quiz.models import Question
 class QuestionIndicesTest(OppiaTestCase):
 
     fixtures = ['tests/test_user.json',
+                'tests/test_course_statuses.json',
                 'tests/test_oppia.json',
                 'tests/test_question_indices.json',
                 'tests/test_course_permissions.json']

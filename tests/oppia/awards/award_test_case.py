@@ -11,6 +11,7 @@ from oppia.models import Tracker, Award, Points, BadgeMethod, Badge
 class AwardsTestCase(OppiaTestCase):
 
     fixtures = ['tests/test_user.json',
+                'tests/test_course_statuses.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
                 'tests/test_permissions.json',

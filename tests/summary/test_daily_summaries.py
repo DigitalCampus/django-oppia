@@ -13,6 +13,7 @@ from summary.models import UserCourseDailySummary
 
 COURSE_SHORTNAME = "oppia800course"
 
+JSON_COURSE_STATUSES = 'tests/test_course_statuses.json'
 JSON_GAMIFICATION = 'default_gamification_events.json'
 JSON_BADGES = 'default_badges.json'
 JSON_USERS = 'tests/usercoursesummary/user.json'
@@ -20,7 +21,7 @@ JSON_USERS = 'tests/usercoursesummary/user.json'
 
 class UserCourseSummaryTestCourseV1(OppiaTestCase):
 
-    fixtures = [JSON_GAMIFICATION, JSON_BADGES, JSON_USERS,
+    fixtures = [JSON_COURSE_STATUSES, JSON_GAMIFICATION, JSON_BADGES, JSON_USERS,
                 'tests/usercoursesummary/course_tracker_v1.json']
 
     def setUp(self):

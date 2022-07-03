@@ -9,6 +9,7 @@ from tests.defaults import UNAUTHORISED_TEMPLATE
 
 class FeedbackDownloadTest(OppiaTestCase):
     fixtures = ['tests/test_user.json',
+                'tests/test_course_statuses.json',
                 'tests/test_oppia.json',
                 'tests/test_feedback.json',
                 'default_gamification_events.json',

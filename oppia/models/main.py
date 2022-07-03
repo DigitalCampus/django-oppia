@@ -6,12 +6,12 @@ import os
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Max, F
+from django.db.models import Max, F, Q
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from tastypie.models import create_api_key
 
-from oppia import constants
+from oppia.models.course_status import CourseStatus
 from quiz.models import QuizAttempt, Quiz
 
 from xml.dom.minidom import Document
@@ -20,14 +20,6 @@ models.signals.post_save.connect(create_api_key, sender=User)
 
 STR_COURSE_INHERITED = _('Inherited from course')
 STR_GLOBAL_INHERITED = _('Inherited from global defaults')
-
-
-class CourseStatus(models.TextChoices):
-    LIVE = 'live', _('Live')
-    DRAFT = 'draft', _('Draft')
-    ARCHIVED = 'archived', _('Archived')
-    NEW_DOWNLOADS_DISABLED = 'new_downloads_disabled', _('New downloads disabled')
-    READ_ONLY = 'read_only', _('Read only')
 
 
 class Course(models.Model):
@@ -48,10 +40,12 @@ class Course(models.Model):
     badge_icon = models.FileField(upload_to="badges",
                                   blank=True,
                                   default=None)
-    status = models.CharField(max_length=100,
-                              choices=CourseStatus.choices,
-                              default=CourseStatus.LIVE,
-                              help_text=_(constants.STATUS_FIELD_HELP_TEXT))
+
+    status = models.ForeignKey('CourseStatus',
+                               limit_choices_to=Q(available=True),
+                               on_delete=models.PROTECT,
+                               null=True,
+                               blank=False)
 
     class Meta:
         verbose_name = _('Course')
@@ -229,19 +223,19 @@ class Course(models.Model):
         return tracker_viewed
 
     def is_live(self):
-        return self.status == CourseStatus.LIVE
+        return self.status.name == CourseStatus.LIVE
 
     def is_draft(self):
-        return self.status == CourseStatus.DRAFT
+        return self.status.name == CourseStatus.DRAFT
 
     def is_archived(self):
-        return self.status == CourseStatus.ARCHIVED
+        return self.status.name == CourseStatus.ARCHIVED
 
     def are_new_downloads_disabled(self):
-        return self.status == CourseStatus.NEW_DOWNLOADS_DISABLED
+        return self.status.name == CourseStatus.NEW_DOWNLOADS_DISABLED
 
     def is_read_only(self):
-        return self.status == CourseStatus.READ_ONLY
+        return self.status.name == CourseStatus.READ_ONLY
 
 
 class CoursePermissions(models.Model):

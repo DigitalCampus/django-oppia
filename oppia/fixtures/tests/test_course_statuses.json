@@ -1,0 +1,42 @@
+[
+  {
+      "model": "oppia.coursestatus",
+      "pk": 1,
+      "fields": {
+          "name": "live",
+          "available": true
+      }
+  },
+  {
+      "model": "oppia.coursestatus",
+      "pk": 2,
+      "fields": {
+          "name": "draft",
+          "available": true
+      }
+  },
+  {
+      "model": "oppia.coursestatus",
+      "pk": 3,
+      "fields": {
+          "name": "archived",
+          "available": true
+      }
+  },
+  {
+      "model": "oppia.coursestatus",
+      "pk": 4,
+      "fields": {
+          "name": "new_downloads_disabled",
+          "available": true
+      }
+  },
+  {
+      "model": "oppia.coursestatus",
+      "pk": 5,
+      "fields": {
+          "name": "read_only",
+          "available": true
+      }
+  }
+]

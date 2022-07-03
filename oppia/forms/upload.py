@@ -75,7 +75,7 @@ class UploadCourseStep2Form(forms.Form):
                                 _('Please enter at least one category')})
 
     status = forms.ChoiceField(
-        choices=CourseStatus.choices,
+        choices=CourseStatus.COURSE_STATUS_CHOICES,
         help_text=_(OppiaConstants.STATUS_FIELD_HELP_TEXT),
         required=True,
     )

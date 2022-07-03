@@ -9,6 +9,7 @@ from tests.utils import get_api_key, get_api_url
 
 class AwardsResourceTest(ResourceTestCaseMixin, OppiaTestCase):
     fixtures = ['tests/test_user.json',
+                'tests/test_course_statuses.json',
                 'tests/test_oppia.json',
                 'tests/test_course_permissions.json']
 

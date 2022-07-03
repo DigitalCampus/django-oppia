@@ -8,6 +8,7 @@ from profile.models import CustomField, UserProfileCustomField
 class ProfileEditCustomFieldsViewTest(OppiaTestCase):
 
     fixtures = ['tests/test_user.json',
+                'tests/test_course_statuses.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
                 'tests/test_course_permissions.json']

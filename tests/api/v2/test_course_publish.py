@@ -16,6 +16,7 @@ from tests.utils import update_course_status
 class CoursePublishResourceTest(OppiaTransactionTestCase):
 
     fixtures = ['tests/test_user.json',
+                'tests/test_course_statuses.json',
                 'tests/test_oppia.json',
                 'tests/test_quiz.json',
                 'tests/test_permissions.json',
@@ -388,7 +389,7 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
             self.assertEqual(201, response.status_code)
 
             course = Course.objects.get(shortname=self.non_existing_course_shortname)
-            self.assertEqual(CourseStatus.LIVE, course.status)
+            self.assertEqual(CourseStatus.LIVE, course.status.name)
 
     def test_publish_live_course_when_live_course_exists__should_publish(self):
         update_course_status(2, CourseStatus.LIVE)
@@ -431,7 +432,7 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
             self.assertEqual(201, response.status_code)
 
             course = Course.objects.get(shortname=self.non_existing_course_shortname)
-            self.assertEqual(CourseStatus.DRAFT, course.status)
+            self.assertEqual(CourseStatus.DRAFT, course.status.name)
 
     def test_publish_draft_course_when_live_course_exists__should_publish_and_update_status(self):
         course_id = 2
@@ -442,7 +443,7 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
             self.assertEqual(201, response.status_code)
 
             course = Course.objects.get(pk=course_id)
-            self.assertEqual(CourseStatus.DRAFT, course.status)
+            self.assertEqual(CourseStatus.DRAFT, course.status.name)
 
     def test_publish_draft_course_when_draft_course_exists__should_publish(self):
         update_course_status(2, CourseStatus.DRAFT)

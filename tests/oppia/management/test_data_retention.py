@@ -13,6 +13,7 @@ from oppia.test import OppiaTestCase
 class DataRetentionTest(OppiaTestCase):
 
     fixtures = ['tests/test_user.json',
+                'tests/test_course_statuses.json',
                 'tests/test_oppia.json',
                 'default_gamification_events.json',
                 'tests/test_tracker.json',

@@ -1,7 +1,7 @@
 from django.urls import reverse
 from tastypie.models import ApiKey
 
-from oppia.models import Course
+from oppia.models import Course, CourseStatus
 
 
 def get_api_key(user):
@@ -28,7 +28,7 @@ def get_api_url(version, resource_name, resource_id=None):
 
 def update_course_status(id, course_status):
     course = Course.objects.get(pk=id)
-    course.status = course_status
+    course.status = CourseStatus.objects.get(name=course_status)
     course.save()
 
 

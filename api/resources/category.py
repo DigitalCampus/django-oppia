@@ -136,7 +136,7 @@ class CategoryResource(ModelResource):
                                      | Q(pk__in=CoursePermissions.objects.filter(
                                          user=bundle.request.user).values('course')))
 
-        return {course.shortname: course.status for course in courses}
+        return {course.shortname: course.status.name for course in courses}
 
     def alter_list_data_to_serialize(self, request, data):
         if isinstance(data, dict) and 'objects' in data:

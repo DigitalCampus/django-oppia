@@ -36,11 +36,9 @@
 	<em class="fas fa-eye mr-1 text-primary"></em> </span> {% trans 'Filter by status: ' %}
 	<select class="form-control" name="status" id="course-status-filter">
         <option value="">{% trans 'All' %}</option>
-        <option value="live" {% if course_filter == "live" %} selected="selected"{% endif %}>{% trans 'Live' %}</option>
-        <option value="draft" {% if course_filter == "draft" %} selected="selected"{% endif %}>{% trans 'Draft' %}</option>
-		<option value="archived" {% if course_filter == "archived" %} selected="selected"{% endif %}>{% trans 'Archived' %}</option>
-		<option value="new_downloads_disabled" {% if course_filter == "new_downloads_disabled" %} selected="selected"{% endif %}>{% trans 'New downloads disabled' %}</option>
-		<option value="read_only" {% if course_filter == "read_only" %} selected="selected"{% endif %}>{% trans 'Read only' %}</option>
+		{% for status in available_statuses %}
+			<option value={{ status.name }} {% if course_filter == status.name %} selected="selected" {% endif %}>{% trans status.get_name_display %}</option>
+		{% endfor %}
 	</select>
 	</form>
 	</div>
