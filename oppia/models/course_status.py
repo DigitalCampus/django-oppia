@@ -27,7 +27,8 @@ class CourseStatus(models.Model):
         (READ_ONLY, _('Read only')),
     ]
 
-    name = models.CharField(max_length=100,
+    name = models.CharField(primary_key=True,
+                            max_length=100,
                             choices=COURSE_STATUS_CHOICES,
                             default=LIVE,
                             help_text=_(constants.STATUS_FIELD_HELP_TEXT))
