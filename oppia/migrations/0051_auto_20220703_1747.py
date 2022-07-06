@@ -3,6 +3,35 @@
 from django.db import migrations
 
 
+def add_default_statuses(apps, schema_editor):
+    course_status_model = apps.get_model('oppia', 'CourseStatus')
+
+    course_status = course_status_model()
+    course_status.name = 'live'
+    course_status.available = True
+    course_status.save()
+
+    course_status = course_status_model()
+    course_status.name = 'draft'
+    course_status.available = True
+    course_status.save()
+
+    course_status = course_status_model()
+    course_status.name = 'archived'
+    course_status.available = True
+    course_status.save()
+
+    course_status = course_status_model()
+    course_status.name = 'new_downloads_disabled'
+    course_status.available = True
+    course_status.save()
+
+    course_status = course_status_model()
+    course_status.name = 'read_only'
+    course_status.available = True
+    course_status.save()
+
+
 def migrate_status_fk(apps, schema_editor):
     course_model = apps.get_model('oppia', 'Course')
     course_status_model = apps.get_model('oppia', 'CourseStatus')
@@ -18,5 +47,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.RunPython(add_default_statuses),
         migrations.RunPython(migrate_status_fk)
     ]

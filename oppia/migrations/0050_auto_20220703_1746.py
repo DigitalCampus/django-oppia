@@ -14,8 +14,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CourseStatus',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(choices=[('live', 'Live'), ('draft', 'Draft'), ('archived', 'Archived'), ('new_downloads_disabled', 'New downloads disabled'), ('read_only', 'Read only')], default='live', help_text='More details about each status can be found in the <a href=https://oppiamobile.readthedocs.io/en/latest/implementers/courses/statuses.html>documentation.</a><br>Note that statuses new-downloads-disabled and read-only are only compatible with app version 7.3.9 or above.', max_length=100)),
+                ('name', models.CharField(primary_key=True, serialize=False, choices=[('live', 'Live'), ('draft', 'Draft'), ('archived', 'Archived'), ('new_downloads_disabled', 'New downloads disabled'), ('read_only', 'Read only')], default='live', help_text='More details about each status can be found in the <a href=https://oppiamobile.readthedocs.io/en/latest/implementers/courses/statuses.html>documentation.</a><br>Note that statuses new-downloads-disabled and read-only are only compatible with app version 7.3.9 or above.', max_length=100)),
                 ('available', models.BooleanField(default=True)),
             ],
             options={
@@ -26,6 +25,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='course',
             name='status_fk',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, to='oppia.coursestatus'),
+            field=models.ForeignKey(limit_choices_to=models.Q(('available', True)), null=True, on_delete=django.db.models.deletion.PROTECT, to='oppia.coursestatus'),
         ),
     ]
