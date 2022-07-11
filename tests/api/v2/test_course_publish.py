@@ -471,3 +471,33 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
         with open(self.course_file_path, 'rb') as course_file:
             response = self.publish_course(course_file, True)
             self.assertEqual(400, response.status_code)
+
+    def test_publish_draft_course_when_draft_status_is_available__should_publish(self):
+        initial_course_count = Course.objects.count()
+        original_available_statuses = settings.OPPIA_AVAILABLE_COURSE_STATUSES
+        settings.OPPIA_AVAILABLE_COURSE_STATUSES = ['draft']
+
+        update_course_status(2, CourseStatus.LIVE)
+
+        with open(self.non_existing_course, 'rb') as course_file:
+            response = self.publish_course(course_file, True)
+            self.assertEqual(201, response.status_code)
+
+        self.assertEqual(initial_course_count + 1, Course.objects.count())
+
+        settings.OPPIA_AVAILABLE_COURSE_STATUSES = original_available_statuses
+
+    def test_publish_draft_course_when_draft_status_is_not_available__should_not_publish(self):
+        initial_course_count = Course.objects.count()
+        original_available_statuses = settings.OPPIA_AVAILABLE_COURSE_STATUSES
+        settings.OPPIA_AVAILABLE_COURSE_STATUSES = ['live', 'archived']
+
+        update_course_status(2, CourseStatus.LIVE)
+
+        with open(self.non_existing_course, 'rb') as course_file:
+            response = self.publish_course(course_file, True)
+            self.assertEqual(400, response.status_code)
+
+        self.assertEqual(initial_course_count, Course.objects.count())
+
+        settings.OPPIA_AVAILABLE_COURSE_STATUSES = original_available_statuses

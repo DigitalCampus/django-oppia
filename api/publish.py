@@ -144,6 +144,10 @@ def publish_view(request):
                             data=msg_text).save()
         return HttpResponse(status=401)
 
+    result = validate_course_status_availability(request, user)
+    if result is False:
+        return HttpResponse(status=400)
+
     course, status_code, is_new_course = handle_uploaded_file(
         course_file,
         extract_path,
@@ -202,6 +206,24 @@ def get_messages_array(request):
             response.append({'tags': msg.tags, 'message': msg.message})
 
     return response if valid else errors
+
+
+def validate_course_status_availability(request, user):
+    """
+    Prevent publishing if the course is in DRAFT status and the DRAFT status is not active in the server.
+    """
+    result = True
+
+    if is_request_status_draft(request) and CourseStatus.DRAFT not in settings.OPPIA_AVAILABLE_COURSE_STATUSES:
+        error_msg = "Cannot publish a 'draft' course because 'draft' is not an active status in the server.\n" \
+                         f"Valid statuses are: {settings.OPPIA_AVAILABLE_COURSE_STATUSES}"
+        messages.error(request, error_msg)
+        CoursePublishingLog(user=user if user else None,
+                            action="invalid_course_status",
+                            data=error_msg).save()
+        result = False
+
+    return result
 
 
 def validate_course_status(course, request, is_new_course):

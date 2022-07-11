@@ -199,6 +199,9 @@ OPPIA_METADATA = {
     'BATTERY_LEVEL': False,
 }
 
+# Sublist of oppia.models.main.CourseStatus choices. Only the CourseStatus IDs in this list will appear when choosing a course status.
+OPPIA_AVAILABLE_COURSE_STATUSES = ['live', 'archived', 'draft', 'new_downloads_disabled', 'read_only']
+
 # turns on/off ability for users to self register
 OPPIA_ALLOW_SELF_REGISTRATION = True
 OPPIA_ALLOW_PROFILE_EDITING = True
