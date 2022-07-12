@@ -29,6 +29,13 @@ class CourseStatus(models.TextChoices):
     NEW_DOWNLOADS_DISABLED = 'new_downloads_disabled', _('New downloads disabled')
     READ_ONLY = 'read_only', _('Read only')
 
+    @staticmethod
+    def get_available_statuses():
+        """
+        Get a subset of CourseStatus.choices based on the value of settings.OPPIA_AVAILABLE_COURSE_STATUSES
+        """
+        return [status for status in CourseStatus.choices if status[0] in settings.OPPIA_AVAILABLE_COURSE_STATUSES]
+
 
 class Course(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
@@ -49,7 +56,7 @@ class Course(models.Model):
                                   blank=True,
                                   default=None)
     status = models.CharField(max_length=100,
-                              choices=CourseStatus.choices,
+                              choices=CourseStatus.get_available_statuses(),
                               default=CourseStatus.LIVE,
                               help_text=_(constants.STATUS_FIELD_HELP_TEXT))
 
