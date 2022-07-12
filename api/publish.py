@@ -146,7 +146,10 @@ def publish_view(request):
 
     result = validate_course_status_availability(request, user)
     if result is False:
-        return HttpResponse(status=400)
+        response_data = {
+            'messages': get_messages_array(request)
+        }
+        return JsonResponse(response_data, status=400)
 
     course, status_code, is_new_course = handle_uploaded_file(
         course_file,
