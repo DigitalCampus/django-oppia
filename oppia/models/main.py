@@ -60,6 +60,8 @@ class Course(models.Model):
                               default=CourseStatus.LIVE,
                               help_text=_(constants.STATUS_FIELD_HELP_TEXT))
 
+    restricted = models.BooleanField(default=False, help_text=_(constants.RESTRICTED_FIELD_HELP_TEST))
+
     class Meta:
         verbose_name = _('Course')
         verbose_name_plural = _('Courses')

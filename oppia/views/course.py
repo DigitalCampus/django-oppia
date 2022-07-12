@@ -147,10 +147,11 @@ class CourseFormView(CanEditCoursePermission, FormView):
 
     def get_initial(self):
         return {'categories': self.course.get_categories(),
-                'status': self.course.status}
+                'status': self.course.status,
+                'restricted':self.course.restricted }
 
     def form_valid(self, form):
-        self.update_course_tags(form, self.course, self.request.user)
+        self.update_course(form, self.course, self.request.user)
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -158,10 +159,10 @@ class CourseFormView(CanEditCoursePermission, FormView):
         context['course_title'] = self.course.title
         return context
 
-    def update_course_tags(self, form, course, user):
-        categories = form.cleaned_data.get("categories", "").strip().split(",")
-        status = form.cleaned_data.get("status")
-        course.status = status
+    def update_course(self, form, course, user):
+        categories = form.cleaned_data.get('categories', '').strip().split(',')
+        course.restricted = form.cleaned_data.get('restricted')
+        course.status = form.cleaned_data.get('status')
         course.save()
         # remove any existing tags
         CourseCategory.objects.filter(course=course).delete()

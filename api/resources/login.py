@@ -13,7 +13,7 @@ from tastypie.resources import ModelResource
 
 from api.serializers import UserJSONSerializer
 from oppia import DEFAULT_IP_ADDRESS
-from oppia.models import Tracker
+from oppia.models import Tracker, CourseCohort, Participant
 from oppia.models import Points, Award
 
 from profile.models import UserProfile
@@ -30,6 +30,7 @@ class UserResource(ModelResource):
     badging = fields.BooleanField(readonly=True)
     metadata = fields.CharField(readonly=True)
     course_points = fields.CharField(readonly=True)
+    cohorts = fields.CharField(readonly=True)
 
     class Meta:
         queryset = User.objects.all()
@@ -92,6 +93,9 @@ class UserResource(ModelResource):
         bundle.data['organisation'] = organisation
         bundle.obj = u
         return bundle
+
+    def dehydrate_cohorts(self, bundle):
+        return Participant.get_user_cohorts(bundle.request.user)
 
     def dehydrate_points(self, bundle):
         points = Points.get_userscore(

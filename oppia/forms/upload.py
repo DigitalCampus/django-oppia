@@ -80,6 +80,11 @@ class UploadCourseStep2Form(forms.Form):
         required=True,
     )
 
+    restricted = forms.BooleanField(
+                help_text=_(OppiaConstants.RESTRICTED_FIELD_HELP_TEST),
+                required=False
+    )
+
     def __init__(self, *args, **kwargs):
         super(UploadCourseStep2Form, self).__init__(* args, ** kwargs)
         self.helper = FormHelper()
@@ -89,6 +94,7 @@ class UploadCourseStep2Form(forms.Form):
         self.helper.layout = Layout(
                 'categories',
                 'status',
+                'restricted',
                 Div(
                    Submit('submit', _(u'Save'), css_class='btn btn-default'),
                    css_class='col-lg-offset-2 col-lg-4',

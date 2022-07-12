@@ -76,3 +76,8 @@ class Participant(models.Model):
     class Meta:
         verbose_name = _('Participant')
         verbose_name_plural = _('Participants')
+
+    # Return a list of cohorts a user belongs to (either as student or teacher)
+    @staticmethod
+    def get_user_cohorts(user):
+        return list(set(Participant.objects.filter(user=user).values_list('cohort', flat=True)))
