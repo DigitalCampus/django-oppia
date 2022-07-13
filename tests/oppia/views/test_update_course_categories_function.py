@@ -51,7 +51,7 @@ class UpdateCourseTagsFunctionTest(OppiaTestCase):
         self.assertEqual(form.is_valid(), True)
 
         cfv = CourseFormView()
-        cfv.update_course_tags(form, course, self.admin_user)
+        cfv.update_course(form, course, self.admin_user)
 
         coursetag_count_end = CourseCategory.objects.filter(
             course=course).count()
@@ -75,7 +75,7 @@ class UpdateCourseTagsFunctionTest(OppiaTestCase):
         self.assertEqual(form.is_valid(), True)
 
         cfv = CourseFormView()
-        cfv.update_course_tags(form, course, self.admin_user)
+        cfv.update_course(form, course, self.admin_user)
 
         coursetag_count_end = CourseCategory.objects.filter(
             course=course).count()
@@ -98,7 +98,7 @@ class UpdateCourseTagsFunctionTest(OppiaTestCase):
         self.assertEqual(form.is_valid(), True)
 
         cfv = CourseFormView()
-        cfv.update_course_tags(form, course, self.admin_user)
+        cfv.update_course(form, course, self.admin_user)
 
         coursetag_count_end = CourseCategory.objects.filter(
             course=course).count()
@@ -121,7 +121,7 @@ class UpdateCourseTagsFunctionTest(OppiaTestCase):
         self.assertEqual(form.is_valid(), True)
 
         cfv = CourseFormView()
-        cfv.update_course_tags(form, course, self.admin_user)
+        cfv.update_course(form, course, self.admin_user)
 
         coursetag_count_end = CourseCategory.objects.filter(
             course=course).count()
