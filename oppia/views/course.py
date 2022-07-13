@@ -9,6 +9,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import TemplateView, ListView, DetailView, FormView
 
 from helpers.mixins.AjaxTemplateResponseMixin import AjaxTemplateResponseMixin
+from oppia.forms.edit import EditCourseForm
 from oppia.forms.upload import UploadCourseStep1Form, UploadCourseStep2Form
 from oppia.models import Category, CourseCategory, CoursePublishingLog, Course
 from oppia.permissions import can_edit_course, can_download_course, can_view_course_detail, can_view_courses_list, \
@@ -148,7 +149,7 @@ class CourseFormView(CanEditCoursePermission, FormView):
     def get_initial(self):
         return {'categories': self.course.get_categories(),
                 'status': self.course.status,
-                'restricted':self.course.restricted }
+                'restricted': self.course.restricted}
 
     def form_valid(self, form):
         self.update_course(form, self.course, self.request.user)
@@ -161,6 +162,8 @@ class CourseFormView(CanEditCoursePermission, FormView):
 
     def update_course(self, form, course, user):
         categories = form.cleaned_data.get('categories', '').strip().split(',')
+        if self.extra_context is not None and self.extra_context.get('editing', False):
+            course.status = form.cleaned_data.get('status')
         course.restricted = form.cleaned_data.get('restricted')
         course.save()
         # remove any existing tags
@@ -180,6 +183,7 @@ class CourseFormView(CanEditCoursePermission, FormView):
 
 
 class EditCourse(CourseFormView):
+    form_class = EditCourseForm
     extra_context = {
         'editing': True,
         'title': _(u'Edit course')
