@@ -18,6 +18,7 @@ class CourseFilter:
 
 
 class CourseCategoryFilter:
+    COURSE_IS_NOT_RESTRICTED = Q(coursecategory__course__restricted=False)
     COURSE_IS_ARCHIVED = Q(coursecategory__course__status=CourseStatus.ARCHIVED)
     COURSE_IS_NOT_ARCHIVED = ~Q(coursecategory__course__status=CourseStatus.ARCHIVED)
     COURSE_IS_DRAFT = Q(coursecategory__course__status=CourseStatus.DRAFT)
