@@ -148,6 +148,7 @@ def process_course(extract_path, f, mod_name, request, user):
     is_new_course = False
     oldsections = []
     old_course_filename = None
+    old_course_version = None
 
     # Find if course already exists
     try:
@@ -189,14 +190,22 @@ def process_course(extract_path, f, mod_name, request, user):
 
         old_course_filename = course.filename
         course.lastupdated_date = timezone.now()
+        old_course_version = course.version
+        result, error_msg = validate_course_status(course, request)
+        if result is False:
+            CoursePublishingLog(course=course,
+                                new_version=meta_info['versionid'],
+                                old_version=old_course_version,
+                                user=user,
+                                action="invalid_course_status",
+                                data=error_msg).save()
+            return result, 400, is_new_course
 
     except Course.DoesNotExist:
         course = Course()
-        course.status = CourseStatus.DRAFT
         is_new_course = True
 
-    old_course_version = course.version
-
+    course.status = request.POST['status']
     course.shortname = meta_info['shortname']
     course.title = meta_info['title']
     course.description = meta_info['description']
@@ -729,3 +738,21 @@ def update_quiz_questions(quiz, quiz_obj):
                     question=question, name=prop)
                 qprop.value = q['question']['props'][prop]
                 qprop.save()
+
+
+def validate_course_status(course, request):
+    """
+    When uploading an existing course:
+      - Prevent uploading if the course is in ARCHIVED, NEW_DOWNLOADS_DISABLED or READ_ONLY status.
+      - Prevent uploading if the course is in DRAFT status and the request status is LIVE.
+    """
+    result = True
+    error_msg = ""
+
+    if course.status in [CourseStatus.ARCHIVED, CourseStatus.NEW_DOWNLOADS_DISABLED, CourseStatus.READ_ONLY] \
+            or (course.status == CourseStatus.DRAFT and request.POST['status'] == CourseStatus.LIVE):
+        error_msg = f"This course currently has {course.status} status, so cannot now be updated."
+        messages.info(request, error_msg)
+        result = False
+
+    return result, error_msg

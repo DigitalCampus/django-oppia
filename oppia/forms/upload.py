@@ -19,6 +19,12 @@ class UploadCourseStep1Form(forms.Form):
                 error_messages={'required':
                                 _('Please select a file to upload')}, )
 
+    status = forms.ChoiceField(
+        choices=CourseStatus.get_available_statuses(),
+        help_text=_(OppiaConstants.STATUS_FIELD_HELP_TEXT),
+        required=True,
+    )
+
     def __init__(self, *args, **kwargs):
         super(UploadCourseStep1Form, self).__init__(* args, ** kwargs)
 
@@ -35,6 +41,7 @@ class UploadCourseStep1Form(forms.Form):
         self.helper.field_class = 'col-lg-4'
         self.helper.layout = Layout(
                 'course_file',
+                'status',
                 Div(
                    Submit('submit',
                           _(u'Upload'),
@@ -74,12 +81,6 @@ class UploadCourseStep2Form(forms.Form):
                 error_messages={'required':
                                 _('Please enter at least one category')})
 
-    status = forms.ChoiceField(
-        choices=CourseStatus.get_available_statuses(),
-        help_text=_(OppiaConstants.STATUS_FIELD_HELP_TEXT),
-        required=True,
-    )
-
     restricted = forms.BooleanField(
                 help_text=_(OppiaConstants.RESTRICTED_FIELD_HELP_TEST),
                 required=False
@@ -93,7 +94,6 @@ class UploadCourseStep2Form(forms.Form):
         self.helper.field_class = 'col-lg-4'
         self.helper.layout = Layout(
                 'categories',
-                'status',
                 'restricted',
                 Div(
                    Submit('submit', _(u'Save'), css_class='btn btn-default'),

@@ -391,39 +391,60 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
             self.assertEqual(CourseStatus.LIVE, course.status)
 
     def test_publish_live_course_when_live_course_exists__should_publish(self):
-        update_course_status(2, CourseStatus.LIVE)
+        course_id = 2
+        update_course_status(course_id, CourseStatus.LIVE)
 
         with open(self.course_file_path, 'rb') as course_file:
             response = self.publish_course(course_file, False)
             self.assertEqual(201, response.status_code)
 
+            course = Course.objects.latest('lastupdated_date')
+            self.assertEqual(course_id, course.pk)
+            self.assertEqual(CourseStatus.LIVE, course.status)
+
     def test_publish_live_course_when_draft_course_exists__should_not_publish(self):
-        update_course_status(2, CourseStatus.DRAFT)
+        course_id = 2
+        update_course_status(course_id, CourseStatus.DRAFT)
 
         with open(self.course_file_path, 'rb') as course_file:
             response = self.publish_course(course_file, False)
             self.assertEqual(400, response.status_code)
+
+            course = Course.objects.get(pk=course_id)
+            self.assertEqual(CourseStatus.DRAFT, course.status)
 
     def test_publish_live_course_when_newdownloadsdisabled_course_exists__should_not_publish(self):
-        update_course_status(2, CourseStatus.NEW_DOWNLOADS_DISABLED)
+        course_id = 2
+        update_course_status(course_id, CourseStatus.NEW_DOWNLOADS_DISABLED)
 
         with open(self.course_file_path, 'rb') as course_file:
             response = self.publish_course(course_file, False)
             self.assertEqual(400, response.status_code)
+
+            course = Course.objects.get(pk=course_id)
+            self.assertEqual(CourseStatus.NEW_DOWNLOADS_DISABLED, course.status)
 
     def test_publish_live_course_when_archived_course_exists__should_not_publish(self):
-        update_course_status(2, CourseStatus.ARCHIVED)
+        course_id = 2
+        update_course_status(course_id, CourseStatus.ARCHIVED)
 
         with open(self.course_file_path, 'rb') as course_file:
             response = self.publish_course(course_file, False)
             self.assertEqual(400, response.status_code)
+
+            course = Course.objects.get(pk=course_id)
+            self.assertEqual(CourseStatus.ARCHIVED, course.status)
 
     def test_publish_live_course_when_readonly_course_exists__should_not_publish(self):
-        update_course_status(2, CourseStatus.READ_ONLY)
+        course_id = 2
+        update_course_status(course_id, CourseStatus.READ_ONLY)
 
         with open(self.course_file_path, 'rb') as course_file:
             response = self.publish_course(course_file, False)
             self.assertEqual(400, response.status_code)
+
+            course = Course.objects.get(pk=course_id)
+            self.assertEqual(CourseStatus.READ_ONLY, course.status)
 
     def test_publish_new_draft_course(self):
         with open(self.non_existing_course, 'rb') as course_file:
@@ -441,47 +462,66 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
             response = self.publish_course(course_file, True)
             self.assertEqual(201, response.status_code)
 
-            course = Course.objects.get(pk=course_id)
+            course = Course.objects.latest('lastupdated_date')
+            self.assertEqual(course_id, course.pk)
             self.assertEqual(CourseStatus.DRAFT, course.status)
 
     def test_publish_draft_course_when_draft_course_exists__should_publish(self):
-        update_course_status(2, CourseStatus.DRAFT)
+        course_id = 2
+        update_course_status(course_id, CourseStatus.DRAFT)
 
         with open(self.course_file_path, 'rb') as course_file:
             response = self.publish_course(course_file, True)
             self.assertEqual(201, response.status_code)
 
+            course = Course.objects.latest('lastupdated_date')
+            self.assertEqual(course_id, course.pk)
+            self.assertEqual(CourseStatus.DRAFT, course.status)
+
     def test_publish_draft_course_when_newdownloadsdisabled_course_exists__should_not_publish(self):
-        update_course_status(2, CourseStatus.NEW_DOWNLOADS_DISABLED)
+        course_id = 2
+        update_course_status(course_id, CourseStatus.NEW_DOWNLOADS_DISABLED)
 
         with open(self.course_file_path, 'rb') as course_file:
             response = self.publish_course(course_file, True)
             self.assertEqual(400, response.status_code)
+
+            course = Course.objects.get(pk=course_id)
+            self.assertEqual(CourseStatus.NEW_DOWNLOADS_DISABLED, course.status)
 
     def test_publish_draft_course_when_archived_course_exists__should_not_publish(self):
-        update_course_status(2, CourseStatus.ARCHIVED)
+        course_id = 2
+        update_course_status(course_id, CourseStatus.ARCHIVED)
 
         with open(self.course_file_path, 'rb') as course_file:
             response = self.publish_course(course_file, True)
             self.assertEqual(400, response.status_code)
+
+            course = Course.objects.get(pk=course_id)
+            self.assertEqual(CourseStatus.ARCHIVED, course.status)
 
     def test_publish_draft_course_when_readonly_course_exists__should_not_publish(self):
-        update_course_status(2, CourseStatus.READ_ONLY)
+        course_id = 2
+        update_course_status(course_id, CourseStatus.READ_ONLY)
 
         with open(self.course_file_path, 'rb') as course_file:
             response = self.publish_course(course_file, True)
             self.assertEqual(400, response.status_code)
+
+            course = Course.objects.get(pk=course_id)
+            self.assertEqual(CourseStatus.READ_ONLY, course.status)
 
     def test_publish_draft_course_when_draft_status_is_available__should_publish(self):
         initial_course_count = Course.objects.count()
         original_available_statuses = settings.OPPIA_AVAILABLE_COURSE_STATUSES
         settings.OPPIA_AVAILABLE_COURSE_STATUSES = ['draft']
 
-        update_course_status(2, CourseStatus.LIVE)
-
         with open(self.non_existing_course, 'rb') as course_file:
             response = self.publish_course(course_file, True)
             self.assertEqual(201, response.status_code)
+            course = Course.objects.latest('created_date')
+            self.assertEqual(self.non_existing_course_shortname, course.shortname)
+            self.assertEqual(CourseStatus.DRAFT, course.status)
 
         self.assertEqual(initial_course_count + 1, Course.objects.count())
 
@@ -491,8 +531,6 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
         initial_course_count = Course.objects.count()
         original_available_statuses = settings.OPPIA_AVAILABLE_COURSE_STATUSES
         settings.OPPIA_AVAILABLE_COURSE_STATUSES = ['live', 'archived']
-
-        update_course_status(2, CourseStatus.LIVE)
 
         with open(self.non_existing_course, 'rb') as course_file:
             response = self.publish_course(course_file, True)

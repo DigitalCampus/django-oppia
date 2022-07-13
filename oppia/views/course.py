@@ -162,7 +162,6 @@ class CourseFormView(CanEditCoursePermission, FormView):
     def update_course(self, form, course, user):
         categories = form.cleaned_data.get('categories', '').strip().split(',')
         course.restricted = form.cleaned_data.get('restricted')
-        course.status = form.cleaned_data.get('status')
         course.save()
         # remove any existing tags
         CourseCategory.objects.filter(course=course).delete()

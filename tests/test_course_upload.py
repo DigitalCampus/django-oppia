@@ -6,10 +6,11 @@ from gamification.models import CourseGamificationEvent, \
                                 MediaGamificationEvent, \
                                 ActivityGamificationEvent
 from oppia.test import OppiaTestCase
-from oppia.models import Course, CoursePublishingLog, Quiz, Activity, Question
+from oppia.models import Course, CoursePublishingLog, Quiz, Activity, Question, CourseStatus
 from zipfile import BadZipfile
 
 from quiz.models import QuizProps, QuestionProps
+from tests.utils import update_course_status
 
 
 class CourseUploadTest(OppiaTestCase):
@@ -42,7 +43,8 @@ class CourseUploadTest(OppiaTestCase):
         with open(self.course_file_path, 'rb') as course_file:
             self.client.force_login(self.admin_user)
             response = self.client.post(self.URL_UPLOAD,
-                                        {'course_file': course_file})
+                                        {'course_file': course_file,
+                                         'status': CourseStatus.LIVE})
             # should be redirected to the update step 2 form
             self.assertRedirects(response,
                                  reverse(self.STR_UPLOAD_STEP2, args=[2]),
@@ -54,7 +56,8 @@ class CourseUploadTest(OppiaTestCase):
         with open(self.empty_section_course, 'rb') as course_file:
             self.client.force_login(self.admin_user)
             response = self.client.post(self.URL_UPLOAD,
-                                        {'course_file': course_file})
+                                        {'course_file': course_file,
+                                         'status': CourseStatus.LIVE})
 
             course = Course.objects.latest('created_date')
             # should be redirected to the update step 2 form
@@ -69,7 +72,8 @@ class CourseUploadTest(OppiaTestCase):
         with open(self.no_module_xml, 'rb') as course_file:
             self.client.force_login(self.admin_user)
             response = self.client.post(self.URL_UPLOAD,
-                                        {'course_file': course_file})
+                                        {'course_file': course_file,
+                                         'status': CourseStatus.LIVE})
 
             self.assertEqual(200, response.status_code)
             course_log = CoursePublishingLog.objects.latest('log_date')
@@ -80,7 +84,8 @@ class CourseUploadTest(OppiaTestCase):
         with open(self.corrupt_course_zip, 'rb') as course_file:
             self.client.force_login(self.admin_user)
             response = self.client.post(self.URL_UPLOAD,
-                                        {'course_file': course_file})
+                                        {'course_file': course_file,
+                                         'status': CourseStatus.LIVE})
 
             self.assertEqual(200, response.status_code)
             self.assertRaises(BadZipfile)
@@ -92,7 +97,8 @@ class CourseUploadTest(OppiaTestCase):
         with open(self.course_no_sub_dir, 'rb') as course_file:
             self.client.force_login(self.admin_user)
             response = self.client.post(self.URL_UPLOAD,
-                                        {'course_file': course_file})
+                                        {'course_file': course_file,
+                                         'status': CourseStatus.LIVE})
 
             self.assertEqual(200, response.status_code)
             course_log = CoursePublishingLog.objects.latest('log_date')
@@ -103,7 +109,8 @@ class CourseUploadTest(OppiaTestCase):
         with open(self.course_old_version, 'rb') as course_file:
             self.client.force_login(self.admin_user)
             response = self.client.post(self.URL_UPLOAD,
-                                        {'course_file': course_file})
+                                        {'course_file': course_file,
+                                         'status': CourseStatus.LIVE})
 
             self.assertEqual(200, response.status_code)
             course_log = CoursePublishingLog.objects.latest('log_date')
@@ -114,7 +121,8 @@ class CourseUploadTest(OppiaTestCase):
         with open(self.course_no_activities, 'rb') as course_file:
             self.client.force_login(self.admin_user)
             response = self.client.post(self.URL_UPLOAD,
-                                        {'course_file': course_file})
+                                        {'course_file': course_file,
+                                         'status': CourseStatus.LIVE})
 
             self.assertEqual(200, response.status_code)
             course_log = CoursePublishingLog.objects.latest('log_date')
@@ -132,7 +140,8 @@ class CourseUploadTest(OppiaTestCase):
         with open(self.course_with_custom_points, 'rb') as course_file:
             self.client.force_login(self.admin_user)
             response = self.client.post(self.URL_UPLOAD,
-                                        {'course_file': course_file})
+                                        {'course_file': course_file,
+                                         'status': CourseStatus.LIVE})
             course = Course.objects.latest('created_date')
             self.assertRedirects(response,
                                  reverse(self.STR_UPLOAD_STEP2,
@@ -156,7 +165,8 @@ class CourseUploadTest(OppiaTestCase):
         with open(self.course_with_custom_points, 'rb') as course_file:
             self.client.force_login(self.admin_user)
             response = self.client.post(self.URL_UPLOAD,
-                                        {'course_file': course_file})
+                                        {'course_file': course_file,
+                                         'status': CourseStatus.LIVE})
             course = Course.objects.latest('created_date')
             self.assertRedirects(response,
                                  reverse(self.STR_UPLOAD_STEP2,
@@ -180,7 +190,8 @@ class CourseUploadTest(OppiaTestCase):
         with open(self.course_with_custom_points_updated, 'rb') as course_file:
             self.client.force_login(self.admin_user)
             response = self.client.post(self.URL_UPLOAD,
-                                        {'course_file': course_file})
+                                        {'course_file': course_file,
+                                         'status': CourseStatus.LIVE})
             course = Course.objects.latest('created_date')
             self.assertRedirects(response,
                                  reverse(self.STR_UPLOAD_STEP2,
@@ -203,7 +214,8 @@ class CourseUploadTest(OppiaTestCase):
         with open(self.course_with_quizprops, 'rb') as course_file:
 
             response = self.client.post(self.URL_UPLOAD,
-                                        {'course_file': course_file})
+                                        {'course_file': course_file,
+                                         'status': CourseStatus.LIVE})
 
             course = Course.objects.get(shortname='quizprops_course')
             self.assertRedirects(response,
@@ -241,7 +253,8 @@ class CourseUploadTest(OppiaTestCase):
             course = Course.objects.get(shortname='quizprops_course')
 
             self.client.post(reverse('oppia:upload'),
-                             {'course_file': course_file})
+                             {'course_file': course_file,
+                             'status': CourseStatus.LIVE})
             current_quizzes = Activity.objects.filter(
                 section__course=course,
                 type=Activity.QUIZ).values_list('digest', flat=True)
@@ -269,7 +282,8 @@ class CourseUploadTest(OppiaTestCase):
         with open(self.course_with_custom_points, 'rb') as course_file:
             self.client.force_login(self.admin_user)
             response = self.client.post(self.URL_UPLOAD,
-                                        {'course_file': course_file})
+                                        {'course_file': course_file,
+                                         'status': CourseStatus.LIVE})
             course = Course.objects.latest('created_date')
             self.assertRedirects(response,
                                  reverse(self.STR_UPLOAD_STEP2,
@@ -282,7 +296,8 @@ class CourseUploadTest(OppiaTestCase):
         with open(self.course_with_copied_activities, 'rb') as course_file:
             self.client.force_login(self.admin_user)
             response = self.client.post(self.URL_UPLOAD,
-                                        {'course_file': course_file})
+                                        {'course_file': course_file,
+                                         'status': CourseStatus.LIVE})
             course = Course.objects.latest('created_date')
             self.assertRedirects(response,
                                  reverse(self.STR_UPLOAD_STEP2,
@@ -295,3 +310,169 @@ class CourseUploadTest(OppiaTestCase):
 
         self.assertEqual(new_course_activities, 5)
         self.assertEqual(course_activities, 5)
+
+    def test_upload_live_course_when_live_course_exists__should_upload(self):
+        self.client.force_login(self.admin_user)
+        course_id = 2
+        update_course_status(course_id, CourseStatus.LIVE)
+
+        with open(self.course_file_path, 'rb') as course_file:
+            response = self.client.post(self.URL_UPLOAD,
+                                        {'course_file': course_file,
+                                         'status': CourseStatus.LIVE})
+            self.assertRedirects(response,
+                                 reverse(self.STR_UPLOAD_STEP2, args=[course_id]),
+                                 302,
+                                 200)
+
+            course = Course.objects.get(pk=course_id)
+            # Course status should be kept as LIVE
+            self.assertEqual(CourseStatus.LIVE, course.status)
+
+    def test_upload_live_course_when_draft_course_exists__should_not_upload(self):
+        self.client.force_login(self.admin_user)
+        course_id = 2
+        update_course_status(course_id, CourseStatus.DRAFT)
+
+        with open(self.course_file_path, 'rb') as course_file:
+            response = self.client.post(self.URL_UPLOAD,
+                                        {'course_file': course_file,
+                                         'status': CourseStatus.LIVE})
+            self.assertEqual(200, response.status_code)
+            course_log = CoursePublishingLog.objects.latest('log_date')
+            self.assertEqual("invalid_course_status", course_log.action)
+            course = Course.objects.get(pk=course_id)
+            # Course status should be kept as DRAFT
+            self.assertEqual(CourseStatus.DRAFT, course.status)
+
+    def test_upload_live_course_when_newdownloadsdisabled_course_exists__should_not_upload(self):
+        self.client.force_login(self.admin_user)
+        course_id = 2
+        update_course_status(course_id, CourseStatus.NEW_DOWNLOADS_DISABLED)
+
+        with open(self.course_file_path, 'rb') as course_file:
+            response = self.client.post(self.URL_UPLOAD,
+                                        {'course_file': course_file,
+                                         'status': CourseStatus.LIVE})
+            self.assertEqual(200, response.status_code)
+            course_log = CoursePublishingLog.objects.latest('log_date')
+            self.assertEqual("invalid_course_status", course_log.action)
+            course = Course.objects.get(pk=course_id)
+            # Course status should be kept as NEW_DOWNLOADS_DISABLED
+            self.assertEqual(CourseStatus.NEW_DOWNLOADS_DISABLED, course.status)
+
+    def test_upload_live_course_when_archived_course_exists__should_not_upload(self):
+        self.client.force_login(self.admin_user)
+        course_id = 2
+        update_course_status(course_id, CourseStatus.ARCHIVED)
+
+        with open(self.course_file_path, 'rb') as course_file:
+            response = self.client.post(self.URL_UPLOAD,
+                                        {'course_file': course_file,
+                                         'status': CourseStatus.LIVE})
+            self.assertEqual(200, response.status_code)
+            course_log = CoursePublishingLog.objects.latest('log_date')
+            self.assertEqual("invalid_course_status", course_log.action)
+            course = Course.objects.get(pk=course_id)
+            # Course status should be kept as ARCHIVED
+            self.assertEqual(CourseStatus.ARCHIVED, course.status)
+
+    def test_upload_live_course_when_readonly_course_exists__should_not_upload(self):
+        self.client.force_login(self.admin_user)
+        course_id = 2
+        update_course_status(course_id, CourseStatus.READ_ONLY)
+
+        with open(self.course_file_path, 'rb') as course_file:
+            response = self.client.post(self.URL_UPLOAD,
+                                        {'course_file': course_file,
+                                         'status': CourseStatus.LIVE})
+            self.assertEqual(200, response.status_code)
+            course_log = CoursePublishingLog.objects.latest('log_date')
+            self.assertEqual("invalid_course_status", course_log.action)
+            course = Course.objects.get(pk=course_id)
+            # Course status should be kept as READ_ONLY
+            self.assertEqual(CourseStatus.READ_ONLY, course.status)
+
+    def test_upload_draft_course_when_live_course_exists__should_upload_and_update_status(self):
+        self.client.force_login(self.admin_user)
+        course_id = 2
+        update_course_status(course_id, CourseStatus.LIVE)
+
+        with open(self.course_file_path, 'rb') as course_file:
+            response = self.client.post(self.URL_UPLOAD,
+                                        {'course_file': course_file,
+                                         'status': CourseStatus.DRAFT})
+            self.assertRedirects(response,
+                                 reverse(self.STR_UPLOAD_STEP2, args=[course_id]),
+                                 302,
+                                 200)
+
+            course = Course.objects.get(pk=course_id)
+            # Course status should be updated to DRAFT
+            self.assertEqual(CourseStatus.DRAFT, course.status)
+
+    def test_upload_draft_course_when_draft_course_exists__should_upload(self):
+        self.client.force_login(self.admin_user)
+        course_id = 2
+        update_course_status(course_id, CourseStatus.DRAFT)
+
+        with open(self.course_file_path, 'rb') as course_file:
+            response = self.client.post(self.URL_UPLOAD,
+                                        {'course_file': course_file,
+                                         'status': CourseStatus.DRAFT})
+            self.assertRedirects(response,
+                                 reverse(self.STR_UPLOAD_STEP2, args=[course_id]),
+                                 302,
+                                 200)
+
+            course = Course.objects.get(pk=course_id)
+            # Course status should be kept as DRAFT
+            self.assertEqual(CourseStatus.DRAFT, course.status)
+
+    def test_upload_draft_course_when_newdownloadsdisabled_course_exists__should_not_upload(self):
+        self.client.force_login(self.admin_user)
+        course_id = 2
+        update_course_status(course_id, CourseStatus.NEW_DOWNLOADS_DISABLED)
+
+        with open(self.course_file_path, 'rb') as course_file:
+            response = self.client.post(self.URL_UPLOAD,
+                                        {'course_file': course_file,
+                                         'status': CourseStatus.DRAFT})
+            self.assertEqual(200, response.status_code)
+            course_log = CoursePublishingLog.objects.latest('log_date')
+            self.assertEqual("invalid_course_status", course_log.action)
+            course = Course.objects.get(pk=course_id)
+            # Course status should be kept as NEW_DOWNLOADS_DISABLED
+            self.assertEqual(CourseStatus.NEW_DOWNLOADS_DISABLED, course.status)
+
+    def test_upload_draft_course_when_archived_course_exists__should_not_upload(self):
+        self.client.force_login(self.admin_user)
+        course_id = 2
+        update_course_status(course_id, CourseStatus.ARCHIVED)
+
+        with open(self.course_file_path, 'rb') as course_file:
+            response = self.client.post(self.URL_UPLOAD,
+                                        {'course_file': course_file,
+                                         'status': CourseStatus.DRAFT})
+            self.assertEqual(200, response.status_code)
+            course_log = CoursePublishingLog.objects.latest('log_date')
+            self.assertEqual("invalid_course_status", course_log.action)
+            course = Course.objects.get(pk=course_id)
+            # Course status should be kept as ARCHIVED
+            self.assertEqual(CourseStatus.ARCHIVED, course.status)
+
+    def test_upload_draft_course_when_readonly_course_exists__should_not_upload(self):
+        self.client.force_login(self.admin_user)
+        course_id = 2
+        update_course_status(course_id, CourseStatus.READ_ONLY)
+
+        with open(self.course_file_path, 'rb') as course_file:
+            response = self.client.post(self.URL_UPLOAD,
+                                        {'course_file': course_file,
+                                         'status': CourseStatus.DRAFT})
+            self.assertEqual(200, response.status_code)
+            course_log = CoursePublishingLog.objects.latest('log_date')
+            self.assertEqual("invalid_course_status", course_log.action)
+            course = Course.objects.get(pk=course_id)
+            # Course status should be kept as READ_ONLY
+            self.assertEqual(CourseStatus.READ_ONLY, course.status)
