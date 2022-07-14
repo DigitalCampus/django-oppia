@@ -462,7 +462,9 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
             response = self.publish_course(course_file, True)
             self.assertEqual(201, response.status_code)
 
-            course = Course.objects.latest('lastupdated_date')
+            course = Course.objects.get(pk=course_id)
+            course.refresh_from_db()
+            self.assertEqual("ncd1-et", course.shortname)
             self.assertEqual(course_id, course.pk)
             self.assertEqual(CourseStatus.DRAFT, course.status)
 
