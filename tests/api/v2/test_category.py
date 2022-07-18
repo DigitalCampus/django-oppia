@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from tastypie.test import ResourceTestCaseMixin
 
-from oppia.models import CourseStatus, CoursePermissions, Course
+from oppia.models import CourseStatus, CoursePermissions, Course, Cohort, CourseCohort, Participant, Category
 from tests.utils import get_api_key, get_api_url, update_course_status
 
 
@@ -36,6 +36,16 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
 
         self.url = get_api_url('v2', 'tag')
 
+    def assert_valid_response_and_get_tags(self, resp):
+        self.assertHttpOK(resp)
+        self.assertValidJSON(resp.content)
+        response_data = self.deserialize(resp)
+        self.assertTrue('tags' in response_data)
+        return response_data['tags']
+
+    def get_category_attr_in_results(self, tags, category, attr=None):
+        return next((tag[attr] if attr else tag for tag in tags if tag['name'] == category))
+
     # Post invalid
     def test_post_invalid(self):
         self.assertHttpMethodNotAllowed(
@@ -60,14 +70,12 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
     def test_has_categories(self):
         resp = self.api_client.get(
             self.url, format='json', data=self.user_auth)
-        self.assertHttpOK(resp)
-        self.assertValidJSON(resp.content)
-        response_data = self.deserialize(resp)
-        self.assertTrue('tags' in response_data)
+
+        tags = self.assert_valid_response_and_get_tags(resp)
         # should have 5 tags with the test data set
-        self.assertEqual(5, len(response_data['tags']))
+        self.assertEqual(5, len(tags))
         # check each course had a download url
-        for tag in response_data['tags']:
+        for tag in tags:
             self.assertTrue('count' in tag)
             self.assertTrue('id' in tag)
             self.assertTrue('name' in tag)
@@ -111,13 +119,9 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
         # Disable new downloads from 1 of the 4 courses (ref-1)
         update_course_status(4, CourseStatus.NEW_DOWNLOADS_DISABLED)
 
-        resp = self.api_client.get(
-            self.url, format='json', data=self.user_auth)
-        self.assertHttpOK(resp)
-        self.assertValidJSON(resp.content)
-        response_data = self.deserialize(resp)
-        self.assertTrue('tags' in response_data)
-        for tag in response_data['tags']:
+        resp = self.api_client.get(self.url, format='json', data=self.user_auth)
+        tags = self.assert_valid_response_and_get_tags(resp)
+        for tag in tags:
             self.assertTrue('count_new_downloads_enabled' in tag)
             self.assertEqual(tag['count_new_downloads_enabled'], expected.get(tag['name']))
 
@@ -135,13 +139,9 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
         update_course_status(2, CourseStatus.NEW_DOWNLOADS_DISABLED)
         update_course_status(4, CourseStatus.NEW_DOWNLOADS_DISABLED)
 
-        resp = self.api_client.get(
-            self.url, format='json', data=self.user_auth)
-        self.assertHttpOK(resp)
-        self.assertValidJSON(resp.content)
-        response_data = self.deserialize(resp)
-        self.assertTrue('tags' in response_data)
-        for tag in response_data['tags']:
+        resp = self.api_client.get(self.url, format='json', data=self.user_auth)
+        tags = self.assert_valid_response_and_get_tags(resp)
+        for tag in tags:
             self.assertTrue('course_statuses' in tag)
             self.assertEqual(expected.get(tag['name']), tag['course_statuses'])
 
@@ -150,14 +150,9 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
             'reference': {'ref-1': 'live'}
         }
 
-        resp = self.api_client.get(
-            self.url, format='json', data=self.user_auth)
-        self.assertHttpOK(resp)
-        self.assertValidJSON(resp.content)
-        response_data = self.deserialize(resp)
-        self.assertTrue('tags' in response_data)
-        tags = response_data['tags']
-        course_statuses = next((tag['course_statuses'] for tag in tags if tag['name'] == 'reference'))
+        resp = self.api_client.get(self.url, format='json', data=self.user_auth)
+        tags = self.assert_valid_response_and_get_tags(resp)
+        course_statuses = self.get_category_attr_in_results(tags, 'reference', 'course_statuses')
         self.assertEqual(expected1.get('reference'), course_statuses)
 
     def test_draft_course_is_not_included_in_course_statuses_teacher_user(self):
@@ -165,14 +160,9 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
             'reference': {'ref-1': 'live'}
         }
 
-        resp = self.api_client.get(
-            self.url, format='json', data=self.teacher_auth)
-        self.assertHttpOK(resp)
-        self.assertValidJSON(resp.content)
-        response_data = self.deserialize(resp)
-        self.assertTrue('tags' in response_data)
-        tags = response_data['tags']
-        course_statuses = next((tag['course_statuses'] for tag in tags if tag['name'] == 'reference'))
+        resp = self.api_client.get(self.url, format='json', data=self.teacher_auth)
+        tags = self.assert_valid_response_and_get_tags(resp)
+        course_statuses = self.get_category_attr_in_results(tags, 'reference', 'course_statuses')
         self.assertEqual(expected.get('reference'), course_statuses)
 
     def test_draft_course_is_included_in_course_statuses_staff_user(self):
@@ -180,14 +170,9 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
             'reference': {'ref-1': 'live', 'draft-test': 'draft'}
         }
 
-        resp = self.api_client.get(
-            self.url, format='json', data=self.staff_auth)
-        self.assertHttpOK(resp)
-        self.assertValidJSON(resp.content)
-        response_data = self.deserialize(resp)
-        self.assertTrue('tags' in response_data)
-        tags = response_data['tags']
-        course_statuses = next((tag['course_statuses'] for tag in tags if tag['name'] == 'reference'))
+        resp = self.api_client.get(self.url, format='json', data=self.staff_auth)
+        tags = self.assert_valid_response_and_get_tags(resp)
+        course_statuses = self.get_category_attr_in_results(tags, 'reference', 'course_statuses')
         self.assertEqual(expected.get('reference'), course_statuses)
 
     def test_draft_course_is_included_in_course_statuses_admin_user(self):
@@ -195,14 +180,9 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
             'reference': {'ref-1': 'live', 'draft-test': 'draft'}
         }
 
-        resp = self.api_client.get(
-            self.url, format='json', data=self.admin_auth)
-        self.assertHttpOK(resp)
-        self.assertValidJSON(resp.content)
-        response_data = self.deserialize(resp)
-        self.assertTrue('tags' in response_data)
-        tags = response_data['tags']
-        course_statuses = next((tag['course_statuses'] for tag in tags if tag['name'] == 'reference'))
+        resp = self.api_client.get(self.url, format='json', data=self.admin_auth)
+        tags = self.assert_valid_response_and_get_tags(resp)
+        course_statuses = self.get_category_attr_in_results(tags, 'reference', 'course_statuses')
         self.assertEqual(expected.get('reference'), course_statuses)
 
     def test_draft_course_is_included_in_course_statuses_normal_user_with_viewer_permissions(self):
@@ -217,14 +197,9 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
             role=CoursePermissions.VIEWER
         )
 
-        resp = self.api_client.get(
-            self.url, format='json', data=self.admin_auth)
-        self.assertHttpOK(resp)
-        self.assertValidJSON(resp.content)
-        response_data = self.deserialize(resp)
-        self.assertTrue('tags' in response_data)
-        tags = response_data['tags']
-        course_statuses = next((tag['course_statuses'] for tag in tags if tag['name'] == 'reference'))
+        resp = self.api_client.get(self.url, format='json', data=self.admin_auth)
+        tags = self.assert_valid_response_and_get_tags(resp)
+        course_statuses = self.get_category_attr_in_results(tags, 'reference', 'course_statuses')
         self.assertEqual(expected.get('reference'), course_statuses)
 
     def test_draft_course_is_included_in_course_statuses_normal_user_with_manager_permissions(self):
@@ -239,14 +214,9 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
             role=CoursePermissions.MANAGER
         )
 
-        resp = self.api_client.get(
-            self.url, format='json', data=self.admin_auth)
-        self.assertHttpOK(resp)
-        self.assertValidJSON(resp.content)
-        response_data = self.deserialize(resp)
-        self.assertTrue('tags' in response_data)
-        tags = response_data['tags']
-        course_statuses = next((tag['course_statuses'] for tag in tags if tag['name'] == 'reference'))
+        resp = self.api_client.get(self.url, format='json', data=self.admin_auth)
+        tags = self.assert_valid_response_and_get_tags(resp)
+        course_statuses = self.get_category_attr_in_results(tags, 'reference', 'course_statuses')
         self.assertEqual(expected.get('reference'), course_statuses)
 
     def test_draft_course_is_included_in_course_statuses_normal_teacher_with_viewer_permissions(self):
@@ -261,14 +231,9 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
             role=CoursePermissions.VIEWER
         )
 
-        resp = self.api_client.get(
-            self.url, format='json', data=self.admin_auth)
-        self.assertHttpOK(resp)
-        self.assertValidJSON(resp.content)
-        response_data = self.deserialize(resp)
-        self.assertTrue('tags' in response_data)
-        tags = response_data['tags']
-        course_statuses = next((tag['course_statuses'] for tag in tags if tag['name'] == 'reference'))
+        resp = self.api_client.get(self.url, format='json', data=self.admin_auth)
+        tags = self.assert_valid_response_and_get_tags(resp)
+        course_statuses = self.get_category_attr_in_results(tags, 'reference', 'course_statuses')
         self.assertEqual(expected.get('reference'), course_statuses)
 
     def test_draft_course_is_included_in_course_statuses_normal_teacher_with_manager_permissions(self):
@@ -283,14 +248,9 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
             role=CoursePermissions.MANAGER
         )
 
-        resp = self.api_client.get(
-            self.url, format='json', data=self.admin_auth)
-        self.assertHttpOK(resp)
-        self.assertValidJSON(resp.content)
-        response_data = self.deserialize(resp)
-        self.assertTrue('tags' in response_data)
-        tags = response_data['tags']
-        course_statuses = next((tag['course_statuses'] for tag in tags if tag['name'] == 'reference'))
+        resp = self.api_client.get(self.url, format='json', data=self.admin_auth)
+        tags = self.assert_valid_response_and_get_tags(resp)
+        course_statuses = self.get_category_attr_in_results(tags, 'reference', 'course_statuses')
         self.assertEqual(expected.get('reference'), course_statuses)
 
     def test_archived_course_is_not_included_in_course_statuses_normal_user(self):
@@ -301,14 +261,9 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
         # Set draft-test course to archived status
         update_course_status(3, CourseStatus.ARCHIVED)
 
-        resp = self.api_client.get(
-            self.url, format='json', data=self.user_auth)
-        self.assertHttpOK(resp)
-        self.assertValidJSON(resp.content)
-        response_data = self.deserialize(resp)
-        self.assertTrue('tags' in response_data)
-        tags = response_data['tags']
-        course_statuses = next((tag['course_statuses'] for tag in tags if tag['name'] == 'reference'))
+        resp = self.api_client.get(self.url, format='json', data=self.user_auth)
+        tags = self.assert_valid_response_and_get_tags(resp)
+        course_statuses = self.get_category_attr_in_results(tags, 'reference', 'course_statuses')
         self.assertEqual(expected1.get('reference'), course_statuses)
 
     def test_archived_course_is_not_included_in_course_statuses_teacher_user(self):
@@ -319,14 +274,9 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
         # Set draft-test course to archived status
         update_course_status(3, CourseStatus.ARCHIVED)
 
-        resp = self.api_client.get(
-            self.url, format='json', data=self.teacher_auth)
-        self.assertHttpOK(resp)
-        self.assertValidJSON(resp.content)
-        response_data = self.deserialize(resp)
-        self.assertTrue('tags' in response_data)
-        tags = response_data['tags']
-        course_statuses = next((tag['course_statuses'] for tag in tags if tag['name'] == 'reference'))
+        resp = self.api_client.get(self.url, format='json', data=self.teacher_auth)
+        tags = self.assert_valid_response_and_get_tags(resp)
+        course_statuses = self.get_category_attr_in_results(tags, 'reference', 'course_statuses')
         self.assertEqual(expected.get('reference'), course_statuses)
 
     def test_archived_course_is_not_included_in_course_statuses_staff_user(self):
@@ -337,14 +287,9 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
         # Set draft-test course to archived status
         update_course_status(3, CourseStatus.ARCHIVED)
 
-        resp = self.api_client.get(
-            self.url, format='json', data=self.staff_auth)
-        self.assertHttpOK(resp)
-        self.assertValidJSON(resp.content)
-        response_data = self.deserialize(resp)
-        self.assertTrue('tags' in response_data)
-        tags = response_data['tags']
-        course_statuses = next((tag['course_statuses'] for tag in tags if tag['name'] == 'reference'))
+        resp = self.api_client.get(self.url, format='json', data=self.staff_auth)
+        tags = self.assert_valid_response_and_get_tags(resp)
+        course_statuses = self.get_category_attr_in_results(tags, 'reference', 'course_statuses')
         self.assertEqual(expected.get('reference'), course_statuses)
 
     def test_archived_course_is_not_included_in_course_statuses_admin_user(self):
@@ -355,14 +300,9 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
         # Set draft-test course to archived status
         update_course_status(3, CourseStatus.ARCHIVED)
 
-        resp = self.api_client.get(
-            self.url, format='json', data=self.admin_auth)
-        self.assertHttpOK(resp)
-        self.assertValidJSON(resp.content)
-        response_data = self.deserialize(resp)
-        self.assertTrue('tags' in response_data)
-        tags = response_data['tags']
-        course_statuses = next((tag['course_statuses'] for tag in tags if tag['name'] == 'reference'))
+        resp = self.api_client.get(self.url, format='json', data=self.admin_auth)
+        tags = self.assert_valid_response_and_get_tags(resp)
+        course_statuses = self.get_category_attr_in_results(tags, 'reference', 'course_statuses')
         self.assertEqual(expected.get('reference'), course_statuses)
 
     def test_archived_course_is_not_included_in_course_statuses_normal_user_with_viewer_permissions(self):
@@ -380,13 +320,8 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
             role=CoursePermissions.VIEWER
         )
 
-        resp = self.api_client.get(
-            self.url, format='json', data=self.admin_auth)
-        self.assertHttpOK(resp)
-        self.assertValidJSON(resp.content)
-        response_data = self.deserialize(resp)
-        self.assertTrue('tags' in response_data)
-        tags = response_data['tags']
+        resp = self.api_client.get(self.url, format='json', data=self.admin_auth)
+        tags = self.assert_valid_response_and_get_tags(resp)
         course_statuses = next((tag['course_statuses'] for tag in tags if tag['name'] == 'reference'))
         self.assertEqual(expected.get('reference'), course_statuses)
 
@@ -405,13 +340,8 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
             role=CoursePermissions.MANAGER
         )
 
-        resp = self.api_client.get(
-            self.url, format='json', data=self.admin_auth)
-        self.assertHttpOK(resp)
-        self.assertValidJSON(resp.content)
-        response_data = self.deserialize(resp)
-        self.assertTrue('tags' in response_data)
-        tags = response_data['tags']
+        resp = self.api_client.get(self.url, format='json', data=self.admin_auth)
+        tags = self.assert_valid_response_and_get_tags(resp)
         course_statuses = next((tag['course_statuses'] for tag in tags if tag['name'] == 'reference'))
         self.assertEqual(expected.get('reference'), course_statuses)
 
@@ -430,14 +360,9 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
             role=CoursePermissions.VIEWER
         )
 
-        resp = self.api_client.get(
-            self.url, format='json', data=self.admin_auth)
-        self.assertHttpOK(resp)
-        self.assertValidJSON(resp.content)
-        response_data = self.deserialize(resp)
-        self.assertTrue('tags' in response_data)
-        tags = response_data['tags']
-        course_statuses = next((tag['course_statuses'] for tag in tags if tag['name'] == 'reference'))
+        resp = self.api_client.get(self.url, format='json', data=self.admin_auth)
+        tags = self.assert_valid_response_and_get_tags(resp)
+        course_statuses = self.get_category_attr_in_results(tags, 'reference', 'course_statuses')
         self.assertEqual(expected.get('reference'), course_statuses)
 
     def test_archived_course_is_not_included_in_course_statuses_normal_teacher_with_manager_permissions(self):
@@ -455,12 +380,122 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
             role=CoursePermissions.MANAGER
         )
 
-        resp = self.api_client.get(
-            self.url, format='json', data=self.admin_auth)
+        resp = self.api_client.get(self.url, format='json', data=self.admin_auth)
+        tags = self.assert_valid_response_and_get_tags(resp)
+        course_statuses = self.get_category_attr_in_results(tags, 'reference', 'course_statuses')
+        self.assertEqual(expected.get('reference'), course_statuses)
+
+
+    ### Tests related with courses restricted to cohorts
+
+    def setup_cohort(self):
+        course1 = Course.objects.get(shortname='ref-1')
+        course1.restricted = True
+        course1.save()
+
+        course2 = Course.objects.get(shortname='anc1-all')
+        course2.restricted = True
+        course2.save()
+
+        cohort = Cohort.objects.create(description='Test')
+        CourseCohort.objects.create(cohort=cohort, course=course1)
+        CourseCohort.objects.create(cohort=cohort, course=course2)
+
+        return cohort
+
+
+    def test_admin_restricted_courses_in_category_list(self):
+        self.setup_cohort()
+        resp = self.api_client.get(self.url, format='json', data=self.admin_auth)
+        tags = self.assert_valid_response_and_get_tags(resp)
+
+        category_count = self.get_category_attr_in_results(tags, 'HEAT', 'count')
+        self.assertEqual(len(tags), 5)
+        self.assertEqual(category_count, 2)
+
+
+    def test_non_cohort_user_restricted_courses_in_category_list(self):
+        self.setup_cohort()
+        resp = self.api_client.get(self.url, format='json', data=self.user_auth)
+        tags = self.assert_valid_response_and_get_tags(resp)
+
+        # There is a couple of categories (the ones related to ANC) that have all restricted courses
+        # as well as the reference category (one restricted and one draft)
+        category_count = self.get_category_attr_in_results(tags, 'HEAT', 'count')
+        self.assertEqual(len(tags), 2)
+        self.assertEqual(category_count, 1)
+
+    def test_cohort_user_restricted_courses_in_category_list(self):
+        cohort = self.setup_cohort()
+        Participant.objects.create(cohort=cohort, user=self.user, role=Participant.STUDENT)
+
+        resp = self.api_client.get(self.url, format='json', data=self.user_auth)
+        tags = self.assert_valid_response_and_get_tags(resp)
+
+        category_count = self.get_category_attr_in_results(tags, 'HEAT', 'count')
+        self.assertEqual(len(tags), 5)
+        self.assertEqual(category_count, 2)
+
+
+    def test_admin_restricted_courses_in_category_detail(self):
+        self.setup_cohort()
+        heat = Category.objects.get(name='HEAT')
+        url = get_api_url('v2', 'tag', resource_id=heat.pk)
+
+        resp = self.api_client.get(url, format='json', data=self.admin_auth)
         self.assertHttpOK(resp)
         self.assertValidJSON(resp.content)
         response_data = self.deserialize(resp)
-        self.assertTrue('tags' in response_data)
-        tags = response_data['tags']
-        course_statuses = next((tag['course_statuses'] for tag in tags if tag['name'] == 'reference'))
-        self.assertEqual(expected.get('reference'), course_statuses)
+        self.assertEqual(len(response_data['courses']), 2)
+
+        ref = Category.objects.get(name='reference')
+        url = get_api_url('v2', 'tag', resource_id=ref.pk)
+        resp = self.api_client.get(url, format='json', data=self.admin_auth)
+        self.assertHttpOK(resp)
+        self.assertValidJSON(resp.content)
+        response_data = self.deserialize(resp)
+        self.assertEqual(len(response_data['courses']), 2)
+
+
+    def test_cohort_user_restricted_courses_in_category_detail(self):
+
+        cohort = self.setup_cohort()
+        Participant.objects.create(cohort=cohort, user=self.user, role=Participant.STUDENT)
+        heat = Category.objects.get(name='HEAT')
+        url = get_api_url('v2', 'tag', resource_id=heat.pk)
+
+        resp = self.api_client.get(url, format='json', data=self.user_auth)
+        self.assertHttpOK(resp)
+        self.assertValidJSON(resp.content)
+        response_data = self.deserialize(resp)
+        self.assertEqual(len(response_data['courses']), 2)
+
+        ref = Category.objects.get(name='reference')
+        url = get_api_url('v2', 'tag', resource_id=ref.pk)
+        resp = self.api_client.get(url, format='json', data=self.user_auth)
+        self.assertHttpOK(resp)
+        self.assertValidJSON(resp.content)
+        response_data = self.deserialize(resp)
+        self.assertEqual(len(response_data['courses']), 1)
+
+
+    def test_non_cohort_user_restricted_courses_in_category_detail(self):
+        self.setup_cohort()
+        heat = Category.objects.get(name='HEAT')
+        url = get_api_url('v2', 'tag', resource_id=heat.pk)
+
+        resp = self.api_client.get(url, format='json', data=self.user_auth)
+        self.assertHttpOK(resp)
+        self.assertValidJSON(resp.content)
+        response_data = self.deserialize(resp)
+        self.assertEqual(len(response_data['courses']), 1)
+
+        ref = Category.objects.get(name='reference')
+        url = get_api_url('v2', 'tag', resource_id=ref.pk)
+        resp = self.api_client.get(url, format='json', data=self.user_auth)
+        self.assertHttpOK(resp)
+        self.assertValidJSON(resp.content)
+        response_data = self.deserialize(resp)
+        self.assertEqual(len(response_data['courses']), 0)
+
+
