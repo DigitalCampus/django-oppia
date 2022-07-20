@@ -9,7 +9,7 @@ from tastypie.authorization import ReadOnlyAuthorization
 from tastypie.resources import ModelResource
 from tastypie.utils import trailing_slash
 
-from oppia.models import Course, Category, CoursePermissions
+from oppia.models import Course, Category, CoursePermissions, Participant
 
 from api.resources.course import CourseResource
 from oppia.utils.filters import CourseCategoryFilter, CourseFilter
@@ -43,14 +43,19 @@ class CategoryResource(ModelResource):
                 .distinct().order_by(
                 '-order_priority', 'name')
         else:
+            user_cohorts = Participant.get_user_cohorts(request.user)
+
             return Category.objects.filter(
                 Q(courses__isnull=False)
                 & CourseCategoryFilter.COURSE_IS_NOT_ARCHIVED
                 & (CourseCategoryFilter.COURSE_IS_NOT_DRAFT
                    | (CourseCategoryFilter.COURSE_IS_DRAFT & Q(coursecategory__course__user=request.user))
-                   | (CourseCategoryFilter.COURSE_IS_DRAFT &
-                      Q(coursecategory__course__coursepermissions__user=request.user))
+                   | (CourseCategoryFilter.COURSE_IS_DRAFT & Q(coursecategory__course__coursepermissions__user=request.user))
+
                    )
+                & (CourseCategoryFilter.COURSE_IS_NOT_RESTRICTED
+                   | (CourseCategoryFilter.COURSE_IS_RESTRICTED
+                      & Q(coursecategory__course__coursecohort__cohort__in=user_cohorts)))
                 ) \
                 .distinct().order_by('-order_priority', 'name')
 
@@ -81,9 +86,9 @@ class CategoryResource(ModelResource):
                 .filter(
                 CourseFilter.IS_NOT_DRAFT |
                 (CourseFilter.IS_DRAFT & Q(user=request.user)) |
-                (CourseFilter.IS_DRAFT & Q(coursepermissions__user=request.user))
-            ) \
-                .distinct().order_by('-priority', 'title')
+                (CourseFilter.IS_DRAFT & Q(coursepermissions__user=request.user))) \
+                .filter(CourseFilter.get_restricted_filter_for_user(request.user)
+                ).distinct().order_by('-priority', 'title')
 
         course_data = []
         cr = CourseResource()
@@ -105,11 +110,14 @@ class CategoryResource(ModelResource):
         if bundle.request.user.is_staff:
             count = tmp.count()
         else:
-            count = tmp.filter(CourseFilter.IS_NOT_DRAFT
+            count = tmp\
+                .filter(CourseFilter.IS_NOT_DRAFT
                                | (CourseFilter.IS_DRAFT & Q(user=bundle.request.user))
                                | (CourseFilter.IS_DRAFT
                                   & Q(pk__in=CoursePermissions.objects.filter(
-                                      user=bundle.request.user).values('course')))).count()
+                                      user=bundle.request.user).values('course'))))\
+                .filter(CourseFilter.get_restricted_filter_for_user(bundle.request.user))\
+                .count()
         return count
 
     def dehydrate_icon(self, bundle):
