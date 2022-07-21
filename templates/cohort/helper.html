@@ -2,7 +2,7 @@
 {% load display_functions %}
 
 {% url 'profile:list' as users_list_url %}
-{% url 'oppia:course' as courses_list_url %}
+{% url 'oppia:course_manage' as courses_list_url %}
 
 <hr>
 <div class="row selectable-group">
@@ -50,7 +50,7 @@
      <div class="col-sm-6" id="add-courses-block" style="display:none;">
      <h4>{% trans 'Available courses' %}</h4>
          <div id="available-courses" class="available-items">
-            {% include "course/list_page.html" with ajax_url=courses_list_url page=courses_page page_ordering=c_ordering %}
+            {% include "course/list_page.html" with ajax_url=courses_list_url page_obj=courses_page page_ordering=c_ordering %}
          </div>
     </div>
 </div>
