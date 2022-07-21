@@ -1,0 +1,72 @@
+[
+{
+    "fields": {
+        "description": "Test cohort 1",
+        "start_date": "2022-06-11T13:21:06Z",
+        "end_date": "2022-06-11T13:21:06Z"
+    },
+    "model": "oppia.cohort",
+    "pk": 1
+},
+{
+    "fields": {
+        "description": "Test cohort 2",
+        "start_date": "2022-06-11T13:21:06Z",
+        "end_date": "2022-06-11T13:21:06Z"
+    },
+    "model": "oppia.cohort",
+    "pk": 2
+},
+{
+    "fields": {
+        "cohort": 1,
+        "course": 1
+    },
+    "model": "oppia.coursecohort",
+    "pk": 1
+},
+{
+    "fields": {
+        "cohort": 1,
+        "course": 2
+    },
+    "model": "oppia.coursecohort",
+    "pk": 2
+},
+{
+    "fields": {
+        "cohort": 1,
+        "user": 4,
+        "role": "teacher"
+    },
+    "model": "oppia.participant",
+    "pk": 1
+},
+{
+    "fields": {
+        "cohort": 1,
+        "user": 2,
+        "role": "student"
+    },
+    "model": "oppia.participant",
+    "pk": 2
+},
+{
+    "fields": {
+        "cohort": 1,
+        "user": 2,
+        "role": "student"
+    },
+    "model": "oppia.participant",
+    "pk": 3
+},
+{
+    "fields": {
+        "cohort": 2,
+        "user": 2,
+        "role": "student"
+    },
+    "model": "oppia.participant",
+    "pk": 4
+}
+]

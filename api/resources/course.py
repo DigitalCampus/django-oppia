@@ -2,9 +2,9 @@ import json
 import os
 import re
 import shutil
-import xmltodict
 import zipfile
 
+import xmltodict
 from django.conf import settings
 from django.core.exceptions import MultipleObjectsReturned
 from django.db.models import Q
@@ -18,7 +18,7 @@ from tastypie.resources import ModelResource
 from tastypie.utils import trailing_slash
 
 from api.serializers import CourseJSONSerializer
-from oppia.models import Tracker, Course, CourseCategory
+from oppia.models import Tracker, Course, CourseCategory, CourseCohort
 from oppia.utils.filters import CourseFilter
 
 STR_COURSE_NOT_FOUND = _(u"Course not found")
@@ -48,6 +48,7 @@ class CourseResource(ModelResource):
                   'shortname',
                   'status',
                   'priority',
+                  'restricted',
                   'description',
                   'author',
                   'username',
@@ -193,6 +194,9 @@ class CourseResource(ModelResource):
                                     + course.user.last_name
             bundle.data['username'] = course.user.username
             bundle.data['organisation'] = course.user.userprofile.organisation
+
+        if course.restricted:
+            bundle.data['cohorts'] = list(CourseCohort.objects.filter(course=course).values_list('cohort', flat=True))
 
         return bundle
 

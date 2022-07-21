@@ -5,11 +5,12 @@ from tastypie import fields
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie.authorization import Authorization
 from tastypie.exceptions import BadRequest, Unauthorized, ImmediateHttpResponse
-from tastypie.resources import ModelResource
+from tastypie.resources import ModelResource, Resource
 
 from api.serializers import UserJSONSerializer
 from api.utils import check_required_params
 from datarecovery.models import DataRecovery
+from oppia.models import Participant
 from profile.forms import ProfileForm
 from profile.models import UserProfile, CustomField
 
@@ -107,6 +108,20 @@ class ProfileUpdateResource(ModelResource):
 
         bundle = self.process_profile_update(bundle)
         return bundle
+
+class UserCohortsResource(Resource):
+
+    class Meta:
+        resource_name = 'cohorts'
+        allowed_methods = ['get']
+        authorization = Authorization()
+        authentication = ApiKeyAuthentication()
+        always_return_data = True
+        include_resource_uri = False
+
+    def get_list(self, request, **kwargs):
+        cohorts = Participant.get_user_cohorts(request.user)
+        return self.create_response(request, cohorts)
 
 
 class ChangePasswordResource(ModelResource):
