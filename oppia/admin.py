@@ -1,4 +1,4 @@
-
+from django import forms
 from django.contrib import admin
 from django.db.models import Q
 from django.urls import reverse
@@ -10,7 +10,8 @@ from oppia.models import Course, \
                          Tracker, \
                          Media, \
                          Cohort, \
-                         CoursePermissions
+                         CoursePermissions, \
+                         CourseStatus
 from oppia.models import Participant, Category, CourseCategory
 from oppia.models import Badge, Award, Points, AwardCourse, BadgeMethod
 from oppia.models import CourseCohort, CoursePublishingLog
@@ -42,6 +43,13 @@ class CourseAdmin(admin.ModelAdmin):
 
     def title_lang(self, obj):
         return obj.get_title()
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(CourseAdmin, self).get_form(request, obj, **kwargs)
+        form.base_fields['status'].widget = forms.Select(
+            choices=CourseStatus.get_available_statuses()
+        )
+        return form
 
 
 class ParticipantAdmin(admin.ModelAdmin):
