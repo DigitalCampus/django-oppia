@@ -56,8 +56,6 @@ class Course(models.Model):
                                   blank=True,
                                   default=None)
     status = models.CharField(max_length=100,
-                              choices=CourseStatus.get_available_statuses(),
-                              default=CourseStatus.LIVE,
                               help_text=_(constants.STATUS_FIELD_HELP_TEXT))
 
     restricted = models.BooleanField(default=False, help_text=_(constants.RESTRICTED_FIELD_HELP_TEST))
