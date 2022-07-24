@@ -4,6 +4,7 @@ from itertools import chain
 
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
+from django.db.models import Q
 from django.http import Http404, HttpResponseForbidden
 
 from oppia.models import Course, Participant, Cohort, CoursePermissions
@@ -170,15 +171,12 @@ def can_view_course(request, course_id):
 def can_download_course(request, course_id):
     try:
         if request.user.is_staff:
-            course = Course.objects \
-                .filter(CourseFilter.IS_NOT_ARCHIVED) \
-                .get(pk=course_id)
+            course = Course.objects.filter(CourseFilter.IS_NOT_ARCHIVED).get(pk=course_id)
         else:
             try:
                 course = Course.objects \
-                    .filter(CourseFilter.IS_NOT_DRAFT
-                            & CourseFilter.IS_NOT_ARCHIVED
-                            & CourseFilter.NEW_DOWNLOADS_ENABLED) \
+                    .filter(CourseFilter.IS_NOT_DRAFT & CourseFilter.IS_NOT_ARCHIVED & CourseFilter.NEW_DOWNLOADS_ENABLED) \
+                    .filter(CourseFilter.get_restricted_filter_for_user(request.user)) \
                     .get(pk=course_id)
 
             except Course.DoesNotExist:
@@ -218,8 +216,10 @@ def can_view_course_activity(request, course_id):
             return Course.objects.filter(pk=course_id).exists()
         else:
             try:
-                return Course.objects.filter(CourseFilter.IS_NOT_ARCHIVED
-                                             & CourseFilter.IS_NOT_DRAFT).filter(pk=course_id).exists()
+                return Course.objects \
+                    .filter(CourseFilter.IS_NOT_DRAFT & CourseFilter.IS_NOT_ARCHIVED) \
+                    .filter(CourseFilter.get_restricted_filter_for_user(request.user)) \
+                    .filter(pk=course_id).exists()
             except Course.DoesNotExist:
                 return Course.objects \
                     .filter(CourseFilter.IS_NOT_ARCHIVED & CourseFilter.IS_NOT_DRAFT) \
@@ -258,7 +258,10 @@ def can_view_courses_list(request, order_by='title'):
         if manager_courses.exists():
             return manager_courses
 
-        courses = Course.objects.filter(CourseFilter.IS_NOT_DRAFT & CourseFilter.IS_NOT_ARCHIVED).order_by(order_by)
+        courses = Course.objects\
+            .filter(CourseFilter.IS_NOT_DRAFT & CourseFilter.IS_NOT_ARCHIVED) \
+            .filter(CourseFilter.get_restricted_filter_for_user(request.user)) \
+            .order_by(order_by)
     return courses
 
 

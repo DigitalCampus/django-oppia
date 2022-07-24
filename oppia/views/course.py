@@ -4,12 +4,13 @@ from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect, HttpResponse
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import TemplateView, ListView, DetailView, FormView
 
 from helpers.mixins.AjaxTemplateResponseMixin import AjaxTemplateResponseMixin
 from oppia.forms.edit import EditCourseForm
+from helpers.mixins.SafePaginatorMixin import SafePaginatorMixin
 from oppia.forms.upload import UploadCourseStep1Form, UploadCourseStep2Form
 from oppia.models import Category, CourseCategory, CoursePublishingLog, Course
 from oppia.permissions import can_edit_course, can_download_course, can_view_course_detail, can_view_courses_list, \
@@ -19,7 +20,7 @@ from oppia.utils.filters import CourseFilter
 from summary.models import UserCourseSummary
 
 
-class CourseListView(ListView, AjaxTemplateResponseMixin):
+class CourseListView(SafePaginatorMixin, ListView, AjaxTemplateResponseMixin):
 
     template_name = 'course/list.html'
     ajax_template_name = 'course/query.html'
@@ -84,6 +85,17 @@ class CourseListView(ListView, AjaxTemplateResponseMixin):
         context['current_category'] = self.get_current_category()
         context['course_filter'] = self.get_filter()
 
+        return context
+
+
+class ManageCourseList(CourseListView):
+    template_name = 'course/list_page.html'
+    ajax_template_name = 'course/list_page.html'
+    paginate_by = 5
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['ajax_url'] = reverse_lazy('oppia:course_manage')
         return context
 
 
