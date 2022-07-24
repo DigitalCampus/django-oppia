@@ -22,6 +22,7 @@ urlpatterns = [
     path('upload2/success', TemplateView.as_view(template_name="course/upload-success.html"), name="upload_success"),
 
     path('course/', views.CourseListView.as_view(), name="course"),
+    path('course_manage/', views.ManageCourseList.as_view(), name="course_manage"),
     path('course/category/<int:category_id>', views.CourseListView.as_view(), name="category_courses"),
     path('course/<int:course_id>/', views.CourseActivityDetail.as_view(), name="recent_activity"),
     path('course/<int:course_id>/edit/', views.EditCourse.as_view(), name="course_edit"),
