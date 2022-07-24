@@ -45,8 +45,7 @@ class UpdateCourseTagsFunctionTest(OppiaTestCase):
             course=course).count()
         tag_count_start = Category.objects.all().count()
 
-        request_post = {'categories': new_categories,
-                        'status': CourseStatus.DRAFT, }
+        request_post = {'categories': new_categories}
         form = UploadCourseStep2Form(request_post)
         self.assertEqual(form.is_valid(), True)
 
@@ -69,8 +68,7 @@ class UpdateCourseTagsFunctionTest(OppiaTestCase):
             course=course).count()
         tag_count_start = Category.objects.all().count()
 
-        request_post = {'categories': new_categories,
-                        'status': CourseStatus.DRAFT, }
+        request_post = {'categories': new_categories}
         form = UploadCourseStep2Form(request_post)
         self.assertEqual(form.is_valid(), True)
 
@@ -92,8 +90,7 @@ class UpdateCourseTagsFunctionTest(OppiaTestCase):
             course=course).count()
         tag_count_start = Category.objects.all().count()
 
-        request_post = {'categories': new_categories,
-                        'status': CourseStatus.DRAFT, }
+        request_post = {'categories': new_categories}
         form = UploadCourseStep2Form(request_post)
         self.assertEqual(form.is_valid(), True)
 
@@ -115,8 +112,7 @@ class UpdateCourseTagsFunctionTest(OppiaTestCase):
             course=course).count()
         tag_count_start = Category.objects.all().count()
 
-        request_post = {'categories': new_tags,
-                        'status': CourseStatus.DRAFT, }
+        request_post = {'categories': new_tags}
         form = UploadCourseStep2Form(request_post)
         self.assertEqual(form.is_valid(), True)
 
