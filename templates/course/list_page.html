@@ -13,7 +13,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for course in page.object_list %}
+        {% for course in page_obj.object_list %}
         <tr id="{{ course.shortname }}" data-selectable-id="{{ course.shortname }}">
             <td class="actions">
                 <a class="btn btn-sm btn-inline btn-primary btn-add"><em class="fas fa-plus"></em> <em class="far fa-check-circle hidden"></em> </a>
@@ -27,4 +27,4 @@
 </table>
 </div>
 
-{% include "common/pagination.html" %}
+{% include "common/pagination.html" with page=page_obj %}

@@ -88,4 +88,4 @@ class UserCohortsResourceTest(ResourceTestCaseMixin, TestCase):
         response_data = self.deserialize(resp)
         print(response_data)
         self.assertTrue('cohorts' in response_data)
-        self.assertEqual(len(response_data['cohorts']), 1)
+        self.assertEqual(len(response_data['cohorts']), 2)

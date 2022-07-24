@@ -242,3 +242,33 @@ class CohortViewsTest(OppiaTestCase):
         url = reverse('oppia:cohort_course_view', args=[3, 1])
         response = self.client.get('%s?order_by=abcdef' % url)
         self.assertEqual(200, response.status_code)
+
+    def test_cohort_course_list_admin_can_view_all(self):
+        self.client.force_login(self.admin_user)
+        # We make the courses restricted
+        for coursecohort in CourseCohort.objects.all():
+            coursecohort.course.restricted = True
+            coursecohort.course.save()
+        url = reverse('oppia:course')
+        response = self.client.get(url)
+        self.assertEqual(200, response.status_code)
+        self.assertEqual(response.context['paginator'].count, 4)
+
+    def test_cohort_course_list_noncohort_user_cannot_view_restricted_courses(self):
+        self.client.force_login(self.normal_user)
+        # We make the courses restricted
+        for coursecohort in CourseCohort.objects.all():
+            coursecohort.course.restricted = True
+            coursecohort.course.save()
+        url = reverse('oppia:course')
+
+        response = self.client.get(url)
+        self.assertEqual(200, response.status_code)
+        self.assertEqual(response.context['paginator'].count, 3)
+
+        # We remove the user so does not belong to a cohort
+        Participant.objects.filter(user=self.normal_user).delete()
+
+        response = self.client.get(url)
+        self.assertEqual(200, response.status_code)
+        self.assertEqual(response.context['paginator'].count, 2)
