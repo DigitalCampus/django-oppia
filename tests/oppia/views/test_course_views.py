@@ -56,18 +56,14 @@ class CourseViewsTest(OppiaTestCase):
     def test_tag_view_get_page_9999(self):
         self.client.force_login(user=self.admin_user)
         url = '%s?page=9999' % reverse(self.STR_URL_TAG_COURSES, args=[2])
-        response = self.client.get(url)
+        self.client.get(url)
         self.assertRaises(InvalidPage)
-        self.assertEqual(404, response.status_code)
-        self.assertTemplateUsed(response, self.not_found_template)
 
     def test_tag_view_get_page_abc(self):
         self.client.force_login(user=self.admin_user)
         url = '%s?page=abc' % reverse(self.STR_URL_TAG_COURSES, args=[2])
-        response = self.client.get(url)
+        self.client.get(url)
         self.assertRaises(ValueError)
-        self.assertEqual(404, response.status_code)
-        self.assertTemplateUsed(response, self.not_found_template)
 
     def test_export_permissions_admin(self):
         self.client.force_login(user=self.admin_user)
