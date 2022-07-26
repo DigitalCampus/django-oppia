@@ -26,13 +26,11 @@ class CohortForm(forms.Form):
         required=False,
         help_text=_("A comma separated list of usernames"))
     start_date = forms.CharField(
-        required=True,
-        error_messages={'required': STR_VALID_DATE,
-                        'invalid': STR_VALID_DATE})
+        required=False,
+        error_messages={'invalid': STR_VALID_DATE})
     end_date = forms.CharField(
-        required=True,
-        error_messages={'required': STR_VALID_DATE,
-                        'invalid': STR_VALID_DATE})
+        required=False,
+        error_messages={'invalid': STR_VALID_DATE})
     courses = forms.CharField(
         widget=forms.Textarea(),
         required=False,
@@ -61,19 +59,20 @@ class CohortForm(forms.Form):
         cleaned_data = super(CohortForm, self).clean()
         start_date = cleaned_data.get("start_date")
         end_date = cleaned_data.get("end_date")
-        try:
-            start_date = datetime.datetime.strptime(start_date,
-                                                    STR_DATE_FORMAT)
-        except (TypeError, ValueError):
-            raise forms.ValidationError(_("Please enter a valid start date"))
-        try:
-            end_date = datetime.datetime.strptime(end_date, STR_DATE_FORMAT)
-        except (TypeError, ValueError):
-            raise forms.ValidationError(_("Please enter a valid end date"))
 
-        # check start date before end date
-        if start_date > end_date:
-            raise forms.ValidationError(
-                _("Start date must be before the end date."))
+        if start_date or end_date:
+            try:
+                start_date = datetime.datetime.strptime(start_date, STR_DATE_FORMAT)
+            except (TypeError, ValueError):
+                raise forms.ValidationError(_("Please enter a valid start date"))
+            try:
+                end_date = datetime.datetime.strptime(end_date, STR_DATE_FORMAT)
+            except (TypeError, ValueError):
+                raise forms.ValidationError(_("Please enter a valid end date"))
+
+            # check start date before end date
+            if start_date > end_date:
+                raise forms.ValidationError(
+                    _("Start date must be before the end date."))
 
         return cleaned_data

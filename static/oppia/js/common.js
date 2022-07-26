@@ -102,9 +102,9 @@ function initDatePicker(container){
         options = {
 			cancelClass: 'btn-flat text-primary',
 			applyClass: 'btn-light', drops:dropDirection,
-			autoApply: true,
 			locale:{
-				format:datePickerFormat
+				format:datePickerFormat,
+				cancelLabel: 'Clear'
 			}
 		};
 
@@ -131,8 +131,14 @@ function initDatePicker(container){
                 endDate.val(end.format(datePickerFormat));
 
             });
-            daterange.on('apply.daterangepicker', function(ev, picker) {
-                  'from' + $(this).val(picker.startDate.format(datePickerFormat) + ' -- ' + picker.endDate.format(datePickerFormat));
+            picker.on('apply.daterangepicker', function(ev, picker) {
+                  'from' + daterange.val(picker.startDate.format(datePickerFormat) + ' -- ' + picker.endDate.format(datePickerFormat));
+            });
+
+            picker.on('cancel.daterangepicker', function(ev, picker) {
+                picker.setStartDate({})
+                picker.setEndDate({})
+                'from' + daterange.val('');
             });
 
             if (startDate.val() || endDate.val()){

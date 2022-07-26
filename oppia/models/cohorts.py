@@ -10,8 +10,8 @@ from oppia.models import Course, Award
 
 class Cohort(models.Model):
     description = models.CharField(max_length=100)
-    start_date = models.DateTimeField(default=timezone.now)
-    end_date = models.DateTimeField(default=timezone.now)
+    start_date = models.DateTimeField(null=True, blank=True)
+    end_date = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         verbose_name = _('Cohort')
