@@ -130,9 +130,9 @@ class CategoryResource(ModelResource):
         courses = Course.objects.filter(category=bundle.obj).filter(CourseFilter.IS_NOT_ARCHIVED)
 
         if not bundle.request.user.is_staff:
-            courses = courses.filter(CourseFilter.IS_NOT_DRAFT
-                                     | Q(pk__in=CoursePermissions.objects.filter(
-                                         user=bundle.request.user).values('course')))
+            courses = courses.filter(CourseFilter.IS_NOT_DRAFT | Q(pk__in=CoursePermissions.objects.filter(
+                                         user=bundle.request.user).values('course')))\
+                    .filter(CourseFilter.get_restricted_filter_for_user(bundle.request.user))
 
         return courses.filter(category=bundle.obj).filter(CourseFilter.NEW_DOWNLOADS_ENABLED).count()
 
