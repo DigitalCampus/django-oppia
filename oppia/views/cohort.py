@@ -65,16 +65,16 @@ def cohort_add(request):
         form = CohortForm(request.POST.copy())
         if form.is_valid():  # All validation rules pass
             cohort = Cohort()
-            cohort.start_date = timezone.make_aware(
-                datetime.datetime.strptime(
-                    form.cleaned_data.get("start_date"),
-                    constants.STR_DATE_FORMAT),
-                timezone.get_current_timezone())
-            cohort.end_date = timezone.make_aware(
-                datetime.datetime.strptime(
-                    form.cleaned_data.get("end_date"),
-                    constants.STR_DATE_FORMAT),
-                timezone.get_current_timezone())
+            start_date = form.cleaned_data.get("start_date")
+            end_date = form.cleaned_data.get("end_date")
+            if start_date:
+                cohort.start_date = timezone.make_aware(
+                    datetime.datetime.strptime(start_date, constants.STR_DATE_FORMAT),
+                    timezone.get_current_timezone())
+            if end_date:
+                cohort.end_date = timezone.make_aware(
+                    datetime.datetime.strptime(end_date, constants.STR_DATE_FORMAT),
+                    timezone.get_current_timezone())
             cohort.description = form.cleaned_data.get("description").strip()
             cohort.save()
 
@@ -217,16 +217,26 @@ class CohortEditView(UserPassesTestMixin, UpdateView):
     def form_valid(self, form):
         cohort = self.object
         cohort.description = form.cleaned_data.get("description").strip()
-        cohort.start_date = timezone.make_aware(
-            datetime.datetime.strptime(
-                form.cleaned_data.get("start_date"),
-                constants.STR_DATE_FORMAT),
-            timezone.get_current_timezone())
-        cohort.end_date = timezone.make_aware(
-            datetime.datetime.strptime(
-                form.cleaned_data.get("end_date"),
-                constants.STR_DATE_FORMAT),
-            timezone.get_current_timezone())
+        start_date = form.cleaned_data.get("start_date")
+        end_date = form.cleaned_data.get("end_date")
+        if start_date:
+            cohort.start_date = timezone.make_aware(
+                datetime.datetime.strptime(
+                    start_date,
+                    constants.STR_DATE_FORMAT),
+                timezone.get_current_timezone())
+        else:
+            cohort.start_date = None
+
+        if end_date:
+            cohort.end_date = timezone.make_aware(
+                datetime.datetime.strptime(
+                    end_date,
+                    constants.STR_DATE_FORMAT),
+                timezone.get_current_timezone())
+        else:
+            cohort.end_date = None
+
         cohort.save()
 
         Participant.objects.filter(cohort=cohort).delete()
