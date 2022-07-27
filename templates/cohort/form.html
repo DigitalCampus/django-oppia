@@ -25,7 +25,6 @@
 
     <div class="col-md-6">
     {% include 'common/form/input.html' with field=form.description %}
-    {% include "common/form/date-range.html" with dateform=form omit_form_tag=True %}
     </div>
     <div class="d-none">
         {{form.teachers}}
@@ -37,7 +36,7 @@
 
 <div class="mt-2">
     <div class="alert alert-warning alert-dismissible fade show" id="empty-alert" role="alert" style="display:none;">
-      <strong>Ouch!</strong> You cannot leave empty the courses, teachers or students of a cohort.
+      <strong>Cannot save the cohort yet</strong>, please add at least one course, teacher and student.
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
