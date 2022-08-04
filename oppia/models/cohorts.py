@@ -14,6 +14,7 @@ class Cohort(models.Model):
     end_date = models.DateTimeField(null=True, blank=True)
 
     class Meta:
+        ordering = ['id']
         verbose_name = _('Cohort')
         verbose_name_plural = _('Cohorts')
 
