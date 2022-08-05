@@ -324,6 +324,7 @@ class Activity(models.Model):
         return self.get_title()
 
     class Meta:
+        ordering = ['id']
         verbose_name = _('Activity')
         verbose_name_plural = _('Activities')
 
