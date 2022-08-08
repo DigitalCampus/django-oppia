@@ -80,8 +80,16 @@ def extract_file(f, extract_path, request, user):
         for chunk in f.chunks():
             destination.write(chunk)
     try:
-        zip_file = ZipFile(zipfilepath)
-        zip_file.extractall(path=extract_path)
+        with ZipFile(zipfilepath) as zip_file:
+            zip_file.extractall(path=extract_path)
+            mod_name = ''
+
+            top_level_file = {file.split('/')[0] for file in zip_file.namelist()}
+            if len(top_level_file) == 1:
+                top_level_filename = top_level_file.pop().split('/')[0]
+                if os.path.isdir(os.path.join(extract_path, top_level_filename)):
+                    mod_name = top_level_filename
+
     except (OSError, BadZipfile):
         msg_text = _(u"Invalid zip file")
         messages.error(request, msg_text, extra_tags="danger")
@@ -91,10 +99,6 @@ def extract_file(f, extract_path, request, user):
         shutil.rmtree(extract_path, ignore_errors=True)
         return False, 500
 
-    mod_name = ''
-    for x in os.listdir(extract_path):
-        if os.path.isdir(os.path.join(extract_path, x)):
-            mod_name = x
     return True, mod_name
 
 
