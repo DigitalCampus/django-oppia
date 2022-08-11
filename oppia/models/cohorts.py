@@ -2,7 +2,6 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Sum
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from oppia.models import Course, Award
@@ -12,6 +11,8 @@ class Cohort(models.Model):
     description = models.CharField(max_length=100)
     start_date = models.DateTimeField(null=True, blank=True)
     end_date = models.DateTimeField(null=True, blank=True)
+    last_updated = models.DateTimeField(null=True, blank=True)
+    criteria_based = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['id']
@@ -22,16 +23,13 @@ class Cohort(models.Model):
         return self.description
 
     def no_student_members(self):
-        return Participant.objects.filter(cohort=self,
-                                          role=Participant.STUDENT).count()
+        return Participant.objects.filter(cohort=self, role=Participant.STUDENT).count()
 
     def no_teacher_members(self):
-        return Participant.objects.filter(cohort=self,
-                                          role=Participant.TEACHER).count()
+        return Participant.objects.filter(cohort=self, role=Participant.TEACHER).count()
 
     def get_courses(self):
-        courses = Course.objects \
-            .filter(coursecohort__cohort=self).order_by('title')
+        courses = Course.objects.filter(coursecohort__cohort=self).order_by('title')
         return courses
 
     def get_leaderboard(self, count=0):
@@ -82,3 +80,13 @@ class Participant(models.Model):
     @staticmethod
     def get_user_cohorts(user):
         return list(set(Participant.objects.filter(user=user).values_list('cohort', flat=True)))
+
+
+class CohortCritera(models.Model):
+    cohort = models.ForeignKey(Cohort, on_delete=models.CASCADE)
+    role = models.CharField(max_length=20, choices=Participant.ROLE_TYPES, default=Participant.STUDENT)
+    user_profile_field = models.CharField(max_length=150, blank=False, null=False)
+    user_profile_value = models.TextField(blank=False, null=False)
+
+    class Meta:
+        verbose_name = _('Cohort criteria')
