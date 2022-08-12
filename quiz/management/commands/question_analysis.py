@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 from oppia.management import commands
 from oppia.models import Course
-from quiz.models import Quiz, Question
+from quiz.models import Quiz, Question, QuizProps
 
 from quiz import constants
 
@@ -29,7 +29,7 @@ class Command(BaseCommand):
 
         # get the quiz
         try:
-            quiz = Quiz.objects.get(quizprops__name='digest',
+            quiz = Quiz.objects.get(quizprops__name=QuizProps.DIGEST,
                                     quizprops__value=digest)
             print(quiz)
         except Quiz.DoesNotExist:

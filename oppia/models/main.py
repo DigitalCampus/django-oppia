@@ -12,7 +12,7 @@ from django.utils.translation import gettext_lazy as _
 from tastypie.models import create_api_key
 
 from oppia import constants
-from quiz.models import QuizAttempt, Quiz
+from quiz.models import QuizAttempt, Quiz, QuizProps
 
 from xml.dom.minidom import Document
 
@@ -134,7 +134,7 @@ class Course(models.Model):
                                                      type=Activity.QUIZ) \
             .exclude(digest__in=current_quizzes).values_list('digest',
                                                              flat=True)
-        quizzes = Quiz.objects.filter(quizprops__name='digest',
+        quizzes = Quiz.objects.filter(quizprops__name=QuizProps.DIGEST,
                                       quizprops__value__in=old_quizzes_digests)
         return quizzes
 
@@ -146,7 +146,7 @@ class Course(models.Model):
                                                      type=Activity.FEEDBACK) \
             .exclude(digest__in=current_quizzes).values_list('digest',
                                                              flat=True)
-        quizzes = Quiz.objects.filter(quizprops__name='digest',
+        quizzes = Quiz.objects.filter(quizprops__name=QuizProps.DIGEST,
                                       quizprops__value__in=old_quizzes_digests)
         return quizzes
 
@@ -188,7 +188,7 @@ class Course(models.Model):
 
         try:
             quiz = Quiz.objects.filter(quizprops__value=baseline.digest,
-                                       quizprops__name="digest")
+                                       quizprops__name=QuizProps.DIGEST)
         except Quiz.DoesNotExist:
             return None
 
@@ -204,7 +204,7 @@ class Course(models.Model):
     @staticmethod
     def get_no_quizzes_completed(course, user):
         acts = Activity.objects.filter(section__course=course, baseline=False, type=Activity.QUIZ).values_list('digest')
-        quizzes = Quiz.objects.filter(quizprops__value__in=acts, quizprops__name="digest")
+        quizzes = Quiz.objects.filter(quizprops__value__in=acts, quizprops__name=QuizProps.DIGEST)
         quizzes_passed = QuizAttempt.objects \
             .filter(quiz__in=quizzes, user=user)\
             .annotate(percent=F('score')/F('maxscore'))\
@@ -434,7 +434,7 @@ class Activity(models.Model):
 
     def get_no_quiz_responses(self):
         # get the actual quiz id
-        quiz = Quiz.objects.filter(quizprops__name='digest',
+        quiz = Quiz.objects.filter(quizprops__name=QuizProps.DIGEST,
                                    quizprops__value=self.digest).last()
         return QuizAttempt.objects.filter(
             quiz_id=quiz.id).count() if quiz is not None else 0

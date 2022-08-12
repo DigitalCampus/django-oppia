@@ -228,7 +228,7 @@ class CourseUploadTest(OppiaTestCase):
                 section__course=course,
                 type=Activity.QUIZ).values_list('digest', flat=True)
             quizzes = Quiz.objects.filter(
-                quizprops__name='digest',
+                quizprops__name=QuizProps.DIGEST,
                 quizprops__value__in=current_quizzes)
             quiz_questions = Question.objects.filter(
                 quizquestion__quiz__in=quizzes)
@@ -241,7 +241,7 @@ class CourseUploadTest(OppiaTestCase):
             self.assertEqual(8, quiz_props.count())
             self.assertEqual(4, question_props.count())
             self.assertEqual(QuizProps.objects.filter(
-                name='moodle_quiz_id',
+                name=QuizProps.MOODLE_QUIZ_ID,
                 quiz=quizzes.first()).first().value, '43504')
 
             # Lower the version so that we can upload a new one regardless of
@@ -258,7 +258,7 @@ class CourseUploadTest(OppiaTestCase):
             current_quizzes = Activity.objects.filter(
                 section__course=course,
                 type=Activity.QUIZ).values_list('digest', flat=True)
-            quizzes = Quiz.objects.filter(quizprops__name='digest',
+            quizzes = Quiz.objects.filter(quizprops__name=QuizProps.DIGEST,
                                           quizprops__value__in=current_quizzes)
             quiz_questions = Question.objects.filter(
                 quizquestion__quiz__in=quizzes)
@@ -274,7 +274,7 @@ class CourseUploadTest(OppiaTestCase):
             # Additional question prop added
             self.assertEqual(5, question_props.count())
             self.assertEqual(QuizProps.objects.filter(
-                name='moodle_quiz_id',
+                name=QuizProps.MOODLE_QUIZ_ID,
                 quiz=quizzes.first()).first().value,
                 '43505')  # property updated
 
