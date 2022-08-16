@@ -3,15 +3,16 @@ from django.contrib import admin
 from django.db.models import Q
 from django.urls import reverse
 from django.utils.html import format_html
+from django.utils.translation import gettext_lazy as _
 
 from oppia.models import Course, \
-                         Section, \
-                         Activity, \
-                         Tracker, \
-                         Media, \
-                         Cohort, \
-                         CoursePermissions, \
-                         CourseStatus
+    Section, \
+    Activity, \
+    Tracker, \
+    Media, \
+    Cohort, \
+    CoursePermissions, \
+    CourseStatus, CohortCritera
 from oppia.models import Participant, Category, CourseCategory
 from oppia.models import Badge, Award, Points, AwardCourse, BadgeMethod
 from oppia.models import CourseCohort, CoursePublishingLog
@@ -65,6 +66,9 @@ class CohortAdmin(admin.ModelAdmin):
     inlines = [
         ParticipantInline,
     ]
+
+class CohortCriteriaAdmin(admin.ModelAdmin):
+    list_display = ('cohort', 'role', 'user_profile_field', 'user_profile_value')
 
 
 class CourseCohortAdmin(admin.ModelAdmin):
@@ -182,6 +186,7 @@ admin.site.register(Badge, BadgeAdmin)
 admin.site.register(BadgeMethod, BadgeMethodAdmin)
 admin.site.register(AwardCourse, AwardCourseAdmin)
 admin.site.register(Cohort, CohortAdmin)
+admin.site.register(CohortCritera, CohortCriteriaAdmin)
 admin.site.register(Course, CourseAdmin)
 admin.site.register(CourseCohort, CourseCohortAdmin)
 admin.site.register(CourseCategory, CourseCategoryAdmin)
