@@ -11,10 +11,18 @@ from helpers.mixins.SafePaginatorMixin import SafePaginatorMixin
 from oppia.forms.activity_search import ActivitySearchForm
 from oppia.models import Activity, Tracker
 from oppia.permissions import get_user, get_user_courses, can_view_course, can_view_course_activity
-from profile.views.utils import get_tracker_activities
+from oppia.views import filter_trackers
 from quiz.models import Quiz, QuizAttempt
 from summary.models import UserCourseSummary
 
+
+def get_tracker_activities(user, course_ids=[], course=None):
+    if course:
+        trackers = Tracker.objects.filter(course=course)
+    else:
+        trackers = Tracker.objects.filter(course__id__in=course_ids)
+
+    return trackers.filter(user=user)
 
 class UserScorecard(DateRangeFilterMixin, DetailView):
     template_name = 'profile/user-scorecard.html'
@@ -55,7 +63,8 @@ class UserScorecard(DateRangeFilterMixin, DetailView):
         start_date, end_date = self.get_daterange()
         course_ids = list(chain(cohort_courses.values_list('id', flat=True),
                                 other_courses.values_list('id', flat=True)))
-        activity = get_tracker_activities(start_date, end_date, self.object, course_ids=course_ids)
+        trackers = get_tracker_activities(self.object, course_ids=course_ids)
+        activity = filter_trackers(trackers, start_date, end_date)
 
         context['courses'] = courses
         context['page_ordering'] = ('-' if inverse_order else '') + ordering
@@ -95,7 +104,8 @@ class UserCourseScorecard(DateRangeFilterMixin, DetailView):
 
         start_date, end_date = self.get_daterange()
 
-        activity = get_tracker_activities(start_date, end_date, self.object, course=course)
+        trackers = get_tracker_activities(self.object, course=course)
+        activity = filter_trackers(trackers, start_date, end_date)
 
         order_options = ['quiz_order',
                          'no_attempts',

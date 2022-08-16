@@ -5,8 +5,6 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.urls import reverse
 
-from oppia.models import Tracker
-from oppia.views.utils import filter_trackers
 from profile.forms import CUSTOMFIELDS_SEARCH_PREFIX
 from profile.models import CustomField
 
@@ -42,16 +40,23 @@ def get_customfields_filter(value, field):
     Returns a Q object to filter a user with a custom field, taking into
     account the specific value type.
     '''
+    filter_value = value
 
     if field.type == 'int':
+        if not isinstance(filter_value, int):
+            filter_value = int(filter_value)
         q = Q(**{'userprofilecustomfield__key_name': field.id,
-                 'userprofilecustomfield__value_int': value})
+                 'userprofilecustomfield__value_int': filter_value})
     elif field.type == 'bool':
+        if not isinstance(filter_value, bool):
+            filter_value = bool(filter_value)
         q = Q(**{'userprofilecustomfield__key_name': field.id,
-                 'userprofilecustomfield__value_bool': value})
+                 'userprofilecustomfield__value_bool': filter_value})
     else:
+        if not isinstance(filter_value, str):
+            filter_value = str(filter_value)
         q = Q(**{'userprofilecustomfield__key_name': field.id,
-                 'userprofilecustomfield__value_str__icontains': value})
+                 'userprofilecustomfield__value_str__icontains': filter_value})
 
     return q
 
@@ -105,14 +110,3 @@ def get_users_filtered_by_customfields(users, search_form):
             filtered = True
 
     return users, filtered
-
-
-def get_tracker_activities(start_date, end_date, user, course_ids=[], course=None):
-    if course:
-        trackers = Tracker.objects.filter(course=course)
-    else:
-        trackers = Tracker.objects.filter(course__id__in=course_ids)
-
-    trackers = trackers.filter(user=user)
-
-    return filter_trackers(trackers, start_date, end_date)

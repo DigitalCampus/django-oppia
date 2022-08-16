@@ -11,7 +11,10 @@
 <div class="jumbotron mb-4">
     <div class="row">
 			<div class="col-md-10">
-				<h3><a href="{% url 'oppia:cohorts' %}">{% trans 'Cohorts' %}</a> <em class="material-icons md-18 ">arrow_forward_ios</em> {{ form.description.value }}</h3>
+				<h3>
+                    <a href="{% url 'oppia:cohorts' %}">{% trans 'Cohorts' %}</a>
+                    <em class="material-icons md-18 ">arrow_forward_ios</em>
+                    {% if is_new %} {% trans 'New cohort' %} {% else %} {{ object.description }} {% endif %}</h3>
 			</div>
 	</div>
 
@@ -23,9 +26,80 @@
 <form id="cohort-form" class="form-horizontal" method="post">
     {% csrf_token %}
 
-    <div class="col-md-6">
-    {% include 'common/form/input.html' with field=form.description %}
+    <div class="row">
+        <div class="col-md-6">
+        {% include 'common/form/input.html' with field=form.description %}
+        </div>
+
+        <div class="col-md-6">
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#cohort-criteria" aria-expanded="false" aria-controls="collapseExample">
+
+                {% if is_new %}
+                <span class="material-icons mr-2">add</span> {% trans 'Add cohort criteria' %}
+                {% else %}
+                <span class="material-icons mr-2">edit</span> {% trans 'Modify cohort criteria' %}
+                {% endif %}
+            </button>
+        </div>
+
+
     </div>
+
+    <div id="cohort-criteria" class="collapse my-4">
+        <div class="card bg-light">
+            <div class="card-body">
+                <h4>Cohort criteria</h4>
+                <div class="font-weight-light mb-3">
+                    You can include as many criteria as you want for each cohort role. They will be additive (i.e. only
+                    the users that match ALL of the criteria will be selected). If you want to include multiple values
+                    for a field, include them separated by commas.
+                </div>
+                <strong>{% trans 'Students' %}</strong><br>
+                <div class="criteria-student">
+                {{formsets.student_criteria.management_form}}
+                {% for criteria_form in formsets.student_criteria %}
+                    <div class="criteria-student-formset row">
+                        <div class="col-md-5">
+                            {% include 'common/form/select.html' with field=criteria_form.user_profile_field %}
+                        </div>
+                        <div class="col-md-6">
+                            {% include 'common/form/input.html' with field=criteria_form.user_profile_value %}
+                        </div>
+
+                    </div>
+                {% endfor %}
+                </div>
+
+            <hr style="clear:both;">
+                <strong>{% trans 'Teachers' %}</strong><br>
+                <div class="criteria-teacher">
+                {{formsets.teacher_criteria.management_form}}
+                {% for criteria_form in formsets.teacher_criteria %}
+                    <div class="criteria-teacher-formset row">
+                            <div class="col-md-5">
+                                {% include 'common/form/select.html' with field=criteria_form.user_profile_field %}
+                            </div>
+                            <div class="col-md-6">
+                                {% include 'common/form/input.html' with field=criteria_form.user_profile_value %}
+                            </div>
+
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    {% if object.last_updated %}
+    <div class="row">
+    <div class="col-md-4 mb-4">
+        <label class="mb-0"> {% trans 'Last updated' %}</label>
+        <input type="text" disabled class="form-control pt-0 text-dark" value="{{object.last_updated}}">
+    </div>
+    </div>
+    {% endif %}
+
     <div class="d-none">
         {{form.teachers}}
         {{form.courses}}
@@ -48,11 +122,26 @@
 
 {% endblock %}
 {% block extra_scripts %}
-    <script src="{% static "oppia/js/oppia.chart-utils.js" %}"></script>
-    <script src="{% static "oppia/js/oppia.ajax-utils.js" %}"></script>
+<script type="text/javascript" src="{% static 'oppia/js/oppia.chart-utils.js' %}"></script>
+<script type="text/javascript" src="{% static 'oppia/js/oppia.ajax-utils.js' %}"></script>
+<script type="text/javascript" src="{% static 'oppia/js/jquery.formset.min.js' %}"></script>
+
     <script type="text/javascript">
 
     $(function() {
+
+         $('.criteria-student-formset').formset({
+            prefix: 'student',
+            addText: '<div class="btn btn-lg mr-3 mb-3 float-right"><i class="material-icons">add</i> Add criteria</div>',
+            deleteText: '<i class="material-icons close mt-4">cancel</i>'
+         });
+
+         $('.criteria-teacher-formset').formset({
+            prefix: 'teacher',
+            addText: '<div class="btn btn-lg mr-3 float-right"><i class="material-icons">add</i> Add criteria</div>',
+            deleteText: '<i class="material-icons close mt-4">cancel</i>'
+         });
+
         $('.btn-table-toggle').on('click', function(){
             var target = $(this).hide().attr('data-show');
             $(target).show();
@@ -79,3 +168,4 @@
 
     </script>
 {% endblock extra_scripts %}
+
