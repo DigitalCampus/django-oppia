@@ -41,14 +41,14 @@ class Command(BaseCommand):
         quiz_digest = quiz_json['props']['digest']
 
         try:
-            oppia_quiz = Quiz.objects.get(quizprops__name='digest',
+            oppia_quiz = Quiz.objects.get(quizprops__name=QuizProps.DIGEST,
                                           quizprops__value=quiz_digest)
         except Quiz.DoesNotExist:
             self.stdout.write(_(u"Quiz not found"))
             return
 
         try:
-            moodle_quiz_id = quiz_json['props']['moodle_quiz_id']
+            moodle_quiz_id = quiz_json['props'][QuizProps.MOODLE_QUIZ_ID]
         except KeyError:
             self.stdout.write(_(u"Missing moodle_quiz_id for this quiz"))
             return
@@ -56,7 +56,7 @@ class Command(BaseCommand):
         # add/update moodle_quiz_id, moodle_quiz_title and add/update
         # moodle_quiz_desc
         qp_id, created_id = QuizProps.objects.get_or_create(
-            quiz=oppia_quiz, name="moodle_quiz_id")
+            quiz=oppia_quiz, name=QuizProps.MOODLE_QUIZ_ID)
         qp_id.value = moodle_quiz_id
         qp_id.save()
 
@@ -80,7 +80,7 @@ class Command(BaseCommand):
 
         try:
             moodle_question_id = \
-                question_json['question']['props']['moodle_question_id']
+                question_json['question']['props'][QuestionProps.MOODLE_QUESTION_ID]
         except KeyError:
             self.stdout.write(_(u"Missing Moodle data for this question - %s" %
                                 question_title))
@@ -88,7 +88,7 @@ class Command(BaseCommand):
 
         # add/update moodle_question_id
         qp_id, created_desc = QuestionProps.objects.get_or_create(
-            question=oppia_question, name="moodle_question_id")
+            question=oppia_question, name=QuestionProps.MOODLE_QUESTION_ID)
         qp_id.value = moodle_question_id
         qp_id.save()
         self.stdout.write(_(u"Updated question props for %s" %

@@ -6,7 +6,7 @@ from helpers.mixins.AjaxTemplateResponseMixin import AjaxTemplateResponseMixin
 from helpers.mixins.ListItemUrlMixin import ListItemUrlMixin
 from oppia.models import Course, Activity
 from oppia.permissions import can_view_course_detail
-from quiz.models import QuizAttempt, Quiz
+from quiz.models import QuizAttempt, Quiz, QuizProps
 
 
 class CourseFeedbackActivitiesList(ListView,
@@ -59,7 +59,7 @@ class CourseFeedbackResponsesList(ListView,
         can_view_course_detail(self.request, course)
 
         activity = Activity.objects.get(pk=self.kwargs['feedback_id'])
-        quiz = Quiz.objects.filter(quizprops__name='digest',
+        quiz = Quiz.objects.filter(quizprops__name=QuizProps.DIGEST,
                                    quizprops__value=activity.digest).last()
 
         return QuizAttempt.objects.filter(quiz=quiz) \

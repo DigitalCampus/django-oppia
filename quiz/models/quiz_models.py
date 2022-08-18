@@ -32,7 +32,7 @@ class Quiz(models.Model):
 
     def is_baseline(self):
         from oppia.models import Activity
-        digest = QuizProps.objects.filter(quiz=self, name='digest').first()
+        digest = QuizProps.objects.filter(quiz=self, name=QuizProps.DIGEST).first()
         if digest:
             return Activity.objects.filter(digest=digest.value,
                                            baseline=True).exists()
@@ -55,7 +55,7 @@ class Quiz(models.Model):
         return avg_score
 
     def get_course(self):
-        digest = QuizProps.objects.filter(quiz=self, name='digest').first()
+        digest = QuizProps.objects.filter(quiz=self, name=QuizProps.DIGEST).first()
 
         digest = digest.value if digest else None
         from oppia.models import Course, Activity
@@ -68,7 +68,7 @@ class Quiz(models.Model):
         from oppia.models import Activity
         quiz_activities = Activity.objects.filter(type=activity_type) \
             .values_list('digest', flat=True)
-        return Quiz.objects.filter(quizprops__name='digest',
+        return Quiz.objects.filter(quizprops__name=QuizProps.DIGEST,
                                    quizprops__value__in=quiz_activities)
 
     @staticmethod
@@ -88,6 +88,10 @@ class QuizQuestion(models.Model):
 
 
 class QuizProps(models.Model):
+    COURSE_VERSION = "courseversion"
+    DIGEST = "digest"
+    MOODLE_QUIZ_ID = "moodle_quiz_id"
+
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     value = models.TextField(blank=True)
@@ -161,7 +165,7 @@ class QuizAttempt(models.Model):
             return False
 
     def get_quiz_digest(self):
-        qp = QuizProps.objects.filter(quiz=self.quiz, name='digest')
+        qp = QuizProps.objects.filter(quiz=self.quiz, name=QuizProps.DIGEST)
         if qp.count() == 1:
             return qp[0].value
         else:

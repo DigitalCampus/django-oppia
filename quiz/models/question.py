@@ -60,7 +60,7 @@ class Question(models.Model):
         try:
             quiz_digest = QuizProps.objects.get(
                 quiz__quizquestion__question=self,
-                name='digest')
+                name=QuizProps.DIGEST)
         except QuizProps.DoesNotExist:
             return None
         try:
@@ -122,6 +122,8 @@ class Question(models.Model):
 
 
 class QuestionProps(models.Model):
+    MOODLE_QUESTION_ID = "moodle_question_id"
+
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     value = models.TextField(blank=True)
