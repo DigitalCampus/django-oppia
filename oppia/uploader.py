@@ -540,7 +540,7 @@ def parse_and_save_quiz(user, activity):
 
         try:
             quizzes = Quiz.objects.filter(quizprops__value=quiz_digest,
-                                          quizprops__name="digest") \
+                                          quizprops__name=QuizProps.DIGEST) \
                                           .order_by('-id')
             quiz_existed = len(quizzes) > 0
             # remove any possible duplicate (possible scenario when

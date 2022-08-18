@@ -92,7 +92,7 @@ def feedback_download(request, course_id, feedback_id):
                                  section__course__pk=course_id)
     can_view_course_detail(request, course_id)
 
-    prop = QuizProps.objects.get(name='digest', value=activity.digest)
+    prop = QuizProps.objects.get(name=QuizProps.DIGEST, value=activity.digest)
     data = get_feedback_data(prop.quiz_id)
 
     response = HttpResponse(
@@ -137,7 +137,7 @@ def quiz_download(request, course_id, quiz_id):
                                  section__course__pk=course_id)
     can_view_course_detail(request, course_id)
 
-    prop = QuizProps.objects.get(name='digest', value=activity.digest)
+    prop = QuizProps.objects.get(name=QuizProps.DIGEST, value=activity.digest)
     quiz_data = get_quiz_data(prop.quiz_id)
 
     response = HttpResponse(

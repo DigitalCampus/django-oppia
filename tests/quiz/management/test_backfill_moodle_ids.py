@@ -37,11 +37,11 @@ class BackfillMoodleIdsTest(OppiaTestCase):
 
         # check value of props is correct
         quiz = Quiz.objects.get(
-            quizprops__name="digest",
+            quizprops__name=QuizProps.DIGEST,
             quizprops__value="338898cb3afc9cfe734d19862cb0242a")
-        quizprop = QuizProps.objects.get(quiz=quiz, name="moodle_quiz_id")
+        quizprop = QuizProps.objects.get(quiz=quiz, name=QuizProps.MOODLE_QUIZ_ID)
         self.assertEqual(int(quizprop.value), 7734)
 
         questionprop = QuestionProps.objects.get(question__pk=3,
-                                                 name="moodle_question_id")
+                                                 name=QuestionProps.MOODLE_QUESTION_ID)
         self.assertEqual(int(questionprop.value), 9988)

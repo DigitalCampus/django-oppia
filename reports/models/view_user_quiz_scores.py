@@ -2,7 +2,7 @@ from django.db.models import F, Q
 
 from dbview.models import DbView
 
-from quiz.models import QuizAttempt
+from quiz.models import QuizAttempt, QuizProps
 
 
 class ViewUserQuizScores(DbView):
@@ -16,8 +16,8 @@ class ViewUserQuizScores(DbView):
             user__is_superuser=False,
             user__userprofile__exclude_from_reporting=False,
             event='\"quiz_attempt\"') \
-            .filter(Q(quiz__quizprops__name='\"courseversion\"')
-                    | Q(quiz__quizprops__name='\"moodle_quiz_id\"')) \
+            .filter(Q(quiz__quizprops__name=f'\"{QuizProps.COURSE_VERSION}\"')
+                    | Q(quiz__quizprops__name=f'\"{QuizProps.MOODLE_QUIZ_ID}\"')) \
             .values('id',
                     userid=F('user__id'),
                     username=F('user__username'),
