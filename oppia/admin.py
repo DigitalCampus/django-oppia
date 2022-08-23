@@ -62,7 +62,7 @@ class ParticipantInline(admin.TabularInline):
 
 
 class CohortAdmin(admin.ModelAdmin):
-    list_display = ('description', 'start_date', 'end_date')
+    list_display = ('description', 'last_updated', 'criteria_based')
     inlines = [ ParticipantInline, ]
     actions = ['update_cohort', 'refresh_cohort']
 

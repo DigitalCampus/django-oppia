@@ -107,8 +107,6 @@
         </div>
     </div>
 
-
-
     <div class="d-none">
         {{form.teachers}}
         {{form.courses}}
@@ -139,6 +137,16 @@
 
     $(function() {
 
+         function roleHasCriteriaSet(role){
+            filled = 0;
+            $('.criteria-'+role+'-formset').each(function(i, elem){
+                if ($(elem).find('input').filter(function(){ return this.value === ""; }).length == 0){
+                    filled++;
+                }
+            });
+            return filled > 0;
+         }
+
          $('.criteria-student-formset').formset({
             prefix: 'student',
             addText: '<div class="btn btn-lg mr-3 mb-3 float-right"><i class="material-icons">add</i> Add criteria</div>',
@@ -162,7 +170,9 @@
             var studentsList = getSelectableItemsSelected($('#selected-students'));
             var coursesList = getSelectableItemsSelected($('#selected-courses'));
 
-            if (teachersList.length <= 0 || studentsList.length <= 0 || coursesList.length <= 0){
+            if ( (!roleHasCriteriaSet('student') && studentsList.length <= 0) ||
+                  (!roleHasCriteriaSet('teacher') && teachersList.length <= 0)
+                  (coursesList.length <= 0)) {
                 $('#empty-alert').fadeIn();
                 e.preventDefault();
                 return false;

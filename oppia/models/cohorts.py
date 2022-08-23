@@ -54,8 +54,12 @@ class Cohort(models.Model):
 
     # Update cohort participants based on the cohort criteria
     def update_participants(self):
-        students = self.update_participants_by_role(Participant.STUDENT)
-        teachers = self.update_participants_by_role(Participant.TEACHER)
+        students = 0
+        teachers = 0
+        if CohortCritera.objects.filter(cohort=self, role=Participant.STUDENT).count() > 0:
+            students = self.update_participants_by_role(Participant.STUDENT)
+        if CohortCritera.objects.filter(cohort=self, role=Participant.TEACHER).count() > 0:
+            teachers = self.update_participants_by_role(Participant.TEACHER)
         return students, teachers
 
     def refresh_participants(self):
