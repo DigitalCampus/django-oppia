@@ -36,6 +36,10 @@ class CohortForm(forms.Form):
         widget=forms.Textarea(),
         required=False,
         help_text=_("A comma separated list of course codes"))
+    criteria_based = forms.BooleanField(
+        required=False,
+        widget=forms.CheckboxInput(attrs={'class': 'custom-control-input'}),
+        help_text=_('Check if the participants of this cohort must be updated based on criteria'))
 
     def __init__(self, *args, **kwargs):
         super(CohortForm, self).__init__(* args, ** kwargs)

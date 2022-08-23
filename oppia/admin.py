@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.db.models import Q
 from django.urls import reverse
 from django.utils.html import format_html
@@ -71,16 +71,27 @@ class CohortAdmin(admin.ModelAdmin):
         message = intro + " " + message
         self.message_user(request, message=message)
 
+    def error_message(self, request, cohort):
+        self.message_user(request, "Cohort '{}' is not criteria based.".format(cohort.description), level=messages.ERROR)
+
     def update_cohort(self, request, queryset):
         for cohort in queryset:
+            if not cohort.criteria_based:
+                self.error_message(request, cohort)
+                continue
+
             students, teachers = cohort.update_participants()
-            cohort_title = _("Cohort {} updated successfully:").format(cohort.description)
+            cohort_title = _("Cohort '{}' updated successfully:").format(cohort.description)
             self.success_message(request, cohort_title, students, teachers)
 
     def refresh_cohort(self, request, queryset):
         for cohort in queryset:
+            if not cohort.criteria_based:
+                self.error_message(request, cohort)
+                continue
+
             students, teachers = cohort.refresh_participants()
-            cohort_title = _("Cohort {} refreshed successfully:").format(cohort.description)
+            cohort_title = _("Cohort '{}' refreshed successfully:").format(cohort.description)
             self.success_message(request, cohort_title, students, teachers)
 
     update_cohort.short_description = _('Update cohort participants')

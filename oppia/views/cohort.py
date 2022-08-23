@@ -119,6 +119,7 @@ class AddCohortView(FormView, UserPassesTestMixin, EditCohortMixin):
     def form_valid(self, form):
         cohort = Cohort(
             description = form.cleaned_data.get("description").strip(),
+            criteria_based = form.cleaned_data.get('criteria_based'),
             last_updated=datetime.datetime.now()
         )
         cohort.save()
@@ -285,9 +286,12 @@ class CohortEditView(UserPassesTestMixin, UpdateView, EditCohortMixin):
 
     def get_initial(self):
         self.cohort = self.object
-        return {'description': self.object.description,
-                'start_date': self.object.start_date,
-                'end_date': self.object.end_date}
+        return {
+            'description': self.object.description,
+            'start_date': self.object.start_date,
+            'end_date': self.object.end_date,
+            'criteria_based': self.object.criteria_based
+        }
 
     def formset_student_criteria_get_initial(self):
         return self.get_criteria_initial(Participant.STUDENT)
@@ -327,6 +331,7 @@ class CohortEditView(UserPassesTestMixin, UpdateView, EditCohortMixin):
         cohort = self.object
         self.cohort = cohort
         cohort.description = form.cleaned_data.get("description").strip()
+        cohort.criteria_based = form.cleaned_data.get('criteria_based')
         start_date = form.cleaned_data.get("start_date")
         end_date = form.cleaned_data.get("end_date")
         if start_date:

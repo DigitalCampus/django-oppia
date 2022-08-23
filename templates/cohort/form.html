@@ -27,13 +27,23 @@
     {% csrf_token %}
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-5">
         {% include 'common/form/input.html' with field=form.description %}
+
+            {% if object.last_updated %}
+            <div class="mb-4">
+                <label class="mb-0"> {% trans 'Last updated' %}</label>
+                <input type="text" disabled class="form-control pt-0 text-dark" value="{{object.last_updated}}">
+            </div>
+            {% endif %}
         </div>
 
         <div class="col-md-6">
             {% if applicable_criteria %}
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#cohort-criteria" aria-expanded="false" aria-controls="collapseExample">
+
+            {% include 'common/form/switch.html' with field=form.criteria_based %}
+
+            <button class="btn btn-primary mt-3" type="button" data-toggle="collapse" data-target="#cohort-criteria" aria-expanded="false" aria-controls="collapseExample">
 
                 {% if is_new %}
                 <span class="material-icons mr-2">add</span> {% trans 'Add cohort criteria' %}
@@ -97,14 +107,7 @@
         </div>
     </div>
 
-    {% if object.last_updated %}
-    <div class="row">
-    <div class="col-md-4 mb-4">
-        <label class="mb-0"> {% trans 'Last updated' %}</label>
-        <input type="text" disabled class="form-control pt-0 text-dark" value="{{object.last_updated}}">
-    </div>
-    </div>
-    {% endif %}
+
 
     <div class="d-none">
         {{form.teachers}}
