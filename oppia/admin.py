@@ -63,9 +63,28 @@ class ParticipantInline(admin.TabularInline):
 
 class CohortAdmin(admin.ModelAdmin):
     list_display = ('description', 'start_date', 'end_date')
-    inlines = [
-        ParticipantInline,
-    ]
+    inlines = [ ParticipantInline, ]
+    actions = ['update_cohort', 'refresh_cohort']
+
+    def success_message(self, request, intro, students, teachers):
+        message = _("{} students and {} teachers match the criteria").format(students, teachers)
+        message = intro + " " + message
+        self.message_user(request, message=message)
+
+    def update_cohort(self, request, queryset):
+        for cohort in queryset:
+            students, teachers = cohort.update_participants()
+            cohort_title = _("Cohort {} updated successfully:").format(cohort.description)
+            self.success_message(request, cohort_title, students, teachers)
+
+    def refresh_cohort(self, request, queryset):
+        for cohort in queryset:
+            students, teachers = cohort.refresh_participants()
+            cohort_title = _("Cohort {} refreshed successfully:").format(cohort.description)
+            self.success_message(request, cohort_title, students, teachers)
+
+    update_cohort.short_description = _('Update cohort participants')
+    refresh_cohort.short_description = _('Refresh cohort participants')
 
 class CohortCriteriaAdmin(admin.ModelAdmin):
     list_display = ('cohort', 'role', 'user_profile_field', 'user_profile_value')

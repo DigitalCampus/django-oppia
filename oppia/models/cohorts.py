@@ -52,6 +52,48 @@ class Cohort(models.Model):
                 u.total = 0
         return users
 
+    # Update cohort participants based on the cohort criteria
+    def update_participants(self):
+        students = self.update_participants_by_role(Participant.STUDENT)
+        teachers = self.update_participants_by_role(Participant.TEACHER)
+        return students, teachers
+
+    def refresh_participants(self):
+        students = 0
+        teachers = 0
+        # We only refresh a role if it has at least one filtering criteria
+        if CohortCritera.objects.filter(cohort=self, role=Participant.STUDENT).count() > 0:
+            Participant.objects.filter(cohort=self, role=Participant.STUDENT).delete()
+            students = self.update_participants_by_role(Participant.STUDENT)
+
+        if CohortCritera.objects.filter(cohort=self, role=Participant.TEACHER).count() > 0:
+            Participant.objects.filter(cohort=self, role=Participant.TEACHER).delete()
+            teachers = self.update_participants_by_role(Participant.TEACHER)
+
+        return students, teachers
+
+    def update_participants_by_role(self, role):
+        # Imported locally to avoid circular imports
+        from profile.models import CustomField
+        from profile.utils import get_customfields_filter
+
+        role_criteria = CohortCritera.objects.filter(cohort=self, role=role)
+
+        participants = User.objects.all()
+        # as Django's filter() function is accumulative, we can concatenate them as an AND expression
+        for criteria in role_criteria:
+            customfield = CustomField.objects.filter(id=criteria.user_profile_field).first()
+            if not customfield:
+                continue
+            value = criteria.user_profile_value
+            participants = participants.filter(get_customfields_filter(value, customfield))
+
+        for participant in participants:
+            if not Participant.objects.filter(cohort=self, user=participant, role=role).exists():
+                Participant.objects.create(cohort=self, user=participant, role=role)
+
+        return participants.count()
+
 
 class CourseCohort(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
