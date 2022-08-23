@@ -186,7 +186,7 @@ class CertificateTemplateAdmin(admin.ModelAdmin):
         if db_field.name == 'feedback_field':
             feedback_activities = Activity.objects.filter(
                 type=Activity.FEEDBACK).values_list('digest', flat=True)
-            quizzes = QuizProps.objects.filter(name='digest',
+            quizzes = QuizProps.objects.filter(name=QuizProps.DIGEST,
                                                value__in=feedback_activities) \
                 .values_list('quiz_id',
                              flat=True)

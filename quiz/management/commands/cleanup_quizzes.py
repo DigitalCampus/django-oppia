@@ -7,8 +7,8 @@ from django.utils import timezone
 
 from oppia.models import Activity
 from quiz.models import Quiz, \
-                        QuizAttempt, \
-                        Question
+    QuizAttempt, \
+    Question, QuizProps
 from settings.models import SettingProperties
 from settings import constants
 
@@ -33,7 +33,7 @@ class Command(BaseCommand):
         act_quizzes = Activity.objects.filter(type=Activity.QUIZ)
         for aq in act_quizzes:
             quizzes = Quiz.objects.filter(quizprops__value=aq.digest,
-                                          quizprops__name="digest")
+                                          quizprops__name=QuizProps.DIGEST)
             if quizzes.count() > 1:
                 self.delete_duplicate(aq.digest, quizzes)
 
