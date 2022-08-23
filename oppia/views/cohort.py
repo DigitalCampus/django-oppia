@@ -28,6 +28,7 @@ from oppia.permissions import can_add_cohort, \
     can_view_cohort, \
     can_edit_cohort
 from oppia.views.utils import get_paginated_courses, filter_trackers
+from profile.models import CustomField
 from profile.utils import get_paginated_users
 from summary.models import UserCourseSummary
 
@@ -62,6 +63,11 @@ def cohort_add_courses(cohort, courses):
 
 
 class EditCohortMixin(FormsetView):
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['applicable_criteria'] = CustomField.objects.all().exists()
+        return context
 
     def get_named_formsets(self):
         return{
