@@ -385,9 +385,7 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
         course_statuses = self.get_category_attr_in_results(tags, 'reference', 'course_statuses')
         self.assertEqual(expected.get('reference'), course_statuses)
 
-
-    ### Tests related with courses restricted to cohorts
-
+    # Tests related with courses restricted to cohorts
     def setup_cohort(self):
         course1 = Course.objects.get(shortname='ref-1')
         course1.restricted = True
@@ -403,7 +401,6 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
 
         return cohort
 
-
     def test_admin_restricted_courses_in_category_list(self):
         self.setup_cohort()
         resp = self.api_client.get(self.url, format='json', data=self.admin_auth)
@@ -412,7 +409,6 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
         category_count = self.get_category_attr_in_results(tags, 'HEAT', 'count')
         self.assertEqual(len(tags), 5)
         self.assertEqual(category_count, 2)
-
 
     def test_non_cohort_user_restricted_courses_in_category_list(self):
         self.setup_cohort()
@@ -436,7 +432,6 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertEqual(len(tags), 5)
         self.assertEqual(category_count, 2)
 
-
     def test_admin_restricted_courses_in_category_detail(self):
         self.setup_cohort()
         heat = Category.objects.get(name='HEAT')
@@ -455,7 +450,6 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertValidJSON(resp.content)
         response_data = self.deserialize(resp)
         self.assertEqual(len(response_data['courses']), 2)
-
 
     def test_cohort_user_restricted_courses_in_category_detail(self):
 
@@ -478,7 +472,6 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
         response_data = self.deserialize(resp)
         self.assertEqual(len(response_data['courses']), 1)
 
-
     def test_non_cohort_user_restricted_courses_in_category_detail(self):
         self.setup_cohort()
         heat = Category.objects.get(name='HEAT')
@@ -497,5 +490,3 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertValidJSON(resp.content)
         response_data = self.deserialize(resp)
         self.assertEqual(len(response_data['courses']), 0)
-
-

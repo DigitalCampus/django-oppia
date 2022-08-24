@@ -4,7 +4,6 @@ from itertools import chain
 
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
-from django.db.models import Q
 from django.http import Http404, HttpResponseForbidden
 
 from oppia.models import Course, Participant, Cohort, CoursePermissions
@@ -175,7 +174,9 @@ def can_download_course(request, course_id):
         else:
             try:
                 course = Course.objects \
-                    .filter(CourseFilter.IS_NOT_DRAFT & CourseFilter.IS_NOT_ARCHIVED & CourseFilter.NEW_DOWNLOADS_ENABLED) \
+                    .filter(CourseFilter.IS_NOT_DRAFT
+                            & CourseFilter.IS_NOT_ARCHIVED
+                            & CourseFilter.NEW_DOWNLOADS_ENABLED) \
                     .filter(CourseFilter.get_restricted_filter_for_user(request.user)) \
                     .get(pk=course_id)
 

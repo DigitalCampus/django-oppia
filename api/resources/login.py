@@ -13,7 +13,7 @@ from tastypie.resources import ModelResource
 
 from api.serializers import UserJSONSerializer
 from oppia import DEFAULT_IP_ADDRESS
-from oppia.models import Tracker, CourseCohort, Participant
+from oppia.models import Tracker, Participant
 from oppia.models import Points, Award
 
 from profile.models import UserProfile

@@ -748,12 +748,16 @@ def validate_course_status(course, request):
     """
     When uploading an existing course:
       - If the course status is LIVE, upload the course and update status from the request.
-      - If the course status is different than LIVE, only upload the course if the status matches the status from the request.
+      - If the course status is different than LIVE, only upload the course if the status matches the status from the
+        request.
     """
     result = True
     error_msg = ""
 
-    if (course.status in [CourseStatus.DRAFT, CourseStatus.ARCHIVED, CourseStatus.NEW_DOWNLOADS_DISABLED, CourseStatus.READ_ONLY]
+    if (course.status in [CourseStatus.DRAFT,
+                          CourseStatus.ARCHIVED,
+                          CourseStatus.NEW_DOWNLOADS_DISABLED,
+                          CourseStatus.READ_ONLY]
             and course.status != request.POST['status']):
         error_msg = f"This course currently has {course.status} status, so cannot now be updated."
         messages.info(request, error_msg)

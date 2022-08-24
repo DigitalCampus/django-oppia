@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from tastypie.test import ResourceTestCaseMixin
 
-from oppia.models import CourseStatus, CoursePermissions, Course, Cohort, CourseCohort, Participant, Category
-from tests.utils import get_api_key, get_api_url, update_course_status
+from tests.utils import get_api_key, get_api_url
+
 
 class UserCohortsResourceTest(ResourceTestCaseMixin, TestCase):
     fixtures = ['tests/test_user.json',
@@ -35,7 +35,6 @@ class UserCohortsResourceTest(ResourceTestCaseMixin, TestCase):
         }
 
         self.url = get_api_url('v2', 'cohorts')
-
 
     def assert_valid_response_and_get_list(self, resp):
         self.assertHttpOK(resp)
@@ -72,7 +71,6 @@ class UserCohortsResourceTest(ResourceTestCaseMixin, TestCase):
         resp = self.api_client.get(self.url, format='json', data=self.teacher_auth)
         cohorts = self.assert_valid_response_and_get_list(resp)
         self.assertEqual(len(cohorts), 1)
-
 
     def test_cohorts_returned_after_login(self):
         url = get_api_url('v2', 'user')

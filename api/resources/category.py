@@ -50,7 +50,8 @@ class CategoryResource(ModelResource):
                 & CourseCategoryFilter.COURSE_IS_NOT_ARCHIVED
                 & (CourseCategoryFilter.COURSE_IS_NOT_DRAFT
                    | (CourseCategoryFilter.COURSE_IS_DRAFT & Q(coursecategory__course__user=request.user))
-                   | (CourseCategoryFilter.COURSE_IS_DRAFT & Q(coursecategory__course__coursepermissions__user=request.user))
+                   | (CourseCategoryFilter.COURSE_IS_DRAFT & Q(
+                       coursecategory__course__coursepermissions__user=request.user))
 
                    )
                 & (CourseCategoryFilter.COURSE_IS_NOT_RESTRICTED
@@ -87,8 +88,8 @@ class CategoryResource(ModelResource):
                 CourseFilter.IS_NOT_DRAFT |
                 (CourseFilter.IS_DRAFT & Q(user=request.user)) |
                 (CourseFilter.IS_DRAFT & Q(coursepermissions__user=request.user))) \
-                .filter(CourseFilter.get_restricted_filter_for_user(request.user)
-                ).distinct().order_by('-priority', 'title')
+                .filter(CourseFilter.get_restricted_filter_for_user(request.user)) \
+                .distinct().order_by('-priority', 'title')
 
         course_data = []
         cr = CourseResource()
@@ -112,10 +113,10 @@ class CategoryResource(ModelResource):
         else:
             count = tmp\
                 .filter(CourseFilter.IS_NOT_DRAFT
-                               | (CourseFilter.IS_DRAFT & Q(user=bundle.request.user))
-                               | (CourseFilter.IS_DRAFT
-                                  & Q(pk__in=CoursePermissions.objects.filter(
-                                      user=bundle.request.user).values('course'))))\
+                        | (CourseFilter.IS_DRAFT & Q(user=bundle.request.user))
+                        | (CourseFilter.IS_DRAFT
+                           & Q(pk__in=CoursePermissions.objects.filter(
+                               user=bundle.request.user).values('course'))))\
                 .filter(CourseFilter.get_restricted_filter_for_user(bundle.request.user))\
                 .count()
         return count

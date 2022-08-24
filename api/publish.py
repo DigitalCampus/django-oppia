@@ -212,9 +212,10 @@ def validate_course_status_availability(request, user):
     result = True
 
     request_course_status = request.POST['status']
-    if request_course_status == CourseStatus.DRAFT and CourseStatus.DRAFT not in settings.OPPIA_AVAILABLE_COURSE_STATUSES:
+    if request_course_status == CourseStatus.DRAFT \
+            and CourseStatus.DRAFT not in settings.OPPIA_AVAILABLE_COURSE_STATUSES:
         error_msg = "Cannot publish a 'draft' course because 'draft' is not an active status in the server.\n" \
-                         f"Valid statuses are: {settings.OPPIA_AVAILABLE_COURSE_STATUSES}"
+                    f"Valid statuses are: {settings.OPPIA_AVAILABLE_COURSE_STATUSES}"
         messages.error(request, error_msg)
         CoursePublishingLog(user=user if user else None,
                             action="invalid_course_status",
