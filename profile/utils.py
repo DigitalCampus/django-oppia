@@ -1,3 +1,5 @@
+import operator
+from functools import reduce
 
 from django import forms
 from django.contrib.auth.models import User
@@ -41,24 +43,41 @@ def get_customfields_filter(value, field):
     account the specific value type.
     '''
     filter_value = value
+    is_list = ',' in filter_value
+    print(is_list)
+
+    if is_list:
+        filter_value = filter_value.split(',')
 
     if field.type == 'int':
-        if not isinstance(filter_value, int):
-            filter_value = int(filter_value)
-        q = Q(**{'userprofilecustomfield__key_name': field.id,
-                 'userprofilecustomfield__value_int': filter_value})
+        if is_list:
+            for i, elem in filter_value:
+                if not isinstance(elem, int):
+                    filter_value[i] = int(elem)
+            filter_arg = 'userprofilecustomfield__value_int__in'
+        else:
+            if not isinstance(filter_value, int):
+                filter_value = int(filter_value)
+            filter_arg = 'userprofilecustomfield__value_int'
+
     elif field.type == 'bool':
         if not isinstance(filter_value, bool):
             filter_value = bool(filter_value)
-        q = Q(**{'userprofilecustomfield__key_name': field.id,
-                 'userprofilecustomfield__value_bool': filter_value})
-    else:
-        if not isinstance(filter_value, str):
-            filter_value = str(filter_value)
-        q = Q(**{'userprofilecustomfield__key_name': field.id,
-                 'userprofilecustomfield__value_str__icontains': filter_value})
+        filter_arg = 'userprofilecustomfield__value_bool'
 
-    return q
+    else:
+        if is_list:
+            print(filter_value)
+            clauses = (Q(**{'userprofilecustomfield__value_str__icontains':elem}) for elem in filter_value)
+            query = reduce(operator.or_, clauses)
+            query = Q(**{'userprofilecustomfield__key_name': field.id}) & query
+            return query
+        else:
+            if not isinstance(filter_value, str):
+                filter_value = str(filter_value)
+            filter_arg = 'userprofilecustomfield__value_str__icontains'
+
+    return Q(**{'userprofilecustomfield__key_name': field.id, filter_arg: filter_value})
 
 
 def get_query(query_string, search_fields):
@@ -106,6 +125,7 @@ def get_users_filtered_by_customfields(users, search_form):
         if formfield in search_form.cleaned_data \
                 and search_form.cleaned_data[formfield]:
             value = search_form.cleaned_data[formfield]
+            print(value)
             users = users.filter(get_customfields_filter(value, field))
             filtered = True
 
