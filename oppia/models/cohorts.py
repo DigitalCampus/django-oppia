@@ -56,23 +56,26 @@ class Cohort(models.Model):
     def update_participants(self):
         students = 0
         teachers = 0
-        if CohortCritera.objects.filter(cohort=self, role=Participant.STUDENT).count() > 0:
-            students = self.update_participants_by_role(Participant.STUDENT)
-        if CohortCritera.objects.filter(cohort=self, role=Participant.TEACHER).count() > 0:
-            teachers = self.update_participants_by_role(Participant.TEACHER)
+
+        if self.criteria_based:
+            if CohortCritera.objects.filter(cohort=self, role=Participant.STUDENT).count() > 0:
+                students = self.update_participants_by_role(Participant.STUDENT)
+            if CohortCritera.objects.filter(cohort=self, role=Participant.TEACHER).count() > 0:
+                teachers = self.update_participants_by_role(Participant.TEACHER)
         return students, teachers
 
     def refresh_participants(self):
         students = 0
         teachers = 0
-        # We only refresh a role if it has at least one filtering criteria
-        if CohortCritera.objects.filter(cohort=self, role=Participant.STUDENT).count() > 0:
-            Participant.objects.filter(cohort=self, role=Participant.STUDENT).delete()
-            students = self.update_participants_by_role(Participant.STUDENT)
+        if self.criteria_based:
+            # We only refresh a role if it has at least one filtering criteria
+            if CohortCritera.objects.filter(cohort=self, role=Participant.STUDENT).count() > 0:
+                Participant.objects.filter(cohort=self, role=Participant.STUDENT).delete()
+                students = self.update_participants_by_role(Participant.STUDENT)
 
-        if CohortCritera.objects.filter(cohort=self, role=Participant.TEACHER).count() > 0:
-            Participant.objects.filter(cohort=self, role=Participant.TEACHER).delete()
-            teachers = self.update_participants_by_role(Participant.TEACHER)
+            if CohortCritera.objects.filter(cohort=self, role=Participant.TEACHER).count() > 0:
+                Participant.objects.filter(cohort=self, role=Participant.TEACHER).delete()
+                teachers = self.update_participants_by_role(Participant.TEACHER)
 
         return students, teachers
 

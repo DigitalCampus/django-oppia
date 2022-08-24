@@ -44,7 +44,6 @@ def get_customfields_filter(value, field):
     '''
     filter_value = value
     is_list = ',' in filter_value
-    print(is_list)
 
     if is_list:
         filter_value = filter_value.split(',')
