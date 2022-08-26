@@ -76,5 +76,31 @@
         "created": "2020-11-03T12:32:06.063Z",
         "modified": "2020-11-03T12:32:06.064Z"
     }
+},
+{
+    "model": "profile.userprofilecustomfield",
+    "pk": 4,
+    "fields": {
+        "key_name": "age",
+        "user": 2,
+        "value_str": null,
+        "value_int": 30,
+        "value_bool": null,
+        "created": "2020-11-03T12:32:06.063Z",
+        "modified": "2020-11-03T12:32:06.064Z"
+    }
+},
+{
+    "model": "profile.userprofilecustomfield",
+    "pk": 5,
+    "fields": {
+        "key_name": "age",
+        "user": 4,
+        "value_str": null,
+        "value_int": 40,
+        "value_bool": null,
+        "created": "2020-11-03T12:32:06.063Z",
+        "modified": "2020-11-03T12:32:06.064Z"
+    }
 }
 ]

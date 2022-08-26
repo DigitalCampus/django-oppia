@@ -1,17 +1,18 @@
 from django import forms
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.db.models import Q
 from django.urls import reverse
 from django.utils.html import format_html
+from django.utils.translation import gettext_lazy as _
 
 from oppia.models import Course, \
-                         Section, \
-                         Activity, \
-                         Tracker, \
-                         Media, \
-                         Cohort, \
-                         CoursePermissions, \
-                         CourseStatus
+    Section, \
+    Activity, \
+    Tracker, \
+    Media, \
+    Cohort, \
+    CoursePermissions, \
+    CourseStatus, CohortCritera
 from oppia.models import Participant, Category, CourseCategory
 from oppia.models import Badge, Award, Points, AwardCourse, BadgeMethod
 from oppia.models import CourseCohort, CoursePublishingLog
@@ -61,10 +62,43 @@ class ParticipantInline(admin.TabularInline):
 
 
 class CohortAdmin(admin.ModelAdmin):
-    list_display = ('description', 'start_date', 'end_date')
-    inlines = [
-        ParticipantInline,
-    ]
+    list_display = ('description', 'last_updated', 'criteria_based')
+    inlines = [ ParticipantInline, ]
+    actions = ['update_cohort', 'refresh_cohort']
+
+    def success_message(self, request, intro, students, teachers):
+        message = _("{} students and {} teachers match the criteria").format(students, teachers)
+        message = intro + " " + message
+        self.message_user(request, message=message)
+
+    def error_message(self, request, cohort):
+        self.message_user(request, "Cohort '{}' is not criteria based.".format(cohort.description), level=messages.ERROR)
+
+    def update_cohort(self, request, queryset):
+        for cohort in queryset:
+            if not cohort.criteria_based:
+                self.error_message(request, cohort)
+                continue
+
+            students, teachers = cohort.update_participants()
+            cohort_title = _("Cohort '{}' updated successfully:").format(cohort.description)
+            self.success_message(request, cohort_title, students, teachers)
+
+    def refresh_cohort(self, request, queryset):
+        for cohort in queryset:
+            if not cohort.criteria_based:
+                self.error_message(request, cohort)
+                continue
+
+            students, teachers = cohort.refresh_participants()
+            cohort_title = _("Cohort '{}' refreshed successfully:").format(cohort.description)
+            self.success_message(request, cohort_title, students, teachers)
+
+    update_cohort.short_description = _('Update cohort participants')
+    refresh_cohort.short_description = _('Refresh cohort participants')
+
+class CohortCriteriaAdmin(admin.ModelAdmin):
+    list_display = ('cohort', 'role', 'user_profile_field', 'user_profile_value')
 
 
 class CourseCohortAdmin(admin.ModelAdmin):
@@ -182,6 +216,7 @@ admin.site.register(Badge, BadgeAdmin)
 admin.site.register(BadgeMethod, BadgeMethodAdmin)
 admin.site.register(AwardCourse, AwardCourseAdmin)
 admin.site.register(Cohort, CohortAdmin)
+admin.site.register(CohortCritera, CohortCriteriaAdmin)
 admin.site.register(Course, CourseAdmin)
 admin.site.register(CourseCohort, CourseCohortAdmin)
 admin.site.register(CourseCategory, CourseCategoryAdmin)

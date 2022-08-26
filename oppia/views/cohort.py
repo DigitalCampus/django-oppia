@@ -5,26 +5,31 @@ import operator
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
+from django.forms import formset_factory
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render
+from django.urls import reverse_lazy, reverse
 from django.utils import timezone
 from django.views.generic import ListView, UpdateView, DetailView
+from django.views.generic.edit import FormView
 
 from helpers.mixins.AjaxTemplateResponseMixin import AjaxTemplateResponseMixin
+from helpers.mixins.FormsetView import FormsetView
 from helpers.mixins.PermissionMixins import StaffRequiredMixin
 from helpers.mixins.SafePaginatorMixin import SafePaginatorMixin
 from oppia import constants
-from oppia.forms.cohort import CohortForm
+from oppia.forms.cohort import CohortForm, CohortCriteriaForm
 from oppia.models import Tracker, \
     CourseCohort, \
     Participant, \
     Course, \
-    Cohort
+    Cohort, CohortCritera
 from oppia.permissions import can_add_cohort, \
     can_view_cohort, \
     can_edit_cohort
 from oppia.views.utils import get_paginated_courses, filter_trackers
-from profile.views.utils import get_paginated_users
+from profile.models import CustomField
+from profile.utils import get_paginated_users
 from summary.models import UserCourseSummary
 
 
@@ -57,9 +62,100 @@ def cohort_add_courses(cohort, courses):
             pass
 
 
+class EditCohortMixin(FormsetView):
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['applicable_criteria'] = CustomField.objects.all().exists()
+        return context
+
+    def get_named_formsets(self):
+        return{
+            'student_criteria': { 'form': CohortCriteriaForm, 'kwargs': {'prefix':'student'}},
+            'teacher_criteria': { 'form': CohortCriteriaForm, 'kwargs': {'prefix':'teacher'}},
+        }
+
+    def formset_student_criteria_valid(self, form, formset):
+        # Remove any previous cohort criteria to save the new ones
+        CohortCritera.objects.filter(cohort=self.cohort, role=Participant.STUDENT).delete()
+        for criteria_form in formset:
+            self.save_criteria(criteria_form, Participant.STUDENT)
+
+    def formset_teacher_criteria_valid(self, form, formset):
+        # Remove any previous cohort criteria to save the new ones
+        CohortCritera.objects.filter(cohort=self.cohort, role=Participant.TEACHER).delete()
+        for criteria_form in formset:
+            self.save_criteria(criteria_form, Participant.TEACHER)
+
+    def get_criteria_initial(self, role):
+        crits = []
+        criteria = CohortCritera.objects.filter(cohort=self.cohort, role=role)
+        for c in criteria:
+            crits.append({
+                'user_profile_field': c.user_profile_field,
+                'user_profile_value': c.user_profile_value
+            })
+        return crits
+
+    def save_criteria(self, criteria_form, role):
+        field = criteria_form.cleaned_data.get('user_profile_field')
+        value = criteria_form.cleaned_data.get('user_profile_value')
+        if field and value:
+            CohortCritera.objects.create(
+                cohort=self.cohort, role=role,
+                user_profile_field=field, user_profile_value=value
+            )
+
+class AddCohortView(FormView, UserPassesTestMixin, EditCohortMixin):
+    template_name = 'cohort/form.html'
+    success_url = reverse_lazy('oppia:cohorts')
+    form_class = CohortForm
+
+    # Permissions check
+    def test_func(self):
+        return can_add_cohort(self.request)
+
+
+    def form_valid(self, form):
+        cohort = Cohort(
+            description = form.cleaned_data.get("description").strip(),
+            criteria_based = form.cleaned_data.get('criteria_based'),
+            last_updated=datetime.datetime.now()
+        )
+        cohort.save()
+        self.cohort = cohort
+
+        students = form.cleaned_data.get("students")
+        cohort_add_roles(cohort, Participant.STUDENT, students)
+
+        teachers = form.cleaned_data.get("teachers")
+        cohort_add_roles(cohort, Participant.TEACHER, teachers)
+
+        courses = form.cleaned_data.get("courses")
+        cohort_add_courses(cohort, courses)
+
+        return super().form_valid(form)
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        ordering, users = get_paginated_users(self.request)
+        c_ordering, courses = get_paginated_courses(self.request)
+        context['is_new'] = True,
+        context['page'] = users
+        context['courses_page'] = courses
+        context['courses_ordering'] = c_ordering
+        context['page_ordering'] = ordering
+        context['users_list_template'] = 'select'
+
+        return context
+
+
 def cohort_add(request):
     if not can_add_cohort(request):
         raise PermissionDenied
+
+    CohortCriteriaFormset = formset_factory(CohortCriteriaForm)
 
     if request.method == 'POST':
         form = CohortForm(request.POST.copy())
@@ -76,6 +172,7 @@ def cohort_add(request):
                     datetime.datetime.strptime(end_date, constants.STR_DATE_FORMAT),
                     timezone.get_current_timezone())
             cohort.description = form.cleaned_data.get("description").strip()
+            cohort.last_updated = datetime.datetime.now()
             cohort.save()
 
             students = form.cleaned_data.get("students")
@@ -97,13 +194,17 @@ def cohort_add(request):
     else:
         form = CohortForm()
 
+    criteria_formset = CohortCriteriaFormset()
+
     ordering, users = get_paginated_users(request)
     c_ordering, courses = get_paginated_courses(request)
 
     return render(request, 'cohort/form.html',
                   {'form': form,
                    'page': users,
+                   'is_new': True,
                    'courses_page': courses,
+                   'criteria_formset': criteria_formset,
                    'courses_ordering': c_ordering,
                    'page_ordering': ordering,
                    'users_list_template': 'select'})
@@ -131,9 +232,7 @@ class CohortDetailView(UserPassesTestMixin, DetailView):
             course__coursecohort__cohort=self.object,
             user__is_staff=False,
             user__in=students)
-        context['activity_graph_data'] = filter_trackers(trackers,
-                                                         start_date,
-                                                         end_date)
+        context['activity_graph_data'] = filter_trackers(trackers, start_date, end_date)
         context['leaderboard'] = self.object.get_leaderboard(
             constants.LEADERBOARD_HOMEPAGE_RESULTS_PER_PAGE)
 
@@ -166,7 +265,7 @@ class CohortLeaderboardView(UserPassesTestMixin,
         return context
 
 
-class CohortEditView(UserPassesTestMixin, UpdateView):
+class CohortEditView(UserPassesTestMixin, UpdateView, EditCohortMixin):
     template_name = 'cohort/form.html'
     model = Cohort
     form_class = CohortForm
@@ -186,9 +285,19 @@ class CohortEditView(UserPassesTestMixin, UpdateView):
         return kwargs
 
     def get_initial(self):
-        return {'description': self.object.description,
-                'start_date': self.object.start_date,
-                'end_date': self.object.end_date}
+        self.cohort = self.object
+        return {
+            'description': self.object.description,
+            'start_date': self.object.start_date,
+            'end_date': self.object.end_date,
+            'criteria_based': self.object.criteria_based
+        }
+
+    def formset_student_criteria_get_initial(self):
+        return self.get_criteria_initial(Participant.STUDENT)
+
+    def formset_teacher_criteria_get_initial(self):
+        return self.get_criteria_initial(Participant.TEACHER)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -214,9 +323,15 @@ class CohortEditView(UserPassesTestMixin, UpdateView):
         })
         return context
 
+    def get_success_url(self):
+        return reverse('oppia:cohorts')
+
+
     def form_valid(self, form):
         cohort = self.object
+        self.cohort = cohort
         cohort.description = form.cleaned_data.get("description").strip()
+        cohort.criteria_based = form.cleaned_data.get('criteria_based')
         start_date = form.cleaned_data.get("start_date")
         end_date = form.cleaned_data.get("end_date")
         if start_date:
@@ -237,6 +352,7 @@ class CohortEditView(UserPassesTestMixin, UpdateView):
         else:
             cohort.end_date = None
 
+        cohort.last_updated = datetime.datetime.now()
         cohort.save()
 
         Participant.objects.filter(cohort=cohort).delete()
@@ -249,7 +365,7 @@ class CohortEditView(UserPassesTestMixin, UpdateView):
         courses = form.cleaned_data.get("courses")
         cohort_add_courses(cohort, courses)
 
-        return HttpResponseRedirect('../../')
+        return super().form_valid(form)
 
 
 def cohort_course_view(request, cohort_id, course_id):

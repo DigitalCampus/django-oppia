@@ -43,7 +43,7 @@ urlpatterns = [
          name="feedback_response_detail"),
 
     path('cohort/', views.CohortListView.as_view(), name="cohorts"),
-    path('cohort/add/', views.cohort_add, name="cohort_add"),
+    path('cohort/add/', views.AddCohortView.as_view(), name="cohort_add"),
     path('cohort/<int:pk>/edit/', views.CohortEditView.as_view(), name="cohort_edit"),
     path('cohort/<int:pk>/view/', views.CohortDetailView.as_view(), name="cohort_view"),
     path('cohort/<int:cohort_id>/<int:course_id>/view/', views.cohort_course_view, name="cohort_course_view"),

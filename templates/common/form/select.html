@@ -3,7 +3,7 @@
     <label for="{{ field.id_for_label }}">{{ field.label }} {% if field.field.required %} <span class="text-primary lead">*{% endif %}</span></label>
     <select name="{{field.html_name}}" value="{{ field.value|default_if_none:'' }}" id="{{field.auto_id}}" class="select form-control">
         {% for id, name in field.field.choices %}
-        <option value="{{ id }}">{{ name }}</option>
+        <option value="{{ id }}" {% if field.value == id %} selected {% endif %}>{{ name }}</option>
         {% endfor %}
     </select>
 {% else %}
@@ -11,7 +11,7 @@
         <label for="{{field.id_for_label}}">{{ field.label }} {% if field.field.required %} <span class="text-primary lead">*</span>{% endif %}</label>
         <select name="{{field.html_name}}" value="{{ field.value|default_if_none:'' }}" id="{{field.auto_id}}" class="select form-control">
             {% for id, name in field.field.choices %}
-            <option value="{{ id }}">{{ name }}</option>
+            <option value="{{ id }}" {% if field.value == id %} selected {% endif %}>{{ name }}</option>
             {% endfor %}
         </select>
       </div>

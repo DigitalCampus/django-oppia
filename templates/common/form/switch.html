@@ -1,0 +1,13 @@
+<div class="custom-control custom-switch mt-3">
+    {{field}}
+      <span class="custom-control-track"></span>
+      <label class="custom-control-label" for="{{field.id_for_label}}">
+            {{field.label}} {% if field.field.required %} <span class="text-primary">*</span>{% endif %}
+            {% if field.help_text %}
+            <br><small class="form-text mt-0">{{field.help_text}}</small>
+            {% endif %}
+    </label>
+
+    {% if field.errors %} <div class="invalid-feedback form-errors"> {{field.errors}}</div> {% endif %}
+    </div>
+
