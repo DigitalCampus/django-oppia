@@ -11,7 +11,10 @@
 <div class="jumbotron mb-4">
     <div class="row">
 			<div class="col-md-10">
-				<h3><a href="{% url 'oppia:cohorts' %}">{% trans 'Cohorts' %}</a> <em class="material-icons md-18 ">arrow_forward_ios</em> {{ form.description.value }}</h3>
+				<h3>
+                    <a href="{% url 'oppia:cohorts' %}">{% trans 'Cohorts' %}</a>
+                    <em class="material-icons md-18 ">arrow_forward_ios</em>
+                    {% if is_new %} {% trans 'New cohort' %} {% else %} {{ object.description }} {% endif %}</h3>
 			</div>
 	</div>
 
@@ -23,9 +26,87 @@
 <form id="cohort-form" class="form-horizontal" method="post">
     {% csrf_token %}
 
-    <div class="col-md-6">
-    {% include 'common/form/input.html' with field=form.description %}
+    <div class="row">
+        <div class="col-md-5">
+        {% include 'common/form/input.html' with field=form.description %}
+
+            {% if object.last_updated %}
+            <div class="mb-4">
+                <label class="mb-0"> {% trans 'Last updated' %}</label>
+                <input type="text" disabled class="form-control pt-0 text-dark" value="{{object.last_updated}}">
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-6">
+            {% if applicable_criteria %}
+
+            {% include 'common/form/switch.html' with field=form.criteria_based %}
+
+            <button class="btn btn-primary mt-3" type="button" data-toggle="collapse" data-target="#cohort-criteria" aria-expanded="false" aria-controls="collapseExample">
+
+                {% if is_new %}
+                <span class="material-icons mr-2">add</span> {% trans 'Add cohort criteria' %}
+                {% else %}
+                <span class="material-icons mr-2">edit</span> {% trans 'Modify cohort criteria' %}
+                {% endif %}
+            </button>
+            {% endif %}
+        </div>
+
+
     </div>
+
+    <div id="cohort-criteria" class="collapse my-4">
+        <div class="card bg-light">
+            <div class="card-body">
+                <h4>Cohort criteria</h4>
+                <div class="font-weight-light mb-3">
+                    You can include as many criteria as you want for each cohort role. They will be additive (i.e. only
+                    the users that match ALL of the criteria will be selected). If you want to include multiple values
+                    for a field, include them separated by commas.
+                </div>
+                <strong>{% trans 'Students' %}</strong><br>
+                <div class="criteria-student">
+                {{formsets.student_criteria.management_form}}
+                {% if applicable_criteria %}
+                {% for criteria_form in formsets.student_criteria %}
+                    <div class="criteria-student-formset row">
+                        <div class="col-md-5">
+                            {% include 'common/form/select.html' with field=criteria_form.user_profile_field %}
+                        </div>
+                        <div class="col-md-6">
+                            {% include 'common/form/input.html' with field=criteria_form.user_profile_value %}
+                        </div>
+
+                    </div>
+                {% endfor %}
+                {% endif %}
+                </div>
+
+            <hr style="clear:both;">
+                <strong>{% trans 'Teachers' %}</strong><br>
+                <div class="criteria-teacher">
+                {{formsets.teacher_criteria.management_form}}
+                {% if applicable_criteria %}
+                {% for criteria_form in formsets.teacher_criteria %}
+                    <div class="criteria-teacher-formset row">
+                            <div class="col-md-5">
+                                {% include 'common/form/select.html' with field=criteria_form.user_profile_field %}
+                            </div>
+                            <div class="col-md-6">
+                                {% include 'common/form/input.html' with field=criteria_form.user_profile_value %}
+                            </div>
+
+                    </div>
+                {% endfor %}
+                {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <div class="d-none">
         {{form.teachers}}
         {{form.courses}}
@@ -48,11 +129,36 @@
 
 {% endblock %}
 {% block extra_scripts %}
-    <script src="{% static "oppia/js/oppia.chart-utils.js" %}"></script>
-    <script src="{% static "oppia/js/oppia.ajax-utils.js" %}"></script>
+<script type="text/javascript" src="{% static 'oppia/js/oppia.chart-utils.js' %}"></script>
+<script type="text/javascript" src="{% static 'oppia/js/oppia.ajax-utils.js' %}"></script>
+<script type="text/javascript" src="{% static 'oppia/js/jquery.formset.min.js' %}"></script>
+
     <script type="text/javascript">
 
     $(function() {
+
+         function roleHasCriteriaSet(role){
+            filled = 0;
+            $('.criteria-'+role+'-formset').each(function(i, elem){
+                if ($(elem).find('input').filter(function(){ return this.value === ""; }).length == 0){
+                    filled++;
+                }
+            });
+            return filled > 0;
+         }
+
+         $('.criteria-student-formset').formset({
+            prefix: 'student',
+            addText: '<div class="btn btn-lg mr-3 mb-3 float-right"><i class="material-icons">add</i> Add criteria</div>',
+            deleteText: '<i class="material-icons close mt-4">cancel</i>'
+         });
+
+         $('.criteria-teacher-formset').formset({
+            prefix: 'teacher',
+            addText: '<div class="btn btn-lg mr-3 float-right"><i class="material-icons">add</i> Add criteria</div>',
+            deleteText: '<i class="material-icons close mt-4">cancel</i>'
+         });
+
         $('.btn-table-toggle').on('click', function(){
             var target = $(this).hide().attr('data-show');
             $(target).show();
@@ -64,7 +170,9 @@
             var studentsList = getSelectableItemsSelected($('#selected-students'));
             var coursesList = getSelectableItemsSelected($('#selected-courses'));
 
-            if (teachersList.length <= 0 || studentsList.length <= 0 || coursesList.length <= 0){
+            if ( (!roleHasCriteriaSet('student') && studentsList.length <= 0) ||
+                  (!roleHasCriteriaSet('teacher') && teachersList.length <= 0)
+                  (coursesList.length <= 0)) {
                 $('#empty-alert').fadeIn();
                 e.preventDefault();
                 return false;
@@ -79,3 +187,4 @@
 
     </script>
 {% endblock extra_scripts %}
+

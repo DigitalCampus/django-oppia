@@ -6,6 +6,7 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 
 from oppia.constants import STR_DATE_FORMAT
+from profile.models import CustomField
 
 
 class CohortHelperDiv(Div):
@@ -35,6 +36,10 @@ class CohortForm(forms.Form):
         widget=forms.Textarea(),
         required=False,
         help_text=_("A comma separated list of course codes"))
+    criteria_based = forms.BooleanField(
+        required=False,
+        widget=forms.CheckboxInput(attrs={'class': 'custom-control-input'}),
+        help_text=_('Check if the participants of this cohort must be updated based on criteria'))
 
     def __init__(self, *args, **kwargs):
         super(CohortForm, self).__init__(* args, ** kwargs)
@@ -54,6 +59,9 @@ class CohortForm(forms.Form):
                     css_class='d-none'
                 ),
             )
+
+    def save(self):
+        pass
 
     def clean(self):
         cleaned_data = super(CohortForm, self).clean()
@@ -76,3 +84,21 @@ class CohortForm(forms.Form):
                     _("Start date must be before the end date."))
 
         return cleaned_data
+
+
+class CohortCriteriaForm(forms.Form):
+
+    user_profile_field = forms.ChoiceField(required=False)
+    user_profile_value = forms.CharField(max_length=150, required=False)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        choices = []
+        custom_fields = CustomField.objects.all().order_by('order')
+        for field in custom_fields:
+            choices.append( (field.id, field.label) )
+        self.fields['user_profile_field'].choices = choices
+
+        initial = kwargs.get('initial')
+        if initial:
+            self.fields['user_profile_field'].initial = [initial['user_profile_field']]

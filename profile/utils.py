@@ -1,3 +1,5 @@
+import operator
+from functools import reduce
 
 from django import forms
 from django.contrib.auth.models import User
@@ -5,8 +7,6 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.urls import reverse
 
-from oppia.models import Tracker
-from oppia.views.utils import filter_trackers
 from profile.forms import CUSTOMFIELDS_SEARCH_PREFIX
 from profile.models import CustomField
 
@@ -42,18 +42,41 @@ def get_customfields_filter(value, field):
     Returns a Q object to filter a user with a custom field, taking into
     account the specific value type.
     '''
+    filter_value = value
+    is_list = ',' in filter_value
+
+    if is_list:
+        filter_value = filter_value.split(',')
 
     if field.type == 'int':
-        q = Q(**{'userprofilecustomfield__key_name': field.id,
-                 'userprofilecustomfield__value_int': value})
-    elif field.type == 'bool':
-        q = Q(**{'userprofilecustomfield__key_name': field.id,
-                 'userprofilecustomfield__value_bool': value})
-    else:
-        q = Q(**{'userprofilecustomfield__key_name': field.id,
-                 'userprofilecustomfield__value_str__icontains': value})
+        if is_list:
+            for i, elem in filter_value:
+                if not isinstance(elem, int):
+                    filter_value[i] = int(elem)
+            filter_arg = 'userprofilecustomfield__value_int__in'
+        else:
+            if not isinstance(filter_value, int):
+                filter_value = int(filter_value)
+            filter_arg = 'userprofilecustomfield__value_int'
 
-    return q
+    elif field.type == 'bool':
+        if not isinstance(filter_value, bool):
+            filter_value = bool(filter_value)
+        filter_arg = 'userprofilecustomfield__value_bool'
+
+    else:
+        if is_list:
+            print(filter_value)
+            clauses = (Q(**{'userprofilecustomfield__value_str__icontains':elem}) for elem in filter_value)
+            query = reduce(operator.or_, clauses)
+            query = Q(**{'userprofilecustomfield__key_name': field.id}) & query
+            return query
+        else:
+            if not isinstance(filter_value, str):
+                filter_value = str(filter_value)
+            filter_arg = 'userprofilecustomfield__value_str__icontains'
+
+    return Q(**{'userprofilecustomfield__key_name': field.id, filter_arg: filter_value})
 
 
 def get_query(query_string, search_fields):
@@ -101,18 +124,8 @@ def get_users_filtered_by_customfields(users, search_form):
         if formfield in search_form.cleaned_data \
                 and search_form.cleaned_data[formfield]:
             value = search_form.cleaned_data[formfield]
+            print(value)
             users = users.filter(get_customfields_filter(value, field))
             filtered = True
 
     return users, filtered
-
-
-def get_tracker_activities(start_date, end_date, user, course_ids=[], course=None):
-    if course:
-        trackers = Tracker.objects.filter(course=course)
-    else:
-        trackers = Tracker.objects.filter(course__id__in=course_ids)
-
-    trackers = trackers.filter(user=user)
-
-    return filter_trackers(trackers, start_date, end_date)

@@ -1,6 +1,6 @@
 import json
-import tablib
 
+import tablib
 from django.contrib.auth.models import User
 from django.db.models import Sum
 from django.db.models.functions import TruncDay, TruncMonth, TruncYear
@@ -16,7 +16,7 @@ from oppia.models import Points, Course
 from oppia.models import Tracker
 from oppia.permissions import can_view_course_detail, can_edit_course_gamification
 from oppia.views.utils import generate_graph_data
-from profile.views import utils
+from profile import utils
 from summary.models import CourseDailyStats, UserCourseSummary
 
 

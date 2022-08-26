@@ -12,15 +12,16 @@ from django.views.generic import FormView, TemplateView, ListView
 from tastypie.models import ApiKey
 
 import profile
+from helpers.ajax import is_ajax
 from helpers.mixins.PermissionMixins import AdminRequiredMixin, StaffRequiredMixin
 from helpers.mixins.SafePaginatorMixin import SafePaginatorMixin
 from helpers.mixins.TitleViewMixin import TitleViewMixin
-from helpers.ajax import is_ajax
 from oppia.models import Points, Award, Tracker
+from profile import utils
 from profile.forms import UploadProfileForm, UserSearchForm, DeleteAccountForm, RegisterForm
 from profile.mixins.ExportAsCSVMixin import ExportAsCSVMixin
 from profile.models import UserProfile, CustomField, UserProfileCustomField
-from profile.views import utils, STR_COMMON_FORM
+from profile.views import STR_COMMON_FORM
 from quiz.models import QuizAttempt, QuizAttemptResponse
 
 

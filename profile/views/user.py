@@ -1,3 +1,6 @@
+from io import StringIO
+from urllib.parse import urlparse
+
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
@@ -9,30 +12,21 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import gettext as _
 from django.views.generic import ListView, UpdateView, FormView, TemplateView
-
-from io import StringIO
-
 from tastypie.models import ApiKey
 
-from urllib.parse import urlparse
-
-from helpers.mixins.TitleViewMixin import TitleViewMixin
 from helpers.mixins.SafePaginatorMixin import SafePaginatorMixin
+from helpers.mixins.TitleViewMixin import TitleViewMixin
 from oppia.models import Points, Award, Tracker, Course, CertificateTemplate
 from oppia.permissions import can_edit_user
 from profile.forms import LoginForm, \
-                          RegisterForm, \
-                          ProfileForm, \
-                          RegenerateCertificatesForm
-
+    RegisterForm, \
+    ProfileForm, \
+    RegenerateCertificatesForm
 from profile.models import UserProfile, \
-                           CustomField, \
-                           UserProfileCustomField
-
-from profile.views.utils import filter_redirect
-
+    CustomField, \
+    UserProfileCustomField
+from profile.utils import filter_redirect
 from quiz.models import QuizAttempt, QuizAttemptResponse
-
 from settings import constants
 from settings.models import SettingProperties
 
