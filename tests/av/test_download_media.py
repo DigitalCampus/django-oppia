@@ -20,10 +20,19 @@ class DownloadMediaTest(OppiaTestCase):
     UPLOADED_ROOT = os.path.join(settings.MEDIA_ROOT, 'uploaded', '2020', '11')
     MEDIA_FILENAME = 'sample_video.m4v'
 
+    URL_DOWNLOAD_COURSE_MEDIA = 'av:download_course_media'
+    URL_DOWNLOAD_MEDIA_FILE = 'av:download_media_file'
+    
     def setUp(self):
         super(DownloadMediaTest, self).setUp()
         os.makedirs(self.UPLOADED_ROOT, exist_ok=True)
 
+    def copy_sample_video(self):
+        # copy sample video to correct location
+        src = os.path.join(settings.TEST_RESOURCES, self.MEDIA_FILENAME)
+        dst = os.path.join(self.UPLOADED_ROOT, self.MEDIA_FILENAME)
+        shutil.copyfile(src, dst)
+        
     def test_permissions(self):
         url = reverse('av:course_media', args=[1])
         allowed_users = [self.admin_user,
@@ -38,29 +47,38 @@ class DownloadMediaTest(OppiaTestCase):
             self.assertEqual(200, response.status_code)
 
     def test_course_with_media(self):
-        # copy sample video to correct location
-        src = os.path.join(settings.TEST_RESOURCES, self.MEDIA_FILENAME)
-        dst = os.path.join(self.UPLOADED_ROOT, self.MEDIA_FILENAME)
-        shutil.copyfile(src, dst)
+        self.copy_sample_video()
 
         self.client.force_login(self.normal_user)
-        url = reverse('av:download_course_media', args=[1])
+        url = reverse(self.URL_DOWNLOAD_COURSE_MEDIA, args=[1])
         response = self.client.get(url)
-        self.assertEqual(response['content-type'],
-                         self.STR_EXPECTED_CONTENT_TYPE)
+        self.assertEqual(response['content-type'], self.STR_EXPECTED_CONTENT_TYPE)
 
     def test_course_no_media(self):
         self.client.force_login(self.normal_user)
-        url = reverse('av:download_course_media', args=[2])
+        url = reverse(self.URL_DOWNLOAD_COURSE_MEDIA, args=[2])
         response = self.client.get(url)
         self.assertRedirects(response,
-                             reverse('av:course_media',
-                                     args=[2]) + "?error=no_media",
+                             reverse('av:course_media', args=[2]) + "?error=no_media",
                              302,
                              200)
 
     def test_invalid_course(self):
         self.client.force_login(self.normal_user)
-        url = reverse('av:download_course_media', args=[0])
+        url = reverse(self.URL_DOWNLOAD_COURSE_MEDIA, args=[0])
+        response = self.client.get(url)
+        self.assertEqual(404, response.status_code)
+        
+    def test_download_media_valid(self):
+        self.copy_sample_video()
+        self.client.force_login(self.normal_user)
+        url = reverse(self.URL_DOWNLOAD_MEDIA_FILE, args=[1])
+        response = self.client.get(url)
+        self.assertEqual(200, response.status_code)
+        
+    def test_download_media_invalid(self):
+        self.copy_sample_video()
+        self.client.force_login(self.normal_user)
+        url = reverse(self.URL_DOWNLOAD_MEDIA_FILE, args=[0])
         response = self.client.get(url)
         self.assertEqual(404, response.status_code)

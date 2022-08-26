@@ -2,7 +2,7 @@
 import os
 
 from django.http import HttpResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import ListView
@@ -52,14 +52,11 @@ class CourseMediaList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
         return context
 
 
-def download_media_file(media_id):
-    media = Media.objects.get(pk=media_id)
-
+def download_media_file(request, media_id):
+    media = get_object_or_404(Media, pk=media_id)
     response = HttpResponse()
-    response['Content-Disposition'] = 'attachment; filename="%s"' \
-                                      % (media.filename)
+    response['Content-Disposition'] = 'attachment; filename="%s"' % (media.filename)
     return response
-
 
 def download_course_media(request, course_id):
     course = can_view_course(request, course_id)
@@ -74,13 +71,9 @@ def download_course_media(request, course_id):
 
     if path:
         with open(path, 'rb') as package:
-            response = HttpResponse(package.read(),
-                                    content_type='application/zip')
+            response = HttpResponse(package.read(), content_type='application/zip')
             response['Content-Length'] = os.path.getsize(path)
-            response['Content-Disposition'] = 'attachment; filename="%s"' \
-                % (filename)
+            response['Content-Disposition'] = 'attachment; filename="%s"' % (filename)
             return response
     else:
-        return redirect(reverse('av:course_media',
-                                kwargs={'course_id':
-                                        course.pk})+'?error=no_media')
+        return redirect(reverse('av:course_media', kwargs={'course_id': course.pk})+'?error=no_media')
