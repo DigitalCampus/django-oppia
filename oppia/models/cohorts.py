@@ -86,20 +86,20 @@ class Cohort(models.Model):
 
         role_criteria = CohortCritera.objects.filter(cohort=self, role=role)
 
-        participants = User.objects.all()
+        participants = []
         # as Django's filter() function is accumulative, we can concatenate them as an AND expression
         for criteria in role_criteria:
             customfield = CustomField.objects.filter(id=criteria.user_profile_field).first()
             if not customfield:
                 continue
             value = criteria.user_profile_value
-            participants = participants.filter(get_customfields_filter(value, customfield))
+            participants = (participants if participants else User.objects).filter(get_customfields_filter(value, customfield))
 
         for participant in participants:
             if not Participant.objects.filter(cohort=self, user=participant, role=role).exists():
                 Participant.objects.create(cohort=self, user=participant, role=role)
 
-        return participants.count()
+        return len(participants)
 
 
 class CourseCohort(models.Model):

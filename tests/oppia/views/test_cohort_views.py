@@ -712,6 +712,73 @@ class CohortViewsTest(OppiaTestCase):
         # 6. Assert initial participants are kept in the cohort when updating even if they did not match the criteria
         self.assertTrue(self.normal_user in actual_students)
 
+    def test_add_cohort_criteria_for_non_existing_field_and_refresh(self):
+        expected_students = []  # No users have 'NonExistingCountry' for country
+        expected_teachers = []
+
+        # 1. Get cohort
+        cohort = Cohort.objects.get(pk=2)
+        cohort.criteria_based = True
+        cohort.save()
+
+        # 2. Add initial participants
+        Participant(cohort=cohort, user=self.staff_user, role=Participant.STUDENT).save()
+
+        # 3. Create matching cohort criteria
+        CohortCritera(cohort=cohort, role=Participant.STUDENT, user_profile_field='NonExistingField', user_profile_value='ES').save()
+        CohortCritera(cohort=cohort, role=Participant.TEACHER, user_profile_field='NonExistingField', user_profile_value='FI').save()
+
+        # 4. Refresh cohort participants
+        student_count, teacher_count = cohort.refresh_participants()
+
+        # 5. Assert students and teachers are correct
+        students = Participant.objects.filter(cohort=cohort, role=Participant.STUDENT)
+        actual_students = [student.user for student in students]
+        self.assertEqual(set(expected_students), set(actual_students))
+        self.assertEqual(len(students), student_count)
+
+        teachers = Participant.objects.filter(cohort=cohort, role=Participant.TEACHER)
+        actual_teachers = [teacher.user for teacher in teachers]
+        self.assertEqual(set(expected_teachers), set(actual_teachers))
+        self.assertEqual(len(teachers), teacher_count)
+
+        # 6. Assert initial participants are removed if they did not match the criteria
+        self.assertTrue(self.staff_user not in actual_students)
+
+    def test_add_cohort_criteria_for_non_existing_field_and_update(self):
+        expected_students = [self.staff_user]  # No users have 'NonExistingCountry' for country
+        expected_teachers = []
+
+        # 1. Get cohort
+        cohort = Cohort.objects.get(pk=2)
+        cohort.criteria_based = True
+        cohort.save()
+
+        # 2. Add initial participants
+        initial_students_count = 1
+        Participant(cohort=cohort, user=self.staff_user, role=Participant.STUDENT).save()
+
+        # 3. Create matching cohort criteria
+        CohortCritera(cohort=cohort, role=Participant.STUDENT, user_profile_field='NonExistingField', user_profile_value='ES').save()
+        CohortCritera(cohort=cohort, role=Participant.TEACHER, user_profile_field='NonExistingField', user_profile_value='FI').save()
+
+        # 4. Refresh cohort participants
+        student_count, teacher_count = cohort.update_participants()
+
+        # 5. Assert students and teachers are correct
+        students = Participant.objects.filter(cohort=cohort, role=Participant.STUDENT)
+        actual_students = [student.user for student in students]
+        self.assertEqual(set(expected_students), set(actual_students))
+        self.assertEqual(len(students) - initial_students_count, student_count)
+
+        teachers = Participant.objects.filter(cohort=cohort, role=Participant.TEACHER)
+        actual_teachers = [teacher.user for teacher in teachers]
+        self.assertEqual(set(expected_teachers), set(actual_teachers))
+        self.assertEqual(len(teachers), teacher_count)
+
+        # 6. Assert initial participants are kept in the cohort when updating even if they did not match the criteria
+        self.assertTrue(self.staff_user in actual_students)
+
     def test_dont_refresh_cohort_if_no_criteria_set(self):
         expected_students = [self.normal_user]
         expected_teachers = [self.normal_user]
