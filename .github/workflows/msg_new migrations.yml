@@ -6,14 +6,15 @@ on:
       - '*/migrations/**'
 
 jobs:
-  commentstatic:
+  commentsmigration:
     name: Warning for new migrations in Django app
     runs-on: ubuntu-latest
     steps:
       - name: comment PR
-        uses: unsplash/comment-on-pr@master
+        uses: unsplash/comment-on-pr@v1.3.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           msg: "There are new migrations. Remember to run: \n ```\n$ python ./manage.py migrate\n```\n before running the app."
+          check_for_duplicate_msg: true
           
