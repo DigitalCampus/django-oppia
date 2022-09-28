@@ -24,6 +24,7 @@ def get_tracker_activities(user, course_ids=[], course=None):
 
     return trackers.filter(user=user)
 
+
 class UserScorecard(DateRangeFilterMixin, DetailView):
     template_name = 'profile/user-scorecard.html'
     context_object_name = 'view_user'

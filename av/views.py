@@ -58,6 +58,7 @@ def download_media_file(request, media_id):
     response['Content-Disposition'] = 'attachment; filename="%s"' % (media.filename)
     return response
 
+
 def download_course_media(request, course_id):
     course = can_view_course(request, course_id)
     media = Media.objects.filter(course=course)

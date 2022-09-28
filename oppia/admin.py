@@ -63,7 +63,7 @@ class ParticipantInline(admin.TabularInline):
 
 class CohortAdmin(admin.ModelAdmin):
     list_display = ('description', 'last_updated', 'criteria_based')
-    inlines = [ ParticipantInline, ]
+    inlines = [ParticipantInline, ]
     actions = ['update_cohort', 'refresh_cohort']
 
     def success_message(self, request, intro, students, teachers):
@@ -72,7 +72,9 @@ class CohortAdmin(admin.ModelAdmin):
         self.message_user(request, message=message)
 
     def error_message(self, request, cohort):
-        self.message_user(request, "Cohort '{}' is not criteria based.".format(cohort.description), level=messages.ERROR)
+        self.message_user(request,
+                          "Cohort '{}' is not criteria based.".format(cohort.description),
+                          level=messages.ERROR)
 
     def update_cohort(self, request, queryset):
         for cohort in queryset:
@@ -96,6 +98,7 @@ class CohortAdmin(admin.ModelAdmin):
 
     update_cohort.short_description = _('Update cohort participants')
     refresh_cohort.short_description = _('Refresh cohort participants')
+
 
 class CohortCriteriaAdmin(admin.ModelAdmin):
     list_display = ('cohort', 'role', 'user_profile_field', 'user_profile_value')

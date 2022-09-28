@@ -96,7 +96,7 @@ class CohortCriteriaForm(forms.Form):
         choices = []
         custom_fields = CustomField.objects.all().order_by('order')
         for field in custom_fields:
-            choices.append( (field.id, field.label) )
+            choices.append((field.id, field.label))
         self.fields['user_profile_field'].choices = choices
 
         initial = kwargs.get('initial')

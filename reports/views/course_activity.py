@@ -23,7 +23,7 @@ class CourseActivityView(BaseReportTemplateView):
             count = CourseDailyStats.objects.filter(day=temp).aggregate(count=Sum('total'))['count']
             if count is None:
                 count = 0
-            activity.append({'day':temp, 'count':count})
+            activity.append({'day': temp, 'count': count})
         return activity
 
     def get_graph_data(self, start_date, end_date):

@@ -71,8 +71,8 @@ class EditCohortMixin(FormsetView):
 
     def get_named_formsets(self):
         return{
-            'student_criteria': { 'form': CohortCriteriaForm, 'kwargs': {'prefix':'student'}},
-            'teacher_criteria': { 'form': CohortCriteriaForm, 'kwargs': {'prefix':'teacher'}},
+            'student_criteria': {'form': CohortCriteriaForm, 'kwargs': {'prefix': 'student'}},
+            'teacher_criteria': {'form': CohortCriteriaForm, 'kwargs': {'prefix': 'teacher'}},
         }
 
     def formset_student_criteria_valid(self, form, formset):
@@ -106,6 +106,7 @@ class EditCohortMixin(FormsetView):
                 user_profile_field=field, user_profile_value=value
             )
 
+
 class AddCohortView(FormView, UserPassesTestMixin, EditCohortMixin):
     template_name = 'cohort/form.html'
     success_url = reverse_lazy('oppia:cohorts')
@@ -115,11 +116,10 @@ class AddCohortView(FormView, UserPassesTestMixin, EditCohortMixin):
     def test_func(self):
         return can_add_cohort(self.request)
 
-
     def form_valid(self, form):
         cohort = Cohort(
-            description = form.cleaned_data.get("description").strip(),
-            criteria_based = form.cleaned_data.get('criteria_based'),
+            description=form.cleaned_data.get("description").strip(),
+            criteria_based=form.cleaned_data.get('criteria_based'),
             last_updated=datetime.datetime.now()
         )
         cohort.save()
@@ -135,7 +135,6 @@ class AddCohortView(FormView, UserPassesTestMixin, EditCohortMixin):
         cohort_add_courses(cohort, courses)
 
         return super().form_valid(form)
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -325,7 +324,6 @@ class CohortEditView(UserPassesTestMixin, UpdateView, EditCohortMixin):
 
     def get_success_url(self):
         return reverse('oppia:cohorts')
-
 
     def form_valid(self, form):
         cohort = self.object

@@ -67,7 +67,7 @@ def get_customfields_filter(value, field):
     else:
         if is_list:
             print(filter_value)
-            clauses = (Q(**{'userprofilecustomfield__value_str__icontains':elem}) for elem in filter_value)
+            clauses = (Q(**{'userprofilecustomfield__value_str__icontains': elem}) for elem in filter_value)
             query = reduce(operator.or_, clauses)
             query = Q(**{'userprofilecustomfield__key_name': field.id}) & query
             return query

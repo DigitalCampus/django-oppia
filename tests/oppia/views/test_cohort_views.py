@@ -294,8 +294,10 @@ class CohortViewsTest(OppiaTestCase):
     Cohort Criteria
     '''
     def test_add_matching_cohort_criteria_and_refresh(self):
-        expected_students = [self.admin_user]  # admin_user.country='ES'
-        expected_teachers = [self.teacher_user, self.normal_user] # teacher_user.country='FI' and normal_user.country='FI'
+        # admin_user.country='ES'
+        expected_students = [self.admin_user]
+        # teacher_user.country='FI' and normal_user.country='FI'
+        expected_teachers = [self.teacher_user, self.normal_user]
 
         # 1. Get cohort
         cohort = Cohort.objects.get(pk=2)
@@ -306,8 +308,14 @@ class CohortViewsTest(OppiaTestCase):
         Participant(cohort=cohort, user=self.staff_user, role=Participant.STUDENT).save()
 
         # 3. Create matching cohort criteria
-        CohortCritera(cohort=cohort, role=Participant.STUDENT, user_profile_field='country', user_profile_value='ES').save()
-        CohortCritera(cohort=cohort, role=Participant.TEACHER, user_profile_field='country', user_profile_value='FI').save()
+        CohortCritera(cohort=cohort,
+                      role=Participant.STUDENT,
+                      user_profile_field='country',
+                      user_profile_value='ES').save()
+        CohortCritera(cohort=cohort,
+                      role=Participant.TEACHER,
+                      user_profile_field='country',
+                      user_profile_value='FI').save()
 
         # 4. Refresh cohort participants
         student_count, teacher_count = cohort.refresh_participants()
@@ -339,8 +347,14 @@ class CohortViewsTest(OppiaTestCase):
         Participant(cohort=cohort, user=self.staff_user, role=Participant.STUDENT).save()
 
         # 3. Create matching cohort criteria
-        CohortCritera(cohort=cohort, role=Participant.STUDENT, user_profile_field='country', user_profile_value='NonExistingCountry').save()
-        CohortCritera(cohort=cohort, role=Participant.TEACHER, user_profile_field='country', user_profile_value='NonExistingCountry').save()
+        CohortCritera(cohort=cohort,
+                      role=Participant.STUDENT,
+                      user_profile_field='country',
+                      user_profile_value='NonExistingCountry').save()
+        CohortCritera(cohort=cohort,
+                      role=Participant.TEACHER,
+                      user_profile_field='country',
+                      user_profile_value='NonExistingCountry').save()
 
         # 4. Refresh cohort participants
         student_count, teacher_count = cohort.refresh_participants()
@@ -360,8 +374,10 @@ class CohortViewsTest(OppiaTestCase):
         self.assertTrue(self.staff_user not in actual_students)
 
     def test_add_matching_cohort_criteria_and_update(self):
-        expected_students = [self.staff_user, self.admin_user]  # staff_user.country=None and admin_user.country='ES'
-        expected_teachers = [self.normal_user, self.teacher_user]  # normal_user.country='FI' and teacher_user.country='FI'
+        # staff_user.country=None and admin_user.country='ES'
+        expected_students = [self.staff_user, self.admin_user]
+        # normal_user.country='FI' and teacher_user.country='FI'
+        expected_teachers = [self.normal_user, self.teacher_user]
 
         # 1. Get cohort
         cohort = Cohort.objects.get(pk=2)
@@ -373,8 +389,14 @@ class CohortViewsTest(OppiaTestCase):
         Participant(cohort=cohort, user=self.staff_user, role=Participant.STUDENT).save()
 
         # 3. Create matching cohort criteria
-        CohortCritera(cohort=cohort, role=Participant.STUDENT, user_profile_field='country', user_profile_value='ES').save()
-        CohortCritera(cohort=cohort, role=Participant.TEACHER, user_profile_field='country', user_profile_value='FI').save()
+        CohortCritera(cohort=cohort,
+                      role=Participant.STUDENT,
+                      user_profile_field='country',
+                      user_profile_value='ES').save()
+        CohortCritera(cohort=cohort,
+                      role=Participant.TEACHER,
+                      user_profile_field='country',
+                      user_profile_value='FI').save()
 
         # 4. Update cohort participants
         updated_students, updated_teachers = cohort.update_participants()
@@ -409,8 +431,14 @@ class CohortViewsTest(OppiaTestCase):
         Participant(cohort=cohort, user=self.teacher_user, role=Participant.TEACHER).save()
 
         # 3. Create matching cohort criteria
-        CohortCritera(cohort=cohort, role=Participant.STUDENT, user_profile_field='country', user_profile_value='NonExistingCountry').save()
-        CohortCritera(cohort=cohort, role=Participant.TEACHER, user_profile_field='country', user_profile_value='NonExistingCountry').save()
+        CohortCritera(cohort=cohort,
+                      role=Participant.STUDENT,
+                      user_profile_field='country',
+                      user_profile_value='NonExistingCountry').save()
+        CohortCritera(cohort=cohort,
+                      role=Participant.TEACHER,
+                      user_profile_field='country',
+                      user_profile_value='NonExistingCountry').save()
 
         # 4. Update cohort participants
         updated_students, updated_teachers = cohort.update_participants()
@@ -443,9 +471,15 @@ class CohortViewsTest(OppiaTestCase):
         Participant(cohort=cohort, user=self.admin_user, role=Participant.STUDENT).save()
 
         # 3. Create matching cohort criteria
-        CohortCritera(cohort=cohort, role=Participant.STUDENT, user_profile_field='country', user_profile_value='FI').save()
+        CohortCritera(cohort=cohort,
+                      role=Participant.STUDENT,
+                      user_profile_field='country',
+                      user_profile_value='FI').save()
         CohortCritera(cohort=cohort, role=Participant.STUDENT, user_profile_field='age', user_profile_value=30).save()
-        CohortCritera(cohort=cohort, role=Participant.TEACHER, user_profile_field='country', user_profile_value='FI').save()
+        CohortCritera(cohort=cohort,
+                      role=Participant.TEACHER,
+                      user_profile_field='country',
+                      user_profile_value='FI').save()
         CohortCritera(cohort=cohort, role=Participant.TEACHER, user_profile_field='age', user_profile_value=40).save()
 
         # 4. Refresh cohort participants
@@ -478,9 +512,15 @@ class CohortViewsTest(OppiaTestCase):
         Participant(cohort=cohort, user=self.admin_user, role=Participant.STUDENT).save()
 
         # 3. Create matching cohort criteria
-        CohortCritera(cohort=cohort, role=Participant.STUDENT, user_profile_field='country', user_profile_value='ES').save()
+        CohortCritera(cohort=cohort,
+                      role=Participant.STUDENT,
+                      user_profile_field='country',
+                      user_profile_value='ES').save()
         CohortCritera(cohort=cohort, role=Participant.STUDENT, user_profile_field='age', user_profile_value=30).save()
-        CohortCritera(cohort=cohort, role=Participant.TEACHER, user_profile_field='country', user_profile_value='ES').save()
+        CohortCritera(cohort=cohort,
+                      role=Participant.TEACHER,
+                      user_profile_field='country',
+                      user_profile_value='ES').save()
         CohortCritera(cohort=cohort, role=Participant.TEACHER, user_profile_field='age', user_profile_value=40).save()
 
         # 4. Refresh cohort participants
@@ -502,7 +542,7 @@ class CohortViewsTest(OppiaTestCase):
 
     def test_add_multiple_matching_cohort_criteria_and_update(self):
         expected_students = [self.admin_user, self.normal_user]  # normal_user.country='FI' && normal_user.age=30
-        expected_teachers = [self.admin_user, self.teacher_user] # teacher_user.country='FI' && teacher_user.age=40
+        expected_teachers = [self.admin_user, self.teacher_user]  # teacher_user.country='FI' && teacher_user.age=40
 
         # 1. Get cohort
         cohort = Cohort.objects.get(pk=2)
@@ -516,9 +556,15 @@ class CohortViewsTest(OppiaTestCase):
         Participant(cohort=cohort, user=self.admin_user, role=Participant.TEACHER).save()
 
         # 3. Create matching cohort criteria
-        CohortCritera(cohort=cohort, role=Participant.STUDENT, user_profile_field='country', user_profile_value='FI').save()
+        CohortCritera(cohort=cohort,
+                      role=Participant.STUDENT,
+                      user_profile_field='country',
+                      user_profile_value='FI').save()
         CohortCritera(cohort=cohort, role=Participant.STUDENT, user_profile_field='age', user_profile_value=30).save()
-        CohortCritera(cohort=cohort, role=Participant.TEACHER, user_profile_field='country', user_profile_value='FI').save()
+        CohortCritera(cohort=cohort,
+                      role=Participant.TEACHER,
+                      user_profile_field='country',
+                      user_profile_value='FI').save()
         CohortCritera(cohort=cohort, role=Participant.TEACHER, user_profile_field='age', user_profile_value=40).save()
 
         # 4. Refresh cohort participants
@@ -540,8 +586,10 @@ class CohortViewsTest(OppiaTestCase):
         self.assertTrue(self.admin_user in actual_teachers)
 
     def test_add_multiple_non_matching_cohort_criteria_and_update(self):
-        expected_students = [self.admin_user]  # No student having country='ES' and age=30. admin_user was already in the cohort
-        expected_teachers = [self.admin_user]  # No teacher having country='ES' and age=40. admin_user was already in the cohort
+        # No student having country='ES' and age=30. admin_user was already in the cohort
+        expected_students = [self.admin_user]
+        # No teacher having country='ES' and age=40. admin_user was already in the cohort
+        expected_teachers = [self.admin_user]
 
         # 1. Get cohort
         cohort = Cohort.objects.get(pk=2)
@@ -555,9 +603,15 @@ class CohortViewsTest(OppiaTestCase):
         Participant(cohort=cohort, user=self.admin_user, role=Participant.TEACHER).save()
 
         # 3. Create matching cohort criteria
-        CohortCritera(cohort=cohort, role=Participant.STUDENT, user_profile_field='country', user_profile_value='ES').save()
+        CohortCritera(cohort=cohort,
+                      role=Participant.STUDENT,
+                      user_profile_field='country',
+                      user_profile_value='ES').save()
         CohortCritera(cohort=cohort, role=Participant.STUDENT, user_profile_field='age', user_profile_value=30).save()
-        CohortCritera(cohort=cohort, role=Participant.TEACHER, user_profile_field='country', user_profile_value='ES').save()
+        CohortCritera(cohort=cohort,
+                      role=Participant.TEACHER,
+                      user_profile_field='country',
+                      user_profile_value='ES').save()
         CohortCritera(cohort=cohort, role=Participant.TEACHER, user_profile_field='age', user_profile_value=40).save()
 
         # 4. Refresh cohort participants
@@ -591,8 +645,14 @@ class CohortViewsTest(OppiaTestCase):
         Participant(cohort=cohort, user=self.staff_user, role=Participant.STUDENT).save()
 
         # 3. Create matching cohort criteria
-        CohortCritera(cohort=cohort, role=Participant.STUDENT, user_profile_field='country', user_profile_value='ES,FI').save()
-        CohortCritera(cohort=cohort, role=Participant.TEACHER, user_profile_field='country', user_profile_value='ES,FI').save()
+        CohortCritera(cohort=cohort,
+                      role=Participant.STUDENT,
+                      user_profile_field='country',
+                      user_profile_value='ES,FI').save()
+        CohortCritera(cohort=cohort,
+                      role=Participant.TEACHER,
+                      user_profile_field='country',
+                      user_profile_value='ES,FI').save()
 
         # 4. Refresh cohort participants
         student_count, teacher_count = cohort.refresh_participants()
@@ -613,8 +673,10 @@ class CohortViewsTest(OppiaTestCase):
         self.assertTrue(self.staff_user not in actual_teachers)
 
     def test_add_non_matching_cohort_criteria_with_multiple_conditions_and_refresh(self):
-        expected_students = [self.admin_user]  # admin_user.country='ES' and No users have 'NonExistingCountry' for country
-        expected_teachers = [self.teacher_user, self.normal_user]  # teacher_user.country='FI' and normal_user.country='FI'
+        # admin_user.country='ES' and No users have 'NonExistingCountry' for country
+        expected_students = [self.admin_user]
+        # teacher_user.country='FI' and normal_user.country='FI'
+        expected_teachers = [self.teacher_user, self.normal_user]
 
         # 1. Get cohort
         cohort = Cohort.objects.get(pk=2)
@@ -625,8 +687,14 @@ class CohortViewsTest(OppiaTestCase):
         Participant(cohort=cohort, user=self.normal_user, role=Participant.STUDENT).save()
 
         # 3. Create matching cohort criteria
-        CohortCritera(cohort=cohort, role=Participant.STUDENT, user_profile_field='country', user_profile_value='ES,NonExistingCountry').save()
-        CohortCritera(cohort=cohort, role=Participant.TEACHER, user_profile_field='country', user_profile_value='FI,NonExistingCountry').save()
+        CohortCritera(cohort=cohort,
+                      role=Participant.STUDENT,
+                      user_profile_field='country',
+                      user_profile_value='ES,NonExistingCountry').save()
+        CohortCritera(cohort=cohort,
+                      role=Participant.TEACHER,
+                      user_profile_field='country',
+                      user_profile_value='FI,NonExistingCountry').save()
 
         # 4. Refresh cohort participants
         student_count, teacher_count = cohort.refresh_participants()
@@ -658,8 +726,14 @@ class CohortViewsTest(OppiaTestCase):
         Participant(cohort=cohort, user=self.staff_user, role=Participant.STUDENT).save()
 
         # 3. Create matching cohort criteria
-        CohortCritera(cohort=cohort, role=Participant.STUDENT, user_profile_field='country', user_profile_value='ES,FI').save()
-        CohortCritera(cohort=cohort, role=Participant.TEACHER, user_profile_field='country', user_profile_value='ES,FI').save()
+        CohortCritera(cohort=cohort,
+                      role=Participant.STUDENT,
+                      user_profile_field='country',
+                      user_profile_value='ES,FI').save()
+        CohortCritera(cohort=cohort,
+                      role=Participant.TEACHER,
+                      user_profile_field='country',
+                      user_profile_value='ES,FI').save()
 
         # 4. Update cohort participants
         initial_students_count = 1
@@ -692,7 +766,10 @@ class CohortViewsTest(OppiaTestCase):
         Participant(cohort=cohort, user=self.normal_user, role=Participant.STUDENT).save()
 
         # 3. Create matching cohort criteria
-        CohortCritera(cohort=cohort, role=Participant.STUDENT, user_profile_field='country', user_profile_value='NonExistingCountry1, NonExistingCountry2').save()
+        CohortCritera(cohort=cohort,
+                      role=Participant.STUDENT,
+                      user_profile_field='country',
+                      user_profile_value='NonExistingCountry1, NonExistingCountry2').save()
 
         # 4. Refresh cohort participants
         initial_students_count = 1
@@ -725,8 +802,14 @@ class CohortViewsTest(OppiaTestCase):
         Participant(cohort=cohort, user=self.staff_user, role=Participant.STUDENT).save()
 
         # 3. Create matching cohort criteria
-        CohortCritera(cohort=cohort, role=Participant.STUDENT, user_profile_field='NonExistingField', user_profile_value='ES').save()
-        CohortCritera(cohort=cohort, role=Participant.TEACHER, user_profile_field='NonExistingField', user_profile_value='FI').save()
+        CohortCritera(cohort=cohort,
+                      role=Participant.STUDENT,
+                      user_profile_field='NonExistingField',
+                      user_profile_value='ES').save()
+        CohortCritera(cohort=cohort,
+                      role=Participant.TEACHER,
+                      user_profile_field='NonExistingField',
+                      user_profile_value='FI').save()
 
         # 4. Refresh cohort participants
         student_count, teacher_count = cohort.refresh_participants()
@@ -759,8 +842,14 @@ class CohortViewsTest(OppiaTestCase):
         Participant(cohort=cohort, user=self.staff_user, role=Participant.STUDENT).save()
 
         # 3. Create matching cohort criteria
-        CohortCritera(cohort=cohort, role=Participant.STUDENT, user_profile_field='NonExistingField', user_profile_value='ES').save()
-        CohortCritera(cohort=cohort, role=Participant.TEACHER, user_profile_field='NonExistingField', user_profile_value='FI').save()
+        CohortCritera(cohort=cohort,
+                      role=Participant.STUDENT,
+                      user_profile_field='NonExistingField',
+                      user_profile_value='ES').save()
+        CohortCritera(cohort=cohort,
+                      role=Participant.TEACHER,
+                      user_profile_field='NonExistingField',
+                      user_profile_value='FI').save()
 
         # 4. Refresh cohort participants
         student_count, teacher_count = cohort.update_participants()
@@ -853,7 +942,10 @@ class CohortViewsTest(OppiaTestCase):
         Participant(cohort=cohort, user=self.normal_user, role=Participant.TEACHER).save()
 
         # 3. Create matching cohort criteria
-        CohortCritera(cohort=cohort, role=Participant.STUDENT, user_profile_field='country', user_profile_value='ES').save()
+        CohortCritera(cohort=cohort,
+                      role=Participant.STUDENT,
+                      user_profile_field='country',
+                      user_profile_value='ES').save()
 
         # 4. Refresh cohort participants
         student_count, teacher_count = cohort.refresh_participants()
@@ -885,7 +977,10 @@ class CohortViewsTest(OppiaTestCase):
         Participant(cohort=cohort, user=self.normal_user, role=Participant.TEACHER).save()
 
         # 3. Create matching cohort criteria
-        CohortCritera(cohort=cohort, role=Participant.STUDENT, user_profile_field='country', user_profile_value='ES').save()
+        CohortCritera(cohort=cohort,
+                      role=Participant.STUDENT,
+                      user_profile_field='country',
+                      user_profile_value='ES').save()
 
         # 4. Update cohort participants
         updated_students, updated_teachers = cohort.update_participants()

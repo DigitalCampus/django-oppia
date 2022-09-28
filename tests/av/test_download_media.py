@@ -22,7 +22,7 @@ class DownloadMediaTest(OppiaTestCase):
 
     URL_DOWNLOAD_COURSE_MEDIA = 'av:download_course_media'
     URL_DOWNLOAD_MEDIA_FILE = 'av:download_media_file'
-    
+
     def setUp(self):
         super(DownloadMediaTest, self).setUp()
         os.makedirs(self.UPLOADED_ROOT, exist_ok=True)
@@ -32,7 +32,7 @@ class DownloadMediaTest(OppiaTestCase):
         src = os.path.join(settings.TEST_RESOURCES, self.MEDIA_FILENAME)
         dst = os.path.join(self.UPLOADED_ROOT, self.MEDIA_FILENAME)
         shutil.copyfile(src, dst)
-        
+
     def test_permissions(self):
         url = reverse('av:course_media', args=[1])
         allowed_users = [self.admin_user,
@@ -68,14 +68,14 @@ class DownloadMediaTest(OppiaTestCase):
         url = reverse(self.URL_DOWNLOAD_COURSE_MEDIA, args=[0])
         response = self.client.get(url)
         self.assertEqual(404, response.status_code)
-        
+
     def test_download_media_valid(self):
         self.copy_sample_video()
         self.client.force_login(self.normal_user)
         url = reverse(self.URL_DOWNLOAD_MEDIA_FILE, args=[1])
         response = self.client.get(url)
         self.assertEqual(200, response.status_code)
-        
+
     def test_download_media_invalid(self):
         self.copy_sample_video()
         self.client.force_login(self.normal_user)

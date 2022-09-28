@@ -93,7 +93,8 @@ class Cohort(models.Model):
             if not customfield:
                 continue
             value = criteria.user_profile_value
-            participants = (participants if participants else User.objects).filter(get_customfields_filter(value, customfield))
+            participants = (participants if participants else User.objects).filter(
+                get_customfields_filter(value, customfield))
 
         for participant in participants:
             if not Participant.objects.filter(cohort=self, user=participant, role=role).exists():
@@ -129,6 +130,7 @@ class Participant(models.Model):
     @staticmethod
     def get_user_cohorts(user):
         return list(set(Participant.objects.filter(user=user).values_list('cohort', flat=True)))
+
 
 class CohortCritera(models.Model):
     cohort = models.ForeignKey(Cohort, on_delete=models.CASCADE)
