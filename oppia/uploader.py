@@ -731,8 +731,8 @@ def update_quiz_questions(quiz, quiz_obj):
         else:
             question = question.filter(quizquestion__order=q['order']).first()
 
-        quiz_question, created = QuizQuestion.objects.get_or_create(
-            quiz=quiz, question=question, order=q['order'])
+        quiz_question, created = QuizQuestion.objects.update_or_create(
+            quiz=quiz, question=question, defaults={'order': q['order']})
         q['id'] = quiz_question.pk
         q['question']['id'] = question.pk
 
