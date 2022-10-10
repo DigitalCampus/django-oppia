@@ -171,7 +171,7 @@
             var coursesList = getSelectableItemsSelected($('#selected-courses'));
 
             if ( (!roleHasCriteriaSet('student') && studentsList.length <= 0) ||
-                  (!roleHasCriteriaSet('teacher') && teachersList.length <= 0)
+                  (!roleHasCriteriaSet('teacher') && teachersList.length <= 0) ||
                   (coursesList.length <= 0)) {
                 $('#empty-alert').fadeIn();
                 e.preventDefault();
