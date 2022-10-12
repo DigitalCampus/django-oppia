@@ -15,7 +15,7 @@ openpyxl==3.0.10
 tablib==3.2.1
 httpretty==1.1.4
 xmltodict==0.13.0
-django-ses==3.1.2
+django-ses==3.2.0
 reportlab==3.6.11
 qrcode==7.3.1
 mysqlclient==2.1.1
