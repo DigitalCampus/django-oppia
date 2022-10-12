@@ -155,7 +155,7 @@ def cohort_add(request):
     if not can_add_cohort(request):
         raise PermissionDenied
 
-    CohortCriteriaFormset = formset_factory(CohortCriteriaForm)
+    cohort_criteria_formset = formset_factory(CohortCriteriaForm)
 
     if request.method == 'POST':
         form = CohortForm(request.POST.copy())
@@ -194,8 +194,6 @@ def cohort_add(request):
     else:
         form = CohortForm()
 
-    criteria_formset = CohortCriteriaFormset()
-
     ordering, users = get_paginated_users(request)
     c_ordering, courses = get_paginated_courses(request)
 
@@ -204,7 +202,7 @@ def cohort_add(request):
                    'page': users,
                    'is_new': True,
                    'courses_page': courses,
-                   'criteria_formset': criteria_formset,
+                   'criteria_formset': cohort_criteria_formset(),
                    'courses_ordering': c_ordering,
                    'page_ordering': ordering,
                    'users_list_template': 'select'})
