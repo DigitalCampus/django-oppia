@@ -219,11 +219,6 @@ class UserActivityDetailList(DateRangeFilterMixin, SafePaginatorMixin, ListView)
         print(end_date)
         trackers = trackers.filter(tracker_date__gte=start_date, tracker_date__lte=end_date)
 
-        # filters = utils.get_filters_from_row(form, convert_date=False)
-        # if filters:
-        #    trackers = trackers.filter(**filters)
-        #    self.filtered = True
-
         return trackers.order_by('-tracker_date')
 
     def get_context_data(self, **kwargs):
