@@ -32,6 +32,7 @@ from profile.models import CustomField
 from profile.utils import get_paginated_users
 from summary.models import UserCourseSummary
 
+STR_COHORT_TEMPLATE_FORM = 'cohort/form.html'
 
 class CohortListView(StaffRequiredMixin, ListView):
     template_name = 'cohort/list.html'
@@ -108,7 +109,7 @@ class EditCohortMixin(FormsetView):
 
 
 class AddCohortView(FormView, UserPassesTestMixin, EditCohortMixin):
-    template_name = 'cohort/form.html'
+    template_name = STR_COHORT_TEMPLATE_FORM
     success_url = reverse_lazy('oppia:cohorts')
     form_class = CohortForm
 
@@ -198,7 +199,7 @@ def cohort_add(request):
     ordering, users = get_paginated_users(request)
     c_ordering, courses = get_paginated_courses(request)
 
-    return render(request, 'cohort/form.html',
+    return render(request, STR_COHORT_TEMPLATE_FORM,
                   {'form': form,
                    'page': users,
                    'is_new': True,
@@ -265,7 +266,7 @@ class CohortLeaderboardView(UserPassesTestMixin,
 
 
 class CohortEditView(UserPassesTestMixin, UpdateView, EditCohortMixin):
-    template_name = 'cohort/form.html'
+    template_name = STR_COHORT_TEMPLATE_FORM
     model = Cohort
     form_class = CohortForm
 
