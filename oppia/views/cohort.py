@@ -32,6 +32,7 @@ from profile.models import CustomField
 from profile.utils import get_paginated_users
 from summary.models import UserCourseSummary
 
+STR_COHORT_TEMPLATE_FORM = 'cohort/form.html'
 
 class CohortListView(StaffRequiredMixin, ListView):
     template_name = 'cohort/list.html'
@@ -108,7 +109,7 @@ class EditCohortMixin(FormsetView):
 
 
 class AddCohortView(FormView, UserPassesTestMixin, EditCohortMixin):
-    template_name = 'cohort/form.html'
+    template_name = STR_COHORT_TEMPLATE_FORM
     success_url = reverse_lazy('oppia:cohorts')
     form_class = CohortForm
 
@@ -148,65 +149,6 @@ class AddCohortView(FormView, UserPassesTestMixin, EditCohortMixin):
         context['users_list_template'] = 'select'
 
         return context
-
-
-def cohort_add(request):
-    if not can_add_cohort(request):
-        raise PermissionDenied
-
-    CohortCriteriaFormset = formset_factory(CohortCriteriaForm)
-
-    if request.method == 'POST':
-        form = CohortForm(request.POST.copy())
-        if form.is_valid():  # All validation rules pass
-            cohort = Cohort()
-            start_date = form.cleaned_data.get("start_date")
-            end_date = form.cleaned_data.get("end_date")
-            if start_date:
-                cohort.start_date = timezone.make_aware(
-                    datetime.datetime.strptime(start_date, constants.STR_DATE_FORMAT),
-                    timezone.get_current_timezone())
-            if end_date:
-                cohort.end_date = timezone.make_aware(
-                    datetime.datetime.strptime(end_date, constants.STR_DATE_FORMAT),
-                    timezone.get_current_timezone())
-            cohort.description = form.cleaned_data.get("description").strip()
-            cohort.last_updated = datetime.datetime.now()
-            cohort.save()
-
-            students = form.cleaned_data.get("students")
-            cohort_add_roles(cohort, Participant.STUDENT, students)
-
-            teachers = form.cleaned_data.get("teachers")
-            cohort_add_roles(cohort, Participant.TEACHER, teachers)
-
-            courses = form.cleaned_data.get("courses")
-            cohort_add_courses(cohort, courses)
-
-            return HttpResponseRedirect('../')  # Redirect after POST
-        else:
-            # If form is not valid, clean the groups data
-            form.data['teachers'] = None
-            form.data['courses'] = None
-            form.data['students'] = None
-
-    else:
-        form = CohortForm()
-
-    criteria_formset = CohortCriteriaFormset()
-
-    ordering, users = get_paginated_users(request)
-    c_ordering, courses = get_paginated_courses(request)
-
-    return render(request, 'cohort/form.html',
-                  {'form': form,
-                   'page': users,
-                   'is_new': True,
-                   'courses_page': courses,
-                   'criteria_formset': criteria_formset,
-                   'courses_ordering': c_ordering,
-                   'page_ordering': ordering,
-                   'users_list_template': 'select'})
 
 
 class CohortDetailView(UserPassesTestMixin, DetailView):
@@ -265,7 +207,7 @@ class CohortLeaderboardView(UserPassesTestMixin,
 
 
 class CohortEditView(UserPassesTestMixin, UpdateView, EditCohortMixin):
-    template_name = 'cohort/form.html'
+    template_name = STR_COHORT_TEMPLATE_FORM
     model = Cohort
     form_class = CohortForm
 
