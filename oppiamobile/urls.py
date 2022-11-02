@@ -1,6 +1,5 @@
 
-from django.conf.urls import include
-from django.urls import path
+from django.urls import path, include
 from django.utils.translation import gettext_lazy as _
 from django.contrib import admin
 

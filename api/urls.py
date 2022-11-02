@@ -1,5 +1,5 @@
-from django.conf.urls import include
-from django.urls import path
+
+from django.urls import path, include
 from tastypie.api import Api
 
 from activitylog.views import post_activitylog
