@@ -17,7 +17,7 @@ class UploadHelpersTest(OppiaTestCase):
                 'tests/test_permissions.json',
                 'default_badges.json',
                 'tests/test_course_permissions.json']
-    quiz_json_file = os.path.join(settings.TEST_RESOURCES, 'sample_quiz.json')
+    quiz_json_file = os.path.join(settings.TEST_RESOURCES, 'quizzes/sample_quiz.json')
 
     def test_create_quiz_props(self):
         # get existing quiz and remove existing props
