@@ -1,0 +1,181 @@
+{
+  "id": 22,
+  "title": {
+    "en": "Test Quiz Updated"
+  },
+  "description": {
+    "en": ""
+  },
+  "props": {
+    "courseversion": "20221223123231",
+    "showfeedback": "2",
+    "passthreshold": "50",
+    "maxattempts": "6",
+    "maxscore": 3,
+    "digest": "9f9074ebc394b6edd1f36ddf4004d5ed",
+    "moodle_quiz_id": "361"
+  },
+  "questions": [
+    {
+      "order": 1,
+      "id": 273,
+      "question": {
+        "id": 556,
+        "type": "multichoice",
+        "title": {
+          "en": "Test Question Updated"
+        },
+        "props": {
+          "moodle_question_id": "512",
+          "moodle_question_latest_version_id": "561",
+          "maxscore": 1,
+          "shuffleanswers": "1"
+        },
+        "responses": [
+          {
+            "order": 1,
+            "id": 664,
+            "props": {
+              "id": 327
+            },
+            "title": {
+              "en": "Lion"
+            },
+            "score": "1.0000"
+          },
+          {
+            "order": 2,
+            "id": 901,
+            "props": {
+              "id": 166
+            },
+            "title": {
+              "en": "Cat"
+            },
+            "score": "0.0000"
+          },
+          {
+            "order": 3,
+            "id": 630,
+            "props": {
+              "id": 778
+            },
+            "title": {
+              "en": "Mouse"
+            },
+            "score": "0.0000"
+          },
+          {
+            "order": 4,
+            "id": 610,
+            "props": {
+              "id": 882
+            },
+            "title": {
+              "en": "Flea"
+            },
+            "score": "0.0000"
+          }
+        ]
+      }
+    },
+    {
+      "order": 2,
+      "id": 36,
+      "question": {
+        "id": 460,
+        "type": "multichoice",
+        "title": {
+          "en": "Which one is correct?"
+        },
+        "props": {
+          "moodle_question_id": "515",
+          "moodle_question_latest_version_id": "543",
+          "maxscore": 1,
+          "shuffleanswers": "1"
+        },
+        "responses": [
+          {
+            "order": 1,
+            "id": 128,
+            "props": {
+              "id": 336
+            },
+            "title": {
+              "en": "This is the correct one"
+            },
+            "score": "1.0000"
+          },
+          {
+            "order": 2,
+            "id": 869,
+            "props": {
+              "id": 980
+            },
+            "title": {
+              "en": "Wrong one"
+            },
+            "score": "0.0000"
+          },
+          {
+            "order": 3,
+            "id": 285,
+            "props": {
+              "id": 854
+            },
+            "title": {
+              "en": "Wrong one"
+            },
+            "score": "0.0000"
+          }
+        ]
+      }
+    },
+    {
+      "order": 3,
+      "id": 617,
+      "question": {
+        "id": 45,
+        "type": "multichoice",
+        "title": {
+          "en": "The sun is round"
+        },
+        "props": {
+          "moodle_question_id": "525",
+          "moodle_question_latest_version_id": "555",
+          "maxscore": 1
+        },
+        "responses": [
+          {
+            "order": 1,
+            "id": 65,
+            "props": {
+              "id": 890,
+              "feedback": {
+                "en": "correct!"
+              }
+            },
+            "title": {
+              "en": "True"
+            },
+            "score": "1.0000"
+          },
+          {
+            "order": 2,
+            "id": 610,
+            "props": {
+              "id": 178,
+              "feedback": {
+                "en": "incorrect :-("
+              }
+            },
+            "title": {
+              "en": "False"
+            },
+            "score": "0.0000"
+          }
+        ]
+      }
+    }
+  ]
+}
