@@ -55,8 +55,8 @@ class QuizAttemptResource(ModelResource):
         serializer = QuizAttemptJSONSerializer()
 
     def hydrate(self, bundle, request=None):
-        errors = []
-        bundle.obj.user = User.objects.get(pk=bundle.request.user.id)
+        user = User.objects.get(pk=bundle.request.user.id)
+        bundle.obj.user = user
         bundle.obj.ip = bundle.request.META.get('REMOTE_ADDR',
                                                 DEFAULT_IP_ADDRESS)
         bundle.obj.agent = bundle.request.META.get('HTTP_USER_AGENT',
@@ -66,7 +66,12 @@ class QuizAttemptResource(ModelResource):
         try:
             bundle.obj.quiz = Quiz.objects.get(pk=bundle.data['quiz_id'])
         except Quiz.DoesNotExist:
-            errors.append(DataRecovery.Reason.QUIZ_DOES_NOT_EXIST)
+            DataRecovery.create_data_recovery_entry(
+                user=user,
+                data_type=DataRecovery.Type.QUIZ,
+                reasons=[DataRecovery.Reason.QUIZ_DOES_NOT_EXIST],
+                data=bundle.data
+            )
             raise BadRequest(_(u'Quiz does not exist'))
 
         # see if instance id already submitted
@@ -83,16 +88,25 @@ class QuizAttemptResource(ModelResource):
                     response['question'] = Question.objects.get(
                         pk=response['question_id'])
                 except Question.DoesNotExist:
-                    errors.append(DataRecovery.Reason.QUESTION_DOES_NOT_EXIST)
+                    DataRecovery.create_data_recovery_entry(
+                        user=user,
+                        data_type=DataRecovery.Type.QUIZ,
+                        reasons=[DataRecovery.Reason.QUESTION_DOES_NOT_EXIST],
+                        data=bundle.data
+                    )
                     raise BadRequest(_(u'Question does not exist'))
                 # check part of this quiz
                 try:
                     QuizQuestion.objects.get(quiz=bundle.obj.quiz,
                                              question=response['question'])
                 except QuizQuestion.DoesNotExist:
-                    errors.append(DataRecovery.Reason.QUESTION_FROM_DIFFERENT_QUIZ)
-                    raise BadRequest(
-                        _(u'This question is not part of this quiz'))
+                    DataRecovery.create_data_recovery_entry(
+                        user=user,
+                        data_type=DataRecovery.Type.QUIZ,
+                        reasons=[DataRecovery.Reason.QUESTION_FROM_DIFFERENT_QUIZ],
+                        data=bundle.data
+                    )
+                    raise BadRequest(_(u'This question is not part of this quiz'))
 
         if 'points' in bundle.data:
             bundle.obj.points = bundle.data['points']
