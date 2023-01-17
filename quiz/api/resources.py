@@ -1,3 +1,5 @@
+import copy
+import json
 
 from django.contrib.auth.models import User
 from django.utils.translation import gettext as _
@@ -55,6 +57,7 @@ class QuizAttemptResource(ModelResource):
         serializer = QuizAttemptJSONSerializer()
 
     def hydrate(self, bundle, request=None):
+        original_request_data = copy.deepcopy(bundle.data)
         user = User.objects.get(pk=bundle.request.user.id)
         bundle.obj.user = user
         bundle.obj.ip = bundle.request.META.get('REMOTE_ADDR',
@@ -70,7 +73,7 @@ class QuizAttemptResource(ModelResource):
                 user=user,
                 data_type=DataRecovery.Type.QUIZ,
                 reasons=[DataRecovery.Reason.QUIZ_DOES_NOT_EXIST],
-                data=bundle.data
+                data=json.dumps(original_request_data)
             )
             raise BadRequest(_(u'Quiz does not exist'))
 
@@ -92,7 +95,7 @@ class QuizAttemptResource(ModelResource):
                         user=user,
                         data_type=DataRecovery.Type.QUIZ,
                         reasons=[DataRecovery.Reason.QUESTION_DOES_NOT_EXIST],
-                        data=bundle.data
+                        data=json.dumps(original_request_data)
                     )
                     raise BadRequest(_(u'Question does not exist'))
                 # check part of this quiz
@@ -104,7 +107,7 @@ class QuizAttemptResource(ModelResource):
                         user=user,
                         data_type=DataRecovery.Type.QUIZ,
                         reasons=[DataRecovery.Reason.QUESTION_FROM_DIFFERENT_QUIZ],
-                        data=bundle.data
+                        data=json.dumps(original_request_data)
                     )
                     raise BadRequest(_(u'This question is not part of this quiz'))
 
