@@ -56,9 +56,9 @@ class QuizUploadTest(ResourceTestCaseMixin, OppiaTestCase):
         with open(quiz_attempt_json_file) as json_data:
             data = json.loads(json_data.read())
             resp = self.api_client.post(get_api_url('v2', 'quizattempt'),
-                                 format='json',
-                                 data=data,
-                                 authentication=self.get_credentials())
+                                        format='json',
+                                        data=data,
+                                        authentication=self.get_credentials())
 
             self.assertHttpCreated(resp)
             self.assertValidJSON(resp.content)
@@ -76,7 +76,7 @@ class QuizUploadTest(ResourceTestCaseMixin, OppiaTestCase):
     def test_upload_quiz_from_json(self):
         # 1. Upload quiz
         quiz_obj, quiz_json = self.upload_quiz(self.original_quiz_json_file)
-        
+
         # 2. Assert title is correct
         self.assertEqual('{"en": "Test Quiz"}', quiz_obj.title)
 
@@ -152,5 +152,3 @@ class QuizUploadTest(ResourceTestCaseMixin, OppiaTestCase):
 
         # 8. Assert there are now 2 quiz attempts for the edited quiz
         self.assertEqual(2, QuizAttempt.objects.filter(quiz=updated_quiz_obj).count())
-
-
