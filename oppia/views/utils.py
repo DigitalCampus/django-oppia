@@ -61,7 +61,8 @@ def generate_graph_data(dates_types_stats, is_monthly=False):
 def filter_trackers(trackers, start_date, end_date):
 
     activity = []
-    no_days = (end_date - start_date).days + 1
+    end_date = end_date + datetime.timedelta(days=1)
+    no_days = (end_date - start_date).days
 
     trackers = trackers.filter(
                         tracker_date__gte=start_date,
