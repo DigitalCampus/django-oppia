@@ -734,10 +734,13 @@ def update_quiz_questions(quiz, quiz_obj):
             quiz=quiz)
 
         if not question:
-            question_id = QuestionProps.objects.get(
+            try:
+                question_id = QuestionProps.objects.get(
                 name="moodle_question_id",
                 value=q['question']['props']['moodle_question_id']).question_id
-            question = Question.objects.filter(id=question_id)
+                question = Question.objects.filter(id=question_id)
+            except QuestionProps.DoesNotExist:
+                continue
 
         qcount = question.count()
         if qcount == 0:
