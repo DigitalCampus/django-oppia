@@ -61,8 +61,8 @@ class UploadMediaForm(forms.Form):
         '''
 
         if isinstance(media_file, TemporaryUploadedFile):
-            md5 = hashlib.md5(open(media_file.temporary_file_path(),
-                                   'rb').read()).hexdigest()
+            with open(media_file.temporary_file_path(), 'rb') as media:
+                md5 = hashlib.md5(media.read()).hexdigest()
         elif isinstance(media_file, InMemoryUploadedFile) \
                 or isinstance(media_file, SimpleUploadedFile):
             md5 = hashlib.md5(media_file.read()).hexdigest()
