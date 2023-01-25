@@ -1,0 +1,27 @@
+{
+  "quiz_id": 1,
+  "attempt_date": "2023-01-25 12:40:23",
+  "score": 0,
+  "maxscore": 0,
+  "instance_id": "2a2172b1-8fae-4b04-8f22-988eb33e2c0f",
+  "points": 50,
+  "event": "feedback_completed",
+  "responses": [
+    {
+      "question_id": 1,
+      "score": 0,
+      "text": "Three"
+    },
+    {
+      "question_id": 2,
+      "score": 0,
+      "text": ""
+    },
+    {
+      "question_id": 3,
+      "score": 0,
+      "text": "2"
+    }
+  ],
+  "timetaken": 20
+}

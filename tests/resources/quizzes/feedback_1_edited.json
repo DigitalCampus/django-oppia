@@ -1,0 +1,139 @@
+{
+  "id": 758,
+  "title": {
+    "en": "Feedback with optional updated"
+  },
+  "description": {
+    "en": "Feedback with optional"
+  },
+  "props": {
+    "courseversion": "20230125114711",
+    "showfeedback": false,
+    "passthreshold": 0,
+    "maxattempts": "unlimited",
+    "maxscore": 0,
+    "digest": "ab7afcecb3006eace786759d52089f14",
+    "moodle_quiz_id": "11"
+  },
+  "questions": [
+    {
+      "order": 1,
+      "id": 841,
+      "question": {
+        "id": 739,
+        "type": "multichoice",
+        "title": {
+          "en": "(Updated) This multiple choice is required. Do it."
+        },
+        "props": {
+          "maxscore": 0,
+          "required": true,
+          "label": "",
+          "moodle_question_id": "4"
+        },
+        "responses": [
+          {
+            "order": 1,
+            "id": 882,
+            "props": {},
+            "title": {
+              "en": "Two"
+            },
+            "score": "0"
+          },
+          {
+            "order": 2,
+            "id": 522,
+            "props": {},
+            "title": {
+              "en": "One"
+            },
+            "score": "0"
+          },
+          {
+            "order": 3,
+            "id": 282,
+            "props": {},
+            "title": {
+              "en": "Three"
+            },
+            "score": "0"
+          },
+          {
+            "order": 4,
+            "id": 206,
+            "props": {},
+            "title": {
+              "en": "Caramba"
+            },
+            "score": "0"
+          }
+        ]
+      }
+    },
+    {
+      "order": 2,
+      "id": 482,
+      "question": {
+        "id": 661,
+        "type": "multichoice",
+        "title": {
+          "en": "This is optional, but do it anyway"
+        },
+        "props": {
+          "maxscore": 0,
+          "required": false,
+          "label": "",
+          "moodle_question_id": "6"
+        },
+        "responses": [
+          {
+            "order": 1,
+            "id": 277,
+            "props": {},
+            "title": {
+              "en": "AAAA"
+            },
+            "score": "0"
+          },
+          {
+            "order": 2,
+            "id": 150,
+            "props": {},
+            "title": {
+              "en": "BBBB"
+            },
+            "score": "0"
+          },
+          {
+            "order": 3,
+            "id": 453,
+            "props": {},
+            "title": {
+              "en": "CCCC"
+            },
+            "score": "0"
+          }
+        ]
+      }
+    },
+    {
+      "order": 3,
+      "id": 104,
+      "question": {
+        "id": 438,
+        "type": "numerical",
+        "title": {
+          "en": "How many questions do you want?"
+        },
+        "props": {
+          "maxscore": 0,
+          "required": true,
+          "label": "",
+          "moodle_question_id": "7"
+        },
+        "responses": []
+      }
+    }
+  ]
+}
