@@ -1,0 +1,24 @@
+{
+  "quiz_id": 1,
+  "maxscore": 3,
+  "score": 2,
+  "attempt_date": "2022-12-23T15:35:12",
+  "instance_id": "343c1dbf-b61a-4b74-990c-b94e3dc7d855",
+  "responses": [
+    {
+      "question_id": "1",
+      "score": 1,
+      "text": "Cat"
+    },
+    {
+      "question_id": "2",
+      "score": 0,
+      "text": "Wrong one (with language span)."
+    },
+    {
+      "question_id": "3",
+      "score": 1,
+      "text": "True"
+    }
+  ]
+}

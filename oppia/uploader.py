@@ -552,10 +552,7 @@ def parse_and_save_quiz(user, activity):
             quiz_existed = False
 
     if quiz_existed:
-        quiz = quizzes.first()
-        # If the quiz already existed (same digest) we can update the questions
-        # based on its current titles, assuming they haven't changed
-        update_quiz_questions(quiz, quiz_obj)
+        quiz = update_quiz(user, quizzes.first(), quiz_obj)
     else:
         quiz = create_quiz(user, quiz_obj)
 
@@ -568,13 +565,19 @@ def parse_and_save_quiz(user, activity):
 
 def create_quiz(user, quiz_obj):
     quiz = Quiz()
-    quiz.owner = user
-    quiz.title = clean_lang_dict(quiz_obj['title'])
-    quiz.description = clean_lang_dict(quiz_obj['description'])
-    quiz.save()
+    add_quiz_info(user, quiz, quiz_obj)
 
     # add quiz questions
     create_quiz_questions(user, quiz, quiz_obj)
+
+    return quiz
+
+
+def update_quiz(user, quiz, quiz_obj):
+    add_quiz_info(user, quiz, quiz_obj)
+    # If the quiz already existed (same digest) we can update the questions
+    # based on its current titles, assuming they haven't changed
+    update_quiz_questions(quiz, quiz_obj)
 
     return quiz
 
@@ -716,12 +719,28 @@ def create_quiz_questions(user, quiz, quiz_obj):
                     ).save()
 
 
+def add_quiz_info(user, quiz, quiz_obj):
+    quiz.owner = user
+    quiz.title = clean_lang_dict(quiz_obj['title'])
+    quiz.description = clean_lang_dict(quiz_obj['description'])
+    quiz.save()
+
+
 def update_quiz_questions(quiz, quiz_obj):
     for q in quiz_obj['questions']:
         question = Question.objects.filter(
             type=q['question']['type'],
             title=clean_lang_dict(q['question']['title']),
             quiz=quiz)
+
+        if not question:
+            try:
+                question_id = QuestionProps.objects.get(
+                name="moodle_question_id",
+                value=q['question']['props']['moodle_question_id']).question_id
+                question = Question.objects.filter(id=question_id)
+            except QuestionProps.DoesNotExist:
+                continue
 
         qcount = question.count()
         if qcount == 0:
@@ -730,6 +749,10 @@ def update_quiz_questions(quiz, quiz_obj):
             question = question.first()
         else:
             question = question.filter(quizquestion__order=q['order']).first()
+
+        question.type = q['question']['type'],
+        question.title = clean_lang_dict(q['question']['title'])
+        question.save()
 
         quiz_question, created = QuizQuestion.objects.update_or_create(
             quiz=quiz, question=question, defaults={'order': q['order']})
