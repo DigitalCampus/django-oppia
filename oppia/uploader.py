@@ -750,7 +750,7 @@ def update_quiz_questions(quiz, quiz_obj):
         else:
             question = question.filter(quizquestion__order=q['order']).first()
 
-        question.type = q['question']['type'],
+        question.type = q['question']['type']
         question.title = clean_lang_dict(q['question']['title'])
         question.save()
 
