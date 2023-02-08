@@ -54,9 +54,13 @@ class CourseMediaList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
 
 def download_media_file(request, media_id):
     media = get_object_or_404(Media, pk=media_id)
-    response = HttpResponse()
-    response['Content-Disposition'] = 'attachment; filename="%s"' % (media.filename)
-    return response
+    uploaded = get_object_or_404(UploadedMedia, md5=media.digest)
+    filepath = uploaded.file.path
+    with open(filepath, 'rb') as media_file:
+        response = HttpResponse(media_file)
+        response['Content-Disposition'] = 'attachment; filename="%s"' % (media.filename)
+        response['Content-Length'] = os.path.getsize(filepath)
+        return response
 
 
 def download_course_media(request, course_id):
