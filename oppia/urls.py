@@ -1,8 +1,8 @@
 from django.conf import settings
 from django.urls import path
-from django.views import static
 from django.views.generic import TemplateView
 from oppia import views
+from django.conf.urls.static import static
 
 # Custom HTTP response pages
 handler403 = 'oppia.permissions.oppia_403_handler'
@@ -59,7 +59,6 @@ urlpatterns = [
     path('view/',
          views.AppLauncherDetailView.as_view(),
          name="app_launch_activity_redirect"),
-    path('media/<str:path>',
-         static.serve,
-         {'document_root': settings.MEDIA_ROOT}),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
