@@ -44,7 +44,7 @@ setup(
     ],
     install_requires=[
         "django == 3.2.18",
-        "django-tastypie == 0.14.5",
+        "django-tastypie == 0.14.4",
         "tablib == 3.3.0",
         "django-crispy-forms == 1.14.0",
         "pytz",
