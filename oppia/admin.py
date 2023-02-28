@@ -57,13 +57,8 @@ class ParticipantAdmin(admin.ModelAdmin):
     list_display = ('cohort', 'user', 'role')
 
 
-class ParticipantInline(admin.TabularInline):
-    model = Participant
-
-
 class CohortAdmin(admin.ModelAdmin):
     list_display = ('description', 'last_updated', 'criteria_based')
-    inlines = [ParticipantInline, ]
     actions = ['update_cohort', 'refresh_cohort']
 
     def success_message(self, request, intro, students, teachers):
