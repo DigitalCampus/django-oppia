@@ -44,9 +44,9 @@ class QuizUploadTestCase(ResourceTestCaseMixin, OppiaTestCase):
         with open(quiz_attempt_json_file) as json_data:
             data = json.loads(json_data.read())
             resp = self.api_client.post(get_api_url('v2', 'quizattempt'),
-                                 format='json',
-                                 data=data,
-                                 authentication=self.get_credentials())
+                                        format='json',
+                                        data=data,
+                                        authentication=self.get_credentials())
 
             self.assertHttpCreated(resp)
             self.assertValidJSON(resp.content)

@@ -97,4 +97,3 @@ class QuizUploadTest(QuizUploadTestCase):
 
         # 8. Assert there are now 2 quiz attempts for the edited quiz
         self.assertEqual(2, QuizAttempt.objects.filter(quiz=updated_quiz_obj).count())
-

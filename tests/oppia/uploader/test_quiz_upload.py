@@ -24,7 +24,7 @@ class QuizUploadTest(QuizUploadTestCase):
     def test_upload_quiz_from_json(self):
         # 1. Upload quiz
         quiz_obj, quiz_json = self.upload_quiz(self.original_quiz_json_file)
-        
+
         # 2. Assert title is correct
         self.assertEqual('{"en": "Test Quiz"}', quiz_obj.title)
 

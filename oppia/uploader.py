@@ -657,8 +657,7 @@ def clean_old_course(req, user, oldsections, old_course_filename, course):
                                 data=msg_text).save()
         sec.delete()
 
-    if old_course_filename is not None \
-            and old_course_filename != course.filename:
+    if old_course_filename is not None and old_course_filename != course.filename:
         try:
             os.remove(os.path.join(settings.COURSE_UPLOAD_DIR,
                                    old_course_filename))
@@ -734,9 +733,9 @@ def update_quiz_questions(quiz, quiz_obj):
             quiz=quiz)
 
         if not question:
-            question_prop = QuestionProps.objects.filter(
-            name="moodle_question_id",
-            value=q['question']['props']['moodle_question_id']).order_by('-id').first()
+            question_prop = QuestionProps.objects.filter(name="moodle_question_id",
+                                                         value=q['question']['props']['moodle_question_id']) \
+                                                         .order_by('-id').first()
 
             if not question_prop:
                 continue
@@ -744,7 +743,6 @@ def update_quiz_questions(quiz, quiz_obj):
             question_id = question_prop.question_id
 
             question = Question.objects.filter(id=question_id, quiz=quiz)
-
 
         qcount = question.count()
         if qcount == 0:
