@@ -18,8 +18,7 @@ class DownloadDataViewsTest(OppiaTestCase):
 
     def test_invalid_download(self):
         self.client.force_login(self.normal_user)
-        response = self.client.get(reverse(self.STR_URL,
-                                           args=['invalid']))
+        response = self.client.get(reverse(self.STR_URL, args=['invalid']))
         self.assertEqual(404, response.status_code)
 
     def test_profile(self):
@@ -28,12 +27,10 @@ class DownloadDataViewsTest(OppiaTestCase):
                      self.teacher_user,
                      self.staff_user]:
             self.client.force_login(user)
-            response = self.client.get(reverse(self.STR_URL,
-                                               args=['profile']))
+            response = self.client.get(reverse(self.STR_URL, args=['profile']))
             self.assertEqual(200, response.status_code)
             self.assertTemplateUsed(response, 'profile/export/profile.html')
-            self.assertEqual(response['content-type'],
-                             self.STR_EXPECTED_CONTENT_TYPE)
+            self.assertEqual(response['content-type'], self.STR_EXPECTED_CONTENT_TYPE)
 
     def test_points(self):
         for user in [self.normal_user,
@@ -41,12 +38,10 @@ class DownloadDataViewsTest(OppiaTestCase):
                      self.teacher_user,
                      self.staff_user]:
             self.client.force_login(user)
-            response = self.client.get(reverse(self.STR_URL,
-                                               args=['points']))
+            response = self.client.get(reverse(self.STR_URL, args=['points']))
             self.assertEqual(200, response.status_code)
             self.assertTemplateUsed(response, 'profile/export/points.html')
-            self.assertEqual(response['content-type'],
-                             self.STR_EXPECTED_CONTENT_TYPE)
+            self.assertEqual(response['content-type'], self.STR_EXPECTED_CONTENT_TYPE)
 
     def test_badges(self):
         for user in [self.normal_user,
