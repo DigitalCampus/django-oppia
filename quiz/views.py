@@ -1,10 +1,11 @@
+
 import tablib
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 
 from oppia import constants
 from oppia.models import Activity
-from oppia.permissions import can_view_course_detail
+from oppia.permissions import permission_view_course_detail
 from quiz.models import QuizProps, \
     Question, \
     QuizAttempt, \
@@ -84,13 +85,12 @@ def get_quiz_data(quiz_id):
 
     return data
 
-
+@permission_view_course_detail
 def feedback_download(request, course_id, feedback_id):
     activity = get_object_or_404(Activity,
                                  pk=feedback_id,
                                  type=Activity.FEEDBACK,
                                  section__course__pk=course_id)
-    can_view_course_detail(request, course_id)
 
     prop = QuizProps.objects.get(name=QuizProps.DIGEST, value=activity.digest)
     data = get_feedback_data(prop.quiz_id)
@@ -102,11 +102,9 @@ def feedback_download(request, course_id, feedback_id):
 
     return response
 
-
+@permission_view_course_detail
 def old_feedback_download(request, course_id, feedback_id):
     get_object_or_404(Quiz, pk=feedback_id)
-    can_view_course_detail(request, course_id)
-
     data = get_feedback_data(feedback_id)
 
     response = HttpResponse(
@@ -116,9 +114,8 @@ def old_feedback_download(request, course_id, feedback_id):
 
     return response
 
-
+@permission_view_course_detail
 def old_quiz_download(request, course_id, quiz_id):
-    can_view_course_detail(request, course_id)
     get_object_or_404(Quiz, pk=quiz_id)
 
     quiz_data = get_quiz_data(quiz_id)
@@ -129,13 +126,12 @@ def old_quiz_download(request, course_id, quiz_id):
 
     return response
 
-
+@permission_view_course_detail
 def quiz_download(request, course_id, quiz_id):
     activity = get_object_or_404(Activity,
                                  pk=quiz_id,
                                  type=Activity.QUIZ,
                                  section__course__pk=course_id)
-    can_view_course_detail(request, course_id)
 
     prop = QuizProps.objects.get(name=QuizProps.DIGEST, value=activity.digest)
     quiz_data = get_quiz_data(prop.quiz_id)

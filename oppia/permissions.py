@@ -1,10 +1,11 @@
 # oppia/permissions.py
-
+import functools
 from itertools import chain
 
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.http import Http404, HttpResponseForbidden
+from django.shortcuts import get_object_or_404
 
 from oppia.models import Course, Participant, Cohort, CoursePermissions
 from oppia.utils.filters import CourseFilter
@@ -36,31 +37,6 @@ def can_edit_user(request, view_user_id):
         return True
     else:
         return False
-
-
-def get_user(request, view_user_id):
-    if request.user.is_staff or (request.user.id == int(view_user_id)):
-        try:
-            view_user = User.objects.get(pk=view_user_id)
-            return view_user
-        except User.DoesNotExist:
-            raise Http404()
-    try:
-        view_user = User.objects.get(pk=view_user_id)
-        courses = Course.objects.filter(
-            coursecohort__cohort__participant__user=view_user,
-            coursecohort__cohort__participant__role=Participant.STUDENT) \
-            .filter(
-                coursecohort__cohort__participant__user=request.user,
-                coursecohort__cohort__participant__role=Participant.TEACHER) \
-            .count()
-        if courses > 0:
-            return view_user
-        else:
-            raise PermissionDenied
-    except User.DoesNotExist:
-        raise PermissionDenied
-
 
 def get_user_courses(request, view_user):
 
@@ -192,23 +168,18 @@ def can_download_course(request, course_id):
     return course
 
 
-def can_view_course_detail(request, course_id):
-    if request.user.is_staff:
-        try:
-            course = Course.objects.get(pk=course_id)
-            return course
-        except Course.DoesNotExist:
-            raise Http404
-    else:
-        try:
-            course = Course.objects.get(
-                        pk=course_id,
-                        coursepermissions__course__id=course_id,
-                        coursepermissions__user=request.user,
-                        coursepermissions__role=CoursePermissions.MANAGER)
-            return course
-        except Course.DoesNotExist:
+def permission_view_course_detail(view_func):
+    """
+        this decorator ensures that only the users who have permission to
+        access a course can view it, raising a 403 otherwise
+    """
+    @functools.wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+        course = get_object_or_404(Course, pk=kwargs['course_id'])
+        if not course.user_can_view_detail(request.user):
             raise PermissionDenied
+        return view_func(request, *args, **kwargs)
+    return wrapper
 
 
 def can_view_course_activity(request, course_id):

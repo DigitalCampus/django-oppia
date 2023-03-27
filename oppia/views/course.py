@@ -2,7 +2,6 @@ import os
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext_lazy as _
@@ -13,7 +12,7 @@ from oppia.forms.edit import EditCourseForm
 from helpers.mixins.SafePaginatorMixin import SafePaginatorMixin
 from oppia.forms.upload import UploadCourseStep1Form, UploadCourseStep2Form
 from oppia.models import Category, CourseCategory, CoursePublishingLog, Course
-from oppia.permissions import can_edit_course, can_download_course, can_view_course_detail, can_view_courses_list, \
+from oppia.permissions import can_edit_course, can_download_course, can_view_courses_list, \
     can_upload, can_edit_course_gamification
 from oppia.uploader import handle_uploaded_file
 from oppia.utils.filters import CourseFilter
@@ -66,11 +65,7 @@ class CourseListView(SafePaginatorMixin, ListView, AjaxTemplateResponseMixin):
             .aggregated_stats('total_downloads')
 
         for course in course_list:
-            try:
-                access_detail = can_view_course_detail(self.request, course.id)
-                course.access_detail = access_detail is not None
-            except PermissionDenied:
-                course.access_detail = None
+            course.access_detail = course.user_can_view_detail(self.request.user)
             course.can_edit = can_edit_course(self.request, course.id)
             course.can_edit_gamification = can_edit_course_gamification(self.request, course.id)
             for stats in course_stats:
