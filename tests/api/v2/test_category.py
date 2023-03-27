@@ -41,6 +41,16 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertValidJSON(resp.content)
         response_data = self.deserialize(resp)
         self.assertTrue('tags' in response_data)
+        category = response_data['tags'][0]
+        self.assertTrue('count' in category)
+        self.assertTrue('count_new_downloads_enabled' in category)
+        self.assertTrue('course_statuses' in category)
+        self.assertTrue('description' in category)
+        self.assertTrue('highlight' in category)
+        self.assertTrue('icon' in category)
+        self.assertTrue('id' in category)
+        self.assertTrue('name' in category)
+        self.assertTrue('order_priority' in category)
         return response_data['tags']
 
     def get_category_attr_in_results(self, tags, category, attr=None):
@@ -48,8 +58,7 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
 
     # Post invalid
     def test_post_invalid(self):
-        self.assertHttpMethodNotAllowed(
-            self.api_client.post(self.url, format='json', data={}))
+        self.assertHttpMethodNotAllowed(self.api_client.post(self.url, format='json', data={}))
 
     # test unauthorized
     def test_unauthorized(self):
@@ -57,19 +66,16 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
             'username': 'user',
             'api_key': '1234',
         }
-        self.assertHttpUnauthorized(
-            self.api_client.get(self.url, format='json', data=data))
+        self.assertHttpUnauthorized(self.api_client.get(self.url, format='json', data=data))
 
     # test authorized
     def test_authorized(self):
-        resp = self.api_client.get(
-            self.url, format='json', data=self.user_auth)
+        resp = self.api_client.get(self.url, format='json', data=self.user_auth)
         self.assertHttpOK(resp)
 
     # test valid json response and with 5 tags
     def test_has_categories(self):
-        resp = self.api_client.get(
-            self.url, format='json', data=self.user_auth)
+        resp = self.api_client.get(self.url, format='json', data=self.user_auth)
 
         tags = self.assert_valid_response_and_get_tags(resp)
         # should have 5 tags with the test data set
@@ -96,13 +102,22 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertTrue('courses' in response_data)
         self.assertTrue('count' in response_data)
         self.assertTrue('name' in response_data)
-        self.assertEqual(len(response_data['courses']),
-                         response_data['count'])
+        self.assertTrue('id' in response_data)
+        self.assertEqual(len(response_data['courses']), response_data['count'])
         for course in response_data['courses']:
-            self.assertTrue('shortname' in course)
-            self.assertTrue('title' in course)
-            self.assertTrue('url' in course)
+            self.assertTrue('resource_uri' in course)
+            self.assertTrue('id' in course)
             self.assertTrue('version' in course)
+            self.assertTrue('title' in course)
+            self.assertTrue('description' in course)
+            self.assertTrue('shortname' in course)
+            self.assertTrue('priority' in course)
+            self.assertTrue('status' in course)
+            self.assertTrue('restricted' in course)
+            self.assertTrue('url' in course)
+            self.assertTrue('author' in course)
+            self.assertTrue('username' in course)
+            self.assertTrue('organisation' in course)
 
     # test getting listing of courses for an invalid tag
     def test_category_not_found(self):
