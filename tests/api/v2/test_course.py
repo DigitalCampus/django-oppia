@@ -1,6 +1,8 @@
 import os
 import shutil
 
+import xml.etree.ElementTree as ET
+
 from django.conf import settings
 
 from django.contrib.auth.models import User
@@ -8,17 +10,22 @@ from django.core.exceptions import MultipleObjectsReturned
 from django.test import TransactionTestCase
 from tastypie.test import ResourceTestCaseMixin
 
-from tests.utils import get_api_key, \
-    get_api_url, \
-    update_course_status, \
-    update_course_owner
+from tests.utils import get_api_key, get_api_url, update_course_status, update_course_owner
 from oppia.models import Tracker, Course, CourseStatus
 
 
 class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
-                'tests/test_permissions.json']
+                'tests/test_quiz.json',
+                'tests/test_permissions.json',
+                'default_badges.json',
+                'default_gamification_events.json',
+                'tests/awards/award-course.json',
+                'tests/test_course_permissions.json',
+                'tests/test_cohort.json',
+                'tests/test_progress_summary.json',
+                'tests/test_tracker.json']
 
     STR_DOWNLOAD = 'download/'
     STR_ACTIVITY = 'activity/'
@@ -59,14 +66,12 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
 
     def perform_request(self, course_id, user, path=''):
         resource_url = get_api_url('v2', 'course', course_id) + path
-        resp = self.api_client.get(
-            resource_url, format='json', data=user)
+        resp = self.api_client.get(resource_url, format='json', data=user)
         return resp
 
     # Post invalid
     def test_post_invalid(self):
-        self.assertHttpMethodNotAllowed(
-            self.api_client.post(self.url, format='json', data={}))
+        self.assertHttpMethodNotAllowed(self.api_client.post(self.url, format='json', data={}))
 
     # test unauthorized
     def test_unauthorized(self):
@@ -74,25 +79,22 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
             'username': 'demo',
             'api_key': '1234',
         }
-        self.assertHttpUnauthorized(
-            self.api_client.get(self.url, format='json', data=data))
+        self.assertHttpUnauthorized(self.api_client.get(self.url, format='json', data=data))
 
     # test authorized
     def test_authorized(self):
-        resp = self.api_client.get(
-            self.url, format='json', data=self.user_auth)
+        resp = self.api_client.get(self.url, format='json', data=self.user_auth)
         self.assertHttpOK(resp)
 
     # test contains courses (and right no of courses)
     def test_has_courses(self):
-        resp = self.api_client.get(
-            self.url, format='json', data=self.user_auth)
+        resp = self.api_client.get(self.url, format='json', data=self.user_auth)
         self.assertHttpOK(resp)
         self.assertValidJSON(resp.content)
         response_data = self.deserialize(resp)
         self.assertTrue('courses' in response_data)
-        # should have 2 courses with the test data set
-        self.assertEqual(3, len(response_data['courses']))
+        # should have 4 courses with the test data set
+        self.assertEqual(4, len(response_data['courses']))
         # check each course had a download url
         for course in response_data['courses']:
             self.assertTrue('resource_uri' in course)
@@ -286,10 +288,21 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         resp = self.perform_request(1, self.admin_auth, self.STR_DOWNLOAD)
         self.assertHttpOK(resp)
 
+    # Checks the course activity
     def test_course_get_activity(self):
         resp = self.perform_request(1, self.user_auth, self.STR_ACTIVITY)
         self.assertHttpOK(resp)
-
+        xml_doc = ET.fromstring(resp.content)
+        trackers = xml_doc.findall("tracker")
+        self.assertEqual(276, len(trackers))
+        first_tracker = trackers[0]        
+        self.assertEqual('cd646d1148da0f45cd4f097c6761186b17687', first_tracker.get('digest'))
+        self.assertEqual('2015-04-16 13:01:59', first_tracker.get('submitteddate'))
+        self.assertTrue(first_tracker.get('completed'))
+        self.assertEqual('page', first_tracker.get('type'))
+        self.assertEqual('', first_tracker.get('event'))
+        self.assertEqual('None', first_tracker.get('points'))
+        
     def test_course_get_activity_notfound(self):
         resp = self.perform_request(999, self.user_auth, self.STR_ACTIVITY)
         self.assertHttpNotFound(resp)
