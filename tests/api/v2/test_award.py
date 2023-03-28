@@ -46,9 +46,7 @@ class AwardsResourceTest(ResourceTestCaseMixin, OppiaTestCase):
 
     # check valid
     def test_valid(self):
-        resp = self.api_client.get(self.url,
-                                   format='json',
-                                   data=self.auth_data)
+        resp = self.api_client.get(self.url, format='json', data=self.auth_data)
         self.assertHttpOK(resp)
         self.assertValidJSON(resp.content)
         self.assertEqual(len(self.deserialize(resp)['objects']), 1)

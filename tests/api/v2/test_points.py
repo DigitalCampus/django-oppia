@@ -10,7 +10,10 @@ from tests.utils import get_api_key, get_api_url
 class PointsResourceTest(ResourceTestCaseMixin, TestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
-                'tests/test_leaderboard.json'
+                'tests/test_leaderboard.json',
+                'default_badges.json',
+                'default_gamification_events.json',
+                'tests/usercoursesummary/course_tracker_v3.json'
                 ]
 
     STR_LEADERBOARD_FILTERED_URL = "/api/v2/leaderboard/"
@@ -22,8 +25,7 @@ class PointsResourceTest(ResourceTestCaseMixin, TestCase):
         api_key = get_api_key(user=user)
         self.api_key = api_key.key
         self.url = get_api_url('v2', 'points')
-        self.assertHttpUnauthorized(self.api_client.get(self.url,
-                                                        format='json'))
+        self.assertHttpUnauthorized(self.api_client.get(self.url, format='json'))
 
     # check post not allowed
     def test_post_not_allowed(self):
@@ -32,9 +34,7 @@ class PointsResourceTest(ResourceTestCaseMixin, TestCase):
         api_key = get_api_key(user=user)
         self.api_key = api_key.key
         self.url = get_api_url('v2', 'points')
-        self.assertHttpMethodNotAllowed(self.api_client.post(self.url,
-                                                             format='json',
-                                                             data={}))
+        self.assertHttpMethodNotAllowed(self.api_client.post(self.url, format='json', data={}))
 
     # check get with an invalid apiKey
     def test_get_apikeyinvalid(self):
@@ -43,8 +43,7 @@ class PointsResourceTest(ResourceTestCaseMixin, TestCase):
         api_key = get_api_key(user=user)
         self.api_key = api_key.key
         self.url = get_api_url('v2', 'points')
-        auth_header = self.create_apikey(username=self.username,
-                                         api_key="badbadbad")
+        auth_header = self.create_apikey(username=self.username, api_key="badbadbad")
         self.assertHttpUnauthorized(
             self.api_client.get(self.url,
                                 format='json',
@@ -52,21 +51,26 @@ class PointsResourceTest(ResourceTestCaseMixin, TestCase):
 
     # check a valid get
     def test_get_points(self):
-        auth_header = self.create_apikey(username="user4996",
-                                         api_key="1234")
+        
+        user = User.objects.get(username='demo')
+        api_key = get_api_key(user=user)
+        auth_header = self.create_apikey(username=user.username, api_key=api_key.key)
         self.url = get_api_url('v2', 'points')
-        res = self.api_client.get(self.url,
-                                  format='json',
-                                  authentication=auth_header)
-        self.assertHttpOK(res)
-        self.assertValidJSON(res.content)
+        resp = self.api_client.get(self.url, format='json', authentication=auth_header)
+        self.assertHttpOK(resp)
+        self.assertValidJSON(resp.content)
+        points = self.deserialize(resp)['objects']
+       
+        self.assertEqual(12, len(points))
+        point = points[0]
+        self.assertTrue('date' in point)
+        self.assertTrue('description' in point)
+        self.assertTrue('points' in point)
+        self.assertTrue('type' in point)
 
     def test_get_leaderboard_all(self):
-        auth_header = self.create_apikey(username="user4996",
-                                         api_key="1234")
-        response = self.api_client.get('/api/v2/leaderboard-all/',
-                                       format='json',
-                                       authentication=auth_header)
+        auth_header = self.create_apikey(username="user4996", api_key="1234")
+        response = self.api_client.get('/api/v2/leaderboard-all/', format='json', authentication=auth_header)
         self.assertHttpOK(response)
         self.assertValidJSON(response.content)
         json_data = json.loads(response.content)
@@ -74,8 +78,7 @@ class PointsResourceTest(ResourceTestCaseMixin, TestCase):
 
     # check top user
     def test_get_leaderboard_filtered_position1_user(self):
-        auth_header = self.create_apikey(username="user4847",
-                                         api_key="1234")
+        auth_header = self.create_apikey(username="user4847", api_key="1234")
         response = self.api_client.get(self.STR_LEADERBOARD_FILTERED_URL,
                                        format='json',
                                        authentication=auth_header)
@@ -86,8 +89,7 @@ class PointsResourceTest(ResourceTestCaseMixin, TestCase):
 
     # Check bottom of top users
     def test_get_leaderboard_filtered_position20_user(self):
-        auth_header = self.create_apikey(username="user3263",
-                                         api_key="1234")
+        auth_header = self.create_apikey(username="user3263", api_key="1234")
         response = self.api_client.get(self.STR_LEADERBOARD_FILTERED_URL,
                                        format='json',
                                        authentication=auth_header)
@@ -97,8 +99,7 @@ class PointsResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertEqual(40, len(json_data['leaderboard']))
 
     def test_get_leaderboard_filtered_position21_user(self):
-        auth_header = self.create_apikey(username="user3342",
-                                         api_key="1234")
+        auth_header = self.create_apikey(username="user3342", api_key="1234")
         response = self.api_client.get(self.STR_LEADERBOARD_FILTERED_URL,
                                        format='json',
                                        authentication=auth_header)
@@ -108,8 +109,7 @@ class PointsResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertEqual(41, len(json_data['leaderboard']))
 
     def test_get_leaderboard_filtered_position40_user(self):
-        auth_header = self.create_apikey(username="user4351",
-                                         api_key="1234")
+        auth_header = self.create_apikey(username="user4351", api_key="1234")
         response = self.api_client.get(self.STR_LEADERBOARD_FILTERED_URL,
                                        format='json',
                                        authentication=auth_header)
@@ -119,8 +119,7 @@ class PointsResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertEqual(60, len(json_data['leaderboard']))
 
     def test_get_leaderboard_filtered_position100_user(self):
-        auth_header = self.create_apikey(username="user2937",
-                                         api_key="1234")
+        auth_header = self.create_apikey(username="user2937", api_key="1234")
         response = self.api_client.get(self.STR_LEADERBOARD_FILTERED_URL,
                                        format='json',
                                        authentication=auth_header)
@@ -130,8 +129,7 @@ class PointsResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertEqual(61, len(json_data['leaderboard']))
 
     def test_get_leaderboard_filtered_position2000_user(self):
-        auth_header = self.create_apikey(username="user4398",
-                                         api_key="1234")
+        auth_header = self.create_apikey(username="user4398", api_key="1234")
         response = self.api_client.get(self.STR_LEADERBOARD_FILTERED_URL,
                                        format='json',
                                        authentication=auth_header)
@@ -141,8 +139,7 @@ class PointsResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertEqual(61, len(json_data['leaderboard']))
 
     def test_get_leaderboard_filtered_position2017_user(self):
-        auth_header = self.create_apikey(username="user4234",
-                                         api_key="1234")
+        auth_header = self.create_apikey(username="user4234", api_key="1234")
         response = self.api_client.get(self.STR_LEADERBOARD_FILTERED_URL,
                                        format='json',
                                        authentication=auth_header)
@@ -153,8 +150,7 @@ class PointsResourceTest(ResourceTestCaseMixin, TestCase):
 
     # position 2037 is last
     def test_get_leaderboard_filtered_position2037_user(self):
-        auth_header = self.create_apikey(username="user3169",
-                                         api_key="1234")
+        auth_header = self.create_apikey(username="user3169", api_key="1234")
         response = self.api_client.get(self.STR_LEADERBOARD_FILTERED_URL,
                                        format='json',
                                        authentication=auth_header)

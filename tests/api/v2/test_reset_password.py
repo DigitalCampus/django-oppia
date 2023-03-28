@@ -14,8 +14,7 @@ class ResetPasswordResourceTest(ResourceTestCaseMixin, TestCase):
 
     # check get method not allowed
     def test_get_invalid(self):
-        self.assertHttpMethodNotAllowed(self.api_client.get(self.url,
-                                                            format='json'))
+        self.assertHttpMethodNotAllowed(self.api_client.get(self.url, format='json'))
 
     def test_no_username(self):
         data = {}
