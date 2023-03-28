@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.db.models import Sum
 from django.db.models.functions import TruncDay, TruncMonth, TruncYear
 from django.http import HttpResponse
+from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView, DetailView, ListView
 
 from helpers.forms.dates import DateRangeIntervalForm
@@ -14,12 +15,12 @@ from oppia import constants
 from oppia.forms.activity_search import ActivitySearchForm
 from oppia.models import Points, Course
 from oppia.models import Tracker
-from oppia.permissions import can_view_course_detail, can_edit_course_gamification
+from oppia.permissions import can_edit_course_gamification, permission_view_course_detail
 from oppia.views.utils import generate_graph_data
 from profile import utils
 from summary.models import CourseDailyStats, UserCourseSummary
 
-
+@method_decorator(permission_view_course_detail, name='dispatch')
 class CourseActivityDetail(DateRangeFilterMixin, DetailView):
     template_name = 'course/detail.html'
     pk_url_kwarg = 'course_id'
@@ -29,10 +30,7 @@ class CourseActivityDetail(DateRangeFilterMixin, DetailView):
     daterange_form_initial = {'interval': 'days'}
 
     def get_context_data(self, **kwargs):
-
         context = super().get_context_data(**kwargs)
-        can_view_course_detail(self.request, self.object.id)
-
         start_date, end_date = self.get_daterange()
         interval = self.get_daterange_form().cleaned_data.get("interval")
         context['monthly'] = interval == 'months'
@@ -65,7 +63,7 @@ class CourseActivityDetail(DateRangeFilterMixin, DetailView):
 
             return generate_graph_data(monthly_stats, True)
 
-
+@method_decorator(permission_view_course_detail, name='dispatch')
 class CourseActivityDetailList(DateRangeFilterMixin, SafePaginatorMixin, ListView):
     template_name = 'course/activity/list.html'
     paginate_by = 25
@@ -89,7 +87,7 @@ class CourseActivityDetailList(DateRangeFilterMixin, SafePaginatorMixin, ListVie
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['course'] = can_view_course_detail(self.request, self.get_course_id())
+        context['course'] = Course.objects.get(pk=self.get_course_id())
         context['advanced_search'] = self.filtered
 
         for tracker in context['page_obj'].object_list:
@@ -106,10 +104,12 @@ class CourseActivityDetailList(DateRangeFilterMixin, SafePaginatorMixin, ListVie
         return context
 
 
+
 class ExportCourseTrackers(TemplateView):
 
+    @method_decorator(permission_view_course_detail)
     def get(self, request, course_id):
-        course = can_view_course_detail(request, course_id)
+        course = Course.objects.get(pk=course_id)
 
         headers = ('Date',
                    'UserId',

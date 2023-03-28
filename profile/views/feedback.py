@@ -3,14 +3,12 @@ from django.views.generic import ListView
 
 from helpers.mixins.AjaxTemplateResponseMixin import AjaxTemplateResponseMixin
 from helpers.mixins.ListItemUrlMixin import ListItemUrlMixin
+from oppia.mixins.PermissionMixins import CanViewUserDetailsPermissionMixin
 from oppia.models import Course, Activity
-from oppia.permissions import get_user
 from quiz.models import QuizAttempt, Quiz
 
 
-class FeedbackAttemptsList(ListView,
-                           ListItemUrlMixin,
-                           AjaxTemplateResponseMixin):
+class FeedbackAttemptsList(CanViewUserDetailsPermissionMixin, ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
 
     model = QuizAttempt
 
@@ -18,13 +16,11 @@ class FeedbackAttemptsList(ListView,
     template_name = 'profile/quiz/attempts.html'
     ajax_template_name = 'quiz/attempts_query.html'
     paginate_by = 15
+    user_url_kwarg = 'user_id'
 
     def get_queryset(self):
-        user = self.kwargs['user_id']
+        user = self.kwargs[self.user_url_kwarg]
         quiz = self.kwargs['quiz_id']
-
-        # check permissions, get_user raises PermissionDenied
-        get_user(self.request, user)
 
         return QuizAttempt.objects \
             .filter(user__pk=user, quiz__pk=quiz) \
@@ -34,13 +30,13 @@ class FeedbackAttemptsList(ListView,
 
         context = super().get_context_data(**kwargs)
         context['quiz'] = Quiz.objects.get(pk=self.kwargs['quiz_id'])
-        context['profile'] = User.objects.get(pk=self.kwargs['user_id'])
+        context['profile'] = User.objects.get(pk=self.kwargs[self.user_url_kwarg])
         context['course'] = Course.objects.get(pk=self.kwargs['course_id'])
 
         return context
 
 
-class UserFeedbackResponsesList(ListView,
+class UserFeedbackResponsesList(CanViewUserDetailsPermissionMixin, ListView,
                                 ListItemUrlMixin,
                                 AjaxTemplateResponseMixin):
 
@@ -49,12 +45,10 @@ class UserFeedbackResponsesList(ListView,
     template_name = 'profile/feedback/global_responses.html'
     ajax_template_name = 'feedback/query.html'
     paginate_by = 15
+    user_url_kwarg = 'user_id'
 
     def get_queryset(self):
-        user = self.kwargs['user_id']
-
-        # check permissions, get_user raises PermissionDenied
-        get_user(self.request, user)
+        user = self.kwargs[self.user_url_kwarg]
 
         quizzes = Quiz.get_by_activity_type(Activity.FEEDBACK)
         return QuizAttempt.objects \
@@ -63,6 +57,6 @@ class UserFeedbackResponsesList(ListView,
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['profile'] = User.objects.get(pk=self.kwargs['user_id'])
+        context['profile'] = User.objects.get(pk=self.kwargs[self.user_url_kwarg])
         context['show_course_info'] = True
         return context

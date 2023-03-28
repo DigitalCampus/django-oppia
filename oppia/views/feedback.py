@@ -1,14 +1,15 @@
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView
 
 from helpers.mixins.AjaxTemplateResponseMixin import AjaxTemplateResponseMixin
 from helpers.mixins.ListItemUrlMixin import ListItemUrlMixin
 from oppia.models import Course, Activity
-from oppia.permissions import can_view_course_detail
+from oppia.permissions import permission_view_course_detail
 from quiz.models import QuizAttempt, Quiz, QuizProps
 
-
+@method_decorator(permission_view_course_detail, name='dispatch')
 class CourseFeedbackActivitiesList(ListView,
                                    ListItemUrlMixin,
                                    AjaxTemplateResponseMixin):
@@ -20,10 +21,7 @@ class CourseFeedbackActivitiesList(ListView,
 
     def get_queryset(self):
         course = self.kwargs['course_id']
-        # check permissions, get_user raises PermissionDenied
-        can_view_course_detail(self.request, course)
-        return Activity.objects.filter(section__course=course,
-                                       type=Activity.FEEDBACK)
+        return Activity.objects.filter(section__course=course, type=Activity.FEEDBACK)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -42,10 +40,8 @@ class CourseFeedbackActivitiesList(ListView,
 
         return super().get(request, *args, **kwargs)
 
-
-class CourseFeedbackResponsesList(ListView,
-                                  ListItemUrlMixin,
-                                  AjaxTemplateResponseMixin):
+@method_decorator(permission_view_course_detail, name='dispatch')
+class CourseFeedbackResponsesList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
 
     model = QuizAttempt
     objects_url_name = 'feedback_response_detail'
@@ -54,10 +50,6 @@ class CourseFeedbackResponsesList(ListView,
     paginate_by = 15
 
     def get_queryset(self):
-        course = self.kwargs['course_id']
-        # check permissions, get_user raises PermissionDenied
-        can_view_course_detail(self.request, course)
-
         activity = Activity.objects.get(pk=self.kwargs['feedback_id'])
         quiz = Quiz.objects.filter(quizprops__name=QuizProps.DIGEST,
                                    quizprops__value=activity.digest).last()

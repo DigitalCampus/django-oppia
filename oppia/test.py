@@ -28,6 +28,12 @@ class OppiaTestCase(TestCase):
             self.client.force_login(user)
         return self.client.get(route)
 
+    def assert_response_status(self, user, url, status_code):
+        self.client.force_login(user)
+        response = self.client.get(url)
+        self.assertEqual(status_code, response.status_code)
+        return response
+
 
 class OppiaTransactionTestCase(TransactionTestCase):
 
