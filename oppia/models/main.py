@@ -177,6 +177,31 @@ class Course(models.Model):
     def get_no_trackers(self):
         return Tracker.objects.filter(course=self).count()
 
+    # ------------ Permissions management ----------------
+
+    def user_can_view_detail(self, user):
+        if user.is_staff:
+            return True
+        else:
+            try:
+                Course.objects.get(
+                    pk=self.pk,
+                    coursepermissions__course=self,
+                    coursepermissions__user=user,
+                    coursepermissions__role=CoursePermissions.MANAGER)
+                return True
+            except Course.DoesNotExist:
+                return False
+
+    def user_can_edit(self, user):
+        return self.user_can_view_detail(user)
+
+    def user_can_edit_gamification(self, user):
+        return self.user_can_edit(user) and \
+            self.status is not CourseStatus.ARCHIVED and \
+            self.status is not CourseStatus.NEW_DOWNLOADS_DISABLED and \
+            self.status is not CourseStatus.READ_ONLY
+
     @staticmethod
     def get_pre_test_score(course, user):
         try:

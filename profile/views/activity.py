@@ -9,8 +9,9 @@ from django.views.generic import ListView, DetailView
 from helpers.mixins.DateRangeFilterMixin import DateRangeFilterMixin
 from helpers.mixins.SafePaginatorMixin import SafePaginatorMixin
 from oppia.forms.activity_search import ActivitySearchForm
+from oppia.mixins.PermissionMixins import CanViewUserDetailsPermissionMixin
 from oppia.models import Activity, Tracker
-from oppia.permissions import get_user, get_user_courses, can_view_course, can_view_course_activity
+from oppia.permissions import get_user_courses, can_view_course, can_view_course_activity
 from oppia.views import filter_trackers
 from quiz.models import Quiz, QuizAttempt, QuizProps
 from summary.models import UserCourseSummary
@@ -25,7 +26,7 @@ def get_tracker_activities(user, course_ids=[], course=None):
     return trackers.filter(user=user)
 
 
-class UserScorecard(DateRangeFilterMixin, DetailView):
+class UserScorecard(CanViewUserDetailsPermissionMixin, DateRangeFilterMixin, DetailView):
     template_name = 'profile/user-scorecard.html'
     context_object_name = 'view_user'
     pk_url_kwarg = 'user_id'
@@ -33,7 +34,6 @@ class UserScorecard(DateRangeFilterMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        get_user(self.request, self.object.pk)  # TODO: Change permissions check
         cohort_courses, other_courses, all_courses = get_user_courses(self.request, self.object)
 
         courses = []
@@ -73,7 +73,7 @@ class UserScorecard(DateRangeFilterMixin, DetailView):
         return context
 
 
-class UserCourseScorecard(DateRangeFilterMixin, DetailView):
+class UserCourseScorecard(CanViewUserDetailsPermissionMixin, DateRangeFilterMixin, DetailView):
     template_name = 'profile/user-course-scorecard.html'
     context_object_name = 'view_user'
     pk_url_kwarg = 'user_id'
@@ -81,8 +81,6 @@ class UserCourseScorecard(DateRangeFilterMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        get_user(self.request, self.object.pk)  # TODO: Change permissions check
         course = can_view_course(self.request, self.kwargs['course_id'])
 
         act_quizzes = Activity.objects \
@@ -200,30 +198,26 @@ def process_quiz_activity(view_user,
     return quiz, course_pretest, quizzes_attempted, quizzes_passed
 
 
-class UserActivityDetailList(DateRangeFilterMixin, SafePaginatorMixin, ListView):
+class UserActivityDetailList(CanViewUserDetailsPermissionMixin, DateRangeFilterMixin, SafePaginatorMixin, ListView):
     template_name = 'profile/activity/list.html'
     paginate_by = 25
     daterange_form_class = ActivitySearchForm
+    user_url_kwarg = 'user_id'
 
     def get_user_id(self):
-        return self.kwargs['user_id']
+        return self.kwargs[self.user_url_kwarg]
 
     def get_queryset(self):
         self.filtered = False
-        user = get_user(self.request, self.get_user_id())
-        trackers = Tracker.objects.filter(user=user).exclude(type__exact='')
-
+        trackers = Tracker.objects.filter(user__pk=self.get_user_id()).exclude(type__exact='')
         start_date, end_date = self.get_daterange()
-
-        print(start_date)
-        print(end_date)
         trackers = trackers.filter(tracker_date__gte=start_date, tracker_date__lte=end_date)
 
         return trackers.order_by('-tracker_date')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['user'] = get_user(self.request, self.get_user_id())
+        context['user'] = User.objects.get(pk=self.get_user_id())
         context['advanced_search'] = self.filtered
 
         for tracker in context['page_obj'].object_list:
