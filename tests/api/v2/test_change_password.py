@@ -22,8 +22,7 @@ class PasswordResourceTest(ResourceTestCaseMixin, TestCase):
 
     # check get not allowed
     def test_get_invalid(self):
-        self.assertHttpMethodNotAllowed(self.api_client.get(self.url,
-                                                            format='json'))
+        self.assertHttpMethodNotAllowed(self.api_client.get(self.url, format='json'))
 
     # check valid password change
     def test_valid_change(self):
@@ -53,6 +52,7 @@ class PasswordResourceTest(ResourceTestCaseMixin, TestCase):
                                     data=password_change_data,
                                     authentication=self.get_credentials())
         self.assertHttpCreated(resp)
+       
 
         # Check that the previous login fails
         login_attempt = self.api_client.post(login_url,
