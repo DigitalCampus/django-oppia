@@ -81,7 +81,6 @@ class Points(models.Model):
             .order_by('-points')
 
         # check if there's going to be overlap or not
-        print(users_points.count())
         if users_points.count() <= (count_top + above + below + 1):
             return Points.get_leaderboard_top(users_points,
                                               users_points.count())
