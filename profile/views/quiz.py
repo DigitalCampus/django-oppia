@@ -3,12 +3,12 @@ from django.views.generic import ListView, DetailView
 
 from helpers.mixins.AjaxTemplateResponseMixin import AjaxTemplateResponseMixin
 from helpers.mixins.ListItemUrlMixin import ListItemUrlMixin
-from oppia.mixins.PermissionMixins import CanViewUserDetailsPermissionMixin
+from oppia.mixins.PermissionMixins import CanViewUserDetailsMixin
 from oppia.models import Course, Activity
 from quiz.models import QuizAttempt, Quiz
 
 
-class QuizAttemptsList(CanViewUserDetailsPermissionMixin, ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
+class QuizAttemptsList(CanViewUserDetailsMixin, ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
 
     model = QuizAttempt
     objects_url_name = 'quiz_attempt_detail'
@@ -35,7 +35,7 @@ class QuizAttemptsList(CanViewUserDetailsPermissionMixin, ListView, ListItemUrlM
         return context
 
 
-class UserAttemptsList(CanViewUserDetailsPermissionMixin, ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
+class UserAttemptsListDetails(CanViewUserDetailsMixin, ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):
 
     model = QuizAttempt
     objects_url_name = 'quiz_attempt_detail'
@@ -59,7 +59,7 @@ class UserAttemptsList(CanViewUserDetailsPermissionMixin, ListView, ListItemUrlM
         return context
 
 
-class QuizAttemptDetail(CanViewUserDetailsPermissionMixin, DetailView):
+class QuizAttemptDetail(CanViewUserDetailsMixin, DetailView):
 
     model = QuizAttempt
     template_name = 'quiz/attempt.html'
