@@ -44,10 +44,10 @@ urlpatterns = [
 
     path('cohort/', views.CohortListView.as_view(), name="cohorts"),
     path('cohort/add/', views.AddCohortView.as_view(), name="cohort_add"),
-    path('cohort/<int:pk>/edit/', views.CohortEditView.as_view(), name="cohort_edit"),
-    path('cohort/<int:pk>/view/', views.CohortDetailView.as_view(), name="cohort_view"),
+    path('cohort/<int:cohort_id>/edit/', views.CohortEditView.as_view(), name="cohort_edit"),
+    path('cohort/<int:cohort_id>/view/', views.CohortDetailView.as_view(), name="cohort_view"),
     path('cohort/<int:cohort_id>/<int:course_id>/view/', views.cohort_course_view, name="cohort_course_view"),
-    path('cohort/<int:pk>/leaderboard', views.CohortLeaderboardView.as_view(), name="cohort_leaderboard"),
+    path('cohort/<int:cohort_id>/leaderboard', views.CohortLeaderboardView.as_view(), name="cohort_leaderboard"),
 
     path('certificate/preview/<int:certificate_template_id>/',
          views.PreviewCertificateView.as_view(),

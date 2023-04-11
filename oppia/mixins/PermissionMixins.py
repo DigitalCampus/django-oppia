@@ -3,6 +3,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from oppia.models import Participant, Course
 
 class ObjectPermissionRequiredMixin(LoginRequiredMixin):
+    """
+    Checks that the current user has permission to access this object, raising a PermissionDenied if not.
+    For this, the object to check against is obtained from the self.object attribute from SingleObjectMixin,
+    so this mixin must be put **after** the view that inherits from that one
+    """
 
     def has_object_permission(self, obj):
         raise NotImplementedError(
@@ -47,8 +52,7 @@ class CanViewUserDetailsMixin(LoginRequiredMixin, UserPassesTestMixin):
 
 class CanEditUserMixin(ObjectPermissionRequiredMixin):
     """
-    Verify that the current user can edit the current view user. For this, the other user pk is get from
-    the SingleObjectMixin attribute (so this mixin must be put **after** the view that inherits from that one)
+    Verify that the current user can edit the current view user.
     """
     def has_object_permission(self, obj):
         return self.request.user.is_staff or (self.request.user.id == obj.pk)
