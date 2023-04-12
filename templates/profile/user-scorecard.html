@@ -11,11 +11,11 @@
 {% block header %}
 <div class="jumbotron mb-3 pb-2">
 	<div class="row mb-2">
-			<div class="col-md-6 d-lg-none">
+			<div class="col-sm-6 d-lg-none">
 					<h3 class="mb-0"> {{ view_user.first_name }} {{ view_user.last_name }}</h3>
 					{{view_user.username}}
 			</div>
-			<div class="col-md-6 d-lg-none text-right">
+			<div class="col-sm-6 d-lg-none text-right">
 				<a href="{% url 'profile:user_all_attempts' view_user.id %}" class="btn btn-secondary mb-2">{% trans 'Quiz attempts' %}</a>
 				<a href="{% url 'profile:edit_user' view_user.id %}" class="btn btn-light ml-2 mb-2">{% trans 'Edit' %}</a>
 			</div>
@@ -50,8 +50,13 @@
 					<em class="far fa-fw text-primary mr-3 fa-check-circle"></em>{% trans 'Quiz attempts' %}</a>
 				<a href="{% url 'profile:user_all_feedback_responses' view_user.id %}" class="list-group-item list-group-item-action">
 					<em class="far fa-fw text-primary mr-3 fa-comment-dots"></em> {% trans 'Feedback answers' %}</a>
+				{% if view_user == request.user %}
+				<a href="{% url 'profile:points' %}" class="list-group-item list-group-item-action">
+					<em class="fas fa-fw text-primary mr-3 fa-star"></em> {% trans 'Points and badges' %}</a>
+				{% else %}
 				<a href="#" class="list-group-item list-group-item-action disabled">
 					<em class="fas fa-fw mr-3 fa-star"></em> {% trans 'Points and badges' %}</a>
+				{% endif %}
 		  	</div>
 
 		</div>

@@ -101,7 +101,7 @@ class EditView(CanEditUserMixin, UpdateView):
 
     model = User
     form_class = ProfileForm
-    context_object_name = 'user'
+    context_object_name = 'view_user'
     template_name = 'profile/profile.html'
     pk_url_kwarg = 'user_id'
 
