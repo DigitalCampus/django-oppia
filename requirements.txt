@@ -3,7 +3,7 @@ django-tastypie==0.14.4
 django-crispy-forms==1.14.0
 pytz
 defusedxml==0.7.1
-Pillow==9.4.0
+Pillow==9.5.0
 sorl-thumbnail==12.9.0
 libsass==0.22.0
 django-compressor==4.3.1
@@ -11,8 +11,8 @@ django-sass-processor==1.2.2
 pycodestyle
 pytest
 pytest-django
-openpyxl==3.1.1
-tablib==3.3.0
+openpyxl==3.1.2
+tablib==3.4.0
 httpretty==1.1.4
 xmltodict==0.13.0
 django-ses==3.3.0
