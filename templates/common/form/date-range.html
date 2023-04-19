@@ -1,3 +1,4 @@
+{% load i18n %}
 {% if not omit_form_tag %}
     <form method="{{ dateform.form_method|default:'post' }}">
     {% if dateform.form_method != 'get' %}
@@ -30,7 +31,7 @@
         {% endif %}
 
         {% if not omit_form_tag %}
-            <input type="submit" class="btn btn-primary align-self-center ml-3" id="submit-id-submit">
+            <input type="submit" class="btn btn-primary align-self-center ml-3" id="submit-id-submit" value="{% trans 'Submit' %}">
         {% endif %}
 
     </div>

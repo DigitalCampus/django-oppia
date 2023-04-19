@@ -1,10 +1,9 @@
 import datetime
 import uuid
 
-from django.forms import ValidationError
+from django.core.exceptions import ValidationError
 from django.http import FileResponse
-from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DetailView
 
 from oppia.badges.certificates import generate_certificate_pdf
 from oppia.models import Award, Course
@@ -25,17 +24,27 @@ class PreviewCertificateView(TemplateView):
         return FileResponse(buffer, filename='certificate.pdf')
 
 
-class ValidateCertificateView(TemplateView):
+class ValidateCertificateView(DetailView):
+    pk_url_kwarg = 'validation_uuid'
+    model = Award
 
-    def get(self, request, validation_uuid):
+    def get_object(self, queryset=None):
         try:
-            award = Award.objects.get(validation_uuid=validation_uuid)
-        except (Award.DoesNotExist, ValidationError):
-            return render(request,
-                          'oppia/certificates/invalid.html',
-                          {'validation_uuid': validation_uuid})
-        course = Course.objects.filter(awardcourse__award=award).first()
-        return render(request,
-                      'oppia/certificates/valid.html',
-                      {'award': award,
-                       'course': course})
+            return Award.objects.filter(validation_uuid=self.kwargs['validation_uuid']).first()
+        except ValidationError:
+            return None
+
+    def get_template_names(self):
+        if self.object:
+            return 'oppia/certificates/valid.html'
+        else:
+            return 'oppia/certificates/invalid.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.object:
+            context['course'] = Course.objects.filter(awardcourse__award=self.object).first()
+            context['award'] = self.object
+        else:
+            context['validation_uuid'] = self.kwargs['validation_uuid']
+        return context
