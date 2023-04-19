@@ -69,10 +69,8 @@ class UserResource(ModelResource):
             tracker = Tracker()
             tracker.user = u
             tracker.type = 'login'
-            tracker.ip = bundle.request.META.get('REMOTE_ADDR',
-                                                 DEFAULT_IP_ADDRESS)
-            tracker.agent = bundle.request.META.get('HTTP_USER_AGENT',
-                                                    'unknown')
+            tracker.ip = bundle.request.META.get('REMOTE_ADDR', DEFAULT_IP_ADDRESS)
+            tracker.agent = bundle.request.META.get('HTTP_USER_AGENT', 'unknown')
             tracker.save()
         else:
             raise BadRequest(_(u'Authentication failure'))
@@ -82,15 +80,17 @@ class UserResource(ModelResource):
         bundle.data['api_key'] = key.key
 
         try:
-            up = UserProfile.objects.get(user__username=username)
-            job_title = up.job_title
-            organisation = up.organisation
-        except UserProfile.DoesNotExist:
-            job_title = ""
-            organisation = ""
+            profile = UserProfile.objects.get(user=bundle.obj)
+            bundle.data['job_title'] = profile.job_title
+            bundle.data['organisation'] = profile.organisation
 
-        bundle.data['job_title'] = job_title
-        bundle.data['organisation'] = organisation
+            customfields = profile.get_customfields_dict()
+            bundle.data.update(customfields)
+
+        except UserProfile.DoesNotExist:
+            bundle.data['job_title'] = ''
+            bundle.data['organisation'] = ''
+
         bundle.obj = u
         return bundle
 
