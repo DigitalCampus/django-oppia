@@ -88,22 +88,22 @@ class ProfileEditCustomFieldsViewTest(ResourceTestCaseMixin, TestCase):
                                         data=post_data,
                                         authentication=self.get_credentials())
         self.assertHttpCreated(response)
-        
+
         self.assertValidJSON(response.content)
         json_data = json.loads(response.content)
-        
+
         self.assertTrue('email' in json_data)
         self.assertTrue('first_name' in json_data)
         self.assertTrue('last_name' in json_data)
         self.assertTrue('organisation' in json_data)
         self.assertTrue('bool_req' in json_data)
-        
+
         self.assertEqual("demo@me.com", json_data['email'])
         self.assertEqual("demo", json_data['first_name'])
         self.assertEqual("user", json_data['last_name'])
         self.assertEqual("", json_data['organisation'])
         self.assertEqual(True, json_data['bool_req'])
-        
+
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start+1, count_end)
 
@@ -132,22 +132,22 @@ class ProfileEditCustomFieldsViewTest(ResourceTestCaseMixin, TestCase):
                                         data=post_data,
                                         authentication=self.get_credentials())
         self.assertHttpCreated(response)
-        
+
         self.assertValidJSON(response.content)
         json_data = json.loads(response.content)
-        
+
         self.assertTrue('email' in json_data)
         self.assertTrue('first_name' in json_data)
         self.assertTrue('last_name' in json_data)
         self.assertTrue('organisation' in json_data)
         self.assertTrue('bool_req' in json_data)
-        
+
         self.assertEqual("demo@me.com", json_data['email'])
         self.assertEqual("demo", json_data['first_name'])
         self.assertEqual("user", json_data['last_name'])
         self.assertEqual("", json_data['organisation'])
         self.assertEqual(True, json_data['bool_req'])
-        
+
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start, count_end)
 
@@ -176,22 +176,22 @@ class ProfileEditCustomFieldsViewTest(ResourceTestCaseMixin, TestCase):
                                         data=post_data,
                                         authentication=self.get_credentials())
         self.assertHttpCreated(response)
-        
+
         self.assertValidJSON(response.content)
         json_data = json.loads(response.content)
-        
+
         self.assertTrue('email' in json_data)
         self.assertTrue('first_name' in json_data)
         self.assertTrue('last_name' in json_data)
         self.assertTrue('organisation' in json_data)
         self.assertTrue('bool_not_req' in json_data)
-        
+
         self.assertEqual("demo@me.com", json_data['email'])
         self.assertEqual("demo", json_data['first_name'])
         self.assertEqual("user", json_data['last_name'])
         self.assertEqual("", json_data['organisation'])
         self.assertEqual(False, json_data['bool_not_req'])
-        
+
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start, count_end)
 
@@ -221,19 +221,19 @@ class ProfileEditCustomFieldsViewTest(ResourceTestCaseMixin, TestCase):
         self.assertHttpCreated(response)
         self.assertValidJSON(response.content)
         json_data = json.loads(response.content)
-        
+
         self.assertTrue('email' in json_data)
         self.assertTrue('first_name' in json_data)
         self.assertTrue('last_name' in json_data)
         self.assertTrue('organisation' in json_data)
         self.assertTrue('bool_not_req' in json_data)
-        
+
         self.assertEqual("demo@me.com", json_data['email'])
         self.assertEqual("demo", json_data['first_name'])
         self.assertEqual("user", json_data['last_name'])
         self.assertEqual("", json_data['organisation'])
         self.assertEqual(True, json_data['bool_not_req'])
-        
+
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start, count_end)
 
@@ -264,20 +264,19 @@ class ProfileEditCustomFieldsViewTest(ResourceTestCaseMixin, TestCase):
         self.assertHttpCreated(response)
         self.assertValidJSON(response.content)
         json_data = json.loads(response.content)
-        
+
         self.assertTrue('email' in json_data)
         self.assertTrue('first_name' in json_data)
         self.assertTrue('last_name' in json_data)
         self.assertTrue('organisation' in json_data)
         self.assertTrue('int_req' in json_data)
-        
+
         self.assertEqual("demo@me.com", json_data['email'])
         self.assertEqual("demo", json_data['first_name'])
         self.assertEqual("user", json_data['last_name'])
         self.assertEqual("", json_data['organisation'])
         self.assertEqual(999, json_data['int_req'])
-        
-        
+
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start, count_end)
 
@@ -301,22 +300,22 @@ class ProfileEditCustomFieldsViewTest(ResourceTestCaseMixin, TestCase):
                                         data=post_data,
                                         authentication=self.get_credentials())
         self.assertHttpCreated(response)
-        
+
         self.assertValidJSON(response.content)
         json_data = json.loads(response.content)
-        
+
         self.assertTrue('email' in json_data)
         self.assertTrue('first_name' in json_data)
         self.assertTrue('last_name' in json_data)
         self.assertTrue('organisation' in json_data)
         self.assertTrue('int_req' in json_data)
-        
+
         self.assertEqual("demo@me.com", json_data['email'])
         self.assertEqual("demo", json_data['first_name'])
         self.assertEqual("user", json_data['last_name'])
         self.assertEqual("", json_data['organisation'])
         self.assertEqual(999, json_data['int_req'])
-        
+
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start+1, count_end)
 
@@ -344,22 +343,22 @@ class ProfileEditCustomFieldsViewTest(ResourceTestCaseMixin, TestCase):
                                         data=post_data,
                                         authentication=self.get_credentials())
         self.assertHttpCreated(response)
-        
+
         self.assertValidJSON(response.content)
         json_data = json.loads(response.content)
-        
+
         self.assertTrue('email' in json_data)
         self.assertTrue('first_name' in json_data)
         self.assertTrue('last_name' in json_data)
         self.assertTrue('organisation' in json_data)
         self.assertTrue('int_req' in json_data)
-        
+
         self.assertEqual("demo@me.com", json_data['email'])
         self.assertEqual("demo", json_data['first_name'])
         self.assertEqual("user", json_data['last_name'])
         self.assertEqual("", json_data['organisation'])
         self.assertEqual(123, json_data['int_req'])
-        
+
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start, count_end)
 
@@ -388,22 +387,22 @@ class ProfileEditCustomFieldsViewTest(ResourceTestCaseMixin, TestCase):
                                         data=post_data,
                                         authentication=self.get_credentials())
         self.assertHttpCreated(response)
-        
+
         self.assertValidJSON(response.content)
         json_data = json.loads(response.content)
-        
+
         self.assertTrue('email' in json_data)
         self.assertTrue('first_name' in json_data)
         self.assertTrue('last_name' in json_data)
         self.assertTrue('organisation' in json_data)
         self.assertTrue('int_not_req' in json_data)
-        
+
         self.assertEqual("demo@me.com", json_data['email'])
         self.assertEqual("demo", json_data['first_name'])
         self.assertEqual("user", json_data['last_name'])
         self.assertEqual("", json_data['organisation'])
         self.assertEqual(1234, json_data['int_not_req'])
-        
+
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start, count_end)
 
@@ -431,22 +430,22 @@ class ProfileEditCustomFieldsViewTest(ResourceTestCaseMixin, TestCase):
                                         data=post_data,
                                         authentication=self.get_credentials())
         self.assertHttpCreated(response)
-        
+
         self.assertValidJSON(response.content)
         json_data = json.loads(response.content)
-        
+
         self.assertTrue('email' in json_data)
         self.assertTrue('first_name' in json_data)
         self.assertTrue('last_name' in json_data)
         self.assertTrue('organisation' in json_data)
         self.assertTrue('int_not_req' in json_data)
-        
+
         self.assertEqual("demo@me.com", json_data['email'])
         self.assertEqual("demo", json_data['first_name'])
         self.assertEqual("user", json_data['last_name'])
         self.assertEqual("", json_data['organisation'])
         self.assertEqual(123, json_data['int_not_req'])
-        
+
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start, count_end)
 
@@ -475,22 +474,22 @@ class ProfileEditCustomFieldsViewTest(ResourceTestCaseMixin, TestCase):
                                         data=post_data,
                                         authentication=self.get_credentials())
         self.assertHttpCreated(response)
-        
+
         self.assertValidJSON(response.content)
         json_data = json.loads(response.content)
-        
+
         self.assertTrue('email' in json_data)
         self.assertTrue('first_name' in json_data)
         self.assertTrue('last_name' in json_data)
         self.assertTrue('organisation' in json_data)
         self.assertTrue('str_req' in json_data)
-        
+
         self.assertEqual("demo@me.com", json_data['email'])
         self.assertEqual("demo", json_data['first_name'])
         self.assertEqual("user", json_data['last_name'])
         self.assertEqual("", json_data['organisation'])
         self.assertEqual("my new string", json_data['str_req'])
-        
+
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start, count_end)
 
@@ -514,22 +513,22 @@ class ProfileEditCustomFieldsViewTest(ResourceTestCaseMixin, TestCase):
                                         data=post_data,
                                         authentication=self.get_credentials())
         self.assertHttpCreated(response)
-        
+
         self.assertValidJSON(response.content)
         json_data = json.loads(response.content)
-        
+
         self.assertTrue('email' in json_data)
         self.assertTrue('first_name' in json_data)
         self.assertTrue('last_name' in json_data)
         self.assertTrue('organisation' in json_data)
         self.assertTrue('str_req' in json_data)
-        
+
         self.assertEqual("demo@me.com", json_data['email'])
         self.assertEqual("demo", json_data['first_name'])
         self.assertEqual("user", json_data['last_name'])
         self.assertEqual("", json_data['organisation'])
         self.assertEqual("my new string", json_data['str_req'])
-        
+
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start+1, count_end)
 
@@ -557,22 +556,22 @@ class ProfileEditCustomFieldsViewTest(ResourceTestCaseMixin, TestCase):
                                         data=post_data,
                                         authentication=self.get_credentials())
         self.assertHttpCreated(response)
-        
+
         self.assertValidJSON(response.content)
         json_data = json.loads(response.content)
-        
+
         self.assertTrue('email' in json_data)
         self.assertTrue('first_name' in json_data)
         self.assertTrue('last_name' in json_data)
         self.assertTrue('organisation' in json_data)
         self.assertTrue('str_req' in json_data)
-        
+
         self.assertEqual("demo@me.com", json_data['email'])
         self.assertEqual("demo", json_data['first_name'])
         self.assertEqual("user", json_data['last_name'])
         self.assertEqual("", json_data['organisation'])
         self.assertEqual("my string", json_data['str_req'])
-        
+
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start, count_end)
 
@@ -601,22 +600,22 @@ class ProfileEditCustomFieldsViewTest(ResourceTestCaseMixin, TestCase):
                                         data=post_data,
                                         authentication=self.get_credentials())
         self.assertHttpCreated(response)
-        
+
         self.assertValidJSON(response.content)
         json_data = json.loads(response.content)
-        
+
         self.assertTrue('email' in json_data)
         self.assertTrue('first_name' in json_data)
         self.assertTrue('last_name' in json_data)
         self.assertTrue('organisation' in json_data)
         self.assertTrue('str_not_req' in json_data)
-        
+
         self.assertEqual("demo@me.com", json_data['email'])
         self.assertEqual("demo", json_data['first_name'])
         self.assertEqual("user", json_data['last_name'])
         self.assertEqual("", json_data['organisation'])
         self.assertEqual("my new string", json_data['str_not_req'])
-        
+
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start, count_end)
 
@@ -644,22 +643,22 @@ class ProfileEditCustomFieldsViewTest(ResourceTestCaseMixin, TestCase):
                                         data=post_data,
                                         authentication=self.get_credentials())
         self.assertHttpCreated(response)
-        
+
         self.assertValidJSON(response.content)
         json_data = json.loads(response.content)
-        
+
         self.assertTrue('email' in json_data)
         self.assertTrue('first_name' in json_data)
         self.assertTrue('last_name' in json_data)
         self.assertTrue('organisation' in json_data)
         self.assertTrue('str_not_req' in json_data)
-        
+
         self.assertEqual("demo@me.com", json_data['email'])
         self.assertEqual("demo", json_data['first_name'])
         self.assertEqual("user", json_data['last_name'])
         self.assertEqual("", json_data['organisation'])
         self.assertEqual("my string", json_data['str_not_req'])
-        
+
         count_end = UserProfileCustomField.objects.all().count()
         self.assertEqual(count_start, count_end)
 

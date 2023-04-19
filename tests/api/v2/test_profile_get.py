@@ -23,7 +23,7 @@ class UserProfileTest(ResourceTestCaseMixin, TestCase):
 
     # check get not allowed
     def test_post_invalid(self):
-        self.assertHttpMethodNotAllowed(self.api_client.post(self.url,format='json'))
+        self.assertHttpMethodNotAllowed(self.api_client.post(self.url, format='json'))
 
     def test_get_invalid_apikey(self):
         data = {

@@ -47,14 +47,14 @@ class UserResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertTrue('organisation' in response_data)
         self.assertTrue('first_name' in response_data)
         self.assertTrue('last_name' in response_data)
-        self.assertFalse('password' in response_data) # check it doesn't contain the password
+        self.assertFalse('password' in response_data)  # check it doesn't contain the password
         self.assertTrue('cohorts' in response_data)
         self.assertTrue('badging' in response_data)
         self.assertTrue('scoring' in response_data)
         self.assertTrue('username' in response_data)
         self.assertTrue('metadata' in response_data)
         self.assertTrue('resource_uri' in response_data)
-        
+
         self.assertEqual(100, response_data['points'])
         self.assertEqual(0, response_data['badges'])
         self.assertTrue(response_data['badging'])

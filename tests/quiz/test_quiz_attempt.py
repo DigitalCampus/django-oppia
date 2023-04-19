@@ -84,14 +84,14 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertTrue('score' in content)
         self.assertTrue('submitted_date' in content)
         self.assertTrue('time_taken' in content)
-        
+
         self.assertEqual('2012-12-18T15:35:12', content['attempt_date'])
         self.assertEqual(0, content['badges'])
         self.assertEqual('30', content['maxscore'])
         self.assertEqual(100, content['points'])
         self.assertEqual('10', content['score'])
         self.assertEqual(0, content['time_taken'])
-        
+
         quizattempt_count_end = QuizAttempt.objects.all().count()
         quizattemptresponse_count_end = QuizAttemptResponse.objects.all().count()
         self.assertEqual(quizattempt_count_start + 1, quizattempt_count_end)

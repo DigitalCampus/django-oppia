@@ -43,7 +43,7 @@ class BadgesResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertTrue('objects' in response_data)
         self.assertEqual(len(response_data['objects']), 1)
         badge = response_data['objects'][0]
-        self.assertTrue('allow_multiple_awards' in badge) 
+        self.assertTrue('allow_multiple_awards' in badge)
         self.assertTrue('default_icon' in badge)
         self.assertTrue('description' in badge)
         self.assertTrue('id' in badge)

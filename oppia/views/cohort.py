@@ -68,7 +68,7 @@ class EditCohortMixin(FormsetView):
         return context
 
     def get_named_formsets(self):
-        return{
+        return {
             'student_criteria': {'form': CohortCriteriaForm, 'kwargs': {'prefix': 'student'}},
             'teacher_criteria': {'form': CohortCriteriaForm, 'kwargs': {'prefix': 'teacher'}},
         }

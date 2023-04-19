@@ -27,7 +27,6 @@ class QuizDownloadTest(OppiaTestCase):
     course_quiz_mismatch_url = reverse(STR_URL_TEMPLATE,
                                        args=[1, 224])
 
-
     def test_admin_download(self):
         response = self.assert_response_status(self.admin_user, self.valid_course_valid_quiz_url, 200)
         self.assertEqual(self.STR_EXPECTED_CONTENT_TYPE, response['content-type'])
@@ -59,7 +58,6 @@ class QuizDownloadTest(OppiaTestCase):
         for user in [self.teacher_user, self.normal_user]:
             self.assert_response_status(user, self.valid_course_invalid_quiz_url, 403)
 
-
     def test_invalid_course_invalid_quiz(self):
         users = [self.admin_user,
                  self.staff_user,
@@ -68,9 +66,8 @@ class QuizDownloadTest(OppiaTestCase):
         for user in users:
             self.assert_response_status(user, self.invalid_course_invalid_quiz_url, 404)
 
-
     def test_course_quiz_mismatch(self):
-        for user in  [self.admin_user, self.staff_user]:
+        for user in [self.admin_user, self.staff_user]:
             self.assert_response_status(user, self.course_quiz_mismatch_url, 404)
         for user in [self.teacher_user, self.normal_user]:
             self.assert_response_status(user, self.course_quiz_mismatch_url, 403)

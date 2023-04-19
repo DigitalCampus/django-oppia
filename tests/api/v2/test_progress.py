@@ -97,7 +97,7 @@ class ProgressResourceTest(ResourceTestCaseMixin, TestCase):
         content = self.deserialize(response)
         self.assertEqual(3, len(content))
         self.check_json_content(content[0])
-        
+
         self.assertEqual('anc1-all', content[0]['shortname'])
         self.assertEqual(0, content[0]['points'])
         self.assertEqual(278, content[0]['total_activity'])

@@ -42,13 +42,13 @@ class ResetPasswordResourceTest(ResourceTestCaseMixin, TestCase):
         resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpCreated(resp)
         self.assertValidJSON(resp.content)
-        
+
         response_data = self.deserialize(resp)
         self.assertTrue('message' in response_data)
         self.assertTrue('username' in response_data)
         self.assertEqual('demo', response_data['username'])
         self.assertFalse('password' in response_data)
-        
+
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to[0], self.demo_email_address)
         mail.outbox = []
@@ -58,13 +58,13 @@ class ResetPasswordResourceTest(ResourceTestCaseMixin, TestCase):
         resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpCreated(resp)
         self.assertValidJSON(resp.content)
-        
+
         response_data = self.deserialize(resp)
         self.assertTrue('message' in response_data)
         self.assertTrue('username' in response_data)
         self.assertEqual('demo@me.com', response_data['username'])
         self.assertFalse('password' in response_data)
-        
+
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to[0], self.demo_email_address)
         mail.outbox = []
