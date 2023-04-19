@@ -12,17 +12,25 @@
 <div class="jumbotron mb-2">
 	<div class="row">
 		<div class="col-sm-5">
-			<h3>Profile</h3>
+			<h3>
+				{% if view_user == request.user %}
+				Profile
+				{% else %}
+				{{ view_user.first_name }} {{ view_user.last_name }}
+				{% endif %}
+			</h3>
 		</div>
 
 		<div class="col-sm-7 text-right">
-			<a href="{% url 'profile:delete' user.id %}" class="btn btn-light mr-2 mb-3">{% trans 'Delete Account' %}</a>
-			<a href="{% url 'profile:user_regenerate_certificates' user.id %}"  class="btn btn-light mr-2 mb-3">{% trans 'Regenerate Certificates' %}</a>
+			<a href="{% url 'profile:delete' view_user.id %}" class="btn btn-light mr-2 mb-3">{% trans 'Delete Account' %}</a>
+			<a href="{% url 'profile:user_regenerate_certificates' view_user.id %}"  class="btn btn-light mr-2 mb-3">{% trans 'Regenerate Certificates' %}</a>
+			{% if view_user == request.user %}
 			<a href="#" class="btn btn-secondary mb-3" data-toggle="collapse" data-target="#export-data" aria-expanded="false">{% trans 'Export' %}</a>
+			{% endif %}
 		</div>
 	</div>
-
-	<div id="export-data" class="collapse mt-4   {% if advanced_search %}show{% endif %}">
+	{% if user == request.user %}
+	<div id="export-data" class="collapse my-3">
             <h5>{% trans 'Export data' %}</h5>
 			<a href="{% url 'profile:export_mydata' 'profile' %}" class="btn btn-light mr-2" target="_blank" rel="noopener">{% trans 'Export Profile' %} <em class="fas fa-external-link-alt ml-2"></em></a>
 			<a href="{% url 'profile:export_mydata' 'activity' %}" class="btn btn-light mr-2" target="_blank" rel="noopener">{% trans 'Export Course Activity' %} <em class="fas fa-external-link-alt ml-2"></em></a>
@@ -30,6 +38,7 @@
 			<a href="{% url 'profile:export_mydata' 'points' %}" class="btn btn-light mr-2" target="_blank" rel="noopener">{% trans 'Export Points' %} <em class="fas fa-external-link-alt ml-2"></em></a>
 			<a href="{% url 'profile:export_mydata' 'badges' %}" class="btn btn-light mr-2" target="_blank" rel="noopener">{% trans 'Export Badges' %} <em class="fas fa-external-link-alt ml-2"></em></a>
     </div>
+	{% endif %}
 
 </div>
 {% endblock header %}
@@ -69,7 +78,5 @@
 </form>
 
 <div style="clear:both"></div>
-
-
 
 {% endblock %}
