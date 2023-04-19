@@ -6,7 +6,7 @@ import os
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Max, F, Q
+from django.db.models import Max, F
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from tastypie.models import create_api_key
@@ -201,8 +201,6 @@ class Course(models.Model):
             return True
         except Course.DoesNotExist:
             return False
-
-
 
     def user_can_view_detail(self, user):
         if user.is_staff:

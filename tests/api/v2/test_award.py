@@ -57,11 +57,11 @@ class AwardsResourceTest(ResourceTestCaseMixin, OppiaTestCase):
         self.assertTrue('description' in award)
         self.assertTrue('badge' in award)
         self.assertTrue('emailed' in award)
-        self.assertTrue('id' in award)  
+        self.assertTrue('id' in award)
         self.assertTrue('validation_uuid' in award)
-        
+
         badge = award['badge']
-        self.assertTrue('allow_multiple_awards' in badge) 
+        self.assertTrue('allow_multiple_awards' in badge)
         self.assertTrue('default_icon' in badge)
         self.assertTrue('description' in badge)
         self.assertTrue('id' in badge)

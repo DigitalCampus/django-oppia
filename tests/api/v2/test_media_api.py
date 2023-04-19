@@ -104,7 +104,7 @@ class MediaAPIResourceTest(OppiaTestCase):
         self.assertTrue('length' in response_data)
         self.assertTrue('filesize' in response_data)
         self.assertTrue('download_url' in response_data)
-        
+
         self.assertEqual("5c414654ad2bd2bc1ea9819435e1f193", response_data['digest'])
         self.assertEqual(4, response_data['length'])
         self.assertEqual(496995, response_data['filesize'])

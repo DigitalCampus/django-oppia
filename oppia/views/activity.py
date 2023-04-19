@@ -20,6 +20,7 @@ from oppia.views.utils import generate_graph_data
 from profile import utils
 from summary.models import CourseDailyStats, UserCourseSummary
 
+
 @method_decorator(permission_view_course_detail, name='dispatch')
 class CourseActivityDetail(DateRangeFilterMixin, DetailView):
     template_name = 'course/detail.html'
@@ -63,6 +64,7 @@ class CourseActivityDetail(DateRangeFilterMixin, DetailView):
 
             return generate_graph_data(monthly_stats, True)
 
+
 @method_decorator(permission_view_course_detail, name='dispatch')
 class CourseActivityDetailList(DateRangeFilterMixin, SafePaginatorMixin, ListView):
     template_name = 'course/activity/list.html'
@@ -102,7 +104,6 @@ class CourseActivityDetailList(DateRangeFilterMixin, SafePaginatorMixin, ListVie
             tracker.data_obj.append(['ip', tracker.ip])
 
         return context
-
 
 
 class ExportCourseTrackers(TemplateView):

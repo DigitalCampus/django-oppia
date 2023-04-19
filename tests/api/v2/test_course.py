@@ -295,14 +295,14 @@ class CourseResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         xml_doc = ET.fromstring(resp.content)
         trackers = xml_doc.findall("tracker")
         self.assertEqual(276, len(trackers))
-        first_tracker = trackers[0]        
+        first_tracker = trackers[0]
         self.assertEqual('cd646d1148da0f45cd4f097c6761186b17687', first_tracker.get('digest'))
         self.assertEqual('2015-04-16 13:01:59', first_tracker.get('submitteddate'))
         self.assertTrue(first_tracker.get('completed'))
         self.assertEqual('page', first_tracker.get('type'))
         self.assertEqual('', first_tracker.get('event'))
         self.assertEqual('None', first_tracker.get('points'))
-        
+
     def test_course_get_activity_notfound(self):
         resp = self.perform_request(999, self.user_auth, self.STR_ACTIVITY)
         self.assertHttpNotFound(resp)

@@ -52,7 +52,6 @@ class PasswordResourceTest(ResourceTestCaseMixin, TestCase):
                                     data=password_change_data,
                                     authentication=self.get_credentials())
         self.assertHttpCreated(resp)
-       
 
         # Check that the previous login fails
         login_attempt = self.api_client.post(login_url,

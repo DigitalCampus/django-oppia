@@ -85,6 +85,7 @@ class UserProfile(models.Model):
 
         return profile_fields
 
+
 class CustomField(models.Model):
 
     DATA_TYPES = (

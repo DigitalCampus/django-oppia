@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from tastypie import fields
-from tastypie.authentication import ApiKeyAuthentication, Authentication
+from tastypie.authentication import ApiKeyAuthentication
 from tastypie.authorization import Authorization
 from tastypie.exceptions import BadRequest, Unauthorized, ImmediateHttpResponse
 from tastypie.resources import ModelResource, Resource
@@ -16,6 +16,7 @@ from profile.forms import ProfileForm
 from profile.models import UserProfile, CustomField
 from settings.models import SettingProperties
 from settings import constants
+
 
 class ProfileUpdateResource(ModelResource):
     class Meta:
@@ -173,7 +174,6 @@ class UserProfileResource(ModelResource):
         except UserProfile.DoesNotExist:
             bundle.data['job_title'] = ''
             bundle.data['organisation'] = ''
-
 
         return bundle
 

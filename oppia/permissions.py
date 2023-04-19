@@ -2,7 +2,6 @@
 import functools
 from itertools import chain
 
-from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.http import Http404, HttpResponseForbidden
 from django.shortcuts import get_object_or_404
@@ -37,6 +36,7 @@ def can_edit_user(request, view_user_id):
         return True
     else:
         return False
+
 
 def get_user_courses(request, view_user):
 
@@ -80,6 +80,7 @@ def is_manager_only(user):
             return True
     return False
 
+
 def permission_edit_cohort(view_func):
     """
         this decorator ensures that only the users who have permission to
@@ -103,8 +104,8 @@ def permission_view_cohort(view_func):
         get_object_or_404(Cohort, pk=kwargs['cohort_id'])
         if not request.user.is_staff:
             cohort = Cohort.objects.filter(pk=kwargs['cohort_id'],
-                                  participant__user=request.user,
-                                  participant__role=Participant.TEACHER)
+                                           participant__user=request.user,
+                                           participant__role=Participant.TEACHER)
             if not cohort.exists():
                 raise PermissionDenied
         return view_func(request, *args, **kwargs)
@@ -162,6 +163,7 @@ def permission_view_course(view_func):
             raise PermissionDenied
         return view_func(request, *args, **kwargs)
     return wrapper
+
 
 def permission_view_course_detail(view_func):
     """

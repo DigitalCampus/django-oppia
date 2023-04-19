@@ -339,4 +339,3 @@ class RegenerateCertificatesView(CanEditUserMixin, DetailView, FormView):
         user_command = "--user=" + str(user.id)
         call_command('generate_certificates', user_command, stdout=StringIO())
         return super().form_valid(form)
-

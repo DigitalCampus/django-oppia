@@ -35,12 +35,12 @@ class ProfileUpdateResourceTest(UserProfileBaseTestCase):
         self.assertTrue('first_name' in json_data)
         self.assertTrue('last_name' in json_data)
         self.assertTrue('organisation' in json_data)
-        
+
         self.assertEqual("demo@me.com", json_data['email'])
         self.assertEqual("Hernan", json_data['first_name'])
         self.assertEqual("Cortez", json_data['last_name'])
         self.assertEqual("my organisation", json_data['organisation'])
-        
+
         updated_user = User.objects.get(username=self.username)
         self.assertNotEqual(orig_firstname, updated_user.first_name)
         self.assertNotEqual(orig_lastname, updated_user.last_name)

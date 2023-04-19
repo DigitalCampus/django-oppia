@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 from oppia.models import Participant, Course
 
+
 class ObjectPermissionRequiredMixin(LoginRequiredMixin):
     """
     Checks that the current user has permission to access this object, raising a PermissionDenied if not.
@@ -19,6 +20,7 @@ class ObjectPermissionRequiredMixin(LoginRequiredMixin):
         if not self.has_object_permission(obj):
             return self.handle_no_permission()
         return obj
+
 
 class CanViewUserDetailsMixin(LoginRequiredMixin, UserPassesTestMixin):
     """

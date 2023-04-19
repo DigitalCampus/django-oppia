@@ -61,6 +61,7 @@ def download_media_file(request, media_id):
         response['Content-Length'] = os.path.getsize(filepath)
         return response
 
+
 @permission_view_course
 def download_course_media(request, course_id):
     course = get_object_or_404(Course, pk=course_id)

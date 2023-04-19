@@ -13,8 +13,7 @@ from helpers.mixins.SafePaginatorMixin import SafePaginatorMixin
 from oppia.forms.activity_search import ActivitySearchForm
 from oppia.mixins.PermissionMixins import CanViewUserDetailsMixin
 from oppia.models import Activity, Tracker, Course
-from oppia.permissions import get_user_courses, can_view_course_activity, permission_view_course_detail, \
-    permission_view_course
+from oppia.permissions import get_user_courses, can_view_course_activity, permission_view_course
 from oppia.views import filter_trackers
 from quiz.models import Quiz, QuizAttempt, QuizProps
 from summary.models import UserCourseSummary

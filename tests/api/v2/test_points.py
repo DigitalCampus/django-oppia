@@ -58,7 +58,7 @@ class PointsResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertHttpOK(resp)
         self.assertValidJSON(resp.content)
         points = self.deserialize(resp)['objects']
-       
+
         self.assertEqual(12, len(points))
         point = points[0]
         self.assertTrue('date' in point)
@@ -72,13 +72,13 @@ class PointsResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertHttpOK(response)
         self.assertValidJSON(response.content)
         json_data = json.loads(response.content)
-        
+
         self.assertTrue('generated_date' in json_data)
         self.assertTrue('server' in json_data)
         self.assertTrue('leaderboard' in json_data)
-        
+
         self.assertEqual(2037, len(json_data['leaderboard']))
-        
+
         leader = json_data['leaderboard'][0]
         self.assertTrue('position' in leader)
         self.assertTrue('username' in leader)
@@ -93,7 +93,7 @@ class PointsResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertEqual("4847", leader['last_name'])
         self.assertEqual(169437, leader['points'])
         self.assertEqual(7, leader['badges'])
-        
+
         position567 = json_data['leaderboard'][566]
         self.assertEqual(567, position567['position'])
         self.assertEqual("user4856", position567['username'])
@@ -112,7 +112,7 @@ class PointsResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertValidJSON(response.content)
         json_data = json.loads(response.content)
         self.assertEqual(21, len(json_data['leaderboard']))
-        
+
         leader = json_data['leaderboard'][0]
         self.assertTrue('position' in leader)
         self.assertTrue('username' in leader)
@@ -127,7 +127,7 @@ class PointsResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertEqual("4847", leader['last_name'])
         self.assertEqual(169437, leader['points'])
         self.assertEqual(7, leader['badges'])
-        
+
     # Check bottom of top users
     def test_get_leaderboard_filtered_position20_user(self):
         auth_header = self.create_apikey(username="user3263", api_key="1234")
@@ -138,7 +138,7 @@ class PointsResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertValidJSON(response.content)
         json_data = json.loads(response.content)
         self.assertEqual(40, len(json_data['leaderboard']))
-        
+
         position_x = json_data['leaderboard'][37]
         self.assertTrue('position' in position_x)
         self.assertTrue('username' in position_x)

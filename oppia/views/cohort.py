@@ -2,7 +2,6 @@
 import datetime
 import operator
 
-from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.http import Http404
 from django.shortcuts import render
@@ -30,6 +29,7 @@ from profile.utils import get_paginated_users
 from summary.models import UserCourseSummary
 
 STR_COHORT_TEMPLATE_FORM = 'cohort/form.html'
+
 
 class CohortListView(StaffRequiredMixin, ListView):
     template_name = 'cohort/list.html'

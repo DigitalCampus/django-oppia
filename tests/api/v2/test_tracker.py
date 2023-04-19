@@ -78,7 +78,7 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
                                     authentication=self.get_credentials())
         self.assertHttpCreated(resp)
         self.assertValidJSON(resp.content)
-        
+
         # check the record was successfully added
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start + 1, tracker_count_end)
@@ -93,7 +93,7 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertTrue('scoring' in response_data)
         self.assertTrue('tracker_date' in response_data)
         self.assertTrue('user' in response_data)
-        
+
         self.assertEqual(0, response_data['badges'])
         self.assertFalse(response_data['completed'])
         self.assertTrue(response_data['badging'])
@@ -159,7 +159,7 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertTrue('badging' in response_data)
         self.assertTrue('metadata' in response_data)
         self.assertTrue('course_points' in response_data)
-        
+
         self.assertEqual(100, response_data['points'])
         self.assertEqual(0, response_data['badges'])
         self.assertTrue(response_data['badging'])
@@ -461,7 +461,7 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertTrue('badging' in response_data)
         self.assertTrue('metadata' in response_data)
         self.assertTrue('course_points' in response_data)
-        
+
         self.assertEqual(100, response_data['points'])
         self.assertEqual(0, response_data['badges'])
         self.assertTrue(response_data['badging'])
