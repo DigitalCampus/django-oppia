@@ -6,7 +6,7 @@ import os
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Max, F
+from django.db.models import Max, F, Q
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from tastypie.models import create_api_key
@@ -178,6 +178,31 @@ class Course(models.Model):
         return Tracker.objects.filter(course=self).count()
 
     # ------------ Permissions management ----------------
+
+    def user_can_view(self, user):
+        if user.is_staff:
+            return True
+
+        if self.status is CourseStatus.ARCHIVED:
+            return False
+
+        if self.status != CourseStatus.DRAFT:
+            return True
+
+        if user.is_anonymous:
+            return False
+
+        try:
+            Course.objects.get(
+                pk=self.pk,
+                coursepermissions__course=self,
+                coursepermissions__user=user,
+                coursepermissions__role=CoursePermissions.VIEWER)
+            return True
+        except Course.DoesNotExist:
+            return False
+
+
 
     def user_can_view_detail(self, user):
         if user.is_staff:
