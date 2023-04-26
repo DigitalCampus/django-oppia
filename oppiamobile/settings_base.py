@@ -86,7 +86,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     'rest_framework'
 ]
 
@@ -235,7 +235,18 @@ OPPIA_ANDROID_PACKAGEID = 'org.digitalcampus.mobile.learning'
 # links
 OPPIA_ANDROID_ON_GOOGLE_PLAY = True
 
-API_LIMIT_PER_PAGE = 0
-
 MEDIA_PROCESSOR_PROGRAM = "ffprobe"
 MEDIA_PROCESSOR_PROGRAM_PARAMS = ""
+
+# for API v1 and v2
+API_LIMIT_PER_PAGE = 0
+
+# for API v3
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+    ]
+}
