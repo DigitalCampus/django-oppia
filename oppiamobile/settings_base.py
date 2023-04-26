@@ -85,7 +85,9 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles'
+    'django.contrib.staticfiles',
+    
+    'rest_framework'
 ]
 
 # Logging (automated error emails)
@@ -174,10 +176,6 @@ LOGIN_EXEMPT_URLS = (
     r'^about/$',
     r'^terms/$',
     r'^api/',  # allow any URL under api/* - auth handled by api_key
-    r'^modules/api/',  # allow any URL under modules/api/* - auth by api_key
-    r'^badges/api/',  # allow any URL under badges/api/* - auth by api_key
-    r'^content/video-embed-helper/$',
-    r'^content/media-embed-helper/$',
     r'^media/temp/',
     r'^media/uploaded/',
     r'^api/activitylog/',
