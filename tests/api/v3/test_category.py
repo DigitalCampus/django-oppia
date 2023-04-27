@@ -79,14 +79,14 @@ class CategoryResourceTest(APITestCase):
         # should have 5 tags with the test data set
         self.assertEqual(5, len(categories))
         # check each course had a download url
-        for tag in tags:
-            self.assertTrue('count' in tag)
-            self.assertTrue('id' in tag)
-            self.assertTrue('name' in tag)
+        for category in categories:
+            self.assertTrue('count' in category)
+            self.assertTrue('id' in category)
+            self.assertTrue('name' in category)
             # check count not 0
-            self.assertTrue(tag['count'] > 0)
+            self.assertTrue(category['count'] > 0)
             # check name not null
-            self.assertTrue(len(tag['name']) > 0)
+            self.assertTrue(len(category['name']) > 0)
 
     # test getting a listing of courses for one of the categories
     @unittest.expectedFailure
@@ -263,7 +263,7 @@ class CategoryResourceTest(APITestCase):
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_archived_course_is_not_included_in_course_statuses_normal_user(self):
-        expected1 = {
+        expected = {
             'reference': {'ref-1': 'live'}
         }
 
