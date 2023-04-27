@@ -16,8 +16,7 @@ class UsernameReminderResourceTest(ResourceTestCaseMixin, TestCase):
 
     # get not allowed
     def test_get_invalid(self):
-        self.assertHttpMethodNotAllowed(self.api_client.get(self.url,
-                                                            format='json'))
+        self.assertHttpMethodNotAllowed(self.api_client.get(self.url, format='json'))
 
     # email not in post params
     def test_no_email(self):
@@ -62,5 +61,13 @@ class UsernameReminderResourceTest(ResourceTestCaseMixin, TestCase):
         resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpCreated(resp)
         self.assertValidJSON(resp.content)
+
+        response_data = self.deserialize(resp)
+
+        self.assertTrue('email' in response_data)
+        self.assertTrue('message' in response_data)
+
+        self.assertEqual("staff@me.com", response_data['email'])
+
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to[0], "staff@me.com")

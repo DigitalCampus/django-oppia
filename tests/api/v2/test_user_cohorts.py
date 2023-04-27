@@ -43,8 +43,7 @@ class UserCohortsResourceTest(ResourceTestCaseMixin, TestCase):
 
     # Post invalid
     def test_post_invalid(self):
-        self.assertHttpMethodNotAllowed(
-            self.api_client.post(self.url, format='json', data={}))
+        self.assertHttpMethodNotAllowed(self.api_client.post(self.url, format='json', data={}))
 
     # test unauthorized
     def test_unauthorized(self):
@@ -52,8 +51,7 @@ class UserCohortsResourceTest(ResourceTestCaseMixin, TestCase):
             'username': 'user',
             'api_key': '1234',
         }
-        self.assertHttpUnauthorized(
-            self.api_client.get(self.url, format='json', data=data))
+        self.assertHttpUnauthorized(self.api_client.get(self.url, format='json', data=data))
 
     def test_user_with_no_cohorts(self):
         resp = self.api_client.get(self.url, format='json', data=self.admin_auth)
@@ -65,6 +63,8 @@ class UserCohortsResourceTest(ResourceTestCaseMixin, TestCase):
         resp = self.api_client.get(self.url, format='json', data=self.user_auth)
         cohorts = self.assert_valid_response_and_get_list(resp)
         self.assertEqual(len(cohorts), 2)
+        self.assertEqual(1, cohorts[0])
+        self.assertEqual(2, cohorts[1])
 
     # Test that if a user belongs more than once to a cohort (multiple roles), they are not duplicated
     def test_no_duplicate_cohorts(self):
@@ -84,6 +84,7 @@ class UserCohortsResourceTest(ResourceTestCaseMixin, TestCase):
 
         # check return data
         response_data = self.deserialize(resp)
-        print(response_data)
         self.assertTrue('cohorts' in response_data)
         self.assertEqual(len(response_data['cohorts']), 2)
+        self.assertEqual(1, response_data['cohorts'][0])
+        self.assertEqual(2, response_data['cohorts'][1])

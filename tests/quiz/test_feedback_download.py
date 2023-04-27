@@ -62,7 +62,6 @@ class FeedbackDownloadTest(OppiaTestCase):
         for user in [self.teacher_user, self.normal_user]:
             self.assert_response_status(user, self.valid_course_invalid_feedback_url, 403)
 
-
     def test_invalid_course_invalid_feedback(self):
         users = [self.admin_user,
                  self.staff_user,
@@ -73,7 +72,7 @@ class FeedbackDownloadTest(OppiaTestCase):
 
     def test_course_feedback_mismatch(self):
 
-        for user in  [self.admin_user, self.staff_user]:
+        for user in [self.admin_user, self.staff_user]:
             self.assert_response_status(user, self.course_feedback_mismatch_url, 404)
         for user in [self.teacher_user, self.normal_user]:
             self.assert_response_status(user, self.course_feedback_mismatch_url, 403)

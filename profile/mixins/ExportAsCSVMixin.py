@@ -61,7 +61,7 @@ class ExportAsCSVMixin(View):
                 if field_name in self.field_labels:
                     return self.field_labels[field_name]
         return None
-    
+
     def export_csv(self, request, object_list, filter_list=None, *args, **kwargs):
 
         now = datetime.datetime.now()

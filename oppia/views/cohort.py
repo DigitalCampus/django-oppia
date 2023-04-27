@@ -2,12 +2,12 @@
 import datetime
 import operator
 
-from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.http import Http404
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone
+from django.utils.decorators import method_decorator
 from django.views.generic import ListView, UpdateView, DetailView
 from django.views.generic.edit import FormView
 
@@ -22,9 +22,7 @@ from oppia.models import Tracker, \
     Participant, \
     Course, \
     Cohort, CohortCritera
-from oppia.permissions import can_add_cohort, \
-    can_view_cohort, \
-    can_edit_cohort
+from oppia.permissions import permission_view_cohort, permission_edit_cohort
 from oppia.views.utils import get_paginated_courses, filter_trackers
 from profile.models import CustomField
 from profile.utils import get_paginated_users
@@ -70,7 +68,7 @@ class EditCohortMixin(FormsetView):
         return context
 
     def get_named_formsets(self):
-        return{
+        return {
             'student_criteria': {'form': CohortCriteriaForm, 'kwargs': {'prefix': 'student'}},
             'teacher_criteria': {'form': CohortCriteriaForm, 'kwargs': {'prefix': 'teacher'}},
         }
@@ -107,14 +105,11 @@ class EditCohortMixin(FormsetView):
             )
 
 
-class AddCohortView(FormView, UserPassesTestMixin, EditCohortMixin):
+@method_decorator(permission_edit_cohort, name='dispatch')
+class AddCohortView(FormView, EditCohortMixin):
     template_name = STR_COHORT_TEMPLATE_FORM
     success_url = reverse_lazy('oppia:cohorts')
     form_class = CohortForm
-
-    # Permissions check
-    def test_func(self):
-        return can_add_cohort(self.request)
 
     def form_valid(self, form):
         cohort = Cohort(
@@ -150,14 +145,12 @@ class AddCohortView(FormView, UserPassesTestMixin, EditCohortMixin):
         return context
 
 
-class CohortDetailView(UserPassesTestMixin, DetailView):
+@method_decorator(permission_view_cohort, name='dispatch')
+class CohortDetailView(DetailView):
     template_name = 'cohort/activity.html'
     model = Cohort
     context_object_name = 'cohort'
-
-    # Permissions check
-    def test_func(self):
-        return can_view_cohort(self.request, self.kwargs['pk'])
+    pk_url_kwarg = 'cohort_id'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -179,21 +172,15 @@ class CohortDetailView(UserPassesTestMixin, DetailView):
         return context
 
 
-class CohortLeaderboardView(UserPassesTestMixin,
-                            SafePaginatorMixin,
-                            ListView,
-                            AjaxTemplateResponseMixin):
+@method_decorator(permission_view_cohort, name='dispatch')
+class CohortLeaderboardView(SafePaginatorMixin, ListView, AjaxTemplateResponseMixin):
 
     paginate_by = constants.LEADERBOARD_TABLE_RESULTS_PER_PAGE
     template_name = 'cohort/leaderboard.html'
     ajax_template_name = 'leaderboard/query.html'
 
-    # Permissions check
-    def test_func(self):
-        return can_view_cohort(self.request, self.kwargs['pk'])
-
     def get(self, request, *args, **kwargs):
-        self.object = Cohort.objects.get(pk=kwargs['pk'])
+        self.object = Cohort.objects.get(pk=kwargs['cohort_id'])
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
@@ -205,14 +192,12 @@ class CohortLeaderboardView(UserPassesTestMixin,
         return context
 
 
-class CohortEditView(UserPassesTestMixin, UpdateView, EditCohortMixin):
+@method_decorator(permission_edit_cohort, name='dispatch')
+class CohortEditView(UpdateView, EditCohortMixin):
     template_name = STR_COHORT_TEMPLATE_FORM
     model = Cohort
     form_class = CohortForm
-
-    # Permissions check
-    def test_func(self):
-        return can_edit_cohort(self.request)
+    pk_url_kwarg = 'cohort_id'
 
     def get_form_kwargs(self):
         """Return the keyword arguments for instantiating the form."""
@@ -307,9 +292,9 @@ class CohortEditView(UserPassesTestMixin, UpdateView, EditCohortMixin):
         return super().form_valid(form)
 
 
+@permission_view_cohort
 def cohort_course_view(request, cohort_id, course_id):
-    cohort = can_view_cohort(request, cohort_id)
-
+    cohort = Cohort.objects.get(pk=cohort_id)
     try:
         course = Course.objects.get(pk=course_id, coursecohort__cohort=cohort)
     except Course.DoesNotExist:

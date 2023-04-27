@@ -98,6 +98,18 @@ class MediaAPIResourceTest(OppiaTestCase):
                                                    'password': 'password',
                                                    'media_file': upload_file})
         self.assertEqual(response.status_code, 201)
+        response_data = json.loads(response.content)
+
+        self.assertTrue('digest' in response_data)
+        self.assertTrue('length' in response_data)
+        self.assertTrue('filesize' in response_data)
+        self.assertTrue('download_url' in response_data)
+
+        self.assertEqual("5c414654ad2bd2bc1ea9819435e1f193", response_data['digest'])
+        self.assertEqual(4, response_data['length'])
+        self.assertEqual(496995, response_data['filesize'])
+        self.assertTrue(response_data['download_url'].startswith("http://testserver/media/uploaded/"))
+        self.assertTrue(response_data['download_url'].endswith(".m4v"))
 
     def test_upload_teacher(self):
         # teacher
@@ -154,6 +166,9 @@ class MediaAPIResourceTest(OppiaTestCase):
         url = "http://testserver/media/uploaded/2018/02/MH1_Keyboard_480p.mp4"
         self.assertEqual(json_data['download_url'], url)
         self.assertEqual(json_data['length'], 170)
+        self.assertEqual(json_data['title'], None)
+        self.assertEqual(json_data['organisation'], None)
+        self.assertEqual(json_data['license'], None)
 
     def test_digest_invalid(self):
         response = self.client.get(self.get_invalid_digest)

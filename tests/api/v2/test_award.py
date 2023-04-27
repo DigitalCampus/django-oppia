@@ -44,11 +44,9 @@ class AwardsResourceTest(ResourceTestCaseMixin, OppiaTestCase):
                                                         format='json',
                                                         data=data))
 
-    # check authorized
-    def test_authorized(self):
-        resp = self.api_client.get(self.url,
-                                   format='json',
-                                   data=self.auth_data)
+    # check valid
+    def test_valid(self):
+        resp = self.api_client.get(self.url, format='json', data=self.auth_data)
         self.assertHttpOK(resp)
         self.assertValidJSON(resp.content)
         self.assertEqual(len(self.deserialize(resp)['objects']), 1)
@@ -57,6 +55,19 @@ class AwardsResourceTest(ResourceTestCaseMixin, OppiaTestCase):
         self.assertTrue('award_date' in award)
         self.assertTrue('badge_icon' in award)
         self.assertTrue('description' in award)
+        self.assertTrue('badge' in award)
+        self.assertTrue('emailed' in award)
+        self.assertTrue('id' in award)
+        self.assertTrue('validation_uuid' in award)
+
+        badge = award['badge']
+        self.assertTrue('allow_multiple_awards' in badge)
+        self.assertTrue('default_icon' in badge)
+        self.assertTrue('description' in badge)
+        self.assertTrue('id' in badge)
+        self.assertTrue('name' in badge)
+        self.assertTrue('points' in badge)
+        self.assertTrue('ref' in badge)
 
     # check returning a set of objects - expecting zero
     def test_no_objects(self):

@@ -9,6 +9,7 @@ from oppia.models import Course, Activity
 from oppia.permissions import permission_view_course_detail
 from quiz.models import QuizAttempt, Quiz, QuizProps
 
+
 @method_decorator(permission_view_course_detail, name='dispatch')
 class CourseFeedbackActivitiesList(ListView,
                                    ListItemUrlMixin,
@@ -39,6 +40,7 @@ class CourseFeedbackActivitiesList(ListView,
                                 'feedback_id': feedback.id}))
 
         return super().get(request, *args, **kwargs)
+
 
 @method_decorator(permission_view_course_detail, name='dispatch')
 class CourseFeedbackResponsesList(ListView, ListItemUrlMixin, AjaxTemplateResponseMixin):

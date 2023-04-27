@@ -5,19 +5,18 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
-from django.core.exceptions import PermissionDenied
 from django.core.management import call_command
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import gettext as _
-from django.views.generic import ListView, UpdateView, FormView, TemplateView
+from django.views.generic import ListView, UpdateView, FormView, TemplateView, DetailView
 from tastypie.models import ApiKey
 
 from helpers.mixins.SafePaginatorMixin import SafePaginatorMixin
 from helpers.mixins.TitleViewMixin import TitleViewMixin
+from oppia.mixins.PermissionMixins import CanEditUserMixin
 from oppia.models import Points, Award, Tracker, Course, CertificateTemplate
-from oppia.permissions import can_edit_user
 from profile.forms import LoginForm, \
     RegisterForm, \
     ProfileForm, \
@@ -98,12 +97,13 @@ class RegisterView(TitleViewMixin, FormView):
         return super().form_valid(form)
 
 
-class EditView(UpdateView):
+class EditView(CanEditUserMixin, UpdateView):
 
     model = User
     form_class = ProfileForm
-    context_object_name = 'user'
+    context_object_name = 'view_user'
     template_name = 'profile/profile.html'
+    pk_url_kwarg = 'user_id'
 
     def __init__(self,  **kwargs):
         super().__init__(**kwargs)
@@ -112,12 +112,8 @@ class EditView(UpdateView):
                       settings.OPPIA_ALLOW_PROFILE_EDITING)
 
     def get_object(self, queryset=None):
-        user_id = self.kwargs.get('user_id', )
-        if user_id:
-            if can_edit_user(self.request, user_id):
-                return User.objects.get(pk=user_id)
-            else:
-                raise PermissionDenied
+        if self.pk_url_kwarg in self.kwargs:
+            return super().get_object()
         else:
             return self.request.user
 
@@ -287,21 +283,30 @@ class BadgesView(ListView):
             user=self.request.user).order_by('-award_date')
 
 
-class RegenerateCertificatesView(TemplateView):
+class RegenerateCertificatesView(CanEditUserMixin, DetailView, FormView):
+    model = User
+    form_class = RegenerateCertificatesForm
+    context_object_name = 'user'
+    template_name = 'profile/certificates/regenerate.html'
+    pk_url_kwarg = 'user_id'
+    success_url = 'success/'
 
-    def get(self, request, user_id=None):
-        if user_id:
-            if can_edit_user(request, user_id):
-                user = User.objects.get(pk=user_id)
-            else:
-                raise PermissionDenied
+    def get_initial(self):
+        user = self.get_object()
+        return {
+            'email': user.email,
+            'old_email': user.email
+        }
+
+    def get_object(self, queryset=None):
+        if self.pk_url_kwarg in self.kwargs:
+            return super().get_object()
         else:
-            user = request.user
+            return self.request.user
 
-        initial = {'email': user.email,
-                   'old_email': user.email}
-        form = RegenerateCertificatesForm(initial=initial)
-        awards = Award.objects.filter(user=user)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        awards = Award.objects.filter(user=self.object)
         certificates = []
         for award in awards:
             try:
@@ -309,41 +314,28 @@ class RegenerateCertificatesView(TemplateView):
             except Course.DoesNotExist:
                 continue
             badge = award.badge
-            certs = CertificateTemplate.objects.filter(course=course,
-                                                       badge=badge,
-                                                       enabled=True)
-
+            certs = CertificateTemplate.objects.filter(course=course, badge=badge, enabled=True)
             for cert in certs:
                 certificate = {}
                 certificate['course'] = course
                 certificate['badge'] = badge
-                valid, display_name = cert.display_name(user)
+                valid, display_name = cert.display_name(self.object)
                 certificate['display_name'] = display_name
                 certificate['cert_link'] = award.certificate_pdf
                 certificates.append(certificate)
 
-        return render(request, 'profile/certificates/regenerate.html',
-                      {'user': user,
-                       'form': form,
-                       'certificates': certificates})
+        context['user'] = self.object
+        context['certificates'] = certificates
+        return context
 
-    def post(self, request, user_id=None):
-        if user_id:
-            if can_edit_user(request, user_id):
-                user = User.objects.get(pk=user_id)
-            else:
-                raise PermissionDenied
-        else:
-            user = request.user
-
-        # update email address if changed
-        old_email = request.POST.get("old_email")
-        new_email = request.POST.get("email")
+    def form_valid(self, form):
+        user = self.get_object()
+        old_email = form.cleaned_data.get("old_email")
+        new_email = form.cleaned_data.get("email")
         if old_email != new_email:
             user.email = new_email
             user.save()
 
         user_command = "--user=" + str(user.id)
         call_command('generate_certificates', user_command, stdout=StringIO())
-
-        return HttpResponseRedirect('success/')
+        return super().form_valid(form)

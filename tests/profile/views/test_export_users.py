@@ -15,7 +15,7 @@ class ExportUsersViewsTest(OppiaTestCase):
 
     STR_EXPECTED_CONTENT_TYPE = 'text/csv'
     STR_URL = 'profile:users_list'
-    
+
     def test_permissions(self):
         for user in [self.normal_user,
                      self.teacher_user]:
@@ -35,7 +35,7 @@ class ExportUsersViewsTest(OppiaTestCase):
             self.assertEqual(response['content-type'], self.STR_EXPECTED_CONTENT_TYPE)
             csv_file = csv.DictReader(io.StringIO(response.content.decode()))
             self.assertEqual(6, len(list(csv_file)))
-                
+
     def test_download_filtered_by_registration_date_all_data(self):
         for user in [self.admin_user,
                      self.staff_user]:
@@ -47,7 +47,7 @@ class ExportUsersViewsTest(OppiaTestCase):
             self.assertEqual(response['content-type'], self.STR_EXPECTED_CONTENT_TYPE)
             csv_file = csv.DictReader(io.StringIO(response.content.decode()))
             self.assertEqual(0, len(list(csv_file)))
-            
+
     def test_download_all_users_username_only(self):
         for user in [self.admin_user,
                      self.staff_user]:
@@ -71,4 +71,3 @@ class ExportUsersViewsTest(OppiaTestCase):
             self.assertEqual(response['content-type'], self.STR_EXPECTED_CONTENT_TYPE)
             csv_file = csv.DictReader(io.StringIO(response.content.decode()))
             self.assertEqual(0, len(list(csv_file)))
-            

@@ -22,8 +22,7 @@ class BadgesResourceTest(ResourceTestCaseMixin, TestCase):
 
     # check post not allowed
     def test_post_invalid(self):
-        self.assertHttpMethodNotAllowed(
-            self.api_client.post(self.url, format='json', data={}))
+        self.assertHttpMethodNotAllowed(self.api_client.post(self.url, format='json', data={}))
 
     # check unauthorized
     def test_unauthorized(self):
@@ -31,18 +30,23 @@ class BadgesResourceTest(ResourceTestCaseMixin, TestCase):
             'username': 'demo',
             'api_key': '1234',
         }
-        self.assertHttpUnauthorized(
-            self.api_client.get(self.url, format='json', data=data))
+        self.assertHttpUnauthorized(self.api_client.get(self.url, format='json', data=data))
 
     # check correct
     def test_correct(self):
-        resp = self.api_client.get(self.url,
-                                   format='json',
-                                   data=self.auth_data)
+        resp = self.api_client.get(self.url, format='json', data=self.auth_data)
         self.assertHttpOK(resp)
         self.assertValidJSON(resp.content)
 
-        # check that the response contains 2 badges
+        # check that the response contains 1 badge
         response_data = self.deserialize(resp)
         self.assertTrue('objects' in response_data)
         self.assertEqual(len(response_data['objects']), 1)
+        badge = response_data['objects'][0]
+        self.assertTrue('allow_multiple_awards' in badge)
+        self.assertTrue('default_icon' in badge)
+        self.assertTrue('description' in badge)
+        self.assertTrue('id' in badge)
+        self.assertTrue('name' in badge)
+        self.assertTrue('points' in badge)
+        self.assertTrue('ref' in badge)

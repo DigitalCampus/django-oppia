@@ -3,7 +3,26 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from oppia.models import Participant, Course
 
 
-class CanViewUserDetailsPermissionMixin(LoginRequiredMixin, UserPassesTestMixin):
+class ObjectPermissionRequiredMixin(LoginRequiredMixin):
+    """
+    Checks that the current user has permission to access this object, raising a PermissionDenied if not.
+    For this, the object to check against is obtained from the self.object attribute from SingleObjectMixin,
+    so this mixin must be put **after** the view that inherits from that one
+    """
+
+    def has_object_permission(self, obj):
+        raise NotImplementedError(
+            '{} is missing the implementation of the has_object_permission() method.'.format(self.__class__.__name__)
+        )
+
+    def get_object(self, *args, **kwargs):
+        obj = super().get_object(*args, **kwargs)
+        if not self.has_object_permission(obj):
+            return self.handle_no_permission()
+        return obj
+
+
+class CanViewUserDetailsMixin(LoginRequiredMixin, UserPassesTestMixin):
     """
     Verify that the current user can view details of another user. For this, the other user pk is get from
     the URL kwargs. If it is not defined with the SingleObjectMixin `pk_url_kwarg`, the specific kwarg
@@ -31,3 +50,11 @@ class CanViewUserDetailsPermissionMixin(LoginRequiredMixin, UserPassesTestMixin)
             coursecohort__cohort__participant__role=Participant.TEACHER) \
 
         return courses_teached_by.exists()
+
+
+class CanEditUserMixin(ObjectPermissionRequiredMixin):
+    """
+    Verify that the current user can edit the current view user.
+    """
+    def has_object_permission(self, obj):
+        return self.request.user.is_staff or (self.request.user.id == obj.pk)

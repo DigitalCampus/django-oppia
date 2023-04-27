@@ -11,9 +11,8 @@ from av import handler
 from av.models import UploadedMedia
 from helpers.mixins.AjaxTemplateResponseMixin import AjaxTemplateResponseMixin
 from helpers.mixins.ListItemUrlMixin import ListItemUrlMixin
-
 from oppia.models import Media, Course
-from oppia.permissions import can_view_course
+from oppia.permissions import permission_view_course
 
 STR_UPLOAD_MEDIA = _(u'Upload Media')
 
@@ -63,8 +62,9 @@ def download_media_file(request, media_id):
         return response
 
 
+@permission_view_course
 def download_course_media(request, course_id):
-    course = can_view_course(request, course_id)
+    course = get_object_or_404(Course, pk=course_id)
     media = Media.objects.filter(course=course)
     uploaded = UploadedMedia.objects.filter(
         md5__in=media.values_list('digest', flat=True))

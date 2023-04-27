@@ -35,12 +35,12 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TransactionTestCase):
                                                             format='json'))
 
     def test_put_invalid(self):
-        resource_url = get_api_url('v1', 'quizattempt', 1192)
+        resource_url = get_api_url('v2', 'quizattempt', 1192)
         self.assertHttpMethodNotAllowed(self.api_client.put(resource_url,
                                                             format='json'))
 
     def test_delete_invalid(self):
-        resource_url = get_api_url('v1', 'quizattempt', 1192)
+        resource_url = get_api_url('v2', 'quizattempt', 1192)
         self.assertHttpMethodNotAllowed(self.api_client.delete(resource_url,
                                                                format='json'))
 
@@ -62,21 +62,40 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TransactionTestCase):
                               "score": 0,
                               "text": "false"}]}
         quizattempt_count_start = QuizAttempt.objects.all().count()
-        quizattemptresponse_count_start = QuizAttemptResponse.objects \
-            .all().count()
+        quizattemptresponse_count_start = QuizAttemptResponse.objects.all().count()
         resp = self.api_client.post(self.url,
                                     format='json',
                                     data=data,
                                     authentication=self.get_credentials())
         self.assertHttpCreated(resp)
         self.assertValidJSON(resp.content)
+        content = self.deserialize(resp)
+        self.assertTrue('agent' in content)
+        self.assertTrue('attempt_date' in content)
+        self.assertTrue('badges' in content)
+        self.assertTrue('event' in content)
+        self.assertTrue('id' in content)
+        self.assertTrue('instance_id' in content)
+        self.assertTrue('ip' in content)
+        self.assertTrue('maxscore' in content)
+        self.assertTrue('points' in content)
+        self.assertTrue('quiz_id' in content)
+        self.assertTrue('resource_uri' in content)
+        self.assertTrue('score' in content)
+        self.assertTrue('submitted_date' in content)
+        self.assertTrue('time_taken' in content)
+
+        self.assertEqual('2012-12-18T15:35:12', content['attempt_date'])
+        self.assertEqual(0, content['badges'])
+        self.assertEqual('30', content['maxscore'])
+        self.assertEqual(100, content['points'])
+        self.assertEqual('10', content['score'])
+        self.assertEqual(0, content['time_taken'])
 
         quizattempt_count_end = QuizAttempt.objects.all().count()
-        quizattemptresponse_count_end = QuizAttemptResponse.objects \
-            .all().count()
+        quizattemptresponse_count_end = QuizAttemptResponse.objects.all().count()
         self.assertEqual(quizattempt_count_start + 1, quizattempt_count_end)
-        self.assertEqual(quizattemptresponse_count_start + 3,
-                         quizattemptresponse_count_end)
+        self.assertEqual(quizattemptresponse_count_start + 3, quizattemptresponse_count_end)
 
     def test_time_taken_saved(self):
         data = {
@@ -125,8 +144,7 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TransactionTestCase):
                               "text": "false"}]}
         bad_auth = self.create_apikey(username=self.username, api_key="1234")
         quizattempt_count_start = QuizAttempt.objects.all().count()
-        quizattemptresponse_count_start = QuizAttemptResponse.objects \
-            .all().count()
+        quizattemptresponse_count_start = QuizAttemptResponse.objects.all().count()
         resp = self.api_client.post(self.url,
                                     format='json',
                                     data=data,
@@ -134,11 +152,9 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertHttpUnauthorized(resp)
 
         quizattempt_count_end = QuizAttempt.objects.all().count()
-        quizattemptresponse_count_end = QuizAttemptResponse.objects \
-            .all().count()
+        quizattemptresponse_count_end = QuizAttemptResponse.objects.all().count()
         self.assertEqual(quizattempt_count_start, quizattempt_count_end)
-        self.assertEqual(quizattemptresponse_count_start,
-                         quizattemptresponse_count_end)
+        self.assertEqual(quizattemptresponse_count_start, quizattemptresponse_count_end)
 
     def test_invalid_quiz_id(self):
         data = {
@@ -159,8 +175,7 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TransactionTestCase):
                               "score": 0,
                               "text": "false"}]}
         quizattempt_count_start = QuizAttempt.objects.all().count()
-        quizattemptresponse_count_start = QuizAttemptResponse.objects \
-            .all().count()
+        quizattemptresponse_count_start = QuizAttemptResponse.objects.all().count()
         resp = self.api_client.post(self.url,
                                     format='json',
                                     data=data,
@@ -169,11 +184,9 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertValidJSON(resp.content)
 
         quizattempt_count_end = QuizAttempt.objects.all().count()
-        quizattemptresponse_count_end = QuizAttemptResponse.objects \
-            .all().count()
+        quizattemptresponse_count_end = QuizAttemptResponse.objects.all().count()
         self.assertEqual(quizattempt_count_start, quizattempt_count_end)
-        self.assertEqual(quizattemptresponse_count_start,
-                         quizattemptresponse_count_end)
+        self.assertEqual(quizattemptresponse_count_start, quizattemptresponse_count_end)
 
     def test_invalid_question_id(self):
         data = {
@@ -194,8 +207,7 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TransactionTestCase):
                               "score": 0,
                               "text": "false"}]}
         quizattempt_count_start = QuizAttempt.objects.all().count()
-        quizattemptresponse_count_start = QuizAttemptResponse.objects \
-            .all().count()
+        quizattemptresponse_count_start = QuizAttemptResponse.objects.all().count()
         resp = self.api_client.post(self.url,
                                     format='json',
                                     data=data,
@@ -204,11 +216,9 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertValidJSON(resp.content)
 
         quizattempt_count_end = QuizAttempt.objects.all().count()
-        quizattemptresponse_count_end = QuizAttemptResponse.objects \
-            .all().count()
+        quizattemptresponse_count_end = QuizAttemptResponse.objects.all().count()
         self.assertEqual(quizattempt_count_start, quizattempt_count_end)
-        self.assertEqual(quizattemptresponse_count_start,
-                         quizattemptresponse_count_end)
+        self.assertEqual(quizattemptresponse_count_start, quizattemptresponse_count_end)
 
     def test_question_is_part_of_quiz(self):
         data = {
@@ -230,8 +240,7 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TransactionTestCase):
                               "score": 0,
                               "text": "false"}]}
         quizattempt_count_start = QuizAttempt.objects.all().count()
-        quizattemptresponse_count_start = QuizAttemptResponse.objects \
-            .all().count()
+        quizattemptresponse_count_start = QuizAttemptResponse.objects.all().count()
         resp = self.api_client.post(self.url,
                                     format='json',
                                     data=data,
@@ -240,11 +249,9 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertValidJSON(resp.content)
 
         quizattempt_count_end = QuizAttempt.objects.all().count()
-        quizattemptresponse_count_end = QuizAttemptResponse.objects \
-            .all().count()
+        quizattemptresponse_count_end = QuizAttemptResponse.objects.all().count()
         self.assertEqual(quizattempt_count_start, quizattempt_count_end)
-        self.assertEqual(quizattemptresponse_count_start,
-                         quizattemptresponse_count_end)
+        self.assertEqual(quizattemptresponse_count_start, quizattemptresponse_count_end)
 
     def test_duplicate_quiz_attempt(self):
 
@@ -265,8 +272,7 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TransactionTestCase):
                           "score": 0,
                           "text": "false"}]}
         quizattempt_count_start = QuizAttempt.objects.all().count()
-        quizattemptresponse_count_start = QuizAttemptResponse.objects \
-            .all().count()
+        quizattemptresponse_count_start = QuizAttemptResponse.objects.all().count()
         resp = self.api_client.post(self.url,
                                     format='json',
                                     data=data,
@@ -275,17 +281,13 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertValidJSON(resp.content)
 
         quizattempt_count_end = QuizAttempt.objects.all().count()
-        quizattemptresponse_count_end = QuizAttemptResponse.objects \
-            .all().count()
-        self.assertEqual(quizattempt_count_start + 1,
-                         quizattempt_count_end)
-        self.assertEqual(quizattemptresponse_count_start + 3,
-                         quizattemptresponse_count_end)
+        quizattemptresponse_count_end = QuizAttemptResponse.objects.all().count()
+        self.assertEqual(quizattempt_count_start + 1, quizattempt_count_end)
+        self.assertEqual(quizattemptresponse_count_start + 3, quizattemptresponse_count_end)
 
         # now send same data again
         quizattempt_count_start = QuizAttempt.objects.all().count()
-        quizattemptresponse_count_start = QuizAttemptResponse.objects \
-            .all().count()
+        quizattemptresponse_count_start = QuizAttemptResponse.objects.all().count()
         resp = self.api_client.post(self.url,
                                     format='json',
                                     data=data,
@@ -294,8 +296,6 @@ class QuizAttemptResourceTest(ResourceTestCaseMixin, TransactionTestCase):
         self.assertValidJSON(resp.content)
 
         quizattempt_count_end = QuizAttempt.objects.all().count()
-        quizattemptresponse_count_end = QuizAttemptResponse.objects \
-            .all().count()
+        quizattemptresponse_count_end = QuizAttemptResponse.objects.all().count()
         self.assertEqual(quizattempt_count_start, quizattempt_count_end)
-        self.assertEqual(quizattemptresponse_count_start,
-                         quizattemptresponse_count_end)
+        self.assertEqual(quizattemptresponse_count_start, quizattemptresponse_count_end)

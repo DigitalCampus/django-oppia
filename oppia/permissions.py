@@ -2,7 +2,6 @@
 import functools
 from itertools import chain
 
-from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.http import Http404, HttpResponseForbidden
 from django.shortcuts import get_object_or_404
@@ -38,6 +37,7 @@ def can_edit_user(request, view_user_id):
     else:
         return False
 
+
 def get_user_courses(request, view_user):
 
     if request.user.is_staff or request.user == view_user:
@@ -69,44 +69,47 @@ def is_manager_only(user):
     if user.is_staff:
         return False
     else:
-        courses = Course.objects.filter(user=user).count()
-        if courses > 0:
+        courses = Course.objects.filter(user=user)
+        if courses.exists():
             return True
 
         courses = Course.objects.filter(
             coursepermissions__user=user,
-            coursepermissions__role=CoursePermissions.MANAGER).count()
-        if courses > 0:
+            coursepermissions__role=CoursePermissions.MANAGER)
+        if courses.exists():
             return True
     return False
 
 
-def can_add_cohort(request):
-    if request.user.is_staff:
-        return True
-    return False
+def permission_edit_cohort(view_func):
+    """
+        this decorator ensures that only the users who have permission to
+        view a course can view it, raising a 403 otherwise
+    """
+    @functools.wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+        if not request.user.is_staff:
+            raise PermissionDenied
+        return view_func(request, *args, **kwargs)
+    return wrapper
 
 
-def can_edit_cohort(request):
-    if request.user.is_staff:
-        return True
-    return False
-
-
-def can_view_cohort(request, cohort_id):
-    try:
-        cohort = Cohort.objects.get(pk=cohort_id)
-    except Cohort.DoesNotExist:
-        raise Http404
-
-    try:
-        if request.user.is_staff:
-            return cohort
-        return Cohort.objects.get(pk=cohort_id,
-                                  participant__user=request.user,
-                                  participant__role=Participant.TEACHER)
-    except Cohort.DoesNotExist:
-        raise PermissionDenied
+def permission_view_cohort(view_func):
+    """
+        this decorator ensures that only the users who have permission to
+        view a course can view it, raising a 403 otherwise
+    """
+    @functools.wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+        get_object_or_404(Cohort, pk=kwargs['cohort_id'])
+        if not request.user.is_staff:
+            cohort = Cohort.objects.filter(pk=kwargs['cohort_id'],
+                                           participant__user=request.user,
+                                           participant__role=Participant.TEACHER)
+            if not cohort.exists():
+                raise PermissionDenied
+        return view_func(request, *args, **kwargs)
+    return wrapper
 
 
 def get_cohorts(request):
@@ -121,26 +124,6 @@ def get_cohorts(request):
         raise PermissionDenied
 
     return cohorts
-
-
-def can_view_course(request, course_id):
-    try:
-        if request.user.is_staff:
-            course = Course.objects.get(pk=course_id)
-        else:
-            try:
-                course = Course.objects.filter(CourseFilter.IS_NOT_ARCHIVED).get(pk=course_id)
-            except Course.DoesNotExist:
-                course = Course.objects \
-                    .filter(CourseFilter.IS_NOT_ARCHIVED) \
-                    .get(
-                        pk=course_id,
-                        coursepermissions__course__id=course_id,
-                        coursepermissions__user__id=request.user.id,
-                        coursepermissions__role=CoursePermissions.VIEWER)
-    except Course.DoesNotExist:
-        raise Http404
-    return course
 
 
 def can_download_course(request, course_id):
@@ -168,10 +151,24 @@ def can_download_course(request, course_id):
     return course
 
 
+def permission_view_course(view_func):
+    """
+        this decorator ensures that only the users who have permission to
+        view a course can view it, raising a 403 otherwise
+    """
+    @functools.wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+        course = get_object_or_404(Course, pk=kwargs['course_id'])
+        if not course.user_can_view(request.user):
+            raise PermissionDenied
+        return view_func(request, *args, **kwargs)
+    return wrapper
+
+
 def permission_view_course_detail(view_func):
     """
         this decorator ensures that only the users who have permission to
-        access a course can view it, raising a 403 otherwise
+        access a course detail can view it, raising a 403 otherwise
     """
     @functools.wraps(view_func)
     def wrapper(request, *args, **kwargs):

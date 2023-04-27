@@ -4,14 +4,16 @@ from itertools import chain
 
 from django.contrib.auth.models import User
 from django.db.models import Max, Min, Avg
+from django.shortcuts import get_object_or_404
+from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView
 
 from helpers.mixins.DateRangeFilterMixin import DateRangeFilterMixin
 from helpers.mixins.SafePaginatorMixin import SafePaginatorMixin
 from oppia.forms.activity_search import ActivitySearchForm
-from oppia.mixins.PermissionMixins import CanViewUserDetailsPermissionMixin
-from oppia.models import Activity, Tracker
-from oppia.permissions import get_user_courses, can_view_course, can_view_course_activity
+from oppia.mixins.PermissionMixins import CanViewUserDetailsMixin
+from oppia.models import Activity, Tracker, Course
+from oppia.permissions import get_user_courses, can_view_course_activity, permission_view_course
 from oppia.views import filter_trackers
 from quiz.models import Quiz, QuizAttempt, QuizProps
 from summary.models import UserCourseSummary
@@ -26,7 +28,7 @@ def get_tracker_activities(user, course_ids=[], course=None):
     return trackers.filter(user=user)
 
 
-class UserScorecard(CanViewUserDetailsPermissionMixin, DateRangeFilterMixin, DetailView):
+class UserScorecardDetails(CanViewUserDetailsMixin, DateRangeFilterMixin, DetailView):
     template_name = 'profile/user-scorecard.html'
     context_object_name = 'view_user'
     pk_url_kwarg = 'user_id'
@@ -73,7 +75,8 @@ class UserScorecard(CanViewUserDetailsPermissionMixin, DateRangeFilterMixin, Det
         return context
 
 
-class UserCourseScorecard(CanViewUserDetailsPermissionMixin, DateRangeFilterMixin, DetailView):
+@method_decorator(permission_view_course, name='dispatch')
+class UserCourseScorecardDetails(CanViewUserDetailsMixin, DateRangeFilterMixin, DetailView):
     template_name = 'profile/user-course-scorecard.html'
     context_object_name = 'view_user'
     pk_url_kwarg = 'user_id'
@@ -81,8 +84,7 @@ class UserCourseScorecard(CanViewUserDetailsPermissionMixin, DateRangeFilterMixi
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        course = can_view_course(self.request, self.kwargs['course_id'])
-
+        course = get_object_or_404(Course, pk=self.kwargs['course_id'])
         act_quizzes = Activity.objects \
             .filter(section__course=course, type=Activity.QUIZ) \
             .order_by('section__order', 'order')
@@ -198,7 +200,7 @@ def process_quiz_activity(view_user,
     return quiz, course_pretest, quizzes_attempted, quizzes_passed
 
 
-class UserActivityDetailList(CanViewUserDetailsPermissionMixin, DateRangeFilterMixin, SafePaginatorMixin, ListView):
+class UserActivityDetailListDetails(CanViewUserDetailsMixin, DateRangeFilterMixin, SafePaginatorMixin, ListView):
     template_name = 'profile/activity/list.html'
     paginate_by = 25
     daterange_form_class = ActivitySearchForm
@@ -212,6 +214,12 @@ class UserActivityDetailList(CanViewUserDetailsPermissionMixin, DateRangeFilterM
         trackers = Tracker.objects.filter(user__pk=self.get_user_id()).exclude(type__exact='')
         start_date, end_date = self.get_daterange()
         trackers = trackers.filter(tracker_date__gte=start_date, tracker_date__lte=end_date)
+
+        form = self.get_daterange_form()
+        if form.is_valid():
+            act_type = form.cleaned_data.get("type")
+            if act_type:
+                trackers = trackers.filter(type=act_type)
 
         return trackers.order_by('-tracker_date')
 

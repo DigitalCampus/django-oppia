@@ -57,6 +57,15 @@ class RegisterResourceTest(ResourceTestCaseMixin, TestCase):
         resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpCreated(resp)
         self.assertValidJSON(resp.content)
+        user_data = self.deserialize(resp)
+        self.assertTrue('api_key' in user_data)
+        self.assertTrue('email' in user_data)
+        self.assertTrue('first_name' in user_data)
+        self.assertTrue('last_name' in user_data)
+        self.assertTrue('points' in user_data)
+        self.assertTrue('username' in user_data)
+        self.assertTrue('password' not in user_data)
+        self.assertTrue('passwordagain' not in user_data)
 
     # check posting with invalid email
     def test_post_invalid_email(self):
@@ -180,6 +189,15 @@ class RegisterResourceTest(ResourceTestCaseMixin, TestCase):
         resp = self.api_client.post(self.url, format='json', data=data)
         self.assertHttpCreated(resp)
         self.assertValidJSON(resp.content)
+        user_data = self.deserialize(resp)
+        self.assertTrue('api_key' in user_data)
+        self.assertTrue('email' in user_data)
+        self.assertTrue('first_name' in user_data)
+        self.assertTrue('last_name' in user_data)
+        self.assertTrue('points' in user_data)
+        self.assertTrue('username' in user_data)
+        self.assertTrue('password' not in user_data)
+        self.assertTrue('passwordagain' not in user_data)
 
     # test username already in use
     def test_username_in_use(self):
@@ -211,8 +229,7 @@ class RegisterResourceTest(ResourceTestCaseMixin, TestCase):
 
     def test_self_registration_disabled_cant_view(self):
         # turn off self registration
-        SettingProperties.set_bool(constants.OPPIA_ALLOW_SELF_REGISTRATION,
-                                   False)
+        SettingProperties.set_bool(constants.OPPIA_ALLOW_SELF_REGISTRATION, False)
         data = {
             'username': 'demo3',
             'password': 'secret',
@@ -226,5 +243,4 @@ class RegisterResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertValidJSON(response.content)
 
         # turn back on
-        SettingProperties.set_bool(constants.OPPIA_ALLOW_SELF_REGISTRATION,
-                                   True)
+        SettingProperties.set_bool(constants.OPPIA_ALLOW_SELF_REGISTRATION, True)

@@ -75,6 +75,16 @@ class UserProfile(models.Model):
 
         return errors
 
+    def get_customfields_dict(self):
+        profile_fields = {}
+        custom_fields = CustomField.objects.all()
+        for custom_field in custom_fields:
+            value = UserProfileCustomField.get_user_value(self.user, custom_field)
+            if value is not None:
+                profile_fields[custom_field.id] = value
+
+        return profile_fields
+
 
 class CustomField(models.Model):
 

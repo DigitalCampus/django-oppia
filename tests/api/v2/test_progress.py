@@ -1,6 +1,4 @@
 
-import json
-
 from django.contrib.auth.models import User
 from django.test import TestCase
 from tastypie.test import ResourceTestCaseMixin
@@ -58,166 +56,154 @@ class ProgressResourceTest(ResourceTestCaseMixin, TestCase):
     # post disallowed
     def test_post_invalid(self):
         self.assertHttpMethodNotAllowed(
-            self.api_client.post(self.url,
-                                 format='json',
-                                 data=self.admin_auth))
+            self.api_client.post(self.url, format='json', data=self.admin_auth))
 
     # admin gets own
     def test_admin_gets_own(self):
         url = self.url + "admin/"
-        response = self.api_client.get(
-            url, format='json', data=self.admin_auth)
+        response = self.api_client.get(url, format='json', data=self.admin_auth)
         self.assertHttpOK(response)
         self.assertValidJSON(response.content)
-        content = json.loads(response.content)
+        content = self.deserialize(response)
         self.assertEqual(2, len(content))
         self.check_json_content(content[0])
 
     # staff gets own
     def test_staff_gets_own(self):
         url = self.url + "staff/"
-        response = self.api_client.get(
-            url, format='json', data=self.staff_auth)
+        response = self.api_client.get(url, format='json', data=self.staff_auth)
         self.assertHttpOK(response)
         self.assertValidJSON(response.content)
-        content = json.loads(response.content)
+        content = self.deserialize(response)
         self.assertEqual(2, len(content))
         self.check_json_content(content[0])
 
     # teacher gets own
     def test_teacher_gets_own(self):
         url = self.url + "teacher/"
-        response = self.api_client.get(
-            url, format='json', data=self.teacher_auth)
+        response = self.api_client.get(url, format='json', data=self.teacher_auth)
         self.assertHttpOK(response)
         self.assertValidJSON(response.content)
-        content = json.loads(response.content)
+        content = self.deserialize(response)
         self.assertEqual(2, len(content))
         self.check_json_content(content[0])
 
     # user gets own
     def test_user_gets_own(self):
         url = self.url + "demo/"
-        response = self.api_client.get(
-            url, format='json', data=self.user_auth)
+        response = self.api_client.get(url, format='json', data=self.user_auth)
         self.assertHttpOK(response)
         self.assertValidJSON(response.content)
-        content = json.loads(response.content)
+        content = self.deserialize(response)
         self.assertEqual(3, len(content))
         self.check_json_content(content[0])
 
+        self.assertEqual('anc1-all', content[0]['shortname'])
+        self.assertEqual(0, content[0]['points'])
+        self.assertEqual(278, content[0]['total_activity'])
+        self.assertEqual(0, content[0]['quizzes_passed'])
+        self.assertEqual(0, content[0]['badges_achieved'])
+        self.assertEqual(2, content[0]['media_viewed'])
+        self.assertEqual(0, content[0]['completed_activities'])
+        self.assertEqual(0, content[0]['percent_complete'])
+
     # no user specified
     def test_no_user(self):
-        response = self.api_client.get(
-            self.url, format='json', data=self.user_auth)
+        response = self.api_client.get(self.url, format='json', data=self.user_auth)
         self.assertEqual(400, response.status_code)
 
     # can't get a direct summary resource record, will actually look for a user
     def test_ucs_id(self):
         url = self.url + "17/"
-        response = self.api_client.get(
-            url, format='json', data=self.user_auth)
+        response = self.api_client.get(url, format='json', data=self.user_auth)
         self.assertHttpNotFound(response)
 
     # admin gets teacher/staff/user
     def test_admin_other_users(self):
         url = self.url + "demo/"
-        response = self.api_client.get(
-            url, format='json', data=self.admin_auth)
+        response = self.api_client.get(url, format='json', data=self.admin_auth)
         self.assertHttpOK(response)
         self.assertValidJSON(response.content)
-        content = json.loads(response.content)
+        content = self.deserialize(response)
         self.assertEqual(3, len(content))
         self.check_json_content(content[0])
 
         url = self.url + "teacher/"
-        response = self.api_client.get(
-            url, format='json', data=self.admin_auth)
+        response = self.api_client.get(url, format='json', data=self.admin_auth)
         self.assertHttpOK(response)
         self.assertValidJSON(response.content)
-        content = json.loads(response.content)
+        content = self.deserialize(response)
         self.assertEqual(2, len(content))
         self.check_json_content(content[0])
 
         url = self.url + "staff/"
-        response = self.api_client.get(
-            url, format='json', data=self.admin_auth)
+        response = self.api_client.get(url, format='json', data=self.admin_auth)
         self.assertHttpOK(response)
         self.assertValidJSON(response.content)
-        content = json.loads(response.content)
+        content = self.deserialize(response)
         self.assertEqual(2, len(content))
         self.check_json_content(content[0])
 
     # staff gets admin/teacher/user
     def test_staff_other_users(self):
         url = self.url + "demo/"
-        response = self.api_client.get(
-            url, format='json', data=self.staff_auth)
+        response = self.api_client.get(url, format='json', data=self.staff_auth)
         self.assertHttpOK(response)
         self.assertValidJSON(response.content)
-        content = json.loads(response.content)
+        content = self.deserialize(response)
         self.assertEqual(3, len(content))
         self.check_json_content(content[0])
 
         url = self.url + "teacher/"
-        response = self.api_client.get(
-            url, format='json', data=self.staff_auth)
+        response = self.api_client.get(url, format='json', data=self.staff_auth)
         self.assertHttpOK(response)
         self.assertValidJSON(response.content)
-        content = json.loads(response.content)
+        content = self.deserialize(response)
         self.assertEqual(2, len(content))
         self.check_json_content(content[0])
 
         url = self.url + "admin/"
-        response = self.api_client.get(
-            url, format='json', data=self.staff_auth)
+        response = self.api_client.get(url, format='json', data=self.staff_auth)
         self.assertHttpOK(response)
         self.assertValidJSON(response.content)
-        content = json.loads(response.content)
+        content = self.deserialize(response)
         self.assertEqual(2, len(content))
         self.check_json_content(content[0])
 
     # teacher can't get admin/staff
     def test_teacher_other_users(self):
         url = self.url + "admin/"
-        response = self.api_client.get(
-            url, format='json', data=self.teacher_auth)
+        response = self.api_client.get(url, format='json', data=self.teacher_auth)
         self.assertHttpNotFound(response)
 
         url = self.url + "staff/"
-        response = self.api_client.get(
-            url, format='json', data=self.teacher_auth)
+        response = self.api_client.get(url, format='json', data=self.teacher_auth)
         self.assertHttpNotFound(response)
 
         url = self.url + "demo/"
-        response = self.api_client.get(
-            url, format='json', data=self.teacher_auth)
+        response = self.api_client.get(url, format='json', data=self.teacher_auth)
         self.assertHttpOK(response)
         self.assertValidJSON(response.content)
-        content = json.loads(response.content)
+        content = self.deserialize(response)
         self.assertEqual(1, len(content))
         self.check_json_content(content[0])
 
     # user can;t get admin/teacher/staff
     def test_user_other_users(self):
         url = self.url + "admin/"
-        response = self.api_client.get(
-            url, format='json', data=self.user_auth)
+        response = self.api_client.get(url, format='json', data=self.user_auth)
         self.assertHttpNotFound(response)
 
         url = self.url + "staff/"
-        response = self.api_client.get(
-            url, format='json', data=self.user_auth)
+        response = self.api_client.get(url, format='json', data=self.user_auth)
         self.assertHttpNotFound(response)
 
         url = self.url + "teacher/"
-        response = self.api_client.get(
-            url, format='json', data=self.user_auth)
+        response = self.api_client.get(url, format='json', data=self.user_auth)
         self.assertHttpNotFound(response)
 
     # invalid user
     def test_invalid_user(self):
         url = self.url + "not-a-user/"
-        response = self.api_client.get(
-            url, format='json', data=self.user_auth)
+        response = self.api_client.get(url, format='json', data=self.user_auth)
         self.assertHttpNotFound(response)

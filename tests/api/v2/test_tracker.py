@@ -78,6 +78,7 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
                                     authentication=self.get_credentials())
         self.assertHttpCreated(resp)
         self.assertValidJSON(resp.content)
+
         # check the record was successfully added
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start + 1, tracker_count_end)
@@ -87,7 +88,16 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         self.assertTrue('points' in response_data)
         self.assertTrue('badges' in response_data)
         self.assertTrue('completed' in response_data)
+        self.assertTrue('badging' in response_data)
+        self.assertTrue('metadata' in response_data)
+        self.assertTrue('scoring' in response_data)
+        self.assertTrue('tracker_date' in response_data)
+        self.assertTrue('user' in response_data)
+
+        self.assertEqual(0, response_data['badges'])
         self.assertFalse(response_data['completed'])
+        self.assertTrue(response_data['badging'])
+        self.assertTrue(response_data['scoring'])
 
     # check existing trackers can't be overwritten
     def test_post_no_overwrite(self):
@@ -145,6 +155,15 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         response_data = self.deserialize(resp)
         self.assertTrue('points' in response_data)
         self.assertTrue('badges' in response_data)
+        self.assertTrue('scoring' in response_data)
+        self.assertTrue('badging' in response_data)
+        self.assertTrue('metadata' in response_data)
+        self.assertTrue('course_points' in response_data)
+
+        self.assertEqual(100, response_data['points'])
+        self.assertEqual(0, response_data['badges'])
+        self.assertTrue(response_data['badging'])
+        self.assertTrue(response_data['scoring'])
 
     def test_patch_all_invalid_digests(self):
         activity1 = {
@@ -438,6 +457,15 @@ class TrackerResourceTest(ResourceTestCaseMixin, TestCase):
         response_data = self.deserialize(resp)
         self.assertTrue('points' in response_data)
         self.assertTrue('badges' in response_data)
+        self.assertTrue('scoring' in response_data)
+        self.assertTrue('badging' in response_data)
+        self.assertTrue('metadata' in response_data)
+        self.assertTrue('course_points' in response_data)
+
+        self.assertEqual(100, response_data['points'])
+        self.assertEqual(0, response_data['badges'])
+        self.assertTrue(response_data['badging'])
+        self.assertTrue(response_data['scoring'])
 
     def test_patch_activity_search_mix_valid(self):
         activity1 = {

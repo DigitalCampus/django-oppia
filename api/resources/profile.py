@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
+from django.conf import settings
 from tastypie import fields
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie.authorization import Authorization
@@ -10,9 +11,11 @@ from tastypie.resources import ModelResource, Resource
 from api.serializers import UserJSONSerializer
 from api.utils import check_required_params
 from datarecovery.models import DataRecovery
-from oppia.models import Participant
+from oppia.models import Participant, Points, Award
 from profile.forms import ProfileForm
 from profile.models import UserProfile, CustomField
+from settings.models import SettingProperties
+from settings import constants
 
 
 class ProfileUpdateResource(ModelResource):
@@ -123,6 +126,78 @@ class UserCohortsResource(Resource):
     def get_list(self, request, **kwargs):
         cohorts = Participant.get_user_cohorts(request.user)
         return self.create_response(request, cohorts)
+
+
+class UserProfileResource(ModelResource):
+
+    badges = fields.IntegerField(readonly=True)
+    course_points = fields.CharField(readonly=True)
+    cohorts = fields.CharField(readonly=True)
+    scoring = fields.BooleanField(readonly=True)
+    badging = fields.BooleanField(readonly=True)
+    metadata = fields.CharField(readonly=True)
+    points = fields.IntegerField(readonly=True)
+
+    class Meta:
+        queryset = User.objects.all()
+        resource_name = 'profile'
+        allowed_methods = ['get']
+        authorization = Authorization()
+        authentication = ApiKeyAuthentication()
+        always_return_data = True
+        include_resource_uri = False
+        fields = ['first_name',
+                  'last_name',
+                  'username',
+                  'email',
+                  'job_title',
+                  'organisation']
+
+    def dispatch(self, request_type, request, **kwargs):
+        # Force this to be a single User object
+        return super().dispatch('detail', request, **kwargs)
+
+    def obj_get(self, bundle, **kwargs):
+        return bundle.request.user
+
+    def dehydrate(self, bundle):
+        bundle = super().dehydrate(bundle)
+
+        try:
+            profile = UserProfile.objects.get(user=bundle.obj)
+            bundle.data['job_title'] = profile.job_title
+            bundle.data['organisation'] = profile.organisation
+
+            customfields = profile.get_customfields_dict()
+            bundle.data.update(customfields)
+
+        except UserProfile.DoesNotExist:
+            bundle.data['job_title'] = ''
+            bundle.data['organisation'] = ''
+
+        return bundle
+
+    def dehydrate_cohorts(self, bundle):
+        return Participant.get_user_cohorts(bundle.request.user)
+
+    def dehydrate_metadata(self, bundle):
+        return settings.OPPIA_METADATA
+
+    def dehydrate_points(self, bundle):
+        return Points.get_userscore(bundle.request.user)
+
+    def dehydrate_badges(self, bundle):
+        return Award.get_userawards(bundle.request.user)
+
+    def dehydrate_scoring(self, bundle):
+        return SettingProperties.get_bool(
+            constants.OPPIA_POINTS_ENABLED,
+            settings.OPPIA_POINTS_ENABLED)
+
+    def dehydrate_badging(self, bundle):
+        return SettingProperties.get_bool(
+            constants.OPPIA_BADGES_ENABLED,
+            settings.OPPIA_BADGES_ENABLED)
 
 
 class ChangePasswordResource(ModelResource):

@@ -74,8 +74,7 @@ class UploadAPIActivityLogTest(ResourceTestCaseMixin, TestCase):
 
         tracker_count_end = Tracker.objects.all().count()
         uploaded_count_end = UploadedActivityLog.objects.all().count()
-        last_uploaded = UploadedActivityLog.objects.all() \
-            .order_by('-created_date').first()
+        last_uploaded = UploadedActivityLog.objects.all().order_by('-created_date').first()
         self.assertEqual(tracker_count_start + 2, tracker_count_end)
         self.assertEqual(uploaded_count_start + 1, uploaded_count_end)
         self.assertEqual(last_uploaded.create_user.username, 'demo')
@@ -97,8 +96,7 @@ class UploadAPIActivityLogTest(ResourceTestCaseMixin, TestCase):
         tracker_count_end = Tracker.objects.all().count()
         user_count_end = User.objects.all().count()
         uploaded_count_end = UploadedActivityLog.objects.all().count()
-        last_uploaded = UploadedActivityLog.objects.all() \
-            .order_by('-created_date').first()
+        last_uploaded = UploadedActivityLog.objects.all().order_by('-created_date').first()
 
         self.assertEqual(tracker_count_start + 2, tracker_count_end)
         self.assertEqual(user_count_start + 1, user_count_end)
@@ -121,8 +119,7 @@ class UploadAPIActivityLogTest(ResourceTestCaseMixin, TestCase):
 
         tracker_count_end = Tracker.objects.all().count()
         uploaded_count_end = UploadedActivityLog.objects.all().count()
-        last_uploaded = UploadedActivityLog.objects.all() \
-            .order_by('-created_date').first()
+        last_uploaded = UploadedActivityLog.objects.all().order_by('-created_date').first()
         self.assertEqual(tracker_count_start + 4, tracker_count_end)
         self.assertEqual(uploaded_count_start + 1, uploaded_count_end)
         self.assertEqual(last_uploaded.create_user.username, 'demo')

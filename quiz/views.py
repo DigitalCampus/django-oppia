@@ -85,6 +85,7 @@ def get_quiz_data(quiz_id):
 
     return data
 
+
 @permission_view_course_detail
 def feedback_download(request, course_id, feedback_id):
     activity = get_object_or_404(Activity,
@@ -102,6 +103,7 @@ def feedback_download(request, course_id, feedback_id):
 
     return response
 
+
 @permission_view_course_detail
 def old_feedback_download(request, course_id, feedback_id):
     get_object_or_404(Quiz, pk=feedback_id)
@@ -114,6 +116,7 @@ def old_feedback_download(request, course_id, feedback_id):
 
     return response
 
+
 @permission_view_course_detail
 def old_quiz_download(request, course_id, quiz_id):
     get_object_or_404(Quiz, pk=quiz_id)
@@ -125,6 +128,7 @@ def old_quiz_download(request, course_id, quiz_id):
     response['Content-Disposition'] = STR_CONTENT_DISPOSITION
 
     return response
+
 
 @permission_view_course_detail
 def quiz_download(request, course_id, quiz_id):

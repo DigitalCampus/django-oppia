@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count, Sum
 from django.db.models.functions import TruncDay, TruncMonth, TruncYear
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import TemplateView, ListView
@@ -231,18 +231,15 @@ class AppLauncherDetailView(TemplateView):
             context['course_shortname'] = course_shortname
             course = Course.objects.filter(shortname=course_shortname).first()
             if course:
-                try:
-                    permissions.can_view_course(self.request, course.id)
+                if course.user_can_view(self.request.user):
                     context['course'] = course
                     context['download_stats'] = UserCourseSummary.objects \
                         .filter(course=course) \
                         .aggregated_stats('total_downloads', single=True)
-
-                except Http404:
+                else:
                     # The user does not have permissions to view this course
                     context['misconfigured'] = True
                     context['course_notpermissions'] = True
-
             else:
                 context['misconfigured'] = True
                 context['course_notfound'] = True

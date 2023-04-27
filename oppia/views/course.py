@@ -1,7 +1,7 @@
 import os
 
 from django.conf import settings
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext_lazy as _
@@ -108,7 +108,7 @@ class CourseDownload(TemplateView):
         return response
 
 
-class CanUploadCoursePermission(LoginRequiredMixin, UserPassesTestMixin):
+class CanUploadCoursePermission(UserPassesTestMixin):
     def test_func(self):
         return can_upload(self.request.user)
 
@@ -136,7 +136,7 @@ class UploadStep1(CanUploadCoursePermission, FormView):
             return super().form_invalid(form)
 
 
-class CanEditCoursePermission(LoginRequiredMixin, UserPassesTestMixin):
+class CanEditCoursePermission(UserPassesTestMixin):
     def test_func(self):
         return can_edit_course(self.request, self.kwargs[self.pk_url_kwarg])
 
