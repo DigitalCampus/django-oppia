@@ -1,4 +1,7 @@
+import os
+import shutil
 
+from django.conf import settings
 
 # @TODO complete fully with correct info
 
@@ -10,6 +13,7 @@ for admin user
 def get_auth_header_admin():
     return {'AUTH': 'admin:admin_api_key'}
 
+
 '''
 for standard user
 '''
@@ -17,6 +21,7 @@ for standard user
 
 def get_auth_header_user():
     return {'AUTH': 'demo:demo_api_key'}
+
 
 '''
 invalid auth credentials
@@ -26,6 +31,7 @@ invalid auth credentials
 def get_auth_header_invalid():
     return {'AUTH': 'not_a_user:invalid_api_key'}
 
+
 '''
 for teacher user
 '''
@@ -34,6 +40,7 @@ for teacher user
 def get_auth_header_teacher():
     return {'AUTH': 'teacher:teacher_api_key'}
 
+
 '''
 for staff user
 '''
@@ -41,3 +48,11 @@ for staff user
 
 def get_auth_header_staff():
     return {'AUTH': 'staff:staff_api_key'}
+
+
+# Copy test courses to upload directory
+def copy_test_courses(courses_to_copy):
+    for test_course in courses_to_copy:
+        src = os.path.join(settings.TEST_RESOURCES, test_course)
+        dst = os.path.join(settings.COURSE_UPLOAD_DIR, test_course)
+        shutil.copyfile(src, dst)

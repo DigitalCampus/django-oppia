@@ -6,7 +6,7 @@ from rest_framework.test import APITestCase
 from tests.api.v3 import utils
 
 
-class AwardTests(APITestCase):
+class AwardAPITests(APITestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json',
                 'tests/test_course_permissions.json',

@@ -11,7 +11,7 @@ from tests.utils import update_course_status
 from tests.api.v3 import utils
 
 
-class CategoryResourceTest(APITestCase):
+class CategoryAPITests(APITestCase):
     fixtures = ['tests/test_user.json',
                 'tests/test_oppia.json']
 

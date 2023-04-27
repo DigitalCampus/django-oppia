@@ -1,5 +1,5 @@
 from oppia.models import Category
-from rest_framework import routers, serializers, viewsets
+from rest_framework import serializers, viewsets
 
 
 class CategorySerializer(serializers.HyperlinkedModelSerializer):

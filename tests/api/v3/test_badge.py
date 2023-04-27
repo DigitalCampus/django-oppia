@@ -6,7 +6,7 @@ from rest_framework.test import APITestCase
 from tests.api.v3 import utils
 
 
-class BadgeTests(APITestCase):
+class BadgeAPITests(APITestCase):
     fixtures = ['default_badges.json']
 
     url = '/api/v3/badge/'
