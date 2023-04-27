@@ -4,6 +4,7 @@ from tastypie.models import ApiKey
 from oppia.models import Course
 
 
+# @deprecated
 def get_api_key(user):
     """
     Returns the ApiKey for a user object.
@@ -15,6 +16,8 @@ def get_api_key(user):
         # if the user doesn't have an apiKey yet, generate it
         api_key = ApiKey.objects.create(user=user)
     return api_key
+
+# @deprecated
 
 
 def get_api_url(version, resource_name, resource_id=None):

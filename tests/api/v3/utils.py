@@ -2,18 +2,42 @@
 
 # @TODO complete fully with correct info
 
-# for admin user
+'''
+for admin user
+'''
+
+
 def get_auth_header_admin():
     return {'AUTH': 'admin:admin_api_key'}
 
-# for standard user
+'''
+for standard user
+'''
 
 
 def get_auth_header_user():
     return {'AUTH': 'demo:demo_api_key'}
 
-# invalid auth credentials
+'''
+invalid auth credentials
+'''
 
 
 def get_auth_header_invalid():
     return {'AUTH': 'not_a_user:invalid_api_key'}
+
+'''
+for teacher user
+'''
+
+
+def get_auth_header_teacher():
+    return {'AUTH': 'teacher:teacher_api_key'}
+
+'''
+for staff user
+'''
+
+
+def get_auth_header_staff():
+    return {'AUTH': 'staff:staff_api_key'}
