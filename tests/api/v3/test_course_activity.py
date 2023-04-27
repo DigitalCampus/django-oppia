@@ -1,16 +1,10 @@
-import os
-import shutil
+
 import unittest
 import pytest
 
-from django.conf import settings
-from django.contrib.auth.models import User
-from django.core.exceptions import MultipleObjectsReturned
 
 from rest_framework.test import APITestCase
 
-from oppia.models import Tracker, Course, CourseStatus
-from tests.utils import update_course_status, update_course_owner
 from tests.api.v3 import utils
 
 
@@ -27,26 +21,20 @@ class CourseActivityAPITests(APITestCase):
                 'tests/test_progress_summary.json',
                 'tests/test_tracker.json']
 
-    url = '/api/v3/course/'
+    # @TODO confirm final endpoint for getting course activity
+    activity_url = '/api/v3/course/activity/'
 
-    STR_ACTIVITY = 'activity/'
-    TEST_COURSES = ['anc_test_course.zip']
-
-    def setUp(self):
-        super(CourseActivityAPITests, self).setUp()
-        self.copy_test_courses()
-        self.teacher = User.objects.get(username="teacher")
-
-    def perform_download_request(self, course_id, headers):
-        resource_url = self.download_url + str(course_id) + "/"
+    def perform_activity_request(self, course_ref, headers):
+        resource_url = self.activity_url + str(course_ref) + "/"
         response = self.client.get(resource_url, headers=headers)
         return response
 
+    @unittest.expectedFailure
+    @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_course_get_activity(self):
-        resp = self.perform_request(1, self.user_auth, self.STR_ACTIVITY)
-        self.assertHttpOK(resp)
-        xml_doc = ET.fromstring(resp.content)
-        trackers = xml_doc.findall("tracker")
+        response = self.perform_activity_request(1, utils.get_auth_header_user())
+        self.assertEqual(response.status_code, 200)
+        trackers = response.json()
         self.assertEqual(276, len(trackers))
         first_tracker = trackers[0]
         self.assertEqual('cd646d1148da0f45cd4f097c6761186b17687', first_tracker.get('digest'))
@@ -56,14 +44,20 @@ class CourseActivityAPITests(APITestCase):
         self.assertEqual('', first_tracker.get('event'))
         self.assertEqual('None', first_tracker.get('points'))
 
+    @unittest.expectedFailure
+    @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_course_get_activity_notfound(self):
-        resp = self.perform_request(999, self.user_auth, self.STR_ACTIVITY)
-        self.assertHttpNotFound(resp)
+        response = self.perform_activity_request(999, utils.get_auth_header_user())
+        self.assertEqual(response.status_code, 404)
 
+    @unittest.expectedFailure
+    @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_course_get_activity_draft_nonvisible(self):
-        resp = self.perform_request(3, self.user_auth, self.STR_ACTIVITY)
-        self.assertHttpNotFound(resp)
+        response = self.perform_activity_request(3, utils.get_auth_header_user())
+        self.assertEqual(response.status_code, 404)
 
+    @unittest.expectedFailure
+    @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_course_get_activity_draft_admin_visible(self):
-        resp = self.perform_request(3, self.admin_auth, self.STR_ACTIVITY)
-        self.assertHttpOK(resp)
+        response = self.perform_activity_request(3, utils.get_auth_header_admin())
+        self.assertEqual(response.status_code, 200)

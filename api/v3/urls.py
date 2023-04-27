@@ -13,7 +13,7 @@ router = routers.DefaultRouter()
 # router.register(r'badge', BadgeViewSet)
 # router.register(r'user', UserViewSet)
 # router.register(r'category', CategoryViewSet)
-router.register(r'course', CourseViewSet)
+# router.register(r'course', CourseViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

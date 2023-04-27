@@ -23,7 +23,8 @@ class CourseDownloadAPITests(APITestCase):
                 'tests/test_progress_summary.json',
                 'tests/test_tracker.json']
 
-    base_url = '/api/v3/course/'
+    # @TODO confirm final endpoint for downloading course
+    download_url = '/api/v3/course/download/'
 
     ZIP_EXPECTED_CONTENT_TYPE = 'application/zip'
 
@@ -33,7 +34,7 @@ class CourseDownloadAPITests(APITestCase):
         self.teacher = User.objects.get(username="teacher")
 
     def perform_download_request(self, course_ref, headers):
-        resource_url = self.base_url + str(course_ref) + "/"
+        resource_url = self.download_url + str(course_ref) + "/"
         response = self.client.get(resource_url, headers=headers)
         return response
 
