@@ -9,11 +9,10 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
                   'username',
                   'first_name',
                   'last_name',
-                  'email'
-                  ]
+                  'email']
 
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    http_method_names = ['post']
+    http_method_names = ['post', 'delete', 'put']
