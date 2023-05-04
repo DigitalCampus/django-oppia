@@ -200,6 +200,7 @@ def validate_server(messages_delegate, data):
 
 
 @csrf_exempt
+# @deprecated - remove when API v2 is removed
 def post_activitylog(request):
     if request.method != 'PATCH':
         return HttpResponse(status=405)

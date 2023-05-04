@@ -15,4 +15,12 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    http_method_names = ['post', 'delete', 'put']
+    http_method_names = ['get', 'post', 'delete', 'put']
+
+    # Get - for getting profile and login
+
+    # post - for registering new user
+
+    # delete - for removing an account
+
+    # put - for updating a profile
