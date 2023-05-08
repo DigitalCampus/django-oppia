@@ -18,7 +18,7 @@ class UserRegisterTests(APITestCase):
     @pytest.mark.xfail(reason="incomplete api endpoint")
     def test_get_list_invalid(self):
         response = self.client.get(self.url, headers=utils.get_auth_header_admin())
-        self.assertEqual(405, response.status_code)
+        self.assertEqual(utils.HTTP_METHOD_NOT_ALLOWED, response.status_code)
 
     # check posting with no username
     @unittest.expectedFailure
@@ -32,7 +32,7 @@ class UserRegisterTests(APITestCase):
             'last_name': 'user',
         }
         response = self.client.post(self.url, data=json.dumps(data), content_type="application/json")
-        self.assertEqual(400, response.status_code)
+        self.assertEqual(utils.HTTP_BAD_REQUEST, response.status_code)
         msg = response.json()
         self.assertEqual(msg['username'], ['This field is required.'])
 
@@ -48,7 +48,7 @@ class UserRegisterTests(APITestCase):
             'last_name': 'user',
         }
         response = self.client.post(self.url, data=json.dumps(data), content_type="application/json")
-        self.assertEqual(400, response.status_code)
+        self.assertEqual(utils.HTTP_BAD_REQUEST, response.status_code)
         msg = response.json()
         self.assertEqual(msg['password'], ['This field is required.'])
 
@@ -88,7 +88,7 @@ class UserRegisterTests(APITestCase):
             'last_name': 'user',
         }
         response = self.client.post(self.url, data=json.dumps(data), content_type="application/json")
-        self.assertEqual(400, response.status_code)
+        self.assertEqual(utils.HTTP_BAD_REQUEST, response.status_code)
         msg = response.json()
         # actual error message return may be different
         self.assertEqual(msg['email'], ['Invalid email address format.'])
@@ -105,7 +105,7 @@ class UserRegisterTests(APITestCase):
             'last_name': 'user',
         }
         response = self.client.post(self.url, data=json.dumps(data), content_type="application/json")
-        self.assertEqual(400, response.status_code)
+        self.assertEqual(utils.HTTP_BAD_REQUEST, response.status_code)
         msg = response.json()
         # actual error message return may be different
         self.assertEqual(msg['passwordagain'], ['This field is required.'])
@@ -122,7 +122,7 @@ class UserRegisterTests(APITestCase):
             'last_name': 'user',
         }
         response = self.client.post(self.url, data=json.dumps(data), content_type="application/json")
-        self.assertEqual(400, response.status_code)
+        self.assertEqual(utils.HTTP_BAD_REQUEST, response.status_code)
         msg = response.json()
         # actual error message return may be different
         self.assertEqual(msg['first_name'], ['This field is required.'])
@@ -140,7 +140,7 @@ class UserRegisterTests(APITestCase):
             'last_name': 'user',
         }
         response = self.client.post(self.url, data=json.dumps(data), content_type="application/json")
-        self.assertEqual(400, response.status_code)
+        self.assertEqual(utils.HTTP_BAD_REQUEST, response.status_code)
         msg = response.json()
         # actual error message return may be different
         self.assertEqual(msg['first_name'], ['Firstname not long enough'])
@@ -157,7 +157,7 @@ class UserRegisterTests(APITestCase):
             'first_name': 'demo',
         }
         response = self.client.post(self.url, data=json.dumps(data), content_type="application/json")
-        self.assertEqual(400, response.status_code)
+        self.assertEqual(utils.HTTP_BAD_REQUEST, response.status_code)
         msg = response.json()
         # actual error message return may be different
         self.assertEqual(msg['last_name'], ['This field is required.'])
@@ -175,7 +175,7 @@ class UserRegisterTests(APITestCase):
             'last_name': 'user',
         }
         response = self.client.post(self.url, data=json.dumps(data), content_type="application/json")
-        self.assertEqual(400, response.status_code)
+        self.assertEqual(utils.HTTP_BAD_REQUEST, response.status_code)
         msg = response.json()
         # actual error message return may be different
         self.assertEqual(msg['password'], ['password not long enough'])
@@ -193,7 +193,7 @@ class UserRegisterTests(APITestCase):
             'last_name': 'user',
         }
         response = self.client.post(self.url, data=json.dumps(data), content_type="application/json")
-        self.assertEqual(400, response.status_code)
+        self.assertEqual(utils.HTTP_BAD_REQUEST, response.status_code)
         msg = response.json()
         # actual error message return may be different
         self.assertEqual(msg['password'], ['passwords dont match'])
@@ -211,7 +211,7 @@ class UserRegisterTests(APITestCase):
             'last_name': 'u',
         }
         response = self.client.post(self.url, data=json.dumps(data), content_type="application/json")
-        self.assertEqual(400, response.status_code)
+        self.assertEqual(utils.HTTP_BAD_REQUEST, response.status_code)
         msg = response.json()
         # actual error message return may be different
         self.assertEqual(msg['last_name'], ['last_name not long enough'])
@@ -253,7 +253,7 @@ class UserRegisterTests(APITestCase):
             'last_name': 'user',
         }
         response = self.client.post(self.url, data=json.dumps(data), content_type="application/json")
-        self.assertEqual(400, response.status_code)
+        self.assertEqual(utils.HTTP_BAD_REQUEST, response.status_code)
         msg = response.json()
         # actual error message return may be different
         self.assertEqual(msg['username'], ['A user with that username already exists.'])
@@ -271,7 +271,7 @@ class UserRegisterTests(APITestCase):
             'last_name': 'user',
         }
         response = self.client.post(self.url, data=json.dumps(data), content_type="application/json")
-        self.assertEqual(400, response.status_code)
+        self.assertEqual(utils.HTTP_BAD_REQUEST, response.status_code)
         msg = response.json()
         # actual error message return may be different
         self.assertEqual(msg['email'], ['email is already in use'])
@@ -290,7 +290,7 @@ class UserRegisterTests(APITestCase):
             'last_name': 'user',
         }
         response = self.client.post(self.url, data=json.dumps(data), content_type="application/json")
-        self.assertEqual(400, response.status_code)
+        self.assertEqual(utils.HTTP_BAD_REQUEST, response.status_code)
         msg = response.json()
         # actual error message return may be different
         self.assertEqual(msg['message'], ['self registration is disabled'])

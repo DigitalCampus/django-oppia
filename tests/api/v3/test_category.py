@@ -18,7 +18,7 @@ class CategoryAPITests(APITestCase):
     url = '/api/v3/category/'
 
     def assert_valid_response_and_get_tags(self, response):
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         response_data = response.json()
         category = response_data[0]
         self.assertTrue('count' in category)
@@ -46,28 +46,28 @@ class CategoryAPITests(APITestCase):
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_post_invalid(self):
         response = self.client.post(self.url, data={}, headers=utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.status_code, utils.HTTP_METHOD_NOT_ALLOWED)
 
     # check delete not allowed
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_delete_invalid(self):
         response = self.client.delete(self.url, data={}, headers=utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.status_code, utils.HTTP_METHOD_NOT_ALLOWED)
 
     # test unauthorized
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_unauthorized(self):
         response = self.client.get(self.url, headers=utils.get_auth_header_invalid())
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, utils.HTTP_UNAUTHORIZED)
 
     # test authorized
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_authorized(self):
         response = self.client.get(self.url, headers=utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
 
     # test valid json response and with 5 tags
     @unittest.expectedFailure
@@ -93,7 +93,7 @@ class CategoryAPITests(APITestCase):
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_category_list(self):
         response = self.client.get(self.url + "2/", headers=utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         response_data = response.json()
         self.assertTrue('courses' in response_data)
         self.assertTrue('count' in response_data)
@@ -120,7 +120,7 @@ class CategoryAPITests(APITestCase):
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_category_not_found(self):
         response = self.client.get(self.url + "999/", headers=utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, utils.HTTP_NOT_FOUND)
 
     # Expected count of courses having new downloads enabled by category (based on test_oppia.json)
     @unittest.expectedFailure
@@ -446,13 +446,13 @@ class CategoryAPITests(APITestCase):
         heat = Category.objects.get(name='HEAT')
 
         response = self.client.get(self.url + str(heat.pk) + "/", headers=utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         response_data = response.json()
         self.assertEqual(len(response_data), 2)
 
         ref = Category.objects.get(name='reference')
         response = self.client.get(self.url + str(ref.pk) + "/", headers=utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         response_data = response.json()
         self.assertEqual(len(response_data), 2)
 
@@ -465,13 +465,13 @@ class CategoryAPITests(APITestCase):
 
         heat = Category.objects.get(name='HEAT')
         response = self.client.get(self.url + str(heat.pk) + "/", headers=utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         response_data = response.json()
         self.assertEqual(len(response_data), 2)
 
         ref = Category.objects.get(name='reference')
         response = self.client.get(self.url + str(ref.pk) + "/", headers=utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         response_data = response.json()
         self.assertEqual(len(response_data), 1)
 
@@ -482,12 +482,12 @@ class CategoryAPITests(APITestCase):
 
         heat = Category.objects.get(name='HEAT')
         response = self.client.get(self.url + str(heat.pk) + "/", headers=utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         response_data = response.json()
         self.assertEqual(len(response_data), 1)
 
         ref = Category.objects.get(name='reference')
         response = self.client.get(self.url + str(ref.pk) + "/", headers=utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         response_data = response.json()
         self.assertEqual(len(response_data), 0)

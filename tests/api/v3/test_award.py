@@ -24,21 +24,21 @@ class AwardAPITests(APITestCase):
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_post_invalid(self):
         response = self.client.post(self.url, data={}, headers=utils.get_auth_header_admin())
-        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.status_code, utils.HTTP_METHOD_NOT_ALLOWED)
 
     # check delete not allowed
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_delete_invalid(self):
         response = self.client.delete(self.url, data={}, headers=utils.get_auth_header_admin())
-        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.status_code, utils.HTTP_METHOD_NOT_ALLOWED)
 
     # check unauthorized
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="incomplete api endpoint")
     def test_unauthorized(self):
         response = self.client.get(self.url, headers=utils.get_auth_header_invalid())
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, utils.HTTP_UNAUTHORIZED)
 
     # check valid
     @unittest.expectedFailure
@@ -46,7 +46,7 @@ class AwardAPITests(APITestCase):
     def test_valid(self):
         response = self.client.get(self.url, headers=utils.get_auth_header_user())
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         self.assertEqual(len(response.json()), 1)
 
         award = response.json()[0]
@@ -73,5 +73,5 @@ class AwardAPITests(APITestCase):
     @pytest.mark.xfail(reason="incomplete api endpoint")
     def test_no_objects(self):
         response = self.client.get(self.url, headers=utils.get_auth_header_admin())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         self.assertEqual(len(response.json()), 0)

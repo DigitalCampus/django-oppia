@@ -36,20 +36,20 @@ class ActivityLogAPITests(APITestCase):
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_no_get(self):
         response = self.client.get(self.url, headers=utils.get_auth_header_user())
-        self.assertEqual(405, response.status_code)
+        self.assertEqual(utils.HTTP_METHOD_NOT_ALLOWED, response.status_code)
 
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_no_post(self):
         response = self.client.post(self.url, data={}, headers=utils.get_auth_header_user())
-        self.assertEqual(405, response.status_code)
+        self.assertEqual(utils.HTTP_METHOD_NOT_ALLOWED, response.status_code)
 
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_no_data(self):
         # no file
         response = self.client.patch(self.url, data={}, headers=utils.get_auth_header_user())
-        self.assertEqual(400, response.status_code)
+        self.assertEqual(utils.HTTP_BAD_REQUEST, response.status_code)
 
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
@@ -61,7 +61,7 @@ class ActivityLogAPITests(APITestCase):
             json_data = json.load(activity_log_file)
 
         response = self.client.patch(self.url, data=json_data, headers=utils.get_auth_header_user())
-        self.assertEqual(200, response.status_code)
+        self.assertEqual(utils.HTTP_OK, response.status_code)
 
         tracker_count_end = Tracker.objects.all().count()
         uploaded_count_end = UploadedActivityLog.objects.all().count()
@@ -82,7 +82,7 @@ class ActivityLogAPITests(APITestCase):
 
         response = self.client.patch(self.url, data=json_data, headers=utils.get_auth_header_user())
 
-        self.assertEqual(200, response.status_code)
+        self.assertEqual(utils.HTTP_OK, response.status_code)
         tracker_count_end = Tracker.objects.all().count()
         user_count_end = User.objects.all().count()
         uploaded_count_end = UploadedActivityLog.objects.all().count()
@@ -104,7 +104,7 @@ class ActivityLogAPITests(APITestCase):
             json_data = json.load(activity_log_file)
 
         response = self.client.patch(self.url, data=json_data, headers=utils.get_auth_header_user())
-        self.assertEqual(200, response.status_code)
+        self.assertEqual(utils.HTTP_OK, response.status_code)
 
         tracker_count_end = Tracker.objects.all().count()
         uploaded_count_end = UploadedActivityLog.objects.all().count()
@@ -123,7 +123,7 @@ class ActivityLogAPITests(APITestCase):
 
         response = self.client.patch(self.url, data=json_data, headers=utils.get_auth_header_user())
 
-        self.assertEqual(400, response.status_code)
+        self.assertEqual(utils.HTTP_BAD_REQUEST, response.status_code)
 
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
@@ -137,7 +137,7 @@ class ActivityLogAPITests(APITestCase):
 
         response = self.client.patch(self.url, data=json_data, headers=utils.get_auth_header_user())
 
-        self.assertEqual(200, response.status_code)
+        self.assertEqual(utils.HTTP_OK, response.status_code)
         tracker_count_end = Tracker.objects.all().count()
         qa_count_end = QuizAttempt.objects.all().count()
         qar_count_end = QuizAttemptResponse.objects.all().count()
@@ -155,7 +155,7 @@ class ActivityLogAPITests(APITestCase):
             json_data = json.load(activity_log_file)
 
         response = self.client.patch(self.url, data=json_data, headers=utils.get_auth_header_user())
-        self.assertEqual(200, response.status_code)
+        self.assertEqual(utils.HTTP_OK, response.status_code)
 
         # Now upload the same file
         with open(self.basic_activity_log) as activity_log_file:
@@ -163,7 +163,7 @@ class ActivityLogAPITests(APITestCase):
 
         response = self.client.patch(self.url, data=json_data, headers=utils.get_auth_header_user())
 
-        self.assertEqual(200, response.status_code)
+        self.assertEqual(utils.HTTP_OK, response.status_code)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start + 2, tracker_count_end)
 
@@ -179,7 +179,7 @@ class ActivityLogAPITests(APITestCase):
 
         response = self.client.patch(self.url, data=json_data, headers=utils.get_auth_header_user())
 
-        self.assertEqual(200, response.status_code)
+        self.assertEqual(utils.HTTP_OK, response.status_code)
 
         # Now upload the same file
         with open(self.quiz_attempt_log) as activity_log_file:
@@ -187,7 +187,7 @@ class ActivityLogAPITests(APITestCase):
 
         response = self.client.patch(self.url, data=json_data, headers=utils.get_auth_header_user())
 
-        self.assertEqual(200, response.status_code)
+        self.assertEqual(utils.HTTP_OK, response.status_code)
 
         tracker_count_end = Tracker.objects.all().count()
         qa_count_end = QuizAttempt.objects.all().count()

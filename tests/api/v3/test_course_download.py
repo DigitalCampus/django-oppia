@@ -42,110 +42,110 @@ class CourseDownloadAPITests(APITestCase):
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_course_download_file_zip_not_found(self):
         response = self.perform_download_request(5, utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, utils.HTTP_NOT_FOUND)
 
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_course_download_file_course_not_found(self):
         response = self.perform_download_request(999, utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, utils.HTTP_NOT_FOUND)
 
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_course_download_draft_nonvisible(self):
         response = self.perform_download_request(3, utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, utils.HTTP_NOT_FOUND)
 
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_download_course_new_downloads_enabled_normal(self):
         update_course_status(1, CourseStatus.LIVE)
         response = self.perform_download_request(1, utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
 
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_download_course_new_downloads_enabled_teacher(self):
         update_course_status(1, CourseStatus.LIVE)
         response = self.perform_download_request(1, utils.get_auth_header_teacher())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
 
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_download_course_new_downloads_enabled_staff(self):
         update_course_status(1, CourseStatus.LIVE)
         response = self.perform_download_request(1, utils.get_auth_header_staff())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
 
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_download_course_new_downloads_enabled_admin(self):
         update_course_status(1, CourseStatus.LIVE)
         response = self.perform_download_request(1, utils.get_auth_header_admin())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
 
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_download_course_new_downloads_disabled_normal(self):
         update_course_status(1, CourseStatus.NEW_DOWNLOADS_DISABLED)
         response = self.perform_download_request(1, utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
 
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_download_course_new_downloads_disabled_teacher(self):
         update_course_status(1, CourseStatus.NEW_DOWNLOADS_DISABLED)
         response = self.perform_download_request(1, utils.get_auth_header_teacher())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
 
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_download_course_new_downloads_disabled_staff(self):
         update_course_status(1, CourseStatus.NEW_DOWNLOADS_DISABLED)
         response = self.perform_download_request(1, utils.get_auth_header_staff())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
 
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_download_course_new_downloads_disabled_admin(self):
         update_course_status(1, CourseStatus.NEW_DOWNLOADS_DISABLED)
         response = self.perform_download_request(1, utils.get_auth_header_admin())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
 
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_download_course_read_only_normal(self):
         update_course_status(1, CourseStatus.READ_ONLY)
         response = self.perform_download_request(1, utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
 
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_download_course_read_only_teacher(self):
         update_course_status(1, CourseStatus.READ_ONLY)
         response = self.perform_download_request(1, utils.get_auth_header_teacher())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
 
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_download_course_read_only_staff(self):
         update_course_status(1, CourseStatus.READ_ONLY)
         response = self.perform_download_request(1, utils.get_auth_header_staff())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
 
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_download_course_read_only_admin(self):
         update_course_status(1, CourseStatus.READ_ONLY)
         response = self.perform_download_request(1, utils.get_auth_header_admin())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
 
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_live_course_admin(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.perform_download_request(1, utils.get_auth_header_admin())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         self.assertEqual(response['content-type'], self.ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
@@ -155,7 +155,7 @@ class CourseDownloadAPITests(APITestCase):
     def test_live_course_staff(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.perform_download_request(1, utils.get_auth_header_staff())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         self.assertEqual(response['content-type'], self.ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
@@ -165,7 +165,7 @@ class CourseDownloadAPITests(APITestCase):
     def test_live_course_teacher(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.perform_download_request(1, utils.get_auth_header_teacher())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         self.assertEqual(response['content-type'], self.ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
@@ -175,7 +175,7 @@ class CourseDownloadAPITests(APITestCase):
     def test_live_course_normal(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.perform_download_request(1, utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         self.assertEqual(response['content-type'], self.ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
@@ -186,7 +186,7 @@ class CourseDownloadAPITests(APITestCase):
         tracker_count_start = Tracker.objects.all().count()
         update_course_status(1, CourseStatus.DRAFT)
         response = self.perform_download_request(1, utils.get_auth_header_admin())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         self.assertEqual(response['content-type'], self.ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
@@ -197,7 +197,7 @@ class CourseDownloadAPITests(APITestCase):
         tracker_count_start = Tracker.objects.all().count()
         update_course_status(1, CourseStatus.DRAFT)
         response = self.perform_download_request(1, utils.get_auth_header_staff())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         self.assertEqual(response['content-type'], self.ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
@@ -208,7 +208,7 @@ class CourseDownloadAPITests(APITestCase):
         tracker_count_start = Tracker.objects.all().count()
         update_course_status(1, CourseStatus.DRAFT)
         response = self.perform_download_request(1, utils.get_auth_header_teacher())
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, utils.HTTP_NOT_FOUND)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
 
@@ -219,7 +219,7 @@ class CourseDownloadAPITests(APITestCase):
         update_course_status(1, CourseStatus.DRAFT)
         update_course_owner(1, self.teacher.id)
         response = self.perform_download_request(1, utils.get_auth_header_teacher())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         self.assertEqual(response['content-type'], self.ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
@@ -230,7 +230,7 @@ class CourseDownloadAPITests(APITestCase):
         tracker_count_start = Tracker.objects.all().count()
         update_course_status(1, CourseStatus.DRAFT)
         response = self.perform_download_request(1, utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, utils.HTTP_NOT_FOUND)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
 
@@ -240,7 +240,7 @@ class CourseDownloadAPITests(APITestCase):
         tracker_count_start = Tracker.objects.all().count()
         update_course_status(1, CourseStatus.ARCHIVED)
         response = self.perform_download_request(1, utils.get_auth_header_admin())
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, utils.HTTP_NOT_FOUND)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
 
@@ -250,7 +250,7 @@ class CourseDownloadAPITests(APITestCase):
         tracker_count_start = Tracker.objects.all().count()
         update_course_status(1, CourseStatus.ARCHIVED)
         response = self.perform_download_request(1, utils.get_auth_header_staff())
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, utils.HTTP_NOT_FOUND)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
 
@@ -260,7 +260,7 @@ class CourseDownloadAPITests(APITestCase):
         tracker_count_start = Tracker.objects.all().count()
         update_course_status(1, CourseStatus.ARCHIVED)
         response = self.perform_download_request(1, utils.get_auth_header_teacher())
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, utils.HTTP_NOT_FOUND)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
 
@@ -270,7 +270,7 @@ class CourseDownloadAPITests(APITestCase):
         tracker_count_start = Tracker.objects.all().count()
         update_course_status(1, CourseStatus.ARCHIVED)
         response = self.perform_download_request(1, utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, utils.HTTP_NOT_FOUND)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
 
@@ -280,7 +280,7 @@ class CourseDownloadAPITests(APITestCase):
         tracker_count_start = Tracker.objects.all().count()
         update_course_status(1, CourseStatus.NEW_DOWNLOADS_DISABLED)
         response = self.perform_download_request(1, utils.get_auth_header_admin())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         self.assertEqual(response['content-type'], self.ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
@@ -291,7 +291,7 @@ class CourseDownloadAPITests(APITestCase):
         tracker_count_start = Tracker.objects.all().count()
         update_course_status(1, CourseStatus.NEW_DOWNLOADS_DISABLED)
         response = self.perform_download_request(1, utils.get_auth_header_staff())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         self.assertEqual(response['content-type'], self.ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
@@ -302,7 +302,7 @@ class CourseDownloadAPITests(APITestCase):
         tracker_count_start = Tracker.objects.all().count()
         update_course_status(1, CourseStatus.NEW_DOWNLOADS_DISABLED)
         response = self.perform_download_request(1, utils.get_auth_header_teacher())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         self.assertEqual(response['content-type'], self.ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
@@ -314,7 +314,7 @@ class CourseDownloadAPITests(APITestCase):
         update_course_status(1, CourseStatus.NEW_DOWNLOADS_DISABLED)
         update_course_owner(1, self.teacher.id)
         response = self.perform_download_request(1, utils.get_auth_header_teacher())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         self.assertEqual(response['content-type'], self.ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
@@ -325,7 +325,7 @@ class CourseDownloadAPITests(APITestCase):
         tracker_count_start = Tracker.objects.all().count()
         update_course_status(1, CourseStatus.NEW_DOWNLOADS_DISABLED)
         response = self.perform_download_request(1, utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         self.assertEqual(response['content-type'], self.ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
@@ -336,7 +336,7 @@ class CourseDownloadAPITests(APITestCase):
         tracker_count_start = Tracker.objects.all().count()
         update_course_status(1, CourseStatus.READ_ONLY)
         response = self.perform_download_request(1, utils.get_auth_header_admin())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         self.assertEqual(response['content-type'], self.ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
@@ -347,7 +347,7 @@ class CourseDownloadAPITests(APITestCase):
         tracker_count_start = Tracker.objects.all().count()
         update_course_status(1, CourseStatus.READ_ONLY)
         response = self.perform_download_request(1, utils.get_auth_header_staff())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         self.assertEqual(response['content-type'], self.ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
@@ -358,7 +358,7 @@ class CourseDownloadAPITests(APITestCase):
         tracker_count_start = Tracker.objects.all().count()
         update_course_status(1, CourseStatus.READ_ONLY)
         response = self.perform_download_request(1, utils.get_auth_header_teacher())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         self.assertEqual(response['content-type'], self.ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
@@ -370,7 +370,7 @@ class CourseDownloadAPITests(APITestCase):
         update_course_status(1, CourseStatus.READ_ONLY)
         update_course_owner(1, self.teacher.id)
         response = self.perform_download_request(1, utils.get_auth_header_teacher())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         self.assertEqual(response['content-type'], self.ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
@@ -381,7 +381,7 @@ class CourseDownloadAPITests(APITestCase):
         tracker_count_start = Tracker.objects.all().count()
         update_course_status(1, CourseStatus.READ_ONLY)
         response = self.perform_download_request(1, utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         self.assertEqual(response['content-type'], self.ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
@@ -392,7 +392,7 @@ class CourseDownloadAPITests(APITestCase):
     def test_dne_course_admin(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.perform_download_request(1123, utils.get_auth_header_admin())
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, utils.HTTP_NOT_FOUND)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
 
@@ -401,7 +401,7 @@ class CourseDownloadAPITests(APITestCase):
     def test_dne_course_staff(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.perform_download_request(1123, utils.get_auth_header_staff())
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, utils.HTTP_NOT_FOUND)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
 
@@ -410,7 +410,7 @@ class CourseDownloadAPITests(APITestCase):
     def test_dne_course_teacher(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.perform_download_request(1123, utils.get_auth_header_teacher())
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, utils.HTTP_NOT_FOUND)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
 
@@ -419,7 +419,7 @@ class CourseDownloadAPITests(APITestCase):
     def test_dne_course_normal(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.perform_download_request(1123, utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, utils.HTTP_NOT_FOUND)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
 
@@ -428,7 +428,7 @@ class CourseDownloadAPITests(APITestCase):
     def test_live_course_shortname_normal(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.perform_download_request('anc1-all', utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         self.assertEqual(response['content-type'], self.ZIP_EXPECTED_CONTENT_TYPE)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)
@@ -438,6 +438,6 @@ class CourseDownloadAPITests(APITestCase):
     def test_dne_course_shortname_normal(self):
         tracker_count_start = Tracker.objects.all().count()
         response = self.perform_download_request('does-not-exist', utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, utils.HTTP_NOT_FOUND)
         tracker_count_end = Tracker.objects.all().count()
         self.assertEqual(tracker_count_start, tracker_count_end)

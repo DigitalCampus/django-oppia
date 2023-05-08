@@ -16,21 +16,21 @@ class BadgeAPITests(APITestCase):
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_post_invalid(self):
         response = self.client.post(self.url, data={}, headers=utils.get_auth_header_admin())
-        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.status_code, utils.HTTP_METHOD_NOT_ALLOWED)
 
     # check delete not allowed
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_delete_invalid(self):
         response = self.client.delete(self.url, data={}, headers=utils.get_auth_header_admin())
-        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.status_code, utils.HTTP_METHOD_NOT_ALLOWED)
 
     # check unauthorized
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="incomplete api endpoint")
     def test_unauthorized(self):
         response = self.client.get(self.url, headers=utils.get_auth_header_invalid())
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, utils.HTTP_UNAUTHORIZED)
 
     # check correct
     @unittest.expectedFailure
@@ -38,7 +38,7 @@ class BadgeAPITests(APITestCase):
     def test_correct(self):
         response = self.client.get(self.url, headers=utils.get_auth_header_user())
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         # check that the response contains 1 badge
         self.assertEqual(len(response.json()), 1)
 

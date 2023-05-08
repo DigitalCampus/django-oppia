@@ -19,13 +19,13 @@ class DeleteAccountAPITests(APITestCase):
     @pytest.mark.xfail(reason="incomplete api endpoint")
     def test_get_list_invalid(self):
         response = self.client.get(self.url, headers=utils.get_auth_header_user())
-        self.assertEqual(405, response.status_code)
+        self.assertEqual(utils.HTTP_METHOD_NOT_ALLOWED, response.status_code)
 
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="incomplete api endpoint")
     def test_get_individual_invalid(self):
         response = self.client.get(self.url + "3/", headers=utils.get_auth_header_user())
-        self.assertEqual(405, response.status_code)
+        self.assertEqual(utils.HTTP_METHOD_NOT_ALLOWED, response.status_code)
 
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="incomplete api endpoint")
@@ -35,7 +35,7 @@ class DeleteAccountAPITests(APITestCase):
             'password': 'password',
         }
         response = self.client.delete(self.url + "2/", data=data, headers=utils.get_auth_header_user())
-        self.assertEqual(200, response.status_code)
+        self.assertEqual(utils.HTTP_OK, response.status_code)
         response_data = response.json()
         self.assertTrue('message' in response_data)
         self.assertFalse('password' in response_data)
@@ -52,7 +52,7 @@ class DeleteAccountAPITests(APITestCase):
         }
         # normal user can't delete admin
         response = self.client.delete(self.url + "1/", data=data, headers=utils.get_auth_header_user())
-        self.assertEqual(401, response.status_code)
+        self.assertEqual(utils.HTTP_UNAUTHORIZED, response.status_code)
 
         user_count_end = User.objects.all().count()
         self.assertEqual(user_count_start, user_count_end)
@@ -66,7 +66,7 @@ class DeleteAccountAPITests(APITestCase):
             'password': 'invalid',
         }
         response = self.client.delete(self.url + "2/", data=data, headers=utils.get_auth_header_user())
-        self.assertEqual(401, response.status_code)
+        self.assertEqual(utils.HTTP_UNAUTHORIZED, response.status_code)
 
         user_count_end = User.objects.all().count()
         self.assertEqual(user_count_start, user_count_end)
@@ -78,7 +78,7 @@ class DeleteAccountAPITests(APITestCase):
         user_count_start = User.objects.all().count()
         data = {}
         response = self.client.delete(self.url + "2/", data=data, headers=utils.get_auth_header_user())
-        self.assertEqual(400, response.status_code)
+        self.assertEqual(utils.HTTP_BAD_REQUEST, response.status_code)
 
         user_count_end = User.objects.all().count()
         self.assertEqual(user_count_start, user_count_end)
@@ -93,7 +93,7 @@ class DeleteAccountAPITests(APITestCase):
         }
 
         response = self.client.delete(self.url + "1/", data=data, headers=utils.get_auth_header_invalid())
-        self.assertEqual(401, response.status_code)
+        self.assertEqual(utils.HTTP_UNAUTHORIZED, response.status_code)
 
         user_count_end = User.objects.all().count()
         self.assertEqual(user_count_start, user_count_end)
@@ -109,14 +109,14 @@ class DeleteAccountAPITests(APITestCase):
 
         # initial delete
         response = self.client.delete(self.url + "2/", data=data, headers=utils.get_auth_header_user())
-        self.assertEqual(200, response.status_code)
+        self.assertEqual(utils.HTTP_OK, response.status_code)
 
         user_count_mid = User.objects.all().count()
         self.assertEqual(user_count_start - 1, user_count_mid)
 
         # try deleting again
         response = self.client.delete(self.url + "2/", data=data, headers=utils.get_auth_header_user())
-        self.assertEqual(404, response.status_code)
+        self.assertEqual(utils.HTTP_NOT_FOUND, response.status_code)
 
         user_count_end = User.objects.all().count()
         self.assertEqual(user_count_start - 1, user_count_end)

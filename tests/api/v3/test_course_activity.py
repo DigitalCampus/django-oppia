@@ -33,7 +33,7 @@ class CourseActivityAPITests(APITestCase):
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_course_get_activity(self):
         response = self.perform_activity_request(1, utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         trackers = response.json()
         self.assertEqual(276, len(trackers))
         first_tracker = trackers[0]
@@ -48,16 +48,16 @@ class CourseActivityAPITests(APITestCase):
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_course_get_activity_notfound(self):
         response = self.perform_activity_request(999, utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, utils.HTTP_NOT_FOUND)
 
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_course_get_activity_draft_nonvisible(self):
         response = self.perform_activity_request(3, utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, utils.HTTP_NOT_FOUND)
 
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_course_get_activity_draft_admin_visible(self):
         response = self.perform_activity_request(3, utils.get_auth_header_admin())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)

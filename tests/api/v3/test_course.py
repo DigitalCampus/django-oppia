@@ -40,28 +40,28 @@ class CourseAPITests(APITestCase):
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_put_invalid(self):
         response = self.client.put(self.url, data={}, headers=utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.status_code, utils.HTTP_METHOD_NOT_ALLOWED)
 
     # delete invalid
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_delete_invalid(self):
         response = self.client.delete(self.url, headers=utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.status_code, utils.HTTP_METHOD_NOT_ALLOWED)
 
     # test unauthorized
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_unauthorized(self):
         response = self.client.get(self.url, headers=utils.get_auth_header_invalid())
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, utils.HTTP_UNAUTHORIZED)
 
     # test contains courses (and right no of courses)
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_has_courses(self):
         response = self.client.get(self.url, headers=utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         response_data = response.json()
         # should have 4 courses with the test data set
         self.assertEqual(4, len(response_data))
@@ -85,7 +85,7 @@ class CourseAPITests(APITestCase):
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_course_get_single(self):
         response = self.perform_get_request(1, utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         course = response.json()
         self.assertTrue('resource_uri' in course)
         self.assertTrue('id' in course)
@@ -105,19 +105,19 @@ class CourseAPITests(APITestCase):
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_course_get_single_not_found(self):
         response = self.perform_get_request(999, utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, utils.HTTP_NOT_FOUND)
 
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_course_get_single_draft_nonvisible(self):
         response = self.perform_get_request(3, utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, utils.HTTP_NOT_FOUND)
 
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_course_get_single_draft_admin_visible(self):
         response = self.perform_get_request(3, utils.get_auth_header_admin())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         course = response.json()
         self.assertEqual(course['id'], 3)
         self.assertEqual(course['version'], 20150611100319)
@@ -127,7 +127,7 @@ class CourseAPITests(APITestCase):
     def test_course_get_single_new_downloads_enabled_normal_visible(self):
         update_course_status(1, CourseStatus.LIVE)
         response = self.perform_get_request(1, utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         course = response.json()
         self.assertEqual(course['id'], 1)
         self.assertEqual(course['version'], 20150611095753)
@@ -137,7 +137,7 @@ class CourseAPITests(APITestCase):
     def test_course_get_single_new_downloads_enabled_staff_visible(self):
         update_course_status(1, CourseStatus.LIVE)
         response = self.perform_get_request(1, utils.get_auth_header_staff())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         course = response.json()
         self.assertEqual(course['id'], 1)
         self.assertEqual(course['version'], 20150611095753)
@@ -147,7 +147,7 @@ class CourseAPITests(APITestCase):
     def test_course_get_single_new_downloads_enabled_teacher_visible(self):
         update_course_status(1, CourseStatus.LIVE)
         response = self.perform_get_request(1, utils.get_auth_header_teacher())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         course = response.json()
         self.assertEqual(course['id'], 1)
         self.assertEqual(course['version'], 20150611095753)
@@ -157,7 +157,7 @@ class CourseAPITests(APITestCase):
     def test_course_get_single_new_downloads_enabled_admin_visible(self):
         update_course_status(1, CourseStatus.LIVE)
         response = self.perform_get_request(1, utils.get_auth_header_admin())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         course = response.json()
         self.assertEqual(course['id'], 1)
         self.assertEqual(course['version'], 20150611095753)
@@ -167,7 +167,7 @@ class CourseAPITests(APITestCase):
     def test_course_get_single_new_downloads_disabled_normal_visible(self):
         update_course_status(1, CourseStatus.NEW_DOWNLOADS_DISABLED)
         response = self.perform_get_request(1, utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         course = response.json()
         self.assertEqual(course['id'], 1)
         self.assertEqual(course['version'], 20150611095753)
@@ -177,7 +177,7 @@ class CourseAPITests(APITestCase):
     def test_course_get_single_new_downloads_disabled_staff_visible(self):
         update_course_status(1, CourseStatus.NEW_DOWNLOADS_DISABLED)
         response = self.perform_get_request(1, utils.get_auth_header_staff())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         course = response.json()
         self.assertEqual(course['id'], 1)
         self.assertEqual(course['version'], 20150611095753)
@@ -187,7 +187,7 @@ class CourseAPITests(APITestCase):
     def test_course_get_single_new_downloads_disabled_teacher_visible(self):
         update_course_status(1, CourseStatus.NEW_DOWNLOADS_DISABLED)
         response = self.perform_get_request(1, utils.get_auth_header_teacher())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         course = response.json()
         self.assertEqual(course['id'], 1)
         self.assertEqual(course['version'], 20150611095753)
@@ -197,7 +197,7 @@ class CourseAPITests(APITestCase):
     def test_course_get_single_new_downloads_disabled_admin_visible(self):
         update_course_status(1, CourseStatus.NEW_DOWNLOADS_DISABLED)
         response = self.perform_get_request(1, utils.get_auth_header_admin())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         course = response.json()
         self.assertEqual(course['id'], 1)
         self.assertEqual(course['version'], 20150611095753)
@@ -207,7 +207,7 @@ class CourseAPITests(APITestCase):
     def test_course_get_single_read_only_normal_visible(self):
         update_course_status(1, CourseStatus.READ_ONLY)
         response = self.perform_get_request(1, utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         course = response.json()
         self.assertEqual(course['id'], 1)
         self.assertEqual(course['version'], 20150611095753)
@@ -217,7 +217,7 @@ class CourseAPITests(APITestCase):
     def test_course_get_single_read_only_staff_visible(self):
         update_course_status(1, CourseStatus.READ_ONLY)
         response = self.perform_get_request(1, utils.get_auth_header_staff())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         course = response.json()
         self.assertEqual(course['id'], 1)
         self.assertEqual(course['version'], 20150611095753)
@@ -227,7 +227,7 @@ class CourseAPITests(APITestCase):
     def test_course_get_single_read_only_teacher_visible(self):
         update_course_status(1, CourseStatus.READ_ONLY)
         response = self.perform_get_request(1, utils.get_auth_header_teacher())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         course = response.json()
         self.assertEqual(course['id'], 1)
         self.assertEqual(course['version'], 20150611095753)
@@ -237,7 +237,7 @@ class CourseAPITests(APITestCase):
     def test_course_get_single_read_only_admin_visible(self):
         update_course_status(1, CourseStatus.READ_ONLY)
         response = self.perform_get_request(1, utils.get_auth_header_admin())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         course = response.json()
         self.assertEqual(course['id'], 1)
         self.assertEqual(course['version'], 20150611095753)
@@ -246,7 +246,7 @@ class CourseAPITests(APITestCase):
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_course_shortname_get_single(self):
         response = self.perform_get_request('anc1-all', utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         course = response.json()
         self.assertTrue('resource_uri' in course)
         self.assertTrue('id' in course)
@@ -266,7 +266,7 @@ class CourseAPITests(APITestCase):
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_course_shortname_get_single_staff(self):
         response = self.perform_get_request('anc1-all', utils.get_auth_header_staff())
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, utils.HTTP_OK)
         course = response.json()
         self.assertTrue('resource_uri' in course)
         self.assertTrue('id' in course)
@@ -286,7 +286,7 @@ class CourseAPITests(APITestCase):
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_course_shortname_get_single_not_found(self):
         response = self.perform_get_request('does-not-exist', utils.get_auth_header_user())
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, utils.HTTP_NOT_FOUND)
 
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
