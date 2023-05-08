@@ -28,6 +28,8 @@ from api.resources.download_data import DownloadDataResource
 from quiz.api.resources import QuizAttemptResource
 
 warnings.warn("API v1 will be removed in v0.15.0", DeprecationWarning, stacklevel=2)
+
+
 def get_api_v1():
     api = Api(api_name='v1')
     api.register(TrackerResource())
@@ -43,7 +45,10 @@ def get_api_v1():
     api.register(QuizAttemptResource())
     return api
 
+
 warnings.warn("API v2 will be removed in v0.16.0", DeprecationWarning, stacklevel=2)
+
+
 def get_api_v2():
     api = Api(api_name='v2')
     api.register(TrackerResource())

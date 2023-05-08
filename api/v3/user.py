@@ -17,10 +17,10 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     http_method_names = ['get', 'post', 'delete', 'put']
 
-    # Get - for getting profile and login
+    # Get - for getting profile
 
-    # post - for registering new user
+    # post - for registering new user and logging in
 
     # delete - for removing an account
 
-    # put - for updating a profile
+    # put - for updating a profile, password update

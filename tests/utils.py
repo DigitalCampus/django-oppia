@@ -8,6 +8,8 @@ from oppia.models import Course
 
 
 warnings.warn("get_api_key function will be removed in v0.16.0", DeprecationWarning, stacklevel=2)
+
+
 def get_api_key(user):
     """
     Returns the ApiKey for a user object.
@@ -22,6 +24,8 @@ def get_api_key(user):
 
 
 warnings.warn("get_api_url function will be removed in v0.16.0", DeprecationWarning, stacklevel=2)
+
+
 def get_api_url(version, resource_name, resource_id=None):
     view_name = 'api_dispatch_list' \
         if resource_id is None else 'api_dispatch_detail'
