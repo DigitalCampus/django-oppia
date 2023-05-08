@@ -64,7 +64,7 @@ class UserRegisterTests(APITestCase):
             'last_name': 'user',
         }
         response = self.client.post(self.url, data=json.dumps(data), content_type="application/json")
-        self.assertEqual(201, response.status_code)
+        self.assertEqual(utils.HTTP_CREATED, response.status_code)
         user_data = response.json()
         self.assertTrue('api_key' in user_data)
         self.assertTrue('email' in user_data)
@@ -229,7 +229,7 @@ class UserRegisterTests(APITestCase):
             'last_name': 'user',
         }
         response = self.client.post(self.url, data=json.dumps(data), content_type="application/json")
-        self.assertEqual(201, response.status_code)
+        self.assertEqual(utils.HTTP_CREATED, response.status_code)
         user_data = response.json()
         self.assertTrue('api_key' in user_data)
         self.assertTrue('email' in user_data)
