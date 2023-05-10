@@ -2,6 +2,7 @@ import os
 import shutil
 
 from django.conf import settings
+from django.contrib.auth.models import User
 
 
 HTTP_OK = 200
@@ -12,6 +13,19 @@ HTTP_NOT_FOUND = 404
 HTTP_METHOD_NOT_ALLOWED = 405
 
 # @TODO complete fully with correct info
+
+
+def get_admin_user():
+    return User.objects.get(username="admin")
+
+
+def get_staff_user():
+    return User.objects.get(username="staff")
+
+
+def get_teacher_user():
+    return User.objects.get(username="teacher")
+
 
 '''
 for admin user
