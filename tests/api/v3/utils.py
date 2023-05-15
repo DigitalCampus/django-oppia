@@ -27,6 +27,18 @@ def get_teacher_user():
     return User.objects.get(username="teacher")
 
 
+def get_normal_user():
+    return User.objects.get(username="demo")
+
+
+def get_manager_user():
+    return User.objects.get(username="manager")
+
+
+def get_viewer_user():
+    return User.objects.get(username="manager")
+
+
 '''
 for admin user
 '''
@@ -72,7 +84,16 @@ def get_auth_header_staff():
     return {'AUTH': 'staff:staff_api_key'}
 
 
+def get_auth_header_manager():
+    return {'AUTH': 'manager:manager_api_key'}
+
+
+def get_auth_header_viewer():
+    return {'AUTH': 'viewer:viewer_api_key'}
+
 # Copy test courses to upload directory
+
+
 def copy_test_courses(courses_to_copy):
     for test_course in courses_to_copy:
         src = os.path.join(settings.TEST_RESOURCES, test_course)

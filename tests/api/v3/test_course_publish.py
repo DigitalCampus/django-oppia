@@ -176,7 +176,7 @@ class CoursePublishAPITests(APITestCase):
                                          'tags': 'demo',
                                          'is_draft': False,
                                          self.course_file_field: course_file})
-            self.assertEqual(response.status_code, 401)
+            self.assertEqual(response.status_code, utils.HTTP_UNAUTHORIZED)
 
             # check record added to course publishing log
             new_no_cpls = CoursePublishingLog.objects.filter(action='api_course_published').count()
@@ -194,7 +194,7 @@ class CoursePublishAPITests(APITestCase):
                                          'tags': 'demo',
                                          'is_draft': False,
                                          self.course_file_field: course_file})
-            self.assertEqual(response.status_code, 401)
+            self.assertEqual(response.status_code, utils.HTTP_UNAUTHORIZED)
 
     # test file is correct format
     @unittest.expectedFailure
@@ -211,7 +211,7 @@ class CoursePublishAPITests(APITestCase):
                                          'tags': 'demo',
                                          'is_draft': False,
                                          self.course_file_field: video_file})
-            self.assertEqual(response.status_code, 400)
+            self.assertEqual(response.status_code, utils.HTTP_BAD_REQUEST)
 
             # check record added to course publishing log
             new_no_cpls = CoursePublishingLog.objects.filter(action='invalid_zip').count()
@@ -236,7 +236,7 @@ class CoursePublishAPITests(APITestCase):
                                          'tags': 'demo',
                                          'is_draft': False,
                                          self.course_file_field: course_file})
-            self.assertEqual(response.status_code, 401)
+            self.assertEqual(response.status_code, utils.HTTP_UNAUTHORIZED)
 
             # check record added to course publishing log
 
@@ -289,7 +289,7 @@ class CoursePublishAPITests(APITestCase):
                                          'tags': 'draft',
                                          'is_draft': False,
                                          self.course_file_field: course_file})
-            self.assertEqual(response.status_code, 401)
+            self.assertEqual(response.status_code, utils.HTTP_UNAUTHORIZED)
 
             # check record added to course publishing log
 
@@ -314,7 +314,7 @@ class CoursePublishAPITests(APITestCase):
                                          'tags': 'draft',
                                          'is_draft': True,
                                          self.course_file_field: course_file})
-            self.assertEqual(response.status_code, 401)
+            self.assertEqual(response.status_code, utils.HTTP_UNAUTHORIZED)
 
             # check record added to course publishing log
 
@@ -339,7 +339,7 @@ class CoursePublishAPITests(APITestCase):
                                          'tags': 'demo',
                                          'is_draft': False,
                                          self.course_file_field: course_file})
-            self.assertEqual(response.status_code, 400)
+            self.assertEqual(response.status_code, utils.HTTP_BAD_REQUEST)
 
             # check record added to course publishing log
             new_no_cpls = CoursePublishingLog.objects.filter(action='over_max_upload').count()
@@ -359,7 +359,7 @@ class CoursePublishAPITests(APITestCase):
                                          'is_draft': False,
                                          self.course_file_field: course_file})
 
-            self.assertEqual(400, response.status_code)
+            self.assertEqual(utils.HTTP_BAD_REQUEST, response.status_code)
             new_no_cpls = CoursePublishingLog.objects.filter(action='no_module_xml').count()
             self.assertEqual(old_no_cpls+2, new_no_cpls)
 
@@ -377,7 +377,7 @@ class CoursePublishAPITests(APITestCase):
                                          'is_draft': False,
                                          self.course_file_field: course_file})
 
-            self.assertEqual(500, response.status_code)
+            self.assertEqual(utils.HTTP_BAD_REQUEST, response.status_code)
             new_no_cpls = CoursePublishingLog.objects.filter(action='invalid_zip').count()
             self.assertEqual(old_no_cpls+2, new_no_cpls)
 
@@ -413,7 +413,7 @@ class CoursePublishAPITests(APITestCase):
 
         with open(self.course_file_path, 'rb') as course_file:
             response = self.publish_course(course_file, False)
-            self.assertEqual(400, response.status_code)
+            self.assertEqual(utils.HTTP_BAD_REQUEST, response.status_code)
 
             course = Course.objects.get(pk=course_id)
             self.assertEqual(CourseStatus.DRAFT, course.status)
@@ -426,7 +426,7 @@ class CoursePublishAPITests(APITestCase):
 
         with open(self.course_file_path, 'rb') as course_file:
             response = self.publish_course(course_file, False)
-            self.assertEqual(400, response.status_code)
+            self.assertEqual(utils.HTTP_BAD_REQUEST, response.status_code)
 
             course = Course.objects.get(pk=course_id)
             self.assertEqual(CourseStatus.NEW_DOWNLOADS_DISABLED, course.status)
@@ -439,7 +439,7 @@ class CoursePublishAPITests(APITestCase):
 
         with open(self.course_file_path, 'rb') as course_file:
             response = self.publish_course(course_file, False)
-            self.assertEqual(400, response.status_code)
+            self.assertEqual(utils.HTTP_BAD_REQUEST, response.status_code)
 
             course = Course.objects.get(pk=course_id)
             self.assertEqual(CourseStatus.ARCHIVED, course.status)
@@ -452,7 +452,7 @@ class CoursePublishAPITests(APITestCase):
 
         with open(self.course_file_path, 'rb') as course_file:
             response = self.publish_course(course_file, False)
-            self.assertEqual(400, response.status_code)
+            self.assertEqual(utils.HTTP_BAD_REQUEST, response.status_code)
 
             course = Course.objects.get(pk=course_id)
             self.assertEqual(CourseStatus.READ_ONLY, course.status)
@@ -504,7 +504,7 @@ class CoursePublishAPITests(APITestCase):
 
         with open(self.course_file_path, 'rb') as course_file:
             response = self.publish_course(course_file, True)
-            self.assertEqual(400, response.status_code)
+            self.assertEqual(utils.HTTP_BAD_REQUEST, response.status_code)
 
             course = Course.objects.get(pk=course_id)
             self.assertEqual(CourseStatus.NEW_DOWNLOADS_DISABLED, course.status)
@@ -517,7 +517,7 @@ class CoursePublishAPITests(APITestCase):
 
         with open(self.course_file_path, 'rb') as course_file:
             response = self.publish_course(course_file, True)
-            self.assertEqual(400, response.status_code)
+            self.assertEqual(utils.HTTP_BAD_REQUEST, response.status_code)
 
             course = Course.objects.get(pk=course_id)
             self.assertEqual(CourseStatus.ARCHIVED, course.status)
@@ -530,7 +530,7 @@ class CoursePublishAPITests(APITestCase):
 
         with open(self.course_file_path, 'rb') as course_file:
             response = self.publish_course(course_file, True)
-            self.assertEqual(400, response.status_code)
+            self.assertEqual(utils.HTTP_BAD_REQUEST, response.status_code)
 
             course = Course.objects.get(pk=course_id)
             self.assertEqual(CourseStatus.READ_ONLY, course.status)
@@ -562,7 +562,7 @@ class CoursePublishAPITests(APITestCase):
 
         with open(self.non_existing_course, 'rb') as course_file:
             response = self.publish_course(course_file, True)
-            self.assertEqual(400, response.status_code)
+            self.assertEqual(utils.HTTP_BAD_REQUEST, response.status_code)
 
         self.assertEqual(initial_course_count, Course.objects.count())
 
