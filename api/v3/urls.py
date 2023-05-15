@@ -9,6 +9,7 @@ from api.v3.course import CourseViewSet
 from api.v3.userdata import UserDataViewSet
 from api.v3.activitylog import ActivityLogViewSet
 from api.v3.login import LoginViewSet
+from api.v3.media import MediaViewSet
 
 # Uncomment once ready to be deployed
 router = routers.DefaultRouter()
@@ -20,6 +21,7 @@ router = routers.DefaultRouter()
 # router.register(r'userdata', UserDataViewSet)
 # router.register(r'activitylog', ActivityLogViewSet)
 # router.register(r'login', LoginViewSet)
+# router.register(r'media', MediaViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
