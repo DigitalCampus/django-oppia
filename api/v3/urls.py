@@ -8,16 +8,18 @@ from api.v3.category import CategoryViewSet
 from api.v3.course import CourseViewSet
 from api.v3.userdata import UserDataViewSet
 from api.v3.activitylog import ActivityLogViewSet
+from api.v3.login import LoginViewSet
 
 # Uncomment once ready to be deployed
 router = routers.DefaultRouter()
 # router.register(r'award', AwardViewSet)
 # router.register(r'badge', BadgeViewSet)
 # router.register(r'user', UserViewSet)
-router.register(r'category', CategoryViewSet)
-router.register(r'course', CourseViewSet)
+# router.register(r'category', CategoryViewSet)
+# router.register(r'course', CourseViewSet)
 # router.register(r'userdata', UserDataViewSet)
 # router.register(r'activitylog', ActivityLogViewSet)
+# router.register(r'login', LoginViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

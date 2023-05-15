@@ -27,7 +27,7 @@ from api.resources.delete_account import DeleteAccountResource
 from api.resources.download_data import DownloadDataResource
 from quiz.api.resources import QuizAttemptResource
 
-warnings.warn("API v1 will be removed in v0.15.0", DeprecationWarning, stacklevel=2)
+# warnings.warn("API v1 will be removed in v0.15.0", DeprecationWarning, stacklevel=2)
 
 
 def get_api_v1():
@@ -46,7 +46,7 @@ def get_api_v1():
     return api
 
 
-warnings.warn("API v2 will be removed in v0.16.0", DeprecationWarning, stacklevel=2)
+# warnings.warn("API v2 will be removed in v0.16.0", DeprecationWarning, stacklevel=2)
 
 
 def get_api_v2():
@@ -83,5 +83,5 @@ urlpatterns = [
     path('media/<str:digest>', get_view, name="get_upload_media_api"),
 
     # for API v3
-    path('v3/', include(apiv3urls)),
+    # path('v3/', include(apiv3urls)),
 ]

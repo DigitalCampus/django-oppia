@@ -19,7 +19,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     # Get - for getting profile
 
-    # post - for registering new user and logging in
+    # post - for registering new user
 
     # delete - for removing an account
 
