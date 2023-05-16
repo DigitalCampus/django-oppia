@@ -37,9 +37,10 @@ def get_api_url(version, resource_name, resource_id=None):
 
 def update_course_status(id, course_status):
     course = Course.objects.get(pk=id)
+    original_status = course.status
     course.status = course_status
     course.save()
-
+    return original_status
 
 def update_course_owner(id, owner_id):
     course = Course.objects.get(pk=id)
