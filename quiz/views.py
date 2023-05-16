@@ -16,9 +16,8 @@ STR_CONTENT_DISPOSITION = "attachment; filename=export.xlsx"
 
 
 def get_feedback_data(feedback_id):
-    feedback_questions = Question.objects.filter(
-        quizquestion__quiz__pk=feedback_id).order_by('quizquestion__order')
-    headers = ['Date', 'UserId']
+    feedback_questions = Question.objects.filter(quizquestion__quiz__pk=feedback_id).order_by('quizquestion__order')
+    headers = ['Date', 'UserId', 'Username']
 
     for question in feedback_questions:
         headers.append(question.get_title())
@@ -26,13 +25,12 @@ def get_feedback_data(feedback_id):
     data = []
     data = tablib.Dataset(*data, headers=headers)
 
-    quiz_attempts = QuizAttempt.objects.filter(quiz_id=feedback_id) \
-        .order_by('attempt_date')
+    quiz_attempts = QuizAttempt.objects.filter(quiz_id=feedback_id).order_by('attempt_date')
 
     for quiz_attempt in quiz_attempts:
-        row = [quiz_attempt.attempt_date.strftime(
-            constants.STR_DATETIME_FORMAT),
-            quiz_attempt.user_id]
+        row = [quiz_attempt.attempt_date.strftime(constants.STR_DATETIME_FORMAT),
+               quiz_attempt.user_id,
+               quiz_attempt.user.username]
 
         for question in feedback_questions:
             try:
@@ -49,10 +47,9 @@ def get_feedback_data(feedback_id):
 
 
 def get_quiz_data(quiz_id):
-    quiz_questions = Question.objects.filter(
-        quizquestion__quiz__pk=quiz_id).order_by('quizquestion__order')
+    quiz_questions = Question.objects.filter(quizquestion__quiz__pk=quiz_id).order_by('quizquestion__order')
 
-    headers = ['Date', 'UserId', 'Max Score', 'User Score']
+    headers = ['Date', 'UserId', 'Username', 'Max Score', 'User Score']
 
     for question in quiz_questions:
         headers.append(question.get_title())
@@ -60,13 +57,12 @@ def get_quiz_data(quiz_id):
 
     data = []
     data = tablib.Dataset(*data, headers=headers)
-    quiz_attempts = QuizAttempt.objects.filter(
-        quiz_id=quiz_id).order_by('attempt_date')
+    quiz_attempts = QuizAttempt.objects.filter(quiz_id=quiz_id).order_by('attempt_date')
 
     for quiz_attempt in quiz_attempts:
-        row = [quiz_attempt.attempt_date.strftime(
-            constants.STR_DATETIME_FORMAT),
+        row = [quiz_attempt.attempt_date.strftime(constants.STR_DATETIME_FORMAT),
             quiz_attempt.user_id,
+            quiz_attempt.user.username,
             quiz_attempt.maxscore,
             quiz_attempt.score]
 
@@ -96,9 +92,7 @@ def feedback_download(request, course_id, feedback_id):
     prop = QuizProps.objects.get(name=QuizProps.DIGEST, value=activity.digest)
     data = get_feedback_data(prop.quiz_id)
 
-    response = HttpResponse(
-        data.export('xlsx'),
-        content_type=STR_CONTENT_TYPE)
+    response = HttpResponse(data.export('xlsx'), content_type=STR_CONTENT_TYPE)
     response['Content-Disposition'] = STR_CONTENT_DISPOSITION
 
     return response
@@ -109,9 +103,7 @@ def old_feedback_download(request, course_id, feedback_id):
     get_object_or_404(Quiz, pk=feedback_id)
     data = get_feedback_data(feedback_id)
 
-    response = HttpResponse(
-        data.export('xlsx'),
-        content_type=STR_CONTENT_TYPE)
+    response = HttpResponse(data.export('xlsx'), content_type=STR_CONTENT_TYPE)
     response['Content-Disposition'] = STR_CONTENT_DISPOSITION
 
     return response
@@ -122,9 +114,7 @@ def old_quiz_download(request, course_id, quiz_id):
     get_object_or_404(Quiz, pk=quiz_id)
 
     quiz_data = get_quiz_data(quiz_id)
-    response = HttpResponse(
-        quiz_data.export('xlsx'),
-        content_type=STR_CONTENT_TYPE)
+    response = HttpResponse(quiz_data.export('xlsx'), content_type=STR_CONTENT_TYPE)
     response['Content-Disposition'] = STR_CONTENT_DISPOSITION
 
     return response
@@ -140,9 +130,7 @@ def quiz_download(request, course_id, quiz_id):
     prop = QuizProps.objects.get(name=QuizProps.DIGEST, value=activity.digest)
     quiz_data = get_quiz_data(prop.quiz_id)
 
-    response = HttpResponse(
-        quiz_data.export('xlsx'),
-        content_type=STR_CONTENT_TYPE)
+    response = HttpResponse(quiz_data.export('xlsx'), content_type=STR_CONTENT_TYPE)
     response['Content-Disposition'] = STR_CONTENT_DISPOSITION
 
     return response
