@@ -81,7 +81,6 @@ class CoursePublishAPITests(APITestCase):
                                          self.course_file_field: course_file})
         self.assertEqual(response.status_code, utils.HTTP_BAD_REQUEST)
 
-    '''
     # test tags not empty
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
@@ -120,6 +119,7 @@ class CoursePublishAPITests(APITestCase):
     def test_upload_permission_staff(self):
         # set course owner to staff
         course = Course.objects.get(shortname='ncd1-et')
+        original_user = course.user
         course.user = utils.get_staff_user()
         course.save()
 
@@ -144,6 +144,7 @@ class CoursePublishAPITests(APITestCase):
     def test_upload_permission_teacher(self):
         # set course owner to teacher
         course = Course.objects.get(shortname='ncd1-et')
+        original_user = course.user
         course.user = utils.get_teacher_user()
         course.save()
 
@@ -164,6 +165,10 @@ class CoursePublishAPITests(APITestCase):
                 .filter(action='api_course_published').count()
             self.assertEqual(old_no_cpls+1, new_no_cpls)
 
+        # reset back to original owner
+        course.user = original_user
+        course.save()
+        
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_upload_permission_user(self):
@@ -225,6 +230,7 @@ class CoursePublishAPITests(APITestCase):
     def test_overwriting_course_non_owner(self):
         # set course owner to admin
         course = Course.objects.get(shortname='anc1-all')
+        original_user = course.user
         course.user = utils.get_admin_user()
         course.save()
 
@@ -245,11 +251,16 @@ class CoursePublishAPITests(APITestCase):
             new_no_cpls = CoursePublishingLog.objects.filter(action='permissions_error').count()
             self.assertEqual(old_no_cpls+1, new_no_cpls)
 
+        # reset back to original owner
+        course.user = original_user
+        course.save()
+        
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_overwriting_course_manager(self):
         # set course owner to admin
         course = Course.objects.get(shortname='draft-test')
+        original_user = course.user
         course.user = utils.get_admin_user()
         course.save()
 
@@ -273,11 +284,16 @@ class CoursePublishAPITests(APITestCase):
             course = Course.objects.get(shortname='draft-test')
             self.assertEqual(course.user.username, 'manager')
 
+        # reset back to original owner
+        course.user = original_user
+        course.save()
+        
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_overwriting_course_viewer(self):
         # set course owner to admin
         course = Course.objects.get(shortname='draft-test')
+        original_user = course.user
         course.user = utils.get_admin_user()
         course.save()
 
@@ -297,12 +313,17 @@ class CoursePublishAPITests(APITestCase):
 
             new_no_cpls = CoursePublishingLog.objects.filter(action='permissions_error').count()
             self.assertEqual(old_no_cpls+1, new_no_cpls)
-
+        
+        # reset back to original owner
+        course.user = original_user
+        course.save()
+        
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_overwriting_course_viewer_draft_true(self):
         # set course owner to admin
         course = Course.objects.get(shortname='draft-test')
+        original_user = course.user
         course.user = utils.get_admin_user()
         course.save()
 
@@ -323,12 +344,15 @@ class CoursePublishAPITests(APITestCase):
             new_no_cpls = CoursePublishingLog.objects.filter(action='permissions_error').count()
             self.assertEqual(old_no_cpls+1, new_no_cpls)
 
+        # reset back to original owner
+        course.user = original_user
+        course.save()
+        
     # check file size of course
     @unittest.expectedFailure
     @pytest.mark.xfail(reason="api endpoint not enabled")
     def test_course_filesize_limit(self):
-        setting, created = SettingProperties.objects \
-            .get_or_create(key='MAX_UPLOAD_SIZE')
+        setting, created = SettingProperties.objects.get_or_create(key='MAX_UPLOAD_SIZE')
         setting.int_value = 1000
         setting.save()
 
@@ -569,4 +593,4 @@ class CoursePublishAPITests(APITestCase):
         self.assertEqual(initial_course_count, Course.objects.count())
 
         settings.OPPIA_AVAILABLE_COURSE_STATUSES = original_available_statuses
-    '''
+
