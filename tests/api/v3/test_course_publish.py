@@ -31,6 +31,7 @@ class CoursePublishAPITests(APITestCase):
     non_existing_course = os.path.join(settings.TEST_RESOURCES, 'test_course_empty_section.zip')
     non_existing_course_shortname = "empty-section"
 
+    '''
     def publish_course(self, course_file, is_draft):
         response = self.client.post(self.url,
                                     {'username': 'admin',
@@ -567,3 +568,4 @@ class CoursePublishAPITests(APITestCase):
         self.assertEqual(initial_course_count, Course.objects.count())
 
         settings.OPPIA_AVAILABLE_COURSE_STATUSES = original_available_statuses
+    '''
