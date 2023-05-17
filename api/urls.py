@@ -83,5 +83,5 @@ urlpatterns = [
     path('media/<str:digest>', get_view, name="get_upload_media_api"),
 
     # for API v3
-    # path('v3/', include(apiv3urls)),
+    path('v3/', include(apiv3urls)),
 ]

@@ -39,57 +39,45 @@ def get_viewer_user():
     return User.objects.get(username="manager")
 
 
-'''
-for admin user
-'''
-
-
+# for admin user
 def get_auth_header_admin():
     return {'AUTH': 'admin:admin_api_key'}
 
 
-'''
-for standard user
-'''
-
-
+# for standard user
 def get_auth_header_user():
     return {'AUTH': 'demo:demo_api_key'}
 
 
-'''
-invalid auth credentials
-'''
-
-
+# invalid auth credentials
 def get_auth_header_invalid():
     return {'AUTH': 'not_a_user:invalid_api_key'}
 
 
-'''
-for teacher user
-'''
-
-
+# for teacher user
 def get_auth_header_teacher():
     return {'AUTH': 'teacher:teacher_api_key'}
 
 
-'''
-for staff user
-'''
-
-
+# for staff user
 def get_auth_header_staff():
     return {'AUTH': 'staff:staff_api_key'}
+
+# for manger user
 
 
 def get_auth_header_manager():
     return {'AUTH': 'manager:manager_api_key'}
 
+# for viewer user
+
 
 def get_auth_header_viewer():
     return {'AUTH': 'viewer:viewer_api_key'}
+
+
+def make_auth_header(user, api_key):
+    return {'AUTH': user + ':' + api_key}
 
 # Copy test courses to upload directory
 

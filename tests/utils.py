@@ -42,6 +42,7 @@ def update_course_status(id, course_status):
     course.save()
     return original_status
 
+
 def update_course_owner(id, owner_id):
     course = Course.objects.get(pk=id)
     course.user_id = owner_id

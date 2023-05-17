@@ -137,7 +137,7 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
         # check record added to course publishing log
         new_no_cpls = CoursePublishingLog.objects.filter(action='api_course_published').count()
         self.assertEqual(old_no_cpls+1, new_no_cpls)
-        
+
         # reset back to original owner
         course.user = original_user
         course.save()
@@ -164,7 +164,7 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
             # check record added to course publishing log
             new_no_cpls = CoursePublishingLog.objects.filter(action='api_course_published').count()
             self.assertEqual(old_no_cpls+1, new_no_cpls)
-            
+
         # reset back to original owner
         course.user = original_user
         course.save()
@@ -246,7 +246,7 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
         # reset back to original owner
         course.user = original_user
         course.save()
-        
+
     def test_overwriting_course_manager(self):
         # set course owner to admin
         course = Course.objects.get(shortname='draft-test')
@@ -277,7 +277,7 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
         # reset back to original owner
         course.user = original_user
         course.save()
-        
+
     def test_overwriting_course_viewer(self):
         # set course owner to admin
         course = Course.objects.get(shortname='draft-test')
@@ -301,11 +301,11 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
 
             new_no_cpls = CoursePublishingLog.objects.filter(action='permissions_error').count()
             self.assertEqual(old_no_cpls+1, new_no_cpls)
-        
+
         # reset back to original owner
         course.user = original_user
         course.save()
-        
+
     def test_overwriting_course_viewer_draft_true(self):
         # set course owner to admin
         course = Course.objects.get(shortname='draft-test')
@@ -333,7 +333,7 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
         # reset back to original owner
         course.user = original_user
         course.save()
-        
+
     # check file size of course
     def test_course_filesize_limit(self):
         setting, created = SettingProperties.objects.get_or_create(key='MAX_UPLOAD_SIZE')
@@ -406,7 +406,7 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
             course = Course.objects.latest('lastupdated_date')
             self.assertEqual(course_id, course.pk)
             self.assertEqual(CourseStatus.LIVE, course.status)
-            
+
         # reset to original status
         update_course_status(course_id, original_status)
 
@@ -423,7 +423,7 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
 
         # reset to original status
         update_course_status(course_id, original_status)
-        
+
     def test_publish_live_course_when_newdownloadsdisabled_course_exists_should_not_publish(self):
         course_id = 2
         original_status = update_course_status(course_id, CourseStatus.NEW_DOWNLOADS_DISABLED)
@@ -437,7 +437,7 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
 
         # reset to original status
         update_course_status(course_id, original_status)
-        
+
     def test_publish_live_course_when_archived_course_exists_should_not_publish(self):
         course_id = 2
         original_status = update_course_status(course_id, CourseStatus.ARCHIVED)
@@ -448,10 +448,10 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
 
             course = Course.objects.get(pk=course_id)
             self.assertEqual(CourseStatus.ARCHIVED, course.status)
-        
+
         # reset to original status
         update_course_status(course_id, original_status)
-        
+
     def test_publish_live_course_when_readonly_course_exists_should_not_publish(self):
         course_id = 2
         original_status = update_course_status(course_id, CourseStatus.READ_ONLY)
@@ -465,7 +465,7 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
 
         # reset to original status
         update_course_status(course_id, original_status)
-        
+
     def test_publish_new_draft_course(self):
         with open(self.non_existing_course, 'rb') as course_file:
             response = self.publish_course(course_file, True)
@@ -489,7 +489,7 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
 
         # reset to original status
         update_course_status(course_id, original_status)
-        
+
     def test_publish_draft_course_when_draft_course_exists_should_publish(self):
         course_id = 2
         original_status = update_course_status(course_id, CourseStatus.DRAFT)
@@ -504,7 +504,7 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
 
         # reset to original status
         update_course_status(course_id, original_status)
-        
+
     def test_publish_draft_course_when_newdownloadsdisabled_course_exists_should_not_publish(self):
         course_id = 2
         original_status = update_course_status(course_id, CourseStatus.NEW_DOWNLOADS_DISABLED)
@@ -515,10 +515,10 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
 
             course = Course.objects.get(pk=course_id)
             self.assertEqual(CourseStatus.NEW_DOWNLOADS_DISABLED, course.status)
-        
+
         # reset back to original status
         update_course_status(course_id, original_status)
-        
+
     def test_publish_draft_course_when_archived_course_exists_should_not_publish(self):
         course_id = 2
         original_status = update_course_status(course_id, CourseStatus.ARCHIVED)
@@ -532,7 +532,7 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
 
         # reset back to original status
         update_course_status(course_id, original_status)
-        
+
     def test_publish_draft_course_when_readonly_course_exists_should_not_publish(self):
         course_id = 2
         original_status = update_course_status(course_id, CourseStatus.READ_ONLY)
@@ -543,7 +543,7 @@ class CoursePublishResourceTest(OppiaTransactionTestCase):
 
             course = Course.objects.get(pk=course_id)
             self.assertEqual(CourseStatus.READ_ONLY, course.status)
-            
+
         # reset back to original status
         update_course_status(course_id, original_status)
 

@@ -20,5 +20,5 @@ class MediaViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post']
 
     # post - for posting new media
-    
+
     # get - for retrieving media file
