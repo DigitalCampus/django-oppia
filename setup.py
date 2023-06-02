@@ -54,7 +54,7 @@ setup(
         "pycodestyle",
         "pytest",
         "pytest-django",
-        "django-ses==3.3.0",
+        "django-ses==3.5.0",
         "openpyxl==3.1.2",
         "reportlab==3.6.12",
         "django-compressor==4.3.1",
