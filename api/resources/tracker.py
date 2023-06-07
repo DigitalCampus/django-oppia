@@ -12,8 +12,7 @@ from tastypie import fields
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie.authorization import Authorization
 from tastypie.resources import ModelResource, \
-                               convert_post_to_patch, \
-                               dict_strip_unicode_keys
+                               convert_post_to_patch
 from tastypie.utils import timezone
 
 from api.serializers import PrettyJSONSerializer
@@ -257,7 +256,7 @@ class TrackerResource(ModelResource):
                                     'application/json'))
         for data in deserialized.get("objects"):
             data = self.alter_deserialized_detail_data(request, data)
-            bundle = self.build_bundle(data=dict_strip_unicode_keys(data))
+            bundle = self.build_bundle(data=data)
             bundle.request.user = request.user
             bundle.request.META['REMOTE_ADDR'] = request.META.get('REMOTE_ADDR', DEFAULT_IP_ADDRESS)
             bundle.request.META['HTTP_USER_AGENT'] = request.META.get('HTTP_USER_AGENT', 'unknown')
