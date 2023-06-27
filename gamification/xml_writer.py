@@ -46,16 +46,12 @@ class GamificationXMLWriter:
         self.xml = xml.dom.minidom.parseString(self.xml_contents)
 
     def update_course_version(self):
-        new_version_id = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-        # update db
-        self.course.version = new_version_id
+        meta = self.xml.getElementsByTagName("meta")[:1][0]
+        version_id = meta.getElementsByTagName("versionid")[0].firstChild.nodeValue
+        self.course.version = version_id
         self.course.lastupdated_date = timezone.now()
         self.course.save()
-
-        meta = self.xml.getElementsByTagName("meta")[:1][0]
-        version_id = meta.getElementsByTagName("versionid")[0]
-        version_id.firstChild.nodeValue = new_version_id
-        return new_version_id
+        return version_id
 
     def get_or_create_gamication_node(self, parent):
         if parent is None:

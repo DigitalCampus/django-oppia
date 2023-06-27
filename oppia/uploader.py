@@ -527,20 +527,22 @@ def parse_and_save_activity(request,
 def parse_and_save_quiz(user, activity):
     """
     Parses activity content that is a Quiz and saves it to the DB
-    :parm user: the user that uploaded the course
+    :param user: the user that uploaded the course
     :param activity: an activity object that contains the quiz as a json object
     :return: None
     """
 
     quiz_obj = json.loads(activity.content)
     quiz_existed = False
+    course = activity.section.course
     # first of all, we find the quiz digest to see if it is already saved
     if quiz_obj['props']['digest']:
         quiz_digest = quiz_obj['props']['digest']
 
         try:
             quizzes = Quiz.objects.filter(quizprops__value=quiz_digest,
-                                          quizprops__name=QuizProps.DIGEST) \
+                                          quizprops__name=QuizProps.DIGEST,
+                                          course=course) \
                                           .order_by('-id')
             quiz_existed = len(quizzes) > 0
             # remove any possible duplicate (possible scenario when
@@ -552,9 +554,9 @@ def parse_and_save_quiz(user, activity):
             quiz_existed = False
 
     if quiz_existed:
-        quiz = update_quiz(user, quizzes.first(), quiz_obj)
+        quiz = update_quiz(user, quizzes.first(), quiz_obj, course)
     else:
-        quiz = create_quiz(user, quiz_obj)
+        quiz = create_quiz(user, quiz_obj, course)
 
     # add quiz props
     quiz_obj['id'] = quiz.pk
@@ -563,9 +565,9 @@ def parse_and_save_quiz(user, activity):
     return json.dumps(quiz_obj)
 
 
-def create_quiz(user, quiz_obj):
+def create_quiz(user, quiz_obj, course):
     quiz = Quiz()
-    add_quiz_info(user, quiz, quiz_obj)
+    add_quiz_info(user, quiz, quiz_obj, course)
 
     # add quiz questions
     create_quiz_questions(user, quiz, quiz_obj)
@@ -573,8 +575,8 @@ def create_quiz(user, quiz_obj):
     return quiz
 
 
-def update_quiz(user, quiz, quiz_obj):
-    add_quiz_info(user, quiz, quiz_obj)
+def update_quiz(user, quiz, quiz_obj, course):
+    add_quiz_info(user, quiz, quiz_obj, course)
     # If the quiz already existed (same digest) we can update the questions
     # based on its current titles, assuming they haven't changed
     update_quiz_questions(quiz, quiz_obj)
@@ -718,10 +720,11 @@ def create_quiz_questions(user, quiz, quiz_obj):
                     ).save()
 
 
-def add_quiz_info(user, quiz, quiz_obj):
+def add_quiz_info(user, quiz, quiz_obj, course):
     quiz.owner = user
     quiz.title = clean_lang_dict(quiz_obj['title'])
     quiz.description = clean_lang_dict(quiz_obj['description'])
+    quiz.course = course
     quiz.save()
 
 

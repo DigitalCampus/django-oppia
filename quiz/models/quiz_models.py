@@ -22,6 +22,7 @@ class Quiz(models.Model):
     title = models.TextField(blank=False)
     description = models.TextField(blank=True)
     questions = models.ManyToManyField(Question, through='QuizQuestion')
+    course = models.ForeignKey('oppia.Course', null=True, on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = _('Quiz')
