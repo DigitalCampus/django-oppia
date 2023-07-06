@@ -24,15 +24,11 @@ class AwardsResource(ModelResource):
         always_return_data = True
 
     def get_object_list(self, request):
-        return super(AwardsResource, self) \
-            .get_object_list(request) \
-            .filter(user=request.user)
+        return super(AwardsResource, self).get_object_list(request).filter(user=request.user)
 
     def dehydrate_badge_icon(self, bundle):
-        return bundle.request.build_absolute_uri(
-            settings.MEDIA_URL + bundle.data['badge_icon'])
+        return bundle.request.build_absolute_uri(settings.MEDIA_URL + bundle.data['badge_icon'])
 
     def dehydrate(self, bundle):
-        bundle.data['award_date'] = \
-            bundle.data['award_date'].strftime("%Y-%m-%d %H:%M:%S")
+        bundle.data['award_date'] = bundle.data['award_date'].strftime("%Y-%m-%d %H:%M:%S")
         return bundle

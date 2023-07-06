@@ -46,7 +46,6 @@ class FeedbackDownloadTest(OppiaTestCase):
         self.assertEqual(dataset.headers[2], "Username")
         self.assertEqual(len(dataset.headers), 19)
 
-
     def test_teacher_download(self):
         response = self.assert_response_status(self.teacher_user, self.valid_course_valid_feedback_url, 403)
         self.assertTemplateUsed(response, UNAUTHORISED_TEMPLATE)
@@ -97,4 +96,3 @@ class FeedbackDownloadTest(OppiaTestCase):
         self.assertEqual(dataset.headers[1], "UserId")
         self.assertEqual(dataset.headers[2], "Username")
         self.assertEqual(len(dataset.headers), 19)
-

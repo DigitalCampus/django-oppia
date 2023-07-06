@@ -1,5 +1,4 @@
 django==4.2.3
-django-tastypie==0.14.5
 django-crispy-forms==1.14.0
 pytz
 defusedxml==0.7.1
@@ -8,9 +7,6 @@ sorl-thumbnail==12.9.0
 libsass==0.22.0
 django-compressor==4.4.0
 django-sass-processor==1.2.2
-pycodestyle
-pytest
-pytest-django
 openpyxl==3.1.2
 tablib==3.5.0
 httpretty==1.1.4
@@ -22,3 +18,14 @@ mysqlclient==2.2.0
 django-storages==1.13.2
 django-database-view==0.3.0
 
+# Framework for API v2
+django-tastypie==0.14.5
+
+# Framework for API v3
+djangorestframework==3.14.0
+django-filter==23.1
+
+# For testing and code formatting
+pycodestyle
+pytest
+pytest-django
