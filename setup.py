@@ -45,7 +45,7 @@ setup(
     install_requires=[
         "django == 4.2.3",
         "django-tastypie == 0.14.5",
-        "tablib == 3.4.0",
+        "tablib == 3.5.0",
         "django-crispy-forms == 1.14.0",
         "pytz",
         "defusedxml==0.7.1",
@@ -57,7 +57,7 @@ setup(
         "django-ses==3.5.0",
         "openpyxl==3.1.2",
         "reportlab==3.6.12",
-        "django-compressor==4.3.1",
+        "django-compressor==4.4.0",
         "httpretty==1.1.4",
         "django-sass-processor==1.2.2",
         "qrcode==7.4.2",
