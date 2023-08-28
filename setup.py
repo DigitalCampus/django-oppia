@@ -56,7 +56,7 @@ setup(
         "pytest-django",
         "django-ses==3.5.0",
         "openpyxl==3.1.2",
-        "reportlab==3.6.12",
+        "reportlab==3.6.13",
         "django-compressor==4.3.1",
         "httpretty==1.1.4",
         "django-sass-processor==1.2.2",
