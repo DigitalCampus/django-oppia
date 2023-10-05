@@ -1,8 +1,8 @@
-django==4.2.3
+django==4.2.6
 django-crispy-forms==1.14.0
 pytz
 defusedxml==0.7.1
-Pillow==9.5.0
+Pillow==10.0.1
 sorl-thumbnail==12.9.0
 libsass==0.22.0
 django-compressor==4.4.0
@@ -15,15 +15,15 @@ django-ses==3.5.0
 reportlab==3.6.13
 qrcode==7.4.2
 mysqlclient==2.2.0
-django-storages==1.13.2
+django-storages==1.14.1
 django-database-view==0.3.0
 
 # Framework for API v2
-django-tastypie==0.14.5
+django-tastypie==0.14.6
 
 # Framework for API v3
 djangorestframework==3.14.0
-django-filter==23.1
+django-filter==23.3
 
 # For testing and code formatting
 pycodestyle

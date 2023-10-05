@@ -75,7 +75,7 @@ def generate_certificate_pdf(display_name,
             CertificateTemplate.VALIDATION_OPTION_QRCODE:
         qr_img = qrcode.make(validation_link)
         maxsize = (60, 60)
-        qr_img.thumbnail(maxsize, Image.ANTIALIAS)
+        qr_img.thumbnail(maxsize, Image.LANCZOS)
 
         bytes_in = io.BytesIO()
         qr_img.save(bytes_in, format='png')

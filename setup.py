@@ -43,13 +43,13 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
     install_requires=[
-        "django == 4.2.3",
-        "django-tastypie == 0.14.5",
+        "django == 4.2.6",
+        "django-tastypie == 0.14.6",
         "tablib == 3.5.0",
         "django-crispy-forms == 1.14.0",
         "pytz",
         "defusedxml==0.7.1",
-        "Pillow==9.5.0",
+        "Pillow==10.0.1",
         "sorl-thumbnail==12.9.0",
         "pycodestyle",
         "pytest",
@@ -63,9 +63,9 @@ setup(
         "qrcode==7.4.2",
         "libsass==0.22.0",
         "xmltodict==0.13.0",
-        "django-storages==1.13.2",
+        "django-storages==1.14.1",
         "django-database-view==0.3.0",
         "djangorestframework==3.14.0",
-        "django-filter==23.1"
+        "django-filter==23.3"
     ],
 )
