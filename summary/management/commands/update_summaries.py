@@ -50,7 +50,7 @@ class Command(BaseCommand):
         else:
             # get last tracker and points PKs processed
             last_tracker_pk = SettingProperties.get_property('last_tracker_pk', 0)
-            last_points_pk = SettingProperties .get_property('last_points_pk', 0)
+            last_points_pk = SettingProperties.get_property('last_points_pk', 0)
             self.update_summaries(last_tracker_pk, last_points_pk)
 
     def update_summaries(self, last_tracker_pk=0, last_points_pk=0):
