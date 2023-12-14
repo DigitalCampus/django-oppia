@@ -29,7 +29,9 @@ class CourseDailyStats (models.Model):
         verbose_name = _(u'CourseDailyStats')
         verbose_name_plural = _(u'CourseDailyStats')
         unique_together = ("course", "day", "type")
-        index_together = ["course", "day", "type"]
+        indexes = [
+            models.Index(fields=['course', 'day', 'type']),
+        ]
 
     @staticmethod
     def update_daily_summary(course,

@@ -61,7 +61,9 @@ class UserCourseSummary (models.Model):
         verbose_name = _(u'UserCourseSummary')
         verbose_name_plural = _(u'UserCourseSummaries')
         unique_together = ("user", "course")
-        index_together = ["user", "course"]
+        indexes = [
+            models.Index(fields=['user', 'course']),
+        ]
 
     @staticmethod
     def get_stats_dict(course):
