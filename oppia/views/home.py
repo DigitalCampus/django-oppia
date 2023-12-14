@@ -22,6 +22,9 @@ from oppia.models import Activity, Points
 from oppia.models import Tracker, Participant, Course, CoursePermissions
 from profile.models import UserProfile
 from summary.models import CourseDailyStats, UserCourseSummary
+from settings.models import SettingProperties
+
+from settings import constants as settingconstants
 
 
 class ServerView(TemplateView):
@@ -77,6 +80,8 @@ class HomeView(DateRangeFilterMixin, TemplateView):
 
         context['activity_graph_data_tracker_date'] = activity
         context['leaderboard'] = Points.get_leaderboard(constants.LEADERBOARD_HOMEPAGE_RESULTS_PER_PAGE)
+        if SettingProperties.get_bool(settingconstants.OPPIA_ANDROID_ON_GOOGLE_PLAY, False):
+            context['OPPIA_ANDROID_PACKAGEID'] = SettingProperties.get_string(settingconstants.OPPIA_ANDROID_PACKAGEID, '')
         return context
 
 

@@ -36,18 +36,18 @@
 {% else %}
     {% static "oppia/images/dc-logo-150x150.png" as oppia_logo %}
 
-	{% settings_value 'OPPIA_ANDROID_PACKAGEID' as package_id %}
-	{% blocktrans %}
 	<div class="text-center mt-3 mx-auto" style="max-width:350px;">
 		<img src="{{ oppia_logo }}" class="mb-2" alt="OppiaMobile logo"/>
-
+	{% blocktrans %}
 		<p><a href="https://digital-campus.org/oppiamobile/">OppiaMobile</a> is the mobile learning platform from <a href="https://digital-campus.org">Digital Campus</a> to deliver learning content, multimedia and quizzes on your smartphone. All the content and activities can
 	be accessed and used even when you don't have an internet connection available on your mobile.</p>
-
-		<a class="btn-primary btn btn-default" href="https://play.google.com/store/apps/details?id={{package_id}}">Download OppiaMobile app</a>
-
-	</div>
 	{% endblocktrans %}
+
+		{% if OPPIA_ANDROID_PACKAGEID %}
+			<a class="btn-primary btn btn-default" href="https://play.google.com/store/apps/details?id={{OPPIA_ANDROID_PACKAGEID}}">Download OppiaMobile app</a>
+		{% endif %}
+	</div>
+
 
 {% endif %}
 
