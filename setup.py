@@ -54,18 +54,18 @@ setup(
         "pycodestyle",
         "pytest",
         "pytest-django",
-        "django-ses==3.5.0",
+        "django-ses==3.5.2",
         "openpyxl==3.1.2",
         "reportlab==3.6.13",
         "django-compressor==4.4.0",
         "httpretty==1.1.4",
-        "django-sass-processor==1.2.2",
+        "django-sass-processor==1.4",
         "qrcode==7.4.2",
         "libsass==0.22.0",
         "xmltodict==0.13.0",
         "django-storages==1.14.2",
         "django-database-view==0.3.0",
         "djangorestframework==3.14.0",
-        "django-filter==23.3"
+        "django-filter==23.5"
     ],
 )

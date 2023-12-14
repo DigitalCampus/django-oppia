@@ -6,15 +6,15 @@ Pillow==10.1.0
 sorl-thumbnail==12.10.0
 libsass==0.22.0
 django-compressor==4.4.0
-django-sass-processor==1.2.2
+django-sass-processor==1.4
 openpyxl==3.1.2
 tablib==3.5.0
 httpretty==1.1.4
 xmltodict==0.13.0
-django-ses==3.5.0
+django-ses==3.5.2
 reportlab==3.6.13
 qrcode==7.4.2
-mysqlclient==2.2.0
+mysqlclient==2.2.1
 django-storages==1.14.2
 django-database-view==0.3.0
 
@@ -23,7 +23,7 @@ django-tastypie==0.14.6
 
 # Framework for API v3
 djangorestframework==3.14.0
-django-filter==23.3
+django-filter==23.5
 
 # For testing and code formatting
 pycodestyle
