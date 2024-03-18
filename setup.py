@@ -43,7 +43,7 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
     install_requires=[
-        "django == 4.2.7",
+        "django == 4.2.11",
         "django-tastypie == 0.14.6",
         "tablib == 3.5.0",
         "django-crispy-forms == 1.14.0",
