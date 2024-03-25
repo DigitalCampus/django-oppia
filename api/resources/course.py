@@ -79,7 +79,10 @@ class CourseResource(ModelResource):
                 .order_by('-priority', 'title')
         else:
             return Course.objects.filter(CourseFilter.IS_NOT_ARCHIVED) \
-                .filter(CourseFilter.IS_NOT_DRAFT | (CourseFilter.IS_DRAFT & Q(user=request.user))) \
+                .filter(CourseFilter.IS_NOT_DRAFT |
+                        (CourseFilter.IS_DRAFT & Q(user=request.user)) |
+                        (CourseFilter.IS_DRAFT & Q(coursepermissions__user=request.user))) \
+                .distinct() \
                 .order_by('-priority', 'title')
 
     def prepend_urls(self):
