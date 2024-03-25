@@ -8,7 +8,7 @@ libsass==0.23.0
 django-compressor==4.4.0
 django-sass-processor==1.4
 openpyxl==3.1.2
-tablib==3.5.0
+tablib==3.6.0
 httpretty==1.1.4
 xmltodict==0.13.0
 django-ses==3.5.2
@@ -22,7 +22,7 @@ django-database-view==0.3.0
 django-tastypie==0.14.6
 
 # Framework for API v3
-djangorestframework==3.14.0
+djangorestframework==3.15.1
 django-filter==23.5
 
 # For testing and code formatting
