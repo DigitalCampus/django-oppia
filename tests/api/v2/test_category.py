@@ -234,6 +234,24 @@ class CategoryResourceTest(ResourceTestCaseMixin, TestCase):
         course_statuses = self.get_category_attr_in_results(tags, 'reference', 'course_statuses')
         self.assertEqual(expected.get('reference'), course_statuses)
 
+    def test_draft_course_is_included_in_course_statuses_normal_teacher_with_publisher_permissions(self):
+        expected = {
+            'reference': {'ref-1': 'live', 'draft-test': 'draft'}
+        }
+        course = Course.objects.get(shortname='draft-test')
+        original_owner = course.user
+        course.user = self.teacher
+        course.save()
+
+        resp = self.api_client.get(self.url, format='json', data=self.teacher_auth)
+        tags = self.assert_valid_response_and_get_tags(resp)
+        course_statuses = self.get_category_attr_in_results(tags, 'reference', 'course_statuses')
+        self.assertEqual(expected.get('reference'), course_statuses)
+
+        # reset back to original owner
+        course.user = original_owner
+        course.save()
+
     def test_draft_course_is_included_in_course_statuses_normal_teacher_with_viewer_permissions(self):
         expected = {
             'reference': {'ref-1': 'live', 'draft-test': 'draft'}

@@ -58,15 +58,14 @@ class Question(models.Model):
         from oppia.models import Course
         from quiz.models.quiz_models import QuizProps
         try:
-            quiz_digest = QuizProps.objects.get(
-                quiz__quizquestion__question=self,
-                name=QuizProps.DIGEST)
+            quiz_digest = QuizProps.objects.get(quiz__quizquestion__question=self, name=QuizProps.DIGEST)
         except QuizProps.DoesNotExist:
             return None
         try:
-            course = Course.objects.get(
-                section__activity__digest=quiz_digest.value)
+            course = Course.objects.get(section__activity__digest=quiz_digest.value)
         except Course.DoesNotExist:
+            return None
+        except Course.MultipleObjectsReturned:
             return None
         return course
 
