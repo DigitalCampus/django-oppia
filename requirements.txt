@@ -2,7 +2,7 @@ django==4.2.11
 django-crispy-forms==1.14.0
 pytz
 defusedxml==0.7.1
-Pillow==10.2.0
+Pillow==10.3.0
 sorl-thumbnail==12.10.0
 libsass==0.23.0
 django-compressor==4.4.0
