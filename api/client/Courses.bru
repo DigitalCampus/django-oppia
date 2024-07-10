@@ -1,0 +1,21 @@
+meta {
+  name: Courses
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{url}}/api/v2/course/?username={{username}}&api_key={{api_key}}&format=json
+  body: none
+  auth: none
+}
+
+params:query {
+  username: {{username}}
+  api_key: {{api_key}}
+  format: json
+}
+
+headers {
+  : 
+}

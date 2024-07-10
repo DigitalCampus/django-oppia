@@ -1,0 +1,21 @@
+meta {
+  name: Points
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{url}}/api/v2/points/?username={{username}}&api_key={{api_key}}&format=json
+  body: none
+  auth: none
+}
+
+params:query {
+  username: {{username}}
+  api_key: {{api_key}}
+  format: json
+}
+
+headers {
+  : 
+}

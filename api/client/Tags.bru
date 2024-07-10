@@ -1,0 +1,21 @@
+meta {
+  name: Tags
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{url}}/api/v2/tag/?username={{username}}&api_key={{api_key}}&format=json
+  body: none
+  auth: none
+}
+
+params:query {
+  username: {{username}}
+  api_key: {{api_key}}
+  format: json
+}
+
+headers {
+  : 
+}
