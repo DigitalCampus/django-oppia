@@ -673,6 +673,7 @@ class Tracker(models.Model):
             track.setAttribute('type', t.type)
             track.setAttribute('event', t.event)
             track.setAttribute('points', str(t.points))
+            track.setAttribute('uuid', t.uuid)
             if t.type == 'quiz':
                 try:
                     quiz = doc.createElement('quiz')
