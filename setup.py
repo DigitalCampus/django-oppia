@@ -65,7 +65,7 @@ setup(
         "xmltodict==0.13.0",
         "django-storages==1.14.2",
         "django-database-view==0.3.0",
-        "djangorestframework==3.15.1",
+        "djangorestframework==3.15.2",
         "django-filter==23.5"
     ],
 )
