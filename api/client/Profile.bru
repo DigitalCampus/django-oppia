@@ -1,0 +1,21 @@
+meta {
+  name: Profile
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{url}}/api/v2/profile/?username={{username}}&api_key={{api_key}}&format=json
+  body: none
+  auth: none
+}
+
+params:query {
+  username: {{username}}
+  api_key: {{api_key}}
+  format: json
+}
+
+headers {
+  : 
+}
