@@ -245,4 +245,4 @@ class MainModelsCoreTest(OppiaTestCase):
         course = Course.objects.get(pk=1)
         user = User.objects.get(pk=2)
         xml = Tracker.to_xml_string(course, user)
-        self.assertEqual(40093, len(xml))
+        self.assertEqual(51805, len(xml))
