@@ -1,0 +1,42 @@
+
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "${DJANGO_PORT:-8000}:8000"
+    volumes:
+      - .:/code
+      - ../static:/static
+      - ../media:/media
+      - ../upload:/upload
+    depends_on:
+      db:
+        condition: service_healthy
+  db:
+    image: mysql:8.0
+    ports:
+      - "${DB_PORT:-3306}:${DB_PORT:-3306}"
+    volumes:
+      - data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+      MYSQL_DATABASE: oppia
+      MYSQL_USER: oppiauser
+      MYSQL_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - db_root_password
+      - db_password
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+secrets:
+  db_password:
+    file: ./db_password.txt
+  db_root_password:
+    file: ./db_root_password.txt
+volumes:
+  data:
