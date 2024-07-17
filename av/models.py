@@ -52,7 +52,7 @@ class UploadedMedia(models.Model):
 def uploaded_media_save_to_external(sender, instance, **kwargs):
     if settings.OPPIA_EXTERNAL_STORAGE:
         copy_from = os.path.join(settings.MEDIA_ROOT, instance.file.name)
-        copy_to = os.path.join(settings.OPPIA_EXTERNAL_STORAGE_MEDIA_ROOT, instance.file.name)
+        copy_to = os.path.join(settings.OPPIA_EXTERNAL_STORAGE_MEDIA_ROOT, instance.filename)
         copyfile(copy_from, copy_to)
 
 
