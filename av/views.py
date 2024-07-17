@@ -1,11 +1,12 @@
 # oppia/av/views.py
 import os
 
+from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import ListView
+from django.views.generic import ListView, RedirectView
 
 from av import handler
 from av.models import UploadedMedia
@@ -61,6 +62,12 @@ def download_media_file(request, media_id):
         response['Content-Length'] = os.path.getsize(filepath)
         return response
 
+class ExternalMediaDownloadView(RedirectView):
+    query_string = True
+
+    def get_redirect_url(self, *args, **kwargs):
+        url = settings.OPPIA_EXTERNAL_STORAGE_MEDIA_URL + kwargs["filename"]
+        return url
 
 @permission_view_course
 def download_course_media(request, course_id):

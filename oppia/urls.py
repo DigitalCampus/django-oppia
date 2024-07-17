@@ -2,6 +2,7 @@ from django.conf import settings
 from django.urls import path
 from django.views.generic import TemplateView
 from oppia import views
+from av import views as av_views
 from django.conf.urls.static import static
 
 # Custom HTTP response pages
@@ -61,4 +62,8 @@ urlpatterns = [
          name="app_launch_activity_redirect"),
 ]
 
+if settings.OPPIA_EXTERNAL_STORAGE:
+    urlpatterns += [path('media/uploaded/<int:year>/<int:month>/<str:filename>',
+                        av_views.ExternalMediaDownloadView.as_view(),
+                        name="media_download_redirect")]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

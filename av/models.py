@@ -1,10 +1,11 @@
 # oppia/av/models.py
 import os
+from shutil import copyfile
 
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models.signals import post_delete
+from django.db.models.signals import post_delete, post_save
 from django.dispatch.dispatcher import receiver
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
@@ -46,6 +47,13 @@ class UploadedMedia(models.Model):
             return self.file.size
         except FileNotFoundError:
             return 0
+
+@receiver(post_save, sender=UploadedMedia)
+def uploaded_media_save_to_external(sender, instance, **kwargs):
+    if settings.OPPIA_EXTERNAL_STORAGE:
+        copy_from = os.path.join(settings.MEDIA_ROOT, instance.file.name)
+        copy_to = settings.OPPIA_EXTERNAL_STORAGE_MEDIA_ROOT
+        copyfile(copy_from, copy_to)
 
 
 @receiver(post_delete, sender=UploadedMedia)
