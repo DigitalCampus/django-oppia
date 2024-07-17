@@ -3,6 +3,7 @@ from oppia.test import OppiaTestCase
 from settings import constants
 from settings.models import SettingProperties
 
+from profile.forms.register import RegisterForm
 
 class RegisterViewTest(OppiaTestCase):
     fixtures = ['tests/test_user.json',
@@ -26,11 +27,11 @@ class RegisterViewTest(OppiaTestCase):
             'username': 'new_username',
             'password': 'password'
         }
+        register_form = RegisterForm(unfilled_form)
         res = self.client.post(self.url, data=unfilled_form)
-        self.assertFormError(res,
-                             'form',
-                             'password_again',
-                             'Please enter your password again.')
+        self.assertFormError(register_form,
+                             field='password_again',
+                             errors='Please enter your password again.')
 
     # check passwords dont match
     def test_password_not_match(self):
@@ -42,10 +43,10 @@ class RegisterViewTest(OppiaTestCase):
             'first_name': 'Test name',
             'last_name': 'Last name'
         }
+        register_form = RegisterForm(filled_form)
         res = self.client.post(self.url, data=filled_form)
-        self.assertFormError(res,
-                             'form',
-                             None,
+        self.assertFormError(register_form,
+                             field=None, # as testing general error, not an individual field
                              errors='Passwords do not match.')
 
     # check user already exists
@@ -59,12 +60,10 @@ class RegisterViewTest(OppiaTestCase):
             'last_name': 'Last name'
         }
         res = self.client.post(self.url, data=filled_form)
-        error_str = \
-            'Username has already been registered, please select another.'
-        self.assertFormError(res,
-                             'form',
-                             None,
-                             errors=error_str)
+        register_form = RegisterForm(filled_form)
+        self.assertFormError(register_form,
+                             field=None, # as testing general error, not an individual field
+                             errors='Username has already been registered, please select another.')
 
     # check email already registered
     def test_existing_email(self):
@@ -77,9 +76,9 @@ class RegisterViewTest(OppiaTestCase):
             'last_name': 'Last name'
         }
         res = self.client.post(self.url, data=filled_form)
-        self.assertFormError(res,
-                             'form',
-                             None,
+        register_form = RegisterForm(filled_form)
+        self.assertFormError(register_form,
+                             field=None,  # as testing general error, not an individual field
                              errors='Email has already been registered')
 
     # check correct registration

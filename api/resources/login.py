@@ -80,7 +80,7 @@ class UserResource(ModelResource):
         bundle.data['api_key'] = key.key
 
         try:
-            profile = UserProfile.objects.get(user=bundle.obj)
+            profile = UserProfile.objects.get(user__id=bundle.obj.id)
             bundle.data['job_title'] = profile.job_title
             bundle.data['organisation'] = profile.organisation
 

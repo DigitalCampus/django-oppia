@@ -9,7 +9,7 @@ from django.conf import settings
 from oppia.models import Tracker
 from profile.models import UserProfile, UserProfileCustomField, CustomField
 from quiz.models import QuizAttemptResponse, QuizAttempt
-
+from activitylog.forms import UploadActivityLogForm
 
 class UploadActivityLogTest(OppiaTestCase):
 
@@ -43,10 +43,13 @@ class UploadActivityLogTest(OppiaTestCase):
     def test_no_file(self):
         # no file
         self.client.force_login(self.admin_user)
-        response = self.client.post(self.url, {})
+        unfilled_form = {
+            'activity_log_file': ''
+        }
+        upload_form = UploadActivityLogForm(unfilled_form)
+        response = self.client.post(self.url, unfilled_form)
         self.assertEqual(response.status_code, 200)
-        self.assertFormError(response,
-                             'form',
+        self.assertFormError(upload_form,
                              'activity_log_file',
                              'Please select an activity log file to upload')
 
