@@ -2,7 +2,7 @@
 import os
 
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -66,7 +66,11 @@ class ExternalMediaDownloadView(RedirectView):
     query_string = True
 
     def get_redirect_url(self, *args, **kwargs):
-        url = settings.OPPIA_EXTERNAL_STORAGE_MEDIA_URL + kwargs["filename"]
+        media_filename = kwargs["filename"]
+        # check file exists
+        if not os.path.isfile(settings.OPPIA_EXTERNAL_STORAGE_MEDIA_ROOT + media_filename):
+            raise Http404
+        url = settings.OPPIA_EXTERNAL_STORAGE_MEDIA_URL + media_filename
         return url
 
 @permission_view_course
