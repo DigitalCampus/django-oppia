@@ -16,7 +16,9 @@ class Command(BaseCommand):
             print("Exiting as this instance of Oppia server is not configured for external storage")
             return
 
+        ################
         # Sync media
+        ################
         # add any local media that are missing from external
         uploaded_media = UploadedMedia.objects.all()
         for um in uploaded_media:
@@ -37,7 +39,10 @@ class Command(BaseCommand):
             filename_to_check = "/" + ef
             um = UploadedMedia.objects.filter(file__endswith=filename_to_check)
             if um.count() == 0:
-                #file_to_remove = pathlib.Path("/tmp/<file_name>.txt")
-                #file_to_remove.unlink()
+                file_to_remove = pathlib.Path(os.path.join(settings.OPPIA_EXTERNAL_STORAGE_MEDIA_ROOT, ef))
+                file_to_remove.unlink()
                 print("file no longer used so removed")
 
+        ################
+        # Sync courses
+        ################
