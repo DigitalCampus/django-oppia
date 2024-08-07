@@ -1,4 +1,4 @@
-django==4.2.11
+django==4.2.15
 django-crispy-forms==1.14.0
 pytz
 defusedxml==0.7.1
