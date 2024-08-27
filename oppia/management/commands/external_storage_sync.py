@@ -7,6 +7,7 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 
 from av.models import UploadedMedia
+from oppia.models import Course
 
 class Command(BaseCommand):
     help = 'To sync externally hosted courses/media'
@@ -26,8 +27,11 @@ class Command(BaseCommand):
             source_full_path = os.path.join(settings.MEDIA_ROOT, um.file.name)
             external_full_path = os.path.join(settings.OPPIA_EXTERNAL_STORAGE_MEDIA_ROOT, um.filename())
             if not os.path.isfile(external_full_path):
-                copyfile(source_full_path, external_full_path)
-                print("copied to %s" % external_full_path)
+                try:
+                    copyfile(source_full_path, external_full_path)
+                    print("copied to %s" % external_full_path)
+                except FileNotFoundError:
+                    print("File not found: %s" % external_full_path)
             else:
                 print("File already synced")
 
@@ -46,3 +50,28 @@ class Command(BaseCommand):
         ################
         # Sync courses
         ################
+        courses = Course.objects.all()
+        for c in courses:
+            print("checking %s" % c.filename)
+            source_full_path = os.path.join(settings.COURSE_UPLOAD_DIR, c.filename)
+            external_full_path = os.path.join(settings.OPPIA_EXTERNAL_STORAGE_COURSE_ROOT, c.filename)
+            if not os.path.isfile(external_full_path):
+                try:
+                    copyfile(source_full_path, external_full_path)
+                    print("copied to %s" % external_full_path)
+                except FileNotFoundError:
+                    print("File not found: %s" % external_full_path)
+            else:
+                print("File already synced")
+
+        # Remove any external courses that are no longer used
+        external_files = [f for f in listdir(settings.OPPIA_EXTERNAL_STORAGE_COURSE_ROOT)
+                          if os.path.isfile(os.path.join(settings.OPPIA_EXTERNAL_STORAGE_COURSE_ROOT, f))]
+        for ef in external_files:
+            print("checking %s" % ef)
+            filename_to_check = "/" + ef
+            um = Course.objects.filter(filename__endswith=filename_to_check)
+            if um.count() == 0:
+                file_to_remove = pathlib.Path(os.path.join(settings.OPPIA_EXTERNAL_STORAGE_COURSE_ROOT, ef))
+                file_to_remove.unlink()
+                print("file no longer used so removed")
