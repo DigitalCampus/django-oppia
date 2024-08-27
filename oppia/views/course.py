@@ -98,6 +98,8 @@ class CourseDownload(TemplateView):
 
     def get(self, request, course_id):
         course = can_download_course(request, course_id)
+        if settings.OPPIA_EXTERNAL_STORAGE:
+            return HttpResponseRedirect(settings.OPPIA_EXTERNAL_STORAGE_COURSE_URL + course.filename)
         file_to_download = course.getAbsPath()
         binary_file = open(file_to_download, 'rb')
         response = HttpResponse(binary_file.read(), content_type='application/zip')
