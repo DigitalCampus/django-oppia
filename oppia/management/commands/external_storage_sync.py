@@ -58,9 +58,9 @@ class Command(BaseCommand):
             if not os.path.isfile(external_full_path):
                 try:
                     copyfile(source_full_path, external_full_path)
-                    print("copied to %s" % external_full_path)
+                    print("copied course file to %s" % external_full_path)
                 except FileNotFoundError:
-                    print("File not found: %s" % external_full_path)
+                    print("Course file not found: %s" % external_full_path)
             else:
                 print("File already synced")
 
@@ -68,10 +68,11 @@ class Command(BaseCommand):
         external_files = [f for f in listdir(settings.OPPIA_EXTERNAL_STORAGE_COURSE_ROOT)
                           if os.path.isfile(os.path.join(settings.OPPIA_EXTERNAL_STORAGE_COURSE_ROOT, f))]
         for ef in external_files:
-            print("checking %s" % ef)
-            filename_to_check = "/" + ef
-            um = Course.objects.filter(filename__endswith=filename_to_check)
+            print("checking course file %s" % ef)
+            um = Course.objects.filter(filename=ef)
             if um.count() == 0:
                 file_to_remove = pathlib.Path(os.path.join(settings.OPPIA_EXTERNAL_STORAGE_COURSE_ROOT, ef))
                 file_to_remove.unlink()
                 print("file no longer used so removed")
+            else:
+                print("Course file synced")
