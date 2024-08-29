@@ -735,6 +735,6 @@ class Tracker(models.Model):
 @receiver(post_save, sender=Course)
 def uploaded_course_save_to_external(sender, instance, **kwargs):
     if settings.OPPIA_EXTERNAL_STORAGE:
-        copy_from = os.path.join(settings.COURSE_ROOT, instance.file)
-        copy_to = os.path.join(settings.OPPIA_EXTERNAL_STORAGE_COURSE_ROOT, instance.file)
+        copy_from = os.path.join(settings.COURSE_ROOT, instance.filename)
+        copy_to = os.path.join(settings.OPPIA_EXTERNAL_STORAGE_COURSE_ROOT, instance.filename)
         copyfile(copy_from, copy_to)
