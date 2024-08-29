@@ -3,10 +3,14 @@ import datetime
 import json
 import os
 
+from shutil import copyfile
+
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Max, F
+from django.db.models.signals import post_save
+from django.dispatch.dispatcher import receiver
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from tastypie.models import create_api_key
@@ -727,3 +731,10 @@ class Tracker(models.Model):
 
         if 'lang' in json_data:
             return json_data['lang']
+
+@receiver(post_save, sender=Course)
+def uploaded_course_save_to_external(sender, instance, **kwargs):
+    if settings.OPPIA_EXTERNAL_STORAGE:
+        copy_from = os.path.join(settings.COURSE_ROOT, instance.file)
+        copy_to = os.path.join(settings.OPPIA_EXTERNAL_STORAGE_COURSE_ROOT, instance.file)
+        copyfile(copy_from, copy_to)
