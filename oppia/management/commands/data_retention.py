@@ -55,7 +55,7 @@ class Command(BaseCommand):
         last_login_date = timezone.now() - relativedelta(years=years)
 
         users_to_delete = []
-        users = User.objects.filter(last_login__lte=last_login_date)
+        users = User.objects.filter(last_login__lt=last_login_date)
 
         for user in users:
             no_trackers = Tracker.objects.filter(
