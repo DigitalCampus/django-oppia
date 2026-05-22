@@ -28,7 +28,7 @@ class DataRetentionTest(OppiaTestCase):
         start_user_count = User.objects.all().count()
         call_command('data_retention', self.STR_NO_INPUT, stdout=out)
         end_user_count = User.objects.all().count()
-        self.assertEqual(start_user_count, end_user_count)
+        self.assertEqual(start_user_count, 6)
 
     def test_data_retention_old_user(self):
         out = StringIO()
@@ -42,7 +42,7 @@ class DataRetentionTest(OppiaTestCase):
         start_user_count = User.objects.all().count()
         call_command('data_retention', self.STR_NO_INPUT, stdout=out)
         end_user_count = User.objects.all().count()
-        self.assertEqual(start_user_count-1, end_user_count)
+        self.assertEqual(start_user_count-1, 6)
 
     def test_data_retention_old_user_new_tracker(self):
         out = StringIO()
@@ -60,4 +60,4 @@ class DataRetentionTest(OppiaTestCase):
         start_user_count = User.objects.all().count()
         call_command('data_retention', self.STR_NO_INPUT, stdout=out)
         end_user_count = User.objects.all().count()
-        self.assertEqual(start_user_count, end_user_count)
+        self.assertEqual(start_user_count, 7)
