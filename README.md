@@ -7,6 +7,6 @@ For documentation please visit: https://oppiamobile.readthedocs.io
 
 For information on how to contribute, submit bug reports and feature requests,
 please visit:
-https://github.com/DigitalCampus/django-oppia/blob/master/CONTRIBUTING.md
+[https://github.com/DigitalCampus/django-oppia/blob/master/CONTRIBUTING.md](https://oppiamobile.readthedocs.io/en/latest/technical/dev/contribute.html)
 
 
